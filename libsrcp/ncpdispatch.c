@@ -30,9 +30,9 @@ typedef struct NCP_INFO
 #define NCP_DATA_SET(nc,data) ((nc)->dispatchdata = (void*)(data))
 
 /* NC_MPIIO and NC_MPIPOSIX are deprecated and hence ignored */
-static const int LEGAL_CREATE_FLAGS = (NC_WRITE | NC_NOCLOBBER | NC_64BIT_OFFSET | NC_CLASSIC_MODEL | NC_SHARE | NC_LOCK | NC_64BIT_DATA | NC_MPIIO | NC_MPIPOSIX);
+static const int LEGAL_CREATE_FLAGS = (NC_WRITE | NC_NOCLOBBER | NC_64BIT_OFFSET | NC_CLASSIC_MODEL | NC_SHARE | NC_LOCK | NC_64BIT_DATA | NC_MPIIO | NC_MPIPOSIX | NC_ESDM);
 
-static const int LEGAL_OPEN_FLAGS = (NC_WRITE | NC_NOCLOBBER | NC_SHARE | NC_LOCK | NC_CLASSIC_MODEL | NC_64BIT_OFFSET | NC_64BIT_DATA | NC_MPIIO | NC_MPIPOSIX);
+static const int LEGAL_OPEN_FLAGS = (NC_WRITE | NC_NOCLOBBER | NC_SHARE | NC_LOCK | NC_CLASSIC_MODEL | NC_64BIT_OFFSET | NC_64BIT_DATA | NC_MPIIO | NC_MPIPOSIX | NC_ESDM);
 
 
 /**************************************************/
