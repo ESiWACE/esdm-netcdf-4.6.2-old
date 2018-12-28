@@ -41,6 +41,11 @@ extern int NC_HDF4_initialize(void);
 extern int NC_HDF4_finalize(void);
 #endif
 
+#ifdef USE_ESDM
+extern int NC_ESDM_initialize(void);
+extern int NC_ESDM_finalize(void);
+#endif
+
 #ifdef _MSC_VER
 #include <io.h>
 #include <fcntl.h>
@@ -91,6 +96,9 @@ nc_initialize()
     if((stat = NC4_initialize())) goto done;
     stat = NC4_provenance_init();
 #endif /* USE_NETCDF4 */
+#ifdef USE_ESDM
+    if((stat = NC_ESDM_initialize())) goto done;
+#endif
 
 done:
     return stat;
@@ -134,6 +142,10 @@ nc_finalize(void)
 #ifdef USE_NETCDF4
     if((stat = NC4_finalize())) return stat;
 #endif /* USE_NETCDF4 */
+
+#ifdef USE_ESDM
+    if((stat = NC_ESDM_finalize())) return stat;
+#endif
 
     if((stat = NC3_finalize())) return stat;
 

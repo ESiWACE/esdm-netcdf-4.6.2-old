@@ -999,6 +999,36 @@ if test "x$enable_netcdf_4" = xyes || test "x$enable_dap" = xyes; then
    AC_SEARCH_LIBS([dlopen], [dl dld], [], [])
 fi
 
+
+# Does the user want to build with ESDM support?
+AC_ARG_WITH([esdm],
+            [AS_HELP_STRING([--with-esdm=<directory>],
+            [Directory of the ESDM installation])],
+            [ESDM_DIR=$with_esdm], [ESDM_DIR=""])
+if test "x$ESDM_DIR" != x; then
+  enable_esdm=yes
+fi
+
+AC_MSG_CHECKING([whether we should build netCDF with ESDM support])
+AC_ARG_ENABLE([esdm], [AS_HELP_STRING([--enable-esdm], [build with esdm])])
+test "x$enable_esdm" = xyes || enable_esdm=no
+AC_MSG_RESULT($enable_esdm)
+
+if test "x$enable_esdm" = xyes; then
+  AC_DEFINE([USE_ESDM], [1], [if true, use ESDM])
+  if test "x$ESDM_DIR" != x; then
+    LDFLAGS="-L$ESDM_DIR/lib/ $LDFLAGS"
+    LIBS="-lesdm $LIBS"
+    CFLAGS="-I$ESDM_DIR/include/ $CFLAGS"
+  fi
+  AC_SEARCH_LIBS([esdm_init], [esdm], [],
+    [AC_MSG_ERROR([Can't find or link to the ESDM library. See config.log for errors.])])
+
+  AC_CHECK_HEADERS([esdm.h], [],
+    [AC_MSG_ERROR([Compiling a test with ESDM failed.  Either esdm.h cannot be found, or config.log should be checked for other reason.])])
+fi
+
+
 # We need the math library
 AC_CHECK_LIB([m], [floor], [],
 [AC_MSG_ERROR([Can't find or link to the math library.])])
@@ -1286,6 +1316,7 @@ AM_CONDITIONAL(USE_LOGGING, [test "x$enable_logging" = xyes])
 AM_CONDITIONAL(CROSS_COMPILING, [test "x$cross_compiling" = xyes])
 AM_CONDITIONAL(USE_NETCDF4, [test x$enable_netcdf_4 = xyes])
 AM_CONDITIONAL(USE_HDF5, [test x$enable_hdf5 = xyes])
+AM_CONDITIONAL(USE_ESDM, [test x$enable_esdm = xyes])
 AM_CONDITIONAL(USE_HDF4, [test x$enable_hdf4 = xyes])
 AM_CONDITIONAL(USE_HDF4_FILE_TESTS, [test x$enable_hdf4_file_tests = xyes])
 AM_CONDITIONAL(USE_RENAMEV3, [test x$enable_netcdf_4 = xyes -o x$enable_dap = xyes])
@@ -1419,6 +1450,7 @@ AC_SUBST(HAS_NC4,[$enable_netcdf_4])
 AC_SUBST(HAS_CDF5,[$enable_cdf5])
 AC_SUBST(HAS_HDF4,[$enable_hdf4])
 AC_SUBST(HAS_HDF5,[$enable_hdf5])
+AC_SUBST(HAS_ESDM,[$enable_esdm])
 AC_SUBST(HAS_PNETCDF,[$enable_pnetcdf])
 AC_SUBST(HAS_HDF5,[$enable_netcdf_4])
 AC_SUBST(HAS_LOGGING, [$enable_logging])
@@ -1540,6 +1572,7 @@ AC_CONFIG_FILES([Makefile
                  hdf4_test/Makefile
                  libsrc/Makefile
                  libsrc4/Makefile
+                 libsrcesdm/Makefile
                  libhdf5/Makefile
                  libsrcp/Makefile
                  ncdump/Makefile
