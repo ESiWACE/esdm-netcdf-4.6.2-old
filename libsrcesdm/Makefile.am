@@ -9,4 +9,4 @@ noinst_LTLIBRARIES = libnetcdfesdm.la
 
 libnetcdfesdm_la_CPPFLAGS = ${AM_CPPFLAGS}
 libnetcdfesdm_la_SOURCES = $(SRC)
-libnetcdfesdm_la_LIBADD = 
+libnetcdfesdm_la_LIBADD =

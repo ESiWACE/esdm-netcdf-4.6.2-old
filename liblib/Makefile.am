@@ -52,6 +52,12 @@ AM_CPPFLAGS += -I${top_srcdir}/libhdf4
 libnetcdf_la_LIBADD += ${top_builddir}/libhdf4/libnchdf4.la
 endif # USE_HDF4
 
+if USE_ESDM
+AM_CPPFLAGS += -I${top_srcdir}/libsrcesdm
+libnetcdf_la_LIBADD += ${top_builddir}/libsrcesdm/libnetcdfesdm.la
+endif # USE_ESDM
+
+
 # + dap
 if ENABLE_DAP
 AM_CPPFLAGS += -I${top_srcdir}/libdap2 -I${top_srcdir}/oc

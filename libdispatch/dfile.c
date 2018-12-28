@@ -1949,7 +1949,7 @@ check_create_mode(int mode)
     /* This is a clever check to see if more than one format bit is
      * set. */
     mode_format = (mode & NC_NETCDF4) | (mode & NC_64BIT_OFFSET) |
-       (mode & NC_CDF5);
+       (mode & NC_CDF5) | (mode & NC_ESDM);
     if (mode_format && (mode_format & (mode_format - 1)))
        return NC_EINVAL;
 
@@ -2079,6 +2079,13 @@ NC_create(const char *path0, int cmode, size_t initialsz,
     if (model == NC_FORMATX_UNDEFINED && useparallel)
         return NC_ENOTBUILT;
 #endif
+#ifdef USE_ESDM
+    if (model == NC_FORMATX_UNDEFINED && (cmode & NC_ESDM))
+        model = NC_FORMATX_ESDM;
+#else
+    if (model == NC_FORMATX_UNDEFINED && (cmode & NC_ESDM))
+        return NC_ENOTBUILT;
+#endif
 
     /* Check default format (not formatx) */
     if (!fIsSet(cmode, NC_64BIT_OFFSET)  && !fIsSet(cmode, NC_64BIT_DATA) &&
@@ -2086,6 +2093,12 @@ NC_create(const char *path0, int cmode, size_t initialsz,
         /* if no file format flag is set in cmode, use default */
         int format = nc_get_default_format();
         switch (format) {
+#ifdef USE_ESDM:
+            case NC_FORMATX_ESDM:
+              cmode |= NC_ESDM;
+              if (model == NC_FORMATX_UNDEFINED) model = NC_FORMATX_ESDM;
+              break;
+#endif
 #ifdef USE_NETCDF4
             case NC_FORMAT_NETCDF4:
                  cmode |= NC_NETCDF4;
@@ -2121,7 +2134,13 @@ NC_create(const char *path0, int cmode, size_t initialsz,
 #endif
 
     /* Figure out what dispatcher to use */
-    if (model == NC_FORMATX_NC4)
+    if (model == NC_FORMATX_ESDM)
+    #ifndef USE_ESDM
+          return NC_ENOTBUILT;
+    #else
+          dispatcher = esdm_dispatch_table;
+    #endif
+    else if (model == NC_FORMATX_NC4)
 #ifdef USE_NETCDF4
         dispatcher = NC4_dispatch_table;
 #else

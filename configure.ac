@@ -1573,6 +1573,7 @@ AC_CONFIG_FILES([Makefile
                  libsrc/Makefile
                  libsrc4/Makefile
                  libsrcesdm/Makefile
+                 libsrcesdm_test/Makefile
                  libhdf5/Makefile
                  libsrcp/Makefile
                  ncdump/Makefile

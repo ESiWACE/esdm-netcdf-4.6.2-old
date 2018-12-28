@@ -38,6 +38,7 @@ static struct NCPROTOCOLLIST {
     {"http",NULL,0},
     {"https",NULL,0},
     {"file",NULL,0},
+    {"esdm","esd", NC_FORMATX_ESDM},
     {"dods","http",NC_FORMATX_DAP2},
     {"dodss","https",NC_FORMATX_DAP2},
     {"dap4","http",NC_FORMATX_DAP4},
@@ -212,7 +213,7 @@ NC_urlmodel(const char* path, int mode, char** newurl)
 	    found = 1;
 	    break;
 	}
-    }    
+    }
     if(found) {
 	model = protolist->model;
 	/* Substitute the protocol in any case */
@@ -220,7 +221,7 @@ NC_urlmodel(const char* path, int mode, char** newurl)
     } else
 	goto fail; /* Again, does not look like a url */
 
-    if(model != NC_FORMATX_DAP2 && model != NC_FORMATX_DAP4) {
+    if(model != NC_FORMATX_DAP2 && model != NC_FORMATX_DAP4 && model != NC_FORMATX_ESDM) {
         /* Look for and of the following params:
   	   "dap2", "protocol=dap2", "dap4", "protocol=dap4" */
 	const char* proto = NULL;
@@ -231,7 +232,7 @@ NC_urlmodel(const char* path, int mode, char** newurl)
             model = NC_FORMATX_DAP2;
 	else if((match=ncurilookup(url,"dap4")) != NULL || strcmp(proto,"dap4") == 0)
             model = NC_FORMATX_DAP4;
-	else 
+	else
 	model = 0; /* Still don't know */
     }
     if(model == 0) {/* Last resort: use the mode */
