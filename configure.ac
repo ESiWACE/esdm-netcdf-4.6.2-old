@@ -1018,7 +1018,7 @@ if test "x$enable_esdm" = xyes; then
   AC_DEFINE([USE_ESDM], [1], [if true, use ESDM])
   if test "x$ESDM_DIR" != x; then
     LDFLAGS="-L$ESDM_DIR/lib/ $LDFLAGS"
-    LIBS="-lesdm $LIBS"
+    LIBS="-lesdm $LIBS -Wl,-rpath=$ESDM_DIR/lib/ "
     CFLAGS="-I$ESDM_DIR/include/ $CFLAGS"
   fi
   AC_SEARCH_LIBS([esdm_init], [esdm], [],
