@@ -43,6 +43,12 @@ int main(int argc, char ** argv){
     * (0) will cause the program to print an error message and exit
     * with a non-zero return code. */
 
+    if ((retval = nc_create("esdm://testfle", NC_CLOBBER, &ncid)))
+      ERR(retval);
+
+    if ((retval = nc_close(ncid)))
+      ERR(retval);
+
    /* Create the file. The NC_CLOBBER parameter tells netCDF to
     * overwrite this file, if it already exists.*/
    if ((retval = nc_create(FILE_NAME, NC_CLOBBER | NC_ESDM, &ncid)))
