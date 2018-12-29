@@ -2357,6 +2357,8 @@ NC_open(const char *path0, int omode, int basepe, size_t *chunksizehintp,
       omode &= ~NC_NETCDF4; /* must be netcdf-3 (CDF-1, CDF-2, CDF-5) */
       if(version == 2) omode |= NC_64BIT_OFFSET;
       else if(version == 5) omode |= NC_64BIT_DATA;
+   }else if(model == NC_FORMATX_ESDM){
+     omode &= ~NC_ESDM;
    }
 
    /* Figure out what dispatcher to use */
@@ -2395,6 +2397,12 @@ NC_open(const char *path0, int omode, int basepe, size_t *chunksizehintp,
          dispatcher = UDF1_dispatch_table;
          break;
 #endif /* USE_NETCDF4 */
+#ifdef USE_ESDM
+      case NC_FORMATX_ESDM:
+        dispatcher = esdm_dispatch_table;
+        break;
+#endif
+
       case NC_FORMATX_NC3:
          dispatcher = NC3_dispatch_table;
          break;

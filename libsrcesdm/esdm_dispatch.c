@@ -8,6 +8,8 @@
 #include "nc.h"
 #include "ncdispatch.h"
 
+#define NOT_IMPLEMENTED assert(0 && "NOT IMPLEMENTED");
+
 #define debug(...) do{printf("called %s: %d ",__func__, __LINE__); printf(__VA_ARGS__); }while(0)
 
 typedef struct{
@@ -386,7 +388,19 @@ int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *count
       return NC_EINVAL;
     }
   }else{
-    assert(0 && "NOT IMPLEMENTED");
+    int64_t size[kv->ndims];
+    int64_t offset[kv->ndims];
+    for(int i=0; i < kv->ndims; i++){
+      size[i] = countp[i];
+      offset[i] = startp[i];
+    }
+    esdm_dataspace_t * subspace = esdm_dataspace_subspace(space, kv->ndims, size, offset);
+    ret = esdm_write(kv->dset, data, subspace);
+    if(ret != ESDM_SUCCESS){
+      esdm_dataspace_destroy(subspace);
+      return NC_EINVAL;
+    }
+    esdm_dataspace_destroy(subspace);
   }
 
   return NC_NOERR;
