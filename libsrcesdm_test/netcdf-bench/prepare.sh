@@ -19,7 +19,7 @@ fi
 if [[ ! -e benchtool ]] ; then
   pushd build
   export PKG_CONFIG_PATH=$NETCDF_DIR/lib/pkgconfig/:$PKG_CONFIG_PATH
-  cmake ../netcdf-bench -DNETCDF_INCLUDE_DIR=$NETCDF_DIR/include  -DNETCDF_LIBRARY=$NETCDF_DIR/lib/libnetcdf.so
+  cmake ../netcdf-bench -DNETCDF_INCLUDE_DIR=$NETCDF_DIR/include  -DNETCDF_LIBRARY=$NETCDF_DIR/lib/libnetcdf.so -DCMAKE_BUILD_TYPE=Debug
   make -j 4
   cp ./src/benchtool  ../
   popd

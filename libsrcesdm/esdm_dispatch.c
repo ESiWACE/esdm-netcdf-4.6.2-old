@@ -115,6 +115,7 @@ int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_
   debug("%s %d %d %s\n", realpath, ncp->ext_ncid, ncp->int_ncid, ncp->path);
 
   nc_esdm_t * e = malloc(sizeof(nc_esdm_t));
+  memset(e, 0, sizeof(nc_esdm_t));
   e->c = esdm_container_create(realpath);
   ncp->dispatchdata = e;
 
@@ -164,9 +165,22 @@ int ESDM_close(int ncid, void * b){
 }
 
 int ESDM_set_fill(int ncid, int fillmode, int *old_modep){
-  debug("%d\n", ncid);
+  debug("%d %d\n", ncid, fillmode);
+  *old_modep = NC_NOFILL;
   return NC_NOERR;
 }
+
+int ESDM_def_var_fill(int ncid, int varid, int no_fill, const void *fill_value){
+  debug("%d %d\n", ncid, no_fill);
+  return NC_NOERR;
+}
+
+
+int ESDM_var_par_access(int ncid, int varid, int access){
+  debug("%d: var:%d access:%d\n", ncid, varid, access);
+  return NC_NOERR;
+}
+
 
 int ESDM_inq_base_pe(int ncid, int *pe){ // for parallel execution
   debug("%d\n", ncid);
@@ -414,18 +428,6 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
 }
 
 
-// int ESDM_var_par_access(int, int, int){
-//  debug("%d\n", ncid);
-//  return NC_NOERR;
-//}
-
-// int ESDM_def_var_fill(int, int, int, const void*){
-//  debug("%d\n", ncid);
-//  return NC_NOERR;
-//}
-
-
-
 static NC_Dispatch esdm_dispatcher = {
   NC_FORMATX_ESDM,
 
@@ -470,9 +472,9 @@ static NC_Dispatch esdm_dispatcher = {
   NCDEFAULT_get_varm,
   NCDEFAULT_put_varm,
 
-  ESDM_inq_var_all//,
-  //ESDM_var_par_access,
-  //ESDM_def_var_fill
+  ESDM_inq_var_all,
+  ESDM_var_par_access,
+  ESDM_def_var_fill
 };
 
 NC_Dispatch* esdm_dispatch_table = NULL;
