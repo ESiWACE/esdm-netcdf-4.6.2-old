@@ -2402,7 +2402,6 @@ NC_open(const char *path0, int omode, int basepe, size_t *chunksizehintp,
         dispatcher = esdm_dispatch_table;
         break;
 #endif
-
       case NC_FORMATX_NC3:
          dispatcher = NC3_dispatch_table;
          break;

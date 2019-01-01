@@ -40,42 +40,42 @@ typedef struct{
   metadata_t vars;
 } nc_esdm_t;
 
-static esdm_datatype type_nc_to_esdm(nc_type type){
+static esdm_datatype_t type_nc_to_esdm(nc_type type){
   switch(type){
-    case(NC_NAT): return ESDM_TYPE_UNKNOWN;
-    case(NC_BYTE): return ESDM_TYPE_INT8_T;
-    case(NC_CHAR): return ESDM_TYPE_CHAR;
-    case(NC_SHORT): return ESDM_TYPE_INT16_T;
-    case(NC_INT): return ESDM_TYPE_INT32_T;
-    case(NC_FLOAT): return ESDM_TYPE_FLOAT;
-    case(NC_DOUBLE): return ESDM_TYPE_DOUBLE;
-    case(NC_UBYTE): return ESDM_TYPE_UINT8_T;
-    case(NC_USHORT): return ESDM_TYPE_UINT16_T;
-    case(NC_UINT): return ESDM_TYPE_UINT32_T;
-    case(NC_INT64): return ESDM_TYPE_INT64_T;
-    case(NC_UINT64): return ESDM_TYPE_UINT64_T;
-    case(NC_STRING): return ESDM_TYPE_STRING;
+    case(NC_NAT): return SMD_DTYPE_UNKNOWN;
+    case(NC_BYTE): return SMD_DTYPE_INT8;
+    case(NC_CHAR): return SMD_DTYPE_CHAR;
+    case(NC_SHORT): return SMD_DTYPE_INT16;
+    case(NC_INT): return SMD_DTYPE_INT32;
+    case(NC_FLOAT): return SMD_DTYPE_FLOAT;
+    case(NC_DOUBLE): return SMD_DTYPE_DOUBLE;
+    case(NC_UBYTE): return SMD_DTYPE_UINT8;
+    case(NC_USHORT): return SMD_DTYPE_UINT16;
+    case(NC_UINT): return SMD_DTYPE_UINT32;
+    case(NC_INT64): return SMD_DTYPE_INT64;
+    case(NC_UINT64): return SMD_DTYPE_UINT64;
+    case(NC_STRING): return SMD_DTYPE_STRING;
     default:
       printf("Unsupported datatype: %d\n", type);
       return 0;
   }
 }
 
-static nc_type type_esdm_to_nc(esdm_datatype type){
-  switch(type){
-    case(ESDM_TYPE_UNKNOWN): return NC_NAT;
-    case(ESDM_TYPE_INT8_T): return NC_BYTE;
-    case(ESDM_TYPE_CHAR): return NC_CHAR;
-    case(ESDM_TYPE_INT16_T): return NC_SHORT;
-    case(ESDM_TYPE_INT32_T): return NC_INT;
-    case(ESDM_TYPE_FLOAT): return NC_FLOAT;
-    case(ESDM_TYPE_DOUBLE): return NC_DOUBLE;
-    case(ESDM_TYPE_UINT8_T): return NC_UBYTE;
-    case(ESDM_TYPE_UINT16_T): return NC_USHORT;
-    case(ESDM_TYPE_UINT32_T): return NC_UINT;
-    case(ESDM_TYPE_INT64_T): return NC_INT64;
-    case(ESDM_TYPE_UINT64_T): return NC_UINT64;
-    case(ESDM_TYPE_STRING): return NC_STRING;
+static nc_type type_esdm_to_nc(esdm_datatype_t type){
+  switch(type->type){
+    case(SMD_TYPE_UNKNOWN): return NC_NAT;
+    case(SMD_TYPE_INT8): return NC_BYTE;
+    case(SMD_TYPE_CHAR): return NC_CHAR;
+    case(SMD_TYPE_INT16): return NC_SHORT;
+    case(SMD_TYPE_INT32): return NC_INT;
+    case(SMD_TYPE_FLOAT): return NC_FLOAT;
+    case(SMD_TYPE_DOUBLE): return NC_DOUBLE;
+    case(SMD_TYPE_UINT8): return NC_UBYTE;
+    case(SMD_TYPE_UINT16): return NC_USHORT;
+    case(SMD_TYPE_UINT32): return NC_UINT;
+    case(SMD_TYPE_INT64): return NC_INT64;
+    case(SMD_TYPE_UINT64): return NC_UINT64;
+    case(SMD_TYPE_STRING): return NC_STRING;
     default:
       printf("Unsupported datatype: %d\n", type);
       return 0;
@@ -125,8 +125,23 @@ int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_
 }
 
 int ESDM_open(const char *path, int mode, int basepe, size_t *chunksizehintp, void* parameters, struct NC_Dispatch* table, NC* ncp){
-  int ncid = 0;
-  debug("%d\n", ncid);
+  const char * realpath = path;
+
+  if(strncmp(path, "esdm:", 5) == 0){
+    realpath = & path[5];
+  }else if(strncmp(path, "esd:", 4) == 0){
+    realpath = & path[4];
+  }
+  //const char * base = basename(realpath);
+  debug("%s %d %d %s\n", realpath, ncp->ext_ncid, ncp->int_ncid, ncp->path);
+
+  nc_esdm_t * e = malloc(sizeof(nc_esdm_t));
+  memset(e, 0, sizeof(nc_esdm_t));
+
+  //e->c = esdm_container_create(realpath);
+  //ncp->dispatchdata = e;
+  //TODO load metadata and such
+
   return NC_NOERR;
 }
 
@@ -320,8 +335,8 @@ int ESDM_def_var(int ncid, const char *name, nc_type xtype,
     bounds[i] = val;
   }
 
-  esdm_datatype typ = type_nc_to_esdm(xtype);
-  if(typ == ESDM_TYPE_UNKNOWN){
+  esdm_datatype_t typ = type_nc_to_esdm(xtype);
+  if(typ == SMD_DTYPE_UNKNOWN){
     return NC_EBADTYPE;
   }
   esdm_dataspace_t * dataspace = esdm_dataspace_create(ndims, bounds, typ);
