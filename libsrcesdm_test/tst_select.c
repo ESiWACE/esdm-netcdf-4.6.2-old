@@ -79,7 +79,7 @@ int main(int argc, char ** argv){
    /* Write the pretend data to the file. Although netCDF supports
     * reading and writing subsets of data, in this case we write all
     * the data in one operation. */
-   if ((retval = nc_put_var_int(ncid, varid, &data_out[0][0])))
+   if ((retval = nc_put_var_int(ncid, varid, & data_out[0][0])))
       ERR(retval);
 
    /* Close the file. This frees up any internal netCDF resources

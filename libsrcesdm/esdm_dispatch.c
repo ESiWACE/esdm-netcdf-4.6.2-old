@@ -18,12 +18,21 @@ typedef struct{
   int *dimidsp;
   esdm_dataspace_t * space;
   esdm_dataset_t * dset;
+
+  smd_attr_t * att;
 } md_entity_var_t;
+
+typedef struct {
+  smd_attr_t * dims;
+  smd_attr_t * attrs;
+  smd_attr_t * vars;
+} nc_esdm_md_t;
 
 typedef struct{
   char * name;
   void * value;
 } md_entity_t;
+
 
 // This structure contains a flat mday for the metadata name
 // it is used up to a specific size of the metadata table before
@@ -33,11 +42,21 @@ typedef struct{
   md_entity_t kv[10];
 } metadata_t;
 
+
 typedef struct{
+  int ncid;
+  int idp;
   esdm_container * c;
+
+  // Some attributes provide information about the dataset as a whole and are called
+  // global attributes. These are identified by the attribute name together with a blank
+  // variable name (in CDL) or a special null "global variable" ID (in C or Fortran).
+
   metadata_t attr;
   metadata_t dims;
   metadata_t vars;
+
+  nc_esdm_md_t md;
 } nc_esdm_t;
 
 static esdm_datatype_t type_nc_to_esdm(nc_type type){
@@ -56,8 +75,8 @@ static esdm_datatype_t type_nc_to_esdm(nc_type type){
     case(NC_UINT64): return SMD_DTYPE_UINT64;
     case(NC_STRING): return SMD_DTYPE_STRING;
     default:
-      printf("Unsupported datatype: %d\n", type);
-      return 0;
+      printf("ESDM does not support compound datatypes from NetCDF: %d\n", type);
+      return NULL;
   }
 }
 
@@ -77,7 +96,7 @@ static nc_type type_esdm_to_nc(esdm_datatype_t type){
     case(SMD_TYPE_UINT64): return NC_UINT64;
     case(SMD_TYPE_STRING): return NC_STRING;
     default:
-      printf("Unsupported datatype: %d\n", type);
+      printf("Unsupported datatype: %d\n", type->type);
       return 0;
   }
 }
@@ -94,11 +113,10 @@ int lookup_md(metadata_t * md, char * name, void ** value, int * pos){
   return NC_EBADID;
 }
 
-int insert_md(metadata_t * md, const char * name, void * value, int * pos){
+int insert_md(metadata_t * md, const char * name, void * value){
   assert(md->size < 10);
   md->kv[md->size].name = strdup(name);
   md->kv[md->size].value = value;
-  *pos = md->size;
   md->size++;
   return NC_NOERR;
 }
@@ -118,6 +136,12 @@ int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_
 
   nc_esdm_t * e = malloc(sizeof(nc_esdm_t));
   memset(e, 0, sizeof(nc_esdm_t));
+  e->ncid = ncp->ext_ncid;
+
+  e->md.dims = smd_attr_new("dims", SMD_DTYPE_EMPTY, NULL, 0);
+  e->md.vars = smd_attr_new("vars", SMD_DTYPE_EMPTY, NULL, 0);
+  e->md.attrs = smd_attr_new("attr", SMD_DTYPE_EMPTY, NULL, 0);
+
   e->c = esdm_container_create(realpath);
   ncp->dispatchdata = e;
 
@@ -178,6 +202,7 @@ int ESDM_close(int ncid, void * b){
   nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
   debug("%d\n", ncid);
   esdm_container_destroy(e->c);
+  // TODO
   return NC_NOERR;
 }
 
@@ -234,10 +259,16 @@ int ESDM_def_dim(int ncid, const char *name, size_t len, int *idp){
   int ret = NC_NOERR;
   if((ret = NC_check_id(ncid, (NC**)&ncp)) != NC_NOERR) return (ret);
   nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
-  debug("%d\n", ncid);
-  ret = insert_md(& e->dims, name, (size_t*) len, idp);
+  *idp = e->dims.size;
+  debug("%d: %d\n", ncid, *idp);
+  ret = insert_md(& e->dims, name, (size_t*) len);
 
-  return ret;
+  smd_attr_t * new = smd_attr_new(name, SMD_DTYPE_UINT64, & len, *idp);
+  ret = smd_attr_link(e->md.dims, new, 0);
+  if (ret == SMD_ATTR_EEXIST){
+    return NC_EINVAL;
+  }
+  return NC_NOERR;
 }
 
 int ESDM_inq_dimid(int ncid, const char *name, int *idp){
@@ -301,13 +332,69 @@ int ESDM_del_att(int ncid, int varid, const char *name){
 }
 
 int ESDM_get_att(int ncid, int varid, const char* name, void* value, nc_type t){
-  debug("%d\n", ncid);
+  esdm_datatype_t etype = type_nc_to_esdm(t);
+  if(etype == NULL) {
+    return NC_EINVAL;
+  }
+  int ret;
+  NC * ncp;
+  if((ret = NC_check_id(ncid, (NC**)& ncp)) != NC_NOERR) return (ret);
+  nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
+  debug("%d %d %s\n", ncid, varid, name);
+
+  smd_attr_t * att;
+  if(varid == NC_GLOBAL){
+    att = e->md.vars;
+  }else{
+    assert(e->vars.size > varid);
+    md_entity_var_t * kv = e->vars.kv[varid].value;
+    if(kv->att == NULL){
+      return NC_EINVAL;
+    }
+    att = kv->att;
+  }
+  int pos = smd_find_position_by_name(att, name);
+  if(pos < 0) return NC_EINVAL;
+
+  smd_attr_t * child = smd_attr_get_child(att, pos);
+  if(etype->type != child->type->type) return NC_EINVAL;
+  smd_attr_copy_value(child, value);
   return NC_NOERR;
 }
 
 int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype,
 	   size_t len, const void *value, nc_type type){
-  debug("%d\n", ncid);
+  assert(type == datatype);
+  esdm_datatype_t etype = type_nc_to_esdm(datatype);
+  if(etype == NULL) {
+    return NC_EINVAL;
+  }
+  int ret;
+  NC * ncp;
+  if((ret = NC_check_id(ncid, (NC**)& ncp)) != NC_NOERR) return (ret);
+  nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
+  debug("%d %d %s\n", ncid, varid, name);
+
+  smd_attr_t * att;
+  if(varid == NC_GLOBAL){
+    att = e->md.vars;
+  }else{
+    assert(e->vars.size > varid);
+    md_entity_var_t * kv = e->vars.kv[varid].value;
+    if(kv->att == NULL){
+      kv->att = smd_attr_new("attr", SMD_DTYPE_EMPTY, NULL, 0);
+    }
+    att = kv->att;
+  }
+  assert(len == 1);
+  smd_attr_t * new;
+  if(datatype == NC_STRING){
+    new = smd_attr_new(name, etype, *(void**) value, 0);
+  }else{
+    new = smd_attr_new(name, etype, value, 0);
+  }
+  smd_attr_link(att, new, 1);
+
   return NC_NOERR;
 }
 
@@ -317,9 +404,19 @@ int ESDM_def_var(int ncid, const char *name, nc_type xtype,
   int ret = NC_NOERR;
   if((ret = NC_check_id(ncid, (NC**)&ncp)) != NC_NOERR) return (ret);
   nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
-  debug("%d\n", ncid);
+
+  *varidp = e->vars.size;
+  debug("%d: varid: %d\n", ncid, *varidp);
+
+  smd_attr_t * new = smd_attr_new(name, SMD_DTYPE_EMPTY, NULL, *varidp);
+  ret = smd_attr_link(e->md.vars, new, 0);
+  if (ret == SMD_ATTR_EEXIST){
+    return NC_EINVAL;
+  }
 
   md_entity_var_t * evar = malloc(sizeof(md_entity_var_t));
+  memset(evar, 0, sizeof(md_entity_var_t));
+
   evar->type = xtype;
   evar->ndims = ndims;
   evar->dimidsp = malloc(sizeof(int) * ndims);
@@ -346,7 +443,7 @@ int ESDM_def_var(int ncid, const char *name, nc_type xtype,
   }
   evar->dset = dataset;
   evar->space = dataspace;
-  insert_md(& e->vars, name, evar, varidp);
+  insert_md(& e->vars, name, evar);
 
   return NC_NOERR;
 }
@@ -434,10 +531,12 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
   if((ret = NC_check_id(ncid, (NC**)&ncp)) != NC_NOERR) return (ret);
   nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
   debug("%d %d\n", ncid, varid);
-  assert(e->vars.size > varid);
 
   md_entity_t * kv = & e->vars.kv[varid];
+  assert(kv != NULL);
   md_entity_var_t * evar = (md_entity_var_t *) kv->value;
+  assert(evar != NULL);
+
   if(name != NULL){
     strcpy(name, kv->name);
   }
