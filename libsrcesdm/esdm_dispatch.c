@@ -59,6 +59,10 @@ typedef struct{
   nc_esdm_md_t md;
 } nc_esdm_t;
 
+// this is a temporary hack
+static nc_esdm_t * last_file_md = NULL;
+
+
 static esdm_datatype_t type_nc_to_esdm(nc_type type){
   switch(type){
     case(NC_NAT): return SMD_DTYPE_UNKNOWN;
@@ -145,6 +149,8 @@ int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_
   e->c = esdm_container_create(realpath);
   ncp->dispatchdata = e;
 
+  last_file_md = e;
+
   return NC_NOERR;
 }
 
@@ -163,8 +169,8 @@ int ESDM_open(const char *path, int mode, int basepe, size_t *chunksizehintp, vo
   memset(e, 0, sizeof(nc_esdm_t));
 
   //e->c = esdm_container_create(realpath);
-  //ncp->dispatchdata = e;
   //TODO load metadata and such
+  ncp->dispatchdata = last_file_md;
 
   return NC_NOERR;
 }
