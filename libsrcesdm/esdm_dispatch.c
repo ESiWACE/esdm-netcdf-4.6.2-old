@@ -207,7 +207,7 @@ int ESDM_close(int ncid, void * b){
   if((ret = NC_check_id(ncid, (NC**)&ncp)) != NC_NOERR) return (ret);
   nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
   debug("%d\n", ncid);
-  esdm_container_destroy(e->c);
+  //esdm_container_destroy(e->c); // TODO disable for now, as we want to reread the file
   // TODO
   return NC_NOERR;
 }
@@ -464,10 +464,51 @@ int ESDM_rename_var(int ncid, int varid, const char *name){
   return NC_NOERR;
 }
 
-
 int ESDM_get_vars(int ncid, int varid, const size_t *startp, const size_t *countp,
-             const ptrdiff_t *stridep, void *data, nc_type mem_nc_type){
-  debug("%d\n", ncid);
+             const ptrdiff_t *stridep, const void *data, nc_type mem_nc_type){
+//  debug("%d\n", ncid);
+
+  NC * ncp;
+  int ret = NC_NOERR;
+  if((ret = NC_check_id(ncid, (NC**)&ncp)) != NC_NOERR) return (ret);
+  nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
+  assert(e->vars.size > varid);
+  md_entity_var_t * kv = e->vars.kv[varid].value;
+  debug("%d type: %d buff: %p %p %p %p\n", ncid, mem_nc_type, data, startp, countp, stridep);
+  if(mem_nc_type != kv->type){
+    return NC_EBADTYPE;
+  }
+  // check the dimensions we actually want to write
+  int access_all = 1;
+  esdm_dataspace_t * space = kv->space;
+  for(int i=0; i < kv->ndims; i++){
+    printf(" - %zu %zu\n", startp[i], countp[i]);
+    if(startp[i] != 0 || countp[i] != space->size[i]){
+      access_all = 0;
+      break;
+    }
+  }
+  if(access_all){
+    ret = esdm_read(kv->dset, data, space);
+    if(ret != ESDM_SUCCESS){
+      return NC_EINVAL;
+    }
+  }else{
+    int64_t size[kv->ndims];
+    int64_t offset[kv->ndims];
+    for(int i=0; i < kv->ndims; i++){
+      size[i] = countp[i];
+      offset[i] = startp[i];
+    }
+    esdm_dataspace_t * subspace = esdm_dataspace_subspace(space, kv->ndims, size, offset);
+    ret = esdm_read(kv->dset, data, subspace);
+    if(ret != ESDM_SUCCESS){
+      esdm_dataspace_destroy(subspace);
+      return NC_EINVAL;
+    }
+    esdm_dataspace_destroy(subspace);
+  }
+
   return NC_NOERR;
 }
 
