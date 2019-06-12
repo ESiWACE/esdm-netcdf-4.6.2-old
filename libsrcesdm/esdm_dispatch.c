@@ -443,7 +443,7 @@ int ESDM_def_var(int ncid, const char *name, nc_type xtype,
     return NC_EBADTYPE;
   }
   esdm_dataspace_t * dataspace = esdm_dataspace_create(ndims, bounds, typ);
-  esdm_dataset_t * dataset = esdm_dataset_create(e->c, name, dataspace);
+  esdm_dataset_t * dataset = esdm_dataset_create(e->c, name, dataspace, NULL);
   if(dataset == NULL){
     return NC_EBADID;
   }
