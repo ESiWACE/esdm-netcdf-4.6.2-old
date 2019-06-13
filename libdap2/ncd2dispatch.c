@@ -1254,11 +1254,11 @@ applyclientparams(NCDAPCOMMON* nccomm)
 
     /* allow embedded _ */
     value = paramlookup(nccomm,"stringlength");
-    if(value == NULL) 
+    if(value == NULL)
         value = paramlookup(nccomm,"maxstrlen");
     if(value != NULL && strlen(value) != 0) {
         if(sscanf(value,"%d",&len) && len > 0) dfaltstrlen = len;
-    } 
+    }
     nccomm->cdf.defaultstringlength = dfaltstrlen;
 
     /* String dimension limits apply to variables */

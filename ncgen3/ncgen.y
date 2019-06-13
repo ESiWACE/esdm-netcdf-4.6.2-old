@@ -85,12 +85,12 @@ int yyerror(char*);
 
 %token
 	NC_UNLIMITED_K /* keyword for unbounded record dimension */
-	BYTE_K	    /* keyword for byte datatype */
-	CHAR_K	    /* keyword for char datatype */
-	SHORT_K	    /* keyword for short datatype */
-	INT_K	    /* keyword for int datatype */
-	FLOAT_K	    /* keyword for float datatype */
-	DOUBLE_K    /* keyword for double datatype */
+	BYTE_K	    /* keyword for byte data type */
+	CHAR_K	    /* keyword for char data type */
+	SHORT_K	    /* keyword for short data type */
+	INT_K	    /* keyword for int data type */
+	FLOAT_K	    /* keyword for float data type */
+	DOUBLE_K    /* keyword for double data type */
 	IDENT	    /* name for a dimension, variable, or attribute */
 	TERMSTRING  /* terminal string */
 	BYTE_CONST  /* byte constant */

@@ -3,8 +3,8 @@
    conditions of use.
 
    This program tests fixes for reading netCDF-4 files that contain
-   datasets with reference datatypes.  The netCDF-4 library should ignore
-   the datasets & attributes that have reference datatypes and allow the 
+   datasets with reference data types.  The netCDF-4 library should ignore
+   the datasets & attributes that have reference data types and allow the 
    rest of the file to be accessed.
 */
 
@@ -22,7 +22,7 @@
 int
 main()
 {
-    printf("\n*** Creating file with datasets & attributes that have reference datatypes.\n");
+    printf("\n*** Creating file with datasets & attributes that have reference data types.\n");
     {
 	hid_t fileid, scalar_spaceid;
 	hid_t attid, dsetid;
@@ -32,14 +32,14 @@ main()
 	/* Create new file, using default properties. */
 	if ((fileid = H5Fcreate(FILE_NAME, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT)) < 0) ERR;
 	
-        /* Create dataset with reference datatype */
+        /* Create dataset with reference data type */
         if ((dsetid = H5Dcreate2(fileid, REF_VAR_NAME, H5T_STD_REF_OBJ, scalar_spaceid, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT)) < 0) ERR;
 
-        /* Create attribute with reference datatype on reference dataset */
+        /* Create attribute with reference data type on reference dataset */
         if ((attid = H5Acreate2(dsetid, REF_ATT_NAME, H5T_STD_REF_OBJ, scalar_spaceid, H5P_DEFAULT, H5P_DEFAULT)) < 0) ERR;
         if (H5Aclose(attid) < 0) ERR;
 
-        /* Create attribute with native int datatype on reference dataset */
+        /* Create attribute with native int data type on reference dataset */
         if ((attid = H5Acreate2(dsetid, INT_ATT_NAME, H5T_NATIVE_INT, scalar_spaceid, H5P_DEFAULT, H5P_DEFAULT)) < 0) ERR;
         if (H5Aclose(attid) < 0) ERR;
 
@@ -47,14 +47,14 @@ main()
         if (H5Dclose(dsetid) < 0) ERR;
 
 
-        /* Create dataset with native int datatype */
+        /* Create dataset with native int data type */
         if ((dsetid = H5Dcreate2(fileid, INT_VAR_NAME, H5T_NATIVE_INT, scalar_spaceid, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT)) < 0) ERR;
 
-        /* Create attribute with reference datatype on integer dataset */
+        /* Create attribute with reference data type on integer dataset */
         if ((attid = H5Acreate2(dsetid, REF_ATT_NAME, H5T_STD_REF_OBJ, scalar_spaceid, H5P_DEFAULT, H5P_DEFAULT)) < 0) ERR;
         if (H5Aclose(attid) < 0) ERR;
 
-        /* Create attribute with native int datatype on integer dataset */
+        /* Create attribute with native int data type on integer dataset */
         if ((attid = H5Acreate2(dsetid, INT_ATT_NAME, H5T_NATIVE_INT, scalar_spaceid, H5P_DEFAULT, H5P_DEFAULT)) < 0) ERR;
         if (H5Aclose(attid) < 0) ERR;
 
@@ -62,11 +62,11 @@ main()
         if (H5Dclose(dsetid) < 0) ERR;
 
 
-        /* Create attribute on root group with reference datatype */
+        /* Create attribute on root group with reference data type */
         if ((attid = H5Acreate2(fileid, REF_ATT_NAME, H5T_STD_REF_OBJ, scalar_spaceid, H5P_DEFAULT, H5P_DEFAULT)) < 0) ERR;
         if (H5Aclose(attid) < 0) ERR;
 
-        /* Create attribute on root group with native int datatype */
+        /* Create attribute on root group with native int data type */
         if ((attid = H5Acreate2(fileid, INT_ATT_NAME, H5T_NATIVE_INT, scalar_spaceid, H5P_DEFAULT, H5P_DEFAULT)) < 0) ERR;
         if (H5Aclose(attid) < 0) ERR;
 

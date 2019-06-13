@@ -71,7 +71,7 @@ nc_create. (see nc_create).
 \section classic_types NetCDF-3 Classic and 64-Bit Offset Data Types
 
 NetCDF-3 classic and 64-bit offset files support 6 atomic data types,
-and none of the user defined datatype introduced in NetCDF-4.
+and none of the user defined data type introduced in NetCDF-4.
 
 The following table gives the netCDF-3 external data types and the
 corresponding type constants for defining variables in the C

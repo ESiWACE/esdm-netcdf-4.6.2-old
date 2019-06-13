@@ -62,7 +62,7 @@ writeszip()
    H5Pset_szip (properties, szip_options_mask, szip_pixels_per_block);
 
   /*
-   * Create a new dataset within the file.  The datatype
+   * Create a new dataset within the file.  The data type
    * and data space describe the data on disk, which may
    * be different from the format used in the application's
    * memory.
@@ -74,7 +74,7 @@ writeszip()
    dataset32 = H5Dcreate (file, "datasetF32", H5T_NATIVE_FLOAT, data_space, lcpl_id, properties, dapl_id);
 
   /*
-   * Write the array to the file.  The datatype and dataspace
+   * Write the array to the file.  The data type and dataspace
    * describe the format of the data in the `buf' buffer.
    * The raw data is translated to the format required on disk, 
    * as defined above.  We use default raw data transfer properties.

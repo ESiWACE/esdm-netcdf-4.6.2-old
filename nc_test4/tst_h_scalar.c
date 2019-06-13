@@ -3,7 +3,7 @@
    conditions of use.
 
    This program tests reading HDF5 files that contain scalar attributes and
-   variables, of both string and numeric datatypes.  The netCDF-4 library
+   variables, of both string and numeric data types.  The netCDF-4 library
    should allow access to all of these.
 */
 
@@ -34,41 +34,41 @@ add_attrs(hid_t objid)
     /* Create scalar dataspace */
     if ((scalar_spaceid = H5Screate(H5S_SCALAR)) < 0) ERR_GOTO;
 
-    /* Create string datatypes */
+    /* Create string data types */
     if ((vlstr_typeid = H5Tcreate(H5T_STRING, (size_t)H5T_VARIABLE)) < 0) ERR_GOTO;
     if ((fixstr_typeid = H5Tcreate(H5T_STRING, (size_t)10)) < 0) ERR_GOTO;
 
 
-    /* Create attribute with VL string datatype on object */
+    /* Create attribute with VL string data type on object */
     if ((attid = H5Acreate2(objid, VSTR_ATT1_NAME, vlstr_typeid, scalar_spaceid, H5P_DEFAULT, H5P_DEFAULT)) < 0) ERR_GOTO;
     /* No write, use fill value */
     if (H5Aclose(attid) < 0) ERR_GOTO;
 
-    /* Create attribute with VL string datatype on object */
+    /* Create attribute with VL string data type on object */
     if ((attid = H5Acreate2(objid, VSTR_ATT2_NAME, vlstr_typeid, scalar_spaceid, H5P_DEFAULT, H5P_DEFAULT)) < 0) ERR_GOTO;
     vlstr = NULL;
     if (H5Awrite(attid, vlstr_typeid, &vlstr) < 0) ERR_GOTO;
     if (H5Aclose(attid) < 0) ERR_GOTO;
 
-    /* Create attribute with VL string datatype on object */
+    /* Create attribute with VL string data type on object */
     if ((attid = H5Acreate2(objid, VSTR_ATT3_NAME, vlstr_typeid, scalar_spaceid, H5P_DEFAULT, H5P_DEFAULT)) < 0) ERR_GOTO;
     vlstr = malloc(10);
     *vlstr = '\0';
     if (H5Awrite(attid, vlstr_typeid, &vlstr) < 0) ERR_GOTO;
     if (H5Aclose(attid) < 0) ERR_GOTO;
 
-    /* Create attribute with VL string datatype on object */
+    /* Create attribute with VL string data type on object */
     if ((attid = H5Acreate2(objid, VSTR_ATT4_NAME, vlstr_typeid, scalar_spaceid, H5P_DEFAULT, H5P_DEFAULT)) < 0) ERR_GOTO;
     strcpy(vlstr, "foo");
     if (H5Awrite(attid, vlstr_typeid, &vlstr) < 0) ERR_GOTO;
     free(vlstr);
     if (H5Aclose(attid) < 0) ERR_GOTO;
 
-    /* Create attribute with fixed-length string datatype on object */
+    /* Create attribute with fixed-length string data type on object */
     if ((attid = H5Acreate2(objid, FSTR_ATT_NAME, fixstr_typeid, scalar_spaceid, H5P_DEFAULT, H5P_DEFAULT)) < 0) ERR_GOTO;
     if (H5Aclose(attid) < 0) ERR_GOTO;
 
-    /* Create attribute with native integer datatype on object */
+    /* Create attribute with native integer data type on object */
     if ((attid = H5Acreate2(objid, INT_ATT_NAME, H5T_NATIVE_INT, scalar_spaceid, H5P_DEFAULT, H5P_DEFAULT)) < 0) ERR_GOTO;
     if (H5Aclose(attid) < 0) ERR_GOTO;
 
@@ -201,10 +201,10 @@ main()
         if (H5Pclose(fcplid) < 0) ERR;
 
 
-        /* Create variable-length string datatype */
+        /* Create variable-length string data type */
         if ((vlstr_typeid = H5Tcreate(H5T_STRING, (size_t)H5T_VARIABLE)) < 0) ERR;
 
-        /* Create fixed-length string datatype */
+        /* Create fixed-length string data type */
         if ((fixstr_typeid = H5Tcreate(H5T_STRING, (size_t)10)) < 0) ERR;
 
 
@@ -213,7 +213,7 @@ main()
         if (H5Pset_attr_creation_order(dcplid, H5P_CRT_ORDER_TRACKED) < 0) ERR;
 
 
-        /* Create scalar dataset with VL string datatype */
+        /* Create scalar dataset with VL string data type */
         if ((dsetid = H5Dcreate2(fileid, VSTR_VAR1_NAME, vlstr_typeid, scalar_spaceid, H5P_DEFAULT, dcplid, H5P_DEFAULT)) < 0) ERR;
 
         /* Add attributes to dataset */
@@ -223,7 +223,7 @@ main()
         if (H5Dclose(dsetid) < 0) ERR;
 
 
-        /* Create scalar dataset with fixed-length string datatype */
+        /* Create scalar dataset with fixed-length string data type */
         if ((dsetid = H5Dcreate2(fileid, FSTR_VAR_NAME, fixstr_typeid, scalar_spaceid, H5P_DEFAULT, dcplid, H5P_DEFAULT)) < 0) ERR;
 
         /* Add attributes to dataset */
@@ -233,7 +233,7 @@ main()
         if (H5Dclose(dsetid) < 0) ERR;
 
 
-        /* Create scalar dataset with native integer datatype */
+        /* Create scalar dataset with native integer data type */
         if ((dsetid = H5Dcreate2(fileid, INT_VAR_NAME, H5T_NATIVE_INT, scalar_spaceid, H5P_DEFAULT, dcplid, H5P_DEFAULT)) < 0) ERR;
 
         /* Add attributes to dataset */
@@ -250,7 +250,7 @@ main()
         /* Close dataset creation property list */
         if (H5Pclose(dcplid) < 0) ERR;
 
-        /* Close string datatypes */
+        /* Close string data types */
         if (H5Tclose(vlstr_typeid) < 0) ERR;
         if (H5Tclose(fixstr_typeid) < 0) ERR;
 

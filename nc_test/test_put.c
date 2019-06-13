@@ -56,7 +56,7 @@ hash_uchar(const int       cdf_format,
     double value;
 
     value = hash4(cdf_format, type, rank, index, itype);
-    
+
     if (value > uchar_max) return uchar_max;
     else if (value < uchar_min) return uchar_min;
     else return (uchar)value;
@@ -75,7 +75,7 @@ hash_schar(const int       cdf_format,
     double value;
 
     value = hash4(cdf_format, type, rank, index, itype);
-    
+
     if (value > schar_max) return schar_max;
     else if (value < schar_min) return schar_min;
     else return (schar)value;
@@ -94,7 +94,7 @@ hash_short(const int       cdf_format,
     double value;
 
     value = hash4(cdf_format, type, rank, index, itype);
-    
+
     if (value > short_max) return short_max;
     else if (value < short_min) return short_min;
     else return (short)value;
@@ -113,7 +113,7 @@ hash_int(const int       cdf_format,
     double value;
 
     value = hash4(cdf_format, type, rank, index, itype);
-    
+
     if (value > int_max) return int_max;
     else if (value < int_min) return int_min;
     else return (int)value;
@@ -132,7 +132,7 @@ hash_long(const int       cdf_format,
     double value;
 
     value = hash4(cdf_format, type, rank, index, itype);
-    
+
     if (value > long_max) return long_max;
     else if (value < long_min) return long_min;
     else return (long)value;
@@ -151,7 +151,7 @@ hash_float(const int       cdf_format,
     double value;
 
     value = hash4(cdf_format, type, rank, index, itype);
-    
+
     if (value > float_max) return float_max;
     else if (value < float_min) return float_min;
     else return (float)value;
@@ -170,7 +170,7 @@ hash_double(const int       cdf_format,
     double value;
 
     value = hash4(cdf_format, type, rank, index, itype);
-    
+
     if (value > double_max) return double_max;
     else if (value < double_min) return double_min;
     else return (double)value;
@@ -189,7 +189,7 @@ hash_ushort(const int       cdf_format,
     double value;
 
     value = hash4(cdf_format, type, rank, index, itype);
-    
+
     if (value > ushort_max) return ushort_max;
     else if (value < ushort_min) return ushort_min;
     else return (ushort)value;
@@ -208,7 +208,7 @@ hash_uint(const int       cdf_format,
     double value;
 
     value = hash4(cdf_format, type, rank, index, itype);
-    
+
     if (value > uint_max) return uint_max;
     else if (value < uint_min) return uint_min;
     else return (uint)value;
@@ -227,7 +227,7 @@ hash_longlong(const int       cdf_format,
     double value;
 
     value = hash4(cdf_format, type, rank, index, itype);
-    
+
     if (value > longlong_max) return longlong_max;
     else if (value < longlong_min) return longlong_min;
     else return (longlong)value;
@@ -246,7 +246,7 @@ hash_ulonglong(const int       cdf_format,
     double value;
 
     value = hash4(cdf_format, type, rank, index, itype);
-    
+
     if (value > ulonglong_max) return ulonglong_max;
     else if (value < ulonglong_min) return ulonglong_min;
     else return (ulonglong)value;
@@ -307,7 +307,7 @@ check_vars_text(const char *filename, int numVars)
                 IF (err != NC_NOERR) {
                     error("nc_get_var1_text: %s",  nc_strerror(err));
                 } else {
-                    
+
                     IF (!equal((double)value,expect,var_type[i],NCT_TEXT)){
                         error("Var value read not that expected");
                         if (verbose) {
@@ -386,7 +386,7 @@ check_vars_uchar(const char *filename, int numVars)
                 IF (err != NC_NOERR) {
                     error("nc_get_var1_uchar: %s",  nc_strerror(err));
                 } else {
-                    
+
                     /* In put_vars(), nc_put_vara_double() is used to write
                      * variables of type NC_BYTE to files. For uchar APIs,
                      * NC_BYTE variables are treated as unsigned for CDF-1 and 2
@@ -474,7 +474,7 @@ check_vars_schar(const char *filename, int numVars)
                 IF (err != NC_NOERR) {
                     error("nc_get_var1_schar: %s",  nc_strerror(err));
                 } else {
-                    
+
                     IF (!equal((double)value,expect,var_type[i],NCT_SCHAR)){
                         error("Var value read not that expected");
                         if (verbose) {
@@ -553,7 +553,7 @@ check_vars_short(const char *filename, int numVars)
                 IF (err != NC_NOERR) {
                     error("nc_get_var1_short: %s",  nc_strerror(err));
                 } else {
-                    
+
                     IF (!equal((double)value,expect,var_type[i],NCT_SHORT)){
                         error("Var value read not that expected");
                         if (verbose) {
@@ -632,7 +632,7 @@ check_vars_int(const char *filename, int numVars)
                 IF (err != NC_NOERR) {
                     error("nc_get_var1_int: %s",  nc_strerror(err));
                 } else {
-                    
+
                     IF (!equal((double)value,expect,var_type[i],NCT_INT)){
                         error("Var value read not that expected");
                         if (verbose) {
@@ -711,7 +711,7 @@ check_vars_long(const char *filename, int numVars)
                 IF (err != NC_NOERR) {
                     error("nc_get_var1_long: %s",  nc_strerror(err));
                 } else {
-                    
+
                     IF (!equal((double)value,expect,var_type[i],NCT_LONG)){
                         error("Var value read not that expected");
                         if (verbose) {
@@ -790,7 +790,7 @@ check_vars_float(const char *filename, int numVars)
                 IF (err != NC_NOERR) {
                     error("nc_get_var1_float: %s",  nc_strerror(err));
                 } else {
-                    
+
                     IF (!equal((double)value,expect,var_type[i],NCT_FLOAT)){
                         error("Var value read not that expected");
                         if (verbose) {
@@ -869,7 +869,7 @@ check_vars_double(const char *filename, int numVars)
                 IF (err != NC_NOERR) {
                     error("nc_get_var1_double: %s",  nc_strerror(err));
                 } else {
-                    
+
                     IF (!equal((double)value,expect,var_type[i],NCT_DOUBLE)){
                         error("Var value read not that expected");
                         if (verbose) {
@@ -948,7 +948,7 @@ check_vars_ushort(const char *filename, int numVars)
                 IF (err != NC_NOERR) {
                     error("nc_get_var1_ushort: %s",  nc_strerror(err));
                 } else {
-                    
+
                     IF (!equal((double)value,expect,var_type[i],NCT_USHORT)){
                         error("Var value read not that expected");
                         if (verbose) {
@@ -1027,7 +1027,7 @@ check_vars_uint(const char *filename, int numVars)
                 IF (err != NC_NOERR) {
                     error("nc_get_var1_uint: %s",  nc_strerror(err));
                 } else {
-                    
+
                     IF (!equal((double)value,expect,var_type[i],NCT_UINT)){
                         error("Var value read not that expected");
                         if (verbose) {
@@ -1106,7 +1106,7 @@ check_vars_longlong(const char *filename, int numVars)
                 IF (err != NC_NOERR) {
                     error("nc_get_var1_longlong: %s",  nc_strerror(err));
                 } else {
-                    
+
                     IF (!equal((double)value,expect,var_type[i],NCT_LONGLONG)){
                         error("Var value read not that expected");
                         if (verbose) {
@@ -1185,7 +1185,7 @@ check_vars_ulonglong(const char *filename, int numVars)
                 IF (err != NC_NOERR) {
                     error("nc_get_var1_ulonglong: %s",  nc_strerror(err));
                 } else {
-                    
+
                     IF (!equal((double)value,expect,var_type[i],NCT_ULONGLONG)){
                         error("Var value read not that expected");
                         if (verbose) {
@@ -1273,7 +1273,7 @@ check_atts_text(int ncid, int numGatts, int numVars)
             }
             for (k = 0; k < length; k++) {
                 if (1) {
-                    
+
                     IF (!equal((double)value[k],expect[k],datatype,NCT_TEXT)) {
                         error("att. value read not that expected");
                         if (verbose) {
@@ -1353,7 +1353,7 @@ check_atts_uchar(int ncid, int numGatts, int numVars)
             }
             for (k = 0; k < length; k++) {
                 if (inRange3(cdf_format, (double)expect[k],datatype,NCT_UCHAR) && (expect[k] >= uchar_min && expect[k] <= uchar_max)) {
-                    
+
                     /* In put_vars(), nc_put_vara_double() is used to write
                      * variables of type NC_BYTE to files. For uchar APIs,
                      * NC_BYTE variables are treated as unsigned for CDF-1 and 2
@@ -1442,7 +1442,7 @@ check_atts_schar(int ncid, int numGatts, int numVars)
             }
             for (k = 0; k < length; k++) {
                 if (inRange3(cdf_format, (double)expect[k],datatype,NCT_SCHAR) && (expect[k] >= schar_min && expect[k] <= schar_max)) {
-                    
+
                     IF (!equal((double)value[k],expect[k],datatype,NCT_SCHAR)) {
                         error("att. value read not that expected");
                         if (verbose) {
@@ -1522,7 +1522,7 @@ check_atts_short(int ncid, int numGatts, int numVars)
             }
             for (k = 0; k < length; k++) {
                 if (inRange3(cdf_format, (double)expect[k],datatype,NCT_SHORT) && (expect[k] >= short_min && expect[k] <= short_max)) {
-                    
+
                     IF (!equal((double)value[k],expect[k],datatype,NCT_SHORT)) {
                         error("att. value read not that expected");
                         if (verbose) {
@@ -1602,7 +1602,7 @@ check_atts_int(int ncid, int numGatts, int numVars)
             }
             for (k = 0; k < length; k++) {
                 if (inRange3(cdf_format, (double)expect[k],datatype,NCT_INT) && (expect[k] >= int_min && expect[k] <= int_max)) {
-                    
+
                     IF (!equal((double)value[k],expect[k],datatype,NCT_INT)) {
                         error("att. value read not that expected");
                         if (verbose) {
@@ -1682,7 +1682,7 @@ check_atts_long(int ncid, int numGatts, int numVars)
             }
             for (k = 0; k < length; k++) {
                 if (inRange3(cdf_format, (double)expect[k],datatype,NCT_LONG) && (expect[k] >= long_min && expect[k] <= long_max)) {
-                    
+
                     IF (!equal((double)value[k],expect[k],datatype,NCT_LONG)) {
                         error("att. value read not that expected");
                         if (verbose) {
@@ -1762,7 +1762,7 @@ check_atts_float(int ncid, int numGatts, int numVars)
             }
             for (k = 0; k < length; k++) {
                 if (inRange3(cdf_format, (double)expect[k],datatype,NCT_FLOAT) && (expect[k] >= float_min && expect[k] <= float_max)) {
-                    
+
                     IF (!equal((double)value[k],expect[k],datatype,NCT_FLOAT)) {
                         error("att. value read not that expected");
                         if (verbose) {
@@ -1842,7 +1842,7 @@ check_atts_double(int ncid, int numGatts, int numVars)
             }
             for (k = 0; k < length; k++) {
                 if (inRange3(cdf_format, (double)expect[k],datatype,NCT_DOUBLE) && (expect[k] >= double_min && expect[k] <= double_max)) {
-                    
+
                     IF (!equal((double)value[k],expect[k],datatype,NCT_DOUBLE)) {
                         error("att. value read not that expected");
                         if (verbose) {
@@ -1922,7 +1922,7 @@ check_atts_ushort(int ncid, int numGatts, int numVars)
             }
             for (k = 0; k < length; k++) {
                 if (inRange3(cdf_format, (double)expect[k],datatype,NCT_USHORT) && (expect[k] >= ushort_min && expect[k] <= ushort_max)) {
-                    
+
                     IF (!equal((double)value[k],expect[k],datatype,NCT_USHORT)) {
                         error("att. value read not that expected");
                         if (verbose) {
@@ -2002,7 +2002,7 @@ check_atts_uint(int ncid, int numGatts, int numVars)
             }
             for (k = 0; k < length; k++) {
                 if (inRange3(cdf_format, (double)expect[k],datatype,NCT_UINT) && (expect[k] >= uint_min && expect[k] <= uint_max)) {
-                    
+
                     IF (!equal((double)value[k],expect[k],datatype,NCT_UINT)) {
                         error("att. value read not that expected");
                         if (verbose) {
@@ -2082,7 +2082,7 @@ check_atts_longlong(int ncid, int numGatts, int numVars)
             }
             for (k = 0; k < length; k++) {
                 if (inRange3(cdf_format, (double)expect[k],datatype,NCT_LONGLONG) && (expect[k] >= longlong_min && expect[k] <= longlong_max)) {
-                    
+
                     IF (!equal((double)value[k],expect[k],datatype,NCT_LONGLONG)) {
                         error("att. value read not that expected");
                         if (verbose) {
@@ -2162,7 +2162,7 @@ check_atts_ulonglong(int ncid, int numGatts, int numVars)
             }
             for (k = 0; k < length; k++) {
                 if (inRange3(cdf_format, (double)expect[k],datatype,NCT_ULONGLONG) && (expect[k] >= ulonglong_min && expect[k] <= ulonglong_max)) {
-                    
+
                     IF (!equal((double)value[k],expect[k],datatype,NCT_ULONGLONG)) {
                         error("att. value read not that expected");
                         if (verbose) {
@@ -2271,7 +2271,7 @@ test_nc_put_var1_text(void)
                         error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                     ELSE_NOK
                 }
-                
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -2384,7 +2384,7 @@ test_nc_put_var1_uchar(void)
                         error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                     ELSE_NOK
                 }
-                
+
 #if !defined(USE_PNETCDF) || (PNETCDF_VERSION_MAJOR==1 && PNETCDF_VERSION_MINOR>=8)
                     else {
 
@@ -2498,7 +2498,7 @@ test_nc_put_var1_schar(void)
                         error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                     ELSE_NOK
                 }
-                
+
 #if defined(USE_PNETCDF) && PNETCDF_VERSION_MAJOR==1 && PNETCDF_VERSION_MINOR<7
                     else if (cdf_format < NC_FORMAT_CDF5) {
 #else
@@ -2614,7 +2614,7 @@ test_nc_put_var1_short(void)
                         error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                     ELSE_NOK
                 }
-                
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -2727,7 +2727,7 @@ test_nc_put_var1_int(void)
                         error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                     ELSE_NOK
                 }
-                
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -2840,7 +2840,7 @@ test_nc_put_var1_long(void)
                         error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                     ELSE_NOK
                 }
-                
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -2953,7 +2953,7 @@ test_nc_put_var1_float(void)
                         error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                     ELSE_NOK
                 }
-                
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -3066,7 +3066,7 @@ test_nc_put_var1_double(void)
                         error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                     ELSE_NOK
                 }
-                
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -3179,7 +3179,7 @@ test_nc_put_var1_ushort(void)
                         error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                     ELSE_NOK
                 }
-                
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -3292,7 +3292,7 @@ test_nc_put_var1_uint(void)
                         error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                     ELSE_NOK
                 }
-                
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -3405,7 +3405,7 @@ test_nc_put_var1_longlong(void)
                         error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                     ELSE_NOK
                 }
-                
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -3518,7 +3518,7 @@ test_nc_put_var1_ulonglong(void)
                         error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                     ELSE_NOK
                 }
-                
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -3620,7 +3620,7 @@ test_nc_put_var_text(void)
                     error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                 ELSE_NOK
             }
-            
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -3752,7 +3752,7 @@ test_nc_put_var_uchar(void)
             IF (err != 0) error("error in toMixedBase");
             value[j]= hash_uchar(cdf_format,var_type[i], var_rank[i], index,
                               NCT_UCHAR);
-            
+
                 allInExtRange &= inRange3(cdf_format, (double)value[j],
                                           var_type[i], NCT_UCHAR);
         }
@@ -3763,7 +3763,7 @@ test_nc_put_var_uchar(void)
                     error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                 ELSE_NOK
             }
-            
+
 #if !defined(USE_PNETCDF) || (PNETCDF_VERSION_MAJOR==1 && PNETCDF_VERSION_MINOR>=8)
                     else {
 
@@ -3803,7 +3803,7 @@ test_nc_put_var_uchar(void)
             IF (err != 0) error("error in toMixedBase");
             value[j]= hash_uchar(cdf_format,var_type[i], var_rank[i], index,
                               NCT_UCHAR);
-            
+
                 allInExtRange &= inRange3(cdf_format, (double)value[j],
                                           var_type[i], NCT_UCHAR);
         }
@@ -3896,7 +3896,7 @@ test_nc_put_var_schar(void)
             IF (err != 0) error("error in toMixedBase");
             value[j]= hash_schar(cdf_format,var_type[i], var_rank[i], index,
                               NCT_SCHAR);
-            
+
                 allInExtRange &= inRange3(cdf_format, (double)value[j],
                                           var_type[i], NCT_SCHAR);
         }
@@ -3907,7 +3907,7 @@ test_nc_put_var_schar(void)
                     error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                 ELSE_NOK
             }
-            
+
 #if defined(USE_PNETCDF) && PNETCDF_VERSION_MAJOR==1 && PNETCDF_VERSION_MINOR<7
                     else if (cdf_format < NC_FORMAT_CDF5) {
 #else
@@ -3949,7 +3949,7 @@ test_nc_put_var_schar(void)
             IF (err != 0) error("error in toMixedBase");
             value[j]= hash_schar(cdf_format,var_type[i], var_rank[i], index,
                               NCT_SCHAR);
-            
+
                 allInExtRange &= inRange3(cdf_format, (double)value[j],
                                           var_type[i], NCT_SCHAR);
         }
@@ -4042,7 +4042,7 @@ test_nc_put_var_short(void)
             IF (err != 0) error("error in toMixedBase");
             value[j]= hash_short(cdf_format,var_type[i], var_rank[i], index,
                               NCT_SHORT);
-            
+
                 allInExtRange &= inRange3(cdf_format, (double)value[j],
                                           var_type[i], NCT_SHORT);
         }
@@ -4053,7 +4053,7 @@ test_nc_put_var_short(void)
                     error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                 ELSE_NOK
             }
-            
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -4092,7 +4092,7 @@ test_nc_put_var_short(void)
             IF (err != 0) error("error in toMixedBase");
             value[j]= hash_short(cdf_format,var_type[i], var_rank[i], index,
                               NCT_SHORT);
-            
+
                 allInExtRange &= inRange3(cdf_format, (double)value[j],
                                           var_type[i], NCT_SHORT);
         }
@@ -4185,7 +4185,7 @@ test_nc_put_var_int(void)
             IF (err != 0) error("error in toMixedBase");
             value[j]= hash_int(cdf_format,var_type[i], var_rank[i], index,
                               NCT_INT);
-            
+
                 allInExtRange &= inRange3(cdf_format, (double)value[j],
                                           var_type[i], NCT_INT);
         }
@@ -4196,7 +4196,7 @@ test_nc_put_var_int(void)
                     error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                 ELSE_NOK
             }
-            
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -4235,7 +4235,7 @@ test_nc_put_var_int(void)
             IF (err != 0) error("error in toMixedBase");
             value[j]= hash_int(cdf_format,var_type[i], var_rank[i], index,
                               NCT_INT);
-            
+
                 allInExtRange &= inRange3(cdf_format, (double)value[j],
                                           var_type[i], NCT_INT);
         }
@@ -4328,7 +4328,7 @@ test_nc_put_var_long(void)
             IF (err != 0) error("error in toMixedBase");
             value[j]= hash_long(cdf_format,var_type[i], var_rank[i], index,
                               NCT_LONG);
-            
+
                 allInExtRange &= inRange3(cdf_format, (double)value[j],
                                           var_type[i], NCT_LONG);
         }
@@ -4339,7 +4339,7 @@ test_nc_put_var_long(void)
                     error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                 ELSE_NOK
             }
-            
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -4378,7 +4378,7 @@ test_nc_put_var_long(void)
             IF (err != 0) error("error in toMixedBase");
             value[j]= hash_long(cdf_format,var_type[i], var_rank[i], index,
                               NCT_LONG);
-            
+
                 allInExtRange &= inRange3(cdf_format, (double)value[j],
                                           var_type[i], NCT_LONG);
         }
@@ -4471,7 +4471,7 @@ test_nc_put_var_float(void)
             IF (err != 0) error("error in toMixedBase");
             value[j]= hash_float(cdf_format,var_type[i], var_rank[i], index,
                               NCT_FLOAT);
-            
+
                 allInExtRange &= inRange3(cdf_format, (double)value[j],
                                           var_type[i], NCT_FLOAT);
         }
@@ -4482,7 +4482,7 @@ test_nc_put_var_float(void)
                     error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                 ELSE_NOK
             }
-            
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -4521,7 +4521,7 @@ test_nc_put_var_float(void)
             IF (err != 0) error("error in toMixedBase");
             value[j]= hash_float(cdf_format,var_type[i], var_rank[i], index,
                               NCT_FLOAT);
-            
+
                 allInExtRange &= inRange3(cdf_format, (double)value[j],
                                           var_type[i], NCT_FLOAT);
         }
@@ -4614,7 +4614,7 @@ test_nc_put_var_double(void)
             IF (err != 0) error("error in toMixedBase");
             value[j]= hash_double(cdf_format,var_type[i], var_rank[i], index,
                               NCT_DOUBLE);
-            
+
                 allInExtRange &= inRange3(cdf_format, (double)value[j],
                                           var_type[i], NCT_DOUBLE);
         }
@@ -4625,7 +4625,7 @@ test_nc_put_var_double(void)
                     error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                 ELSE_NOK
             }
-            
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -4664,7 +4664,7 @@ test_nc_put_var_double(void)
             IF (err != 0) error("error in toMixedBase");
             value[j]= hash_double(cdf_format,var_type[i], var_rank[i], index,
                               NCT_DOUBLE);
-            
+
                 allInExtRange &= inRange3(cdf_format, (double)value[j],
                                           var_type[i], NCT_DOUBLE);
         }
@@ -4757,7 +4757,7 @@ test_nc_put_var_ushort(void)
             IF (err != 0) error("error in toMixedBase");
             value[j]= hash_ushort(cdf_format,var_type[i], var_rank[i], index,
                               NCT_USHORT);
-            
+
                 allInExtRange &= inRange3(cdf_format, (double)value[j],
                                           var_type[i], NCT_USHORT);
         }
@@ -4768,7 +4768,7 @@ test_nc_put_var_ushort(void)
                     error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                 ELSE_NOK
             }
-            
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -4807,7 +4807,7 @@ test_nc_put_var_ushort(void)
             IF (err != 0) error("error in toMixedBase");
             value[j]= hash_ushort(cdf_format,var_type[i], var_rank[i], index,
                               NCT_USHORT);
-            
+
                 allInExtRange &= inRange3(cdf_format, (double)value[j],
                                           var_type[i], NCT_USHORT);
         }
@@ -4900,7 +4900,7 @@ test_nc_put_var_uint(void)
             IF (err != 0) error("error in toMixedBase");
             value[j]= hash_uint(cdf_format,var_type[i], var_rank[i], index,
                               NCT_UINT);
-            
+
                 allInExtRange &= inRange3(cdf_format, (double)value[j],
                                           var_type[i], NCT_UINT);
         }
@@ -4911,7 +4911,7 @@ test_nc_put_var_uint(void)
                     error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                 ELSE_NOK
             }
-            
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -4950,7 +4950,7 @@ test_nc_put_var_uint(void)
             IF (err != 0) error("error in toMixedBase");
             value[j]= hash_uint(cdf_format,var_type[i], var_rank[i], index,
                               NCT_UINT);
-            
+
                 allInExtRange &= inRange3(cdf_format, (double)value[j],
                                           var_type[i], NCT_UINT);
         }
@@ -5043,7 +5043,7 @@ test_nc_put_var_longlong(void)
             IF (err != 0) error("error in toMixedBase");
             value[j]= hash_longlong(cdf_format,var_type[i], var_rank[i], index,
                               NCT_LONGLONG);
-            
+
                 allInExtRange &= inRange3(cdf_format, (double)value[j],
                                           var_type[i], NCT_LONGLONG);
         }
@@ -5054,7 +5054,7 @@ test_nc_put_var_longlong(void)
                     error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                 ELSE_NOK
             }
-            
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -5093,7 +5093,7 @@ test_nc_put_var_longlong(void)
             IF (err != 0) error("error in toMixedBase");
             value[j]= hash_longlong(cdf_format,var_type[i], var_rank[i], index,
                               NCT_LONGLONG);
-            
+
                 allInExtRange &= inRange3(cdf_format, (double)value[j],
                                           var_type[i], NCT_LONGLONG);
         }
@@ -5186,7 +5186,7 @@ test_nc_put_var_ulonglong(void)
             IF (err != 0) error("error in toMixedBase");
             value[j]= hash_ulonglong(cdf_format,var_type[i], var_rank[i], index,
                               NCT_ULONGLONG);
-            
+
                 allInExtRange &= inRange3(cdf_format, (double)value[j],
                                           var_type[i], NCT_ULONGLONG);
         }
@@ -5197,7 +5197,7 @@ test_nc_put_var_ulonglong(void)
                     error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                 ELSE_NOK
             }
-            
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -5236,7 +5236,7 @@ test_nc_put_var_ulonglong(void)
             IF (err != 0) error("error in toMixedBase");
             value[j]= hash_ulonglong(cdf_format,var_type[i], var_rank[i], index,
                               NCT_ULONGLONG);
-            
+
                 allInExtRange &= inRange3(cdf_format, (double)value[j],
                                           var_type[i], NCT_ULONGLONG);
         }
@@ -5427,7 +5427,7 @@ test_nc_put_vara_text(void)
                         error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                     ELSE_NOK
                 }
-                
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -5599,7 +5599,7 @@ test_nc_put_vara_uchar(void)
                     index[d] += start[d];
                 value[j]= hash_uchar(cdf_format,var_type[i], var_rank[i], index,
                                   NCT_UCHAR);
-                
+
                     allInExtRange &= inRange3(cdf_format, (double)value[j],
                                               var_type[i], NCT_UCHAR);
             }
@@ -5610,7 +5610,7 @@ test_nc_put_vara_uchar(void)
                         error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                     ELSE_NOK
                 }
-                
+
 #if !defined(USE_PNETCDF) || (PNETCDF_VERSION_MAJOR==1 && PNETCDF_VERSION_MINOR>=8)
                     else {
 
@@ -5783,7 +5783,7 @@ test_nc_put_vara_schar(void)
                     index[d] += start[d];
                 value[j]= hash_schar(cdf_format,var_type[i], var_rank[i], index,
                                   NCT_SCHAR);
-                
+
                     allInExtRange &= inRange3(cdf_format, (double)value[j],
                                               var_type[i], NCT_SCHAR);
             }
@@ -5794,7 +5794,7 @@ test_nc_put_vara_schar(void)
                         error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                     ELSE_NOK
                 }
-                
+
 #if defined(USE_PNETCDF) && PNETCDF_VERSION_MAJOR==1 && PNETCDF_VERSION_MINOR<7
                     else if (cdf_format < NC_FORMAT_CDF5) {
 #else
@@ -5969,7 +5969,7 @@ test_nc_put_vara_short(void)
                     index[d] += start[d];
                 value[j]= hash_short(cdf_format,var_type[i], var_rank[i], index,
                                   NCT_SHORT);
-                
+
                     allInExtRange &= inRange3(cdf_format, (double)value[j],
                                               var_type[i], NCT_SHORT);
             }
@@ -5980,7 +5980,7 @@ test_nc_put_vara_short(void)
                         error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                     ELSE_NOK
                 }
-                
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -6152,7 +6152,7 @@ test_nc_put_vara_int(void)
                     index[d] += start[d];
                 value[j]= hash_int(cdf_format,var_type[i], var_rank[i], index,
                                   NCT_INT);
-                
+
                     allInExtRange &= inRange3(cdf_format, (double)value[j],
                                               var_type[i], NCT_INT);
             }
@@ -6163,7 +6163,7 @@ test_nc_put_vara_int(void)
                         error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                     ELSE_NOK
                 }
-                
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -6335,7 +6335,7 @@ test_nc_put_vara_long(void)
                     index[d] += start[d];
                 value[j]= hash_long(cdf_format,var_type[i], var_rank[i], index,
                                   NCT_LONG);
-                
+
                     allInExtRange &= inRange3(cdf_format, (double)value[j],
                                               var_type[i], NCT_LONG);
             }
@@ -6346,7 +6346,7 @@ test_nc_put_vara_long(void)
                         error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                     ELSE_NOK
                 }
-                
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -6518,7 +6518,7 @@ test_nc_put_vara_float(void)
                     index[d] += start[d];
                 value[j]= hash_float(cdf_format,var_type[i], var_rank[i], index,
                                   NCT_FLOAT);
-                
+
                     allInExtRange &= inRange3(cdf_format, (double)value[j],
                                               var_type[i], NCT_FLOAT);
             }
@@ -6529,7 +6529,7 @@ test_nc_put_vara_float(void)
                         error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                     ELSE_NOK
                 }
-                
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -6701,7 +6701,7 @@ test_nc_put_vara_double(void)
                     index[d] += start[d];
                 value[j]= hash_double(cdf_format,var_type[i], var_rank[i], index,
                                   NCT_DOUBLE);
-                
+
                     allInExtRange &= inRange3(cdf_format, (double)value[j],
                                               var_type[i], NCT_DOUBLE);
             }
@@ -6712,7 +6712,7 @@ test_nc_put_vara_double(void)
                         error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                     ELSE_NOK
                 }
-                
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -6884,7 +6884,7 @@ test_nc_put_vara_ushort(void)
                     index[d] += start[d];
                 value[j]= hash_ushort(cdf_format,var_type[i], var_rank[i], index,
                                   NCT_USHORT);
-                
+
                     allInExtRange &= inRange3(cdf_format, (double)value[j],
                                               var_type[i], NCT_USHORT);
             }
@@ -6895,7 +6895,7 @@ test_nc_put_vara_ushort(void)
                         error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                     ELSE_NOK
                 }
-                
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -7067,7 +7067,7 @@ test_nc_put_vara_uint(void)
                     index[d] += start[d];
                 value[j]= hash_uint(cdf_format,var_type[i], var_rank[i], index,
                                   NCT_UINT);
-                
+
                     allInExtRange &= inRange3(cdf_format, (double)value[j],
                                               var_type[i], NCT_UINT);
             }
@@ -7078,7 +7078,7 @@ test_nc_put_vara_uint(void)
                         error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                     ELSE_NOK
                 }
-                
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -7250,7 +7250,7 @@ test_nc_put_vara_longlong(void)
                     index[d] += start[d];
                 value[j]= hash_longlong(cdf_format,var_type[i], var_rank[i], index,
                                   NCT_LONGLONG);
-                
+
                     allInExtRange &= inRange3(cdf_format, (double)value[j],
                                               var_type[i], NCT_LONGLONG);
             }
@@ -7261,7 +7261,7 @@ test_nc_put_vara_longlong(void)
                         error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                     ELSE_NOK
                 }
-                
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -7433,7 +7433,7 @@ test_nc_put_vara_ulonglong(void)
                     index[d] += start[d];
                 value[j]= hash_ulonglong(cdf_format,var_type[i], var_rank[i], index,
                                   NCT_ULONGLONG);
-                
+
                     allInExtRange &= inRange3(cdf_format, (double)value[j],
                                               var_type[i], NCT_ULONGLONG);
             }
@@ -7444,7 +7444,7 @@ test_nc_put_vara_ulonglong(void)
                         error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                     ELSE_NOK
                 }
-                
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -7658,7 +7658,7 @@ test_nc_put_vars_text(void)
                             error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                         ELSE_NOK
                     }
-                    
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -7859,7 +7859,7 @@ test_nc_put_vars_uchar(void)
                         index2[d] = index[d] + index2[d] * (size_t)stride[d];
                     value[j] = hash_uchar(cdf_format,var_type[i], var_rank[i],
                                        index2, NCT_UCHAR);
-                    
+
                         allInExtRange &= inRange3(cdf_format, (double)value[j],
                                                   var_type[i], NCT_UCHAR);
                 }
@@ -7870,7 +7870,7 @@ test_nc_put_vars_uchar(void)
                             error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                         ELSE_NOK
                     }
-                    
+
 #if !defined(USE_PNETCDF) || (PNETCDF_VERSION_MAJOR==1 && PNETCDF_VERSION_MINOR>=8)
                     else {
 
@@ -8072,7 +8072,7 @@ test_nc_put_vars_schar(void)
                         index2[d] = index[d] + index2[d] * (size_t)stride[d];
                     value[j] = hash_schar(cdf_format,var_type[i], var_rank[i],
                                        index2, NCT_SCHAR);
-                    
+
                         allInExtRange &= inRange3(cdf_format, (double)value[j],
                                                   var_type[i], NCT_SCHAR);
                 }
@@ -8083,7 +8083,7 @@ test_nc_put_vars_schar(void)
                             error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                         ELSE_NOK
                     }
-                    
+
 #if defined(USE_PNETCDF) && PNETCDF_VERSION_MAJOR==1 && PNETCDF_VERSION_MINOR<7
                     else if (cdf_format < NC_FORMAT_CDF5) {
 #else
@@ -8287,7 +8287,7 @@ test_nc_put_vars_short(void)
                         index2[d] = index[d] + index2[d] * (size_t)stride[d];
                     value[j] = hash_short(cdf_format,var_type[i], var_rank[i],
                                        index2, NCT_SHORT);
-                    
+
                         allInExtRange &= inRange3(cdf_format, (double)value[j],
                                                   var_type[i], NCT_SHORT);
                 }
@@ -8298,7 +8298,7 @@ test_nc_put_vars_short(void)
                             error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                         ELSE_NOK
                     }
-                    
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -8499,7 +8499,7 @@ test_nc_put_vars_int(void)
                         index2[d] = index[d] + index2[d] * (size_t)stride[d];
                     value[j] = hash_int(cdf_format,var_type[i], var_rank[i],
                                        index2, NCT_INT);
-                    
+
                         allInExtRange &= inRange3(cdf_format, (double)value[j],
                                                   var_type[i], NCT_INT);
                 }
@@ -8510,7 +8510,7 @@ test_nc_put_vars_int(void)
                             error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                         ELSE_NOK
                     }
-                    
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -8711,7 +8711,7 @@ test_nc_put_vars_long(void)
                         index2[d] = index[d] + index2[d] * (size_t)stride[d];
                     value[j] = hash_long(cdf_format,var_type[i], var_rank[i],
                                        index2, NCT_LONG);
-                    
+
                         allInExtRange &= inRange3(cdf_format, (double)value[j],
                                                   var_type[i], NCT_LONG);
                 }
@@ -8722,7 +8722,7 @@ test_nc_put_vars_long(void)
                             error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                         ELSE_NOK
                     }
-                    
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -8923,7 +8923,7 @@ test_nc_put_vars_float(void)
                         index2[d] = index[d] + index2[d] * (size_t)stride[d];
                     value[j] = hash_float(cdf_format,var_type[i], var_rank[i],
                                        index2, NCT_FLOAT);
-                    
+
                         allInExtRange &= inRange3(cdf_format, (double)value[j],
                                                   var_type[i], NCT_FLOAT);
                 }
@@ -8934,7 +8934,7 @@ test_nc_put_vars_float(void)
                             error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                         ELSE_NOK
                     }
-                    
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -9135,7 +9135,7 @@ test_nc_put_vars_double(void)
                         index2[d] = index[d] + index2[d] * (size_t)stride[d];
                     value[j] = hash_double(cdf_format,var_type[i], var_rank[i],
                                        index2, NCT_DOUBLE);
-                    
+
                         allInExtRange &= inRange3(cdf_format, (double)value[j],
                                                   var_type[i], NCT_DOUBLE);
                 }
@@ -9146,7 +9146,7 @@ test_nc_put_vars_double(void)
                             error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                         ELSE_NOK
                     }
-                    
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -9347,7 +9347,7 @@ test_nc_put_vars_ushort(void)
                         index2[d] = index[d] + index2[d] * (size_t)stride[d];
                     value[j] = hash_ushort(cdf_format,var_type[i], var_rank[i],
                                        index2, NCT_USHORT);
-                    
+
                         allInExtRange &= inRange3(cdf_format, (double)value[j],
                                                   var_type[i], NCT_USHORT);
                 }
@@ -9358,7 +9358,7 @@ test_nc_put_vars_ushort(void)
                             error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                         ELSE_NOK
                     }
-                    
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -9559,7 +9559,7 @@ test_nc_put_vars_uint(void)
                         index2[d] = index[d] + index2[d] * (size_t)stride[d];
                     value[j] = hash_uint(cdf_format,var_type[i], var_rank[i],
                                        index2, NCT_UINT);
-                    
+
                         allInExtRange &= inRange3(cdf_format, (double)value[j],
                                                   var_type[i], NCT_UINT);
                 }
@@ -9570,7 +9570,7 @@ test_nc_put_vars_uint(void)
                             error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                         ELSE_NOK
                     }
-                    
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -9771,7 +9771,7 @@ test_nc_put_vars_longlong(void)
                         index2[d] = index[d] + index2[d] * (size_t)stride[d];
                     value[j] = hash_longlong(cdf_format,var_type[i], var_rank[i],
                                        index2, NCT_LONGLONG);
-                    
+
                         allInExtRange &= inRange3(cdf_format, (double)value[j],
                                                   var_type[i], NCT_LONGLONG);
                 }
@@ -9782,7 +9782,7 @@ test_nc_put_vars_longlong(void)
                             error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                         ELSE_NOK
                     }
-                    
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -9983,7 +9983,7 @@ test_nc_put_vars_ulonglong(void)
                         index2[d] = index[d] + index2[d] * (size_t)stride[d];
                     value[j] = hash_ulonglong(cdf_format,var_type[i], var_rank[i],
                                        index2, NCT_ULONGLONG);
-                    
+
                         allInExtRange &= inRange3(cdf_format, (double)value[j],
                                                   var_type[i], NCT_ULONGLONG);
                 }
@@ -9994,7 +9994,7 @@ test_nc_put_vars_ulonglong(void)
                             error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                         ELSE_NOK
                     }
-                    
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -10217,7 +10217,7 @@ test_nc_put_varm_text(void)
                             error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                         ELSE_NOK
                     }
-                    
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -10426,7 +10426,7 @@ test_nc_put_varm_uchar(void)
                         index2[d] = index[d] + index2[d] * (size_t)stride[d];
                     value[j] = hash_uchar(cdf_format,var_type[i], var_rank[i],
                                        index2, NCT_UCHAR);
-                    
+
                         allInExtRange &= inRange3(cdf_format, (double)value[j],
                                                   var_type[i], NCT_UCHAR);
                 }
@@ -10437,7 +10437,7 @@ test_nc_put_varm_uchar(void)
                             error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                         ELSE_NOK
                     }
-                    
+
 #if !defined(USE_PNETCDF) || (PNETCDF_VERSION_MAJOR==1 && PNETCDF_VERSION_MINOR>=8)
                     else {
 
@@ -10647,7 +10647,7 @@ test_nc_put_varm_schar(void)
                         index2[d] = index[d] + index2[d] * (size_t)stride[d];
                     value[j] = hash_schar(cdf_format,var_type[i], var_rank[i],
                                        index2, NCT_SCHAR);
-                    
+
                         allInExtRange &= inRange3(cdf_format, (double)value[j],
                                                   var_type[i], NCT_SCHAR);
                 }
@@ -10658,7 +10658,7 @@ test_nc_put_varm_schar(void)
                             error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                         ELSE_NOK
                     }
-                    
+
 #if defined(USE_PNETCDF) && PNETCDF_VERSION_MAJOR==1 && PNETCDF_VERSION_MINOR<7
                     else if (cdf_format < NC_FORMAT_CDF5) {
 #else
@@ -10870,7 +10870,7 @@ test_nc_put_varm_short(void)
                         index2[d] = index[d] + index2[d] * (size_t)stride[d];
                     value[j] = hash_short(cdf_format,var_type[i], var_rank[i],
                                        index2, NCT_SHORT);
-                    
+
                         allInExtRange &= inRange3(cdf_format, (double)value[j],
                                                   var_type[i], NCT_SHORT);
                 }
@@ -10881,7 +10881,7 @@ test_nc_put_varm_short(void)
                             error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                         ELSE_NOK
                     }
-                    
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -11090,7 +11090,7 @@ test_nc_put_varm_int(void)
                         index2[d] = index[d] + index2[d] * (size_t)stride[d];
                     value[j] = hash_int(cdf_format,var_type[i], var_rank[i],
                                        index2, NCT_INT);
-                    
+
                         allInExtRange &= inRange3(cdf_format, (double)value[j],
                                                   var_type[i], NCT_INT);
                 }
@@ -11101,7 +11101,7 @@ test_nc_put_varm_int(void)
                             error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                         ELSE_NOK
                     }
-                    
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -11310,7 +11310,7 @@ test_nc_put_varm_long(void)
                         index2[d] = index[d] + index2[d] * (size_t)stride[d];
                     value[j] = hash_long(cdf_format,var_type[i], var_rank[i],
                                        index2, NCT_LONG);
-                    
+
                         allInExtRange &= inRange3(cdf_format, (double)value[j],
                                                   var_type[i], NCT_LONG);
                 }
@@ -11321,7 +11321,7 @@ test_nc_put_varm_long(void)
                             error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                         ELSE_NOK
                     }
-                    
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -11530,7 +11530,7 @@ test_nc_put_varm_float(void)
                         index2[d] = index[d] + index2[d] * (size_t)stride[d];
                     value[j] = hash_float(cdf_format,var_type[i], var_rank[i],
                                        index2, NCT_FLOAT);
-                    
+
                         allInExtRange &= inRange3(cdf_format, (double)value[j],
                                                   var_type[i], NCT_FLOAT);
                 }
@@ -11541,7 +11541,7 @@ test_nc_put_varm_float(void)
                             error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                         ELSE_NOK
                     }
-                    
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -11750,7 +11750,7 @@ test_nc_put_varm_double(void)
                         index2[d] = index[d] + index2[d] * (size_t)stride[d];
                     value[j] = hash_double(cdf_format,var_type[i], var_rank[i],
                                        index2, NCT_DOUBLE);
-                    
+
                         allInExtRange &= inRange3(cdf_format, (double)value[j],
                                                   var_type[i], NCT_DOUBLE);
                 }
@@ -11761,7 +11761,7 @@ test_nc_put_varm_double(void)
                             error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                         ELSE_NOK
                     }
-                    
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -11970,7 +11970,7 @@ test_nc_put_varm_ushort(void)
                         index2[d] = index[d] + index2[d] * (size_t)stride[d];
                     value[j] = hash_ushort(cdf_format,var_type[i], var_rank[i],
                                        index2, NCT_USHORT);
-                    
+
                         allInExtRange &= inRange3(cdf_format, (double)value[j],
                                                   var_type[i], NCT_USHORT);
                 }
@@ -11981,7 +11981,7 @@ test_nc_put_varm_ushort(void)
                             error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                         ELSE_NOK
                     }
-                    
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -12190,7 +12190,7 @@ test_nc_put_varm_uint(void)
                         index2[d] = index[d] + index2[d] * (size_t)stride[d];
                     value[j] = hash_uint(cdf_format,var_type[i], var_rank[i],
                                        index2, NCT_UINT);
-                    
+
                         allInExtRange &= inRange3(cdf_format, (double)value[j],
                                                   var_type[i], NCT_UINT);
                 }
@@ -12201,7 +12201,7 @@ test_nc_put_varm_uint(void)
                             error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                         ELSE_NOK
                     }
-                    
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -12410,7 +12410,7 @@ test_nc_put_varm_longlong(void)
                         index2[d] = index[d] + index2[d] * (size_t)stride[d];
                     value[j] = hash_longlong(cdf_format,var_type[i], var_rank[i],
                                        index2, NCT_LONGLONG);
-                    
+
                         allInExtRange &= inRange3(cdf_format, (double)value[j],
                                                   var_type[i], NCT_LONGLONG);
                 }
@@ -12421,7 +12421,7 @@ test_nc_put_varm_longlong(void)
                             error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                         ELSE_NOK
                     }
-                    
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -12630,7 +12630,7 @@ test_nc_put_varm_ulonglong(void)
                         index2[d] = index[d] + index2[d] * (size_t)stride[d];
                     value[j] = hash_ulonglong(cdf_format,var_type[i], var_rank[i],
                                        index2, NCT_ULONGLONG);
-                    
+
                         allInExtRange &= inRange3(cdf_format, (double)value[j],
                                                   var_type[i], NCT_ULONGLONG);
                 }
@@ -12641,7 +12641,7 @@ test_nc_put_varm_ulonglong(void)
                             error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                         ELSE_NOK
                     }
-                    
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -12803,7 +12803,7 @@ test_nc_put_att_uchar(void)
                 for (allInExtRange = 1, k = 0; k < ATT_LEN(i,j); k++) {
                     ndx[0] = k;
                     value[k] = hash_uchar(cdf_format,ATT_TYPE(i,j), -1, ndx, NCT_UCHAR);
-                    
+
                         allInExtRange &= inRange3(cdf_format, (double)value[k], ATT_TYPE(i,j), NCT_UCHAR);
                 }
                 err = nc_put_att_uchar(ncid, i, ATT_NAME(i,j), ATT_TYPE(i,j), ATT_LEN(i,j), value);
@@ -12812,7 +12812,7 @@ test_nc_put_att_uchar(void)
                         error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                     ELSE_NOK
                 }
-                
+
 #if !defined(USE_PNETCDF) || (PNETCDF_VERSION_MAJOR==1 && PNETCDF_VERSION_MINOR>=8)
                     else {
 
@@ -12894,7 +12894,7 @@ test_nc_put_att_schar(void)
                 for (allInExtRange = 1, k = 0; k < ATT_LEN(i,j); k++) {
                     ndx[0] = k;
                     value[k] = hash_schar(cdf_format,ATT_TYPE(i,j), -1, ndx, NCT_SCHAR);
-                    
+
                         allInExtRange &= inRange3(cdf_format, (double)value[k], ATT_TYPE(i,j), NCT_SCHAR);
                 }
                 err = nc_put_att_schar(ncid, i, ATT_NAME(i,j), ATT_TYPE(i,j), ATT_LEN(i,j), value);
@@ -12903,7 +12903,7 @@ test_nc_put_att_schar(void)
                         error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                     ELSE_NOK
                 }
-                
+
 #if defined(USE_PNETCDF) && PNETCDF_VERSION_MAJOR==1 && PNETCDF_VERSION_MINOR<7
                     else if (cdf_format < NC_FORMAT_CDF5) {
 #else
@@ -12987,7 +12987,7 @@ test_nc_put_att_short(void)
                 for (allInExtRange = 1, k = 0; k < ATT_LEN(i,j); k++) {
                     ndx[0] = k;
                     value[k] = hash_short(cdf_format,ATT_TYPE(i,j), -1, ndx, NCT_SHORT);
-                    
+
                         allInExtRange &= inRange3(cdf_format, (double)value[k], ATT_TYPE(i,j), NCT_SHORT);
                 }
                 err = nc_put_att_short(ncid, i, ATT_NAME(i,j), ATT_TYPE(i,j), ATT_LEN(i,j), value);
@@ -12996,7 +12996,7 @@ test_nc_put_att_short(void)
                         error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                     ELSE_NOK
                 }
-                
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -13077,7 +13077,7 @@ test_nc_put_att_int(void)
                 for (allInExtRange = 1, k = 0; k < ATT_LEN(i,j); k++) {
                     ndx[0] = k;
                     value[k] = hash_int(cdf_format,ATT_TYPE(i,j), -1, ndx, NCT_INT);
-                    
+
                         allInExtRange &= inRange3(cdf_format, (double)value[k], ATT_TYPE(i,j), NCT_INT);
                 }
                 err = nc_put_att_int(ncid, i, ATT_NAME(i,j), ATT_TYPE(i,j), ATT_LEN(i,j), value);
@@ -13086,7 +13086,7 @@ test_nc_put_att_int(void)
                         error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                     ELSE_NOK
                 }
-                
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -13167,7 +13167,7 @@ test_nc_put_att_long(void)
                 for (allInExtRange = 1, k = 0; k < ATT_LEN(i,j); k++) {
                     ndx[0] = k;
                     value[k] = hash_long(cdf_format,ATT_TYPE(i,j), -1, ndx, NCT_LONG);
-                    
+
                         allInExtRange &= inRange3(cdf_format, (double)value[k], ATT_TYPE(i,j), NCT_LONG);
                 }
                 err = nc_put_att_long(ncid, i, ATT_NAME(i,j), ATT_TYPE(i,j), ATT_LEN(i,j), value);
@@ -13176,7 +13176,7 @@ test_nc_put_att_long(void)
                         error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                     ELSE_NOK
                 }
-                
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -13257,7 +13257,7 @@ test_nc_put_att_float(void)
                 for (allInExtRange = 1, k = 0; k < ATT_LEN(i,j); k++) {
                     ndx[0] = k;
                     value[k] = hash_float(cdf_format,ATT_TYPE(i,j), -1, ndx, NCT_FLOAT);
-                    
+
                         allInExtRange &= inRange3(cdf_format, (double)value[k], ATT_TYPE(i,j), NCT_FLOAT);
                 }
                 err = nc_put_att_float(ncid, i, ATT_NAME(i,j), ATT_TYPE(i,j), ATT_LEN(i,j), value);
@@ -13266,7 +13266,7 @@ test_nc_put_att_float(void)
                         error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                     ELSE_NOK
                 }
-                
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -13347,7 +13347,7 @@ test_nc_put_att_double(void)
                 for (allInExtRange = 1, k = 0; k < ATT_LEN(i,j); k++) {
                     ndx[0] = k;
                     value[k] = hash_double(cdf_format,ATT_TYPE(i,j), -1, ndx, NCT_DOUBLE);
-                    
+
                         allInExtRange &= inRange3(cdf_format, (double)value[k], ATT_TYPE(i,j), NCT_DOUBLE);
                 }
                 err = nc_put_att_double(ncid, i, ATT_NAME(i,j), ATT_TYPE(i,j), ATT_LEN(i,j), value);
@@ -13356,7 +13356,7 @@ test_nc_put_att_double(void)
                         error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                     ELSE_NOK
                 }
-                
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -13437,7 +13437,7 @@ test_nc_put_att_ushort(void)
                 for (allInExtRange = 1, k = 0; k < ATT_LEN(i,j); k++) {
                     ndx[0] = k;
                     value[k] = hash_ushort(cdf_format,ATT_TYPE(i,j), -1, ndx, NCT_USHORT);
-                    
+
                         allInExtRange &= inRange3(cdf_format, (double)value[k], ATT_TYPE(i,j), NCT_USHORT);
                 }
                 err = nc_put_att_ushort(ncid, i, ATT_NAME(i,j), ATT_TYPE(i,j), ATT_LEN(i,j), value);
@@ -13446,7 +13446,7 @@ test_nc_put_att_ushort(void)
                         error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                     ELSE_NOK
                 }
-                
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -13527,7 +13527,7 @@ test_nc_put_att_uint(void)
                 for (allInExtRange = 1, k = 0; k < ATT_LEN(i,j); k++) {
                     ndx[0] = k;
                     value[k] = hash_uint(cdf_format,ATT_TYPE(i,j), -1, ndx, NCT_UINT);
-                    
+
                         allInExtRange &= inRange3(cdf_format, (double)value[k], ATT_TYPE(i,j), NCT_UINT);
                 }
                 err = nc_put_att_uint(ncid, i, ATT_NAME(i,j), ATT_TYPE(i,j), ATT_LEN(i,j), value);
@@ -13536,7 +13536,7 @@ test_nc_put_att_uint(void)
                         error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                     ELSE_NOK
                 }
-                
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -13617,7 +13617,7 @@ test_nc_put_att_longlong(void)
                 for (allInExtRange = 1, k = 0; k < ATT_LEN(i,j); k++) {
                     ndx[0] = k;
                     value[k] = hash_longlong(cdf_format,ATT_TYPE(i,j), -1, ndx, NCT_LONGLONG);
-                    
+
                         allInExtRange &= inRange3(cdf_format, (double)value[k], ATT_TYPE(i,j), NCT_LONGLONG);
                 }
                 err = nc_put_att_longlong(ncid, i, ATT_NAME(i,j), ATT_TYPE(i,j), ATT_LEN(i,j), value);
@@ -13626,7 +13626,7 @@ test_nc_put_att_longlong(void)
                         error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                     ELSE_NOK
                 }
-                
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -13707,7 +13707,7 @@ test_nc_put_att_ulonglong(void)
                 for (allInExtRange = 1, k = 0; k < ATT_LEN(i,j); k++) {
                     ndx[0] = k;
                     value[k] = hash_ulonglong(cdf_format,ATT_TYPE(i,j), -1, ndx, NCT_ULONGLONG);
-                    
+
                         allInExtRange &= inRange3(cdf_format, (double)value[k], ATT_TYPE(i,j), NCT_ULONGLONG);
                 }
                 err = nc_put_att_ulonglong(ncid, i, ATT_NAME(i,j), ATT_TYPE(i,j), ATT_LEN(i,j), value);
@@ -13716,7 +13716,7 @@ test_nc_put_att_ulonglong(void)
                         error("expecting NC_NOERR but got %s",nc_err_code_name(err));
                     ELSE_NOK
                 }
-                
+
                     else {
 
                         IF (err != NC_ERANGE)
@@ -13739,5 +13739,3 @@ test_nc_put_att_ulonglong(void)
         error("delete file %s failed", scratch);
     return nok;
 }
-
-

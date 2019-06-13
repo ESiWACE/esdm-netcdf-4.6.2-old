@@ -66,7 +66,7 @@ typedef struct NC_HDF5_DIM_INFO
 /** Strut to hold HDF5-specific info for attributes. */
 typedef struct  NC_HDF5_ATT_INFO
 {
-   hid_t native_hdf_typeid;     /* Native HDF5 datatype for attribute's data */
+   hid_t native_hdf_typeid;     /* Native HDF5 data type for attribute's data */
 } NC_HDF5_ATT_INFO_T;
 
 /* Struct to hold HDF5-specific info for a group. */

@@ -15,8 +15,8 @@
 
 /*
  * Test nctypelen
- *    try with bad datatype, check error
- *    check returned values for each proper datatype
+ *    try with bad data type, check error
+ *    check returned values for each proper data type
  */
 int
 test_nctypelen()

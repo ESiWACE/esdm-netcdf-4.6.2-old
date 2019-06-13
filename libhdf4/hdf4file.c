@@ -80,7 +80,7 @@ hdf4_rec_grp_del(NC_GRP_INFO_T *grp)
  * for more information re: HDF4 types.
  *
  * @param h5 Pointer to HDF5 file info struct.
- * @param hdf4_typeid Type ID for hdf4 datatype.
+ * @param hdf4_typeid Type ID for hdf4 data type.
  * @param xtype Pointer that gets netcdf type. Ignored if NULL.
  * @param endniannessp Pointer that gets endianness. Ignored if NULL.
  * @param type_sizep Pointer that gets type size. Ignored if NULL.

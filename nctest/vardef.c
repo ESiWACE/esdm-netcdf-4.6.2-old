@@ -99,7 +99,7 @@ init_epsilons()
  *    check that returned id is one more than previous id
  *    try redefining an existing variable, check error
  *    try adding scalar variable (no dimensions)
- *    try with bad datatype, check error
+ *    try with bad data type, check error
  *    try with bad number of dimensions, check error
  *    try with bad dimension ids, check error
  *    try in data mode, check error

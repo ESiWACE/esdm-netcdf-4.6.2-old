@@ -367,7 +367,7 @@ nc4_get_fill_value(NC_FILE_INFO_T *h5, NC_VAR_INFO_T *var, void **fillp)
  *
  * @return NC_NOERR No error.
  * @return NC_ECHAR Conversions of NC_CHAR forbidden.
- * @return NC_EVARMETA HDF5 returning error creating datatype.
+ * @return NC_EVARMETA HDF5 returning error creating data type.
  * @return NC_EHDFERR HDF5 returning error.
  * @return NC_EBADTYE Type not found.
  * @author Ed Hartnett
@@ -384,12 +384,12 @@ nc4_get_hdf_typeid(NC_FILE_INFO_T *h5, nc_type xtype,
 
    *hdf_typeid = -1;
 
-   /* Determine an appropriate HDF5 datatype */
+   /* Determine an appropriate HDF5 data type */
    if (xtype == NC_NAT)
       return NC_EBADTYPE;
    else if (xtype == NC_CHAR || xtype == NC_STRING)
    {
-      /* NC_CHAR & NC_STRING types create a new HDF5 datatype */
+      /* NC_CHAR & NC_STRING types create a new HDF5 data type */
       if (xtype == NC_CHAR)
       {
          if ((typeid = H5Tcopy(H5T_C_S1)) < 0)
@@ -399,7 +399,7 @@ nc4_get_hdf_typeid(NC_FILE_INFO_T *h5, nc_type xtype,
          if(H5Tset_cset(typeid, H5T_CSET_ASCII) < 0)
             BAIL(NC_EVARMETA);
 
-         /* Take ownership of the newly created HDF5 datatype */
+         /* Take ownership of the newly created HDF5 data type */
          *hdf_typeid = typeid;
          typeid = 0;
       }
@@ -412,14 +412,14 @@ nc4_get_hdf_typeid(NC_FILE_INFO_T *h5, nc_type xtype,
          if(H5Tset_cset(typeid, H5T_CSET_UTF8) < 0)
             BAIL(NC_EVARMETA);
 
-         /* Take ownership of the newly created HDF5 datatype */
+         /* Take ownership of the newly created HDF5 data type */
          *hdf_typeid = typeid;
          typeid = 0;
       }
    }
    else
    {
-      /* All other types use an existing HDF5 datatype */
+      /* All other types use an existing HDF5 data type */
       switch (xtype)
       {
       case NC_BYTE: /* signed 1 byte integer */
@@ -523,7 +523,7 @@ nc4_get_hdf_typeid(NC_FILE_INFO_T *h5, nc_type xtype,
       }
       assert(typeid);
 
-      /* Copy the HDF5 datatype, so the function operates uniformly */
+      /* Copy the HDF5 data type, so the function operates uniformly */
       if ((*hdf_typeid = H5Tcopy(typeid)) < 0)
          return NC_EHDFERR;
       typeid = 0;
@@ -834,7 +834,7 @@ write_netcdf4_dimid(hid_t datasetid, int dimid)
  *
  * @return ::NC_NOERR
  * @returns NC_ECHAR Conversions of NC_CHAR forbidden.
- * @returns NC_EVARMETA HDF5 returning error creating datatype.
+ * @returns NC_EVARMETA HDF5 returning error creating data type.
  * @returns NC_EHDFERR HDF5 returning error.
  * @returns NC_EBADTYE Type not found.
  * @author Ed Hartnett
@@ -1155,7 +1155,7 @@ nc4_adjust_var_cache(NC_GRP_INFO_T *grp, NC_VAR_INFO_T *var)
  * @return NC_NOERR No error.
  * @return NC_EHDFERR HDF5 error.
  * @return NC_ECHAR Conversions of NC_CHAR forbidden.
- * @return NC_EVARMETA HDF5 returning error creating datatype.
+ * @return NC_EVARMETA HDF5 returning error creating data type.
  * @return NC_EHDFERR HDF5 returning error.
  * @return NC_EBADTYE Type not found.
  * @author Ed Hartnett
@@ -3318,7 +3318,7 @@ reportobject(int uselog, hid_t id, unsigned int type)
    case H5F_OBJ_FILE: typename = "File"; break;
    case H5F_OBJ_DATASET: typename = "Dataset"; break;
    case H5F_OBJ_GROUP: typename = "Group"; break;
-   case H5F_OBJ_DATATYPE: typename = "Datatype"; break;
+   case H5F_OBJ_DATATYPE: typename = "Data type"; break;
    case H5F_OBJ_ATTR:
       typename = "Attribute";
       len = H5Aget_name(id, NC_HDF5_MAX_NAME, name);

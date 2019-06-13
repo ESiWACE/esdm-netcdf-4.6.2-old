@@ -1239,7 +1239,7 @@ main(int argc, char **argv)
       /* Create file */
       if (nc_create(FILE_NAME, NC_NETCDF4, &ncid)) ERR;
 
-      /* Create compound datatype #1, in root group */
+      /* Create compound data type #1, in root group */
       if (nc_def_compound(ncid, sizeof(struct s1), CMP1_NAME, &typeid)) ERR;
       if (nc_inq_compound(ncid, typeid, name, &size, &nfields)) ERR;
       if (size != sizeof(struct s1) || strcmp(name, CMP1_NAME) || nfields) ERR;
@@ -1248,7 +1248,7 @@ main(int argc, char **argv)
       if (nc_insert_compound(ncid, typeid, "i2",
    			  NC_COMPOUND_OFFSET(struct s1, i2), NC_INT)) ERR;
 
-      /* Create variable with compound datatype #1, in root group */
+      /* Create variable with compound data type #1, in root group */
       if (nc_def_var(ncid, VAR_NAME, typeid, 0, NULL, &varid)) ERR;
       if (nc_put_var(ncid, varid, &data)) ERR;
 
@@ -1261,7 +1261,7 @@ main(int argc, char **argv)
       if (nc_close(ncid)) ERR;
       if ((retval = nc_open(FILE_NAME, NC_WRITE, &ncid))) ERR;
 
-      /* Create compound datatype #2, in root group */
+      /* Create compound data type #2, in root group */
       if (nc_def_compound(ncid, sizeof(struct s2), CMP2_NAME, &typeid2)) ERR;
       if (nc_inq_compound(ncid, typeid2, name, &size, &nfields)) ERR;
       if (size != sizeof(struct s2) || strcmp(name, CMP2_NAME) || nfields) ERR;
@@ -1270,7 +1270,7 @@ main(int argc, char **argv)
       if (nc_insert_compound(ncid, typeid2, "f1",
    			  NC_COMPOUND_OFFSET(struct s2, f1), NC_DOUBLE)) ERR;
 
-      /* Create variable with compound datatype #2, in root group */
+      /* Create variable with compound data type #2, in root group */
       if (nc_def_var(grpid, VAR_NAME, typeid2, 0, NULL, &varid2)) ERR;
       if (nc_put_var(ncid, varid2, &data2)) ERR;
 

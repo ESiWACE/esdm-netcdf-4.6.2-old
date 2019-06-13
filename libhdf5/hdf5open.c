@@ -67,7 +67,7 @@ typedef struct NC4_rec_read_metadata_obj_info
 
 /**
  * @internal User data struct for call to H5Literate() in
- * nc4_rec_read_metadata(). Tracks the groups, named datatypes and
+ * nc4_rec_read_metadata(). Tracks the groups, named data types and
  * datasets in the group, for later use.
  */
 typedef struct NC4_rec_read_metadata_ud
@@ -183,7 +183,7 @@ get_type_info2(NC_FILE_INFO_T *h5, hid_t datasetid,
 
          /* Find out about endianness. As of HDF 1.8.6, this works
           * with all data types Not just H5T_INTEGER. See
-          * https://www.hdfgroup.org/HDF5/doc/RM/RM_H5T.html#Datatype-GetOrder */
+          * https://www.hdfgroup.org/HDF5/doc/RM/RM_H5T.html#Data type-GetOrder */
          if((order = H5Tget_order(hdf_typeid)) < 0)
             return NC_EHDFERR;
 
@@ -1959,7 +1959,7 @@ nc4_rec_read_metadata_cb(hid_t grpid, const char *name, const H5L_info_t *info,
                                  &oinfo.statbuf)))
       {
          /* Allow NC_EBADTYPID to transparently skip over datasets
-          * which have a datatype that netCDF-4 doesn't undertand
+          * which have a data type that netCDF-4 doesn't undertand
           * (currently), but break out of iteration for other
           * errors. */
          if (retval != NC_EBADTYPID)
@@ -1974,9 +1974,9 @@ nc4_rec_read_metadata_cb(hid_t grpid, const char *name, const H5L_info_t *info,
       break;
 
    case H5G_TYPE:
-      LOG((3, "found datatype %s", oinfo.oname));
+      LOG((3, "found data type %s", oinfo.oname));
 
-      /* Process the named datatype */
+      /* Process the named data type */
       if (read_type(udata->grp, oinfo.oid, oinfo.oname))
          BAIL(H5_ITER_ERROR);
 

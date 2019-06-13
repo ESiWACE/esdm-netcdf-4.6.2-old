@@ -14,7 +14,7 @@ dnl
 
 dnl
 dnl The command-line m4 macro "PNETCDF" is to differentiate PnetCDF and netCDF
-dnl in terms of function prefix names (ncmpi_ vs. nc_), integer data types
+dnl in terms of function prefix names (ncmpi_ vs. nc_), integer datatypes
 dnl (MPI_Offset vs. size_t), and function name substrings for external data
 dnl types.
 dnl
@@ -725,7 +725,7 @@ TestFunc(rename_dim)(void)
  *    scalar tests:
  *      check that proper define worked with APIFunc(inq_var)
  *      try redefining an existing variable, check error
- *      try with bad datatype, check error
+ *      try with bad data type, check error
  *      try with bad number of dimensions, check error
  *      try in data mode, check error
  *    check that returned id is one more than previous id
@@ -844,7 +844,7 @@ TestFunc(put_var1)(VarArgs)
     IntType j, index[MAX_RANK];
     double value[1];
     double buf[1];                /* (void *) buffer */
-    ifdef(`PNETCDF', `MPI_Datatype datatype;')
+    ifdef(`PNETCDF', `MPI_datatype datatype;')
 
     err = FileCreate(scratch, NC_NOCLOBBER, &ncid);
     IF (err != NC_NOERR) {
@@ -952,7 +952,7 @@ TestFunc(put_vara)(VarArgs)
     double buf[MAX_NELS];         /* (void *) buffer */
     char *p;                      /* (void *) pointer */
     double value;
-    ifdef(`PNETCDF', `MPI_Datatype datatype;')
+    ifdef(`PNETCDF', `MPI_datatype datatype;')
 
     err = FileCreate(scratch, NC_NOCLOBBER, &ncid);
     IF (err != NC_NOERR) {
@@ -1138,7 +1138,7 @@ TestFunc(put_vars)(VarArgs)
     double buf[MAX_NELS]; /* (void *) buffer */
     char *p;              /* (void *) pointer */
     double value;
-    ifdef(`PNETCDF', `MPI_Datatype datatype;')
+    ifdef(`PNETCDF', `MPI_datatype datatype;')
 
     err = FileCreate(scratch, NC_NOCLOBBER, &ncid);
     IF (err != NC_NOERR) {
@@ -1360,7 +1360,7 @@ TestFunc(put_varm)(VarArgs)
     double buf[MAX_NELS];       /* (void *) buffer */
     char *p;                    /* (void *) pointer */
     double value;
-    ifdef(`PNETCDF', `MPI_Datatype datatype;')
+    ifdef(`PNETCDF', `MPI_datatype datatype;')
 
     err = FileCreate(scratch, NC_NOCLOBBER, &ncid);
     IF (err != NC_NOERR) {

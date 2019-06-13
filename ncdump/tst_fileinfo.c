@@ -77,7 +77,7 @@ main(int argc, char **argv)
             /* Create scalar dataspace */
             if((scalar_spaceid = H5Screate(H5S_SCALAR)) < 0) ERR;
 
-            /* Create attribute with native integer datatype on object */
+            /* Create attribute with native integer data type on object */
             if((attid = H5Acreate2(fileid, INT_ATT_NAME, H5T_NATIVE_INT, scalar_spaceid, H5P_DEFAULT, H5P_DEFAULT)) < 0) ERR;
             if(H5Aclose(attid) < 0) ERR;
 

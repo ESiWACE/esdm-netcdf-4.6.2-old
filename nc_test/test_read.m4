@@ -14,7 +14,7 @@ dnl
 
 dnl
 dnl The command-line m4 macro "PNETCDF" is to differentiate PnetCDF and netCDF
-dnl in terms of function prefix names (ncmpi_ vs. nc_), integer data types
+dnl in terms of function prefix names (ncmpi_ vs. nc_), integer datatypes
 dnl (MPI_Offset vs. size_t), and function name substrings for external data
 dnl types.
 dnl
@@ -85,7 +85,7 @@ TestFunc(strerror)(void)
         {NC_ENAMEINUSE, "NetCDF: String match to name in use"},
         {NC_ENOTATT, "NetCDF: Attribute not found"},
         {NC_EMAXATTS, "NetCDF: NC_MAX_ATTRS exceeded"}, /* not enforced after 4.5.0 */
-        {NC_EBADTYPE, "NetCDF: Not a valid data type or _FillValue type mismatch"},
+        {NC_EBADTYPE, "NetCDF: Not a valid datatype or _FillValue type mismatch"},
         {NC_EBADDIM, "NetCDF: Invalid dimension ID or name"},
         {NC_EUNLIMPOS, "NetCDF: NC_UNLIMITED in the wrong index"},
         {NC_EMAXVARS, "NetCDF: NC_MAX_VARS exceeded"}, /* not enforced after 4.5.0 */
@@ -1039,7 +1039,7 @@ TestFunc(get_var1)(VarArgs)
     double buf[1];              /* (void *) buffer */
     double value[1];
     IntType j, index[MAX_RANK];
-    ifdef(`PNETCDF', `MPI_Datatype datatype;')
+    ifdef(`PNETCDF', `MPI_datatype datatype;')
 
     err = FileOpen(testfile, NC_NOWRITE, &ncid);
     IF (err != NC_NOERR) error("open: %s", APIFunc(strerror)(err));
@@ -1131,7 +1131,7 @@ TestFunc(get_vara)(VarArgs)
     IntType edge[MAX_RANK];
     IntType index[MAX_RANK];
     IntType mid[MAX_RANK];
-    ifdef(`PNETCDF', `MPI_Datatype datatype;')
+    ifdef(`PNETCDF', `MPI_datatype datatype;')
     double buf[MAX_NELS];        /* (void *) buffer */
     double expect;
 
@@ -1315,7 +1315,7 @@ TestFunc(get_vars)(VarArgs)
     IntType count[MAX_RANK];
     IntType sstride[MAX_RANK];
     PTRDType stride[MAX_RANK];
-    ifdef(`PNETCDF', `MPI_Datatype datatype;')
+    ifdef(`PNETCDF', `MPI_datatype datatype;')
     double buf[MAX_NELS];     /* (void *) buffer */
     char *p;                  /* (void *) pointer */
     double expect;
@@ -1543,7 +1543,7 @@ TestFunc(get_varm)(VarArgs)
     PTRDType stride[MAX_RANK];
     PTRDType imap[MAX_RANK];
     PTRDType imap2[MAX_RANK];
-    ifdef(`PNETCDF', `MPI_Datatype datatype;')
+    ifdef(`PNETCDF', `MPI_datatype datatype;')
     double buf[MAX_NELS];        /* (void *) buffer */
     char *p;                     /* (void *) pointer */
     double expect;

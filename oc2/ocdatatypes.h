@@ -5,7 +5,7 @@
 #define OCDATATYPES_H
 
 /* Define some useful info about the supported
-   primitive datatypes*/
+   primitive data types*/
 
 #define DCHAR char
 #define DBYTE signed char

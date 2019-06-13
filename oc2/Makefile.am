@@ -31,7 +31,7 @@ xxdr.h
 EXTRA_DIST = dap.y CMakeLists.txt auth.html.in oc.css
 
 noinst_LTLIBRARIES = liboc.la
-liboc_la_SOURCES = $(SRC) $(HDRS) 
+liboc_la_SOURCES = $(SRC) $(HDRS)
 liboc_la_CPPFLAGS = $(AM_CPPFLAGS)
 
 # These rule are used if someone wants to rebuild the grammar files.

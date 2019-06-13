@@ -119,7 +119,7 @@ typedef struct OCheader {
 #define OCCOOKIEDIR "occookies"
 
 /* Define infinity for memory size */
-#if SIZEOF_SIZE_T == 4 
+#if SIZEOF_SIZE_T == 4
 #define OCINFINITY ((size_t)0xffffffff)
 #else
 #define OCINFINITY ((size_t)0xffffffffffffffff)

@@ -949,7 +949,7 @@ ifdef(`PNETCDF',`dnl
             EXPECT_ERR(NC_EINVALCOORDS, err)
         }
         ELSE_NOK
-        
+
         /* for non-scalar variables, argument count cannot be NULL */
         err = PutVars($1)(ncid, i, start, NULL, NULL, value);
         if (!canConvert) {
@@ -1201,7 +1201,7 @@ ifdef(`PNETCDF',`dnl
             EXPECT_ERR(NC_EINVALCOORDS, err)
         }
         ELSE_NOK
-        
+
         /* for non-scalar variables, argument count cannot be NULL */
         err = PutVarm($1)(ncid, i, start, NULL, NULL, NULL, value);
         if (!canConvert) {
@@ -1548,4 +1548,3 @@ TEST_NC_PUT_ATT(ushort)
 TEST_NC_PUT_ATT(uint)
 TEST_NC_PUT_ATT(longlong)
 TEST_NC_PUT_ATT(ulonglong)
-

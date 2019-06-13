@@ -668,7 +668,7 @@ test_nc_rename_dim(void)
  *    scalar tests:
  *      check that proper define worked with nc_inq_var
  *      try redefining an existing variable, check error
- *      try with bad datatype, check error
+ *      try with bad data type, check error
  *      try with bad number of dimensions, check error
  *      try in data mode, check error
  *    check that returned id is one more than previous id
@@ -787,7 +787,7 @@ test_nc_put_var1(void)
     size_t j, index[MAX_RANK];
     double value[1];
     double buf[1];                /* (void *) buffer */
-    
+
 
     err = file_create(scratch, NC_NOCLOBBER, &ncid);
     IF (err != NC_NOERR) {
@@ -820,7 +820,7 @@ test_nc_put_var1(void)
 
         value[0] = 5;  /* reset to a value within bounds */
 
-        
+
 
 
         /* test NC_EINVALCOORDS */
@@ -884,7 +884,7 @@ test_nc_put_vara(void)
     double buf[MAX_NELS];         /* (void *) buffer */
     char *p;                      /* (void *) pointer */
     double value;
-    
+
 
     err = file_create(scratch, NC_NOCLOBBER, &ncid);
     IF (err != NC_NOERR) {
@@ -923,7 +923,7 @@ test_nc_put_vara(void)
             error("expecting NC_EBADID but got %s",nc_err_code_name(err));
         ELSE_NOK
 
-        
+
 
         for (j = 0; j < var_rank[i]; j++) {
             start[j] = 0;
@@ -1049,7 +1049,7 @@ test_nc_put_vars(void)
     double buf[MAX_NELS]; /* (void *) buffer */
     char *p;              /* (void *) pointer */
     double value;
-    
+
 
     err = file_create(scratch, NC_NOCLOBBER, &ncid);
     IF (err != NC_NOERR) {
@@ -1088,7 +1088,7 @@ test_nc_put_vars(void)
             error("expecting NC_EBADID but got %s",nc_err_code_name(err));
         ELSE_NOK
 
-        
+
 
         for (j = 0; j < var_rank[i]; j++) {
             start[j] = 0;
@@ -1246,11 +1246,11 @@ test_nc_put_varm(void)
     ptrdiff_t stride[MAX_RANK];
     ptrdiff_t imap[MAX_RANK];
     ptrdiff_t imap2[MAX_RANK];
-    
+
     double buf[MAX_NELS];       /* (void *) buffer */
     char *p;                    /* (void *) pointer */
     double value;
-    
+
 
     err = file_create(scratch, NC_NOCLOBBER, &ncid);
     IF (err != NC_NOERR) {
@@ -1289,7 +1289,7 @@ test_nc_put_varm(void)
             error("expecting NC_EBADID but got %s",nc_err_code_name(err));
         ELSE_NOK
 
-        
+
 
         for (j = 0; j < var_rank[i]; j++) {
             start[j] = 0;
@@ -1410,7 +1410,7 @@ test_nc_put_varm(void)
  */
                     j = fromMixedBase(var_rank[i], index, var_shape[i]);
                     p = (char *) buf + (int)j * nctypelen(var_type[i]);
-                    
+
                     err = nc_put_varm(ncid,i,index,count,stride,imap2,p);
                 }
                 IF (err != NC_NOERR)
@@ -2126,7 +2126,7 @@ IF (err)
 
     /* get all variables & check all values equal default fill */
     for (i = 0; i < numVars; i++) {
-        
+
         switch (var_type[i]) {
             case NC_CHAR:   fill = (double)NC_FILL_CHAR;   break;
             case NC_BYTE:   fill = (double)NC_FILL_BYTE;   break;

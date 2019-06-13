@@ -10,7 +10,7 @@ This document describes the architecture and details of the netCDF
 internal dispatch mechanism. The idea is that when a user opens or
 creates a netcdf file, a specific dispatch table is chosen.
 A dispatch table is a struct containing an entry for every function
-in the netcdf-c API. 
+in the netcdf-c API.
 Subsequent netcdf API calls are then channeled through that
 dispatch table to the appropriate function for implementing that API
 call. The functions in the dispatch table are not quite the same

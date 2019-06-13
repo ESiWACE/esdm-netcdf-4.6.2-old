@@ -27,7 +27,7 @@ NC4_create(const char *path, int cmode,
 
 EXTERNL int
 NC4_open(const char *path, int mode,
-         int basepe, size_t *chunksizehintp, 
+         int basepe, size_t *chunksizehintp,
          void* parameters, NC_Dispatch*, NC*);
 
 EXTERNL int
@@ -91,7 +91,7 @@ EXTERNL int
 NC4_inq_att(int ncid, int varid, const char *name,
 	    nc_type *xtypep, size_t *lenp);
 
-EXTERNL int 
+EXTERNL int
 NC4_inq_attid(int ncid, int varid, const char *name, int *idp);
 
 EXTERNL int
@@ -121,11 +121,11 @@ NC4_def_var(int ncid, const char *name,
 	 nc_type xtype, int ndims, const int *dimidsp, int *varidp);
 
 EXTERNL int
-NC4_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, 
-               int *ndimsp, int *dimidsp, int *nattsp, 
+NC4_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep,
+               int *ndimsp, int *dimidsp, int *nattsp,
                int *shufflep, int *deflatep, int *deflate_levelp,
-               int *fletcher32p, int *contiguousp, size_t *chunksizesp, 
-               int *no_fill, void *fill_valuep, int *endiannessp, 
+               int *fletcher32p, int *contiguousp, size_t *chunksizesp,
+               int *no_fill, void *fill_valuep, int *endiannessp,
 	       unsigned int* idp, size_t* nparamsp, unsigned int* params
 	       );
 
@@ -187,7 +187,7 @@ NC4_inq_dimids(int, int * ndims, int *, int);
 
 EXTERNL int
 NC4_inq_typeids(int, int * ntypes, int *);
-   
+
 EXTERNL int
 NC4_inq_type_equal(int, nc_type, int, nc_type, int *);
 
@@ -198,7 +198,7 @@ EXTERNL int
 NC4_rename_grp(int, const char *);
 
 EXTERNL int
-NC4_inq_user_type(int, nc_type, char *, size_t *, nc_type *, 
+NC4_inq_user_type(int, nc_type, char *, size_t *, nc_type *,
 		  size_t *, int *);
 
 EXTERNL int
@@ -208,14 +208,14 @@ EXTERNL int
 NC4_insert_compound(int, nc_type, const char *, size_t, nc_type);
 
 EXTERNL int
-NC4_insert_array_compound(int, nc_type, const char *, size_t, 
+NC4_insert_array_compound(int, nc_type, const char *, size_t,
 			  nc_type, int, const int *);
 
 EXTERNL int
 NC4_inq_typeid(int, const char *, nc_type *);
 
 EXTERNL int
-NC4_inq_compound_field(int, nc_type, int, char *, size_t *, 
+NC4_inq_compound_field(int, nc_type, int, char *, size_t *,
 		       nc_type *, int *, int *);
 
 EXTERNL int

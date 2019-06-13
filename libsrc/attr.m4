@@ -844,7 +844,7 @@ NC3_put_att(
        for more information. */
 
 //    if (varid != NC_GLOBAL && !strcmp(name, _FillValue)) {
-//        /* Fill value must be of the same data type */
+//        /* Fill value must be of the same datatype */
 //        if (type != ncp->vars.value[varid]->type) return NC_EBADTYPE;
 //
 //        /* Fill value must have exactly one value */

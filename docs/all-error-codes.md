@@ -128,10 +128,10 @@ were added for new errors unique to netCDF-4.
 #define NC_EREAD                        (-205) // Unknown error in reading file
 #define NC_EWRITE                       (-206) // Unknown error in writing to file
 #define NC_EOFILE                       (-207) // file open/creation failed
-#define NC_EMULTITYPES                  (-208) // Multiple etypes used in MPI datatype
+#define NC_EMULTITYPES                  (-208) // Multiple etypes used in MPI data type
 #define NC_EIOMISMATCH                  (-209) // Input/Output data amount mismatch
 #define NC_ENEGATIVECNT                 (-210) // Negative count is specified
-#define NC_EUNSPTETYPE                  (-211) // Unsupported etype in memory MPI datatype
+#define NC_EUNSPTETYPE                  (-211) // Unsupported etype in memory MPI data type
 #define NC_EINVAL_REQUEST               (-212) // invalid nonblocking request ID
 #define NC_EAINT_TOO_SMALL              (-213) // MPI_Aint not large enough to hold requested value
 #define NC_ENOTSUPPORT                  (-214) // feature is not yet supported

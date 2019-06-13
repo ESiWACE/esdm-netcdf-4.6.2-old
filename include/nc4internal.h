@@ -200,7 +200,7 @@ typedef struct NC_TYPE_INFO
    NC_OBJ hdr; /* contains netCDF type ID, equivalent to a pre-defined type
                                  * for atomic types, but a dynamically
                                  * defined value for user-defined types (stored
-                                 * as named datatypes in the HDF5 file).
+                                 * as named data types in the HDF5 file).
                                  */
 
    struct NC_GRP_INFO* container; /* Containing group */
@@ -213,7 +213,7 @@ typedef struct NC_TYPE_INFO
                                  *  endianness of the fields and/or base type)
                                  */
    size_t size;                 /* Size of the type in memory, in bytes */
-   nc_bool_t committed;         /* True when datatype is committed in the file */
+   nc_bool_t committed;         /* True when data type is committed in the file */
    nc_type nc_type_class;       /* NC_VLEN, NC_COMPOUND, NC_OPAQUE, or NC_ENUM
                                  * NOTE: NC_INT is used for all integer types,
                                  *      NC_FLOAT is used for all floating-point

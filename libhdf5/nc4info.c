@@ -314,7 +314,7 @@ NC4_put_ncproperties(NC_FILE_INFO_T* file)
       if(text == NULL || ncstat != NC_NOERR) {
         goto done;
       }
-      /* Create a datatype to refer to. */
+      /* Create a data type to refer to. */
       HCHECK((atype = H5Tcopy(H5T_C_S1)));
       HCHECK((H5Tset_cset(atype, H5T_CSET_ASCII)));
       HCHECK((H5Tset_size(atype, strlen(text)+1))); /*keep nul term */

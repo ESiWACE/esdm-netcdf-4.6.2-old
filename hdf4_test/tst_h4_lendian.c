@@ -100,7 +100,7 @@ int test_read_write(int dtype)
 
 int main()
 {
-   printf("\n***Test reading from an hdf4 file with a little-endian datatype...\n");
+   printf("\n***Test reading from an hdf4 file with a little-endian data type...\n");
    printf("*** testing reading...");
    {
       if (test_read_write(DFNT_LINT8)) ERR;

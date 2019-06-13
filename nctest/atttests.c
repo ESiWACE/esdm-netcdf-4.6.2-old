@@ -30,7 +30,7 @@
  *    check that changing type of existing attribute works in define mode
  *    check that increasing length of attribute works in define mode
  *    check that changing value of existing attribute works in define mode
- *    try with bad datatype, should fail
+ *    try with bad data type, should fail
  *    try with negative length, should fail
  *    try increasing length of attribute in data mode, should fail
  *    try putting new attribute in data mode, should fail
@@ -225,7 +225,7 @@ test_ncattput(path)
 	}
 	free (tmp.val);
     }
-    /* try with bad datatype, should fail */
+    /* try with bad data type, should fail */
     if (ncattput(cdfid, ww_id, "bogus_att1", BAD_TYPE,
 		  atts[0].len, atts[0].val) != -1) {
 	error("%s: ncattput should fail with bad type", pname);

@@ -146,7 +146,7 @@ main(int argc, char **argv)
 
       /* Get all the data from the variable. */
 /* As of HDF5-1.8.12, reading from an unwritten chunk in a dataset with a
- *      variable-length datatype and a fill-value set will error, instead
+ *      variable-length data type and a fill-value set will error, instead
  *      of retrieving the fill-value. -QAK
  */
 #ifdef NOT_YET
@@ -296,7 +296,7 @@ main(int argc, char **argv)
       if (nc_free_string(FILLVALUE_LEN2, (char **)missing_val_in)) ERR;
 
 /* As of HDF5-1.8.12, reading from an unwritten chunk in a dataset with a
- *      variable-length datatype and a fill-value set will error, instead
+ *      variable-length data type and a fill-value set will error, instead
  *      of retrieving the fill-value. -QAK
  */
 #ifdef NOT_YET

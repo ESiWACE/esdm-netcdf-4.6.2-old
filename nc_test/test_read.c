@@ -183,7 +183,7 @@ test_nc_open(void)
     IF (ncid2 == ncid)
         error("netCDF IDs for first and second open calls should differ");
 
-    
+
     {   /* tests using netCDF scratch file */
         err = file_create(scratch, NC_NOCLOBBER, &ncid2);
         IF (err != NC_NOERR)
@@ -249,7 +249,7 @@ test_nc_close(void)
         error("close in data mode failed: %s",  nc_strerror(err));
     ELSE_NOK
 
-    
+
     {   /* tests using netCDF scratch file */
         err = file_create(scratch, NC_NOCLOBBER, &ncid);
         IF (err != NC_NOERR)
@@ -334,7 +334,7 @@ test_nc_inq(void)
         error("inq subset: wrong number of variables returned, %d", nvars);
     ELSE_NOK
 
-    
+
     {   /* tests using netCDF scratch file */
         int ncid2;              /* for scratch netCDF dataset */
 
@@ -999,7 +999,7 @@ test_nc_get_var1(void)
     double buf[1];              /* (void *) buffer */
     double value[1];
     size_t j, index[MAX_RANK];
-    
+
 
     err = file_open(testfile, NC_NOWRITE, &ncid);
     IF (err != NC_NOERR) error("open: %s",  nc_strerror(err));
@@ -1022,7 +1022,7 @@ test_nc_get_var1(void)
             error("expecting NC_EBADID but got %s",nc_err_code_name(err));
         ELSE_NOK
 
-        
+
 
 
         /* test NC_EINVALCOORDS */
@@ -1081,7 +1081,7 @@ test_nc_get_vara(void)
     size_t edge[MAX_RANK];
     size_t index[MAX_RANK];
     size_t mid[MAX_RANK];
-    
+
     double buf[MAX_NELS];        /* (void *) buffer */
     double expect;
 
@@ -1107,7 +1107,7 @@ test_nc_get_vara(void)
             error("expecting NC_EBADID but got %s",nc_err_code_name(err));
         ELSE_NOK
 
-        
+
 
         for (j = 0; j < var_rank[i]; j++) {
             start[j] = 0;
@@ -1247,7 +1247,7 @@ test_nc_get_vars(void)
     size_t count[MAX_RANK];
     size_t sstride[MAX_RANK];
     ptrdiff_t stride[MAX_RANK];
-    
+
     double buf[MAX_NELS];     /* (void *) buffer */
     char *p;                  /* (void *) pointer */
     double expect;
@@ -1275,7 +1275,7 @@ test_nc_get_vars(void)
             error("expecting NC_EBADID but got %s",nc_err_code_name(err));
         ELSE_NOK
 
-        
+
 
         for (j = 0; j < var_rank[i]; j++) {
             start[j] = 0;
@@ -1457,7 +1457,7 @@ test_nc_get_varm(void)
     ptrdiff_t stride[MAX_RANK];
     ptrdiff_t imap[MAX_RANK];
     ptrdiff_t imap2[MAX_RANK];
-    
+
     double buf[MAX_NELS];        /* (void *) buffer */
     char *p;                     /* (void *) pointer */
     double expect;
@@ -1485,7 +1485,7 @@ test_nc_get_varm(void)
             error("expecting NC_EBADID but got %s",nc_err_code_name(err));
         ELSE_NOK
 
-        
+
 
         for (j = 0; j < var_rank[i]; j++) {
             start[j] = 0;
