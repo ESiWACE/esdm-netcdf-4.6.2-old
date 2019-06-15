@@ -18,7 +18,6 @@ typedef struct{
   int *dimidsp;
   esdm_dataspace_t * space;
   esdm_dataset_t * dset;
-
   smd_attr_t * att;
 } md_entity_var_t;
 
@@ -28,18 +27,14 @@ typedef struct {
   smd_attr_t * vars;
 } nc_esdm_md_t;
 
-typedef struct{
-  char * name;
-  void * value;
-} md_entity_t;
-
-
 // This structure contains a flat mday for the metadata name
 // it is used up to a specific size of the metadata table before
 // the hashmap implementation is beneficial
+
 typedef struct{
   int size;
-  md_entity_t kv[10];
+  char *json;
+  smd_attr_t smd[10];
 } metadata_t;
 
 
@@ -108,8 +103,8 @@ static nc_type type_esdm_to_nc(esdm_datatype_t type){
 
 int lookup_md(metadata_t * md, char * name, void ** value, int * pos){
   for(int i=0; i < md->size; i++){
-    if(strcmp(name, md->kv[i].name) == 0){
-      *value = & md->kv[i].value;
+    if(strcmp(name, md->smd[i].name) == 0){
+      *value = & md->smd[i].value;
       *pos = i;
       return NC_NOERR;
     }
@@ -119,12 +114,19 @@ int lookup_md(metadata_t * md, char * name, void ** value, int * pos){
 
 int insert_md(metadata_t * md, const char * name, void * value){
   assert(md->size < 10);
-  md->kv[md->size].name = strdup(name);
-  md->kv[md->size].value = value;
+  md->smd[md->size].name = strdup(name);
+  md->smd[md->size].value = value;
   md->size++;
   return NC_NOERR;
 }
 
+// int insert_md(metadata_t * md, const char * name, void * value){
+//   assert(md->size < 10);
+//   md->kv[md->size].name = strdup(name);
+//   md->kv[md->size].value = value;
+//   md->size++;
+//   return NC_NOERR;
+// }
 
 int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_t *chunksizehintp, void* parameters, struct NC_Dispatch* table, NC* ncp){
   const char * realpath = path;
@@ -291,12 +293,12 @@ int ESDM_inq_dim(int ncid, int dimid, char *name, size_t *lenp){
 
   assert(e->dims.size > dimid);
 
-  md_entity_t * kv = & e->dims.kv[dimid];
+  smd_attr_t * smd = & e->dims.smd[dimid];
   if(name != NULL){
-    strcpy(name, kv->name);
+    strcpy(name, smd->name);
   }
   if(lenp != NULL){
-    *lenp = (size_t) kv->value;
+    *lenp = (size_t) smd->value;
   }
 
   return NC_NOERR;
@@ -353,11 +355,11 @@ int ESDM_get_att(int ncid, int varid, const char* name, void* value, nc_type t){
     att = e->md.vars;
   }else{
     assert(e->vars.size > varid);
-    md_entity_var_t * kv = e->vars.kv[varid].value;
-    if(kv->att == NULL){
+    md_entity_var_t * smd = e->vars.smd[varid].value;
+    if(smd->att == NULL){
       return NC_EINVAL;
     }
-    att = kv->att;
+    att = smd->att;
   }
   int pos = smd_find_position_by_name(att, name);
   if(pos < 0) return NC_EINVAL;
@@ -386,11 +388,11 @@ int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype,
     att = e->md.vars;
   }else{
     assert(e->vars.size > varid);
-    md_entity_var_t * kv = e->vars.kv[varid].value;
-    if(kv->att == NULL){
-      kv->att = smd_attr_new("attr", SMD_DTYPE_EMPTY, NULL, 0);
+    md_entity_var_t * smd = e->vars.smd[varid].value;
+    if(smd->att == NULL){
+      smd->att = smd_attr_new("attr", SMD_DTYPE_EMPTY, NULL, 0);
     }
-    att = kv->att;
+    att = smd->att;
   }
   assert(len == 1);
   smd_attr_t * new;
@@ -431,7 +433,7 @@ int ESDM_def_var(int ncid, const char *name, nc_type xtype,
   for(int i=0; i < ndims; i++){
     int dimid = dimidsp[i];
     assert(e->dims.size > dimid);
-    md_entity_t * md = & e->dims.kv[dimid];
+    smd_attr_t * md = & e->dims.smd[dimid];
     size_t val = (size_t) md->value;
     evar->dimidsp[i] = dimid;
     printf("%d %s %zd\n", dimidsp[i], md->name, val);
@@ -473,15 +475,15 @@ int ESDM_get_vars(int ncid, int varid, const size_t *startp, const size_t *count
   if((ret = NC_check_id(ncid, (NC**)&ncp)) != NC_NOERR) return (ret);
   nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
   assert(e->vars.size > varid);
-  md_entity_var_t * kv = e->vars.kv[varid].value;
+  md_entity_var_t * smd = e->vars.smd[varid].value;
   debug("%d type: %d buff: %p %p %p %p\n", ncid, mem_nc_type, data, startp, countp, stridep);
-  if(mem_nc_type != kv->type){
+  if(mem_nc_type != smd->type){
     return NC_EBADTYPE;
   }
   // check the dimensions we actually want to write
   int access_all = 1;
-  esdm_dataspace_t * space = kv->space;
-  for(int i=0; i < kv->ndims; i++){
+  esdm_dataspace_t * space = smd->space;
+  for(int i=0; i < smd->ndims; i++){
     printf(" - %zu %zu\n", startp[i], countp[i]);
     if(startp[i] != 0 || countp[i] != space->size[i]){
       access_all = 0;
@@ -489,19 +491,19 @@ int ESDM_get_vars(int ncid, int varid, const size_t *startp, const size_t *count
     }
   }
   if(access_all){
-    ret = esdm_read(kv->dset, data, space);
+    ret = esdm_read(smd->dset, data, space);
     if(ret != ESDM_SUCCESS){
       return NC_EINVAL;
     }
   }else{
-    int64_t size[kv->ndims];
-    int64_t offset[kv->ndims];
-    for(int i=0; i < kv->ndims; i++){
+    int64_t size[smd->ndims];
+    int64_t offset[smd->ndims];
+    for(int i=0; i < smd->ndims; i++){
       size[i] = countp[i];
       offset[i] = startp[i];
     }
-    esdm_dataspace_t * subspace = esdm_dataspace_subspace(space, kv->ndims, size, offset);
-    ret = esdm_read(kv->dset, data, subspace);
+    esdm_dataspace_t * subspace = esdm_dataspace_subspace(space, smd->ndims, size, offset);
+    ret = esdm_read(smd->dset, data, subspace);
     if(ret != ESDM_SUCCESS){
       esdm_dataspace_destroy(subspace);
       return NC_EINVAL;
@@ -526,15 +528,15 @@ int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *count
   if((ret = NC_check_id(ncid, (NC**)&ncp)) != NC_NOERR) return (ret);
   nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
   assert(e->vars.size > varid);
-  md_entity_var_t * kv = e->vars.kv[varid].value;
+  md_entity_var_t * smd = e->vars.smd[varid].value;
   debug("%d type: %d buff: %p %p %p %p\n", ncid, mem_nc_type, data, startp, countp, stridep);
-  if(mem_nc_type != kv->type){
+  if(mem_nc_type != smd->type){
     return NC_EBADTYPE;
   }
   // check the dimensions we actually want to write
   int access_all = 1;
-  esdm_dataspace_t * space = kv->space;
-  for(int i=0; i < kv->ndims; i++){
+  esdm_dataspace_t * space = smd->space;
+  for(int i=0; i < smd->ndims; i++){
     printf(" - %zu %zu\n", startp[i], countp[i]);
     if(startp[i] != 0 || countp[i] != space->size[i]){
       access_all = 0;
@@ -542,19 +544,19 @@ int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *count
     }
   }
   if(access_all){
-    ret = esdm_write(kv->dset, data, space);
+    ret = esdm_write(smd->dset, data, space);
     if(ret != ESDM_SUCCESS){
       return NC_EINVAL;
     }
   }else{
-    int64_t size[kv->ndims];
-    int64_t offset[kv->ndims];
-    for(int i=0; i < kv->ndims; i++){
+    int64_t size[smd->ndims];
+    int64_t offset[smd->ndims];
+    for(int i=0; i < smd->ndims; i++){
       size[i] = countp[i];
       offset[i] = startp[i];
     }
-    esdm_dataspace_t * subspace = esdm_dataspace_subspace(space, kv->ndims, size, offset);
-    ret = esdm_write(kv->dset, data, subspace);
+    esdm_dataspace_t * subspace = esdm_dataspace_subspace(space, smd->ndims, size, offset);
+    ret = esdm_write(smd->dset, data, subspace);
     if(ret != ESDM_SUCCESS){
       esdm_dataspace_destroy(subspace);
       return NC_EINVAL;
@@ -579,13 +581,13 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
   nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
   debug("%d %d\n", ncid, varid);
 
-  md_entity_t * kv = & e->vars.kv[varid];
-  assert(kv != NULL);
-  md_entity_var_t * evar = (md_entity_var_t *) kv->value;
+  smd_attr_t * smd = & e->vars.smd[varid];
+  assert(smd != NULL);
+  md_entity_var_t * evar = (md_entity_var_t *) smd->value;
   assert(evar != NULL);
 
   if(name != NULL){
-    strcpy(name, kv->name);
+    strcpy(name, smd->name);
   }
   if(xtypep){
     *xtypep = evar->type;
