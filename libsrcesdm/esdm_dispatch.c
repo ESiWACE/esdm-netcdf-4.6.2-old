@@ -3,6 +3,7 @@
 #include <assert.h>
 
 #include <esdm.h>
+// #include <esdm-datatypes.h>
 
 #include "config.h"
 #include "nc.h"
@@ -21,38 +22,57 @@ typedef struct{
   smd_attr_t * att;
 } md_entity_var_t;
 
-typedef struct {
-  smd_attr_t * dims;
-  smd_attr_t * attrs;
-  smd_attr_t * vars;
-} nc_esdm_md_t;
+// typedef struct {
+//   smd_attr_t * dims;
+//   smd_attr_t * attrs;
+//   smd_attr_t * vars;
+// } nc_esdm_md_t;
 
 // This structure contains a flat mday for the metadata name
 // it is used up to a specific size of the metadata table before
 // the hashmap implementation is beneficial
 
-typedef struct{
+typedef struct esdm_metadata_t {
+	char *json;
+  int size;
+  smd_attr_t * smd;
+} esdm_metadata_t;
+
+// This has to be a vector, but I couldn't do it.
+
+typedef struct metadata_t {
   int size;
   char *json;
   smd_attr_t smd[10];
 } metadata_t;
 
+// Some attributes provide information about the dataset as a whole and are called
+// global attributes. These are identified by the attribute name together with a blank
+// variable name (in CDL) or a special null "global variable" ID (in C or Fortran).
 
-typedef struct{
-  int ncid;
-  int idp;
-  esdm_container * c;
+// typedef struct{
+//   int ncid;
+//   int idp;
+//   esdm_container * c;
+//   metadata_t attr;
+//   metadata_t dims;
+//   metadata_t vars;
+//   nc_esdm_md_t md;
+// } nc_esdm_t;
 
-  // Some attributes provide information about the dataset as a whole and are called
-  // global attributes. These are identified by the attribute name together with a blank
-  // variable name (in CDL) or a special null "global variable" ID (in C or Fortran).
-
-  metadata_t attr;
-  metadata_t dims;
-  metadata_t vars;
-
-  nc_esdm_md_t md;
+typedef struct nc_esdm_t{
+	char *name;
+	esdm_container *container;
+  esdm_metadata_t *metadata_dims;
+  esdm_metadata_t *metadata_vars;
+  esdm_metadata_t *metadata_attr;
+	esdm_dataspace_t *dataspace;
+//	GHashTable *fragments;
+	esdm_status status;
 } nc_esdm_t;
+
+// It should be esdm_datatset_t, but it's having conflict
+// Also, doesnt't know GHashTable, but I won't use it now.
 
 // this is a temporary hack
 static nc_esdm_t * last_file_md = NULL;
@@ -112,11 +132,13 @@ int lookup_md(metadata_t * md, char * name, void ** value, int * pos){
   return NC_EBADID;
 }
 
-int insert_md(metadata_t * md, const char * name, void * value){
-  assert(md->size < 10);
-  md->smd[md->size].name = strdup(name);
-  md->smd[md->size].value = value;
-  md->size++;
+int insert_md(esdm_metadata_t ** md, const char * name, void * value){
+  assert((*md)->size < 10);
+
+  (*md)->smd = malloc(10*sizeof(esdm_metadata_t)); // Needs to be revisited
+  (*md)->smd[(*md)->size].name = strdup(name);
+  (*md)->smd[(*md)->size].value = value;
+  (*md)->size++;
   return NC_NOERR;
 }
 
@@ -142,13 +164,26 @@ int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_
 
   nc_esdm_t * e = malloc(sizeof(nc_esdm_t));
   memset(e, 0, sizeof(nc_esdm_t));
-  e->ncid = ncp->ext_ncid;
+//  e->ncid = ncp->ext_ncid;
 
-  e->md.dims = smd_attr_new("dims", SMD_DTYPE_EMPTY, NULL, 0);
-  e->md.vars = smd_attr_new("vars", SMD_DTYPE_EMPTY, NULL, 0);
-  e->md.attrs = smd_attr_new("attr", SMD_DTYPE_EMPTY, NULL, 0);
+  //  e->metadata->smd = NULL;
+  e->metadata_dims = (esdm_metadata_t *)malloc(sizeof(esdm_metadata_t));
+  e->metadata_vars = (esdm_metadata_t *)malloc(sizeof(esdm_metadata_t));
 
-  e->c = esdm_container_create(realpath);
+  // This is what I wanted...
+
+  // e->metadata->smd = (smd_attr_t *)malloc(3*sizeof(smd_attr_t));
+  // e->metadata->smd[0] = smd_attr_new("dims", SMD_DTYPE_EMPTY, NULL, 0);
+  // e->metadata->smd[1] = smd_attr_new("vars", SMD_DTYPE_EMPTY, NULL, 0);
+  // e->metadata->smd[2] = smd_attr_new("attr", SMD_DTYPE_EMPTY, NULL, 0);
+
+  // This is what I got...
+
+  e->metadata_dims->smd = smd_attr_new("dims", SMD_DTYPE_EMPTY, NULL, 0);
+  e->metadata_vars->smd = smd_attr_new("vars", SMD_DTYPE_EMPTY, NULL, 0);
+  e->metadata_attr->smd = smd_attr_new("attr", SMD_DTYPE_EMPTY, NULL, 0);
+
+  e->container = esdm_container_create(realpath);
   ncp->dispatchdata = e;
 
   last_file_md = e;
@@ -189,7 +224,7 @@ int ESDM__enddef(int ncid, size_t h_minfree, size_t v_align, size_t v_minfree, s
   nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
   debug("%d\n", ncid);
 
-  esdm_container_commit(e->c);
+  esdm_container_commit(e->container);
   return NC_NOERR;
 }
 
@@ -267,12 +302,13 @@ int ESDM_def_dim(int ncid, const char *name, size_t len, int *idp){
   int ret = NC_NOERR;
   if((ret = NC_check_id(ncid, (NC**)&ncp)) != NC_NOERR) return (ret);
   nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
-  *idp = e->dims.size;
+  // *idp = e->dims.size;
+  *idp = e->metadata_dims->size;
   debug("%d: %d\n", ncid, *idp);
-  ret = insert_md(& e->dims, name, (size_t*) len);
+  ret = insert_md(& e->metadata_dims, name, (size_t*) len);
 
   smd_attr_t * new = smd_attr_new(name, SMD_DTYPE_UINT64, & len, *idp);
-  ret = smd_attr_link(e->md.dims, new, 0);
+  // ret = smd_attr_link(e->md.dims, new, 0); // Not being used yet
   if (ret == SMD_ATTR_EEXIST){
     return NC_EINVAL;
   }
@@ -291,9 +327,9 @@ int ESDM_inq_dim(int ncid, int dimid, char *name, size_t *lenp){
   nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
   debug("%d %d %s\n", ncid, dimid, name);
 
-  assert(e->dims.size > dimid);
+  assert(e->metadata_dims->size > dimid);
 
-  smd_attr_t * smd = & e->dims.smd[dimid];
+  smd_attr_t * smd = & e->metadata_dims->smd[dimid];
   if(name != NULL){
     strcpy(name, smd->name);
   }
@@ -352,10 +388,10 @@ int ESDM_get_att(int ncid, int varid, const char* name, void* value, nc_type t){
 
   smd_attr_t * att;
   if(varid == NC_GLOBAL){
-    att = e->md.vars;
+    // att = e->md.vars;// Not being used yet
   }else{
-    assert(e->vars.size > varid);
-    md_entity_var_t * smd = e->vars.smd[varid].value;
+    assert(e->metadata_vars->size > varid);
+    md_entity_var_t * smd = e->metadata_vars->smd[varid].value;
     if(smd->att == NULL){
       return NC_EINVAL;
     }
@@ -385,10 +421,10 @@ int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype,
 
   smd_attr_t * att;
   if(varid == NC_GLOBAL){
-    att = e->md.vars;
+    // att = e->md.vars; // Not being used yet
   }else{
-    assert(e->vars.size > varid);
-    md_entity_var_t * smd = e->vars.smd[varid].value;
+    assert(e->metadata_vars->size > varid);
+    md_entity_var_t * smd = e->metadata_vars->smd[varid].value;
     if(smd->att == NULL){
       smd->att = smd_attr_new("attr", SMD_DTYPE_EMPTY, NULL, 0);
     }
@@ -413,11 +449,11 @@ int ESDM_def_var(int ncid, const char *name, nc_type xtype,
   if((ret = NC_check_id(ncid, (NC**)&ncp)) != NC_NOERR) return (ret);
   nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
 
-  *varidp = e->vars.size;
+  *varidp = e->metadata_vars->size;
   debug("%d: varid: %d\n", ncid, *varidp);
 
   smd_attr_t * new = smd_attr_new(name, SMD_DTYPE_EMPTY, NULL, *varidp);
-  ret = smd_attr_link(e->md.vars, new, 0);
+  // ret = smd_attr_link(e->md.vars, new, 0); // Not being used yet
   if (ret == SMD_ATTR_EEXIST){
     return NC_EINVAL;
   }
@@ -432,8 +468,8 @@ int ESDM_def_var(int ncid, const char *name, nc_type xtype,
   int64_t bounds[ndims];
   for(int i=0; i < ndims; i++){
     int dimid = dimidsp[i];
-    assert(e->dims.size > dimid);
-    smd_attr_t * md = & e->dims.smd[dimid];
+    assert(e->metadata_dims->size > dimid);
+    smd_attr_t * md = & e->metadata_dims->smd[dimid];
     size_t val = (size_t) md->value;
     evar->dimidsp[i] = dimid;
     printf("%d %s %zd\n", dimidsp[i], md->name, val);
@@ -445,13 +481,13 @@ int ESDM_def_var(int ncid, const char *name, nc_type xtype,
     return NC_EBADTYPE;
   }
   esdm_dataspace_t * dataspace = esdm_dataspace_create(ndims, bounds, typ);
-  esdm_dataset_t * dataset = esdm_dataset_create(e->c, name, dataspace, NULL);
+  esdm_dataset_t * dataset = esdm_dataset_create(e->container, name, dataspace, NULL);
   if(dataset == NULL){
     return NC_EBADID;
   }
   evar->dset = dataset;
   evar->space = dataspace;
-  insert_md(& e->vars, name, evar);
+  insert_md(& e->metadata_vars, name, evar);
 
   return NC_NOERR;
 }
@@ -474,8 +510,8 @@ int ESDM_get_vars(int ncid, int varid, const size_t *startp, const size_t *count
   int ret = NC_NOERR;
   if((ret = NC_check_id(ncid, (NC**)&ncp)) != NC_NOERR) return (ret);
   nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
-  assert(e->vars.size > varid);
-  md_entity_var_t * smd = e->vars.smd[varid].value;
+  assert(e->metadata_vars->size > varid);
+  md_entity_var_t * smd = e->metadata_vars->smd[varid].value;
   debug("%d type: %d buff: %p %p %p %p\n", ncid, mem_nc_type, data, startp, countp, stridep);
   if(mem_nc_type != smd->type){
     return NC_EBADTYPE;
@@ -527,8 +563,8 @@ int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *count
   int ret = NC_NOERR;
   if((ret = NC_check_id(ncid, (NC**)&ncp)) != NC_NOERR) return (ret);
   nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
-  assert(e->vars.size > varid);
-  md_entity_var_t * smd = e->vars.smd[varid].value;
+  assert(e->metadata_vars->size > varid);
+  md_entity_var_t * smd = e->metadata_vars->smd[varid].value;
   debug("%d type: %d buff: %p %p %p %p\n", ncid, mem_nc_type, data, startp, countp, stridep);
   if(mem_nc_type != smd->type){
     return NC_EBADTYPE;
@@ -581,7 +617,7 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
   nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
   debug("%d %d\n", ncid, varid);
 
-  smd_attr_t * smd = & e->vars.smd[varid];
+  smd_attr_t * smd = & e->metadata_vars->smd[varid];
   assert(smd != NULL);
   md_entity_var_t * evar = (md_entity_var_t *) smd->value;
   assert(evar != NULL);
