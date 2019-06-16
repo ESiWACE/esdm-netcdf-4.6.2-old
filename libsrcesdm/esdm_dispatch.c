@@ -169,6 +169,7 @@ int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_
   //  e->metadata->smd = NULL;
   e->metadata_dims = (esdm_metadata_t *)malloc(sizeof(esdm_metadata_t));
   e->metadata_vars = (esdm_metadata_t *)malloc(sizeof(esdm_metadata_t));
+  e->metadata_attr = (esdm_metadata_t *)malloc(sizeof(esdm_metadata_t));
 
   // This is what I wanted...
 
