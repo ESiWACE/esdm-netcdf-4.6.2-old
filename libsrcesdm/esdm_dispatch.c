@@ -4,6 +4,7 @@
 
 #include <esdm.h>
 // #include <esdm-datatypes.h>
+// #include <esdm-datatypes-internal.h>
 
 #include "config.h"
 #include "nc.h"
@@ -275,7 +276,6 @@ int ESDM_def_dim(int ncid, const char *name, size_t len, int *idp){
   int ret = NC_NOERR;
   if((ret = NC_check_id(ncid, (NC**)&ncp)) != NC_NOERR) return (ret);
   esdm_dataset_tt * e = (esdm_dataset_tt *) ncp->dispatchdata;
-  // *idp = e->dims.size;
   *idp = e->metadata_dims->size;
   debug("%d: %d\n", ncid, *idp);
   ret = insert_md(& e->metadata_dims, name, (size_t*) len);
@@ -499,7 +499,6 @@ int ESDM_def_var(int ncid, const char *name, nc_type xtype,
 
 	// Copying the values
 
-	// allocar?
 	evar2->dataset = dataset;
   evar2->dataspace = dataspace;
 
@@ -533,7 +532,7 @@ int ESDM_def_var(int ncid, const char *name, nc_type xtype,
 
 	// insert_md(& e->metadata_vars, name, evar2); // The last parameter should be (size_t*)
 
-	// Here the variable evars doesn't look to have all the necessary information
+	// Here the variable evar2 doesn't look to have all the necessary information
 	// When the function ESDM_get_vars is called, the access_all variable is true and the if doesn't work
 	// With the original variable evar, the access_all variable is false and the else works
 
@@ -561,6 +560,7 @@ int ESDM_get_vars(int ncid, int varid, const size_t *startp, const size_t *count
   if((ret = NC_check_id(ncid, (NC**)&ncp)) != NC_NOERR) return (ret);
   esdm_dataset_tt * e = (esdm_dataset_tt *) ncp->dispatchdata;
   assert(e->metadata_vars->size > varid);
+
   md_entity_var_t * smd = e->metadata_vars->smd[varid].value;
 
 	// Copying the values
@@ -573,7 +573,7 @@ int ESDM_get_vars(int ncid, int varid, const size_t *startp, const size_t *count
 
 	// Here smd had to remain because the convertion between the types is not working yet
 
-	// For this attribution works, the different types have to be transformed
+	// For this attribution to work, the different types have to be transformed
 	// smd->type ===> smd_dtype_t
 	// smd2->dataspace->datatype ===> esdm_datatype_t
 	// Check functions that make this transformation
@@ -581,36 +581,46 @@ int ESDM_get_vars(int ncid, int varid, const size_t *startp, const size_t *count
 	// *************************
 
   debug("%d type: %d buff: %p %p %p %p\n", ncid, mem_nc_type, data, startp, countp, stridep);
-  if(mem_nc_type != smd->type){
-    return NC_EBADTYPE;
-  }
+
+  // if(mem_nc_type != smd->type){
+  //   return NC_EBADTYPE;
+  // }
 
 	// Copying the values
 
-	// if(mem_nc_type != smd2->dataspace->datatype){
-  //   return NC_EBADTYPE;
-  // }
+	if(mem_nc_type != smd2->dataspace->datatype->type){ // Check this later
+    return NC_EBADTYPE;
+  }
 
 	// *************************
 
   // check the dimensions we actually want to write
   int access_all = 1;
+
   esdm_dataspace_t * space = smd->space;
 
 	// Copying the values
 
 	esdm_dataspace_t * space2 = smd2->dataspace;
-	for(int i=0; i < smd2->dataspace->dimensions; i++){
 
 	// *************************
 
-  // for(int i=0; i < smd->ndims; i++){
+  for(int i=0; i < smd->ndims; i++){
     if(startp[i] != 0 || countp[i] != space->size[i]){
+
+			// Copying the values
+
+			// for(int i=0; i < smd2->dataspace->dimensions; i++){
+		  //   if(startp[i] != 0 || countp[i] != space2->size[i]){
+
+			// *************************
+
       access_all = 0;
       break;
     }
   }
   if(access_all){
+
     // ret = esdm_read(smd->dset, (void *) data, space);
 
 		// Copying the values
@@ -638,6 +648,7 @@ int ESDM_get_vars(int ncid, int varid, const size_t *startp, const size_t *count
       size[i] = countp[i];
       offset[i] = startp[i];
     }
+
     esdm_dataspace_t * subspace = esdm_dataspace_subspace(space, smd->ndims, size, offset);
     ret = esdm_read(smd->dset, (void *) data, subspace);
 
@@ -651,10 +662,24 @@ int ESDM_get_vars(int ncid, int varid, const size_t *startp, const size_t *count
 		// *************************
 
     if(ret != ESDM_SUCCESS){
-      esdm_dataspace_destroy(subspace);
+      // esdm_dataspace_destroy(subspace);
+
+			// Copying the values
+
+			esdm_dataspace_destroy(subspace2);
+
+			// *************************
+
       return NC_EINVAL;
     }
-    esdm_dataspace_destroy(subspace);
+    // esdm_dataspace_destroy(subspace);
+
+		// Copying the values
+
+		esdm_dataspace_destroy(subspace2);
+
+		// *************************
+
   }
 
   return NC_NOERR;
@@ -685,17 +710,16 @@ int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *count
 	// *************************
 
   debug("%d type: %d buff: %p %p %p %p\n", ncid, mem_nc_type, data, startp, countp, stridep);
-  if(mem_nc_type != smd->type){
-    return NC_EBADTYPE;
-  }
 
-	// Copying the values
-
-	// if(mem_nc_type != smd2->dataspace->type){
+  // if(mem_nc_type != smd->type){
   //   return NC_EBADTYPE;
   // }
 
-	// Same problem with the types convertion
+	// Copying the values
+
+	if(mem_nc_type != smd2->dataspace->datatype->type){
+    return NC_EBADTYPE;
+  }
 
 	// *************************
 
