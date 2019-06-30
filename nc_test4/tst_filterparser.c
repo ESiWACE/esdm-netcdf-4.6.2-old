@@ -30,7 +30,6 @@ params = 4294967279, 23, 4294967271, 27, 77, 93, 1145389056, 3287505826, 1097305
 
 static const char *spec = "32768, -17b, 23ub, -25S, 27US, 77, 93U, 789f, 12345678.12345678d, -9223372036854775807L, 18446744073709551615UL, 2147483647, -2147483648, 4294967295";
 
-
 /* Test support for the conversions */
 /* Not sure if this kind of casting via union is legal C99 */
 static union {

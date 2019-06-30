@@ -35,5 +35,4 @@ typedef struct OCselectionclause {
   NClist *rhs;
 } OCselectionclause;
 
-
 #endif /*OCCONSTRAINTS_H*/

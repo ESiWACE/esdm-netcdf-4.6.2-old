@@ -212,7 +212,6 @@ dimchunkspec_omit(void) {
   return dimchunkspecs.omit;
 }
 
-
 /*
  * Parse per-variable chunkspec string and convert into varchunkspec structure.
  *   ncid: location ID of open netCDF file or group in an open file

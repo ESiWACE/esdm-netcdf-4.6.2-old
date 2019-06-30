@@ -52,7 +52,6 @@ int ocstrncmp(const char *s1, const char *s2, size_t len) {
   return 0;
 }
 
-
 #if 0
 void
 makedimlist(Nclist* path, Nclist* dims)
@@ -241,7 +240,6 @@ octypetoddsstring(OCtype octype) {
   }
   return "<unknown>";
 }
-
 
 OCerror
 octypeprint(OCtype etype, void *value, size_t bufsize, char *buf) {
@@ -558,7 +556,6 @@ ocdtmodestring(OCDT mode, int compact) {
   }
   return result;
 }
-
 
 /*
 Instead of using snprintf to concatenate

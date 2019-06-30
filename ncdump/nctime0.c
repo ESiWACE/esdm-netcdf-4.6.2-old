@@ -31,7 +31,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 static struct {
   size_t nbnds; /* number of bounds variables */
   bounds_node_t *first;

@@ -31,7 +31,6 @@ void free_NC_attr(NC_attr *attrp) {
   free(attrp);
 }
 
-
 /*
  * How much space will 'nelems' of 'type' take in
  *  external representation (as the values of an attribute)?
@@ -66,7 +65,6 @@ ncx_len_NC_attrV(nc_type type, size_t nelems) {
   return 0;
 }
 
-
 NC_attr *
 new_x_NC_attr(
 NC_string *strp,
@@ -96,7 +94,6 @@ size_t nelems) {
 
   return (attrp);
 }
-
 
 /*
  * Formerly
@@ -130,7 +127,6 @@ done:
   if (name) free(name);
   return (attrp);
 }
-
 
 static NC_attr *
 dup_NC_attr(const NC_attr *rattrp) {
@@ -168,7 +164,6 @@ void free_NC_attrarrayV0(NC_attrarray *ncap) {
   ncap->nelems = 0;
 }
 
-
 /*
  * Free NC_attrarray values.
  * formerly
@@ -188,7 +183,6 @@ void free_NC_attrarrayV(NC_attrarray *ncap) {
   ncap->value = NULL;
   ncap->nalloc = 0;
 }
-
 
 int dup_NC_attrarrayV(NC_attrarray *ncap, const NC_attrarray *ref) {
   int status = NC_NOERR;
@@ -230,7 +224,6 @@ int dup_NC_attrarrayV(NC_attrarray *ncap, const NC_attrarray *ref) {
   return NC_NOERR;
 }
 
-
 /*
  * Add a new handle on the end of an array of handles
  * Formerly
@@ -266,7 +259,6 @@ incr_NC_attrarray(NC_attrarray *ncap, NC_attr *newelemp) {
   }
   return NC_NOERR;
 }
-
 
 NC_attr *
 elem_NC_attrarray(const NC_attrarray *ncap, size_t elem) {
@@ -304,7 +296,6 @@ NC_attrarray0(NC3_INFO *ncp, int varid) {
   return (ap);
 }
 
-
 /*
  * Step thru NC_ATTRIBUTE array, seeking match on name.
  *  return match or NULL if Not Found or out of memory.
@@ -338,7 +329,6 @@ done:
   if (name) free(name);
   return (attrpp); /* Normal return */
 }
-
 
 /*
  * Look up by ncid, varid and name, return NULL if not found
@@ -405,7 +395,6 @@ int NC3_inq_attname(int ncid, int varid, int attnum, char *name) {
   return NC_NOERR;
 }
 
-
 int NC3_inq_attid(int ncid, int varid, const char *name, int *attnump) {
   int status;
   NC *nc;
@@ -421,7 +410,6 @@ int NC3_inq_attid(int ncid, int varid, const char *name, int *attnump) {
   ncap = NC_attrarray0(ncp, varid);
   if (ncap == NULL)
     return NC_ENOTVAR;
-
 
   attrpp = NC_findattr(ncap, name);
   if (attrpp == NULL)
@@ -452,7 +440,6 @@ size_t *lenp) {
 
   return NC_NOERR;
 }
-
 
 int NC3_rename_att(int ncid, int varid, const char *name, const char *unewname) {
   int status = NC_NOERR;
@@ -601,7 +588,6 @@ done:
   return status;
 }
 
-
 static int
 ncx_pad_putn_Iuchar(void **xpp, size_t nelems, const uchar *tp, nc_type type, void *fillp) {
   switch (type) {
@@ -663,7 +649,6 @@ ncx_pad_getn_Iuchar(const void **xpp, size_t nelems, uchar *tp, nc_type type) {
   }
   return NC_EBADTYPE;
 }
-
 
 static int
 ncx_pad_putn_Ischar(void **xpp, size_t nelems, const schar *tp, nc_type type, void *fillp) {
@@ -727,7 +712,6 @@ ncx_pad_getn_Ischar(const void **xpp, size_t nelems, schar *tp, nc_type type) {
   return NC_EBADTYPE;
 }
 
-
 static int
 ncx_pad_putn_Ishort(void **xpp, size_t nelems, const short *tp, nc_type type, void *fillp) {
   switch (type) {
@@ -789,7 +773,6 @@ ncx_pad_getn_Ishort(const void **xpp, size_t nelems, short *tp, nc_type type) {
   }
   return NC_EBADTYPE;
 }
-
 
 static int
 ncx_pad_putn_Iint(void **xpp, size_t nelems, const int *tp, nc_type type, void *fillp) {
@@ -853,7 +836,6 @@ ncx_pad_getn_Iint(const void **xpp, size_t nelems, int *tp, nc_type type) {
   return NC_EBADTYPE;
 }
 
-
 static int
 ncx_pad_putn_Ifloat(void **xpp, size_t nelems, const float *tp, nc_type type, void *fillp) {
   switch (type) {
@@ -916,7 +898,6 @@ ncx_pad_getn_Ifloat(const void **xpp, size_t nelems, float *tp, nc_type type) {
   return NC_EBADTYPE;
 }
 
-
 static int
 ncx_pad_putn_Idouble(void **xpp, size_t nelems, const double *tp, nc_type type, void *fillp) {
   switch (type) {
@@ -978,7 +959,6 @@ ncx_pad_getn_Idouble(const void **xpp, size_t nelems, double *tp, nc_type type) 
   }
   return NC_EBADTYPE;
 }
-
 
 #ifdef IGNORE
 static int
@@ -1107,7 +1087,6 @@ ncx_pad_getn_Ilonglong(const void **xpp, size_t nelems, longlong *tp, nc_type ty
   return NC_EBADTYPE;
 }
 
-
 static int
 ncx_pad_putn_Iushort(void **xpp, size_t nelems, const ushort *tp, nc_type type, void *fillp) {
   switch (type) {
@@ -1169,7 +1148,6 @@ ncx_pad_getn_Iushort(const void **xpp, size_t nelems, ushort *tp, nc_type type) 
   }
   return NC_EBADTYPE;
 }
-
 
 static int
 ncx_pad_putn_Iuint(void **xpp, size_t nelems, const uint *tp, nc_type type, void *fillp) {
@@ -1233,7 +1211,6 @@ ncx_pad_getn_Iuint(const void **xpp, size_t nelems, uint *tp, nc_type type) {
   return NC_EBADTYPE;
 }
 
-
 static int
 ncx_pad_putn_Iulonglong(void **xpp, size_t nelems, const ulonglong *tp, nc_type type, void *fillp) {
   switch (type) {
@@ -1295,7 +1272,6 @@ ncx_pad_getn_Iulonglong(const void **xpp, size_t nelems, ulonglong *tp, nc_type 
   }
   return NC_EBADTYPE;
 }
-
 
 /* Common dispatcher for put cases */
 static int

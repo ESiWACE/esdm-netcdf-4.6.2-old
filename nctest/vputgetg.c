@@ -67,7 +67,6 @@ test_varputgetg(cdfid) int cdfid; /* handle of netcdf open and in data mode */
 #define STRIDE(idim) (idim + 2)
 #define INTNPTS(extnpts, idim) (1 + (extnpts - 1) / STRIDE(idim))
 
-
     for (id = test.vars[iv].ndims - 1; id >= 0; --id) { /* set cubes */
 
       /* start at "lower-left" corner, do whole variable.  unity

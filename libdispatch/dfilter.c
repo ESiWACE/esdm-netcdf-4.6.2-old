@@ -17,7 +17,6 @@
 Common utilities related to filters.
 */
 
-
 /* Forward */
 static int gettype(const int q0, const int q1, int *unsignedp);
 

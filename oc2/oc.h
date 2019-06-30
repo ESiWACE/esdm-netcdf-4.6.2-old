@@ -285,7 +285,6 @@ external "C" {
 */
   EXTERNL OCerror oc_dds_fieldbyname(OClink, OCddsnode, const char *name, OCddsnode *fieldp);
 
-
   /* Return the dimension nodes, if any, associated with a given DDS node */
   /* Caller must allocate and free the vector for dimids */
   /* If the node is scalar, then return OC_ESCALAR. */
@@ -320,7 +319,6 @@ external "C" {
   EXTERNL OCerror oc_dds_attr(OClink, OCddsnode, size_t i,
   char **name, OCtype *octype,
   size_t *nvalues, char **strings);
-
 
   /* Access ith value string of a DAS OC_Attribute object.
    OCddsnode of the object is assumed to be OC_Attribute.

@@ -268,7 +268,6 @@ NCD2_def_opaque(int, size_t, const char *, nc_type *);
 extern int
 NCD2_set_var_chunk_cache(int, int, size_t, size_t, float);
 
-
 extern int
 NCD2_get_var_chunk_cache(int, int, size_t *, size_t *, float *);
 

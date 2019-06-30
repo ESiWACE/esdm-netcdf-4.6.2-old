@@ -11,7 +11,6 @@
 #include <config.h>
 #include <stdio.h>
 
-
 /* fill typed value block with values of specified type */
 void
 val_fill(type, len, vals)
@@ -62,7 +61,6 @@ void *vals;   /* start of first block of values */
   }
 }
 
-
 /* fill typed value block with zeros of specified type */
 void
 val_fill_zero(type, len, vals)
@@ -111,7 +109,6 @@ void *vals;   /* start of first block of values */
       error("%s: bad type, test program error", pname);
   }
 }
-
 
 /* 
  * compare two typed value blocks, return 0 if equal, 1+n otherwise, 
@@ -191,7 +188,6 @@ void *v2;     /* start of second block of values */
   }
   return 0; /* all values agree */
 }
-
 
 /* print typed value block with values of specified type */
 void

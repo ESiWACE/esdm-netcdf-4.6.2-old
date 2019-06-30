@@ -36,7 +36,6 @@ int add_attrs(hid_t objid) {
   if ((vlstr_typeid = H5Tcreate(H5T_STRING, (size_t)H5T_VARIABLE)) < 0) ERR_GOTO;
   if ((fixstr_typeid = H5Tcreate(H5T_STRING, (size_t)10)) < 0) ERR_GOTO;
 
-
   /* Create attribute with VL string data type on object */
   if ((attid = H5Acreate2(objid, VSTR_ATT1_NAME, vlstr_typeid, scalar_spaceid, H5P_DEFAULT, H5P_DEFAULT)) < 0) ERR_GOTO;
   /* No write, use fill value */
@@ -69,7 +68,6 @@ int add_attrs(hid_t objid) {
   /* Create attribute with native integer data type on object */
   if ((attid = H5Acreate2(objid, INT_ATT_NAME, H5T_NATIVE_INT, scalar_spaceid, H5P_DEFAULT, H5P_DEFAULT)) < 0) ERR_GOTO;
   if (H5Aclose(attid) < 0) ERR_GOTO;
-
 
   /* Clean up objects created */
   if (H5Sclose(scalar_spaceid) < 0) ERR_GOTO;
@@ -164,7 +162,6 @@ int check_attrs(int ncid, int obj) {
   if (nc_get_att(ncid, obj, INT_ATT_NAME, &x)) ERR_GOTO;
   if (0 != x) ERR_GOTO;
 
-
   return (0);
 
 error:
@@ -195,18 +192,15 @@ int main() {
     /* Close file creation property list */
     if (H5Pclose(fcplid) < 0) ERR;
 
-
     /* Create variable-length string data type */
     if ((vlstr_typeid = H5Tcreate(H5T_STRING, (size_t)H5T_VARIABLE)) < 0) ERR;
 
     /* Create fixed-length string data type */
     if ((fixstr_typeid = H5Tcreate(H5T_STRING, (size_t)10)) < 0) ERR;
 
-
     /* Set creation ordering for dataset, so we can revise its contents later */
     if ((dcplid = H5Pcreate(H5P_DATASET_CREATE)) < 0) ERR;
     if (H5Pset_attr_creation_order(dcplid, H5P_CRT_ORDER_TRACKED) < 0) ERR;
-
 
     /* Create scalar dataset with VL string data type */
     if ((dsetid = H5Dcreate2(fileid, VSTR_VAR1_NAME, vlstr_typeid, scalar_spaceid, H5P_DEFAULT, dcplid, H5P_DEFAULT)) < 0) ERR;
@@ -217,7 +211,6 @@ int main() {
     /* Close VL string dataset */
     if (H5Dclose(dsetid) < 0) ERR;
 
-
     /* Create scalar dataset with fixed-length string data type */
     if ((dsetid = H5Dcreate2(fileid, FSTR_VAR_NAME, fixstr_typeid, scalar_spaceid, H5P_DEFAULT, dcplid, H5P_DEFAULT)) < 0) ERR;
 
@@ -226,7 +219,6 @@ int main() {
 
     /* Close fixed-length string dataset */
     if (H5Dclose(dsetid) < 0) ERR;
-
 
     /* Create scalar dataset with native integer data type */
     if ((dsetid = H5Dcreate2(fileid, INT_VAR_NAME, H5T_NATIVE_INT, scalar_spaceid, H5P_DEFAULT, dcplid, H5P_DEFAULT)) < 0) ERR;
@@ -237,10 +229,8 @@ int main() {
     /* Close native integer dataset */
     if (H5Dclose(dsetid) < 0) ERR;
 
-
     /* Add attributes to root group */
     if (add_attrs(fileid) < 0) ERR;
-
 
     /* Close dataset creation property list */
     if (H5Pclose(dcplid) < 0) ERR;
@@ -248,7 +238,6 @@ int main() {
     /* Close string data types */
     if (H5Tclose(vlstr_typeid) < 0) ERR;
     if (H5Tclose(fixstr_typeid) < 0) ERR;
-
 
     /* Close rest */
     if (H5Sclose(scalar_spaceid) < 0) ERR;
@@ -336,7 +325,6 @@ int main() {
     if (nc_put_var(ncid, varid, &vlstr)) ERR;
     free(vlstr);
 
-
     /* Write to a VL string attribute */
     vlstr = NULL;
     if (nc_put_att(ncid, varid, VSTR_ATT1_NAME, NC_STRING, 1, &vlstr)) ERR;
@@ -348,7 +336,6 @@ int main() {
     strcpy(vlstr, "foo");
     if (nc_put_att(ncid, varid, VSTR_ATT1_NAME, NC_STRING, 1, &vlstr)) ERR;
     free(vlstr);
-
 
     /* Define a new VL string variable */
     if (nc_def_var(ncid, VSTR_VAR2_NAME, NC_STRING, 0, NULL, &varid)) ERR;
@@ -364,7 +351,6 @@ int main() {
     strcpy(vlstr, "foo");
     if (nc_put_att(ncid, varid, _FillValue, NC_STRING, 1, &vlstr)) ERR;
     free(vlstr);
-
 
     if (nc_close(ncid)) ERR;
   }

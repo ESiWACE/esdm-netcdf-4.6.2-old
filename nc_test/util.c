@@ -13,7 +13,6 @@ void print_nok(int nok) {
   print(" %d good comparisons. ", nok);
 }
 
-
 /* Is value within external type range? */
 int inRange(const double value, const nc_type xtype) {
   switch (xtype) {
@@ -167,7 +166,6 @@ const nct_itype itype) {
   return inRange(value, xtype);
 }
 
-
 /*
  *  Does x == y, where one is internal and other external (netCDF)?
  *  Use tolerant comparison based on IEEE FLT_EPSILON or DBL_EPSILON.
@@ -225,7 +223,6 @@ int int_vec_eq(const int *v1, const int *v2, const int n) {
   return i == n;
 }
 
-
 /*
  *  Generate random integer from 0 to n-1
  *  Like throwing an n-sided dice marked 0, 1, 2, ..., n-1
@@ -246,7 +243,6 @@ size_t roll(size_t n) {
 
   return r;
 }
-
 
 /*
  *      Convert number to mixed base
@@ -304,7 +300,6 @@ size_t base[])   /* dimensioned [length], base[0] ignored */
   return result;
 }
 
-
 /* Convert any nc_type to double */
 int nc2dbl(const nc_type xtype, const void *p, double *result) {
   if (!p) return 2;
@@ -339,7 +334,6 @@ int nc2dbl(const nc_type xtype, const void *p, double *result) {
   }
   return 0;
 }
-
 
 /* Convert double to any nc_type */
 int dbl2nc(const double d, const nc_type xtype, void *p) {
@@ -678,7 +672,6 @@ char2type(char letter) {
   return NC_CHAR; /* Just to keep compiler happy */
 }
 
-
 static void
 init_dims(const char *digit) {
   int dimid; /* index of dimension */
@@ -790,7 +783,6 @@ void init_gvars(void) {
   init_gatts(type_letter);
 }
 
-
 /* define dims defined by global variables */
 void def_dims(int ncid) {
   int err; /* status */
@@ -805,7 +797,6 @@ void def_dims(int ncid) {
   }
 }
 
-
 /* define vars defined by global variables */
 void def_vars(int ncid) {
   int err; /* status */
@@ -819,7 +810,6 @@ void def_vars(int ncid) {
     error("nc_def_var: %s", nc_strerror(err));
   }
 }
-
 
 /* put attributes defined by global variables */
 void put_atts(int ncid) {
@@ -902,7 +892,6 @@ void put_vars(int ncid) {
   }
 }
 
-
 /* Create & write all of specified file using global variables */
 void write_file(char *filename) {
   int ncid; /* netCDF id */
@@ -931,7 +920,6 @@ void write_file(char *filename) {
   error("nc_close: %s", nc_strerror(err));
 }
 
-
 /*
  * check dimensions of specified file have expected name & length
  */
@@ -951,7 +939,6 @@ void check_dims(int ncid) {
     error("Unexpected length %d of dimension %d, expected %zu", length, i, dim_len[i]);
   }
 }
-
 
 /*
  * check variables of specified file have expected name, type, shape & values
@@ -1025,7 +1012,6 @@ void check_vars(int ncid) {
   print_nok(nok);
 }
 
-
 /*
  * check attributes of specified file have expected name, type, length & values
  */
@@ -1090,7 +1076,6 @@ void check_atts(int ncid) {
   print_nok(nok);
 }
 
-
 /* Check file (dims, vars, atts) corresponds to global variables */
 void check_file(char *filename) {
   int ncid; /* netCDF id */
@@ -1128,7 +1113,6 @@ s_nc_type(nc_type xtype) {
   }
   return "";
 }
-
 
 int file_create(const char *filename, int cmode, int *ncid) {
   int err;
@@ -1190,7 +1174,6 @@ int file_open(const char *filename, int omode, int *ncid) {
 
   return err;
 }
-
 
 #ifdef USE_PNETCDF
 #  include <pnetcdf.h> /* to include PnetCDF error codes */
@@ -1377,7 +1360,6 @@ char *nc_err_code_name(int err) {
   }
   return unknown_str;
 }
-
 
 int test_nc_against_pnetcdf(void) {
   int format;

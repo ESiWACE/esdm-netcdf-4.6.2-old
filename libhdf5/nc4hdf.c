@@ -756,7 +756,6 @@ write_netcdf4_dimid(hid_t datasetid, int dimid) {
   if (dimid_attid < 0)
     return NC_EHDFERR;
 
-
   /* Write it. */
   LOG((4, "%s: writing secret dimid %d", __func__, dimid));
   if (H5Awrite(dimid_attid, H5T_NATIVE_INT, &dimid) < 0)

@@ -45,7 +45,6 @@ va_dcl
   error_count++;
 }
 
-
 /*
  * Turn off netCDF library handling of errors.  Caller must check all error
  * returns after calling this, until on_errs() is called.
@@ -55,7 +54,6 @@ void off_errs() {
   ncopts &= ~NC_FATAL;   /* make errors nonfatal */
   ncopts &= ~NC_VERBOSE; /* turn off error messages */
 }
-
 
 /*
  * Let netCDF library handle subsequent errors.  Callers don't need to check

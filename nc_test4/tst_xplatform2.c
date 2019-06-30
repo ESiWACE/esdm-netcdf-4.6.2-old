@@ -374,7 +374,6 @@ int main(int argc, char **argv) {
         NC_COMPOUND_OFFSET(struct s2, data),
         s1_typeid, 1, dimsizes)) ERR;
 
-
     /* Write the output data as an attribute. */
     if (nc_put_att(ncid, NC_GLOBAL, S2_ATT_NAME, s2_typeid,
         DIM2_LEN, comp_array_of_comp_out)) ERR;
@@ -434,7 +433,6 @@ int main(int argc, char **argv) {
     if (nc_insert_array_compound(ncid, s3_typeid, VL_NAME,
         NC_COMPOUND_OFFSET(struct s3, data),
         vlen_typeid, 1, dimsizes)) ERR;
-
 
     /* Write the output data as an attribute. */
     if (nc_put_att(ncid, NC_GLOBAL, S3_ATT_NAME, s3_typeid,

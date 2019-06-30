@@ -9,10 +9,8 @@ This nciter code was derived from the ncdump/nciter code.
 It has diverged slightly over time.
 */
 
-
 #include "nc_iter.h"
 #include "includes.h"
-
 
 #define CHECK(stat, f)                   \
   if (stat != NC_NOERR) {                \
@@ -127,7 +125,6 @@ size_t *count                /* returned count vector for next vara call */
   return iter->more == 0 ? 0 : iter->to_get;
 }
 
-
 /* Initialize block iteration for variables, including those that
  * won't fit in the copy buffer all at once.
  */
@@ -201,7 +198,6 @@ size_t *odom        /* The "odometer" vector to be updated */
     ret = 0;
   return ret;
 }
-
 
 static int
 nciter_ndims(Symbol *sym, int *ndimsp) {

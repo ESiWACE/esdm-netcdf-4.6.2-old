@@ -33,7 +33,6 @@ static const int LEGAL_CREATE_FLAGS = (NC_WRITE | NC_NOCLOBBER | NC_64BIT_OFFSET
 
 static const int LEGAL_OPEN_FLAGS = (NC_WRITE | NC_NOCLOBBER | NC_SHARE | NC_LOCK | NC_CLASSIC_MODEL | NC_64BIT_OFFSET | NC_64BIT_DATA | NC_MPIIO | NC_MPIPOSIX | NC_ESDM);
 
-
 /**************************************************/
 
 static int
@@ -188,7 +187,6 @@ NCP_abort(int ncid) {
 
   return status;
 }
-
 
 static int
 NCP_close(int ncid, void *ignored) {

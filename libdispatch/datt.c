@@ -55,7 +55,6 @@ Operations supported on attributes are:
 
 /*! \{*/ /* All these functions are part of the above defgroup... */
 
-
 /** \name Deleting and Renaming Attributes
 
 Functions to delete or rename an attribute. */

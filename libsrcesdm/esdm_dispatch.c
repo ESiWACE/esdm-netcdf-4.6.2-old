@@ -238,12 +238,10 @@ int ESDM_def_var_fill(int ncid, int varid, int no_fill, const void *fill_value) 
   return NC_NOERR;
 }
 
-
 int ESDM_var_par_access(int ncid, int varid, int access) {
   debug("%d: var:%d access:%d\n", ncid, varid, access);
   return NC_NOERR;
 }
-
 
 int ESDM_inq_base_pe(int ncid, int *pe) { // for parallel execution
   debug("%d\n", ncid);
@@ -868,7 +866,6 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
   // esdm_dataset_t * dataset
   return NC_NOERR;
 }
-
 
 static NC_Dispatch esdm_dispatcher = {
 NC_FORMATX_ESDM,

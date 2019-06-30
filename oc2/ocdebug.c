@@ -27,7 +27,6 @@ int xxdrerror(void) {
   return OCCATCH(OC_EDATADDS);
 }
 
-
 void *
 occalloc(size_t size, size_t nelems) {
   return ocmalloc(size * nelems);

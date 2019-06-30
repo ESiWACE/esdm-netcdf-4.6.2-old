@@ -27,7 +27,6 @@ struct OCdata {
   off_t *strings;
 };
 
-
 extern void ocdata_free(OCstate *, OCdata *);
 
 extern OCerror ocdata_ithfield(OCstate *, OCdata *container, size_t index, OCdata **fieldp);

@@ -30,7 +30,6 @@
 #define MAXINT 2147483647
 #define MAXBYTE 127
 
-
 #define FNAME "t_nc.nc"
 #define NUM_DIMS 3
 #define DONT_CARE -1
@@ -68,7 +67,6 @@ union getret {
   double dbl;
 };
 
-
 static void
 chkgot(nc_type type, union getret got, double check) {
   switch (type) {
@@ -97,7 +95,6 @@ chkgot(nc_type type, union getret got, double check) {
 
 static const char *fname = FNAME;
 
-
 static size_t num_dims = NUM_DIMS;
 static size_t sizes[] = {NC_UNLIMITED, SIZE_1, SIZE_2};
 static const char *const dim_names[] = {"record", "ixx", "iyy"};
@@ -111,7 +108,6 @@ createtestdims(int cdfid, size_t num_dims, const size_t *sizes, const char *cons
     sizes++;
   }
 }
-
 
 static void
 testdims(int cdfid, size_t num_dims, size_t *sizes, const char *const dim_names[]) {
@@ -127,7 +123,6 @@ testdims(int cdfid, size_t num_dims, size_t *sizes, const char *const dim_names[
     assert(strcmp(cp, *dim_names++) == 0);
   }
 }
-
 
 static const char *const reqattr[] = {
 "UNITS",
@@ -225,7 +220,6 @@ createtestvars(int id, const struct tcdfvar *testvars, size_t count) {
 /* 		(void) fprintf(stdout," %lu", (unsigned long) *array); */
 /* } */
 
-
 static void
 fill_seq(int id) {
   float values[NUM_RECS * SIZE_1 * SIZE_2];
@@ -318,7 +312,6 @@ static int birthday = 82555;
 static float e = (float)M_E;
 static double pinot = 3.25;
 static double zed = 0.0;
-
 
 /*ARGSUSED*/
 int main(int argc, char *argv[]) {
@@ -443,7 +436,6 @@ int main(int argc, char *argv[]) {
   assert(nc_put_var1_double(id, Double_id, indices[0], &pinot)
          == NC_NOERR);
 
-
 #ifdef SYNCDEBUG
   (void)printf("Hit Return to sync\n");
   gets(str);
@@ -454,7 +446,6 @@ int main(int argc, char *argv[]) {
 
   ret = nc_close(id);
   /* (void) printf("nc_close ret = %d\n\n", ret); */
-
 
   /*
  *	read it

@@ -1246,7 +1246,6 @@ int main(int argc, char **argv) {
 
     if (nc_close(ncid)) ERR;
 
-
     /* Verify that the variable in the child group was recognized by the library */
     if (nc_open(FILE_NAME, NC_NOWRITE, &ncid)) ERR;
     if (nc_inq_grp_ncid(ncid, GRP_NAME, &grpid)) ERR;

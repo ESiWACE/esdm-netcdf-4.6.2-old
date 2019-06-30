@@ -405,7 +405,6 @@ unwind_open:
   return status;
 }
 
-
 /* 
  *  Get file size in bytes.
  */

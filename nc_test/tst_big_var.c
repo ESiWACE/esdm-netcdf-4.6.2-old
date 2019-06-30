@@ -25,7 +25,6 @@
 #  define NUM_FORMATS (2)
 #endif
 
-
 #define NUMDIMS 2 /* rank of each variable in tests */
 #define DIM1 2048
 #define DIM2 2097153 /* DIM1*DIM2*sizeof(char)   > 2**32 */

@@ -641,7 +641,6 @@ ncuribuild(NCURI *duri, const char *prefix, const char *suffix, int flags) {
   return newuri;
 }
 
-
 const char *
 ncurilookup(NCURI *uri, const char *key) {
   int i;
@@ -686,7 +685,6 @@ ncuriremoveparam(NCURI* uri, const char* key)
 }
 #endif
 
-
 /* Internal version of lookup; returns the paired index of the key;
    case insensitive
  */
@@ -699,7 +697,6 @@ ncfind(char **params, const char *key) {
   }
   return -1;
 }
-
 
 #if 0
 static void
@@ -765,7 +762,6 @@ toHex(unsigned int b, char hex[2]) {
   hex[0] = hexchars[(b >> 4) & 0xf];
   hex[1] = hexchars[(b)&0xf];
 }
-
 
 static int
 fromHex(int c) {

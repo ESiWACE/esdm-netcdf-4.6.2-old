@@ -440,7 +440,6 @@ istoplevel(OCnode *node) {
   return 1;
 }
 
-
 /* XDR representation size depends on if this is scalar or not */
 static size_t
 ocxdrsize(OCtype etype, int isscalar) {

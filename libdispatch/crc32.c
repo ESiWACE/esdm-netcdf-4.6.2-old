@@ -94,7 +94,6 @@ extern unsigned int NC_crc32(unsigned int crc, const unsigned char* buf, unsigne
 #  endif /* !DYNAMIC_CRC_TABLE */
 #endif   /* MAKECRCH */
 
-
 /* Definitions for doing the crc four data bytes at a time. */
 #if !defined(NOBYFOUR) && defined(Z_U4)
 #  define BYFOUR

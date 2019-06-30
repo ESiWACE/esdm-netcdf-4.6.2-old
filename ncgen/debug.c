@@ -28,7 +28,6 @@ int settrace(int tf) {
   return 1;
 }
 
-
 void fdebug(const char *fmt, ...) {
   va_list argv;
   if (debug == 0) return;

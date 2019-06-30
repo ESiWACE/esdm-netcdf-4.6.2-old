@@ -43,7 +43,6 @@
 #  define FMTCHECK
 #endif
 
-
 static int file_create(const char *filename, int cmode, int *ncid) {
   int err;
 

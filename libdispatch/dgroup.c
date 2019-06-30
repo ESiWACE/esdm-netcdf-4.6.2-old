@@ -166,7 +166,6 @@ int nc_inq_grp_full_ncid(int ncid, const char *full_name, int *grp_ncid) {
   return ncp->dispatch->inq_grp_full_ncid(ncid, full_name, grp_ncid);
 }
 
-
 /*! Get a list of varids associated with a group given a group ID.
 
   @param[in] ncid    The ncid of the group in question.

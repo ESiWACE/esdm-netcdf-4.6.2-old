@@ -19,7 +19,6 @@ append(const char *s1, const char *s2) {
   return result;
 }
 
-
 unsigned int
 chartohex(char c) {
   switch (c) {
@@ -77,7 +76,6 @@ int n) {
   }
   return p == 2 * n;
 }
-
 
 /*
  * Remove trailing zeros (after decimal point) but not trailing decimal
@@ -235,7 +233,6 @@ int isunlimited0(Dimset *dimset) {
   return (dimset->ndims > 0 && dimset->dimsyms[0]->dim.declsize == NC_UNLIMITED);
 }
 
-
 /* True only if dim[0] is unlimited all rest are bounded*/
 /* or all are bounded*/
 int classicunlimited(Dimset *dimset) {
@@ -332,7 +329,6 @@ void collectpath(Symbol *grp, List *grpstack) {
     grp = grp->container;
   }
 }
-
 
 #ifdef USE_NETCDF4
 /* Result is pool'd*/
@@ -525,7 +521,6 @@ size_t
 prefixarraylength(Dimset *dimset, int last) {
   return crossproduct(dimset, 0, last + 1);
 }
-
 
 #ifdef USE_NETCDF4
 extern int H5Eprint1(FILE *stream);

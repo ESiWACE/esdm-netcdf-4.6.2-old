@@ -14,7 +14,6 @@
 #include <stdio.h>
 #include <stdlib.h> /* for free() */
 
-
 /*
  * Test ncvarput
  *    check that proper call worked with ncvarget

@@ -36,7 +36,6 @@
 #define DIM2 1000
 #define DIM3 2000 /* DIM1*DIM2*DIM3 > 2**32 */
 
-
 static int
 test_big_var(const char *testfile) {
   int ncid, varid, dimids[NUMDIMS];

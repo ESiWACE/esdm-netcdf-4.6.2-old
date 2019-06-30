@@ -14,7 +14,6 @@ typedef struct DCEparsestate DCEparsestate;
 
 #ifdef WIN32
 
-
 #endif
 
 /* For consistency with Java parser */
@@ -51,7 +50,6 @@ struct DCEparsestate {
    essentially the same role as the typical bison %union
    declaration
 */
-
 
 extern int ceerror(DCEparsestate *, char *);
 extern void ce_parse_error(DCEparsestate *, const char *fmt, ...);

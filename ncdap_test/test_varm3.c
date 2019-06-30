@@ -16,7 +16,6 @@ TODO: Note that this test uses thredds server
 
 /* This particular test seems to occasionally expose a server error*/
 
-
 #include "ncdispatch.h"
 #include "nctestserver.h"
 #include "netcdf.h"

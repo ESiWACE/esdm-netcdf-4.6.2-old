@@ -537,7 +537,6 @@ printdata(OClink link, OCdatanode datanode) {
   return OC_NOERR;
 }
 
-
 /* Print a single container datanode */
 static OCerror
 printdata_container(OClink link, OCdatanode datanode, NCbytes *buffer, int istoplevel) {
@@ -995,7 +994,6 @@ needsescapes(const char *s) {
   return 0;
 }
 
-
 static OCerror
 dumpdatanode(OClink link, OCdatanode datanode, size_t count, void *memory, NCbytes *buffer) {
   size_t i;
@@ -1161,7 +1159,6 @@ pushstack(OCdatanode datanode) {
   }
   stacknext++;
 }
-
 
 #ifdef TRACK
 static void printstack(char *msg) {

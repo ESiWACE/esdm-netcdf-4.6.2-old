@@ -18,7 +18,6 @@
 #undef max
 #define max(A, B) ((A) > (B) ? (A) : (B))
 
-
 /* 
  * For every variable in open netcdf, puts and gets three hypercubes 
  * of data of the appropriate type, comparing values from get to 

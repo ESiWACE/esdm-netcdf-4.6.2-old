@@ -106,7 +106,6 @@ int odometerincr(Odometer *odom) {
   return i; /* return rightmost incremented */
 }
 
-
 /*
 Suppose we have the declaration int F[2][5][3];
 There are obviously a total of 2 X 5 X 3 = 30 integers in F.

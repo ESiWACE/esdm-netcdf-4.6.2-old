@@ -110,7 +110,6 @@ typedef struct NC_MPI_INFO {
 /*Forward*/
 // typedef struct NC_Dispatch NC_Dispatch;
 
-
 extern int NCDISPATCH_initialize(void);
 extern int NCDISPATCH_finalize(void);
 
@@ -173,7 +172,6 @@ struct nc_vlen_t;
 #endif /*!USE_NETCDF4*/
 
 struct NC;
-
 
 int NC_create(const char *path, int cmode,
 size_t initialsz, int basepe, size_t *chunksizehintp,
@@ -373,7 +371,6 @@ extern int NC_is_recvar(int ncid, int varid, size_t *nrecs);
 extern int NC_inq_recvar(int ncid, int varid, int *nrecdims, int *is_recdim);
 
 #define nullstring(s) (s == NULL ? "(null)" : s)
-
 
 #undef TRACECALLS
 #ifdef TRACECALLS

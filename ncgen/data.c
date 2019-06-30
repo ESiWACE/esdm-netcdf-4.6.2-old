@@ -32,7 +32,6 @@ Bytebuffer *codebuffer;
 Bytebuffer *codetmp;
 Bytebuffer *stmt;
 
-
 /* Forward */
 static void setconstlist(NCConstant *con, Datalist *dl);
 
@@ -119,7 +118,6 @@ setconstlist(NCConstant *con, Datalist *dl) {
 #endif
   con->value.compoundv = dl;
 }
-
 
 /* Deep constant cloning; return struct not pointer to struct*/
 NCConstant *
@@ -228,7 +226,6 @@ int datalistline(Datalist *ds) {
   return ds->data[0]->lineno;
 }
 
-
 /* Go thru a databuf of possibly nested constants
    and insert commas as needed; ideally, this
    operation should be idempotent so that
@@ -318,7 +315,6 @@ wordstring(char *p, Bytebuffer *buf, int quote) {
   return p;
 }
 
-
 static const char zeros[] = "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0";
 
 void alignbuffer(NCConstant *prim, Bytebuffer *buf) {
@@ -340,7 +336,6 @@ void alignbuffer(NCConstant *prim, Bytebuffer *buf) {
     bbAppendn(buf, (void *)zeros, pad);
   }
 }
-
 
 /*
 Following routines are in support of language-oriented output
@@ -563,7 +558,6 @@ void dlextend(Datalist *dl) {
   dl->data = newdata;
 }
 
-
 void capture(Datalist *dl) {
   if (alldatalists == NULL) alldatalists = listnew();
   listpush(alldatalists, dl);
@@ -626,7 +620,6 @@ clonedatalist(Datalist *dl) {
   newdl->readonly = dl->readonly;
   return newdl;
 }
-
 
 /* recursive helpers */
 

@@ -268,7 +268,6 @@ const void *value0, nc_type memtype) {
       to read larger chunks at a time.
     */
 
-
   odom_init(&odom, rank, mystart, myedges, mystride);
 
   /* walk the odometer to extract values */

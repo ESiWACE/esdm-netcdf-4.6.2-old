@@ -144,7 +144,6 @@ j_vlenstring(Generator *generator, Symbol *sym, Bytebuffer *vlenmem, int *uidp, 
   return 1;
 }
 
-
 /* Define the single static bin data generator  */
 static Generator j_generator_singleton = {
 NULL,

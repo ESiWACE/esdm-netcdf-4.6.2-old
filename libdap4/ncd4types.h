@@ -114,7 +114,6 @@ enum NCD4mode {
   NCD4_DSR = 4
 };
 
-
 /* Define storage for all the primitive types (plus vlen) */
 union ATOMICS {
   char i8[8];

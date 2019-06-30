@@ -748,7 +748,6 @@ int main(int argc, char **argv) {
     float float_in[ATT_LEN];
     double double_in[ATT_LEN];
 
-
     /* Create a file with a global attribute of each type of zero length. */
     if (nc_create(FILE_NAME, NC_NETCDF4, &ncid)) ERR;
     if (nc_enddef(ncid)) ERR;

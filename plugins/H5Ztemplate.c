@@ -41,7 +41,6 @@ size_t H5Z_filter_xxxx(unsigned int flags, size_t cd_nelmts,
 const unsigned int cd_values[], size_t nbytes,
 size_t *buf_size, void **buf);
 
-
 size_t H5Z_filter_xxxx(unsigned int flags, size_t cd_nelmts,
 const unsigned int cd_values[], size_t nbytes,
 size_t *buf_size, void **buf) {

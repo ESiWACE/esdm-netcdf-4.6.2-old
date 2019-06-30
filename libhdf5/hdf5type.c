@@ -367,7 +367,6 @@ nc_type *typeidp) {
   return add_user_type(ncid, datum_size, name, 0, NC_OPAQUE, typeidp);
 }
 
-
 /**
  * @internal Define a variable length type.
  *

@@ -35,7 +35,6 @@ Problem was two-fold:
 
 /* test nc_get_vars_float with calls similar to Ferret calls */
 
-
 /*linked with:
 
 cc vars_whoi_test.c -g -o vars_whoi_test_4211 /usr/local/netcdf_4211/lib/libnetcdf.a /usr/local/hdf5_189/lib/libhdf5_hl.a /usr/local/hdf5_189/lib/libhdf5.a /usr/local/lib/libz.a -L/usr/lib64 -lc -lm -lcurl
@@ -124,7 +123,6 @@ int main() {
 
   ndim = 2;
 
-
 #ifdef VERBOSE
   printf(" \n");
   printf("********************\n");
@@ -160,7 +158,6 @@ int main() {
   for (i = 0; i < 10; i++)
     printf("%s[%d] = %f\n", VAR1, i, dat[i]);
   printf(" \n");
-
 
   for (i = (nelems - 11); i < (nelems - 1); i++)
     printf("%s[%d] = %f\n", VAR1, i, dat[i]);

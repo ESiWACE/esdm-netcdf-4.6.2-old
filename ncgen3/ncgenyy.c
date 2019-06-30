@@ -1010,7 +1010,6 @@ static int input(void);
       }                                                                         \
     }
 
-
 #endif
 
 /* No semi-colon after return; correct usage is to write "yyterminate();" -
@@ -2364,7 +2363,6 @@ void ncgfree(void *ptr) {
 #define YYTABLES_NAME "yytables"
 
 #line 285 "ncgen.l"
-
 
 /* Hack to keep compile quiet */
 void ignore() {

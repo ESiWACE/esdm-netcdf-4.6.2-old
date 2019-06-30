@@ -20,7 +20,6 @@
 
 #define FILE_NAME "tst_global_fillval.nc"
 
-
 int main(int argc, char **argv) {
   printf("*** testing proper elatefill return...");
   {
@@ -39,7 +38,6 @@ int main(int argc, char **argv) {
 #endif
 
     formats = malloc(sizeof(int) * num_formats);
-
 
     formats[n++] = 0;
     formats[n++] = NC_64BIT_OFFSET;

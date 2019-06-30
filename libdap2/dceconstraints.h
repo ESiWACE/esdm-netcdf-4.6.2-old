@@ -88,7 +88,6 @@ typedef struct DCEconstraint {
   NClist *selections;
 } DCEconstraint;
 
-
 extern int dceparseconstraints(char *constraints, DCEconstraint *DCEonstraint);
 extern int dceslicecompose(DCEslice *s1, DCEslice *s2, DCEslice *sr);
 extern int dcemergeprojectionlists(NClist *dst, NClist *src);
@@ -125,7 +124,6 @@ size_t *start,
 size_t *count,
 size_t *stride,
 size_t *sizes);
-
 
 /* Find leftmost index of segment slices
    s.t. that index and all upto last

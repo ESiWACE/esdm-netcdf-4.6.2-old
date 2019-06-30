@@ -62,7 +62,6 @@ int main() {
     htri_t types_equal;
     hid_t base_hdf_typeid;
 
-
     for (i = 0; i < NUM_VALS; i++)
       val[i] = i * 2;
     for (i = 0; i < DIM1_LEN; i++)

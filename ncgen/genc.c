@@ -562,7 +562,6 @@ void genc_close(void) {
  * Output a C statement
  */
 
-
 /* return C name for netCDF type, given type code */
 const char *
 nctype(nc_type type) {
@@ -583,7 +582,6 @@ nctype(nc_type type) {
   }
   return NULL;
 }
-
 
 /*
  * Return C type name for netCDF type, given type code.
@@ -1242,7 +1240,6 @@ int rank, size_t *start, size_t *count) {
   codelined(1, "check_err(stat,__LINE__,__FILE__);");
   codelined(1, "}");
 }
-
 
 /* Compute the C name for a given symbol;
 modified to use the fqn

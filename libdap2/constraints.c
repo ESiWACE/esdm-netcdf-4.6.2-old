@@ -74,7 +74,6 @@ done:
   return THROW(ncstat);
 }
 
-
 /* Fill in:
     1. projection segments
     2. projection segment slices declsize
@@ -494,7 +493,6 @@ int dapiswholeconstraint(DCEconstraint *con) {
     return 0;
   return 1;
 }
-
 
 /*
 Given a set of projections, we need to produce

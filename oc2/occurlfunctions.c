@@ -170,7 +170,6 @@ done:
   return stat;
 }
 
-
 /* Set various general curl flags per fetch  */
 OCerror
 ocset_flags_perfetch(OCstate *state) {

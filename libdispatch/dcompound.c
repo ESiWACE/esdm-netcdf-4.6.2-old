@@ -10,7 +10,6 @@
     Functions to create and learn about compound types. */
 /*! \{ */ /* All these functions are part of this named group... */
 
-
 /** \ingroup user_types
 
 Create a compound type. Provide an ncid, a name, and a total size (in

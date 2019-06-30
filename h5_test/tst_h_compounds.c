@@ -151,7 +151,6 @@ int main() {
       char name[STR_LEN + 1];
       htri_t equal;
 
-
       /* Now open the file and read it. */
       if ((fileid = H5Fopen(FILE_NAME, H5F_ACC_RDONLY, H5P_DEFAULT)) < 0) ERR;
       if ((osmonds_grpid = H5Gopen(fileid, OSMONDS)) < 0) ERR;

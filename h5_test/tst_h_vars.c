@@ -194,7 +194,6 @@ int main() {
     size_t namelen = MAX_NAME;
     char name[MAX_NAME + 1];
 
-
     /* Open file and create group. */
     if ((fileid = H5Fcreate(FILE_NAME, H5F_ACC_TRUNC, H5P_DEFAULT,
          H5P_DEFAULT))

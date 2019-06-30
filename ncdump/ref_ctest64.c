@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 void check_err(const int stat, const int line, const char *file) {
   if (stat != NC_NOERR) {
     (void)fprintf(stderr, "line %d of %s: %s\n", line, file, nc_strerror(stat));
@@ -711,7 +710,6 @@ int main() { /* create ctest0_64.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   /* assign per-variable attributes */
 
   {
@@ -783,7 +781,6 @@ int main() { /* create ctest0_64.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   /* leave define mode */
   stat = nc_enddef(ncid);
   check_err(stat, __LINE__, __FILE__);
@@ -797,14 +794,12 @@ int main() { /* create ctest0_64.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   {
     size_t count = 0;
     static signed char b_data[1] = {-2};
     stat = nc_put_var1(ncid, b_id, &count, b_data);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   {
     size_t count = 0;
@@ -813,14 +808,12 @@ int main() { /* create ctest0_64.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   {
     size_t count = 0;
     static int i_data[1] = {-20};
     stat = nc_put_var1(ncid, i_id, &count, i_data);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   {
     size_t count = 0;
@@ -829,14 +822,12 @@ int main() { /* create ctest0_64.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   {
     size_t count = 0;
     static double d_data[1] = {((double)-10)};
     stat = nc_put_var1(ncid, d_id, &count, d_data);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   {
     char *cr_data = "ab";
@@ -846,7 +837,6 @@ int main() { /* create ctest0_64.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   {
     signed char br_data[2] = {-128, 127};
     size_t br_startset[1] = {0};
@@ -854,7 +844,6 @@ int main() { /* create ctest0_64.nc */
     stat = nc_put_vara(ncid, br_id, br_startset, br_countset, br_data);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   {
     short sr_data[2] = {-32768, 32767};
@@ -864,7 +853,6 @@ int main() { /* create ctest0_64.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   {
     int ir_data[2] = {-2147483646, 2147483647};
     size_t ir_startset[1] = {0};
@@ -872,7 +860,6 @@ int main() { /* create ctest0_64.nc */
     stat = nc_put_vara(ncid, ir_id, ir_startset, ir_countset, ir_data);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   {
     float fr_data[2] = {((float)-9.9999996e+35), ((float)9.9999996e+35)};
@@ -882,7 +869,6 @@ int main() { /* create ctest0_64.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   {
     double dr_data[2] = {((double)-1e+308), ((double)1e+308)};
     size_t dr_startset[1] = {0};
@@ -890,7 +876,6 @@ int main() { /* create ctest0_64.nc */
     stat = nc_put_vara(ncid, dr_id, dr_startset, dr_countset, dr_data);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   {
     char *c1_data = "\000";
@@ -900,7 +885,6 @@ int main() { /* create ctest0_64.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   {
     signed char b1_data[1] = {-128};
     size_t b1_startset[1] = {0};
@@ -908,7 +892,6 @@ int main() { /* create ctest0_64.nc */
     stat = nc_put_vara(ncid, b1_id, b1_startset, b1_countset, b1_data);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   {
     short s1_data[1] = {-32768};
@@ -918,7 +901,6 @@ int main() { /* create ctest0_64.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   {
     int i1_data[1] = {-2147483646};
     size_t i1_startset[1] = {0};
@@ -926,7 +908,6 @@ int main() { /* create ctest0_64.nc */
     stat = nc_put_vara(ncid, i1_id, i1_startset, i1_countset, i1_data);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   {
     float f1_data[1] = {((float)-9.9999996e+35)};
@@ -936,7 +917,6 @@ int main() { /* create ctest0_64.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   {
     double d1_data[1] = {((double)-1e+308)};
     size_t d1_startset[1] = {0};
@@ -944,7 +924,6 @@ int main() { /* create ctest0_64.nc */
     stat = nc_put_vara(ncid, d1_id, d1_startset, d1_countset, d1_data);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   {
     char *c2_data = "ab";
@@ -954,7 +933,6 @@ int main() { /* create ctest0_64.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   {
     signed char b2_data[2] = {-128, 127};
     size_t b2_startset[1] = {0};
@@ -962,7 +940,6 @@ int main() { /* create ctest0_64.nc */
     stat = nc_put_vara(ncid, b2_id, b2_startset, b2_countset, b2_data);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   {
     short s2_data[2] = {-32768, 32767};
@@ -972,7 +949,6 @@ int main() { /* create ctest0_64.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   {
     int i2_data[2] = {-2147483646, 2147483647};
     size_t i2_startset[1] = {0};
@@ -980,7 +956,6 @@ int main() { /* create ctest0_64.nc */
     stat = nc_put_vara(ncid, i2_id, i2_startset, i2_countset, i2_data);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   {
     float f2_data[2] = {((float)-9.9999996e+35), ((float)9.9999996e+35)};
@@ -990,7 +965,6 @@ int main() { /* create ctest0_64.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   {
     double d2_data[2] = {((double)-1e+308), ((double)1e+308)};
     size_t d2_startset[1] = {0};
@@ -998,7 +972,6 @@ int main() { /* create ctest0_64.nc */
     stat = nc_put_vara(ncid, d2_id, d2_startset, d2_countset, d2_data);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   {
     char *c3_data = "\001\177.";
@@ -1008,7 +981,6 @@ int main() { /* create ctest0_64.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   {
     signed char b3_data[3] = {-128, 127, -1};
     size_t b3_startset[1] = {0};
@@ -1016,7 +988,6 @@ int main() { /* create ctest0_64.nc */
     stat = nc_put_vara(ncid, b3_id, b3_startset, b3_countset, b3_data);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   {
     short s3_data[3] = {-32768, 0, 32767};
@@ -1026,7 +997,6 @@ int main() { /* create ctest0_64.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   {
     int i3_data[3] = {-2147483646, 0, 2147483647};
     size_t i3_startset[1] = {0};
@@ -1034,7 +1004,6 @@ int main() { /* create ctest0_64.nc */
     stat = nc_put_vara(ncid, i3_id, i3_startset, i3_countset, i3_data);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   {
     float f3_data[3] = {((float)-9.9999996e+35), ((float)0), ((float)9.9999996e+35)};
@@ -1044,7 +1013,6 @@ int main() { /* create ctest0_64.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   {
     double d3_data[3] = {((double)-1e+308), ((double)0), ((double)1e+308)};
     size_t d3_startset[1] = {0};
@@ -1052,7 +1020,6 @@ int main() { /* create ctest0_64.nc */
     stat = nc_put_vara(ncid, d3_id, d3_startset, d3_countset, d3_data);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   {
     char *cr1_data = "xy";
@@ -1062,7 +1029,6 @@ int main() { /* create ctest0_64.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   {
     signed char br2_data[4] = {-24, -26, -20, -22};
     size_t br2_startset[2] = {0, 0};
@@ -1070,7 +1036,6 @@ int main() { /* create ctest0_64.nc */
     stat = nc_put_vara(ncid, br2_id, br2_startset, br2_countset, br2_data);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   {
     short sr3_data[6] = {-375, -380, -385, -350, -355, -360};
@@ -1080,7 +1045,6 @@ int main() { /* create ctest0_64.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   {
     float f11_data[1] = {((float)-2187)};
     size_t f11_startset[2] = {0, 0};
@@ -1088,7 +1052,6 @@ int main() { /* create ctest0_64.nc */
     stat = nc_put_vara(ncid, f11_id, f11_startset, f11_countset, f11_data);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   {
     double d12_data[2] = {((double)-3000), ((double)-3010)};
@@ -1098,7 +1061,6 @@ int main() { /* create ctest0_64.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   {
     char *c13_data = "\tb\177";
     size_t c13_startset[2] = {0, 0};
@@ -1106,7 +1068,6 @@ int main() { /* create ctest0_64.nc */
     stat = nc_put_vara(ncid, c13_id, c13_startset, c13_countset, c13_data);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   {
     short s21_data[2] = {-375, -350};
@@ -1116,7 +1077,6 @@ int main() { /* create ctest0_64.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   {
     int i22_data[4] = {-24000, -24020, -23600, -23620};
     size_t i22_startset[2] = {0, 0};
@@ -1124,7 +1084,6 @@ int main() { /* create ctest0_64.nc */
     stat = nc_put_vara(ncid, i22_id, i22_startset, i22_countset, i22_data);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   {
     float f23_data[6] = {((float)-2187), ((float)-2196), ((float)-2205), ((float)-2106), ((float)-2115), ((float)-2124)};
@@ -1134,7 +1093,6 @@ int main() { /* create ctest0_64.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   {
     char *c31_data = "+- ";
     size_t c31_startset[2] = {0, 0};
@@ -1142,7 +1100,6 @@ int main() { /* create ctest0_64.nc */
     stat = nc_put_vara(ncid, c31_id, c31_startset, c31_countset, c31_data);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   {
     signed char b32_data[6] = {-24, -26, -20, -22, -16, -18};
@@ -1152,7 +1109,6 @@ int main() { /* create ctest0_64.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   {
     short s33_data[9] = {-375, -380, -385, -350, -355, -360, -325, -330, -335};
     size_t s33_startset[2] = {0, 0};
@@ -1160,7 +1116,6 @@ int main() { /* create ctest0_64.nc */
     stat = nc_put_vara(ncid, s33_id, s33_startset, s33_countset, s33_data);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   {
     short sr11_data[2] = {2500, 2375};
@@ -1170,7 +1125,6 @@ int main() { /* create ctest0_64.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   {
     int ir12_data[4] = {640000, 639980, 632000, 631980};
     size_t ir12_startset[3] = {0, 0, 0};
@@ -1178,7 +1132,6 @@ int main() { /* create ctest0_64.nc */
     stat = nc_put_vara(ncid, ir12_id, ir12_startset, ir12_countset, ir12_data);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   {
     float fr13_data[6] = {((float)26244), ((float)26235), ((float)26226), ((float)25515), ((float)25506), ((float)25497)};
@@ -1188,7 +1141,6 @@ int main() { /* create ctest0_64.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   {
     char *cr21_data = "@DHL";
     size_t cr21_startset[3] = {0, 0, 0};
@@ -1196,7 +1148,6 @@ int main() { /* create ctest0_64.nc */
     stat = nc_put_vara(ncid, cr21_id, cr21_startset, cr21_countset, cr21_data);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   {
     signed char br22_data[8] = {64, 62, 68, 66, 56, 54, 60, 58};
@@ -1206,7 +1157,6 @@ int main() { /* create ctest0_64.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   {
     short sr23_data[12] = {2500, 2495, 2490, 2525, 2520, 2515, 2375, 2370, 2365, 2400, 2395, 2390};
     size_t sr23_startset[3] = {0, 0, 0};
@@ -1214,7 +1164,6 @@ int main() { /* create ctest0_64.nc */
     stat = nc_put_vara(ncid, sr23_id, sr23_startset, sr23_countset, sr23_data);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   {
     float fr31_data[6] = {((float)26244), ((float)26325), ((float)26406), ((float)25515), ((float)25596), ((float)25677)};
@@ -1224,7 +1173,6 @@ int main() { /* create ctest0_64.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   {
     double dr32_data[12] = {((double)40000), ((double)39990), ((double)40100), ((double)40090), ((double)40200), ((double)40190), ((double)39000), ((double)38990), ((double)39100), ((double)39090), ((double)39200), ((double)39190)};
     size_t dr32_startset[3] = {0, 0, 0};
@@ -1232,7 +1180,6 @@ int main() { /* create ctest0_64.nc */
     stat = nc_put_vara(ncid, dr32_id, dr32_startset, dr32_countset, dr32_data);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   {
     char *cr33_data = "1\000\000two3\000\0004\000\0005\000\000six";
@@ -1242,7 +1189,6 @@ int main() { /* create ctest0_64.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   {
     char *c111_data = "@";
     size_t c111_startset[3] = {0, 0, 0};
@@ -1250,7 +1196,6 @@ int main() { /* create ctest0_64.nc */
     stat = nc_put_vara(ncid, c111_id, c111_startset, c111_countset, c111_data);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   {
     signed char b112_data[2] = {64, 62};
@@ -1260,7 +1205,6 @@ int main() { /* create ctest0_64.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   {
     short s113_data[3] = {2500, 2495, 2490};
     size_t s113_startset[3] = {0, 0, 0};
@@ -1268,7 +1212,6 @@ int main() { /* create ctest0_64.nc */
     stat = nc_put_vara(ncid, s113_id, s113_startset, s113_countset, s113_data);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   {
     float f121_data[2] = {((float)26244), ((float)26325)};
@@ -1278,7 +1221,6 @@ int main() { /* create ctest0_64.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   {
     double d122_data[4] = {((double)40000), ((double)39990), ((double)40100), ((double)40090)};
     size_t d122_startset[3] = {0, 0, 0};
@@ -1286,7 +1228,6 @@ int main() { /* create ctest0_64.nc */
     stat = nc_put_vara(ncid, d122_id, d122_startset, d122_countset, d122_data);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   {
     char *c123_data = "one2\000\000";
@@ -1296,7 +1237,6 @@ int main() { /* create ctest0_64.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   {
     short s131_data[3] = {2500, 2525, 2550};
     size_t s131_startset[3] = {0, 0, 0};
@@ -1304,7 +1244,6 @@ int main() { /* create ctest0_64.nc */
     stat = nc_put_vara(ncid, s131_id, s131_startset, s131_countset, s131_data);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   {
     int i132_data[6] = {640000, 639980, 640400, 640380, 640800, 640780};
@@ -1314,7 +1253,6 @@ int main() { /* create ctest0_64.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   {
     float f133_data[9] = {((float)26244), ((float)26235), ((float)26226), ((float)26325), ((float)26316), ((float)26307), ((float)26406), ((float)26397), ((float)26388)};
     size_t f133_startset[3] = {0, 0, 0};
@@ -1322,7 +1260,6 @@ int main() { /* create ctest0_64.nc */
     stat = nc_put_vara(ncid, f133_id, f133_startset, f133_countset, f133_data);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   {
     float f211_data[2] = {((float)26244), ((float)25515)};
@@ -1332,7 +1269,6 @@ int main() { /* create ctest0_64.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   {
     double d212_data[4] = {((double)40000), ((double)39990), ((double)39000), ((double)38990)};
     size_t d212_startset[3] = {0, 0, 0};
@@ -1340,7 +1276,6 @@ int main() { /* create ctest0_64.nc */
     stat = nc_put_vara(ncid, d212_id, d212_startset, d212_countset, d212_data);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   {
     char *c213_data = "\000\000\000\000\000\000";
@@ -1350,7 +1285,6 @@ int main() { /* create ctest0_64.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   {
     short s221_data[4] = {2500, 2525, 2375, 2400};
     size_t s221_startset[3] = {0, 0, 0};
@@ -1358,7 +1292,6 @@ int main() { /* create ctest0_64.nc */
     stat = nc_put_vara(ncid, s221_id, s221_startset, s221_countset, s221_data);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   {
     int i222_data[8] = {640000, 639980, 640400, 640380, 632000, 631980, 632400, 632380};
@@ -1368,7 +1301,6 @@ int main() { /* create ctest0_64.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   {
     float f223_data[12] = {((float)26244), ((float)26235), ((float)26226), ((float)26325), ((float)26316), ((float)26307), ((float)25515), ((float)25506), ((float)25497), ((float)25596), ((float)25587), ((float)25578)};
     size_t f223_startset[3] = {0, 0, 0};
@@ -1376,7 +1308,6 @@ int main() { /* create ctest0_64.nc */
     stat = nc_put_vara(ncid, f223_id, f223_startset, f223_countset, f223_data);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   {
     char *c231_data = "@DHHLP";
@@ -1386,7 +1317,6 @@ int main() { /* create ctest0_64.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   {
     signed char b232_data[12] = {64, 62, 68, 66, 72, 70, 56, 54, 60, 58, 64, 62};
     size_t b232_startset[3] = {0, 0, 0};
@@ -1394,7 +1324,6 @@ int main() { /* create ctest0_64.nc */
     stat = nc_put_vara(ncid, b232_id, b232_startset, b232_countset, b232_data);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   {
     short s233_data[18] = {2500, 2495, 2490, 2525, 2520, 2515, 2550, 2545, 2540, 2375, 2370, 2365, 2400, 2395, 2390, 2425, 2420, 2415};
@@ -1404,7 +1333,6 @@ int main() { /* create ctest0_64.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   {
     short s311_data[3] = {2500, 2375, 2250};
     size_t s311_startset[3] = {0, 0, 0};
@@ -1412,7 +1340,6 @@ int main() { /* create ctest0_64.nc */
     stat = nc_put_vara(ncid, s311_id, s311_startset, s311_countset, s311_data);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   {
     int i312_data[6] = {640000, 639980, 632000, 631980, 624000, 623980};
@@ -1422,7 +1349,6 @@ int main() { /* create ctest0_64.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   {
     float f313_data[9] = {((float)26244), ((float)26235), ((float)26226), ((float)25515), ((float)25506), ((float)25497), ((float)24786), ((float)24777), ((float)24768)};
     size_t f313_startset[3] = {0, 0, 0};
@@ -1431,14 +1357,12 @@ int main() { /* create ctest0_64.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   {
     size_t count = 0;
     static double var_MINUS_name_MINUS_dashes_data[1] = {((double)-1)};
     stat = nc_put_var1(ncid, var_MINUS_name_MINUS_dashes_id, &count, var_MINUS_name_MINUS_dashes_data);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   {
     size_t count = 0;
@@ -1447,7 +1371,6 @@ int main() { /* create ctest0_64.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   {
     size_t count = 0;
     static double var_PLUS_name_PLUS_plusses_data[1] = {((double)9.969209968386869e+36)};
@@ -1455,14 +1378,12 @@ int main() { /* create ctest0_64.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   {
     size_t count = 0;
     static double var_ATSIGN_name_ATSIGN_ats_data[1] = {((double)9.969209968386869e+36)};
     stat = nc_put_var1(ncid, var_ATSIGN_name_ATSIGN_ats_id, &count, var_ATSIGN_name_ATSIGN_ats_data);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   stat = nc_close(ncid);
   check_err(stat, __LINE__, __FILE__);

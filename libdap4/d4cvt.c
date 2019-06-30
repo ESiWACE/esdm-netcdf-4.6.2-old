@@ -17,7 +17,6 @@ Code taken directly from libdap4/dapcvt.c
 /* Forward */
 static size_t nctypesizeof(nc_type nctype);
 
-
 int NCD4_convert(nc_type srctype, nc_type dsttype, char *memory0, char *value0, size_t count) {
   int ncstat = NC_NOERR;
   size_t i;
@@ -51,7 +50,6 @@ int NCD4_convert(nc_type srctype, nc_type dsttype, char *memory0, char *value0, 
   long long *ncint64p;
   unsigned long long ncuint64;
   unsigned long long *ncuint64p;
-
 
 #define CASE(nc1, nc2) (nc1 * 256 + nc2)
 #define CUT8(e) ((unsigned char)((e)&0xff))

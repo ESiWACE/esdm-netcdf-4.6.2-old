@@ -52,7 +52,6 @@ float_epsilon() {
   return float_eps;
 }
 
-
 static double
 double_epsilon() {
   double double_eps;
@@ -82,13 +81,11 @@ double_epsilon() {
   return double_eps;
 }
 
-
 static void
 init_epsilons() {
   float_eps = float_epsilon();
   double_eps = double_epsilon();
 }
-
 
 /*
  * Test ncvardef

@@ -39,7 +39,6 @@
 /* Internal function; breaks ncio abstraction */
 extern int memio_extract(ncio *const nciop, size_t *sizep, void **memoryp);
 
-
 static void
 free_NC3INFO(NC3_INFO *nc3) {
   if (nc3 == NULL)
@@ -88,7 +87,6 @@ err:
   return NULL;
 }
 
-
 /*
  *  Verify that this is a user nc_type
  * Formerly NCcktype()
@@ -107,7 +105,6 @@ int nc3_cktype(int mode, nc_type type) {
   }
   return (NC_EBADTYPE);
 }
-
 
 /*
  * How many objects of 'type'
@@ -160,7 +157,6 @@ size_t v_minfree, size_t r_align) {
   NC_var **vpp;
   NC_var *last = NULL;
   NC_var *first_var = NULL; /* first "non-record" var */
-
 
   if (v_align == NC_ALIGN_CHUNK)
     v_align = ncp->chunk;
@@ -325,7 +321,6 @@ fprintf(stderr, "    REC %d %s: %ld\n", ii, (*vpp)->name->cp, (long)index);
   return NC_NOERR;
 }
 
-
 /*
  * Read just the numrecs member.
  * (A relatively expensive way to do things.)
@@ -364,7 +359,6 @@ int read_numrecs(NC3_INFO *ncp) {
   return status;
 }
 
-
 /*
  * Write out just the numrecs member.
  * (A relatively expensive way to do things.)
@@ -401,7 +395,6 @@ int write_numrecs(NC3_INFO *ncp) {
   return status;
 }
 
-
 /*
  * Read in the header
  * It is expensive.
@@ -422,7 +415,6 @@ read_NC(NC3_INFO *ncp) {
   return status;
 }
 
-
 /*
  * Write out the header
  */
@@ -439,7 +431,6 @@ write_NC(NC3_INFO *ncp) {
 
   return status;
 }
-
 
 /*
  * Write the header or the numrecs if necessary.
@@ -459,7 +450,6 @@ int NC_sync(NC3_INFO *ncp) {
 
   return NC_NOERR;
 }
-
 
 /*
  * Initialize the 'non-record' variables.
@@ -561,7 +551,6 @@ fill_added(NC3_INFO *gnu, NC3_INFO *old) {
   return NC_NOERR;
 }
 
-
 /*
  * Move the records "out".
  * Fill as needed.
@@ -613,7 +602,6 @@ move_recs_r(NC3_INFO *gnu, NC3_INFO *old) {
   return NC_NOERR;
 }
 
-
 /*
  * Move the "non record" variables "out".
  * Fill as needed.
@@ -651,7 +639,6 @@ move_vars_r(NC3_INFO *gnu, NC3_INFO *old) {
   }
   return status;
 }
-
 
 /*
  * Given a valid ncp, return NC_EVARSIZE if any variable has a bad len
@@ -897,7 +884,6 @@ NC_init_pe(NC *ncp, int basepe) {
   return NC_NOERR;
 }
 #endif
-
 
 /*
  * Compute the expected size of the file.
@@ -1221,7 +1207,6 @@ int NC3_abort(int ncid) {
       return status;
   }
 
-
   (void)ncio_close(nc3->nciop, doUnlink);
   nc3->nciop = NULL;
 
@@ -1306,7 +1291,6 @@ int NC3_redef(int ncid) {
   if (NC_indef(nc3))
     return NC_EINDEFINE;
 
-
   if (fIsSet(nc3->nciop->ioflags, NC_SHARE)) {
     /* read in from disk */
     status = read_NC(nc3);
@@ -1322,7 +1306,6 @@ int NC3_redef(int ncid) {
 
   return NC_NOERR;
 }
-
 
 int NC3_inq(int ncid,
 int *ndimsp,
@@ -1404,7 +1387,6 @@ int NC3_sync(int ncid) {
 
   return status;
 }
-
 
 int NC3_set_fill(int ncid,
 int fillmode, int *old_mode_ptr) {
@@ -1707,7 +1689,6 @@ int NC3_inq_default_fill_value(int xtype, void *fillp) {
   }
   return NC_NOERR;
 }
-
 
 /*----< NC3_inq_var_fill() >-------------------------------------------------*/
 /* inquire the fill value of a variable */

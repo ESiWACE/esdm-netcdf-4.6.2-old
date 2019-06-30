@@ -303,7 +303,6 @@ done:
   return ok;
 }
 
-
 /*
 Modified to track the current position to avoid the file io
 operation.  Not sure if this worth the effort because I
@@ -378,7 +377,6 @@ xxdr_memgetavail(XXDR *xdrs) {
   xxdrtrace(xdrs, "getavail", 0);
   return (xdrs->length - xdrs->pos);
 }
-
 
 static int
 xxdr_memsetpos(XXDR *xdrs, off_t pos) {

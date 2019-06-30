@@ -45,7 +45,6 @@ apply.
 is still in initial define mode.
 */
 
-
 int nc_put_att_string(int ncid, int varid, const char *name,
 size_t len, const char **value) {
   NC *ncp;
@@ -132,7 +131,6 @@ netCDF dataset named foo.nc:
      if (status != NC_NOERR) handle_error(status);
 \endcode
 */
-
 
 int nc_put_att_text(int ncid, int varid, const char *name,
 size_t len, const char *value) {

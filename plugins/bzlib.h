@@ -18,7 +18,6 @@
    in the file LICENSE.
    ------------------------------------------------------------------ */
 
-
 #ifndef _BZLIB_H
 #  define _BZLIB_H
 
@@ -63,7 +62,6 @@ typedef struct {
   void *opaque;
 } bz_stream;
 
-
 #  ifndef BZ_IMPORT
 #    define BZ_EXPORT
 #  endif
@@ -92,7 +90,6 @@ typedef struct {
 #    define BZ_EXTERN extern
 #  endif
 
-
 /*-- Core (low-level) library functions --*/
 
 BZ_EXTERN int BZ_API(BZ2_bzCompressInit)(
@@ -118,7 +115,6 @@ bz_stream *strm);
 
 BZ_EXTERN int BZ_API(BZ2_bzDecompressEnd)(
 bz_stream *strm);
-
 
 /*-- High(er) level library functions --*/
 
@@ -181,7 +177,6 @@ unsigned int *nbytes_out_lo32,
 unsigned int *nbytes_out_hi32);
 #  endif
 
-
 /*-- Utility functions --*/
 
 BZ_EXTERN int BZ_API(BZ2_bzBuffToBuffCompress)(
@@ -200,7 +195,6 @@ char *source,
 unsigned int sourceLen,
 int small,
 int verbosity);
-
 
 /*--
    Code contributed by Yoshioka Tsuneo (tsuneo@rr.iij4u.or.jp)

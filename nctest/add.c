@@ -105,7 +105,6 @@ struct cdfatt *iatt;
     test->vars[varid].natts++;
 }
 
-
 void
 add_reset(test) /* reset in-memory netcdf test to empty */
 struct netcdf *test;
@@ -116,7 +115,6 @@ struct netcdf *test;
   test->ngatts = 0;
   test->xdimid = -1; /* no unlimited dimension */
 }
-
 
 void
 del_att(test, varid, iatt) /* delete attribute iatt in the netcdf test */
@@ -162,7 +160,6 @@ long edges[];
   if (start[0] + edges[0] > test->dims[test->xdimid].size)
     test->dims[test->xdimid].size = start[0] + edges[0];
 }
-
 
 void
 errvar(cdfp, varp) struct netcdf *cdfp;

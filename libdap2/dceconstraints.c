@@ -72,7 +72,6 @@ slicedump(const char *prefix, DCEslice *s) {
 }
 #endif
 
-
 /*
 Compose slice s1 with slice s2 -> sr
 Compose means that the s2 constraint is applied
@@ -974,7 +973,6 @@ dcesafeindex(DCEsegment *seg, size_t start, size_t stop) {
   return dceiswholeslice(&seg->slices[start]) ? start /*every slice is safe*/
                                               : start + 1;
 }
-
 
 static const char *
 dcesortname(CEsort sort) {

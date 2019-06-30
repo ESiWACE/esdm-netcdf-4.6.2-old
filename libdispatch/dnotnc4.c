@@ -27,7 +27,6 @@ const unsigned int *parms) {
   return NC_ENOTNC4;
 }
 
-
 /**
  * @internal Not allowed for classic model.
  *
@@ -194,7 +193,6 @@ nc_type *typeidp) {
   return NC_ENOTNC4;
 }
 
-
 /**
  * @internal Not allowed for classic model.
  *
@@ -356,7 +354,6 @@ int NC_NOTNC4_def_var_fletcher32(int ncid, int varid, int fletcher32) {
 int NC_NOTNC4_def_var_chunking(int ncid, int varid, int contiguous, const size_t *chunksizesp) {
   return NC_EPERM;
 }
-
 
 /**
  * @internal Not allowed for classic model.

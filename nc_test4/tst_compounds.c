@@ -441,7 +441,6 @@ int main(int argc, char **argv) {
         dim_data_out[i].abilities[j] = j;
     }
 
-
     /* Create a file with a compound type which contains an array of
        * int. Write a little data. */
     if (nc_create(FILE_NAME, NC_NETCDF4, &ncid)) ERR;

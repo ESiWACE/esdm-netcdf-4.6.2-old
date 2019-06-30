@@ -28,7 +28,6 @@ void free_NC_dim(NC_dim *dimp) {
   free(dimp);
 }
 
-
 NC_dim *
 new_x_NC_dim(NC_string *name) {
   NC_dim *dimp;
@@ -42,7 +41,6 @@ new_x_NC_dim(NC_string *name) {
 
   return (dimp);
 }
-
 
 /*
  * Formerly
@@ -76,7 +74,6 @@ done:
   if (name) free(name);
   return (dimp);
 }
-
 
 static NC_dim *
 dup_NC_dim(const NC_dim *dimp) {
@@ -143,9 +140,7 @@ done:
   return dimid;
 }
 
-
 /* dimarray */
-
 
 /*
  * Free the stuff "in" (referred to by) an NC_dimarray.
@@ -170,7 +165,6 @@ void free_NC_dimarrayV0(NC_dimarray *ncap) {
   ncap->nelems = 0;
 }
 
-
 /*
  * Free NC_dimarray values.
  * formerly
@@ -193,7 +187,6 @@ void free_NC_dimarrayV(NC_dimarray *ncap) {
   ncap->value = NULL;
   ncap->nalloc = 0;
 }
-
 
 int dup_NC_dimarrayV(NC_dimarray *ncap, const NC_dimarray *ref) {
   int status = NC_NOERR;
@@ -234,7 +227,6 @@ int dup_NC_dimarrayV(NC_dimarray *ncap, const NC_dimarray *ref) {
   return NC_NOERR;
 }
 
-
 /*
  * Add a new handle on the end of an array of handles
  * Formerly
@@ -272,7 +264,6 @@ incr_NC_dimarray(NC_dimarray *ncap, NC_dim *newelemp) {
   return NC_NOERR;
 }
 
-
 NC_dim *
 elem_NC_dimarray(const NC_dimarray *ncap, size_t elem) {
   assert(ncap != NULL);
@@ -284,7 +275,6 @@ elem_NC_dimarray(const NC_dimarray *ncap, size_t elem) {
 
   return ncap->value[elem];
 }
-
 
 /* Public */
 
@@ -343,7 +333,6 @@ int NC3_def_dim(int ncid, const char *name, size_t size, int *dimidp) {
     *dimidp = (int)ncp->dims.nelems - 1;
   return NC_NOERR;
 }
-
 
 int NC3_inq_dimid(int ncid, const char *name, int *dimid_ptr) {
   int status;
@@ -404,7 +393,6 @@ int NC3_rename_dim(int ncid, int dimid, const char *unewname) {
   char *newname = NULL; /* normalized */
   NC_string *old = NULL;
   uintptr_t intdata;
-
 
   status = NC_check_id(ncid, &nc);
   if (status != NC_NOERR)

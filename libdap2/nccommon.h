@@ -72,7 +72,6 @@ struct NCTMODEL {
 
 /* Define the cache control flags */
 
-
 /* Detail information about each cache item */
 typedef struct NCcachenode {
   int wholevariable; /* does this cache node only have wholevariables? */
@@ -84,7 +83,6 @@ typedef struct NCcachenode {
   OCddsnode ocroot;
   OCdatanode content;
 } NCcachenode;
-
 
 /* All cache info */
 typedef struct NCcache {

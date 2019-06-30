@@ -37,7 +37,6 @@
     }                                                                                 \
   }
 
-
 int main(int argc, char *argv[]) {
   int i, j, rank, nprocs, ncid, cmode, varid[NVARS], dimid[2], *buf;
   int st, nerrs = 0;

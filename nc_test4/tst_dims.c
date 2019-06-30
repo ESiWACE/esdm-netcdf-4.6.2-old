@@ -321,7 +321,6 @@ int main(int argc, char **argv) {
     if (nc_def_var(ncid, VAR_NAME, NC_INT, RANK_lat_T42, lat_T42_dims, &lat_T42_id)) ERR;
     if (nc_close(ncid)) ERR;
 
-
     /* reopen file, rename coordinate dimension and then associated variable */
     if (nc_open(FILE_NAME1, NC_WRITE, &ncid)) ERR;
     if (nc_inq_dimid(ncid, DIM_NAME, &dimid)) ERR;
@@ -329,7 +328,6 @@ int main(int argc, char **argv) {
     if (nc_rename_dim(ncid, dimid, DIM_NAME2)) ERR;
     if (nc_rename_var(ncid, varid, VAR_NAME2)) ERR;
     if (nc_close(ncid)) ERR;
-
 
     /* reopen file, check coordinate dimension and associated variable names */
     /* Should be just like they created the file with DIM_NAME2 & VAR_NAME2 to
@@ -344,7 +342,6 @@ int main(int argc, char **argv) {
     if (strcmp(name, VAR_NAME2)) ERR;
     if (nc_close(ncid)) ERR;
 
-
     /* =========== */
     /* Sub-test #2 */
     /* =========== */
@@ -355,13 +352,11 @@ int main(int argc, char **argv) {
     if (nc_def_var(ncid, VAR_NAME, NC_INT, RANK_lat_T42, lat_T42_dims, &lat_T42_id)) ERR;
     if (nc_close(ncid)) ERR;
 
-
     /* reopen file, just rename coordinate dimension */
     if (nc_open(FILE_NAME1, NC_WRITE, &ncid)) ERR;
     if (nc_inq_dimid(ncid, DIM_NAME, &dimid)) ERR;
     if (nc_rename_dim(ncid, dimid, DIM_NAME2)) ERR;
     if (nc_close(ncid)) ERR;
-
 
     /* reopen file, check coordinate dimension and associated variable names */
     /* Should be just like the file was created with DIM_NAME2 to begin with */
@@ -374,7 +369,6 @@ int main(int argc, char **argv) {
     if (strcmp(name, VAR_NAME)) ERR;
     if (nc_close(ncid)) ERR;
 
-
     /* =========== */
     /* Sub-test #3 */
     /* =========== */
@@ -385,13 +379,11 @@ int main(int argc, char **argv) {
     if (nc_def_var(ncid, VAR_NAME, NC_INT, RANK_lat_T42, lat_T42_dims, &lat_T42_id)) ERR;
     if (nc_close(ncid)) ERR;
 
-
     /* reopen file, just rename variable */
     if (nc_open(FILE_NAME1, NC_WRITE, &ncid)) ERR;
     if (nc_inq_varid(ncid, VAR_NAME, &varid)) ERR;
     if (nc_rename_var(ncid, varid, VAR_NAME2)) ERR;
     if (nc_close(ncid)) ERR;
-
 
     /* reopen file, check coordinate dimension and associated variable names */
     /* Should be just like the file was created with VAR_NAME2 to begin with */
@@ -404,7 +396,6 @@ int main(int argc, char **argv) {
     if (strcmp(name, VAR_NAME2)) ERR;
     if (nc_close(ncid)) ERR;
 
-
     /* =========== */
     /* Sub-test #4 */
     /* =========== */
@@ -415,7 +406,6 @@ int main(int argc, char **argv) {
     if (nc_def_var(ncid, VAR_NAME, NC_INT, RANK_lat_T42, lat_T42_dims, &lat_T42_id)) ERR;
     if (nc_close(ncid)) ERR;
 
-
     /* reopen file, rename associated variable and then coordinate dimension */
     if (nc_open(FILE_NAME1, NC_WRITE, &ncid)) ERR;
     if (nc_inq_dimid(ncid, DIM_NAME, &dimid)) ERR;
@@ -423,7 +413,6 @@ int main(int argc, char **argv) {
     if (nc_rename_var(ncid, varid, VAR_NAME2)) ERR;
     if (nc_rename_dim(ncid, dimid, DIM_NAME2)) ERR;
     if (nc_close(ncid)) ERR;
-
 
     /* reopen file, check coordinate dimension and associated variable names */
     /* Should be just like they created the file with DIM_NAME2 & VAR_NAME2 to

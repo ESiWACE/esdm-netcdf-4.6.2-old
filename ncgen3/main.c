@@ -52,7 +52,6 @@ static const char *ubasename(const char *av0);
 static void usage(void);
 int main(int argc, char **argv);
 
-
 /* strip off leading path */
 static const char *
 ubasename(
@@ -74,13 +73,11 @@ const char *av0) {
   return logident;
 }
 
-
 static void usage(void) {
   derror("Usage: %s [ -b ] [ -c ] [ -f ] [ -k kind ] [ -x ] [ -o outfile]  [ file ... ]",
   progname);
   derror("netcdf library version %s", nc_inq_libvers());
 }
-
 
 int main(
 int argc,

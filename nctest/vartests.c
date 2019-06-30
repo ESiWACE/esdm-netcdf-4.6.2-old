@@ -17,7 +17,6 @@
 
 #define LEN_OF(array) ((sizeof array) / (sizeof array[0]))
 
-
 /*
  * Test ncvarid
  *    check that proper variable handle returned in both modes
@@ -101,7 +100,6 @@ const char *path; /* name of writable netcdf file to open */
   free(xx.dims);
   return nerrs;
 }
-
 
 /*
  * Test ncvarinq
@@ -243,7 +241,6 @@ const char *path; /* name of writable netcdf file to open */
   return nerrs;
 }
 
-
 struct cdfelm { /* coordinates and generic value */
   long coords[MAX_NC_DIMS];
   union generic {
@@ -255,7 +252,6 @@ struct cdfelm { /* coordinates and generic value */
     double db;
   } val;
 };
-
 
 /* 
  * Test both ncvarput1 and ncvarget1 with all types of data
@@ -385,7 +381,6 @@ test_varputget1(cdfid) int cdfid; /* handle of netcdf open and in data mode */
   return nerrs;
 }
 
-
 /*
  * Test ncvarput1
  *    check that proper call worked with ncvarget1
@@ -476,7 +471,6 @@ const char *path; /* name of writable netcdf file to open */
 
   return nerrs;
 }
-
 
 /*
  * Test ncvarget1
@@ -569,7 +563,6 @@ const char *path; /* name of writable netcdf file to open */
 
   return nerrs;
 }
-
 
 /*
  * Test ncvarrename

@@ -21,7 +21,6 @@ indentstr(int n) {
   return indentline;
 }
 
-
 void dumpconstant(NCConstant *con, char *tag) {
   Bytebuffer *buf = bbNew();
   Datalist *dl = builddatalist(1);
@@ -80,7 +79,6 @@ void bufdump(Datalist *list, Bytebuffer *buf) {
     }
   }
 }
-
 
 static void
 dumpdataprim(NCConstant *ci, Bytebuffer *buf) {

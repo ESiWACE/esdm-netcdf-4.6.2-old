@@ -28,7 +28,6 @@ typedef struct D4printer {
 #define CAT(x) ncbytescat(out->out, x)
 #define INDENT(x) indent(out, x)
 
-
 /**************************************************/
 /* Forwards */
 
@@ -412,7 +411,6 @@ printXMLAttributeName(D4printer *out, char *name, const char *value) {
   nullfree(escaped);
   return THROW(ret);
 }
-
 
 static int
 printXMLAttributeString(D4printer *out, char *name, const char *value) {

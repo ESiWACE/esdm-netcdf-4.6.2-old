@@ -26,7 +26,6 @@
 #  endif
 #endif
 
-
 #undef MIN /* system may define MIN somewhere and complain */
 #define MIN(mm, nn) (((mm) < (nn)) ? (mm) : (nn))
 
@@ -36,7 +35,6 @@ const size_t nelems, void *value, const nc_type memtype);
 static int
 writeNCv(NC3_INFO *ncp, const NC_var *varp, const size_t *start,
 const size_t nelems, const void *value, const nc_type memtype);
-
 
 /* #define ODEBUG 1 */
 
@@ -54,7 +52,6 @@ void arrayp(const char *label, size_t count, const size_t *array) {
 }
 #endif /* ODEBUG */
 
-
 /* Begin fill */
 /*
  * This is tunable parameter.
@@ -69,7 +66,6 @@ void arrayp(const char *label, size_t count, const size_t *array) {
 #else
 #  define NFILL 16
 #endif
-
 
 /*
  * Next 6 type specific functions
@@ -133,7 +129,6 @@ size_t nelems) /* how many */
   }
   return ncx_putn_short_short(xpp, nelems, fillp, NULL);
 }
-
 
 #if (SIZEOF_INT >= X_SIZEOF_INT)
 static int
@@ -216,7 +211,6 @@ size_t nelems) /* how many */
   }
   return ncx_putn_double_double(xpp, nelems, fillp, NULL);
 }
-
 
 static int
 NC_fill_uchar(
@@ -312,7 +306,6 @@ size_t nelems) /* how many */
   }
   return ncx_putn_ulonglong_ulonglong(xpp, nelems, fillp, NULL);
 }
-
 
 /*
  * Fill the external space for variable 'varp' values at 'recno' with
@@ -467,7 +460,6 @@ int fill_NC_var(NC3_INFO *ncp, const NC_var *varp, long long varsize, size_t rec
 }
 /* End fill */
 
-
 /*
  * Add a record containing the fill values.
  */
@@ -487,7 +479,6 @@ NCfillrecord(NC3_INFO *ncp, const NC_var *const *varpp, size_t recno) {
   return NC_NOERR;
 }
 
-
 /*
  * Add a record containing the fill values in the special case when
  * there is exactly one record variable, where we don't require each
@@ -502,7 +493,6 @@ NCfillspecialrecord(NC3_INFO *ncp, const NC_var *varp, size_t recno) {
     return status;
   return NC_NOERR;
 }
-
 
 /*
  * It is advantageous to
@@ -535,7 +525,6 @@ NCtouchlast(NC3_INFO *ncp, const NC_var *const *varpp, size_t recno) {
                          + (off_t)(varp->len - varp->xsz);
     void *xp;
 
-
     status = ncio_get(ncp->nciop, offset, varp->xsz,
     RGN_WRITE, &xp);
     if (status != NC_NOERR)
@@ -546,7 +535,6 @@ NCtouchlast(NC3_INFO *ncp, const NC_var *const *varpp, size_t recno) {
   return status;
 }
 #endif /* TOUCH_LAST */
-
 
 /*
  * Ensure that the netcdf file has 'numrecs' records,
@@ -666,7 +654,6 @@ common_return:
   return status;
 }
 
-
 /*
  * Check whether 'coord' values are valid for the variable.
  */
@@ -733,7 +720,6 @@ NCcoordck(NC3_INFO *ncp, const NC_var *varp, const size_t *coord) {
   return NC_NOERR;
 }
 
-
 /*
  * Check whether 'edges' are valid for the variable and 'start'
  */
@@ -769,7 +755,6 @@ const size_t *start, const size_t *edges) {
   }
   return NC_NOERR;
 }
-
 
 /*
  * Translate the (variable, coord) pair into a seek index
@@ -808,7 +793,6 @@ NC_varoffset(const NC3_INFO *ncp, const NC_var *varp, const size_t *coord) {
     return lcoord;
   }
 }
-
 
 static int
 putNCvx_char_char(NC3_INFO *ncp, const NC_var *varp,
@@ -859,7 +843,6 @@ const size_t *start, size_t nelems, const char *value) {
 
   return status;
 }
-
 
 static int
 putNCvx_schar_schar(NC3_INFO *ncp, const NC_var *varp,
@@ -1361,7 +1344,6 @@ const size_t *start, size_t nelems, const ulonglong *value) {
   return status;
 }
 
-
 static int
 putNCvx_short_schar(NC3_INFO *ncp, const NC_var *varp,
 const size_t *start, size_t nelems, const schar *value) {
@@ -1861,7 +1843,6 @@ const size_t *start, size_t nelems, const ulonglong *value) {
 
   return status;
 }
-
 
 static int
 putNCvx_int_schar(NC3_INFO *ncp, const NC_var *varp,
@@ -2363,7 +2344,6 @@ const size_t *start, size_t nelems, const ulonglong *value) {
   return status;
 }
 
-
 static int
 putNCvx_float_schar(NC3_INFO *ncp, const NC_var *varp,
 const size_t *start, size_t nelems, const schar *value) {
@@ -2863,7 +2843,6 @@ const size_t *start, size_t nelems, const ulonglong *value) {
 
   return status;
 }
-
 
 static int
 putNCvx_double_schar(NC3_INFO *ncp, const NC_var *varp,
@@ -3365,7 +3344,6 @@ const size_t *start, size_t nelems, const ulonglong *value) {
   return status;
 }
 
-
 static int
 putNCvx_uchar_schar(NC3_INFO *ncp, const NC_var *varp,
 const size_t *start, size_t nelems, const schar *value) {
@@ -3865,7 +3843,6 @@ const size_t *start, size_t nelems, const ulonglong *value) {
 
   return status;
 }
-
 
 static int
 putNCvx_ushort_schar(NC3_INFO *ncp, const NC_var *varp,
@@ -4367,7 +4344,6 @@ const size_t *start, size_t nelems, const ulonglong *value) {
   return status;
 }
 
-
 static int
 putNCvx_uint_schar(NC3_INFO *ncp, const NC_var *varp,
 const size_t *start, size_t nelems, const schar *value) {
@@ -4867,7 +4843,6 @@ const size_t *start, size_t nelems, const ulonglong *value) {
 
   return status;
 }
-
 
 static int
 putNCvx_longlong_schar(NC3_INFO *ncp, const NC_var *varp,
@@ -5369,7 +5344,6 @@ const size_t *start, size_t nelems, const ulonglong *value) {
   return status;
 }
 
-
 static int
 putNCvx_ulonglong_schar(NC3_INFO *ncp, const NC_var *varp,
 const size_t *start, size_t nelems, const schar *value) {
@@ -5870,7 +5844,6 @@ const size_t *start, size_t nelems, const ulonglong *value) {
   return status;
 }
 
-
 static int
 getNCvx_char_char(const NC3_INFO *ncp, const NC_var *varp,
 const size_t *start, size_t nelems, char *value) {
@@ -5908,7 +5881,6 @@ const size_t *start, size_t nelems, char *value) {
 
   return status;
 }
-
 
 static int
 getNCvx_schar_schar(const NC3_INFO *ncp, const NC_var *varp,
@@ -6290,7 +6262,6 @@ const size_t *start, size_t nelems, ushort *value) {
   return status;
 }
 
-
 static int
 getNCvx_short_schar(const NC3_INFO *ncp, const NC_var *varp,
 const size_t *start, size_t nelems, schar *value) {
@@ -6670,7 +6641,6 @@ const size_t *start, size_t nelems, ushort *value) {
 
   return status;
 }
-
 
 static int
 getNCvx_int_schar(const NC3_INFO *ncp, const NC_var *varp,
@@ -7052,7 +7022,6 @@ const size_t *start, size_t nelems, ushort *value) {
   return status;
 }
 
-
 static int
 getNCvx_float_schar(const NC3_INFO *ncp, const NC_var *varp,
 const size_t *start, size_t nelems, schar *value) {
@@ -7432,7 +7401,6 @@ const size_t *start, size_t nelems, ushort *value) {
 
   return status;
 }
-
 
 static int
 getNCvx_double_schar(const NC3_INFO *ncp, const NC_var *varp,
@@ -7814,7 +7782,6 @@ const size_t *start, size_t nelems, ushort *value) {
   return status;
 }
 
-
 static int
 getNCvx_uchar_schar(const NC3_INFO *ncp, const NC_var *varp,
 const size_t *start, size_t nelems, schar *value) {
@@ -8194,7 +8161,6 @@ const size_t *start, size_t nelems, ushort *value) {
 
   return status;
 }
-
 
 static int
 getNCvx_ushort_schar(const NC3_INFO *ncp, const NC_var *varp,
@@ -8576,7 +8542,6 @@ const size_t *start, size_t nelems, ushort *value) {
   return status;
 }
 
-
 static int
 getNCvx_uint_schar(const NC3_INFO *ncp, const NC_var *varp,
 const size_t *start, size_t nelems, schar *value) {
@@ -8956,7 +8921,6 @@ const size_t *start, size_t nelems, ushort *value) {
 
   return status;
 }
-
 
 static int
 getNCvx_longlong_schar(const NC3_INFO *ncp, const NC_var *varp,
@@ -9338,7 +9302,6 @@ const size_t *start, size_t nelems, ushort *value) {
   return status;
 }
 
-
 static int
 getNCvx_ulonglong_schar(const NC3_INFO *ncp, const NC_var *varp,
 const size_t *start, size_t nelems, schar *value) {
@@ -9719,7 +9682,6 @@ const size_t *start, size_t nelems, ushort *value) {
   return status;
 }
 
-
 #ifdef NOTUSED
 static int
 getNCvx_schar_uchar(const NC3_INFO *ncp, const NC_var *varp,
@@ -9834,7 +9796,6 @@ done:
   return ((int)(edp - edges) - 1);
 }
 
-
 /*
  * Set the elements of the array 'upp' to
  * the sum of the corresponding elements of
@@ -9849,7 +9810,6 @@ const size_t *const end) {
     *upp++ = *stp++ + *edp++;
   }
 }
-
 
 /*
  * The infamous and oft-discussed odometer code.
@@ -9892,7 +9852,6 @@ size_t *cdp) {
 #ifdef _CRAYC
 #  pragma _CRI noinline odo1
 #endif
-
 
 /* Define a macro to allow hash on two type values */
 #define CASE(nc1, nc2) (nc1 * 256 + nc2)
@@ -10225,7 +10184,6 @@ const size_t nelems, void *value, const nc_type memtype) {
   }
   return status;
 }
-
 
 static int
 writeNCv(NC3_INFO *ncp, const NC_var *varp, const size_t *start,
@@ -10698,7 +10656,6 @@ nc_type memtype) {
   status = NC_lookupvar(nc3, varid, &varp);
   if (status != NC_NOERR)
     return status; /*invalid varid */
-
 
   if (memtype == NC_NAT) memtype = varp->type;
 

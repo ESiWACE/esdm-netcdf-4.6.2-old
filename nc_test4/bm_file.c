@@ -176,7 +176,6 @@ file_size(char *name) {
   return stbuf.st_size;
 }
 
-
 /* Check attribute number a of variable varid in copied file ncid2 to ensure
  * it is the same as the corresponding attribute in original file ncid1. */
 static int

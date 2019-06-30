@@ -234,5 +234,4 @@ extern int nc__dap4(void);
 */
 #undef HYRAXHACK
 
-
 #endif /*NCD4_H*/

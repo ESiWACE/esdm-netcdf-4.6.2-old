@@ -627,7 +627,6 @@ int main() {
     if (H5Pset_link_creation_order(fcpl_id, (H5P_CRT_ORDER_TRACKED | H5P_CRT_ORDER_INDEXED)) < 0) ERR;
     if (H5Pset_attr_creation_order(fcpl_id, (H5P_CRT_ORDER_TRACKED | H5P_CRT_ORDER_INDEXED)) < 0) ERR;
 
-
     /* Create a file and get its root group. */
     if ((fileid = H5Fcreate(FILE_NAME, H5F_ACC_TRUNC, fcpl_id, fapl_id)) < 0) ERR;
     if ((grpid = H5Gopen(fileid, "/")) < 0) ERR;

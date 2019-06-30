@@ -52,7 +52,6 @@ static char *rcfilenames[] = {".daprc", ".dodsrc", NULL};
 /**************************************************/
 /* External Entry Points */
 
-
 /* locate, read and compile the rc file, if any */
 int NC_rcload(void) {
   int ret = NC_NOERR;

@@ -22,7 +22,6 @@ int count_NCList(void) {
   return numfiles;
 }
 
-
 void free_NCList(void) {
   if (numfiles > 0) return; /* not empty */
   if (nc_filelist != NULL) free(nc_filelist);

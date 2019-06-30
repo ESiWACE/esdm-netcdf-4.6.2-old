@@ -1032,7 +1032,6 @@ validateNIL(Symbol *sym) {
 #endif
 }
 
-
 /* Find name within group structure*/
 Symbol *
 lookupgroup(List *prefix) {
@@ -1072,7 +1071,6 @@ lookup(nc_class objectclass, Symbol *pattern) {
   if (grp == NULL) return NULL;
   return lookupingroup(objectclass, pattern->name, grp);
 }
-
 
 /* return internal size for values of specified netCDF type */
 size_t
@@ -1270,7 +1268,6 @@ processunlimiteddims(void) {
     }
 #endif
 }
-
 
 /* Rules for specifying the dataset name:
 	1. use -o name

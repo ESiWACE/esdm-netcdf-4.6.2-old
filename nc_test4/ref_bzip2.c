@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 static size_t var_chunksizes[4] = {4, 4, 4, 4};
 static unsigned int var_filterparams[1] = {9U};
 
@@ -88,7 +87,6 @@ int main() { /* create bzip2.nc */
     stat = nc_put_vara(bzip2_grp, var_id, var_startset, var_countset, var_data);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   stat = nc_close(bzip2_grp);
   check_err(stat, __LINE__, __FILE__);

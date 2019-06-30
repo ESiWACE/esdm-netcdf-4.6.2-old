@@ -38,12 +38,10 @@
 #  define NC_DPINF (1.0 / 0.0)
 #endif
 
-
 int main(int argc, char **argv) {
   int ncid, dimid, fvarid, dvarid;
   float fvals[NVALS], fvals_in[NVALS];
   double dvals[NVALS], dvals_in[NVALS];
-
 
   float fnan = NC_FNAN;   /*(NC_INFINITE-NC_INFINITE);//0.f/0.f; */
   double dnan = NC_DNAN;  /*(NC_INFINITE-NC_INFINITE);//0.0/0.0; */

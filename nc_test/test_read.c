@@ -5,7 +5,6 @@
  */
 /* $Id: test_read.m4 2861 2017-02-09 19:38:02Z wkliao $ */
 
-
 #if defined(_WIN32) || defined(_WIN64)
 #  include <io.h>
 #endif
@@ -21,7 +20,6 @@
 #include <errno.h> /* errno, strerror() */
 
 #include "tests.h"
-
 
 /*
  * Test  nc_strerror.
@@ -87,7 +85,6 @@ int test_nc_strerror(void) {
   }
   return nok;
 }
-
 
 /*
  * Test  nc_open.
@@ -174,7 +171,6 @@ int test_nc_open(void) {
   IF(ncid2 == ncid)
   error("netCDF IDs for first and second open calls should differ");
 
-
   { /* tests using netCDF scratch file */
     err = file_create(scratch, NC_NOCLOBBER, &ncid2);
     IF(err != NC_NOERR)
@@ -197,7 +193,6 @@ int test_nc_open(void) {
   error("close: %s", nc_strerror(err));
   return nok;
 }
-
 
 /*
  * Test  nc_close.
@@ -237,7 +232,6 @@ int test_nc_close(void) {
   error("close in data mode failed: %s", nc_strerror(err));
   ELSE_NOK
 
-
   { /* tests using netCDF scratch file */
     err = file_create(scratch, NC_NOCLOBBER, &ncid);
     IF(err != NC_NOERR)
@@ -252,7 +246,6 @@ int test_nc_close(void) {
   }
   return nok;
 }
-
 
 /*
  * Test  nc_inq
@@ -319,7 +312,6 @@ int test_nc_inq(void) {
   else IF(nvars != numVars)
   error("inq subset: wrong number of variables returned, %d", nvars);
   ELSE_NOK
-
 
   {            /* tests using netCDF scratch file */
     int ncid2; /* for scratch netCDF dataset */
@@ -407,7 +399,6 @@ int test_nc_inq(void) {
   return nok;
 }
 
-
 int test_nc_inq_natts(void) {
   int ncid;
   int ngatts; /* number of global attributes */
@@ -431,7 +422,6 @@ int test_nc_inq_natts(void) {
   error("close: %s", nc_strerror(err));
   return nok;
 }
-
 
 int test_nc_inq_ndims(void) {
   int ncid;
@@ -458,7 +448,6 @@ int test_nc_inq_ndims(void) {
   return nok;
 }
 
-
 int test_nc_inq_nvars(void) {
   int ncid;
   int nvars;
@@ -484,7 +473,6 @@ int test_nc_inq_nvars(void) {
   return nok;
 }
 
-
 int test_nc_inq_unlimdim(void) {
   int ncid;
   int unlimdim;
@@ -509,7 +497,6 @@ int test_nc_inq_unlimdim(void) {
   error("close: %s", nc_strerror(err));
   return nok;
 }
-
 
 int test_nc_inq_dimid(void) {
   int ncid;
@@ -542,7 +529,6 @@ int test_nc_inq_dimid(void) {
   error("close: %s", nc_strerror(err));
   return nok;
 }
-
 
 int test_nc_inq_dim(void) {
   int ncid;
@@ -595,7 +581,6 @@ int test_nc_inq_dim(void) {
   return nok;
 }
 
-
 int test_nc_inq_dimlen(void) {
   int ncid;
   int i;
@@ -628,7 +613,6 @@ int test_nc_inq_dimlen(void) {
   return nok;
 }
 
-
 int test_nc_inq_dimname(void) {
   int ncid;
   int i;
@@ -660,7 +644,6 @@ int test_nc_inq_dimname(void) {
   error("close: %s", nc_strerror(err));
   return nok;
 }
-
 
 int test_nc_inq_varid(void) {
   int ncid;
@@ -696,7 +679,6 @@ int test_nc_inq_varid(void) {
   error("close: %s", nc_strerror(err));
   return nok;
 }
-
 
 int test_nc_inq_var(void) {
   int ncid;
@@ -776,7 +758,6 @@ int test_nc_inq_var(void) {
   return nok;
 }
 
-
 int test_nc_inq_vardimid(void) {
   int ncid;
   int i;
@@ -808,7 +789,6 @@ int test_nc_inq_vardimid(void) {
   error("close: %s", nc_strerror(err));
   return nok;
 }
-
 
 int test_nc_inq_varname(void) {
   int ncid;
@@ -842,7 +822,6 @@ int test_nc_inq_varname(void) {
   return nok;
 }
 
-
 int test_nc_inq_varnatts(void) {
   int ncid;
   int i;
@@ -874,7 +853,6 @@ int test_nc_inq_varnatts(void) {
   error("close: %s", nc_strerror(err));
   return nok;
 }
-
 
 int test_nc_inq_varndims(void) {
   int ncid;
@@ -908,7 +886,6 @@ int test_nc_inq_varndims(void) {
   return nok;
 }
 
-
 int test_nc_inq_vartype(void) {
   int ncid;
   int i;
@@ -941,7 +918,6 @@ int test_nc_inq_vartype(void) {
   return nok;
 }
 
-
 /*
  * Test nc_get_var1(,,,)
  */
@@ -954,7 +930,6 @@ int test_nc_get_var1(void) {
   double buf[1]; /* (void *) buffer */
   double value[1];
   size_t j, index[MAX_RANK];
-
 
   err = file_open(testfile, NC_NOWRITE, &ncid);
   IF(err != NC_NOERR)
@@ -979,7 +954,6 @@ int test_nc_get_var1(void) {
     IF(err != NC_EBADID)
     error("expecting NC_EBADID but got %s", nc_err_code_name(err));
     ELSE_NOK
-
 
     /* test NC_EINVALCOORDS */
     for (j = 0; j < var_rank[i]; j++) {
@@ -1020,7 +994,6 @@ int test_nc_get_var1(void) {
   error("close: %s", nc_strerror(err));
   return nok;
 }
-
 
 /*
  * Test nc_get_vara(,,,,)
@@ -1064,12 +1037,10 @@ int test_nc_get_vara(void) {
     error("expecting NC_EBADID but got %s", nc_err_code_name(err));
     ELSE_NOK
 
-
     for (j = 0; j < var_rank[i]; j++) {
       start[j] = 0;
       edge[j] = 1;
     }
-
 
     /* test NC_EINVALCOORDS, first when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
@@ -1179,7 +1150,6 @@ int test_nc_get_vara(void) {
   return nok;
 }
 
-
 /*
  * Test nc_get_vars(,,,,,)
  * Choose a random point dividing each dim into 2 parts
@@ -1235,13 +1205,11 @@ int test_nc_get_vars(void) {
     error("expecting NC_EBADID but got %s", nc_err_code_name(err));
     ELSE_NOK
 
-
     for (j = 0; j < var_rank[i]; j++) {
       start[j] = 0;
       edge[j] = 1;
       stride[j] = 1;
     }
-
 
     /* test NC_EINVALCOORDS, first when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
@@ -1391,7 +1359,6 @@ int test_nc_get_vars(void) {
   return nok;
 }
 
-
 /*
  * Test nc_get_varm(,,,,,,)
  * Choose a random point dividing each dim into 2 parts
@@ -1448,14 +1415,12 @@ int test_nc_get_varm(void) {
     error("expecting NC_EBADID but got %s", nc_err_code_name(err));
     ELSE_NOK
 
-
     for (j = 0; j < var_rank[i]; j++) {
       start[j] = 0;
       edge[j] = 1;
       stride[j] = 1;
       imap[j] = 1;
     }
-
 
     /* test NC_EINVALCOORDS, first when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
@@ -1605,7 +1570,6 @@ int test_nc_get_varm(void) {
   return nok;
 }
 
-
 int test_nc_get_att(void) {
   int ncid;
   int i;
@@ -1676,7 +1640,6 @@ int test_nc_get_att(void) {
   return nok;
 }
 
-
 int test_nc_inq_att(void) {
   int ncid;
   int i;
@@ -1725,7 +1688,6 @@ int test_nc_inq_att(void) {
   return nok;
 }
 
-
 int test_nc_inq_attlen(void) {
   int ncid;
   int i;
@@ -1770,7 +1732,6 @@ int test_nc_inq_attlen(void) {
   return nok;
 }
 
-
 int test_nc_inq_atttype(void) {
   int ncid;
   int i;
@@ -1814,7 +1775,6 @@ int test_nc_inq_atttype(void) {
   error("close: %s", nc_strerror(err));
   return nok;
 }
-
 
 int test_nc_inq_attname(void) {
   int ncid;
@@ -1863,7 +1823,6 @@ int test_nc_inq_attname(void) {
   error("close: %s", nc_strerror(err));
   return nok;
 }
-
 
 int test_nc_inq_attid(void) {
   int ncid;

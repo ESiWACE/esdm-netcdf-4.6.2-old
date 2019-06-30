@@ -37,18 +37,15 @@ extern fspec_t formatting_specs; /* set from command-line options */
 static int linep;        /* line position, not counting global indent */
 static int max_line_len; /* max chars per line, not counting global indent */
 
-
 /* set position in line before lput() calls */
 static void
 set_indent(int in) {
   linep = in;
 }
 
-
 void set_max_len(int len) {
   max_line_len = len - 2;
 }
-
 
 /*
  * Output a string that should not be split across lines.  If it would
@@ -72,7 +69,6 @@ void lput(const char *cp) {
   } else
     linep += nn;
 }
-
 
 /*--------------------------------------------------------------------------*/
 
@@ -137,7 +133,6 @@ bool_t wrap        /* line wrap control: true=enable,
   printf("%s", cp);
 }
 
-
 /*
  * Output a value of an attribute.
  */
@@ -150,7 +145,6 @@ const void *valp      /* pointer to the value */
   nctype_t *typ = attp->tinfo;
   (*typ->typ_tostring)(typ, sb, valp);
 }
-
 
 /*
  * Output a value of a variable, except if there is a fill value for
@@ -204,7 +198,6 @@ lastdelim2(bool_t more, bool_t lastrow) {
     }
   }
 }
-
 
 /*
  * Print a number of attribute values
@@ -370,7 +363,6 @@ const size_t *cor  /* corner coordinates */
   /* 	annotate (vp,  (size_t *)cor, 0L); */
   /* }  */
 }
-
 
 /*
  * Updates a vector of ints, odometer style.  Returns 0 if odometer
@@ -576,7 +568,6 @@ int varid          /* variable id */
   return 0;
 }
 
-
 /*
  * print last delimiter in each line before annotation (, or ;)
  */
@@ -592,7 +583,6 @@ lastdelim2x(bool_t more, bool_t lastrow) {
     }
   }
 }
-
 
 /*
  * Print a number of char variable values as a text string for NcML
@@ -658,7 +648,6 @@ const char *vals   /* pointer to block of values */
   lastdelim2x(more, lastrow);
 }
 
-
 /*
  * Print a number of variable values for NcML
  */
@@ -688,7 +677,6 @@ const void *vals   /* pointer to block of values */
   lastdelim2x(more, lastrow);
   sbuf_free(sb);
 }
-
 
 /* Output the data for a single variable, in NcML syntax.
  *  TODO: currently not called, need option for NcML with values ... */

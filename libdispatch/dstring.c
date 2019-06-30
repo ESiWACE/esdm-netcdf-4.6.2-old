@@ -31,7 +31,6 @@ void free_NC_string(NC_string *ncstrp) {
   free(ncstrp);
 }
 
-
 static int
 nextUTF8(const char *cp) {
   /*  The goal here is to recognize the length of each
@@ -147,7 +146,6 @@ nextUTF8(const char *cp) {
   return skip;
 }
 
-
 /*
  * Verify that a name string is valid syntax.  The allowed name
  * syntax (in RE form) is:
@@ -215,7 +213,6 @@ fail:
   return NC_EBADNAME;
 }
 
-
 /*
  * Allocate a NC_string structure large enough
  * to hold slen characters.
@@ -248,7 +245,6 @@ new_NC_string(size_t slen, const char *str) {
 
   return (ncstrp);
 }
-
 
 /*
  * If possible, change the value of an NC_string to 'str'.

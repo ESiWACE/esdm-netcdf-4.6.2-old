@@ -8,7 +8,6 @@
 #ifndef _CURLFUNCTION_H_
 #define _CURLFUNCTION_H_
 
-
 /* Condition on libcurl version */
 /* Set up an alias as needed */
 #ifndef HAVE_CURLOPT_KEYPASSWD

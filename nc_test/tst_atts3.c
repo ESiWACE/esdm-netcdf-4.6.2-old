@@ -483,7 +483,6 @@ int main(int argc, char **argv) {
     float float_in[ATT_LEN];
     double double_in[ATT_LEN];
 
-
     /* Create a file with a global attribute of each type of zero length. */
 #ifdef TEST_PNETCDF
     if (nc_create_par(FILE_NAME, NC_CLOBBER, MPI_COMM_WORLD, MPI_INFO_NULL, &ncid)) ERR;

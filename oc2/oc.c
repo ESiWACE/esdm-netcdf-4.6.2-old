@@ -130,7 +130,6 @@ OCdxd dxdkind, OCflags flags, OCobject *rootp) {
   return OCTHROW(ocerr);
 }
 
-
 /*!
 This procedure reclaims all resources
 associated with a given tree of objects
@@ -182,7 +181,6 @@ oc_tree_text(OCobject link, OCobject ddsroot) {
 
 /*!\defgroup Node Node Management
 @{*/
-
 
 /*!
 This procedure returns a variety of properties
@@ -506,7 +504,6 @@ OCerror
 oc_dds_gridmap(OCobject link, OCobject grid, size_t index, OCobject *mapnodep) {
   return OCTHROW(oc_dds_ithfield(link, grid, index + 1, mapnodep));
 }
-
 
 /*!
 Obtain a dds node by name from a dds structure or dataset node.
@@ -1357,7 +1354,6 @@ size_t memsize, void *memory) {
   return OCTHROW(oc_data_readn(link, datanode, start, count, memsize, memory));
 }
 
-
 /*!
 This procedure is a variant of oc_data_read for reading a
 single scalar from a leaf instance of a data tree and
@@ -1452,7 +1448,6 @@ size_t memsize, void *memory) {
   return OCTHROW(OCTHROW(ocerr));
 }
 
-
 /*!
 This procedure has the same semantics as oc_data_read.
 However, it takes an OCddsnode as argument.
@@ -1498,7 +1493,6 @@ size_t memsize, void *memory) {
   if (data == NULL) return OCTHROW(OC_EINVAL);
   return OCTHROW(oc_data_read(link, data, start, edges, memsize, memory));
 }
-
 
 /*!
 This procedure is a variant of oc_data_read for reading a single scalar.
@@ -1667,7 +1661,6 @@ oc_errstring(OCerror err) {
   return ocerrstring(err);
 }
 
-
 /**************************************************/
 
 /*!
@@ -1777,7 +1770,6 @@ oc_get_connection(OCobject ddsnode, OCobject *linkp) {
   return OCTHROW(OC_NOERR);
 }
 
-
 /*!
 Attempt to retrieve a dataset using a specified URL
 and using the DAP protocol.
@@ -1810,7 +1802,6 @@ int oc_dumpnode(OCobject link, OCobject ddsroot) {
 /* Following procedures are in API, but are not
    externally documented.
 */
-
 
 OCerror
 oc_dds_dd(OCobject link, OCobject ddsroot, int level) {
@@ -1896,7 +1887,6 @@ oc_dds_free(OCobject link, OCobject dds0) {
   return OCTHROW(OC_NOERR);
 }
 
-
 /**************************************************/
 /* Curl specific  options */
 
@@ -1950,7 +1940,6 @@ oc_set_netrc(OClink *link, const char *file) {
   FILE *f;
   OCVERIFY(OC_State, link);
   OCDEREF(OCstate *, state, link);
-
 
   if (file == NULL || strlen(file) == 0)
     return OC_EINVAL;

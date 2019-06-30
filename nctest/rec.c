@@ -45,7 +45,6 @@ int *recvarids;
   return nrecvars;
 }
 
-
 /*
  * Returns record size (in bytes) of the record variable with a specified
  * variable id.  Returns 0 if not a record variable.  Returns -1 on error.
@@ -75,7 +74,6 @@ int vid;
   }
   return size;
 }
-
 
 /*
  * Retrieves the number of record variables, the record variable ids, and the
@@ -107,7 +105,6 @@ long *recsizes;
       recsizes[iv] = ncrecsize(ncid, rvarids[iv]);
   return 0;
 }
-
 
 /*
  * Test ncrecinq
@@ -216,7 +213,6 @@ const char *path; /* name of netcdf file to open */
   return nerrs;
 }
 
-
 /*
  * Retrieves the dimension sizes of a variable with a specified variable id in
  * an open netCDF file.  Returns -1 on error.
@@ -238,7 +234,6 @@ long *sizes;
     (void)ncdiminq(ncid, dimids[id], 0, &sizes[id]);
   return 0;
 }
-
 
 /*
  * Write one record's worth of data, except don't write to variables for which
@@ -275,7 +270,6 @@ void **datap;
   return 0;
 }
 
-
 /*
  * Read one record's worth of data, except don't read from variables for which
  * the address of the data to be read is null.  Return -1 on error.  This is
@@ -310,7 +304,6 @@ void **datap;
   }
   return 0;
 }
-
 
 /*
  * Test ncrecput
@@ -469,7 +462,6 @@ const char *path; /* name of writable netcdf file to open */
 
   return nerrs;
 }
-
 
 /*
  * Test ncrecget

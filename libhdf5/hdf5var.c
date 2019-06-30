@@ -36,7 +36,6 @@ int nc4_reopen_dataset(NC_GRP_INFO_T *grp, NC_VAR_INFO_T *var) {
     /* Get the HDF5 group id. */
     grpid = ((NC_HDF5_GRP_INFO_T *)(grp->format_grp_info))->hdf_grpid;
 
-
     if ((access_pid = H5Pcreate(H5P_DATASET_ACCESS)) < 0)
       return NC_EHDFERR;
     if (H5Pset_chunk_cache(access_pid, var->chunk_cache_nelems,

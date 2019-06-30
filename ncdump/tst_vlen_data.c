@@ -141,7 +141,6 @@ int main(int argc, char **argv) {
     }
   }
 
-
   if (nc_close(ncid)) ERR;
 
   /* Free space used for sample data. */

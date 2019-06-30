@@ -93,7 +93,6 @@ static int ncio_px_pad_length(ncio *nciop, off_t length);
 static int ncio_px_close(ncio *nciop, int doUnlink);
 static int ncio_spx_close(ncio *nciop, int doUnlink);
 
-
 /*
  * Define the following for debugging.
  */
@@ -135,7 +134,6 @@ static off_t nc_get_filelen(const int fd) {
 
   return flen;
 }
-
 
 /*
  * What is the system pagesize?
@@ -184,7 +182,6 @@ blksize(int fd) {
   return (size_t)2 * pagesize();
 }
 
-
 /*
  * Sortof like ftruncate, except won't make the
  * file shorter.
@@ -213,7 +210,6 @@ fgrow(const int fd, const off_t len) {
   return NC_NOERR;
 }
 
-
 /*
  * Sortof like ftruncate, except won't make the file shorter.  Differs
  * from fgrow by only writing one byte at designated seek position, if
@@ -228,7 +224,6 @@ fgrow2(const int fd, const off_t len) {
      See https://github.com/Unidata/netcdf-c/issues/188
 
   */
-
 
   off_t file_len = nc_get_filelen(fd);
   if (file_len < 0) return errno;
@@ -363,7 +358,6 @@ void *const vp, size_t *nreadp, off_t *posp) {
     nread = read(nciop->fd, vp, extent);
   } while (nread == -1 && errno == EINTR);
 
-
   if (nread != (ssize_t)extent) {
     status = errno;
     if (nread == -1 || (status != EINTR && status != NC_NOERR))
@@ -406,7 +400,6 @@ typedef struct ncio_px {
   /* chain for double buffering in px_move */
   struct ncio_px *slave;
 } ncio_px;
-
 
 /*ARGSUSED*/
 /* This function indicates the file region starting at offset may be
@@ -743,7 +736,6 @@ void **const vpp) {
   return px_get(nciop, pxp, offset, extent, rflags, vpp);
 }
 
-
 /* ARGSUSED */
 static int
 px_double_buffer(ncio *const nciop, off_t to, off_t from,
@@ -907,7 +899,6 @@ size_t nbytes, int rflags) {
   return status;
 }
 
-
 /* Flush any buffers to disk. May be a no-op on if I/O is unbuffered.
    This function is used when NC_SHARE is NOT used.
 */
@@ -962,7 +953,6 @@ ncio_px_freepvt(void *const pvt) {
   }
 }
 
-
 /* This is the second half of the ncio initialization. This is called
    after the file has actually been opened.
 
@@ -1009,7 +999,6 @@ ncio_px_init2(ncio *const nciop, size_t *sizehintp, int isNew) {
   return NC_NOERR;
 }
 
-
 /* This is the first of a two-part initialization of the ncio struct.
    Here the rel, get, move, sync, and free function pointers are set
    to their POSIX non-NC_SHARE functions (ncio_px_*).
@@ -1051,7 +1040,6 @@ typedef struct ncio_spx {
   size_t bf_cnt;
   void *bf_base;
 } ncio_spx;
-
 
 /*ARGSUSED*/
 /* This function releases the region specified by offset.
@@ -1096,7 +1084,6 @@ ncio_spx_rel(ncio *const nciop, off_t offset, int rflags) {
   pxp->bf_cnt = 0;
   return status;
 }
-
 
 /* Request that the region (offset, extent) be made available through
    *vpp.
@@ -1183,7 +1170,6 @@ void **const vpp) {
   return NC_NOERR;
 }
 
-
 #if 0
 /*ARGSUSED*/
 static int
@@ -1202,7 +1188,6 @@ strategy(ncio *const nciop, off_t to, off_t offset,
 fprintf(stderr, "strategy %ld at %ld to %ld\n",
 	 (long)extent, (long)offset, (long)to);
 #  endif
-
 
 #  ifdef X_ALIGN
 	rem = (size_t)(offset % X_ALIGN);
@@ -1314,7 +1299,6 @@ size_t nbytes, int rflags) {
   return status;
 }
 
-
 /*ARGSUSED*/
 /* Flush any buffers to disk. May be a no-op on if I/O is unbuffered.
 */
@@ -1338,7 +1322,6 @@ ncio_spx_freepvt(void *const pvt) {
     pxp->bf_cnt = 0;
   }
 }
-
 
 /* This does the second half of the ncio_spx struct initialization for
    POSIX systems, with NC_SHARE on.
@@ -1368,7 +1351,6 @@ ncio_spx_init2(ncio *const nciop, const size_t *const sizehintp) {
   return NC_NOERR;
 }
 
-
 /* First half of init for ncio_spx struct, setting the rel, get, move,
    snyc, and free function pointers to the NC_SHARE versions of these
    functions (i.e. the ncio_spx_* functions).
@@ -1392,7 +1374,6 @@ ncio_spx_init(ncio *const nciop) {
   pxp->bf_cnt = 0;
   pxp->bf_base = NULL;
 }
-
 
 /* */
 
@@ -1418,7 +1399,6 @@ ncio_spx_free(ncio *nciop) {
     ncio_spx_freepvt(nciop->pvt);
   free(nciop);
 }
-
 
 /* Create a new ncio struct to hold info about the file. This will
    create and init the ncio_px or ncio_spx struct (the latter if
@@ -1460,7 +1440,6 @@ ncio_px_new(const char *path, int ioflags) {
 
   return nciop;
 }
-
 
 /* Public below this point */
 #ifndef NCIO_MINBLOCKSIZE
@@ -1582,7 +1561,6 @@ unwind_new:
   ncio_close(nciop, !fIsSet(ioflags, NC_NOCLOBBER));
   return status;
 }
-
 
 /* This function opens the data file. It is only called from nc.c,
    from nc__open_mp and nc_delete_mp.
@@ -1751,7 +1729,6 @@ ncio_px_pad_length(ncio *nciop, off_t length) {
     return status;
   return NC_NOERR;
 }
-
 
 /* Write out any dirty buffers to disk and
    ensure that next read will get data from disk.

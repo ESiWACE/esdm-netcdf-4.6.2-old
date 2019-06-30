@@ -122,7 +122,6 @@
 #  define X_SIZE_MAX X_UINT_MAX
 #  define X_OFF_MAX X_INT_MAX
 
-
 /* Begin ncx_len */
 
 /*
@@ -994,7 +993,6 @@ ncx_putn_ulonglong_longlong(void **xpp, size_t nelems, const longlong *ip, void 
 extern int
 ncx_putn_ulonglong_ulonglong(void **xpp, size_t nelems, const ulonglong *ip, void *fillp);
 
-
 /*
  * Other aggregate conversion functions.
  */
@@ -1010,7 +1008,6 @@ extern int
 ncx_putn_text(void **xpp, size_t nchars, const char *cp);
 extern int
 ncx_pad_putn_text(void **xpp, size_t nchars, const char *cp);
-
 
 /* for symmetry */
 #  define ncx_getn_char_char(xpp, nelems, fillp) ncx_getn_text(xpp, nelems, fillp)

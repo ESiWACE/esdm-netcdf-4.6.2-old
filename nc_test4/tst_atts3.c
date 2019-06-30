@@ -1222,7 +1222,6 @@ int create_file() {
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   /* assign per-variable attributes */
   { /* c */
     stat = nc_put_att_text(ncid, b_id, "c", 0, "");
@@ -1257,7 +1256,6 @@ int create_file() {
     stat = nc_put_att_text(ncid, d_id, "c", 6, "blahhh");
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   /* leave define mode */
   stat = nc_enddef(ncid);
@@ -2339,7 +2337,6 @@ int create_file() {
     stat = nc_put_vara(ncid, i444_id, i444_startset, i444_countset, i444_data);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   stat = nc_close(ncid);
   check_err(stat, __LINE__, __FILE__);

@@ -162,7 +162,6 @@ static void odom_reclaim(Odom *odom) {
   free(odom);
 }
 
-
 static void odom_set(Odom *odom, size_t *start, size_t *count) {
   int i;
   /* Init the odometer */

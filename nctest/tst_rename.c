@@ -132,7 +132,6 @@ int create_file() {
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   /* assign per-variable attributes */
   { /* units */
     stat = nc_put_att_text(ncid, aa_id, "units", 8, "furlongs");
@@ -160,7 +159,6 @@ int create_file() {
     stat = nc_put_att_short(ncid, dd_id, "fill_value", NC_SHORT, 1, dd_fill_value_att);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   /* leave define mode */
   stat = nc_enddef(ncid);
@@ -190,7 +188,6 @@ int create_file() {
     stat = nc_put_vara(ncid, dd_id, dd_startset, dd_countset, dd_data);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   stat = nc_close(ncid);
   check_err(stat, __LINE__, __FILE__);

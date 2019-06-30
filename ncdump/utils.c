@@ -78,7 +78,6 @@ void check(int err, const char *file, const int line) {
   exit(1);
 }
 
-
 /* 
  * Returns malloced name with chars special to CDL escaped.
  * Caller should free result when done with it.
@@ -151,7 +150,6 @@ escaped_name(const char *cp) {
   *sp = 0;
   return ret;
 }
-
 
 /* 
  * Print name with escapes for special characters

@@ -474,7 +474,6 @@ For netcdf4 files, capture state information about the following:
 #define NCPROPSSEP1 '|'
 #define NCPROPSSEP2 ','
 
-
 /* Other hidden attributes */
 #define ISNETCDF4ATT "_IsNetcdf4"
 #define SUPERBLOCKATT "_SuperblockVersion"

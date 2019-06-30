@@ -27,7 +27,6 @@
 #define ATTNAME "TextAttribute"
 #define ATTVAL "This is a text attribute used for testing."
 
-
 /*! Main function for tst_fill_attr_vanish.c
  *
  */

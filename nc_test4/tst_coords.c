@@ -318,7 +318,6 @@ int main(int argc, char **argv) {
       check_err(stat, __LINE__, __FILE__);
     }
 
-
     /* assign per-variable attributes */
     { /* calendar */
       static const char time_calendar_att[6] = {"noleap"};

@@ -9,7 +9,6 @@
 #  pragma GCC diagnostic ignored "-Wunused-parameter"
 #endif
 
-
 #if HAVE_CONFIG_H
 #  include <config.h>
 #endif
@@ -19,18 +18,15 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 #pragma GCC diagnostic ignored "-Wdeprecated"
 #include "nc3dispatch.h"
 #include "ncx.h"
-
 
 #ifdef HAVE_INTTYPES_H
 #  include <inttypes.h> /* uint16_t, uint32_t, uint64_t */
 #elif defined(HAVE_STDINT_H)
 #  include <stdint.h> /* uint16_t, uint32_t, uint64_t */
 #endif
-
 
 /*
  * The only error code returned from subroutines in this file is NC_ERANGE,
@@ -500,17 +496,14 @@ swapn8b(void *dst, const void *src, size_t nn) {
 
 #endif /* LITTLE_ENDIAN */
 
-
 /*
  * Primitive numeric conversion functions.
  */
-
 
 /* x_schar */
 /* x_uchar */
 
 /* We don't implement any x_schar and x_uchar primitives. */
-
 
 /* external NC_SHORT --------------------------------------------------------*/
 
@@ -571,7 +564,6 @@ ncx_get_short_schar(const void *xp, schar *ip) {
   }
 #endif
 
-
   *ip = (schar)xx;
   return err;
 }
@@ -595,7 +587,6 @@ ncx_get_short_short(const void *xp, short *ip) {
 #    endif
   }
 #  endif
-
 
   *ip = (short)xx;
 #endif
@@ -622,7 +613,6 @@ ncx_get_short_int(const void *xp, int *ip) {
   }
 #  endif
 
-
   *ip = (int)xx;
 #endif
   return err;
@@ -648,7 +638,6 @@ ncx_get_short_long(const void *xp, long *ip) {
   }
 #  endif
 
-
   *ip = (long)xx;
 #endif
   return err;
@@ -673,7 +662,6 @@ ncx_get_short_longlong(const void *xp, longlong *ip) {
 #    endif
   }
 #  endif
-
 
   *ip = (longlong)xx;
 #endif
@@ -811,7 +799,6 @@ ncx_get_short_double(const void *xp, double *ip) {
   *ip = (double)xx;
   return NC_NOERR;
 }
-
 
 static int
 ncx_put_short_schar(void *xp, const schar *ip, void *fillp) {
@@ -1046,7 +1033,6 @@ ncx_put_short_double(void *xp, const double *ip, void *fillp) {
   return err;
 }
 
-
 /* external NC_USHORT -------------------------------------------------------*/
 
 #if USHORT_MAX == X_USHORT_MAX
@@ -1106,7 +1092,6 @@ ncx_get_ushort_schar(const void *xp, schar *ip) {
   }
 #endif
 
-
   *ip = (schar)xx;
   return err;
 }
@@ -1127,7 +1112,6 @@ ncx_get_ushort_short(const void *xp, short *ip) {
 #  endif
   }
 #endif
-
 
   *ip = (short)xx;
   return err;
@@ -1150,7 +1134,6 @@ ncx_get_ushort_int(const void *xp, int *ip) {
   }
 #endif
 
-
   *ip = (int)xx;
   return err;
 }
@@ -1172,7 +1155,6 @@ ncx_get_ushort_long(const void *xp, long *ip) {
   }
 #endif
 
-
   *ip = (long)xx;
   return err;
 }
@@ -1193,7 +1175,6 @@ ncx_get_ushort_longlong(const void *xp, longlong *ip) {
 #  endif
   }
 #endif
-
 
   *ip = (longlong)xx;
   return err;
@@ -1218,7 +1199,6 @@ ncx_get_ushort_ushort(const void *xp, ushort *ip) {
 #    endif
   }
 #  endif
-
 
   *ip = (ushort)xx;
 #endif
@@ -1245,7 +1225,6 @@ ncx_get_ushort_uchar(const void *xp, uchar *ip) {
   }
 #  endif
 
-
   *ip = (uchar)xx;
 #endif
   return err;
@@ -1270,7 +1249,6 @@ ncx_get_ushort_uint(const void *xp, uint *ip) {
 #    endif
   }
 #  endif
-
 
   *ip = (uint)xx;
 #endif
@@ -1297,7 +1275,6 @@ ncx_get_ushort_ulonglong(const void *xp, ulonglong *ip) {
   }
 #  endif
 
-
   *ip = (ulonglong)xx;
 #endif
   return err;
@@ -1318,7 +1295,6 @@ ncx_get_ushort_double(const void *xp, double *ip) {
   *ip = (double)xx;
   return NC_NOERR;
 }
-
 
 static int
 ncx_put_ushort_schar(void *xp, const schar *ip, void *fillp) {
@@ -1603,7 +1579,6 @@ ncx_put_ushort_double(void *xp, const double *ip, void *fillp) {
   return err;
 }
 
-
 /* external NC_INT ----------------------------------------------------------*/
 
 #if SHORT_MAX == X_INT_MAX
@@ -1621,7 +1596,6 @@ typedef long ix_int;
 #else
 #  error "ix_int implementation"
 #endif
-
 
 static void
 get_ix_int(const void *xp, ix_int *ip) {
@@ -1674,7 +1648,6 @@ ncx_get_int_int(const void *xp, int *ip) {
   }
 #    endif
 
-
   *ip = (int)xx;
 #  endif
   return err;
@@ -1697,7 +1670,6 @@ ncx_get_int_schar(const void *xp, schar *ip) {
 #  endif
   }
 #endif
-
 
   *ip = (schar)xx;
   return err;
@@ -1722,7 +1694,6 @@ ncx_get_int_short(const void *xp, short *ip) {
 #    endif
   }
 #  endif
-
 
   *ip = (short)xx;
 #endif
@@ -1749,7 +1720,6 @@ ncx_get_int_long(const void *xp, long *ip) {
   }
 #  endif
 
-
   *ip = (long)xx;
 #endif
   return err;
@@ -1774,7 +1744,6 @@ ncx_get_int_longlong(const void *xp, longlong *ip) {
 #    endif
   }
 #  endif
-
 
   *ip = (longlong)xx;
 #endif
@@ -1912,7 +1881,6 @@ ncx_get_int_double(const void *xp, double *ip) {
   *ip = (double)xx;
   return NC_NOERR;
 }
-
 
 static int
 ncx_put_int_schar(void *xp, const schar *ip, void *fillp) {
@@ -2156,7 +2124,6 @@ ncx_put_int_double(void *xp, const double *ip, void *fillp) {
   return err;
 }
 
-
 /* external NC_UINT ---------------------------------------------------------*/
 
 #if USHORT_MAX == X_UINT_MAX
@@ -2174,7 +2141,6 @@ typedef ulong ix_uint;
 #else
 #  error "ix_uint implementation"
 #endif
-
 
 static void
 get_ix_uint(const void *xp, ix_uint *ip) {
@@ -2217,7 +2183,6 @@ ncx_get_uint_uint(const void *xp, uint *ip) {
   }
 #    endif
 
-
   *ip = (uint)xx;
 #  endif
   return err;
@@ -2242,7 +2207,6 @@ ncx_get_uint_schar(const void *xp, schar *ip) {
   }
 #endif
 
-
   *ip = (schar)xx;
   return err;
 }
@@ -2263,7 +2227,6 @@ ncx_get_uint_short(const void *xp, short *ip) {
 #  endif
   }
 #endif
-
 
   *ip = (short)xx;
   return err;
@@ -2286,7 +2249,6 @@ ncx_get_uint_int(const void *xp, int *ip) {
   }
 #endif
 
-
   *ip = (int)xx;
   return err;
 }
@@ -2308,7 +2270,6 @@ ncx_get_uint_long(const void *xp, long *ip) {
   }
 #endif
 
-
   *ip = (long)xx;
   return err;
 }
@@ -2329,7 +2290,6 @@ ncx_get_uint_longlong(const void *xp, longlong *ip) {
 #  endif
   }
 #endif
-
 
   *ip = (longlong)xx;
   return err;
@@ -2354,7 +2314,6 @@ ncx_get_uint_ushort(const void *xp, ushort *ip) {
 #    endif
   }
 #  endif
-
 
   *ip = (ushort)xx;
 #endif
@@ -2381,7 +2340,6 @@ ncx_get_uint_uchar(const void *xp, uchar *ip) {
   }
 #  endif
 
-
   *ip = (uchar)xx;
 #endif
   return err;
@@ -2407,7 +2365,6 @@ ncx_get_uint_ulonglong(const void *xp, ulonglong *ip) {
   }
 #  endif
 
-
   *ip = (ulonglong)xx;
 #endif
   return err;
@@ -2428,7 +2385,6 @@ ncx_get_uint_double(const void *xp, double *ip) {
   *ip = (double)xx;
   return NC_NOERR;
 }
-
 
 static int
 ncx_put_uint_schar(void *xp, const schar *ip, void *fillp) {
@@ -2714,7 +2670,6 @@ ncx_put_uint_double(void *xp, const double *ip, void *fillp) {
   return err;
 }
 
-
 /* external NC_FLOAT --------------------------------------------------------*/
 
 #if X_SIZEOF_FLOAT == SIZEOF_FLOAT && !defined(NO_IEEE_FLOAT)
@@ -2817,7 +2772,6 @@ get_ix_float(const void *xp, float *ip) {
   vsp->sign = isp->sign;
 }
 
-
 static void
 put_ix_float(void *xp, const float *ip) {
   const struct vax_single *const vsp = (const struct vax_single *)ip;
@@ -2915,7 +2869,6 @@ static const int cs_ieis_bias = 0x4000 - 0x7f;
 
 static const int cs_id_bias = 0x4000 - 0x3ff;
 
-
 static void
 get_ix_float(const void *xp, float *ip) {
   if (word_align(xp) == 0) {
@@ -2934,7 +2887,6 @@ get_ix_float(const void *xp, float *ip) {
       csp->mant |= (1 << (48 - 1));
     }
     csp->sign = isp->sign;
-
 
   } else {
     const ieee_single_lo *isp = (const ieee_single_lo *)xp;
@@ -3242,7 +3194,6 @@ ncx_get_float_ulonglong(const void *xp, ulonglong *ip) {
   return NC_NOERR;
 }
 
-
 #if X_SIZEOF_FLOAT != SIZEOF_FLOAT || defined(NO_IEEE_FLOAT)
 static int
 ncx_put_float_float(void *xp, const float *ip, void *fillp) {
@@ -3272,7 +3223,6 @@ ncx_put_float_schar(void *xp, const schar *ip, void *fillp) {
   int err = NC_NOERR;
   ix_float xx = NC_FILL_FLOAT;
 
-
   xx = (ix_float)*ip;
 
   put_ix_float(xp, &xx);
@@ -3283,7 +3233,6 @@ static int
 ncx_put_float_short(void *xp, const short *ip, void *fillp) {
   int err = NC_NOERR;
   ix_float xx = NC_FILL_FLOAT;
-
 
   xx = (ix_float)*ip;
 
@@ -3296,7 +3245,6 @@ ncx_put_float_int(void *xp, const int *ip, void *fillp) {
   int err = NC_NOERR;
   ix_float xx = NC_FILL_FLOAT;
 
-
   xx = (ix_float)*ip;
 
   put_ix_float(xp, &xx);
@@ -3307,7 +3255,6 @@ static int
 ncx_put_float_long(void *xp, const long *ip, void *fillp) {
   int err = NC_NOERR;
   ix_float xx = NC_FILL_FLOAT;
-
 
   xx = (ix_float)*ip;
 
@@ -3340,7 +3287,6 @@ ncx_put_float_longlong(void *xp, const longlong *ip, void *fillp) {
   int err = NC_NOERR;
   ix_float xx = NC_FILL_FLOAT;
 
-
   xx = (ix_float)*ip;
 
   put_ix_float(xp, &xx);
@@ -3351,7 +3297,6 @@ static int
 ncx_put_float_uchar(void *xp, const uchar *ip, void *fillp) {
   int err = NC_NOERR;
   ix_float xx = NC_FILL_FLOAT;
-
 
   xx = (ix_float)*ip;
 
@@ -3364,7 +3309,6 @@ ncx_put_float_ushort(void *xp, const ushort *ip, void *fillp) {
   int err = NC_NOERR;
   ix_float xx = NC_FILL_FLOAT;
 
-
   xx = (ix_float)*ip;
 
   put_ix_float(xp, &xx);
@@ -3375,7 +3319,6 @@ static int
 ncx_put_float_uint(void *xp, const uint *ip, void *fillp) {
   int err = NC_NOERR;
   ix_float xx = NC_FILL_FLOAT;
-
 
   xx = (ix_float)*ip;
 
@@ -3388,13 +3331,11 @@ ncx_put_float_ulonglong(void *xp, const ulonglong *ip, void *fillp) {
   int err = NC_NOERR;
   ix_float xx = NC_FILL_FLOAT;
 
-
   xx = (ix_float)*ip;
 
   put_ix_float(xp, &xx);
   return err;
 }
-
 
 /* external NC_DOUBLE -------------------------------------------------------*/
 
@@ -3456,7 +3397,6 @@ static const struct dbl_limits {
 {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}},       /* Min IEEE */
 };
 
-
 static void
 get_ix_double(const void *xp, double *ip) {
   struct vax_double *const vdp = (struct vax_double *)ip;
@@ -3496,7 +3436,6 @@ get_ix_double(const void *xp, double *ip) {
 doneit:
   vdp->sign = idp->sign;
 }
-
 
 static void
 put_ix_double(void *xp, const double *ip) {
@@ -3749,7 +3688,6 @@ ncx_get_double_ulonglong(const void *xp, ulonglong *ip) {
   return NC_NOERR;
 }
 
-
 static int
 ncx_get_double_float(const void *xp, float *ip) {
   double xx = 0.0;
@@ -3788,7 +3726,6 @@ ncx_put_double_schar(void *xp, const schar *ip, void *fillp) {
   int err = NC_NOERR;
   ix_double xx = NC_FILL_DOUBLE;
 
-
   xx = (ix_double)*ip;
 
   put_ix_double(xp, &xx);
@@ -3799,7 +3736,6 @@ static int
 ncx_put_double_uchar(void *xp, const uchar *ip, void *fillp) {
   int err = NC_NOERR;
   ix_double xx = NC_FILL_DOUBLE;
-
 
   xx = (ix_double)*ip;
 
@@ -3812,7 +3748,6 @@ ncx_put_double_short(void *xp, const short *ip, void *fillp) {
   int err = NC_NOERR;
   ix_double xx = NC_FILL_DOUBLE;
 
-
   xx = (ix_double)*ip;
 
   put_ix_double(xp, &xx);
@@ -3823,7 +3758,6 @@ static int
 ncx_put_double_ushort(void *xp, const ushort *ip, void *fillp) {
   int err = NC_NOERR;
   ix_double xx = NC_FILL_DOUBLE;
-
 
   xx = (ix_double)*ip;
 
@@ -3836,7 +3770,6 @@ ncx_put_double_int(void *xp, const int *ip, void *fillp) {
   int err = NC_NOERR;
   ix_double xx = NC_FILL_DOUBLE;
 
-
   xx = (ix_double)*ip;
 
   put_ix_double(xp, &xx);
@@ -3847,7 +3780,6 @@ static int
 ncx_put_double_long(void *xp, const long *ip, void *fillp) {
   int err = NC_NOERR;
   ix_double xx = NC_FILL_DOUBLE;
-
 
   xx = (ix_double)*ip;
 
@@ -3860,7 +3792,6 @@ ncx_put_double_uint(void *xp, const uint *ip, void *fillp) {
   int err = NC_NOERR;
   ix_double xx = NC_FILL_DOUBLE;
 
-
   xx = (ix_double)*ip;
 
   put_ix_double(xp, &xx);
@@ -3871,7 +3802,6 @@ static int
 ncx_put_double_longlong(void *xp, const longlong *ip, void *fillp) {
   int err = NC_NOERR;
   ix_double xx = NC_FILL_DOUBLE;
-
 
   xx = (ix_double)*ip;
 
@@ -3884,13 +3814,11 @@ ncx_put_double_ulonglong(void *xp, const ulonglong *ip, void *fillp) {
   int err = NC_NOERR;
   ix_double xx = NC_FILL_DOUBLE;
 
-
   xx = (ix_double)*ip;
 
   put_ix_double(xp, &xx);
   return err;
 }
-
 
 static int
 ncx_put_double_float(void *xp, const float *ip, void *fillp) {
@@ -3937,7 +3865,6 @@ ncx_put_double_double(void *xp, const double *ip, void *fillp) {
 }
 #endif
 
-
 /* external NC_INT64 --------------------------------------------------------*/
 
 #if SHORT_MAX == X_INT64_MAX
@@ -3955,7 +3882,6 @@ typedef long ix_int64;
 #else
 #  error "ix_int64 implementation"
 #endif
-
 
 static void
 get_ix_int64(const void *xp, ix_int64 *ip) {
@@ -4006,7 +3932,6 @@ ncx_get_longlong_longlong(const void *xp, longlong *ip) {
   }
 #    endif
 
-
   *ip = (longlong)xx;
 #  endif
   return err;
@@ -4029,7 +3954,6 @@ ncx_get_longlong_schar(const void *xp, schar *ip) {
 #  endif
   }
 #endif
-
 
   *ip = (schar)xx;
   return err;
@@ -4054,7 +3978,6 @@ ncx_get_longlong_short(const void *xp, short *ip) {
 #    endif
   }
 #  endif
-
 
   *ip = (short)xx;
 #endif
@@ -4081,7 +4004,6 @@ ncx_get_longlong_int(const void *xp, int *ip) {
   }
 #  endif
 
-
   *ip = (int)xx;
 #endif
   return err;
@@ -4106,7 +4028,6 @@ ncx_get_longlong_long(const void *xp, long *ip) {
 #    endif
   }
 #  endif
-
 
   *ip = (long)xx;
 #endif
@@ -4244,7 +4165,6 @@ ncx_get_longlong_double(const void *xp, double *ip) {
   *ip = (double)xx;
   return NC_NOERR;
 }
-
 
 #if X_SIZEOF_INT64 != SIZEOF_LONGLONG
 static int
@@ -4506,7 +4426,6 @@ ncx_put_longlong_double(void *xp, const double *ip, void *fillp) {
   return err;
 }
 
-
 /* external NC_UINT64 -------------------------------------------------------*/
 
 #if USHORT_MAX == X_UINT64_MAX
@@ -4524,7 +4443,6 @@ typedef ulong ix_uint64;
 #else
 #  error "ix_uint64 implementation"
 #endif
-
 
 static void
 get_ix_uint64(const void *xp, ix_uint64 *ip) {
@@ -4575,7 +4493,6 @@ ncx_get_ulonglong_ulonglong(const void *xp, ulonglong *ip) {
   }
 #    endif
 
-
   *ip = (ulonglong)xx;
 #  endif
   return err;
@@ -4599,7 +4516,6 @@ ncx_get_ulonglong_schar(const void *xp, schar *ip) {
   }
 #endif
 
-
   *ip = (schar)xx;
   return err;
 }
@@ -4620,7 +4536,6 @@ ncx_get_ulonglong_short(const void *xp, short *ip) {
 #  endif
   }
 #endif
-
 
   *ip = (short)xx;
   return err;
@@ -4643,7 +4558,6 @@ ncx_get_ulonglong_int(const void *xp, int *ip) {
   }
 #endif
 
-
   *ip = (int)xx;
   return err;
 }
@@ -4665,7 +4579,6 @@ ncx_get_ulonglong_long(const void *xp, long *ip) {
   }
 #endif
 
-
   *ip = (long)xx;
   return err;
 }
@@ -4686,7 +4599,6 @@ ncx_get_ulonglong_longlong(const void *xp, longlong *ip) {
 #  endif
   }
 #endif
-
 
   *ip = (longlong)xx;
   return err;
@@ -4711,7 +4623,6 @@ ncx_get_ulonglong_ushort(const void *xp, ushort *ip) {
 #    endif
   }
 #  endif
-
 
   *ip = (ushort)xx;
 #endif
@@ -4738,7 +4649,6 @@ ncx_get_ulonglong_uchar(const void *xp, uchar *ip) {
   }
 #  endif
 
-
   *ip = (uchar)xx;
 #endif
   return err;
@@ -4764,7 +4674,6 @@ ncx_get_ulonglong_uint(const void *xp, uint *ip) {
   }
 #  endif
 
-
   *ip = (uint)xx;
 #endif
   return err;
@@ -4785,7 +4694,6 @@ ncx_get_ulonglong_double(const void *xp, double *ip) {
   *ip = (double)xx;
   return NC_NOERR;
 }
-
 
 #if X_SIZEOF_UINT64 != SIZEOF_ULONGLONG
 static int
@@ -5097,7 +5005,6 @@ ncx_put_ulonglong_double(void *xp, const double *ip, void *fillp) {
   return err;
 }
 
-
 /* x_size_t */
 
 #if SIZEOF_SIZE_T < X_SIZEOF_SIZE_T
@@ -5328,11 +5235,9 @@ int ncx_put_uint64(void **xpp, const unsigned long long ip) {
   return NC_NOERR;
 }
 
-
 /*
  * Aggregate numeric conversion functions.
  */
-
 
 /* schar ---------------------------------------------------------------------*/
 
@@ -5508,7 +5413,6 @@ int ncx_getn_schar_ulonglong(const void **xpp, size_t nelems, ulonglong *tp) {
   *xpp = (const void *)xp;
   return status;
 }
-
 
 int ncx_pad_getn_schar_schar(const void **xpp, size_t nelems, schar *tp) {
   size_t rndup = nelems % X_ALIGN;
@@ -5728,7 +5632,6 @@ int ncx_pad_getn_schar_ulonglong(const void **xpp, size_t nelems, ulonglong *tp)
   *xpp = (void *)(xp + rndup);
   return status;
 }
-
 
 int ncx_putn_schar_schar(void **xpp, size_t nelems, const schar *tp, void *fillp) {
   (void)memcpy(*xpp, tp, (size_t)nelems);
@@ -5976,7 +5879,6 @@ int ncx_putn_schar_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, voi
   return status;
 }
 
-
 int ncx_pad_putn_schar_schar(void **xpp, size_t nelems, const schar *tp, void *fillp) {
   size_t rndup = nelems % X_ALIGN;
 
@@ -6016,7 +5918,6 @@ int ncx_pad_putn_schar_uchar(void **xpp, size_t nelems, const uchar *tp, void *f
     *xp++ = (schar)*tp++; /* type cast from uchar to schar */
   }
 
-
   if (rndup) {
     (void)memcpy(xp, nada, (size_t)rndup);
     xp += rndup;
@@ -6048,7 +5949,6 @@ int ncx_pad_putn_schar_short(void **xpp, size_t nelems, const short *tp, void *f
     }
     *xp++ = (schar)*tp++; /* type cast from short to schar */
   }
-
 
   if (rndup) {
     (void)memcpy(xp, nada, (size_t)rndup);
@@ -6082,7 +5982,6 @@ int ncx_pad_putn_schar_int(void **xpp, size_t nelems, const int *tp, void *fillp
     *xp++ = (schar)*tp++; /* type cast from int to schar */
   }
 
-
   if (rndup) {
     (void)memcpy(xp, nada, (size_t)rndup);
     xp += rndup;
@@ -6114,7 +6013,6 @@ int ncx_pad_putn_schar_long(void **xpp, size_t nelems, const long *tp, void *fil
     }
     *xp++ = (schar)*tp++; /* type cast from long to schar */
   }
-
 
   if (rndup) {
     (void)memcpy(xp, nada, (size_t)rndup);
@@ -6148,7 +6046,6 @@ int ncx_pad_putn_schar_float(void **xpp, size_t nelems, const float *tp, void *f
     *xp++ = (schar)*tp++; /* type cast from float to schar */
   }
 
-
   if (rndup) {
     (void)memcpy(xp, nada, (size_t)rndup);
     xp += rndup;
@@ -6180,7 +6077,6 @@ int ncx_pad_putn_schar_double(void **xpp, size_t nelems, const double *tp, void 
     }
     *xp++ = (schar)*tp++; /* type cast from double to schar */
   }
-
 
   if (rndup) {
     (void)memcpy(xp, nada, (size_t)rndup);
@@ -6214,7 +6110,6 @@ int ncx_pad_putn_schar_longlong(void **xpp, size_t nelems, const longlong *tp, v
     *xp++ = (schar)*tp++; /* type cast from longlong to schar */
   }
 
-
   if (rndup) {
     (void)memcpy(xp, nada, (size_t)rndup);
     xp += rndup;
@@ -6246,7 +6141,6 @@ int ncx_pad_putn_schar_ushort(void **xpp, size_t nelems, const ushort *tp, void 
     }
     *xp++ = (schar)*tp++; /* type cast from ushort to schar */
   }
-
 
   if (rndup) {
     (void)memcpy(xp, nada, (size_t)rndup);
@@ -6280,7 +6174,6 @@ int ncx_pad_putn_schar_uint(void **xpp, size_t nelems, const uint *tp, void *fil
     *xp++ = (schar)*tp++; /* type cast from uint to schar */
   }
 
-
   if (rndup) {
     (void)memcpy(xp, nada, (size_t)rndup);
     xp += rndup;
@@ -6313,7 +6206,6 @@ int ncx_pad_putn_schar_ulonglong(void **xpp, size_t nelems, const ulonglong *tp,
     *xp++ = (schar)*tp++; /* type cast from ulonglong to schar */
   }
 
-
   if (rndup) {
     (void)memcpy(xp, nada, (size_t)rndup);
     xp += rndup;
@@ -6322,7 +6214,6 @@ int ncx_pad_putn_schar_ulonglong(void **xpp, size_t nelems, const ulonglong *tp,
   *xpp = (void *)xp;
   return status;
 }
-
 
 /* uchar ---------------------------------------------------------------------*/
 int ncx_getn_uchar_schar(const void **xpp, size_t nelems, schar *tp) {
@@ -6458,7 +6349,6 @@ int ncx_getn_uchar_ulonglong(const void **xpp, size_t nelems, ulonglong *tp) {
   *xpp = (const void *)xp;
   return status;
 }
-
 
 int ncx_pad_getn_uchar_schar(const void **xpp, size_t nelems, schar *tp) {
   int status = NC_NOERR;
@@ -6638,7 +6528,6 @@ int ncx_pad_getn_uchar_ulonglong(const void **xpp, size_t nelems, ulonglong *tp)
   *xpp = (void *)(xp + rndup);
   return status;
 }
-
 
 int ncx_putn_uchar_schar(void **xpp, size_t nelems, const schar *tp, void *fillp) {
   int status = NC_NOERR;
@@ -6885,7 +6774,6 @@ int ncx_putn_uchar_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, voi
   return status;
 }
 
-
 int ncx_pad_putn_uchar_schar(void **xpp, size_t nelems, const schar *tp, void *fillp) {
   int status = NC_NOERR;
   size_t rndup = nelems % X_ALIGN;
@@ -6956,7 +6844,6 @@ int ncx_pad_putn_uchar_short(void **xpp, size_t nelems, const short *tp, void *f
     *xp++ = (uchar)(signed)*tp++; /* type cast from short to uchar */
   }
 
-
   if (rndup) {
     (void)memcpy(xp, nada, (size_t)rndup);
     xp += rndup;
@@ -6988,7 +6875,6 @@ int ncx_pad_putn_uchar_int(void **xpp, size_t nelems, const int *tp, void *fillp
     }
     *xp++ = (uchar)(signed)*tp++; /* type cast from int to uchar */
   }
-
 
   if (rndup) {
     (void)memcpy(xp, nada, (size_t)rndup);
@@ -7022,7 +6908,6 @@ int ncx_pad_putn_uchar_long(void **xpp, size_t nelems, const long *tp, void *fil
     *xp++ = (uchar)(signed)*tp++; /* type cast from long to uchar */
   }
 
-
   if (rndup) {
     (void)memcpy(xp, nada, (size_t)rndup);
     xp += rndup;
@@ -7054,7 +6939,6 @@ int ncx_pad_putn_uchar_float(void **xpp, size_t nelems, const float *tp, void *f
     }
     *xp++ = (uchar)(signed)*tp++; /* type cast from float to uchar */
   }
-
 
   if (rndup) {
     (void)memcpy(xp, nada, (size_t)rndup);
@@ -7088,7 +6972,6 @@ int ncx_pad_putn_uchar_double(void **xpp, size_t nelems, const double *tp, void 
     *xp++ = (uchar)(signed)*tp++; /* type cast from double to uchar */
   }
 
-
   if (rndup) {
     (void)memcpy(xp, nada, (size_t)rndup);
     xp += rndup;
@@ -7120,7 +7003,6 @@ int ncx_pad_putn_uchar_longlong(void **xpp, size_t nelems, const longlong *tp, v
     }
     *xp++ = (uchar)(signed)*tp++; /* type cast from longlong to uchar */
   }
-
 
   if (rndup) {
     (void)memcpy(xp, nada, (size_t)rndup);
@@ -7154,7 +7036,6 @@ int ncx_pad_putn_uchar_ushort(void **xpp, size_t nelems, const ushort *tp, void 
     *xp++ = (uchar)*tp++; /* type cast from ushort to uchar */
   }
 
-
   if (rndup) {
     (void)memcpy(xp, nada, (size_t)rndup);
     xp += rndup;
@@ -7186,7 +7067,6 @@ int ncx_pad_putn_uchar_uint(void **xpp, size_t nelems, const uint *tp, void *fil
     }
     *xp++ = (uchar)*tp++; /* type cast from uint to uchar */
   }
-
 
   if (rndup) {
     (void)memcpy(xp, nada, (size_t)rndup);
@@ -7220,7 +7100,6 @@ int ncx_pad_putn_uchar_ulonglong(void **xpp, size_t nelems, const ulonglong *tp,
     *xp++ = (uchar)*tp++; /* type cast from ulonglong to uchar */
   }
 
-
   if (rndup) {
     (void)memcpy(xp, nada, (size_t)rndup);
     xp += rndup;
@@ -7229,7 +7108,6 @@ int ncx_pad_putn_uchar_ulonglong(void **xpp, size_t nelems, const ulonglong *tp,
   *xpp = (void *)xp;
   return status;
 }
-
 
 /* short ---------------------------------------------------------------------*/
 
@@ -7928,7 +7806,6 @@ int ncx_getn_short_ulonglong(const void **xpp, size_t nelems, ulonglong *tp) {
 #endif
 }
 
-
 int ncx_pad_getn_short_schar(const void **xpp, size_t nelems, schar *tp) {
   const size_t rndup = nelems % X_SIZEOF_SHORT;
 
@@ -8137,7 +8014,6 @@ int ncx_pad_getn_short_ushort(const void **xpp, size_t nelems, ushort *tp) {
   *xpp = (void *)xp;
   return status;
 }
-
 
 #if X_SIZEOF_SHORT == SIZEOF_SHORT
 /* optimized version */
@@ -8889,7 +8765,6 @@ int ncx_putn_short_ushort(void **xpp, size_t nelems, const ushort *tp, void *fil
 #endif
 }
 
-
 int ncx_pad_putn_short_schar(void **xpp, size_t nelems, const schar *tp, void *fillp) {
   const size_t rndup = nelems % X_SIZEOF_SHORT;
 
@@ -9120,7 +8995,6 @@ int ncx_pad_putn_short_ushort(void **xpp, size_t nelems, const ushort *tp, void 
   *xpp = (void *)xp;
   return status;
 }
-
 
 /* ushort --------------------------------------------------------------------*/
 
@@ -9819,7 +9693,6 @@ int ncx_getn_ushort_ulonglong(const void **xpp, size_t nelems, ulonglong *tp) {
 #endif
 }
 
-
 int ncx_pad_getn_ushort_schar(const void **xpp, size_t nelems, schar *tp) {
   const size_t rndup = nelems % X_SIZEOF_SHORT;
 
@@ -10028,7 +9901,6 @@ int ncx_pad_getn_ushort_ulonglong(const void **xpp, size_t nelems, ulonglong *tp
   *xpp = (void *)xp;
   return status;
 }
-
 
 #if X_SIZEOF_USHORT == SIZEOF_USHORT
 /* optimized version */
@@ -10780,7 +10652,6 @@ int ncx_putn_ushort_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, vo
 #endif
 }
 
-
 int ncx_pad_putn_ushort_schar(void **xpp, size_t nelems, const schar *tp, void *fillp) {
   const size_t rndup = nelems % X_SIZEOF_SHORT;
 
@@ -11011,7 +10882,6 @@ int ncx_pad_putn_ushort_ushort(void **xpp, size_t nelems, const ushort *tp, void
   *xpp = (void *)xp;
   return status;
 }
-
 
 /* int -----------------------------------------------------------------------*/
 
@@ -11709,7 +11579,6 @@ int ncx_getn_int_ulonglong(const void **xpp, size_t nelems, ulonglong *tp) {
   return status;
 #endif
 }
-
 
 #if X_SIZEOF_INT == SIZEOF_INT
 /* optimized version */
@@ -12460,7 +12329,6 @@ int ncx_putn_int_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, void 
 #endif
 }
 
-
 /* uint ----------------------------------------------------------------------*/
 
 #if X_SIZEOF_UINT == SIZEOF_UINT
@@ -13157,7 +13025,6 @@ int ncx_getn_uint_ulonglong(const void **xpp, size_t nelems, ulonglong *tp) {
   return status;
 #endif
 }
-
 
 #if X_SIZEOF_UINT == SIZEOF_UINT
 /* optimized version */
@@ -13909,7 +13776,6 @@ int ncx_putn_uint_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, void
 #endif
 }
 
-
 /* float ---------------------------------------------------------------------*/
 
 #if X_SIZEOF_FLOAT == SIZEOF_FLOAT && !defined(NO_IEEE_FLOAT)
@@ -13969,7 +13835,6 @@ int ncx_getn_float_float(const void **xpp, size_t nfloats, float *ip) {
     }
 
     vsp->sign = isp->sign;
-
 
     ip++;
     *xpp = (char *)(*xpp) + X_SIZEOF_FLOAT;
@@ -14611,7 +14476,6 @@ int ncx_getn_float_ulonglong(const void **xpp, size_t nelems, ulonglong *tp) {
   return status;
 #endif
 }
-
 
 int ncx_putn_float_float(void **xpp, size_t nelems, const float *tp, void *fillp)
 #if X_SIZEOF_FLOAT == SIZEOF_FLOAT && !defined(NO_IEEE_FLOAT)
@@ -15359,7 +15223,6 @@ int ncx_putn_float_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, voi
 #endif
 }
 
-
 /* double --------------------------------------------------------------------*/
 
 #if X_SIZEOF_DOUBLE == SIZEOF_DOUBLE && !defined(NO_IEEE_FLOAT)
@@ -16055,7 +15918,6 @@ int ncx_getn_double_ulonglong(const void **xpp, size_t nelems, ulonglong *tp) {
   return status;
 #endif
 }
-
 
 #if X_SIZEOF_DOUBLE == SIZEOF_DOUBLE && !defined(NO_IEEE_FLOAT)
 /* optimized version */
@@ -16807,7 +16669,6 @@ int ncx_putn_double_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, vo
 #endif
 }
 
-
 /* longlong ------------------------------------------------------------------*/
 
 #if X_SIZEOF_INT64 == SIZEOF_LONGLONG
@@ -17504,7 +17365,6 @@ int ncx_getn_longlong_ulonglong(const void **xpp, size_t nelems, ulonglong *tp) 
   return status;
 #endif
 }
-
 
 #if X_SIZEOF_INT64 == SIZEOF_LONGLONG
 /* optimized version */
@@ -18256,7 +18116,6 @@ int ncx_putn_longlong_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, 
 #endif
 }
 
-
 /* uint64 --------------------------------------------------------------------*/
 
 #if X_SIZEOF_UINT64 == SIZEOF_ULONGLONG
@@ -18953,7 +18812,6 @@ int ncx_getn_ulonglong_uint(const void **xpp, size_t nelems, uint *tp) {
   return status;
 #endif
 }
-
 
 #if X_SIZEOF_UINT64 == SIZEOF_ULONGLONG
 /* optimized version */
@@ -19705,7 +19563,6 @@ int ncx_putn_ulonglong_uint(void **xpp, size_t nelems, const uint *tp, void *fil
 #endif
 }
 
-
 /*
  * Other aggregate conversion functions.
  */
@@ -19753,7 +19610,6 @@ int ncx_pad_putn_text(void **xpp, size_t nelems, const char *tp) {
 
   return NC_NOERR;
 }
-
 
 /* opaque */
 

@@ -12,7 +12,6 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-
 #ifndef XGETOPT_H
 #define XGETOPT_H
 
@@ -31,7 +30,6 @@ GTOPT_EXTRA extern int optind, opterr;
 #else
 extern int optind, opterr;
 #endif
-
 
 extern TCHAR *optarg;
 

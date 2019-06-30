@@ -3,7 +3,6 @@ Copyright (c) 1998-2017 University Corporation for Atmospheric Research/Unidata
 See LICENSE.txt for license information.
 */
 
-
 #include "config.h"
 #include <stdio.h>
 #include <stdlib.h>

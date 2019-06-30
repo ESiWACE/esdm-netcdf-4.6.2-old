@@ -161,7 +161,6 @@ int main(int argc, char **argv) {
     if ((fapl_id = H5Pcreate(H5P_FILE_ACCESS)) < 0) ERR;
     if (H5Pset_fapl_mpio(fapl_id, MPI_COMM_WORLD, MPI_INFO_NULL) < 0) ERR;
 
-
     if (H5Pset_libver_bounds(fapl_id, H5F_LIBVER_LATEST, H5F_LIBVER_LATEST) < 0) ERR;
     if ((fileid = H5Fopen(FILE_NAME, H5F_ACC_RDONLY, fapl_id)) < 0) ERR;
 

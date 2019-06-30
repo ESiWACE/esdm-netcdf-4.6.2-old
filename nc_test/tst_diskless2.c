@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 #define Clear ((unsigned char)0)
 #define Cumulonimbus ((unsigned char)1)
 #define Stratus ((unsigned char)2)
@@ -13,7 +12,6 @@ typedef struct g_cmpd_t {
   vlen_t f1;
   enum_t f2;
 } g_cmpd_t;
-
 
 void check_err(const int stat, const int line, const char *file) {
   if (stat != NC_NOERR) {
@@ -122,7 +120,6 @@ int main() { /* create tst_diskless2.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   /* define dimensions */
   stat = nc_def_dim(root_grp, "lat", lat_len, &lat_dim);
   check_err(stat, __LINE__, __FILE__);
@@ -190,7 +187,6 @@ int main() { /* create tst_diskless2.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   /* assign per-variable attributes */
 
   {
@@ -242,7 +238,6 @@ int main() { /* create tst_diskless2.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   /* leave define mode */
   stat = nc_enddef(root_grp);
   check_err(stat, __LINE__, __FILE__);
@@ -257,7 +252,6 @@ int main() { /* create tst_diskless2.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   {
     int lon_data[5] = {-140, -118, -96, -84, -52};
     size_t lon_startset[1] = {0};
@@ -266,7 +260,6 @@ int main() { /* create tst_diskless2.nc */
     check_err(stat, __LINE__, __FILE__);
   }
 
-
   {
     static const int vlen_10[] = {3, 4, 5};
     size_t zero = 0;
@@ -274,7 +267,6 @@ int main() { /* create tst_diskless2.nc */
     stat = nc_put_var1(h_grp, h_compoundvar_id, &zero, h_compoundvar_data);
     check_err(stat, __LINE__, __FILE__);
   }
-
 
   stat = nc_close(root_grp);
   check_err(stat, __LINE__, __FILE__);

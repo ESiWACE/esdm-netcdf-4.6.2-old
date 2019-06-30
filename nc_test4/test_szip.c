@@ -34,7 +34,6 @@
 #define CH_NX 100
 #define CH_NY 25
 
-
 static void initialize(void);
 static int compare(void);
 

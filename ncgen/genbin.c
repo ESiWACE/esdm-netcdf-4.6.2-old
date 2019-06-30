@@ -264,7 +264,6 @@ genbin_definespecialattributes(Symbol *var) {
 }
 #  endif /*USE_NETCDF4*/
 
-
 void genbin_close(void) {
   int stat;
   stat = nc_close(rootgroup->nc_id);
@@ -373,7 +372,6 @@ done:
   bbFree(databuf);
   return stat;
 }
-
 
 /* Following is patterned after the walk functions in semantics.c */
 static int

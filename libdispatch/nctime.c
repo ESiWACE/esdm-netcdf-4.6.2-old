@@ -951,7 +951,6 @@ cdRel2CompMixed(double reltime, cdUnitTime unit, cdCompTime basetime, cdCompTime
   return;
 }
 
-
 static void
 cdRel2Comp(cdCalenType timetype, char *relunits, double reltime, cdCompTime *comptime) {
   CdDeltaTime deltime;

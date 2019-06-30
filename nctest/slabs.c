@@ -24,7 +24,6 @@
 #define VF(w) 1000 * w[0] + 100 * w[1] + 10 * w[2] + w[3]
 #define NVARS 6 /* number of variables */
 
-
 /*
  * Fill typed array element with specified value, that is
  * 	
@@ -61,7 +60,6 @@ long val;                   /* value to store */
   }
 }
 
-
 /*
  * Compare typed array element with specified value, that is return
  *
@@ -96,7 +94,6 @@ long val;                  /* value to compare with */
       return (-1);
   }
 }
-
 
 /*
  * For each type of variable, put a four-dimensional hypercube of values

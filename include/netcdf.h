@@ -163,7 +163,6 @@ Use this in mode flags for both nc_create() and nc_open(). */
 
 #define NC_ESDM 0x0080 /**< Use ESDM */
 
-
 #define NC_MAX_MAGIC_NUMBER_LEN 8 /**< Max len of user-defined format magic number. */
 
 /** Format specifier for nc_set_default_format() and returned
@@ -771,7 +770,6 @@ EXTERNL int
 nc_inq_enum_member(int ncid, nc_type xtype, int idx, char *name,
 void *value);
 
-
 /* Get enum name from enum value. Name size will be <= NC_MAX_NAME. */
 EXTERNL int
 nc_inq_enum_ident(int ncid, nc_type xtype, long long value, char *identifier);
@@ -1112,7 +1110,6 @@ size_t len, const unsigned long long *op);
 EXTERNL int
 nc_get_att_ulonglong(int ncid, int varid, const char *name,
 unsigned long long *ip);
-
 
 /* End {put,get}_att */
 /* Begin _var */
@@ -1819,7 +1816,6 @@ nctypelen(nc_type datatype);
 #define MAX_NC_NAME NC_MAX_NAME
 #define MAX_VAR_DIMS NC_MAX_VAR_DIMS
 /**@}*/
-
 
 /*
  * Global error status

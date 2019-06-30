@@ -39,7 +39,6 @@ Rules:
 All other cases are passed thru unchanged
 */
 
-
 /* Define legal windows drive letters */
 static const char *windrive = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 

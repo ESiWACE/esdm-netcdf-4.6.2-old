@@ -347,7 +347,6 @@ int test_pio(int flag) {
   return 0;
 }
 
-
 /* Attributes: both read and write will be tested for parallel NetCDF*/
 
 int test_pio_attr(int flag) {
@@ -554,7 +553,6 @@ int test_pio_hyper(int flag) {
   int *temprdata;
   int count_atom;
 
-
   /* Initialize MPI. */
   MPI_Comm_size(MPI_COMM_WORLD, &mpi_size);
   MPI_Comm_rank(MPI_COMM_WORLD, &mpi_rank);
@@ -577,7 +575,6 @@ int test_pio_hyper(int flag) {
   if (nc_def_var(ncid, "v1", NC_INT, NDIMS1, dimids, &nvid)) ERR;
 
   if (nc_enddef(ncid)) ERR;
-
 
   /* hyperslab illustration for 3-processor case
 
@@ -627,7 +624,6 @@ int test_pio_hyper(int flag) {
       tempdata++;
     }
   }
-
 
   if (nc_put_vara_int(ncid, nvid, start, count, data)) ERR;
   free(data);

@@ -521,7 +521,6 @@ uint32_t *pb)    /* IN: secondary initval, OUT: secondary hash */
 }
 #endif /*SELF_TEST*/
 
-
 #ifdef WORDS_BIGENDIAN
 /*
  * hashbig():
@@ -924,7 +923,6 @@ hashlittle(const void *key, size_t length, uint32_t initval) {
   return c;
 }
 
-
 /* 
  * hash_fast(key, length, initval)
  * Wrapper that calls either hashlittle or hashbig, depending on endianness.
@@ -1121,7 +1119,6 @@ void driver4() {
   uint8_t buf[1];
   uint32_t h, i, state[HASHSTATE];
 
-
   buf[0] = ~0;
   for (i = 0; i < HASHSTATE; ++i)
     state[i] = 1;
@@ -1151,7 +1148,6 @@ void driver5() {
   c = hashlittle("Four score and seven years ago", 30, 1);
   printf("hash is %.8lx\n", c); /* cd628161 */
 }
-
 
 int main() {
   driver1(); /* test that the key is hashed: used for timings */

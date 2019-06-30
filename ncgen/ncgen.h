@@ -250,5 +250,4 @@ typedef struct Symbol { /* symbol table entry*/
   int nc_id;   /* from netcdf API: varid, or dimid, or etc.*/
 } Symbol;
 
-
 #endif /*!NC_NCGEN_H*/

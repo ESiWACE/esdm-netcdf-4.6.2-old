@@ -146,7 +146,6 @@ static void tracefail(const char *fcn);
 
 #endif /*H5LT_FILE_IMAGE_DONT_COPY*/
 
-
 #if 0
 /* For Lex and Yacc */
 #  define COL 3
@@ -216,7 +215,6 @@ static void *local_udata_copy(void *udata);
 static herr_t local_udata_free(void *udata);
 
 /* Definition of callbacks for file image operations. */
-
 
 /*-------------------------------------------------------------------------
 * Function: image_malloc
@@ -331,7 +329,6 @@ out:
   return NULL;
 } /* end image_malloc() */
 
-
 /*-------------------------------------------------------------------------
 * Function: image_memcpy
 *
@@ -435,7 +432,6 @@ out:
   TRACEFAIL("memcpy");
   return NULL;
 } /* end image_memcpy() */
-
 
 /*-------------------------------------------------------------------------
 * Function: image_realloc
@@ -620,7 +616,6 @@ out:
   return (FAIL);
 } /* end image_free() */
 
-
 /*-------------------------------------------------------------------------
 * Function: udata_copy
 *
@@ -661,7 +656,6 @@ out:
   return NULL;
 } /* end udata_copy */
 
-
 /*-------------------------------------------------------------------------
 * Function: udata_free
 *
@@ -700,7 +694,6 @@ out:
   TRACEFAIL("udata_free");
   return (FAIL);
 } /* end udata_free */
-
 
 /* End of callbacks definitions for file image operations */
 

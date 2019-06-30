@@ -338,7 +338,6 @@ done:
   return THROW(ret);
 }
 
-
 /**************************************************/
 /* Utilities */
 int NCD4_getToplevelVars(NCD4meta *meta, NCD4node *group, NClist *toplevel) {

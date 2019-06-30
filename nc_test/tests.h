@@ -93,7 +93,6 @@
 #  define X_UINT64_MIN ULLONG_MIN
 #endif
 
-
 #if _SX /* NEC SUPER UX */
 #  if _INT64
 #    undef INT_MAX /* workaround cpp bug */
@@ -112,7 +111,6 @@
 #  endif
 #endif /* _SX */
 
-
 #ifndef MAX
 #  define MAX(a, b) ((a) > (b) ? (a) : (b))
 #endif /* MAX */
@@ -124,7 +122,6 @@
 #ifndef ABS
 #  define ABS(x) ((x) < 0 ? -(x) : (x))
 #endif /* ABS */
-
 
 /* Parameters of test data */
 
@@ -142,7 +139,6 @@
 extern int numGatts; /* number of global attributes */
 extern int numVars;  /* number of variables */
 extern int numTypes; /* number of netCDF data types to test */
-
 
 /* Limits of internal types */
 
@@ -178,7 +174,6 @@ extern int numTypes; /* number of netCDF data types to test */
 #define uint64_max ULLONG_MAX
 #define ulonglong_max uint64_max
 
-
 /* Examples of invalid argument values */
 
 #define BAD_ID -1             /* invalid netCDF ID */
@@ -195,7 +190,6 @@ extern int numTypes; /* number of netCDF data types to test */
 #ifdef __cplusplus
 extern "C" {
 #endif
-
 
 /* Non-standard internal types */
 
@@ -221,7 +215,6 @@ typedef long long int64;
 #ifndef HAVE_UINT64
 typedef unsigned long long uint64;
 #endif
-
 
 /* Global variables - filenames */
 
@@ -252,7 +245,6 @@ extern nc_type att_type[NVARS][NGATTS];
 extern nc_type gatt_type[NGATTS];
 extern size_t att_len[NVARS][MAX_NATTS];
 extern size_t gatt_len[NGATTS];
-
 
 /* Macros for accessing attribute test data */
 /* varid is -1 for NC_GLOBAL so can do global atts in same loop */

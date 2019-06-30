@@ -5,7 +5,6 @@
  */
 /* $Id: test_get.m4 2672 2016-12-03 19:23:53Z wkliao $ */
 
-
 #include "tests.h"
 
 #ifdef USE_PNETCDF
@@ -17,7 +16,6 @@
 #    error("PNETCDF_VERSION_MAJOR is not defined in pnetcdf.h")
 #  endif
 #endif
-
 
 int test_nc_get_var1_text(void) {
   int i, err, ncid, cdf_format;
@@ -58,7 +56,6 @@ int test_nc_get_var1_text(void) {
     ELSE_NOK
 
     canConvert = (var_type[i] == NC_CHAR);
-
 
     /* test NC_EINVALCOORDS */
     for (j = 0; j < var_rank[i]; j++)
@@ -108,7 +105,6 @@ int test_nc_get_var1_text(void) {
             error("expecting NC_ERANGE but got %s", nc_err_code_name(err));
             ELSE_NOK
           }
-
 
         } else {
           IF(err != NC_NOERR && err != NC_ERANGE)
@@ -167,7 +163,6 @@ int test_nc_get_var1_schar(void) {
 
     canConvert = (var_type[i] == NC_CHAR) == (NCT_SCHAR == NCT_TEXT);
 
-
     /* test NC_EINVALCOORDS */
     for (j = 0; j < var_rank[i]; j++)
       index[j] = 0;
@@ -219,7 +214,6 @@ int test_nc_get_var1_schar(void) {
             error("expecting NC_ERANGE but got %s", nc_err_code_name(err));
             ELSE_NOK
           }
-
 
         } else {
           IF(err != NC_NOERR && err != NC_ERANGE)
@@ -277,7 +271,6 @@ int test_nc_get_var1_uchar(void) {
     ELSE_NOK
 
     canConvert = (var_type[i] == NC_CHAR) == (NCT_UCHAR == NCT_TEXT);
-
 
     /* test NC_EINVALCOORDS */
     for (j = 0; j < var_rank[i]; j++)
@@ -394,7 +387,6 @@ int test_nc_get_var1_short(void) {
 
     canConvert = (var_type[i] == NC_CHAR) == (NCT_SHORT == NCT_TEXT);
 
-
     /* test NC_EINVALCOORDS */
     for (j = 0; j < var_rank[i]; j++)
       index[j] = 0;
@@ -443,7 +435,6 @@ int test_nc_get_var1_short(void) {
             error("expecting NC_ERANGE but got %s", nc_err_code_name(err));
             ELSE_NOK
           }
-
 
         } else {
           IF(err != NC_NOERR && err != NC_ERANGE)
@@ -502,7 +493,6 @@ int test_nc_get_var1_int(void) {
 
     canConvert = (var_type[i] == NC_CHAR) == (NCT_INT == NCT_TEXT);
 
-
     /* test NC_EINVALCOORDS */
     for (j = 0; j < var_rank[i]; j++)
       index[j] = 0;
@@ -551,7 +541,6 @@ int test_nc_get_var1_int(void) {
             error("expecting NC_ERANGE but got %s", nc_err_code_name(err));
             ELSE_NOK
           }
-
 
         } else {
           IF(err != NC_NOERR && err != NC_ERANGE)
@@ -610,7 +599,6 @@ int test_nc_get_var1_long(void) {
 
     canConvert = (var_type[i] == NC_CHAR) == (NCT_LONG == NCT_TEXT);
 
-
     /* test NC_EINVALCOORDS */
     for (j = 0; j < var_rank[i]; j++)
       index[j] = 0;
@@ -659,7 +647,6 @@ int test_nc_get_var1_long(void) {
             error("expecting NC_ERANGE but got %s", nc_err_code_name(err));
             ELSE_NOK
           }
-
 
         } else {
           IF(err != NC_NOERR && err != NC_ERANGE)
@@ -718,7 +705,6 @@ int test_nc_get_var1_float(void) {
 
     canConvert = (var_type[i] == NC_CHAR) == (NCT_FLOAT == NCT_TEXT);
 
-
     /* test NC_EINVALCOORDS */
     for (j = 0; j < var_rank[i]; j++)
       index[j] = 0;
@@ -767,7 +753,6 @@ int test_nc_get_var1_float(void) {
             error("expecting NC_ERANGE but got %s", nc_err_code_name(err));
             ELSE_NOK
           }
-
 
         } else {
           IF(err != NC_NOERR && err != NC_ERANGE)
@@ -826,7 +811,6 @@ int test_nc_get_var1_double(void) {
 
     canConvert = (var_type[i] == NC_CHAR) == (NCT_DOUBLE == NCT_TEXT);
 
-
     /* test NC_EINVALCOORDS */
     for (j = 0; j < var_rank[i]; j++)
       index[j] = 0;
@@ -875,7 +859,6 @@ int test_nc_get_var1_double(void) {
             error("expecting NC_ERANGE but got %s", nc_err_code_name(err));
             ELSE_NOK
           }
-
 
         } else {
           IF(err != NC_NOERR && err != NC_ERANGE)
@@ -934,7 +917,6 @@ int test_nc_get_var1_ushort(void) {
 
     canConvert = (var_type[i] == NC_CHAR) == (NCT_USHORT == NCT_TEXT);
 
-
     /* test NC_EINVALCOORDS */
     for (j = 0; j < var_rank[i]; j++)
       index[j] = 0;
@@ -983,7 +965,6 @@ int test_nc_get_var1_ushort(void) {
             error("expecting NC_ERANGE but got %s", nc_err_code_name(err));
             ELSE_NOK
           }
-
 
         } else {
           IF(err != NC_NOERR && err != NC_ERANGE)
@@ -1042,7 +1023,6 @@ int test_nc_get_var1_uint(void) {
 
     canConvert = (var_type[i] == NC_CHAR) == (NCT_UINT == NCT_TEXT);
 
-
     /* test NC_EINVALCOORDS */
     for (j = 0; j < var_rank[i]; j++)
       index[j] = 0;
@@ -1091,7 +1071,6 @@ int test_nc_get_var1_uint(void) {
             error("expecting NC_ERANGE but got %s", nc_err_code_name(err));
             ELSE_NOK
           }
-
 
         } else {
           IF(err != NC_NOERR && err != NC_ERANGE)
@@ -1150,7 +1129,6 @@ int test_nc_get_var1_longlong(void) {
 
     canConvert = (var_type[i] == NC_CHAR) == (NCT_LONGLONG == NCT_TEXT);
 
-
     /* test NC_EINVALCOORDS */
     for (j = 0; j < var_rank[i]; j++)
       index[j] = 0;
@@ -1199,7 +1177,6 @@ int test_nc_get_var1_longlong(void) {
             error("expecting NC_ERANGE but got %s", nc_err_code_name(err));
             ELSE_NOK
           }
-
 
         } else {
           IF(err != NC_NOERR && err != NC_ERANGE)
@@ -1258,7 +1235,6 @@ int test_nc_get_var1_ulonglong(void) {
 
     canConvert = (var_type[i] == NC_CHAR) == (NCT_ULONGLONG == NCT_TEXT);
 
-
     /* test NC_EINVALCOORDS */
     for (j = 0; j < var_rank[i]; j++)
       index[j] = 0;
@@ -1308,7 +1284,6 @@ int test_nc_get_var1_ulonglong(void) {
             ELSE_NOK
           }
 
-
         } else {
           IF(err != NC_NOERR && err != NC_ERANGE)
           error("expecting NC_NOERR or NC_ERANGE but got %s", nc_err_code_name(err));
@@ -1325,7 +1300,6 @@ int test_nc_get_var1_ulonglong(void) {
   error("close: %s", nc_strerror(err));
   return nok;
 }
-
 
 int test_nc_get_var_text(void) {
   int i, err, ncid, cdf_format;
@@ -1395,7 +1369,6 @@ int test_nc_get_var_text(void) {
           error("expecting NC_ERANGE but got %s", nc_err_code_name(err));
           ELSE_NOK
         }
-
 
       } else {
         IF(err != NC_NOERR && err != NC_ERANGE)
@@ -1611,7 +1584,6 @@ int test_nc_get_var_schar(void) {
           ELSE_NOK
         }
 
-
       } else {
         IF(err != NC_NOERR && err != NC_ERANGE)
         error("expecting NC_NOERR or NC_ERANGE but got %s", nc_err_code_name(err));
@@ -1712,7 +1684,6 @@ int test_nc_get_var_short(void) {
           error("expecting NC_ERANGE but got %s", nc_err_code_name(err));
           ELSE_NOK
         }
-
 
       } else {
         IF(err != NC_NOERR && err != NC_ERANGE)
@@ -1815,7 +1786,6 @@ int test_nc_get_var_int(void) {
           ELSE_NOK
         }
 
-
       } else {
         IF(err != NC_NOERR && err != NC_ERANGE)
         error("expecting NC_NOERR or NC_ERANGE but got %s", nc_err_code_name(err));
@@ -1916,7 +1886,6 @@ int test_nc_get_var_long(void) {
           error("expecting NC_ERANGE but got %s", nc_err_code_name(err));
           ELSE_NOK
         }
-
 
       } else {
         IF(err != NC_NOERR && err != NC_ERANGE)
@@ -2019,7 +1988,6 @@ int test_nc_get_var_float(void) {
           ELSE_NOK
         }
 
-
       } else {
         IF(err != NC_NOERR && err != NC_ERANGE)
         error("expecting NC_NOERR or NC_ERANGE but got %s", nc_err_code_name(err));
@@ -2120,7 +2088,6 @@ int test_nc_get_var_double(void) {
           error("expecting NC_ERANGE but got %s", nc_err_code_name(err));
           ELSE_NOK
         }
-
 
       } else {
         IF(err != NC_NOERR && err != NC_ERANGE)
@@ -2223,7 +2190,6 @@ int test_nc_get_var_ushort(void) {
           ELSE_NOK
         }
 
-
       } else {
         IF(err != NC_NOERR && err != NC_ERANGE)
         error("expecting NC_NOERR or NC_ERANGE but got %s", nc_err_code_name(err));
@@ -2324,7 +2290,6 @@ int test_nc_get_var_uint(void) {
           error("expecting NC_ERANGE but got %s", nc_err_code_name(err));
           ELSE_NOK
         }
-
 
       } else {
         IF(err != NC_NOERR && err != NC_ERANGE)
@@ -2427,7 +2392,6 @@ int test_nc_get_var_longlong(void) {
           ELSE_NOK
         }
 
-
       } else {
         IF(err != NC_NOERR && err != NC_ERANGE)
         error("expecting NC_NOERR or NC_ERANGE but got %s", nc_err_code_name(err));
@@ -2529,7 +2493,6 @@ int test_nc_get_var_ulonglong(void) {
           ELSE_NOK
         }
 
-
       } else {
         IF(err != NC_NOERR && err != NC_ERANGE)
         error("expecting NC_NOERR or NC_ERANGE but got %s", nc_err_code_name(err));
@@ -2562,7 +2525,6 @@ int test_nc_get_var_ulonglong(void) {
   error("close: %s", nc_strerror(err));
   return nok;
 }
-
 
 int test_nc_get_vara_text(void) {
   int i, k, err, nslabs, ncid, cdf_format;
@@ -2609,7 +2571,6 @@ int test_nc_get_vara_text(void) {
       start[j] = 0;
       edge[j] = 1;
     }
-
 
     /* first test when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
@@ -2731,7 +2692,6 @@ int test_nc_get_vara_text(void) {
             ELSE_NOK
           }
 
-
         } else {
           IF(err != NC_NOERR && err != NC_ERANGE)
           error("expecting NC_NOERR or NC_ERANGE but got %s", nc_err_code_name(err));
@@ -2810,7 +2770,6 @@ int test_nc_get_vara_uchar(void) {
       start[j] = 0;
       edge[j] = 1;
     }
-
 
     /* first test when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
@@ -3019,7 +2978,6 @@ int test_nc_get_vara_schar(void) {
       edge[j] = 1;
     }
 
-
     /* first test when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
       start[j] = var_shape[i][j]; /* causes NC_EINVALCOORDS */
@@ -3142,7 +3100,6 @@ int test_nc_get_vara_schar(void) {
             ELSE_NOK
           }
 
-
         } else {
           IF(err != NC_NOERR && err != NC_ERANGE)
           error("expecting NC_NOERR or NC_ERANGE but got %s", nc_err_code_name(err));
@@ -3221,7 +3178,6 @@ int test_nc_get_vara_short(void) {
       start[j] = 0;
       edge[j] = 1;
     }
-
 
     /* first test when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
@@ -3342,7 +3298,6 @@ int test_nc_get_vara_short(void) {
             ELSE_NOK
           }
 
-
         } else {
           IF(err != NC_NOERR && err != NC_ERANGE)
           error("expecting NC_NOERR or NC_ERANGE but got %s", nc_err_code_name(err));
@@ -3421,7 +3376,6 @@ int test_nc_get_vara_int(void) {
       start[j] = 0;
       edge[j] = 1;
     }
-
 
     /* first test when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
@@ -3542,7 +3496,6 @@ int test_nc_get_vara_int(void) {
             ELSE_NOK
           }
 
-
         } else {
           IF(err != NC_NOERR && err != NC_ERANGE)
           error("expecting NC_NOERR or NC_ERANGE but got %s", nc_err_code_name(err));
@@ -3621,7 +3574,6 @@ int test_nc_get_vara_long(void) {
       start[j] = 0;
       edge[j] = 1;
     }
-
 
     /* first test when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
@@ -3742,7 +3694,6 @@ int test_nc_get_vara_long(void) {
             ELSE_NOK
           }
 
-
         } else {
           IF(err != NC_NOERR && err != NC_ERANGE)
           error("expecting NC_NOERR or NC_ERANGE but got %s", nc_err_code_name(err));
@@ -3821,7 +3772,6 @@ int test_nc_get_vara_float(void) {
       start[j] = 0;
       edge[j] = 1;
     }
-
 
     /* first test when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
@@ -3942,7 +3892,6 @@ int test_nc_get_vara_float(void) {
             ELSE_NOK
           }
 
-
         } else {
           IF(err != NC_NOERR && err != NC_ERANGE)
           error("expecting NC_NOERR or NC_ERANGE but got %s", nc_err_code_name(err));
@@ -4021,7 +3970,6 @@ int test_nc_get_vara_double(void) {
       start[j] = 0;
       edge[j] = 1;
     }
-
 
     /* first test when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
@@ -4142,7 +4090,6 @@ int test_nc_get_vara_double(void) {
             ELSE_NOK
           }
 
-
         } else {
           IF(err != NC_NOERR && err != NC_ERANGE)
           error("expecting NC_NOERR or NC_ERANGE but got %s", nc_err_code_name(err));
@@ -4221,7 +4168,6 @@ int test_nc_get_vara_ushort(void) {
       start[j] = 0;
       edge[j] = 1;
     }
-
 
     /* first test when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
@@ -4342,7 +4288,6 @@ int test_nc_get_vara_ushort(void) {
             ELSE_NOK
           }
 
-
         } else {
           IF(err != NC_NOERR && err != NC_ERANGE)
           error("expecting NC_NOERR or NC_ERANGE but got %s", nc_err_code_name(err));
@@ -4421,7 +4366,6 @@ int test_nc_get_vara_uint(void) {
       start[j] = 0;
       edge[j] = 1;
     }
-
 
     /* first test when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
@@ -4542,7 +4486,6 @@ int test_nc_get_vara_uint(void) {
             ELSE_NOK
           }
 
-
         } else {
           IF(err != NC_NOERR && err != NC_ERANGE)
           error("expecting NC_NOERR or NC_ERANGE but got %s", nc_err_code_name(err));
@@ -4621,7 +4564,6 @@ int test_nc_get_vara_longlong(void) {
       start[j] = 0;
       edge[j] = 1;
     }
-
 
     /* first test when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
@@ -4742,7 +4684,6 @@ int test_nc_get_vara_longlong(void) {
             ELSE_NOK
           }
 
-
         } else {
           IF(err != NC_NOERR && err != NC_ERANGE)
           error("expecting NC_NOERR or NC_ERANGE but got %s", nc_err_code_name(err));
@@ -4821,7 +4762,6 @@ int test_nc_get_vara_ulonglong(void) {
       start[j] = 0;
       edge[j] = 1;
     }
-
 
     /* first test when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
@@ -4942,7 +4882,6 @@ int test_nc_get_vara_ulonglong(void) {
             ELSE_NOK
           }
 
-
         } else {
           IF(err != NC_NOERR && err != NC_ERANGE)
           error("expecting NC_NOERR or NC_ERANGE but got %s", nc_err_code_name(err));
@@ -4975,7 +4914,6 @@ int test_nc_get_vara_ulonglong(void) {
   error("close: %s", nc_strerror(err));
   return nok;
 }
-
 
 int test_nc_get_vars_text(void) {
   int i, k, d, err, nslabs, ncid, cdf_format;
@@ -5027,7 +4965,6 @@ int test_nc_get_vars_text(void) {
       edge[j] = 1;
       stride[j] = 1;
     }
-
 
     /* first test when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
@@ -5183,7 +5120,6 @@ int test_nc_get_vars_text(void) {
               ELSE_NOK
             }
 
-
           } else {
             IF(err != NC_NOERR && err != NC_ERANGE)
             error("expecting NC_NOERR or NC_ERANGE but got %s", nc_err_code_name(err));
@@ -5268,7 +5204,6 @@ int test_nc_get_vars_uchar(void) {
       edge[j] = 1;
       stride[j] = 1;
     }
-
 
     /* first test when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
@@ -5517,7 +5452,6 @@ int test_nc_get_vars_schar(void) {
       stride[j] = 1;
     }
 
-
     /* first test when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
       start[j] = var_shape[i][j];
@@ -5674,7 +5608,6 @@ int test_nc_get_vars_schar(void) {
               ELSE_NOK
             }
 
-
           } else {
             IF(err != NC_NOERR && err != NC_ERANGE)
             error("expecting NC_NOERR or NC_ERANGE but got %s", nc_err_code_name(err));
@@ -5759,7 +5692,6 @@ int test_nc_get_vars_short(void) {
       edge[j] = 1;
       stride[j] = 1;
     }
-
 
     /* first test when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
@@ -5914,7 +5846,6 @@ int test_nc_get_vars_short(void) {
               ELSE_NOK
             }
 
-
           } else {
             IF(err != NC_NOERR && err != NC_ERANGE)
             error("expecting NC_NOERR or NC_ERANGE but got %s", nc_err_code_name(err));
@@ -5999,7 +5930,6 @@ int test_nc_get_vars_int(void) {
       edge[j] = 1;
       stride[j] = 1;
     }
-
 
     /* first test when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
@@ -6154,7 +6084,6 @@ int test_nc_get_vars_int(void) {
               ELSE_NOK
             }
 
-
           } else {
             IF(err != NC_NOERR && err != NC_ERANGE)
             error("expecting NC_NOERR or NC_ERANGE but got %s", nc_err_code_name(err));
@@ -6239,7 +6168,6 @@ int test_nc_get_vars_long(void) {
       edge[j] = 1;
       stride[j] = 1;
     }
-
 
     /* first test when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
@@ -6394,7 +6322,6 @@ int test_nc_get_vars_long(void) {
               ELSE_NOK
             }
 
-
           } else {
             IF(err != NC_NOERR && err != NC_ERANGE)
             error("expecting NC_NOERR or NC_ERANGE but got %s", nc_err_code_name(err));
@@ -6479,7 +6406,6 @@ int test_nc_get_vars_float(void) {
       edge[j] = 1;
       stride[j] = 1;
     }
-
 
     /* first test when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
@@ -6634,7 +6560,6 @@ int test_nc_get_vars_float(void) {
               ELSE_NOK
             }
 
-
           } else {
             IF(err != NC_NOERR && err != NC_ERANGE)
             error("expecting NC_NOERR or NC_ERANGE but got %s", nc_err_code_name(err));
@@ -6719,7 +6644,6 @@ int test_nc_get_vars_double(void) {
       edge[j] = 1;
       stride[j] = 1;
     }
-
 
     /* first test when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
@@ -6874,7 +6798,6 @@ int test_nc_get_vars_double(void) {
               ELSE_NOK
             }
 
-
           } else {
             IF(err != NC_NOERR && err != NC_ERANGE)
             error("expecting NC_NOERR or NC_ERANGE but got %s", nc_err_code_name(err));
@@ -6959,7 +6882,6 @@ int test_nc_get_vars_ushort(void) {
       edge[j] = 1;
       stride[j] = 1;
     }
-
 
     /* first test when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
@@ -7114,7 +7036,6 @@ int test_nc_get_vars_ushort(void) {
               ELSE_NOK
             }
 
-
           } else {
             IF(err != NC_NOERR && err != NC_ERANGE)
             error("expecting NC_NOERR or NC_ERANGE but got %s", nc_err_code_name(err));
@@ -7199,7 +7120,6 @@ int test_nc_get_vars_uint(void) {
       edge[j] = 1;
       stride[j] = 1;
     }
-
 
     /* first test when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
@@ -7354,7 +7274,6 @@ int test_nc_get_vars_uint(void) {
               ELSE_NOK
             }
 
-
           } else {
             IF(err != NC_NOERR && err != NC_ERANGE)
             error("expecting NC_NOERR or NC_ERANGE but got %s", nc_err_code_name(err));
@@ -7439,7 +7358,6 @@ int test_nc_get_vars_longlong(void) {
       edge[j] = 1;
       stride[j] = 1;
     }
-
 
     /* first test when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
@@ -7594,7 +7512,6 @@ int test_nc_get_vars_longlong(void) {
               ELSE_NOK
             }
 
-
           } else {
             IF(err != NC_NOERR && err != NC_ERANGE)
             error("expecting NC_NOERR or NC_ERANGE but got %s", nc_err_code_name(err));
@@ -7679,7 +7596,6 @@ int test_nc_get_vars_ulonglong(void) {
       edge[j] = 1;
       stride[j] = 1;
     }
-
 
     /* first test when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
@@ -7834,7 +7750,6 @@ int test_nc_get_vars_ulonglong(void) {
               ELSE_NOK
             }
 
-
           } else {
             IF(err != NC_NOERR && err != NC_ERANGE)
             error("expecting NC_NOERR or NC_ERANGE but got %s", nc_err_code_name(err));
@@ -7868,7 +7783,6 @@ int test_nc_get_vars_ulonglong(void) {
   error("close: %s", nc_strerror(err));
   return nok;
 }
-
 
 int test_nc_get_varm_text(void) {
   int i, k, d, err, nslabs, ncid, cdf_format;
@@ -7921,7 +7835,6 @@ int test_nc_get_varm_text(void) {
       stride[j] = 1;
       imap[j] = 1;
     }
-
 
     /* first test when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
@@ -8082,7 +7995,6 @@ int test_nc_get_varm_text(void) {
               ELSE_NOK
             }
 
-
           } else {
             IF(err != NC_NOERR && err != NC_ERANGE)
             error("expecting NC_NOERR or NC_ERANGE but got %s", nc_err_code_name(err));
@@ -8168,7 +8080,6 @@ int test_nc_get_varm_uchar(void) {
       stride[j] = 1;
       imap[j] = 1;
     }
-
 
     /* first test when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
@@ -8423,7 +8334,6 @@ int test_nc_get_varm_schar(void) {
       imap[j] = 1;
     }
 
-
     /* first test when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
       start[j] = var_shape[i][j];
@@ -8585,7 +8495,6 @@ int test_nc_get_varm_schar(void) {
               ELSE_NOK
             }
 
-
           } else {
             IF(err != NC_NOERR && err != NC_ERANGE)
             error("expecting NC_NOERR or NC_ERANGE but got %s", nc_err_code_name(err));
@@ -8671,7 +8580,6 @@ int test_nc_get_varm_short(void) {
       stride[j] = 1;
       imap[j] = 1;
     }
-
 
     /* first test when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
@@ -8831,7 +8739,6 @@ int test_nc_get_varm_short(void) {
               ELSE_NOK
             }
 
-
           } else {
             IF(err != NC_NOERR && err != NC_ERANGE)
             error("expecting NC_NOERR or NC_ERANGE but got %s", nc_err_code_name(err));
@@ -8917,7 +8824,6 @@ int test_nc_get_varm_int(void) {
       stride[j] = 1;
       imap[j] = 1;
     }
-
 
     /* first test when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
@@ -9077,7 +8983,6 @@ int test_nc_get_varm_int(void) {
               ELSE_NOK
             }
 
-
           } else {
             IF(err != NC_NOERR && err != NC_ERANGE)
             error("expecting NC_NOERR or NC_ERANGE but got %s", nc_err_code_name(err));
@@ -9163,7 +9068,6 @@ int test_nc_get_varm_long(void) {
       stride[j] = 1;
       imap[j] = 1;
     }
-
 
     /* first test when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
@@ -9323,7 +9227,6 @@ int test_nc_get_varm_long(void) {
               ELSE_NOK
             }
 
-
           } else {
             IF(err != NC_NOERR && err != NC_ERANGE)
             error("expecting NC_NOERR or NC_ERANGE but got %s", nc_err_code_name(err));
@@ -9409,7 +9312,6 @@ int test_nc_get_varm_float(void) {
       stride[j] = 1;
       imap[j] = 1;
     }
-
 
     /* first test when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
@@ -9569,7 +9471,6 @@ int test_nc_get_varm_float(void) {
               ELSE_NOK
             }
 
-
           } else {
             IF(err != NC_NOERR && err != NC_ERANGE)
             error("expecting NC_NOERR or NC_ERANGE but got %s", nc_err_code_name(err));
@@ -9655,7 +9556,6 @@ int test_nc_get_varm_double(void) {
       stride[j] = 1;
       imap[j] = 1;
     }
-
 
     /* first test when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
@@ -9815,7 +9715,6 @@ int test_nc_get_varm_double(void) {
               ELSE_NOK
             }
 
-
           } else {
             IF(err != NC_NOERR && err != NC_ERANGE)
             error("expecting NC_NOERR or NC_ERANGE but got %s", nc_err_code_name(err));
@@ -9901,7 +9800,6 @@ int test_nc_get_varm_ushort(void) {
       stride[j] = 1;
       imap[j] = 1;
     }
-
 
     /* first test when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
@@ -10061,7 +9959,6 @@ int test_nc_get_varm_ushort(void) {
               ELSE_NOK
             }
 
-
           } else {
             IF(err != NC_NOERR && err != NC_ERANGE)
             error("expecting NC_NOERR or NC_ERANGE but got %s", nc_err_code_name(err));
@@ -10147,7 +10044,6 @@ int test_nc_get_varm_uint(void) {
       stride[j] = 1;
       imap[j] = 1;
     }
-
 
     /* first test when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
@@ -10307,7 +10203,6 @@ int test_nc_get_varm_uint(void) {
               ELSE_NOK
             }
 
-
           } else {
             IF(err != NC_NOERR && err != NC_ERANGE)
             error("expecting NC_NOERR or NC_ERANGE but got %s", nc_err_code_name(err));
@@ -10393,7 +10288,6 @@ int test_nc_get_varm_longlong(void) {
       stride[j] = 1;
       imap[j] = 1;
     }
-
 
     /* first test when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
@@ -10553,7 +10447,6 @@ int test_nc_get_varm_longlong(void) {
               ELSE_NOK
             }
 
-
           } else {
             IF(err != NC_NOERR && err != NC_ERANGE)
             error("expecting NC_NOERR or NC_ERANGE but got %s", nc_err_code_name(err));
@@ -10639,7 +10532,6 @@ int test_nc_get_varm_ulonglong(void) {
       stride[j] = 1;
       imap[j] = 1;
     }
-
 
     /* first test when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
@@ -10799,7 +10691,6 @@ int test_nc_get_varm_ulonglong(void) {
               ELSE_NOK
             }
 
-
           } else {
             IF(err != NC_NOERR && err != NC_ERANGE)
             error("expecting NC_NOERR or NC_ERANGE but got %s", nc_err_code_name(err));
@@ -10833,7 +10724,6 @@ int test_nc_get_varm_ulonglong(void) {
   error("close: %s", nc_strerror(err));
   return nok;
 }
-
 
 int test_nc_get_att_text(void) {
   int i, j, err, ncid, cdf_format;
@@ -11140,7 +11030,6 @@ int test_nc_get_att_schar(void) {
 		     * http://www.unidata.ucar.edu/software/netcdf/docs/data_type.html#type_conversion
                      */
 
-
           allInIntRange &= (expect[k] >= schar_min && expect[k] <= schar_max);
         } else {
           allInExtRange = 0;
@@ -11257,7 +11146,6 @@ int test_nc_get_att_short(void) {
 		     * range error. See
 		     * http://www.unidata.ucar.edu/software/netcdf/docs/data_type.html#type_conversion
                      */
-
 
           allInIntRange &= (expect[k] >= short_min && expect[k] <= short_max);
         } else {
@@ -11376,7 +11264,6 @@ int test_nc_get_att_int(void) {
 		     * http://www.unidata.ucar.edu/software/netcdf/docs/data_type.html#type_conversion
                      */
 
-
           allInIntRange &= (expect[k] >= int_min && expect[k] <= int_max);
         } else {
           allInExtRange = 0;
@@ -11493,7 +11380,6 @@ int test_nc_get_att_long(void) {
 		     * range error. See
 		     * http://www.unidata.ucar.edu/software/netcdf/docs/data_type.html#type_conversion
                      */
-
 
           allInIntRange &= (expect[k] >= long_min && expect[k] <= long_max);
         } else {
@@ -11612,7 +11498,6 @@ int test_nc_get_att_float(void) {
 		     * http://www.unidata.ucar.edu/software/netcdf/docs/data_type.html#type_conversion
                      */
 
-
           allInIntRange &= (expect[k] >= float_min && expect[k] <= float_max);
         } else {
           allInExtRange = 0;
@@ -11729,7 +11614,6 @@ int test_nc_get_att_double(void) {
 		     * range error. See
 		     * http://www.unidata.ucar.edu/software/netcdf/docs/data_type.html#type_conversion
                      */
-
 
           allInIntRange &= (expect[k] >= double_min && expect[k] <= double_max);
         } else {
@@ -11848,7 +11732,6 @@ int test_nc_get_att_ushort(void) {
 		     * http://www.unidata.ucar.edu/software/netcdf/docs/data_type.html#type_conversion
                      */
 
-
           allInIntRange &= (expect[k] >= ushort_min && expect[k] <= ushort_max);
         } else {
           allInExtRange = 0;
@@ -11965,7 +11848,6 @@ int test_nc_get_att_uint(void) {
 		     * range error. See
 		     * http://www.unidata.ucar.edu/software/netcdf/docs/data_type.html#type_conversion
                      */
-
 
           allInIntRange &= (expect[k] >= uint_min && expect[k] <= uint_max);
         } else {
@@ -12084,7 +11966,6 @@ int test_nc_get_att_longlong(void) {
 		     * http://www.unidata.ucar.edu/software/netcdf/docs/data_type.html#type_conversion
                      */
 
-
           allInIntRange &= (expect[k] >= longlong_min && expect[k] <= longlong_max);
         } else {
           allInExtRange = 0;
@@ -12201,7 +12082,6 @@ int test_nc_get_att_ulonglong(void) {
 		     * range error. See
 		     * http://www.unidata.ucar.edu/software/netcdf/docs/data_type.html#type_conversion
                      */
-
 
           allInIntRange &= (expect[k] >= ulonglong_min && expect[k] <= ulonglong_max);
         } else {

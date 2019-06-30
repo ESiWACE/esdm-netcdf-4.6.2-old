@@ -197,7 +197,6 @@ int nclistelemremove(NClist *l, void *elem) {
   return found;
 }
 
-
 /* Extends nclist to include a unique operator 
    which remove duplicate values; NULL values removed
    return value is always 1.

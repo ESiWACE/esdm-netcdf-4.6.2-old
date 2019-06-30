@@ -71,7 +71,6 @@ sequence with a replacement character. If you follow this strategy in
 your decoder, then please ignore the "|" column.
 */
 
-
 struct Test {
   int xfail;
   const char *id;

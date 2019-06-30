@@ -205,7 +205,6 @@ done:
   return status;
 }
 
-
 static int
 writefile(const char *path, NC_memio *memio) {
   int status = NC_NOERR;
@@ -239,7 +238,6 @@ done:
   if (f != NULL) fclose(f);
   return status;
 }
-
 
 /* Duplicate an NC_memio instance; needed to avoid
    attempting to use memory that might have been realloc'd
@@ -308,7 +306,6 @@ define_metadata(int ncid) {
 
   return stat;
 }
-
 
 /*
 Create our reference file as a real on-disk file

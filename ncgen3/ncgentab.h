@@ -69,7 +69,6 @@ enum yytokentype {
 };
 #endif
 
-
 #if !defined YYSTYPE && !defined YYSTYPE_IS_DECLARED
 typedef int YYSTYPE;
 #  define YYSTYPE_IS_TRIVIAL 1

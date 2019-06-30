@@ -64,7 +64,6 @@ typedef struct nc_vlen_t {
 #include "ncoffsets.h"
 #include "netcdf.h"
 
-
 /*
 The heart of this is the following macro,
 which computes the offset of a field x
@@ -146,7 +145,6 @@ NC_class_alignment(int ncclass) {
   align = &vec[index];
   return align->alignment;
 }
-
 
 void NC_compute_alignments(void) {
   if (NC_alignments_computed) return;

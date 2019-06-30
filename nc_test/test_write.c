@@ -5,7 +5,6 @@
  */
 /* $Id: test_write.m4 2687 2016-12-08 18:32:13Z wkliao $ */
 
-
 #if defined(_WIN32) || defined(_WIN64)
 #  include <io.h>
 #endif
@@ -22,7 +21,6 @@
 #include "config.h"
 #include "math.h"
 #include "tests.h"
-
 
 /*
  * Test nc_create
@@ -80,7 +78,6 @@ int test_nc_create(void) {
   error("remove of %s failed", scratch);
   return nok;
 }
-
 
 /*
  * Test nc_redef
@@ -157,11 +154,9 @@ int test_nc_redef(void) {
   error("inq_varid: %s", nc_strerror(err));
   var = 1.0;
 
-
   err = nc_put_var1_double(ncid, varid, NULL, &var);
   IF(err != NC_EINDEFINE)
   error("expecting NC_EINDEFINE but got %s", nc_err_code_name(err));
-
 
   err = nc_redef(ncid);
   IF(err != NC_EINDEFINE)
@@ -211,7 +206,6 @@ int test_nc_redef(void) {
   error("enddef: %s", nc_strerror(err));
   ELSE_NOK
   var = 1.0;
-
 
   err = nc_put_var1_double(ncid, varid, NULL, &var);
   IF(err != NC_NOERR)
@@ -296,7 +290,6 @@ int test_nc_redef(void) {
   return nok;
 }
 
-
 /*
  * Test nc_enddef
  * Simply calls test_nc_redef which tests both nc_redef & nc_enddef
@@ -304,7 +297,6 @@ int test_nc_redef(void) {
 int test_nc_enddef(void) {
   return test_nc_redef();
 }
-
 
 /*
  * Test nc_sync
@@ -372,7 +364,6 @@ int test_nc_sync(void) {
   error("remove of %s failed", scratch);
   return nok;
 }
-
 
 /*
  * Test nc_abort
@@ -484,7 +475,6 @@ int test_nc_abort(void) {
   return nok;
 }
 
-
 /*
  * Test nc_def_dim
  *    try with bad netCDF handle, check error
@@ -590,7 +580,6 @@ int test_nc_def_dim(void) {
   return nok;
 }
 
-
 /*
  * Test nc_rename_dim
  *    try with bad netCDF handle, check error
@@ -640,7 +629,6 @@ int test_nc_rename_dim(void) {
   error("remove of %s failed", scratch);
   return nok;
 }
-
 
 /*
  * Test nc_def_var
@@ -755,7 +743,6 @@ int test_nc_def_var(void) {
   return nok;
 }
 
-
 /*
  * Test nc_put_var1(,,,)
  */
@@ -764,7 +751,6 @@ int test_nc_put_var1(void) {
   size_t j, index[MAX_RANK];
   double value[1];
   double buf[1]; /* (void *) buffer */
-
 
   err = file_create(scratch, NC_NOCLOBBER, &ncid);
   IF(err != NC_NOERR) {
@@ -796,7 +782,6 @@ int test_nc_put_var1(void) {
     assert(var_nels[i] <= MAX_NELS);
 
     value[0] = 5; /* reset to a value within bounds */
-
 
     /* test NC_EINVALCOORDS */
     for (j = 0; j < var_rank[i]; j++)
@@ -841,7 +826,6 @@ int test_nc_put_var1(void) {
   return nok;
 }
 
-
 /*
  * Test nc_put_vara(,,,,)
  * Choose a random point dividing each dim into 2 parts
@@ -859,7 +843,6 @@ int test_nc_put_vara(void) {
   double buf[MAX_NELS]; /* (void *) buffer */
   char *p;              /* (void *) pointer */
   double value;
-
 
   err = file_create(scratch, NC_NOCLOBBER, &ncid);
   IF(err != NC_NOERR) {
@@ -898,12 +881,10 @@ int test_nc_put_vara(void) {
     error("expecting NC_EBADID but got %s", nc_err_code_name(err));
     ELSE_NOK
 
-
     for (j = 0; j < var_rank[i]; j++) {
       start[j] = 0;
       edge[j] = 1;
     }
-
 
     /* first test when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
@@ -1000,7 +981,6 @@ int test_nc_put_vara(void) {
   return nok;
 }
 
-
 /*
  * Test nc_put_vars(,,,,,)
  * Choose a random point dividing each dim into 2 parts
@@ -1024,7 +1004,6 @@ int test_nc_put_vars(void) {
   double buf[MAX_NELS]; /* (void *) buffer */
   char *p;              /* (void *) pointer */
   double value;
-
 
   err = file_create(scratch, NC_NOCLOBBER, &ncid);
   IF(err != NC_NOERR) {
@@ -1063,13 +1042,11 @@ int test_nc_put_vars(void) {
     error("expecting NC_EBADID but got %s", nc_err_code_name(err));
     ELSE_NOK
 
-
     for (j = 0; j < var_rank[i]; j++) {
       start[j] = 0;
       edge[j] = 1;
       stride[j] = 1;
     }
-
 
     /* first test when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
@@ -1195,7 +1172,6 @@ int test_nc_put_vars(void) {
   return nok;
 }
 
-
 /*
  * Test nc_put_varm(,,,,,,)
  * Choose a random point dividing each dim into 2 parts
@@ -1226,7 +1202,6 @@ int test_nc_put_varm(void) {
   double buf[MAX_NELS]; /* (void *) buffer */
   char *p;              /* (void *) pointer */
   double value;
-
 
   err = file_create(scratch, NC_NOCLOBBER, &ncid);
   IF(err != NC_NOERR) {
@@ -1265,14 +1240,12 @@ int test_nc_put_varm(void) {
     error("expecting NC_EBADID but got %s", nc_err_code_name(err));
     ELSE_NOK
 
-
     for (j = 0; j < var_rank[i]; j++) {
       start[j] = 0;
       edge[j] = 1;
       stride[j] = 1;
       imap[j] = 1;
     }
-
 
     /* first test when edge[*] > 0 */
     for (j = 0; j < var_rank[i]; j++) {
@@ -1410,7 +1383,6 @@ int test_nc_put_varm(void) {
   return nok;
 }
 
-
 /*
  * Test nc_rename_var
  *    try with bad netCDF handle, check error
@@ -1497,7 +1469,6 @@ int test_nc_rename_var(void) {
   return nok;
 }
 
-
 int test_nc_put_att(void) {
   int ncid, nok = 0;
   int varid;
@@ -1570,7 +1541,6 @@ int test_nc_put_att(void) {
   error("remove of %s failed", scratch);
   return nok;
 }
-
 
 /*
  * Test nc_copy_att
@@ -1721,7 +1691,6 @@ int test_nc_copy_att(void) {
   error("remove of %s failed", scratch);
   return nok;
 }
-
 
 /*
  * Test nc_rename_att
@@ -1883,7 +1852,6 @@ int test_nc_rename_att(void) {
   return nok;
 }
 
-
 /*
  * Test nc_del_att
  *    try with bad netCDF handle, check error
@@ -2002,7 +1970,6 @@ int test_nc_del_att(void) {
   return nok;
 }
 
-
 /*
  * Test nc_set_fill
  *    try with bad netCDF handle, check error
@@ -2086,7 +2053,6 @@ int test_nc_set_fill(void) {
   error("inq_varid: %s", nc_strerror(err));
   index[0] = NRECS;
 
-
   err = nc_put_var1_text(ncid, varid, index, &text);
   IF(err != NC_NOERR)
   error("put_var1_text_all: %s", nc_strerror(err));
@@ -2161,7 +2127,6 @@ int test_nc_set_fill(void) {
   error("enddef: %s", nc_strerror(err));
   index[0] = NRECS;
 
-
   err = nc_put_var1_text(ncid, varid, index, &text);
   IF(err != NC_NOERR)
   error("put_var1_text_all: %s", nc_strerror(err));
@@ -2214,7 +2179,6 @@ int test_nc_set_fill(void) {
 
   return nok;
 }
-
 
 /* This function gets the version of a netCDF file, 1 is for netCDF
    classic, 2 for 64-bit offset format, (someday) 3 for HDF5 format,
@@ -2331,7 +2295,6 @@ int test_nc_set_default_format(void) {
 
   return nok;
 }
-
 
 /*
  * Test nc_delete()

@@ -56,7 +56,6 @@ dapconvert(nc_type srctype, nc_type dsttype, char *memory0, char *value0, size_t
   unsigned long long ncuint64;
   unsigned long long *ncuint64p;
 
-
 #define CASE(nc1, nc2) (nc1 * 256 + nc2)
 #define CUT8(e) ((unsigned char)((e)&0xff))
 #define CUT16(e) ((unsigned short)((e)&0xffff))

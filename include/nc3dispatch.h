@@ -39,7 +39,6 @@
 #include "netcdf.h"
 #include <stddef.h> /* size_t, ptrdiff_t */
 
-
 #if defined(__cplusplus)
 extern "C" {
 #endif

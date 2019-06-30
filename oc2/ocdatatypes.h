@@ -57,5 +57,4 @@
 #define OC_FILL_STRING ""
 #define OC_FILL_URL ""
 
-
 #endif /*OCDATATYPES_H*/

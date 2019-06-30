@@ -44,7 +44,6 @@ int main() {
     /* Close reference dataset */
     if (H5Dclose(dsetid) < 0) ERR;
 
-
     /* Create dataset with native int data type */
     if ((dsetid = H5Dcreate2(fileid, INT_VAR_NAME, H5T_NATIVE_INT, scalar_spaceid, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT)) < 0) ERR;
 
@@ -59,7 +58,6 @@ int main() {
     /* Close integer dataset */
     if (H5Dclose(dsetid) < 0) ERR;
 
-
     /* Create attribute on root group with reference data type */
     if ((attid = H5Acreate2(fileid, REF_ATT_NAME, H5T_STD_REF_OBJ, scalar_spaceid, H5P_DEFAULT, H5P_DEFAULT)) < 0) ERR;
     if (H5Aclose(attid) < 0) ERR;
@@ -67,7 +65,6 @@ int main() {
     /* Create attribute on root group with native int data type */
     if ((attid = H5Acreate2(fileid, INT_ATT_NAME, H5T_NATIVE_INT, scalar_spaceid, H5P_DEFAULT, H5P_DEFAULT)) < 0) ERR;
     if (H5Aclose(attid) < 0) ERR;
-
 
     /* Close rest */
     if (H5Sclose(scalar_spaceid) < 0) ERR;

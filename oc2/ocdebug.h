@@ -19,7 +19,6 @@
 #include "oc.h"
 #include "ocinternal.h"
 
-
 /* OCCATCHERROR is used to detect errors as close
    to their point of origin as possible. When
    enabled, one can set a breakpoint in ocbreakpoint()
@@ -61,7 +60,6 @@
 #  define OCDBGTEXT(text)
 #  define OCDBGCODE(code)
 #endif
-
 
 /*
 OCPROGRESS attempts to provide some info

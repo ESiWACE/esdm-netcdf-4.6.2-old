@@ -35,7 +35,6 @@ int main() { /* create data.nc */
   int particle_dim;
   int slice_dim;
 
-
   size_t snapshot_len = SNAPSHOT_LEN;
   size_t axis_len = AXIS_LEN;
   size_t particle_len = PARTICLE_LEN;
@@ -96,7 +95,6 @@ int main() { /* create data.nc */
     if (strcmp(name_in, CLASSICAL)) ERR;
     if (nc_inq(classical_grp, &ndims_in, &nvars_in, &natts_in, &unlimdimid)) ERR;
     if (ndims_in != 4 || nvars_in != 3 || natts_in != 0 || unlimdimid != 0) ERR;
-
 
     if (nc_close(ncid)) ERR;
 

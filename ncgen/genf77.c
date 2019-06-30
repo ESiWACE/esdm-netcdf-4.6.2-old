@@ -40,7 +40,6 @@ static void genf77_write(Generator *, Symbol *, Bytebuffer *, int, size_t *, siz
 static void genf77_writevar(Generator *, Symbol *, Bytebuffer *, int, size_t *, size_t *);
 static void genf77_writeattr(Generator *, Symbol *, Bytebuffer *, int, size_t *, size_t *);
 
-
 /*
  * Generate code for creating netCDF from in-memory structure.
  */
@@ -879,7 +878,6 @@ int rank, size_t *start, size_t *count) {
       codedump(code);
       codeline(")");
       break;
-
 
     default: /* User defined type */
       verror("Non-classic type: %s", nctypename(basetype->typ.typecode));

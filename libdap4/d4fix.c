@@ -59,7 +59,6 @@ ADDNODE(NClist *list, NCD4node *node) {
 #  define ADDNODE(list, node) nclistpush((list), (node))
 #endif
 
-
 /**************************************************/
 /* Topo sort in postfix order */
 
@@ -178,7 +177,6 @@ walk(NCD4node *node, NClist *sorted) {
   }
   ADDNODE(sorted, node);
 }
-
 
 /**************************************************/
 /* Mark the offset and length of each var/field

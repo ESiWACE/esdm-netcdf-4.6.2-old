@@ -202,7 +202,6 @@ void dcelexinit(char *input, DCElexstate **lexstatep) {
   if (lexstate == NULL) return;
   memset((void *)lexstate, 0, sizeof(DCElexstate));
 
-
 #ifdef URLDECODE
   lexstate->input = ncuridecode(input);
 #else

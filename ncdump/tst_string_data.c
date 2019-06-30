@@ -79,7 +79,6 @@ int main(int argc, char **argv) {
   }
   nc_free_string(DIM4_LEN, strings_in);
 
-
   /* Try reading strings in with typeless generic array interface also */
   {
     size_t cor[VAR4_RANK], edg[VAR4_RANK];

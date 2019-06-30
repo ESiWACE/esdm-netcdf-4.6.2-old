@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 #undef GENERATE
 
 #undef DEBUG
@@ -38,7 +37,6 @@
 #  define NC_UINT64 11 /* unsigned 8-byte int */
 #  define NC_STRING 12 /* string */
 #endif
-
 
 #define CHECK(expr) check(expr, __FILE__, __LINE__);
 
@@ -429,7 +427,6 @@ char *file, int line) {
       setup(double);
       ftest;
     } break;
-
 
     /* Mixed comparisons */
     case CASE(NC_BYTE, NC_INT): {

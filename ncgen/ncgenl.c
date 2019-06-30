@@ -1672,7 +1672,6 @@ static int input(void);
       }                                                                                       \
     }
 
-
 #endif
 
 /* No semi-colon after return; correct usage is to write "yyterminate();" -
@@ -3403,7 +3402,6 @@ parseULL(char *text, int *failp) {
 #endif /*!(defined HAVE_STRTOLL && defined HAVE_STRTOULL)*/
   return uint64;
 }
-
 
 /**
 Given the raw bits, the sign char, the tag, and hasU

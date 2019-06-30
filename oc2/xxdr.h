@@ -93,7 +93,6 @@
     *ip = *((unsigned long long *)dst); \
   }
 
-
 #ifdef OCIGNORE
 /* Warning dst and src should not be the same memory (assert &iswap != &i) */
 #  define xxdrntoh(dst, src)  \

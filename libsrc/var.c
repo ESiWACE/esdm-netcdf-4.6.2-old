@@ -58,7 +58,6 @@ void free_NC_var(NC_var *varp) {
   free(varp);
 }
 
-
 /*
  * Common code for new_NC_var()
  * and ncx_get_NC_var()
@@ -106,14 +105,12 @@ size_t ndims) {
     varp->dsizes = NULL;
   }
 
-
   varp->xsz = 0;
   varp->len = 0;
   varp->begin = 0;
 
   return varp;
 }
-
 
 /*
  * Formerly
@@ -148,10 +145,8 @@ size_t ndims, const int *dimids) {
   else
     varp->dimids = NULL;
 
-
   return (varp);
 }
-
 
 static NC_var *
 dup_NC_var(const NC_var *rvarp) {
@@ -159,7 +154,6 @@ dup_NC_var(const NC_var *rvarp) {
   rvarp->ndims, rvarp->dimids);
   if (varp == NULL)
     return NULL;
-
 
   if (dup_NC_attrarrayV(&varp->attrs, &rvarp->attrs) != NC_NOERR) {
     free_NC_var(varp);
@@ -177,9 +171,7 @@ dup_NC_var(const NC_var *rvarp) {
   return varp;
 }
 
-
 /* vararray */
-
 
 /*
  * Free the stuff "in" (referred to by) an NC_vararray.
@@ -204,7 +196,6 @@ void free_NC_vararrayV0(NC_vararray *ncap) {
   ncap->nelems = 0;
 }
 
-
 /*
  * Free NC_vararray values.
  * formerly
@@ -227,7 +218,6 @@ void free_NC_vararrayV(NC_vararray *ncap) {
   ncap->value = NULL;
   ncap->nalloc = 0;
 }
-
 
 int dup_NC_vararrayV(NC_vararray *ncap, const NC_vararray *ref) {
   int status = NC_NOERR;
@@ -268,7 +258,6 @@ int dup_NC_vararrayV(NC_vararray *ncap, const NC_vararray *ref) {
   return NC_NOERR;
 }
 
-
 /*
  * Add a new handle on the end of an array of handles
  * Formerly
@@ -306,7 +295,6 @@ incr_NC_vararray(NC_vararray *ncap, NC_var *newelemp) {
   return NC_NOERR;
 }
 
-
 static NC_var *
 elem_NC_vararray(const NC_vararray *ncap, size_t elem) {
   assert(ncap != NULL);
@@ -319,9 +307,7 @@ elem_NC_vararray(const NC_vararray *ncap, size_t elem) {
   return ncap->value[elem];
 }
 
-
 /* End vararray per se */
-
 
 /*
  * Step thru NC_VARIABLE array, seeking match on name.
@@ -391,7 +377,6 @@ ncx_szof(nc_type type) {
   }
 }
 
-
 /*
  * 'compile' the shape and len of a variable
  *  Formerly
@@ -443,7 +428,6 @@ int NC_var_shape(NC_var *varp, const NC_dimarray *dims) {
     *dsp = product;
   }
 
-
 out:
 
   /*
@@ -487,7 +471,6 @@ int NC_check_vlen(NC_var *varp, long long vlen_max) {
   return 1; /* OK */
 }
 
-
 /*! Look up a variable by varid.
  *
  * Given a valid ncp structure and varid, return the var.
@@ -516,7 +499,6 @@ int NC_lookupvar(NC3_INFO *ncp, int varid, NC_var **varp) {
 
   return NC_NOERR;
 }
-
 
 /* Public */
 
@@ -586,7 +568,6 @@ int ndims, const int *dimids, int *varidp) {
   return NC_NOERR;
 }
 
-
 int NC3_inq_varid(int ncid, const char *name, int *varid_ptr) {
   int status;
   NC *nc;
@@ -607,7 +588,6 @@ int NC3_inq_varid(int ncid, const char *name, int *varid_ptr) {
   *varid_ptr = varid;
   return NC_NOERR;
 }
-
 
 int NC3_inq_var(int ncid,
 int varid,

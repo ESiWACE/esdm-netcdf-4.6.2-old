@@ -166,7 +166,6 @@ emalloc(size_t bytes) {
   return memory;
 }
 
-
 /* compare contiguous, chunked, and compressed performance */
 int main(int argc, char *argv[]) {
   int stat; /* return status */

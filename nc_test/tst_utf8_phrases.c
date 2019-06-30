@@ -23,7 +23,6 @@
     /Last update:/ Tue Jan 31 16:56:13 2017
 */
 
-
 struct Test {
   int xfail;
   const char *id;

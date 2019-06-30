@@ -57,7 +57,6 @@ typedef int YYSTYPE;
 #  define YYSTYPE_IS_DECLARED 1
 #endif
 
-
 int dceparse(DCEparsestate *parsestate);
 
 #endif /* !YY_DCE_DCE_TAB_H_INCLUDED  */

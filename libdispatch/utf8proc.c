@@ -32,7 +32,6 @@
  *  Please notice the copyright statement in the file "utf8proc_data.c".
  */
 
-
 /*
  *  File name:    utf8proc.c
  *
@@ -40,10 +39,8 @@
  *  Implementation of libutf8proc.
  */
 
-
 #include "utf8proc.h"
 #include "utf8proc_data.c"
-
 
 /**
  * Array containing the byte lengths of a UTF-8 encoded codepoint based
@@ -331,7 +328,6 @@ nc_utf8proc_int32_t c1, nc_utf8proc_int32_t c2, nc_utf8proc_int32_t *state) {
   nc_utf8proc_get_property(c2)->boundclass,
   state);
 }
-
 
 nc_utf8proc_bool nc_utf8proc_grapheme_break(
 nc_utf8proc_int32_t c1, nc_utf8proc_int32_t c2) {

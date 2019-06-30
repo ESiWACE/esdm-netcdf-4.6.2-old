@@ -223,7 +223,6 @@ extern NClist* CEparse(OCstate*,char* input);
 
 extern int ocinitialized;
 
-
 extern OCerror ocopen(OCstate **statep, const char *url);
 extern void occlose(OCstate *state);
 extern OCerror ocfetch(OCstate *, const char *, OCdxd, OCflags, OCnode **);

@@ -13,7 +13,6 @@
 #include <stdio.h>
 #include <stdlib.h> /* for free() */
 
-
 /*
  * Test ncvarget
  *    check that proper call worked after ncvarput

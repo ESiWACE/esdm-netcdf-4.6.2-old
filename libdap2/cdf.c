@@ -129,7 +129,6 @@ computevarnodes(NCDAPCOMMON *nccomm, NClist *allnodes, NClist *varnodes) {
   return NC_NOERR;
 }
 
-
 NCerror
 fixgrid(NCDAPCOMMON *nccomm, CDFnode *grid) {
   unsigned int i, glen;
@@ -281,7 +280,6 @@ computecdfvarnames(NCDAPCOMMON *nccomm, CDFnode *root, NClist *varnodes) {
   return NC_NOERR;
 }
 
-
 /* locate and connect usable sequences and vars.
 A sequence is usable iff:
 1. it has a path from one of its subnodes to a leaf and that
@@ -295,7 +293,6 @@ sequencecheck(NCDAPCOMMON *nccomm) {
   nccomm->cdf.ddsroot->tree->varnodes, NULL);
   return NC_NOERR;
 }
-
 
 static NCerror
 sequencecheckr(CDFnode *node, NClist *vars, CDFnode *topseq) {
@@ -633,7 +630,6 @@ done:
   return THROW(ncstat);
 }
 
-
 /* The specific actions of a map are defined
    by this function.
 */
@@ -839,7 +835,6 @@ definedimsettransR(NCDAPCOMMON *nccomm, CDFnode *node) {
   }
   return ncstat;
 }
-
 
 /*
 Recursively define two dimension sets for each structural node
@@ -1086,7 +1081,6 @@ free1cdfnode(CDFnode *node) {
   nullfree(node->vlenname);
   nullfree(node);
 }
-
 
 /* Return true if node and node1 appear to refer to the same thing;
    takes grid->structure changes into account.

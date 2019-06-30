@@ -13,7 +13,6 @@
  *    * https://github.com/Unidata/netcdf4-python/issues/527
  */
 
-
 #include "err_macros.h"
 #include <hdf5.h>
 #include <nc_logging.h>
@@ -86,7 +85,6 @@ int main() {
     /***********/
     /* Actually unnecessary to recreate the issue. */
     /***********/
-
 
     /* Write out varying-length data for v[0] and v[1]. Leave v[2] empty. */
 
@@ -178,7 +176,6 @@ int main() {
     /***********/
     /* Actually unnecessary to recreate the issue. */
     /***********/
-
 
     /* Write out varying-length data for v[0] and v[1]. Leave v[2] empty. */
 

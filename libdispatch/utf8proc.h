@@ -21,7 +21,6 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-
 /**
  * @mainpage
  *
@@ -581,7 +580,6 @@ nc_utf8proc_int32_t codepoint1, nc_utf8proc_int32_t codepoint2, nc_utf8proc_int3
  */
 nc_utf8proc_bool nc_utf8proc_grapheme_break(
 nc_utf8proc_int32_t codepoint1, nc_utf8proc_int32_t codepoint2);
-
 
 /**
  * Given a codepoint `c`, return the codepoint of the corresponding

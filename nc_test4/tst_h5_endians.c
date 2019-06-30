@@ -86,7 +86,6 @@ int main() {
     if ((retval = nc_def_var_endian(ncid, be_dbl_varid, NC_ENDIAN_BIG)))
       return retval;
 
-
     if ((retval = nc_close(ncid)))
       return retval;
   }

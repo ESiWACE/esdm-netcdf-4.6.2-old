@@ -307,7 +307,6 @@ int main(int argc, char **argv) {
          H5P_DEFAULT))
         < 0) ERR;
 
-
     if ((typeid = H5Tcopy(H5T_C_S1)) < 0) ERR;
     if (H5Tset_size(typeid, MAX_LEN + 1) < 0) ERR;
 

@@ -79,7 +79,6 @@ typedef int YYSTYPE;
 #  define YYSTYPE_IS_DECLARED 1
 #endif
 
-
 int dapparse(DAPparsestate *parsestate);
 
 #endif /* !YY_DAP_DAP_TAB_H_INCLUDED  */

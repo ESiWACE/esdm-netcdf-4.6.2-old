@@ -1362,7 +1362,6 @@ int main() {
   int wat_a2_id;
   int wat_a3_id;
 
-
   /* variable shapes */
   int lat_dims[RANK_lat];
   int lon_dims[RANK_lon];
@@ -7375,7 +7374,6 @@ int main() {
   if (nc_put_att_text(ncid, wat_a3_id, "units", 1, "m")) ERR;
   if (nc_put_att_text(ncid, wat_a3_id, "long_name", 36, "aerosol water, interstitial, mode 03")) ERR;
   if (nc_put_att_text(ncid, wat_a3_id, "cell_methods", 10, "time: mean")) ERR;
-
 
   get_mem_used2(&memused);
   printf("before enddef data memory %d MB\n", memused);

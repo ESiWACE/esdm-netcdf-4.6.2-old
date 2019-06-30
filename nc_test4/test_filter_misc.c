@@ -221,7 +221,6 @@ fill(void) {
   }
 }
 
-
 static int
 compare(void) {
   int errs = 0;

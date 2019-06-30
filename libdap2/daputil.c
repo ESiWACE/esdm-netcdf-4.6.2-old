@@ -18,7 +18,6 @@ extern int oc_dumpnode(OClink, OCddsnode);
 #define LBRACKET '['
 #define RBRACKET ']'
 
-
 static char *repairname(const char *name, const char *badchars);
 static int nccpadding(unsigned long offset, int alignment);
 
@@ -196,7 +195,6 @@ dapdimproduct(NClist *dimensions) {
   return size;
 }
 
-
 /* Return value of param or NULL if not found */
 const char *
 dapparamvalue(NCDAPCOMMON *nccomm, const char *key) {
@@ -226,7 +224,6 @@ int dapparamcheck(NCDAPCOMMON *nccomm, const char *key, const char *subkey) {
   if (*p != '\0' && strchr(checkseps, *p) == NULL) return 0;
   return 1;
 }
-
 
 /* This is NOT UNION */
 int nclistconcat(NClist *l1, NClist *l2) {

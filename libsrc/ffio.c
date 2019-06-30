@@ -6,7 +6,6 @@
 /* addition by O. Heudecker, AWI-Bremerhaven, 12.3.1998 */
 /* added correction by John Sheldon and Hans Vahlenkamp 15.4.1998*/
 
-
 #if HAVE_CONFIG_H
 #  include <config.h>
 #endif
@@ -51,7 +50,6 @@
 static int ncio_ffio_filesize(ncio *nciop, off_t *filesizep);
 static int ncio_ffio_pad_length(ncio *nciop, off_t length);
 static int ncio_ffio_close(ncio *nciop, int doUnlink);
-
 
 /* Begin OS */
 
@@ -110,7 +108,6 @@ fgrow(const int fd, const off_t len) {
   return NC_NOERR;
 }
 
-
 /*
  * Sortof like ftruncate, except won't make the file shorter.  Differs
  * from fgrow by only writing one byte at designated seek position, if
@@ -166,7 +163,6 @@ const void *const vp, off_t *posp) {
   return NC_NOERR;
 }
 
-
 static int
 ffio_pgin(ncio *const nciop,
 off_t const offset, const size_t extent,
@@ -212,7 +208,6 @@ typedef struct ncio_ffio {
   void *bf_base;
 } ncio_ffio;
 
-
 static int
 ncio_ffio_rel(ncio *const nciop, off_t offset, int rflags) {
   ncio_ffio *ffp = (ncio_ffio *)nciop->pvt;
@@ -239,7 +234,6 @@ ncio_ffio_rel(ncio *const nciop, off_t offset, int rflags) {
   ffp->bf_cnt = 0;
   return status;
 }
-
 
 static int
 ncio_ffio_get(ncio *const nciop,
@@ -306,7 +300,6 @@ void **const vpp) {
     ffp->bf_cnt = extent;
   }
 
-
 #ifdef X_ALIGN
   *vpp = (char *)ffp->bf_base + rem;
 #else
@@ -314,7 +307,6 @@ void **const vpp) {
 #endif
   return NC_NOERR;
 }
-
 
 static int
 ncio_ffio_move(ncio *const nciop, off_t to, off_t from,
@@ -416,7 +408,6 @@ ncio_ffio_free(void *const pvt) {
   }
 }
 
-
 static int
 ncio_ffio_init2(ncio *const nciop, size_t *sizehintp) {
   ncio_ffio *ffp = (ncio_ffio *)nciop->pvt;
@@ -436,7 +427,6 @@ ncio_ffio_init2(ncio *const nciop, size_t *sizehintp) {
   /* else */
   return NC_NOERR;
 }
-
 
 static void
 ncio_ffio_init(ncio *const nciop) {
@@ -469,7 +459,6 @@ ncio_free(ncio *nciop) {
 
   free(nciop);
 }
-
 
 static ncio *
 ncio_ffio_new(const char *path, int ioflags) {
@@ -680,7 +669,6 @@ unwind_new:
   return status;
 }
 
-
 int ffio_open(const char *path,
 int ioflags,
 off_t igeto, size_t igetsz, size_t *sizehintp,
@@ -757,7 +745,6 @@ unwind_new:
   return status;
 }
 
-
 /*
  * Get file size in bytes.
  * Is use of ffseek() really necessary, or could we use standard fstat() call
@@ -778,7 +765,6 @@ ncio_ffio_filesize(ncio *nciop, off_t *filesizep) {
     return EINVAL;
   return NC_NOERR;
 }
-
 
 /*
  * Sync any changes to disk, then extend file so its size is length.
@@ -806,7 +792,6 @@ ncio_ffio_pad_length(ncio *nciop, off_t length) {
     return errno;
   return NC_NOERR;
 }
-
 
 static int
 ncio_ffio_close(ncio *nciop, int doUnlink) {

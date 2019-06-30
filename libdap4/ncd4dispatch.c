@@ -91,7 +91,6 @@ nc_type memtype) {
   return THROW(NC_EPERM);
 }
 
-
 static int
 NCD4_put_vars(int ncid, int varid,
 const size_t *start, const size_t *edges, const ptrdiff_t *stride,
@@ -154,7 +153,6 @@ NCD4_insert_array_compound(int ncid, nc_type t1, const char *p3, size_t p4,
 nc_type t2, int p6, const int *p7) {
   return (NC_EPERM);
 }
-
 
 static int
 NCD4_def_vlen(int ncid, const char *p2, nc_type base_typeid, nc_type *t) {
@@ -414,7 +412,6 @@ NCD4_var_par_access(int ncid, int p2, int p3) {
   return (NC_ENOPAR);
 }
 
-
 #ifdef USE_NETCDF4
 
 static int
@@ -472,7 +469,6 @@ NCD4_inq_grpname(int ncid, char *p) {
   ret = nc_inq_grpname(substrateid, p);
   return (ret);
 }
-
 
 static int
 NCD4_inq_unlimdims(int ncid, int *p2, int *p3) {
@@ -726,7 +722,6 @@ globalinit(void) {
     if (cstat != CURLE_OK)
       fprintf(stderr, "curl_global_init failed!\n");
   }
-
 
   return stat;
 }

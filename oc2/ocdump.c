@@ -223,7 +223,6 @@ void ocdumpclause(OCprojectionclause *ref) {
   }
 }
 
-
 static void
 addfield(char *field, size_t llen, char *line, int align) {
   int len, rem;

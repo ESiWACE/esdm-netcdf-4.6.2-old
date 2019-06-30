@@ -85,10 +85,8 @@ static void *nvmalloc(off_t size) {
 
 #    define NDIMS_DECL const int ndims = nvdims(ncid, varid);
 
-
 #    define A_DECL(name, type, ndims, rhs) \
       type *const name = (type *)nvmalloc((ndims) * sizeof(type))
-
 
 #    if 0
   ALLOC_ONSTACK(name, type, ndims)
@@ -113,7 +111,6 @@ static void *nvmalloc(off_t size) {
         nc_advise("nvdims", NC_EMAXDIMS, "ndims %d", ndims); \
         return -1;                                           \
       }
-
 
 #  endif
 
@@ -171,7 +168,6 @@ numrecvars(int ncid, int *nrecvarsp, int *recvarids) {
   return NC_NOERR;
 }
 
-
 /**
  * Computes record size (in bytes) of the record variable with a specified
  * variable id.  Returns size as 0 if not a record variable.
@@ -219,7 +215,6 @@ ncrecsize(int ncid, int varid, size_t *recsizep) {
   *recsizep = (size_t)size;
   return NC_NOERR;
 }
-
 
 /**
  * Retrieves the dimension sizes of a variable with a specified variable id in
@@ -381,7 +376,6 @@ void *const *datap) {
   }
   return 0;
 }
-
 
 /** \ingroup v2_api
 

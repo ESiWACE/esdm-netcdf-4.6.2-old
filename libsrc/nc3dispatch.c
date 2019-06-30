@@ -29,7 +29,6 @@
 #  define NC_STRING (12)
 #endif
 
-
 static int NC3_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep,
 int *ndimsp, int *dimidsp, int *nattsp,
 int *shufflep, int *deflatep, int *deflate_levelp,
@@ -376,7 +375,6 @@ size_t offset, nc_type field_typeid,
 int ndims, const int *dim_sizes) {
   return NC_ENOTNC4;
 }
-
 
 static int
 NC3_inq_compound_field(int ncid, nc_type typeid, int fieldid, char *name,

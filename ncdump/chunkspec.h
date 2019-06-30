@@ -38,5 +38,4 @@ extern bool_t varchunkspec_exists(int grpid, int varid);
 
 extern void chunkspecinit(void);
 
-
 #endif /* _CHUNKSPEC_H_  */

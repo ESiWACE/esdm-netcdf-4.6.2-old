@@ -9,7 +9,6 @@
 #include "ncgen.h"
 #include "netcdf.h"
 
-
 /*
  * Given netCDF type, return a default fill_value appropriate for
  * that type.
@@ -40,7 +39,6 @@ union generic *gval) {
       derror("nc_getfill: unrecognized type");
   }
 }
-
 
 void nc_fill(
 nc_type type,           /* netcdf type code  */
@@ -95,7 +93,6 @@ union generic fill_val) /* value to use */
     }
   }
 }
-
 
 /*
  * Given netCDF type, put a value of that type into a fill_value

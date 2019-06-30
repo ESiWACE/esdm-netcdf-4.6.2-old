@@ -86,7 +86,6 @@ done:
   return THROW(ret);
 }
 
-
 /* Create an empty NCD4meta object for
    use in subsequent calls
    (is the the right src file to hold this?)

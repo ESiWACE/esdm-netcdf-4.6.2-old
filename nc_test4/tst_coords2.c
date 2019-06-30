@@ -13,7 +13,6 @@
 
 #define FILE_NAME "tst_coords2.nc"
 
-
 int main(int argc, char **argv) {
   printf("\n*** Testing netcdf-4 coordinate dimensions and variables, some more.\n");
 

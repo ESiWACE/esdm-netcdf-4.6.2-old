@@ -456,14 +456,12 @@ int test_redef(int format) {
       101)
       != NC_EINVAL) ERR;
 
-
   /* Change chunk cache again. */
   if (nc_set_chunk_cache_ints(NEW_CACHE_SIZE_2, NEW_CACHE_NELEMS_2,
       (int)(NEW_CACHE_PREEMPTION_2 * 100))) ERR;
   if (nc_get_chunk_cache_ints(&cache_size_int_in, &cache_nelems_int_in,
       &cache_preemption_int_in)) ERR;
   if (cache_size_int_in != NEW_CACHE_SIZE_2 || cache_nelems_int_in != NEW_CACHE_NELEMS_2 || cache_preemption_int_in != (int)(NEW_CACHE_PREEMPTION_2 * 100)) ERR;
-
 
   /* This will fail, except for netcdf-4/hdf5, which permits any
     * name. */

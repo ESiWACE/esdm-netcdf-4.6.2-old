@@ -25,11 +25,9 @@
 #include "netcdf.h"
 #include <nc_tests.h>
 
-
 #define FILE_NAME1 "ref_hdf5_compat1.nc"
 #define FILE_NAME2 "ref_hdf5_compat2.nc"
 #define FILE_NAME3 "ref_hdf5_compat3.nc"
-
 
 int main(int argc, char **argv) {
   int ncid = 0;
@@ -53,7 +51,6 @@ int main(int argc, char **argv) {
     if (nc_open(FILE_NAME3, NC_NOWRITE, &ncid)) ERR;
     if (nc_close(ncid)) ERR;
   }
-
 
   SUMMARIZE_ERR;
   FINAL_RESULTS;

@@ -23,7 +23,6 @@ extern int fortran_flag;
 #define MAX(a, b) (((a) > (b)) ? (a) : (b))
 #define fpr (void)fprintf
 
-
 /*
  * Remove trailing zeros (after decimal point) but not trailing decimal
  * point from ss, a string representation of a floating-point number that
@@ -53,7 +52,6 @@ char *ss /* returned string representing dd */
   *cp = '\0';
   return;
 }
-
 
 /* generate C to put netCDF record from in-memory data */
 static void
@@ -284,7 +282,6 @@ void *rec_start) {
   cline("   }");
 }
 
-
 /*
  * Add to a partial Fortran statement, checking if it's too long.  If it is too
  * long, output the first part of it as a single statement with continuation
@@ -407,7 +404,6 @@ void *rec_start /* start of data */
   }
 }
 
-
 /* make Fortran to put record */
 static void
 gen_load_fortran(
@@ -452,7 +448,6 @@ void *rec_start) {
   fline("call check_err(iret)");
 }
 
-
 /* invoke netcdf calls (or generate C or Fortran code) to load netcdf variable
  * from in-memory data.  Assumes following global variables set from yacc
  * parser:
@@ -474,7 +469,6 @@ void *rec_start /* points to data to be loaded  */
 
   return 0;
 }
-
 
 /* write out variable's data from in-memory structure */
 void load_netcdf(

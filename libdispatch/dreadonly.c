@@ -106,7 +106,6 @@ int ndims, const int *dimidsp, int *varidp) {
   return NC_EPERM;
 }
 
-
 /**
  * @internal Not allowed for classic model access.
  *

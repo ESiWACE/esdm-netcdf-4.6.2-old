@@ -1019,7 +1019,6 @@ read_hdf5_att(NC_GRP_INFO_T *grp, hid_t attid, NC_ATT_INFO_T *att) {
        &(att->nc_typeid))))
     BAIL(retval);
 
-
   /* Get len. */
   if ((spaceid = H5Aget_space(attid)) < 0)
     BAIL(NC_EATTMETA);

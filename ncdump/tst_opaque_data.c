@@ -92,7 +92,6 @@ int main(int argc, char **argv) {
 
   if (nc_close(ncid)) ERR;
 
-
   SUMMARIZE_ERR;
   FINAL_RESULTS;
 }

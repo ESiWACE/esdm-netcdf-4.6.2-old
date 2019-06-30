@@ -31,7 +31,6 @@ extern int nofill_flag;
 int lineno = 1;
 int derror_count = 0;
 
-
 /* create netCDF from in-memory structure */
 static void
 gen_netcdf(
@@ -110,7 +109,6 @@ char *filename) /* name for output netcdf file */
   stat = nc_enddef(ncid);
   check_err(stat);
 }
-
 
 /*
  * Given a netcdf type, a pointer to a vector of values of that type,
@@ -221,7 +219,6 @@ int num)      /* element of vector desired */
       return 0;
   }
 }
-
 
 /*
  * Generate C code for creating netCDF from in-memory structure.
@@ -468,7 +465,6 @@ const char *filename) {
   cline("   check_err(stat,__LINE__,__FILE__);");
 }
 
-
 /* return Fortran type name for netCDF type, given type code */
 static const char *
 ncftype(
@@ -502,7 +498,6 @@ nc_type type) /* netCDF type code */
   }
 }
 
-
 /* return Fortran type suffix for netCDF type, given type code */
 const char *
 nfstype(
@@ -526,7 +521,6 @@ nc_type type) /* netCDF type code */
       return 0;
   }
 }
-
 
 /* Return Fortran function suffix for netCDF type, given type code.
  * This should correspond to the Fortran type name in ncftype().
@@ -559,7 +553,6 @@ nc_type type) /* netCDF type code */
   }
 }
 
-
 /* return FORTRAN name for netCDF type, given type code */
 static const char *
 ftypename(
@@ -583,7 +576,6 @@ nc_type type) /* netCDF type code */
       return 0;
   }
 }
-
 
 /*
  * Generate FORTRAN code for creating netCDF from in-memory structure.
@@ -861,7 +853,6 @@ const char *filename) {
   fline("call check_err(iret)");
 }
 
-
 /*
  * Output a C statement.
  */
@@ -906,7 +897,6 @@ const char *stmnt) {
   }
 }
 
-
 /* return C name for netCDF type, given type code */
 const char *
 nctype(
@@ -930,7 +920,6 @@ nc_type type) /* netCDF type code */
       return 0;
   }
 }
-
 
 /*
  * Return C type name for netCDF type, given type code.
@@ -958,7 +947,6 @@ nc_type type) /* netCDF type code */
   }
 }
 
-
 /*
  * Return C type name for netCDF type suffix, given type code.
  */
@@ -984,7 +972,6 @@ nc_type type) /* netCDF type code */
       return 0;
   }
 }
-
 
 /*
  * Return C type name for netCDF attribute container type, given type code.
@@ -1012,7 +999,6 @@ nc_type type) /* netCDF type code */
   }
 }
 
-
 /* return internal size for values of specified netCDF type */
 size_t
 nctypesize(
@@ -1036,7 +1022,6 @@ nc_type type) /* netCDF type code */
       return 0;
   }
 }
-
 
 /*
  * Given a netcdf numeric type, a pointer to a vector of values of that
@@ -1095,7 +1080,6 @@ int num)      /* element of vector desired */
       return 0;
   }
 }
-
 
 /*
  * Given a pointer to a counted string, returns a pointer to a malloced string
@@ -1189,7 +1173,6 @@ size_t len)       /* number of characters in valp */
   free(istr0);
   return sp;
 }
-
 
 /* Given a pointer to a counted string (not necessarily
  * null-terminated), returns a pointer to a malloced string representing
@@ -1293,13 +1276,11 @@ size_t ilen)     /* number of characters in istr */
   return ostr;
 }
 
-
 static void
 cl_netcdf(void) {
   int stat = nc_close(ncid);
   check_err(stat);
 }
-
 
 static void
 cl_c(void) {
@@ -1334,7 +1315,6 @@ int idim /* id of dimension */
   return 0;
 }
 
-
 /* Return name for Fortran fill constant of specified type */
 static const char *
 f_fill_name(
@@ -1357,7 +1337,6 @@ nc_type type) {
   derror("f_fill_name: bad type code");
   return 0;
 }
-
 
 /* Generate Fortran for cleaning up and closing file */
 static void
@@ -1605,7 +1584,6 @@ cl_fortran(void) {
   fline("end");
 }
 
-
 /* invoke netcdf calls (or generate C or Fortran code) to create netcdf
  * from in-memory structure. */
 void define_netcdf(
@@ -1631,7 +1609,6 @@ const char *netcdfname) {
   free(filename);
 }
 
-
 void close_netcdf(void) {
   if (netcdf_flag)
     cl_netcdf(); /* close netcdf */
@@ -1640,7 +1617,6 @@ void close_netcdf(void) {
   if (fortran_flag) /* create Fortran code to close netcdf */
     cl_fortran();
 }
-
 
 void check_err(int stat) {
   if (stat != NC_NOERR) {
@@ -1664,7 +1640,6 @@ va_dcl           /* variable number of error args, if any */
 {
   va_list args;
 
-
   if (lineno == 1)
     (void)fprintf(stderr, "%s: %s: ", progname, cdlname);
   else
@@ -1683,7 +1658,6 @@ va_dcl           /* variable number of error args, if any */
   (void)fflush(stderr); /* to ensure log files are current */
   derror_count++;
 }
-
 
 void *
 emalloc(/* check return from malloc */
@@ -1727,7 +1701,6 @@ size_t size) /* if 0, this is really a free */
   return p;
 }
 
-
 /*
  * For generated Fortran, change 'e' to 'd' in exponent of double precision
  * constants.
@@ -1740,7 +1713,6 @@ char *cp) /* string containing double constant */
     *expchar = 'd';
   }
 }
-
 
 /* Returns non-zero if n is a power of 2, 0 otherwise */
 static int
@@ -1755,7 +1727,6 @@ int n) {
   }
   return p == 2 * n;
 }
-
 
 /*
  * Grow an integer array as necessary.
@@ -1781,7 +1752,6 @@ int **arpp) /* address of start of int array */
   *arpp = (int *)erealloc(*arpp, 2 * nar * sizeof(int));
 }
 
-
 /*
  * Grow an array of variables as necessary.
  *
@@ -1805,7 +1775,6 @@ struct vars **arpp) /* address of start of var array */
     return;
   *arpp = (struct vars *)erealloc(*arpp, 2 * nar * sizeof(struct vars));
 }
-
 
 /*
  * Grow an array of dimensions as necessary.
@@ -1831,7 +1800,6 @@ struct dims **arpp) /* address of start of var array */
   *arpp = (struct dims *)erealloc(*arpp, 2 * nar * sizeof(struct dims));
 }
 
-
 /*
  * Grow an array of attributes as necessary.
  *
@@ -1855,7 +1823,6 @@ struct atts **arpp) /* address of start of var array */
     return;
   *arpp = (struct atts *)erealloc(*arpp, 2 * nar * sizeof(struct atts));
 }
-
 
 /*
  * Replace special chars in name so it can be used in C and Fortran
@@ -1993,7 +1960,6 @@ const char *name) {
   }
   return newname;
 }
-
 
 /*
  * Replace escaped chars in CDL representation of name such as

@@ -342,7 +342,6 @@ int NC_hashmapdeactivate(NC_hashmap *map, uintptr_t data) {
   return 0;
 }
 
-
 /**************************************************/
 /* Prime table */
 

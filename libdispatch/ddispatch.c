@@ -21,7 +21,6 @@ See LICENSE.txt for license information.
 #  define getcwd _getcwd
 #endif
 
-
 /* Define vectors of zeros and ones for use with various nc_get_varX function*/
 size_t nc_sizevector0[NC_MAX_VAR_DIMS];
 size_t nc_sizevector1[NC_MAX_VAR_DIMS];

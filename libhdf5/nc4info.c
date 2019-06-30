@@ -224,7 +224,6 @@ done:
   return ret;
 }
 
-
 /* Utility to transfer a string to a buffer with escaping */
 static void
 escapify(NCbytes *buffer, const char *s) {

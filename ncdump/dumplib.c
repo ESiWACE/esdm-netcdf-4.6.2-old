@@ -62,7 +62,6 @@ float_epsilon(void) {
   return float_eps;
 }
 
-
 static double
 double_epsilon(void) {
   double double_eps;
@@ -92,12 +91,10 @@ double_epsilon(void) {
   return double_eps;
 }
 
-
 void init_epsilons(void) {
   float_eps = float_epsilon();
   double_eps = double_epsilon();
 }
-
 
 static char *has_c_format_att(int ncid, int varid);
 
@@ -138,7 +135,6 @@ sbuf_new() {
   assert(SAFEBUF_CHECK(sb));
   return sb;
 }
-
 
 /* grow buffer to at least len bytes, copying previous contents if
  * necessary */
@@ -224,7 +220,6 @@ void sbuf_free(safebuf_t *sb) {
   free(sb);
 }
 
-
 /* In case different formats specified with -d option, set them here. */
 void set_formats(int float_digits, int double_digits) {
   int res;
@@ -249,7 +244,6 @@ void set_formats(int float_digits, int double_digits) {
         + 1;
   assert(res <= sizeof(double_att_fmt));
 }
-
 
 static char *
 has_c_format_att(
@@ -288,7 +282,6 @@ int varid /* variable id */
   }
   return 0;
 }
-
 
 /* Return default format to use for a primitive type */
 const char *
@@ -387,7 +380,6 @@ prim_type_name(nc_type type) {
 static int max_type = 0;
 static int max_atomic_type = 0;
 static nctype_t **nctypes = 0; /* holds all types in a netCDF dataset */
-
 
 #ifdef USE_NETCDF4
 /* return number of user-defined types in a group and all its subgroups */
@@ -488,7 +480,6 @@ get_typeinfo(int typeid) {
 /* 	} */
 /*     } */
 /* } */
-
 
 bool_t
 ncbyte_val_equals(const nctype_t *this,
@@ -1043,7 +1034,6 @@ const char *vals /* pointer to block of values */
   return sbuf_len(sbuf);
 }
 
-
 /* Convert a compound value to a string, by using tostring function for
    each member field */
 int nccomp_typ_tostring(const nctype_t *tinfo, safebuf_t *sfbf, const void *valp) {
@@ -1341,7 +1331,6 @@ ncint64_typ_tostring,
 ncuint64_typ_tostring,
 ncstring_typ_tostring};
 
-
 /* Set function pointer of function to convert a value to a string for
  * the variable pointed to by varp. */
 void set_tostring_func(ncvar_t *varp) {
@@ -1387,7 +1376,6 @@ void set_tostring_func(ncvar_t *varp) {
 #endif /* USE_NETCDF4 */
   return;
 }
-
 
 /* Initialize typelist with primitive types.  For netCDF-3 only need primitive
    types. */
@@ -1583,7 +1571,6 @@ void init_types(int ncid) {
 #endif /* USE_NETCDF4 */
 }
 
-
 /*
  * return 1 if varid identifies a coordinate variable
  * else return 0
@@ -1645,13 +1632,11 @@ int iscoordvar(int ncid, int varid) {
   return is_coord;
 }
 
-
 /* Return true if user-defined type */
 int is_user_defined_type(nc_type type) {
   nctype_t *typeinfop = get_typeinfo(type);
   return (typeinfop->class > 0);
 }
-
 
 /*
  * Return name of type in user-allocated space, whether built-in

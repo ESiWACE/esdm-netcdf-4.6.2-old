@@ -58,7 +58,6 @@
 /* Pull parsers.  */
 #define YYPULL 1
 
-
 /* Substitute the variable and function names.  */
 #define yyparse ncgparse
 #define yylex ncglex
@@ -202,7 +201,6 @@ enum yytokentype {
   FILLVALUE = 277
 };
 #  endif
-
 
 #  if !defined YYSTYPE && !defined YYSTYPE_IS_DECLARED
 typedef int YYSTYPE;
@@ -385,7 +383,6 @@ void free(void *);      /* INFRINGES ON USER NAME SPACE */
 #    endif
 #  endif
 #endif /* ! defined yyoverflow || YYERROR_VERBOSE */
-
 
 #if (!defined yyoverflow      \
      && (!defined __cplusplus \
@@ -697,7 +694,6 @@ static const yytype_uint8 yystos[] = {
 #define YYABORT goto yyabortlab
 #define YYERROR goto yyerrorlab
 
-
 /* Like YYERROR except do call yyerror.  This remains here temporarily
    to ease the transition to the new meaning of YYERROR, for GCC.
    Once GCC version 2 has supplanted version 1, this can go.  However,
@@ -729,7 +725,6 @@ static const yytype_uint8 yystos[] = {
     }                                               \
   while (YYID(0))
 
-
 #define YYTERROR 1
 #define YYERRCODE 256
 
@@ -754,13 +749,11 @@ static const yytype_uint8 yystos[] = {
 
 #define YYRHSLOC(Rhs, K) ((Rhs)[K])
 
-
 /* This macro is provided for backward compatibility. */
 
 #ifndef YY_LOCATION_PRINT
 #  define YY_LOCATION_PRINT(File, Loc) ((void)0)
 #endif
-
 
 /* YYLEX -- calling `yylex' with the right arguments.  */
 
@@ -794,7 +787,6 @@ static const yytype_uint8 yystos[] = {
       }                                                 \
     } while (YYID(0))
 
-
 /*--------------------------------.
 | Print this symbol on YYOUTPUT.  |
 `--------------------------------*/
@@ -827,7 +819,6 @@ YYSTYPE const *const yyvaluep;
       break;
   }
 }
-
 
 /*--------------------------------.
 | Print this symbol on YYOUTPUT.  |
@@ -884,7 +875,6 @@ yytype_int16 *yytop;
         yy_stack_print((Bottom), (Top)); \
     } while (YYID(0))
 
-
 /*------------------------------------------------.
 | Report that the YYRULE is going to be reduced.  |
 `------------------------------------------------*/
@@ -930,7 +920,6 @@ int yydebug;
 #  define YY_REDUCE_PRINT(Rule)
 #endif /* !YYDEBUG */
 
-
 /* YYINITDEPTH -- initial size of the parser's stacks.  */
 #ifndef YYINITDEPTH
 #  define YYINITDEPTH 200
@@ -946,7 +935,6 @@ int yydebug;
 #ifndef YYMAXDEPTH
 #  define YYMAXDEPTH 10000
 #endif
-
 
 #if YYERROR_VERBOSE
 
@@ -1201,10 +1189,8 @@ YYSTYPE *yyvaluep;
   }
 }
 
-
 /* The lookahead symbol.  */
 int yychar;
-
 
 #ifndef YYLVAL_INITIALIZE
 #  define YYLVAL_INITIALIZE()
@@ -1219,7 +1205,6 @@ YYSTYPE yylval;
 
 /* Number of syntax errors so far.  */
 int yynerrs;
-
 
 /*----------.
 | yyparse.  |
@@ -1445,7 +1430,6 @@ yybackup:
 
   goto yynewstate;
 
-
 /*-----------------------------------------------------------.
 | yydefault -- do the default action for the current state.  |
 `-----------------------------------------------------------*/
@@ -1454,7 +1438,6 @@ yydefault:
   if (yyn == 0)
     goto yyerrlab;
   goto yyreduce;
-
 
 /*-----------------------------.
 | yyreduce -- Do a reduction.  |
@@ -1472,7 +1455,6 @@ yyreduce:
      unconditionally makes the parser a bit smaller, and it avoids a
      GCC warning that YYVAL may be used uninitialized.  */
   yyval = yyvsp[1 - yylen];
-
 
   YY_REDUCE_PRINT(yyn);
   switch (yyn) {
@@ -2202,7 +2184,6 @@ yyreduce:
       valnum++;
     } break;
 
-
 /* Line 1813 of yacc.c  */
 #line 2317 "ncgen.tab.c"
     default: break;
@@ -2239,7 +2220,6 @@ yyreduce:
     yystate = yydefgoto[yyn - YYNTOKENS];
 
   goto yynewstate;
-
 
 /*------------------------------------.
 | yyerrlab -- here on detecting error |
@@ -2284,7 +2264,6 @@ yyerrlab:
 #endif
   }
 
-
   if (yyerrstatus == 3) {
     /* If just tried and failed to reuse lookahead token after an
 	 error, discard it.  */
@@ -2304,7 +2283,6 @@ yyerrlab:
      token.  */
   goto yyerrlab1;
 
-
 /*---------------------------------------------------.
 | yyerrorlab -- error raised explicitly by YYERROR.  |
 `---------------------------------------------------*/
@@ -2323,7 +2301,6 @@ yyerrorlab:
   YY_STACK_PRINT(yyss, yyssp);
   yystate = *yyssp;
   goto yyerrlab1;
-
 
 /*-------------------------------------------------------------.
 | yyerrlab1 -- common code for both syntax error and YYERROR.  |
@@ -2346,7 +2323,6 @@ yyerrlab1:
     if (yyssp == yyss)
       YYABORT;
 
-
     yydestruct("Error: popping",
     yystos[yystate], yyvsp);
     YYPOPSTACK(1);
@@ -2358,13 +2334,11 @@ yyerrlab1:
   *++yyvsp = yylval;
   YY_IGNORE_MAYBE_UNINITIALIZED_END
 
-
   /* Shift the error token.  */
   YY_SYMBOL_PRINT("Shifting", yystos[yyn], yyvsp, yylsp);
 
   yystate = yyn;
   goto yynewstate;
-
 
 /*-------------------------------------.
 | yyacceptlab -- YYACCEPT comes here.  |
@@ -2419,10 +2393,8 @@ yyreturn:
   return YYID(yyresult);
 }
 
-
 /* Line 2076 of yacc.c  */
 #line 767 "ncgen.y"
-
 
 /* HELPER PROGRAMS */
 void defatt() {
@@ -2488,7 +2460,6 @@ int ncgwrap(void) /* returns 1 on EOF if no more input */
 {
   return 1;
 }
-
 
 /* Symbol table operations for ncgen tool */
 

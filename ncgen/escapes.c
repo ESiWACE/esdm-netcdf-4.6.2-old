@@ -721,7 +721,6 @@ char **sp           /* Return the unescaped version of yytext */
   return (p - s);
 }
 
-
 static int
 ishex(int c) {
   return ((c >= 'a' && c <= 'z')

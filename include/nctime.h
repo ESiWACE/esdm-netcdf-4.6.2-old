@@ -141,7 +141,6 @@ typedef struct timeinfo_t {
   cdCompTime origin;
 } timeinfo_t;
 
-
 #if defined(DLL_NETCDF)   /* Defined when library is a DLL */
 #  if defined(DLL_EXPORT) /* define when building the library. */
 #    define MSC_NCTIME_EXTRA __declspec(dllexport)
@@ -163,6 +162,5 @@ extern void Cde2h(double etime, CdTimeType timeType, long baseYear, CdTime *htim
 extern int cdParseRelunits(cdCalenType timetype, char *relunits, cdUnitTime *unit, cdCompTime *base_comptime);
 extern int cdSetErrOpts(int opts);
 #endif /* DLL Considerations. */
-
 
 #endif /* ifdef */

@@ -121,7 +121,6 @@ typedef union YYSTYPE YYSTYPE;
 #  define YYSTYPE_IS_DECLARED 1
 #endif
 
-
 extern YYSTYPE ncglval;
 
 int ncgparse(void);

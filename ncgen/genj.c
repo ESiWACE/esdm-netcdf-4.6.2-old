@@ -270,7 +270,6 @@ jname(Symbol *sym) {
   return name;
 }
 
-
 /*
  * Return java type name for netCDF type, given type code.
  */
@@ -386,7 +385,6 @@ genj_defineattr(Symbol *asym) {
   generate_attrdata(asym, j_generator, (Writer)genj_write, code);
   bbFree(code);
 }
-
 
 static void
 genj_definevardata(Symbol *vsym) {
@@ -585,6 +583,5 @@ int rank, size_t *start, size_t *count) {
   }
   codeflush();
 }
-
 
 #endif /*ENABLE_JAVA*/

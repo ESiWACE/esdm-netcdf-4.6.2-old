@@ -12,7 +12,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 #define CHECK_ERR                              \
   {                                            \
     if (err != NC_NOERR) {                     \

@@ -18,7 +18,6 @@
    in the file LICENSE.
    ------------------------------------------------------------------ */
 
-
 #include "bzlib_private.h"
 
 /*---------------------------------------------*/
@@ -55,7 +54,6 @@ Int32 hi) {
   }
 }
 
-
 /*---------------------------------------------*/
 #define fswap(zz1, zz2) \
   {                     \
@@ -77,7 +75,6 @@ Int32 hi) {
     }                                \
   }
 
-
 #define fmin(a, b) ((a) < (b)) ? (a) : (b)
 
 #define fpush(lz, hz) \
@@ -96,7 +93,6 @@ Int32 hi) {
 
 #define FALLBACK_QSORT_SMALL_THRESH 10
 #define FALLBACK_QSORT_STACK_SIZE 100
-
 
 static void fallbackQSort3(UInt32 *fmap,
 UInt32 *eclass,
@@ -201,7 +197,6 @@ Int32 hiSt) {
 #undef fvswap
 #undef FALLBACK_QSORT_SMALL_THRESH
 #undef FALLBACK_QSORT_STACK_SIZE
-
 
 /*---------------------------------------------*/
 /* Pre:
@@ -361,7 +356,6 @@ Int32 verb) {
 #undef ISSET_BH
 #undef WORD_BH
 #undef UNALIGNED_BH
-
 
 /*---------------------------------------------*/
 /*--- The main, O(N^2 log(N)) sorting       ---*/
@@ -540,7 +534,6 @@ Int32 *budget) {
   return False;
 }
 
-
 /*---------------------------------------------*/
 /*--
    Knuth's increments seem to work better
@@ -620,7 +613,6 @@ Int32 *budget) {
   }
 }
 
-
 /*---------------------------------------------*/
 /*--
    The following is an implementation of
@@ -682,7 +674,6 @@ static __inline__ UChar mmed3(UChar a, UChar b, UChar c) {
     dz = stackD[sp];     \
   }
 
-
 #define mnextsize(az) (nextHi[az] - nextLo[az])
 
 #define mnextswap(az, bz)    \
@@ -698,7 +689,6 @@ static __inline__ UChar mmed3(UChar a, UChar b, UChar c) {
     nextD[az] = nextD[bz];   \
     nextD[bz] = tz;          \
   }
-
 
 #define MAIN_QSORT_SMALL_THRESH 20
 #define MAIN_QSORT_DEPTH_THRESH (BZ_N_RADIX + BZ_N_QSORT)
@@ -823,7 +813,6 @@ Int32 *budget) {
 #undef MAIN_QSORT_SMALL_THRESH
 #undef MAIN_QSORT_DEPTH_THRESH
 #undef MAIN_QSORT_STACK_SIZE
-
 
 /*---------------------------------------------*/
 /* Pre:
@@ -1114,7 +1103,6 @@ Int32 *budget) {
 #undef SETMASK
 #undef CLEARMASK
 
-
 /*---------------------------------------------*/
 /* Pre:
       nblock > 0
@@ -1187,7 +1175,6 @@ void BZ2_blockSort(EState *s) {
 
   AssertH(s->origPtr != -1, 1003);
 }
-
 
 /*-------------------------------------------------------------*/
 /*--- end                                       blocksort.c ---*/

@@ -45,7 +45,6 @@ extern struct vars {
   char *lname;              /* with no "-" characters, for C and Fortran */
 } * vars;                   /* table of variables */
 
-
 extern struct atts {
   int var; /* number of variable for this attribute */
   char *name;

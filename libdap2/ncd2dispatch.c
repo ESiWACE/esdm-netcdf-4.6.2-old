@@ -1458,7 +1458,6 @@ getalldims(NCDAPCOMMON *nccomm, int visibleonly) {
   return alldims;
 }
 
-
 static NCerror
 addstringdims(NCDAPCOMMON *dapcomm) {
   /* for all variables of string type, we will need another dimension
@@ -1905,7 +1904,6 @@ computeseqcountconstraints(NCDAPCOMMON *dapcomm, CDFnode *seq, NCbytes *seqcount
   return NC_NOERR;
 }
 
-
 /* Given an existing candidate, see if we prefer newchoice */
 static CDFnode *
 prefer(CDFnode *candidate, CDFnode *newchoice) {
@@ -1974,7 +1972,6 @@ computeseqcountconstraintsr(NCDAPCOMMON *dapcomm, CDFnode *node, CDFnode **candi
     computeseqcountconstraintsr(dapcomm, compound, candidatep);
   }
 }
-
 
 static unsigned long
 cdftotalsize(NClist *dimensions) {
@@ -2192,7 +2189,6 @@ suppressunusablevars(NCDAPCOMMON *dapcomm) {
   nclistfree(path);
   return NC_NOERR;
 }
-
 
 /*
 For variables which have a zero size dimension,
@@ -2484,7 +2480,6 @@ int NCD2_inq_grpname(int ncid, char *p) {
   ret = nc_inq_grpname(getnc3id(drno), p);
   return THROW(ret);
 }
-
 
 int NCD2_inq_unlimdims(int ncid, int *p2, int *p3) {
   NC *drno;

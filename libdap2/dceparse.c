@@ -46,7 +46,6 @@ void selections(DCEparsestate *state, Object list0) {
 #endif
 }
 
-
 Object
 projectionlist(DCEparsestate *state, Object list0, Object decl) {
   return collectlist(list0, decl);
@@ -104,7 +103,6 @@ segment(DCEparsestate *state, Object name, Object slices0) {
 #endif
   return segment;
 }
-
 
 Object
 rangelist(DCEparsestate *state, Object list0, Object decl) {
@@ -231,7 +229,6 @@ Object
 arg_list(DCEparsestate *state, Object list0, Object decl) {
   return collectlist(list0, decl);
 }
-
 
 Object
 value_list(DCEparsestate *state, Object list0, Object decl) {

@@ -51,7 +51,6 @@ struct ncvar { /* variable */
   int natts;
 };
 
-
 #define LEN_OF(array) ((sizeof array) / (sizeof array[0]))
 
 /* Number of dimensions.  Changing this requires other changes as well. */
@@ -104,7 +103,6 @@ long val;                   /* value to store */
       break;
   }
 }
-
 
 /*
  * Compare typed array element with specified value, that is return
@@ -191,7 +189,6 @@ long val;                  /* value to compare with */
     ;                                           \
   printf("time for %-20.20s %10.3f msec\n",     \
   time_mess, TMelapsed * 1000. / (TMreps + 1))
-
 
 /*
  * For each type of variable, put a four-dimensional hypercube of values
@@ -464,7 +461,6 @@ usage(argv) char **argv;
     fprintf(stderr, "dim%d ", i);
   fprintf(stderr, "\n");
 }
-
 
 int
 main(argc, argv) int argc;

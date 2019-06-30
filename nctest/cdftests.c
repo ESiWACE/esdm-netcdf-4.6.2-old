@@ -17,7 +17,6 @@
 
 #define LEN_OF(array) ((sizeof array) / (sizeof array[0]))
 
-
 /* 
  * Test nccreate
  *    create a netcdf with no data, close it, test that it can be opened
@@ -78,7 +77,6 @@ const char *path; /* name of netCDF file to create */
 
   return nerrs;
 }
-
 
 /* 
  * Test ncopen
@@ -156,7 +154,6 @@ const char *path; /* name of writable netcdf file to open */
     return ++nerrs;
   }
 
-
   if ((ncid0 = ncopen(path, NC_WRITE)) == -1) {
     error("%s: ncopen failed with NC_WRITE mode", pname);
     return ++nerrs;
@@ -226,7 +223,6 @@ const char *path; /* name of writable netcdf file to open */
 
   return nerrs;
 }
-
 
 /*
  * Test ncredef
@@ -323,7 +319,6 @@ const char *path; /* name of writable netcdf file to open */
 
   return nerrs;
 }
-
 
 /* 
  * Test ncendef
@@ -426,7 +421,6 @@ const char *path; /* name of writable netcdf file to open */
   return nerrs;
 }
 
-
 /* 
  * Test ncclose
  *    try on open netCDF
@@ -480,7 +474,6 @@ const char *path; /* name of writable netcdf file to open */
 
   return nerrs;
 }
-
 
 /* 
  * Test ncinquire
@@ -653,7 +646,6 @@ const char *path; /* name of writable netcdf file to open */
   return nerrs;
 }
 
-
 /*
  * Test ncsync
  *    try in define mode, check error
@@ -796,7 +788,6 @@ const char *path; /* name of writable netcdf file to open */
 
   return nerrs;
 }
-
 
 /* 
  * Test ncabort

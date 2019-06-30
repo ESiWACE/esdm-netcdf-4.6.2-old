@@ -26,7 +26,6 @@ static void generate_fieldarray(Symbol *, NCConstant *, Dimset *, Bytebuffer *, 
 
 /**************************************************/
 
-
 int generator_getstate(Generator *generator, void **statep) {
   if (statep) *statep = (void *)generator->globalstate;
   return 1;
@@ -95,7 +94,6 @@ void generate_vardata(Symbol *vsym, Generator *generator, Writer writer, Bytebuf
     generate_array(vsym, code, filler, generator, writer);
   }
 }
-
 
 /**
 
@@ -411,7 +409,6 @@ Bytebuffer *codebuf, Datalist *filler, Generator *generator) {
     generator->listend(generator, basetype, NULL, LISTFIELDARRAY, uid, i, codebuf);
   }
 }
-
 
 /* An opaque string value might not conform
    to the size of the opaque to which it is being

@@ -45,7 +45,6 @@ extern char *getmarkcdf4(void);
 extern void markcdf5(const char *msg);
 extern char *getmarkcdf4(void);
 
-
 /*
 All external procedures in ncgen.h have been moved to this file.
 */
@@ -152,7 +151,6 @@ extern void jline(char *);
 extern void jlined(int, char *);
 extern void jflush(void);
 #endif
-
 
 /* from: main.c */
 extern int k_flag;           /* -k value from command line*/

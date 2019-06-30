@@ -132,7 +132,6 @@ bin_listend(Generator *generator, Symbol *tsym, void *liststate, ListClass lc, i
   return 1;
 }
 
-
 static int
 bin_vlendecl(Generator *generator, Symbol *tsym, Bytebuffer *buf, int uid, size_t count, ...) {
   va_list ap;
@@ -526,7 +525,6 @@ read_alignment(ptrdiff_t offset, unsigned long alignment) {
   if (delta == 0) return offset;
   return offset + (alignment - delta);
 }
-
 
 static int
 bin_reclaim_vlen(Symbol *tsym, Reclaim *reclaimer) {

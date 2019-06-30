@@ -7,7 +7,6 @@
    $Id: tst_comp.c,v 1.7 2008/10/20 01:48:08 ed Exp $
 */
 
-
 #include "err_macros.h"
 #include <nc_tests.h>
 #include <netcdf.h>

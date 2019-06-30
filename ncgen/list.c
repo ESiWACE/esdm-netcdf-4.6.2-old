@@ -169,7 +169,6 @@ int listelemremove(List *l, void *elem) {
   return found;
 }
 
-
 /* Extends list to include a unique operator 
    which remove duplicate values; NULL values removed
    return value is always 1.

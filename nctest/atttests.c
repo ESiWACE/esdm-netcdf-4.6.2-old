@@ -22,7 +22,6 @@
 
 #define LEN_OF(array) ((sizeof array) / (sizeof array[0]))
 
-
 /*
  * Test ncattput
  *    check that new attribute put works in define mode
@@ -369,7 +368,6 @@ const char *path; /* name of writable netcdf file to open */
   return nerrs;
 }
 
-
 /*
  * Test ncattinq
  *    check returned values of properly created attributes
@@ -671,7 +669,6 @@ const char *path; /* name of writable netcdf file to open */
   free(uu.dims);
   return nerrs;
 }
-
 
 /*
  * Test ncattcopy
@@ -1010,7 +1007,6 @@ const char *path2; /* name of output netcdf file to create */
   return nerrs;
 }
 
-
 /*
  * Test ncattname
  *    check that NC_GLOBAL variable id works
@@ -1211,7 +1207,6 @@ const char *path; /* name of writable netcdf file to open */
   return nerrs;
 }
 
-
 /*
  * Test ncattrename
  *    check that proper rename worked with ncattinq, ncattget
@@ -1373,7 +1368,6 @@ const char *path; /* name of writable netcdf file to open */
 
   return nerrs;
 }
-
 
 /*
  * Test ncattdel

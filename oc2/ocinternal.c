@@ -91,7 +91,6 @@ ocinternalinitialize(void) {
   return OCTHROW(stat);
 }
 
-
 /**************************************************/
 OCerror
 ocopen(OCstate **statep, const char *url) {
@@ -558,7 +557,6 @@ ocget_rcproperties(OCstate *state) {
 #endif
   return ocerr;
 }
-
 
 /*
     Set curl properties for link based on fields in the state.

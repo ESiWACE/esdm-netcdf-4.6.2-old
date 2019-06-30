@@ -19,7 +19,6 @@ int main() {
   int v1, v2, v3, v4;
   int dimids[2];
 
-
   nc_create(FILENAME, NC_CLOBBER, &id);
   nc_redef(id);
 

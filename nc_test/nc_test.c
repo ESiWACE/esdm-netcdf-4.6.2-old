@@ -11,7 +11,6 @@ int numTypes; /* number of netCDF data types to test */
 #include "config.h"
 #include "tests.h"
 
-
 /*
  * Test driver for netCDF-3 interface.  This program performs tests against
  * the netCDF-3 specification for all user-level functions in an
@@ -73,7 +72,6 @@ char scratch[] = "scratch.nc"; /* writable scratch file */
     print("ok\n");                     \
   else                                 \
     print("\n\t### %d FAILURES TESTING %s! ###\n", nfails, #func)
-
 
 #if 1 /* both CRAY MPP and OSF/1 Alpha systems need this */
 #  include <signal.h>
@@ -146,7 +144,6 @@ int main(int argc, char *argv[]) {
             information re: the immediate 'continue' */
       case NC_FORMAT_NETCDF4: /* actually it's _CLASSIC. */
         continue;             /* loop i */
-
 
       case NC_FORMAT_NETCDF4_CLASSIC:
 #ifdef USE_NETCDF4

@@ -8,7 +8,6 @@
 #define XSTRINGIFY(s) #s
 #define STRINGIFY(s) XSTRINGIFY(s)
 
-
 /**
 usage: findtestserver dap2|dap4 suffix [serverlist]
 
@@ -28,7 +27,6 @@ usage() {
   fprintf(stderr, "usage: findtestserver dap2|dap4 suffix [serverlist]\n");
   exit(1);
 }
-
 
 int main(int argc, char **argv) {
   char *url = NULL;

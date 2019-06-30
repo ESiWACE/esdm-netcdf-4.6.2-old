@@ -130,7 +130,6 @@ const char *path; /* name of writable netcdf to open */
   return nerrs;
 }
 
-
 /*
  * Test ncdimid
  *    check return with defined dimension in both modes
@@ -213,7 +212,6 @@ const char *path; /* name of writable netcdf file to open */
 
   return nerrs;
 }
-
 
 /*
  * Test ncdiminq

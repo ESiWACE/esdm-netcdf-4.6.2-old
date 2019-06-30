@@ -18,7 +18,6 @@
    in the file LICENSE.
    ------------------------------------------------------------------ */
 
-
 #ifndef _BZLIB_PRIVATE_H
 #  define _BZLIB_PRIVATE_H
 
@@ -31,7 +30,6 @@
 #  endif
 
 #  include "bzlib.h"
-
 
 /*-- General stuff. --*/
 
@@ -117,10 +115,8 @@ extern void bz_internal_error(int errcode);
 
 #  endif
 
-
 #  define BZALLOC(nnn) (strm->bzalloc)(strm->opaque, (nnn), 1)
 #  define BZFREE(ppp) (strm->bzfree)(strm->opaque, (ppp))
-
 
 /*-- Header bytes. --*/
 
@@ -142,7 +138,6 @@ extern void bz_internal_error(int errcode);
 #  define BZ_N_ITERS 4
 
 #  define BZ_MAX_SELECTORS (2 + (900000 / BZ_G_SIZE))
-
 
 /*-- Stuff for randomising repetitive blocks. --*/
 
@@ -166,7 +161,6 @@ extern Int32 BZ2_rNums[512];
     }                                    \
     s->rNToGo--;
 
-
 /*-- Stuff for doing CRCs. --*/
 
 extern UInt32 BZ2_crc32Table[256];
@@ -186,7 +180,6 @@ extern UInt32 BZ2_crc32Table[256];
       crcVar = (crcVar << 8) ^ BZ2_crc32Table[(crcVar >> 24) ^ ((UChar)cha)]; \
     }
 
-
 /*-- States and modes for compression. --*/
 
 #  define BZ_M_IDLE 1
@@ -201,7 +194,6 @@ extern UInt32 BZ2_crc32Table[256];
 #  define BZ_N_QSORT 12
 #  define BZ_N_SHELL 18
 #  define BZ_N_OVERSHOOT (BZ_N_RADIX + BZ_N_QSORT + BZ_N_SHELL + 2)
-
 
 /*-- Structure holding all the compression-side stuff. --*/
 
@@ -275,7 +267,6 @@ typedef struct {
 
 } EState;
 
-
 /*-- externs for compression. --*/
 
 extern void
@@ -292,7 +283,6 @@ BZ2_hbAssignCodes(Int32 *, UChar *, Int32, Int32, Int32);
 
 extern void
 BZ2_hbMakeCodeLengths(UChar *, Int32 *, Int32, Int32);
-
 
 /*-- states for decompression. --*/
 
@@ -341,12 +331,10 @@ BZ2_hbMakeCodeLengths(UChar *, Int32 *, Int32, Int32);
 #  define BZ_X_CCRC_3 49
 #  define BZ_X_CCRC_4 50
 
-
 /*-- Constants for the fast MTF decoder. --*/
 
 #  define MTFA_SIZE 4096
 #  define MTFL_SIZE 16
-
 
 /*-- Structure holding all the decompression-side stuff. --*/
 
@@ -441,7 +429,6 @@ typedef struct {
 
 } DState;
 
-
 /*-- Macros for decompression. --*/
 
 #  define BZ_GET_FAST(cccc)                                                \
@@ -484,7 +471,6 @@ typedef struct {
     cccc = BZ2_indexIntoF(s->tPos, s->cftab);                              \
     s->tPos = GET_LL(s->tPos);
 
-
 /*-- externs for decompression. --*/
 
 extern Int32
@@ -497,9 +483,7 @@ extern void
 BZ2_hbCreateDecodeTables(Int32 *, Int32 *, Int32 *, UChar *,
 Int32, Int32, Int32);
 
-
 #endif
-
 
 /*-- BZ_NO_STDIO seems to make NULL disappear on some platforms. --*/
 
@@ -508,7 +492,6 @@ Int32, Int32, Int32);
 #    define NULL 0
 #  endif
 #endif
-
 
 /*-------------------------------------------------------------*/
 /*--- end                                   bzlib_private.h ---*/

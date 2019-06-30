@@ -135,7 +135,6 @@ usage(void) {
   nc_inq_libvers());
 }
 
-
 /*
  * convert pathname of netcdf file into name for cdl unit, by taking
  * last component of path and stripping off any extension.
@@ -222,7 +221,6 @@ prim_type_name(nc_type type) {
   }
 }
 
-
 /*
  * Remove trailing zeros (after decimal point) but not trailing decimal
  * point from ss, a string representation of a floating-point number that
@@ -251,7 +249,6 @@ tztrim(char *ss) {
   return;
 }
 
-
 /* Return file type string */
 static const char *
 kind_string(int kind) {
@@ -271,7 +268,6 @@ kind_string(int kind) {
       return "unrecognized";
   }
 }
-
 
 /* Return extended format string */
 static const char *
@@ -462,7 +458,6 @@ const char *string) {
   printf("\"");
 }
 
-
 /*
  * Print NcML attribute string, for text attributes.
  */
@@ -520,7 +515,6 @@ const char *string) {
     }
   printf("\"");
 }
-
 
 /*
  * Print list of attribute values, for attributes of primitive types.
@@ -646,7 +640,6 @@ const void *vals) {
     }
   }
 }
-
 
 /*
  * Print list of numeric attribute values to string for use in NcML output.
@@ -1203,7 +1196,6 @@ int ia) {
     free(attvals);
 }
 
-
 /* Print optional NcML attribute for a variable's shape */
 static void
 pr_shape(ncvar_t *varp, ncdim_t *dims) {
@@ -1228,7 +1220,6 @@ pr_shape(ncvar_t *varp, ncdim_t *dims) {
 }
 
 #ifdef USE_NETCDF4
-
 
 /* Print an enum type declaration */
 static void
@@ -1308,7 +1299,6 @@ print_enum_type(int ncid, nc_type typeid) {
     lput(safe_buf);
   }
 }
-
 
 /* Print a user-defined type declaration */
 static void
@@ -1891,7 +1881,6 @@ done:
     freeidlist(vlist);
 }
 
-
 static void
 do_ncdump(int ncid, const char *path) {
   char *esc_specname;
@@ -1905,7 +1894,6 @@ do_ncdump(int ncid, const char *path) {
   indent_out();
   printf("}\n");
 }
-
 
 static void
 do_ncdumpx(int ncid, const char *path) {
@@ -2038,7 +2026,6 @@ set_sigdigs(const char *optarg) {
   set_formats(flt_digits, dbl_digits);
 }
 
-
 /*
  * Extract the significant-digits specifiers from the -p argument on the
  * command-line, set flags so we can override C_format attributes (if any),
@@ -2070,7 +2057,6 @@ set_precision(const char *optarg) {
   }
   set_formats(flt_digits, dbl_digits);
 }
-
 
 #ifdef USE_DAP
 #  define DAP_CLIENT_CACHE_DIRECTIVE "[cache]"

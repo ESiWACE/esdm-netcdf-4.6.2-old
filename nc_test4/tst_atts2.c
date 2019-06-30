@@ -62,7 +62,6 @@ int main(int argc, char **argv) {
     if (nc_insert_compound(ncid[1], typeid, I2_NAME,
         NC_COMPOUND_OFFSET(struct s2, i2), NC_INT)) ERR;
 
-
     /* Write an att in one file. */
     if (nc_put_att(ncid[0], NC_GLOBAL, ATT_NAME3, typeid, DIM_LEN,
         data)) ERR;

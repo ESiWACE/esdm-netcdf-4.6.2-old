@@ -21,7 +21,6 @@ struct GETodometer {
   size_t stop[NC_MAX_VAR_DIMS];
 };
 
-
 /**
  * @internal Initialize odometer.
  *
@@ -437,7 +436,6 @@ const ptrdiff_t *imapp, void *value0, nc_type memtype) {
         goto done;
       }
     }
-
 
     /*
        * Initialize I/O parameters.
@@ -1334,6 +1332,5 @@ const ptrdiff_t *imapp, char **ip) {
 }
 /** \} */
 #endif /*USE_NETCDF4*/
-
 
 /*! \} */ /* End of named group... */

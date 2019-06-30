@@ -153,7 +153,6 @@ elem_NC_attrarray(const NC_attrarray *ncap, size_t elem);
 
 /* End defined in attr.c */
 
-
 /*
  * NC variable: description and data
  */

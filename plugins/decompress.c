@@ -18,9 +18,7 @@
    in the file LICENSE.
    ------------------------------------------------------------------ */
 
-
 #include "bzlib_private.h"
-
 
 /*---------------------------------------------------*/
 static void makeMaps_d(DState *s) {
@@ -32,7 +30,6 @@ static void makeMaps_d(DState *s) {
       s->nInUse++;
     }
 }
-
 
 /*---------------------------------------------------*/
 #define RETURN(rrr)             \
@@ -99,7 +96,6 @@ static void makeMaps_d(DState *s) {
       RETURN(BZ_DATA_ERROR);                      \
     lval = gPerm[zvec - gBase[zn]];               \
   }
-
 
 /*---------------------------------------------------*/
 Int32 BZ2_decompress(DState *s) {
@@ -587,7 +583,6 @@ Int32 BZ2_decompress(DState *s) {
 
     RETURN(BZ_OK);
 
-
   endhdr_2:
 
     GET_UCHAR(BZ_X_ENDHDR_2, uc);
@@ -648,7 +643,6 @@ save_state_and_return:
 
   return retVal;
 }
-
 
 /*-------------------------------------------------------------*/
 /*--- end                                      decompress.c ---*/

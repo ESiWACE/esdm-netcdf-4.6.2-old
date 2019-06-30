@@ -58,14 +58,12 @@
 /* Pull parsers.  */
 #define YYPULL 1
 
-
 /* Substitute the variable and function names.  */
 #define yyparse dceparse
 #define yylex dcelex
 #define yyerror dceerror
 #define yydebug dcedebug
 #define yynerrs dcenerrs
-
 
 /* Copy the first part of user declarations.  */
 #line 11 "dce.y" /* yacc.c:339  */
@@ -126,7 +124,6 @@ typedef int YYSTYPE;
 #    define YYSTYPE_IS_TRIVIAL 1
 #    define YYSTYPE_IS_DECLARED 1
 #  endif
-
 
 int dceparse(DCEparsestate *parsestate);
 
@@ -244,7 +241,6 @@ typedef short int yytype_int16;
 #  define YY_INITIAL_VALUE(Value) /* Nothing. */
 #endif
 
-
 #if !defined yyoverflow || YYERROR_VERBOSE
 
 /* The parser invokes alloca or malloc; define the necessary symbols.  */
@@ -314,7 +310,6 @@ void free(void *);      /* INFRINGES ON USER NAME SPACE */
 #    endif
 #  endif
 #endif /* ! defined yyoverflow || YYERROR_VERBOSE */
-
 
 #if (!defined yyoverflow      \
      && (!defined __cplusplus \
@@ -564,7 +559,6 @@ static const yytype_uint8 yyr2[] = {
 3, 1, 2, 1, 2, 3, 4, 1, 3, 1,
 1, 1, 2, 2, 2, 2, 1, 1, 1, 1};
 
-
 #define yyerrok (yyerrstatus = 0)
 #define yyclearin (yychar = YYEMPTY)
 #define YYEMPTY (-2)
@@ -573,7 +567,6 @@ static const yytype_uint8 yyr2[] = {
 #define YYACCEPT goto yyacceptlab
 #define YYABORT goto yyabortlab
 #define YYERROR goto yyerrorlab
-
 
 #define YYRECOVERING() (!!yyerrstatus)
 
@@ -595,7 +588,6 @@ static const yytype_uint8 yyr2[] = {
 #define YYTERROR 1
 #define YYERRCODE 256
 
-
 /* Enable debugging if requested.  */
 #if YYDEBUG
 
@@ -615,7 +607,6 @@ static const yytype_uint8 yyr2[] = {
 #    define YY_LOCATION_PRINT(File, Loc) ((void)0)
 #  endif
 
-
 #  define YY_SYMBOL_PRINT(Title, Type, Value, Location) \
     do {                                                \
       if (yydebug) {                                    \
@@ -625,7 +616,6 @@ static const yytype_uint8 yyr2[] = {
         YYFPRINTF(stderr, "\n");                        \
       }                                                 \
     } while (0)
-
 
 /*----------------------------------------.
 | Print this symbol's value on YYOUTPUT.  |
@@ -644,7 +634,6 @@ yy_symbol_value_print(FILE *yyoutput, int yytype, YYSTYPE const *const yyvaluep,
 #  endif
   YYUSE(yytype);
 }
-
 
 /*--------------------------------.
 | Print this symbol on YYOUTPUT.  |
@@ -679,7 +668,6 @@ yy_stack_print(yytype_int16 *yybottom, yytype_int16 *yytop) {
       if (yydebug)                       \
         yy_stack_print((Bottom), (Top)); \
     } while (0)
-
 
 /*------------------------------------------------.
 | Report that the YYRULE is going to be reduced.  |
@@ -718,7 +706,6 @@ int yydebug;
 #  define YY_REDUCE_PRINT(Rule)
 #endif /* !YYDEBUG */
 
-
 /* YYINITDEPTH -- initial size of the parser's stacks.  */
 #ifndef YYINITDEPTH
 #  define YYINITDEPTH 200
@@ -734,7 +721,6 @@ int yydebug;
 #ifndef YYMAXDEPTH
 #  define YYMAXDEPTH 10000
 #endif
-
 
 #if YYERROR_VERBOSE
 
@@ -960,7 +946,6 @@ yydestruct(const char *yymsg, int yytype, YYSTYPE *yyvaluep, DCEparsestate *pars
   YY_IGNORE_MAYBE_UNINITIALIZED_END
 }
 
-
 /*----------.
 | yyparse.  |
 `----------*/
@@ -968,7 +953,6 @@ yydestruct(const char *yymsg, int yytype, YYSTYPE *yyvaluep, DCEparsestate *pars
 int yyparse(DCEparsestate *parsestate) {
   /* The lookahead symbol.  */
   int yychar;
-
 
   /* The semantic value of the lookahead symbol.  */
   /* Default value used for initialization, for pacifying older GCCs
@@ -1172,7 +1156,6 @@ yybackup:
 
   goto yynewstate;
 
-
 /*-----------------------------------------------------------.
 | yydefault -- do the default action for the current state.  |
 `-----------------------------------------------------------*/
@@ -1181,7 +1164,6 @@ yydefault:
   if (yyn == 0)
     goto yyerrlab;
   goto yyreduce;
-
 
 /*-----------------------------.
 | yyreduce -- Do a reduction.  |
@@ -1199,7 +1181,6 @@ yyreduce:
      unconditionally makes the parser a bit smaller, and it avoids a
      GCC warning that YYVAL may be used uninitialized.  */
   yyval = yyvsp[1 - yylen];
-
 
   YY_REDUCE_PRINT(yyn);
   switch (yyn) {
@@ -1619,7 +1600,6 @@ yyreduce:
 #line 1586 "dcetab.c" /* yacc.c:1646  */
     break;
 
-
 #line 1590 "dcetab.c" /* yacc.c:1646  */
     default: break;
   }
@@ -1655,7 +1635,6 @@ yyreduce:
     yystate = yydefgoto[yyn - YYNTOKENS];
 
   goto yynewstate;
-
 
 /*--------------------------------------.
 | yyerrlab -- here on detecting error.  |
@@ -1700,7 +1679,6 @@ yyerrlab:
 #endif
   }
 
-
   if (yyerrstatus == 3) {
     /* If just tried and failed to reuse lookahead token after an
          error, discard it.  */
@@ -1720,7 +1698,6 @@ yyerrlab:
      token.  */
   goto yyerrlab1;
 
-
 /*---------------------------------------------------.
 | yyerrorlab -- error raised explicitly by YYERROR.  |
 `---------------------------------------------------*/
@@ -1739,7 +1716,6 @@ yyerrorlab:
   YY_STACK_PRINT(yyss, yyssp);
   yystate = *yyssp;
   goto yyerrlab1;
-
 
 /*-------------------------------------------------------------.
 | yyerrlab1 -- common code for both syntax error and YYERROR.  |
@@ -1762,7 +1738,6 @@ yyerrlab1:
     if (yyssp == yyss)
       YYABORT;
 
-
     yydestruct("Error: popping",
     yystos[yystate], yyvsp, parsestate);
     YYPOPSTACK(1);
@@ -1774,13 +1749,11 @@ yyerrlab1:
   *++yyvsp = yylval;
   YY_IGNORE_MAYBE_UNINITIALIZED_END
 
-
   /* Shift the error token.  */
   YY_SYMBOL_PRINT("Shifting", yystos[yyn], yyvsp, yylsp);
 
   yystate = yyn;
   goto yynewstate;
-
 
 /*-------------------------------------.
 | yyacceptlab -- YYACCEPT comes here.  |

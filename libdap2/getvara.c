@@ -3,7 +3,6 @@
  *   See netcdf/COPYRIGHT file for copying and redistribuution conditions.
  *********************************************************************/
 
-
 #include "dapdump.h"
 #include "dapincludes.h"
 #include "dapodom.h"
@@ -1237,7 +1236,6 @@ done:
   return THROW(ncstat);
 }
 
-
 /*
 Match nodes in pattern tree to nodes in target tree;
 pattern tree is typically a structural superset of target tree.
@@ -1412,7 +1410,6 @@ nc_type dsttype0) {
       break;
     default: break;
   }
-
 
   odom = dapodom_new(ncrank, start, edges, stride, NULL);
 

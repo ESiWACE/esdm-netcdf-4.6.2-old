@@ -17,7 +17,6 @@ static OCtype octypefor(Object etype);
 static NClist *scopeduplicates(NClist *list);
 static int check_int32(char *val, long *value);
 
-
 /****************************************************/
 
 /* Switch to DAS parsing SCAN_WORD definition */
@@ -35,7 +34,6 @@ void dap_tagparse(DAPparsestate *state, int kind) {
       fprintf(stderr, "tagparse: Unknown tag argument: %d\n", kind);
   }
 }
-
 
 Object
 dap_datasetbody(DAPparsestate *state, Object name, Object decls) {

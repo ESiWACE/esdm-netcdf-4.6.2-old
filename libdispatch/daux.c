@@ -48,7 +48,6 @@ struct NCAUX_CMPD {
   size_t alignment;
 };
 
-
 /* It is helpful to have a structure that contains memory and an offset */
 typedef struct Position {
   char *memory;
@@ -269,7 +268,6 @@ done:
 }
 
 #endif /*USE_NETCDF4*/
-
 
 /**************************************************/
 

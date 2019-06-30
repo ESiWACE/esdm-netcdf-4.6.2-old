@@ -195,7 +195,6 @@ extern void generate_attrdata(struct Symbol *, Generator *, Writer writer, Byteb
 extern void generate_vardata(struct Symbol *, Generator *, Writer writer, Bytebuffer *);
 extern void generate_basetype(struct Symbol *, NCConstant *, Bytebuffer *, Datalist *, Generator *);
 
-
 /* Obsolete */
 #if 0
 Datasrc* datalist2src(Datalist* list);
