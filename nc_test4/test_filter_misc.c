@@ -38,14 +38,14 @@ static unsigned int baseline[NPARAMS];
 
 #define spec "32768, -17b, 23ub, -25S, 27US, 77, 93U, 789f, 12345678.12345678d, -9223372036854775807L, 18446744073709551615UL"
 
-static size_t dimsize    = DEFAULTDIMSIZE;
-static size_t chunksize  = DEFAULTCHUNKSIZE;
+static size_t dimsize = DEFAULTDIMSIZE;
+static size_t chunksize = DEFAULTCHUNKSIZE;
 static size_t actualdims = DEFAULTACTUALDIMS;
 static size_t pattern[MAXDIMS];
 
-static size_t totalproduct  = 1; /* x-product over max dims */
+static size_t totalproduct = 1;  /* x-product over max dims */
 static size_t actualproduct = 1; /* x-product over actualdims */
-static size_t chunkproduct  = 1; /* x-product over actual chunks */
+static size_t chunkproduct = 1;  /* x-product over actual chunks */
 
 static size_t dims[MAXDIMS];
 static size_t chunks[MAXDIMS];
@@ -55,11 +55,11 @@ static int nerrs = 0;
 static int ncid, varid;
 static int dimids[MAXDIMS];
 static size_t odom[MAXDIMS];
-static float *array    = NULL;
+static float *array = NULL;
 static float *expected = NULL;
 
 static unsigned int filterid = 0;
-static size_t nparams        = 0;
+static size_t nparams = 0;
 static unsigned int params[MAXPARAMS];
 
 /* Forward */
@@ -213,8 +213,8 @@ fill(void) {
       expected[i] = (float)i;
   } else {
     while (odom_more()) {
-      int offset       = odom_offset();
-      float expect     = expectedvalue();
+      int offset = odom_offset();
+      float expect = expectedvalue();
       expected[offset] = expect;
       odom_next();
     }
@@ -240,7 +240,7 @@ compare(void) {
   } else {
     odom_reset();
     while (odom_more()) {
-      int offset   = odom_offset();
+      int offset = odom_offset();
       float expect = expectedvalue();
       if (array[offset] != expect) {
         fprintf(stderr, "data mismatch: array[%d]=%f expected=%f\n",
@@ -402,11 +402,11 @@ static void
 init(int argc, char **argv) {
   int i;
   /* Setup various variables */
-  totalproduct  = 1;
+  totalproduct = 1;
   actualproduct = 1;
-  chunkproduct  = 1;
+  chunkproduct = 1;
   for (i = 0; i < MAXDIMS; i++) {
-    dims[i]   = dimsize;
+    dims[i] = dimsize;
     chunks[i] = (pattern[i] == 1 ? 1 : chunksize);
     totalproduct *= dims[i];
     if (i < actualdims) {
@@ -415,7 +415,7 @@ init(int argc, char **argv) {
     }
   }
   /* Allocate max size */
-  array    = (float *)calloc(1, sizeof(float) * actualproduct);
+  array = (float *)calloc(1, sizeof(float) * actualproduct);
   expected = (float *)calloc(1, sizeof(float) * actualproduct);
 }
 

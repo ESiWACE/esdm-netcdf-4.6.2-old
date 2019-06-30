@@ -68,9 +68,9 @@ static char HDF5_SIGNATURE[MAGIC_NUMBER_LEN] = "\211HDF\r\n\032\n";
 
 #ifdef USE_NETCDF4
 /* User-defined formats. */
-NC_Dispatch *UDF0_dispatch_table                    = NULL;
+NC_Dispatch *UDF0_dispatch_table = NULL;
 char UDF0_magic_number[NC_MAX_MAGIC_NUMBER_LEN + 1] = "";
-NC_Dispatch *UDF1_dispatch_table                    = NULL;
+NC_Dispatch *UDF1_dispatch_table = NULL;
 char UDF1_magic_number[NC_MAX_MAGIC_NUMBER_LEN + 1] = "";
 #endif /* USE_NETCDF4 */
 
@@ -209,16 +209,16 @@ static int
 NC_interpret_magic_number(char *magic, int *model, int *version) {
   int status = NC_NOERR;
   /* Look at the magic number */
-  *model   = 0;
+  *model = 0;
   *version = 0;
 #ifdef USE_NETCDF4
   if (strlen(UDF0_magic_number) && !strncmp(UDF0_magic_number, magic, strlen(UDF0_magic_number))) {
-    *model   = NC_FORMATX_UDF0;
+    *model = NC_FORMATX_UDF0;
     *version = 6; /* redundant */
     goto done;
   }
   if (strlen(UDF1_magic_number) && !strncmp(UDF1_magic_number, magic, strlen(UDF1_magic_number))) {
-    *model   = NC_FORMATX_UDF1;
+    *model = NC_FORMATX_UDF1;
     *version = 7; /* redundant */
     goto done;
   }
@@ -226,30 +226,30 @@ NC_interpret_magic_number(char *magic, int *model, int *version) {
 
   /* Use the complete magic number string for HDF5 */
   if (memcmp(magic, HDF5_SIGNATURE, sizeof(HDF5_SIGNATURE)) == 0) {
-    *model   = NC_FORMATX_NC4;
+    *model = NC_FORMATX_NC4;
     *version = 5; /* redundant */
     goto done;
   }
   if (magic[0] == '\016' && magic[1] == '\003'
       && magic[2] == '\023' && magic[3] == '\001') {
-    *model   = NC_FORMATX_NC_HDF4;
+    *model = NC_FORMATX_NC_HDF4;
     *version = 4; /* redundant */
     goto done;
   }
   if (magic[0] == 'C' && magic[1] == 'D' && magic[2] == 'F') {
     if (magic[3] == '\001') {
       *version = 1; /* netcdf classic version 1 */
-      *model   = NC_FORMATX_NC3;
+      *model = NC_FORMATX_NC3;
       goto done;
     }
     if (magic[3] == '\002') {
       *version = 2; /* netcdf classic version 2 */
-      *model   = NC_FORMATX_NC3;
+      *model = NC_FORMATX_NC3;
       goto done;
     }
     if (magic[3] == '\005') {
       *version = 5; /* cdf5 file */
-      *model   = NC_FORMATX_NC3;
+      *model = NC_FORMATX_NC3;
       goto done;
     }
   }
@@ -280,14 +280,14 @@ static int
 NC_check_file_type(const char *path, int flags, int use_parallel,
 void *parameters, int *model, int *version) {
   char magic[MAGIC_NUMBER_LEN];
-  int status   = NC_NOERR;
+  int status = NC_NOERR;
   int diskless = ((flags & NC_DISKLESS) == NC_DISKLESS);
   int inmemory = ((flags & NC_INMEMORY) == NC_INMEMORY);
-  int mmap     = ((flags & NC_MMAP) == NC_MMAP);
+  int mmap = ((flags & NC_MMAP) == NC_MMAP);
 
   struct MagicFile file;
 
-  *model   = 0;
+  *model = 0;
   *version = 0;
 
   /* NC_INMEMORY and NC_DISKLESS and NC_MMAP are all mutually exclusive */
@@ -311,10 +311,10 @@ void *parameters, int *model, int *version) {
   }
 
   memset((void *)&file, 0, sizeof(file));
-  file.path         = path; /* do not free */
-  file.parameters   = parameters;
-  file.inmemory     = inmemory;
-  file.diskless     = diskless;
+  file.path = path; /* do not free */
+  file.parameters = parameters;
+  file.inmemory = inmemory;
+  file.diskless = diskless;
   file.use_parallel = use_parallel;
 
   status = openmagic(&file);
@@ -327,8 +327,8 @@ void *parameters, int *model, int *version) {
     goto done;
   }
   if ((status = readmagic(&file, 0L, magic)) != NC_NOERR) {
-    status   = NC_ENOTNC;
-    *model   = 0;
+    status = NC_ENOTNC;
+    *model = 0;
     *version = 0;
     goto done;
   }
@@ -933,9 +933,9 @@ int nc_open_mem(const char *path, int omode, size_t size, void *memory, int *nci
   if (omode & (NC_WRITE | NC_MMAP))
     return NC_EINVAL;
   omode |= (NC_INMEMORY); /* Note: NC_INMEMORY and NC_DISKLESS are mutually exclusive*/
-  meminfo.size   = size;
+  meminfo.size = size;
   meminfo.memory = memory;
-  meminfo.flags  = NC_MEMIO_LOCKED;
+  meminfo.flags = NC_MEMIO_LOCKED;
   return NC_open(path, omode, 0, NULL, 0, &meminfo, ncidp);
 }
 
@@ -1897,7 +1897,7 @@ flag before calling the dispatch layer nc_create functions.
 static int
 check_create_mode(int mode) {
   int mode_format;
-  int mmap     = 0;
+  int mmap = 0;
   int inmemory = 0;
   int diskless = 0;
 
@@ -1907,7 +1907,7 @@ check_create_mode(int mode) {
   if (mode_format && (mode_format & (mode_format - 1)))
     return NC_EINVAL;
 
-  mmap     = ((mode & NC_MMAP) == NC_MMAP);
+  mmap = ((mode & NC_MMAP) == NC_MMAP);
   inmemory = ((mode & NC_INMEMORY) == NC_INMEMORY);
   diskless = ((mode & NC_DISKLESS) == NC_DISKLESS);
 
@@ -1964,12 +1964,12 @@ check_create_mode(int mode) {
 int NC_create(const char *path0, int cmode, size_t initialsz,
 int basepe, size_t *chunksizehintp, int useparallel,
 void *parameters, int *ncidp) {
-  int stat                = NC_NOERR;
-  NC *ncp                 = NULL;
+  int stat = NC_NOERR;
+  NC *ncp = NULL;
   NC_Dispatch *dispatcher = NULL;
   /* Need three pieces of information for now */
-  int model  = NC_FORMATX_UNDEFINED; /* one of the NC_FORMATX values */
-  int isurl  = 0;                    /* dap or cdmremote or neither */
+  int model = NC_FORMATX_UNDEFINED; /* one of the NC_FORMATX values */
+  int isurl = 0;                    /* dap or cdmremote or neither */
   char *path = NULL;
 
   TRACE(nc_create);
@@ -2006,8 +2006,8 @@ void *parameters, int *ncidp) {
 
   {
     char *newpath = NULL;
-    model         = NC_urlmodel(path, cmode, &newpath);
-    isurl         = (model != 0);
+    model = NC_urlmodel(path, cmode, &newpath);
+    isurl = (model != 0);
     if (isurl) {
       nullfree(path);
       path = newpath;
@@ -2160,17 +2160,17 @@ void *parameters, int *ncidp) {
 */
 int NC_open(const char *path0, int omode, int basepe, size_t *chunksizehintp,
 int useparallel, void *parameters, int *ncidp) {
-  int stat                = NC_NOERR;
-  NC *ncp                 = NULL;
+  int stat = NC_NOERR;
+  NC *ncp = NULL;
   NC_Dispatch *dispatcher = NULL;
-  int inmemory            = 0;
-  int diskless            = 0;
-  int mmap                = 0;
+  int inmemory = 0;
+  int diskless = 0;
+  int mmap = 0;
   /* Need pieces of information for now to decide model*/
-  int model   = 0;
-  int isurl   = 0;
+  int model = 0;
+  int isurl = 0;
   int version = 0;
-  char *path  = NULL;
+  char *path = NULL;
 
   TRACE(nc_open);
   if (!NC_initialized) {
@@ -2179,7 +2179,7 @@ int useparallel, void *parameters, int *ncidp) {
   }
 
   /* Fix the inmemory related flags */
-  mmap     = ((omode & NC_MMAP) == NC_MMAP);
+  mmap = ((omode & NC_MMAP) == NC_MMAP);
   diskless = ((omode & NC_DISKLESS) == NC_DISKLESS);
   inmemory = ((omode & NC_INMEMORY) == NC_INMEMORY);
 
@@ -2212,8 +2212,8 @@ int useparallel, void *parameters, int *ncidp) {
 
   if (!inmemory) {
     char *newpath = NULL;
-    model         = NC_urlmodel(path, omode, &newpath);
-    isurl         = (model != 0);
+    model = NC_urlmodel(path, omode, &newpath);
+    isurl = (model != 0);
     if (isurl) {
       nullfree(path);
       path = newpath;
@@ -2226,7 +2226,7 @@ int useparallel, void *parameters, int *ncidp) {
   if (omode & NC_UDF0) {
     if (!UDF0_dispatch_table)
       return NC_EINVAL;
-    model      = NC_FORMATX_UDF0;
+    model = NC_FORMATX_UDF0;
     dispatcher = UDF0_dispatch_table;
   }
 
@@ -2234,7 +2234,7 @@ int useparallel, void *parameters, int *ncidp) {
   if (omode & NC_UDF1) {
     if (!UDF1_dispatch_table)
       return NC_EINVAL;
-    model      = NC_FORMATX_UDF1;
+    model = NC_FORMATX_UDF1;
     dispatcher = UDF1_dispatch_table;
   }
 #endif /* USE_NETCDF4 */
@@ -2243,7 +2243,7 @@ int useparallel, void *parameters, int *ncidp) {
     version = 0;
     /* Try to find dataset type */
     int flags = omode;
-    stat      = NC_check_file_type(path, flags, useparallel, parameters, &model, &version);
+    stat = NC_check_file_type(path, flags, useparallel, parameters, &model, &version);
     if (stat == NC_NOERR) {
       if (model == 0) {
         nullfree(path);
@@ -2436,7 +2436,7 @@ openmagic(struct MagicFile *file) {
   if (file->inmemory) {
     /* Get its length */
     NC_memio *meminfo = (NC_memio *)file->parameters;
-    file->filelen     = (long long)meminfo->size;
+    file->filelen = (long long)meminfo->size;
     goto done;
   }
 #ifdef USE_PARALLEL
@@ -2605,7 +2605,7 @@ printmagic(const char *tag, char *magic, struct MagicFile *f) {
   fprintf(stderr, "%s: inmem=%d ispar=%d magic=", tag, f->inmemory, f->use_parallel);
   for (i = 0; i < MAGIC_NUMBER_LEN; i++) {
     unsigned int c = (unsigned int)magic[i];
-    c              = c & 0x000000FF;
+    c = c & 0x000000FF;
     if (c == '\n')
       fprintf(stderr, " 0x%0x/'\\n'", c);
     else if (c == '\r')

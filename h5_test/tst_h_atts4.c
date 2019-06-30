@@ -39,8 +39,8 @@ int main() {
 #define NUM_OBJ_2 2
 #define ATT_NAME "Poseidon"
     hid_t fapl_id, fcpl_id;
-    size_t chunk_cache_size      = MY_CHUNK_CACHE_SIZE;
-    size_t chunk_cache_nelems    = CHUNK_CACHE_NELEMS;
+    size_t chunk_cache_size = MY_CHUNK_CACHE_SIZE;
+    size_t chunk_cache_nelems = CHUNK_CACHE_NELEMS;
     float chunk_cache_preemption = CHUNK_CACHE_PREEMPTION;
     hid_t fileid, grpid, attid, spaceid;
     hid_t s1_typeid, vlen_typeid;

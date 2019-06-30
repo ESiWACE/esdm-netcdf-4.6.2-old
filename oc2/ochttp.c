@@ -18,7 +18,7 @@ struct Fetchdata {
 };
 
 long ocfetchhttpcode(CURL *curl) {
-  long httpcode  = 200;
+  long httpcode = 200;
   CURLcode cstat = CURLE_OK;
   /* Extract the http code */
   cstat = CURLERR(curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &httpcode));
@@ -29,7 +29,7 @@ long ocfetchhttpcode(CURL *curl) {
 OCerror
 ocfetchurl_file(CURL *curl, const char *url, FILE *stream,
 off_t *sizep, long *filetime) {
-  int stat       = OC_NOERR;
+  int stat = OC_NOERR;
   CURLcode cstat = CURLE_OK;
   struct Fetchdata fetchdata;
 
@@ -54,8 +54,8 @@ off_t *sizep, long *filetime) {
     goto fail;
 
   fetchdata.stream = stream;
-  fetchdata.size   = 0;
-  cstat            = CURLERR(curl_easy_perform(curl));
+  fetchdata.size = 0;
+  cstat = CURLERR(curl_easy_perform(curl));
 
   if (cstat != CURLE_OK)
     goto fail;
@@ -81,7 +81,7 @@ fail:
 
 OCerror
 ocfetchurl(CURL *curl, const char *url, NCbytes *buf, long *filetime) {
-  OCerror stat   = OC_NOERR;
+  OCerror stat = OC_NOERR;
   CURLcode cstat = CURLE_OK;
   size_t len;
   long httpcode = 0;
@@ -166,7 +166,7 @@ WriteFileCallback(void *ptr, size_t size, size_t nmemb, void *data) {
 static size_t
 WriteMemoryCallback(void *ptr, size_t size, size_t nmemb, void *data) {
   size_t realsize = size * nmemb;
-  NCbytes *buf    = (NCbytes *)data;
+  NCbytes *buf = (NCbytes *)data;
   if (realsize == 0)
     nclog(NCLOGWARN, "WriteMemoryCallback: zero sized chunk");
   /* Optimize for reading potentially large dods datasets */
@@ -229,7 +229,7 @@ encodeurltext(char* text, NCbytes* buf)
 
 OCerror
 occurlopen(CURL **curlp) {
-  int stat       = OC_NOERR;
+  int stat = OC_NOERR;
   CURLcode cstat = CURLE_OK;
   CURL *curl;
   /* initialize curl*/
@@ -253,7 +253,7 @@ void occurlclose(CURL *curl) {
 
 OCerror
 ocfetchlastmodified(CURL *curl, char *url, long *filetime) {
-  int stat       = OC_NOERR;
+  int stat = OC_NOERR;
   CURLcode cstat = CURLE_OK;
 
   /* Set the URL */
@@ -284,10 +284,10 @@ fail:
 
 OCerror
 ocping(const char *url) {
-  int stat       = OC_NOERR;
+  int stat = OC_NOERR;
   CURLcode cstat = CURLE_OK;
-  CURL *curl     = NULL;
-  NCbytes *buf   = NULL;
+  CURL *curl = NULL;
+  NCbytes *buf = NULL;
 
   /* Create a CURL instance */
   stat = occurlopen(&curl);
@@ -312,12 +312,12 @@ ocping(const char *url) {
     goto done;
 
   /* Try to get the file */
-  buf  = ncbytesnew();
+  buf = ncbytesnew();
   stat = ocfetchurl(curl, url, buf, NULL);
   if (stat == OC_NOERR) {
     /* Don't trust curl to return an error when request gets 404 */
     long http_code = 0;
-    cstat          = CURLERR(curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code));
+    cstat = CURLERR(curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code));
     if (cstat != CURLE_OK)
       goto done;
     if (http_code >= 400) {

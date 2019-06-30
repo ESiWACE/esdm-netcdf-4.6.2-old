@@ -36,8 +36,8 @@ writeszip() {
   file = H5Fcreate(filename, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
 
   /* Describe the size of the array. */
-  dims[0]    = NX;
-  dims[1]    = NY;
+  dims[0] = NX;
+  dims[1] = NY;
   data_space = H5Screate_simple(2, dims, NULL);
 
   /*
@@ -47,7 +47,7 @@ writeszip() {
    */
   chunk_size[0] = CH_NX;
   chunk_size[1] = CH_NY;
-  properties    = H5Pcreate(H5P_DATASET_CREATE);
+  properties = H5Pcreate(H5P_DATASET_CREATE);
   H5Pset_chunk(properties, 2, chunk_size);
 
   /* 
@@ -55,7 +55,7 @@ writeszip() {
    * the H5Pset_szip function in the HDF5 Reference Manual for more 
    * information.
    */
-  szip_options_mask     = H5_SZIP_NN_OPTION_MASK;
+  szip_options_mask = H5_SZIP_NN_OPTION_MASK;
   szip_pixels_per_block = 32;
 
   H5Pset_szip(properties, szip_options_mask, szip_pixels_per_block);
@@ -99,9 +99,9 @@ readszip() {
   hid_t properties;
   int errcnt = 0;
 
-  file       = H5Fopen(filename, H5F_ACC_RDONLY, H5P_DEFAULT);
+  file = H5Fopen(filename, H5F_ACC_RDONLY, H5P_DEFAULT);
   properties = H5Pcreate(H5P_DATASET_ACCESS);
-  dataset32  = H5Dopen(file, "datasetF32", properties);
+  dataset32 = H5Dopen(file, "datasetF32", properties);
 
   /*
      * Read the array.  This is similar to writing data,
@@ -153,7 +153,7 @@ int main(int argc, char **argv) {
   int extfile = 0;
   if (argc > 1) {
     filename = argv[1];
-    extfile  = 1;
+    extfile = 1;
   }
 
   initialize();

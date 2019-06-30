@@ -86,27 +86,27 @@ bv inserting the data into the substrate and then writing it out.
 
 int NCD4_debugcopy(NCD4INFO *info) {
   int i, ret = NC_NOERR;
-  NCD4meta *meta  = info->substrate.metadata;
+  NCD4meta *meta = info->substrate.metadata;
   NClist *topvars = nclistnew();
-  NC *ncp         = info->controller;
+  NC *ncp = info->controller;
 
   /* Walk each top level variable, read all of it and write it to the substrate */
   if ((ret = NCD4_getToplevelVars(meta, NULL, topvars)))
     goto done;
   /* Read from the dap data by going thru the dap4 interface */
   for (i = 0; i < nclistlength(topvars); i++) {
-    NCD4node *var  = nclistget(topvars, i);
+    NCD4node *var = nclistget(topvars, i);
     NCD4node *type = var->basetype;
-    NCD4node *grp  = NCD4_groupFor(var);
-    int grpid      = grp->meta.id;
-    int varid      = var->meta.id;
+    NCD4node *grp = NCD4_groupFor(var);
+    int grpid = grp->meta.id;
+    int varid = var->meta.id;
     d4size_t varsize;
-    void *memory   = NULL;
+    void *memory = NULL;
     size_t dimprod = NCD4_dimproduct(var);
-    int ncid       = info->substrate.nc4id;
+    int ncid = info->substrate.nc4id;
 
     varsize = type->meta.memsize * dimprod;
-    memory  = d4alloc(varsize);
+    memory = d4alloc(varsize);
     if (memory == NULL) {
       ret = NC_ENOMEM;
       goto done;
@@ -129,7 +129,7 @@ int NCD4_debugcopy(NCD4INFO *info) {
       int d;
       for (d = 0; d < nclistlength(var->dims); d++) {
         NCD4node *dim = (NCD4node *)nclistget(var->dims, d);
-        edges[d]      = (size_t)dim->dim.size;
+        edges[d] = (size_t)dim->dim.size;
       }
       if ((ret = nc_put_vara(grpid, varid, nc_sizevector0, edges, memory)))
         goto done;

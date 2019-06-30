@@ -35,11 +35,11 @@ int main() {
     " A well regulated militia, being necessary to the "
     "security of a free state, the right of the people "
     "to keep and bear arms, shall not be infringed."};
-    hsize_t dims[1]         = {NA};
+    hsize_t dims[1] = {NA};
     hid_t fileid, grpid, spaceid, typeid, datasetid, plistid;
     int i;
     char fill_value[] = "";
-    char *f1          = fill_value;
+    char *f1 = fill_value;
 
     for (i = 0; i < NA; i++)
       data[i] = amend[i];

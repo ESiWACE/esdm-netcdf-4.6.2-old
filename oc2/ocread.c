@@ -31,7 +31,7 @@ static int readfile(const char *path, const char *suffix, NCbytes *packet);
 static int readfiletofile(const char *path, const char *suffix, FILE *stream, off_t *);
 
 int readDDS(OCstate *state, OCtree *tree) {
-  int stat          = OC_NOERR;
+  int stat = OC_NOERR;
   long lastmodified = -1;
 
   ncurisetquery(state->uri, tree->constraint);
@@ -79,18 +79,18 @@ ocdxdextension(OCdxd dxd) {
 
 static int
 readpacket(OCstate *state, NCURI *url, NCbytes *packet, OCdxd dxd, long *lastmodified) {
-  int stat           = OC_NOERR;
-  int fileprotocol   = 0;
+  int stat = OC_NOERR;
+  int fileprotocol = 0;
   const char *suffix = ocdxdextension(dxd);
-  char *fetchurl     = NULL;
-  CURL *curl         = state->curl;
+  char *fetchurl = NULL;
+  CURL *curl = state->curl;
 
   fileprotocol = (strcmp(url->protocol, "file") == 0);
 
   if (fileprotocol) {
     /* Short circuit file://... urls and read directly */
     fetchurl = ncuribuild(url, NULL, NULL, NCURIBASE);
-    stat     = readfile(fetchurl, suffix, packet);
+    stat = readfile(fetchurl, suffix, packet);
   } else {
     int flags = NCURIBASE;
     if (!fileprotocol) flags |= NCURIQUERY;
@@ -120,7 +120,7 @@ readpacket(OCstate *state, NCURI *url, NCbytes *packet, OCdxd dxd, long *lastmod
 }
 
 int readDATADDS(OCstate *state, OCtree *tree, OCflags flags) {
-  int stat     = OC_NOERR;
+  int stat = OC_NOERR;
   long lastmod = -1;
 
 #ifdef OCDEBUG
@@ -133,15 +133,15 @@ int readDATADDS(OCstate *state, OCtree *tree, OCflags flags) {
       state->datalastmodified = lastmod;
     tree->data.datasize = ncbyteslength(state->packet);
   } else { /*((flags & OCONDISK) != 0) */
-    NCURI *url       = state->uri;
+    NCURI *url = state->uri;
     int fileprotocol = 0;
-    char *readurl    = NULL;
+    char *readurl = NULL;
 
     fileprotocol = (strcmp(url->protocol, "file") == 0);
 
     if (fileprotocol) {
       readurl = ncuribuild(url, NULL, NULL, NCURIBASE);
-      stat    = readfiletofile(readurl, ".dods", tree->data.file, &tree->data.datasize);
+      stat = readfiletofile(readurl, ".dods", tree->data.file, &tree->data.datasize);
     } else {
       int flags = NCURIBASE;
       if (!fileprotocol) flags |= NCURIQUERY;
@@ -169,7 +169,7 @@ int readDATADDS(OCstate *state, OCtree *tree, OCflags flags) {
 
 static int
 readfiletofile(const char *path, const char *suffix, FILE *stream, off_t *sizep) {
-  int stat        = OC_NOERR;
+  int stat = OC_NOERR;
   NCbytes *packet = ncbytesnew();
   size_t len;
   /* check for leading file:/// */

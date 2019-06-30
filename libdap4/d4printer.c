@@ -56,10 +56,10 @@ int NCD4_print(NCD4meta *metadata, NCbytes *output) {
   int ret = NC_NOERR;
   D4printer out;
   if (metadata == NULL || output == NULL) return THROW(NC_EINVAL);
-  out.out      = output;
-  out.tmp      = ncbytesnew();
+  out.out = output;
+  out.tmp = ncbytesnew();
   out.metadata = metadata;
-  ret          = printNode(&out, metadata->root, 0);
+  ret = printNode(&out, metadata->root, 0);
   ncbytesfree(out.tmp);
   return THROW(ret);
 }
@@ -192,9 +192,9 @@ done:
 
 static int
 printVariable(D4printer *out, NCD4node *var, int depth) {
-  int ret            = NC_NOERR;
+  int ret = NC_NOERR;
   NCD4node *basetype = var->basetype;
-  char *fqn          = NULL;
+  char *fqn = NULL;
 
   INDENT(depth);
   CAT("<");
@@ -299,10 +299,10 @@ printGroupBody(D4printer *out, NCD4node *node, int depth) {
   int i, ngroups, nvars, ntypes, ndims, nattrs;
 
   ngroups = nclistlength(node->groups);
-  nvars   = nclistlength(node->vars);
-  ntypes  = nclistlength(node->types);
-  ndims   = nclistlength(node->dims);
-  nattrs  = nclistlength(node->attributes);
+  nvars = nclistlength(node->vars);
+  ntypes = nclistlength(node->types);
+  ndims = nclistlength(node->dims);
+  nattrs = nclistlength(node->attributes);
 
   if (ndims > 0) {
     INDENT(depth);
@@ -397,7 +397,7 @@ printMetaData(D4printer *out, NCD4node *node, int depth) {
 
 static int
 printXMLAttributeName(D4printer *out, char *name, const char *value) {
-  int ret       = NC_NOERR;
+  int ret = NC_NOERR;
   char *escaped = NULL;
 
   if (name == NULL) return THROW(ret);
@@ -416,7 +416,7 @@ printXMLAttributeName(D4printer *out, char *name, const char *value) {
 
 static int
 printXMLAttributeString(D4printer *out, char *name, const char *value) {
-  int ret       = NC_NOERR;
+  int ret = NC_NOERR;
   char *escaped = NULL;
   if (name == NULL) return THROW(ret);
   CAT(" ");
@@ -453,8 +453,8 @@ printXMLAttributeAtomics(D4printer *out, char *name, union ATOMICS *value, nc_ty
 
 static int
 printAttribute(D4printer *out, NCD4node *attr, int depth) {
-  int ret   = NC_NOERR;
-  int i     = 0;
+  int ret = NC_NOERR;
+  int i = 0;
   char *fqn = NULL;
 
   INDENT(depth);

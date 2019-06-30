@@ -44,7 +44,7 @@ void *parameters, NC *nc) {
   hid_t fcpl_id, fapl_id = -1;
   unsigned flags;
   FILE *fp;
-  int retval               = NC_NOERR;
+  int retval = NC_NOERR;
   NC_FILE_INFO_T *nc4_info = NULL;
   NC_HDF5_FILE_INFO_T *hdf5_info;
   NC_HDF5_GRP_INFO_T *hdf5_grp;
@@ -76,10 +76,10 @@ void *parameters, NC *nc) {
     return NC_ENOMEM;
   hdf5_grp = (NC_HDF5_GRP_INFO_T *)nc4_info->root_grp->format_grp_info;
 
-  nc4_info->mem.inmemory    = (cmode & NC_INMEMORY) == NC_INMEMORY;
-  nc4_info->mem.diskless    = (cmode & NC_DISKLESS) == NC_DISKLESS;
-  nc4_info->mem.persist     = (cmode & NC_PERSIST) == NC_PERSIST;
-  nc4_info->mem.created     = 1;
+  nc4_info->mem.inmemory = (cmode & NC_INMEMORY) == NC_INMEMORY;
+  nc4_info->mem.diskless = (cmode & NC_DISKLESS) == NC_DISKLESS;
+  nc4_info->mem.persist = (cmode & NC_PERSIST) == NC_PERSIST;
+  nc4_info->mem.created = 1;
   nc4_info->mem.initialsize = initialsz;
 
   /* diskless => !inmemory */
@@ -91,8 +91,8 @@ void *parameters, NC *nc) {
 #ifdef USE_PARALLEL4
   else if (parameters) {
     mpiinfo = (NC_MPI_INFO *)parameters;
-    comm    = mpiinfo->comm;
-    info    = mpiinfo->info;
+    comm = mpiinfo->comm;
+    info = mpiinfo->info;
   }
 #endif
   if (nc4_info->mem.diskless)
@@ -192,9 +192,9 @@ void *parameters, NC *nc) {
     if (retval)
       BAIL(retval);
   } else if (nc4_info->mem.diskless) {
-    size_t alloc_incr;        /* Buffer allocation increment */
-    size_t min_incr  = 65536; /* Minimum buffer increment */
-    double buf_prcnt = 0.1f;  /* Percentage of buffer size to set as increment */
+    size_t alloc_incr;       /* Buffer allocation increment */
+    size_t min_incr = 65536; /* Minimum buffer increment */
+    double buf_prcnt = 0.1f; /* Percentage of buffer size to set as increment */
     /* set allocation increment to a percentage of the supplied buffer size, or
        * a pre-defined minimum increment value, whichever is larger
        */

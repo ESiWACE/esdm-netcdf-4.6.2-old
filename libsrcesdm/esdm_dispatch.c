@@ -110,7 +110,7 @@ int lookup_md(esdm_metadata_t *md, char *name, void **value, int *pos) {
   for (int i = 0; i < md->size; i++) {
     if (strcmp(name, md->smd[i].name) == 0) {
       *value = &md->smd[i].value;
-      *pos   = i;
+      *pos = i;
       return NC_NOERR;
     }
   }
@@ -120,8 +120,8 @@ int lookup_md(esdm_metadata_t *md, char *name, void **value, int *pos) {
 int insert_md(esdm_metadata_t **md, const char *name, void *value) {
   assert((*md)->size < 10);
 
-  (*md)->smd                    = (smd_attr_t *)malloc(100 * sizeof(smd_attr_t)); // Why do I need more than 10?!
-  (*md)->smd[(*md)->size].name  = strdup(name);
+  (*md)->smd = (smd_attr_t *)malloc(100 * sizeof(smd_attr_t)); // Why do I need more than 10?!
+  (*md)->smd[(*md)->size].name = strdup(name);
   (*md)->smd[(*md)->size].value = value;
   (*md)->size++;
   return NC_NOERR;
@@ -161,7 +161,7 @@ int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_
   e->metadata_vars->smd = smd_attr_new("vars", SMD_DTYPE_EMPTY, NULL, 0);
   e->metadata_attr->smd = smd_attr_new("attr", SMD_DTYPE_EMPTY, NULL, 0);
 
-  e->container      = esdm_container_create(realpath);
+  e->container = esdm_container_create(realpath);
   ncp->dispatchdata = e;
 
   last_file_md = e;
@@ -280,12 +280,12 @@ int ESDM_def_dim(int ncid, const char *name, size_t len, int *idp) {
   int ret = NC_NOERR;
   if ((ret = NC_check_id(ncid, (NC **)&ncp)) != NC_NOERR) return (ret);
   esdm_dataset_tt *e = (esdm_dataset_tt *)ncp->dispatchdata;
-  *idp               = e->metadata_dims->size;
+  *idp = e->metadata_dims->size;
   debug("%d: %d\n", ncid, *idp);
   ret = insert_md(&e->metadata_dims, name, (size_t *)len);
 
   smd_attr_t *new = smd_attr_new(name, SMD_DTYPE_UINT64, &len, *idp);
-  ret             = smd_attr_link(e->metadata_dims->smd, new, 0);
+  ret = smd_attr_link(e->metadata_dims->smd, new, 0);
   if (ret == SMD_ATTR_EEXIST) {
     return NC_EINVAL;
   }
@@ -377,9 +377,9 @@ int ESDM_get_att(int ncid, int varid, const char *name, void *value, nc_type t) 
     // Copying the values
 
     esdm_fragment_tt *smd2 = (esdm_fragment_tt *)malloc(sizeof(esdm_fragment_tt));
-    smd2->metadata         = (esdm_metadata_t *)malloc(sizeof(esdm_metadata_t));
-    smd2->metadata->smd    = (smd_attr_t *)malloc(sizeof(smd_attr_t));
-    smd2                   = e->metadata_vars->smd[varid].value;
+    smd2->metadata = (esdm_metadata_t *)malloc(sizeof(esdm_metadata_t));
+    smd2->metadata->smd = (smd_attr_t *)malloc(sizeof(smd_attr_t));
+    smd2 = e->metadata_vars->smd[varid].value;
     if (smd2->metadata->smd == NULL) {
       return NC_EINVAL;
     }
@@ -424,9 +424,9 @@ size_t len, const void *value, nc_type type) {
     // Copying the values
 
     esdm_fragment_tt *smd2 = (esdm_fragment_tt *)malloc(sizeof(esdm_fragment_tt));
-    smd2->metadata         = (esdm_metadata_t *)malloc(sizeof(esdm_metadata_t));
-    smd2->metadata->smd    = (smd_attr_t *)malloc(sizeof(smd_attr_t));
-    smd2                   = e->metadata_vars->smd[varid].value;
+    smd2->metadata = (esdm_metadata_t *)malloc(sizeof(esdm_metadata_t));
+    smd2->metadata->smd = (smd_attr_t *)malloc(sizeof(smd_attr_t));
+    smd2 = e->metadata_vars->smd[varid].value;
     if (smd2->metadata->smd == NULL) {
       smd2->metadata->smd = smd_attr_new("attr", SMD_DTYPE_EMPTY, NULL, 0);
     }
@@ -457,7 +457,7 @@ int ndims, const int *dimidsp, int *varidp) {
   debug("%d: varid: %d\n", ncid, *varidp);
 
   smd_attr_t *new = smd_attr_new(name, SMD_DTYPE_EMPTY, NULL, *varidp);
-  ret             = smd_attr_link(e->metadata_vars->smd, new, 0);
+  ret = smd_attr_link(e->metadata_vars->smd, new, 0);
   if (ret == SMD_ATTR_EEXIST) {
     return NC_EINVAL;
   }
@@ -481,8 +481,8 @@ int ndims, const int *dimidsp, int *varidp) {
     int dimid = dimidsp[i];
     assert(e->metadata_dims->size > dimid);
     smd_attr_t *md = &e->metadata_dims->smd[dimid];
-    size_t val     = (size_t)md->value;
-    aux[i]         = dimid;
+    size_t val = (size_t)md->value;
+    aux[i] = dimid;
     printf("%d %s %zd\n", dimidsp[i], md->name, val);
     bounds[i] = val;
   }
@@ -500,25 +500,25 @@ int ndims, const int *dimidsp, int *varidp) {
   if (dataset == NULL) {
     return NC_EBADID;
   }
-  evar->dset  = dataset;
+  evar->dset = dataset;
   evar->space = dataspace;
 
   // Copying the values
 
-  evar2->dataset   = dataset;
+  evar2->dataset = dataset;
   evar2->dataspace = dataspace;
 
   // *************************
 
-  evar->type    = xtype;
-  evar->ndims   = ndims;
+  evar->type = xtype;
+  evar->ndims = ndims;
   evar->dimidsp = malloc(sizeof(int) * ndims);
 
   // Copying the values
 
-  evar2->dataspace->datatype   = type_nc_to_esdm(xtype); //test
+  evar2->dataspace->datatype = type_nc_to_esdm(xtype); //test
   evar2->dataspace->dimensions = ndims;
-  evar2->dataspace->size       = (int64_t *)malloc(ndims * sizeof(int64_t));
+  evar2->dataspace->size = (int64_t *)malloc(ndims * sizeof(int64_t));
 
   // *************************
 
@@ -572,8 +572,8 @@ const ptrdiff_t *stridep, const void *data, nc_type mem_nc_type) {
   // Copying the values
 
   esdm_fragment_tt *smd2 = (esdm_fragment_tt *)malloc(sizeof(esdm_fragment_tt));
-  smd2->dataspace        = (esdm_dataspace_t *)malloc(sizeof(esdm_dataspace_t));
-  smd2                   = e->metadata_vars->smd[varid].value;
+  smd2->dataspace = (esdm_dataspace_t *)malloc(sizeof(esdm_dataspace_t));
+  smd2 = e->metadata_vars->smd[varid].value;
 
   // smd2->dataspace->datatype = smd->type;
 
@@ -648,7 +648,7 @@ const ptrdiff_t *stridep, const void *data, nc_type mem_nc_type) {
     for (int i = 0; i < smd2->dataspace->dimensions; i++) {
       // *************************
 
-      size[i]   = countp[i];
+      size[i] = countp[i];
       offset[i] = startp[i];
     }
 
@@ -709,8 +709,8 @@ const ptrdiff_t *stridep, const void *data, nc_type mem_nc_type) {
   // Copying the values
 
   esdm_fragment_tt *smd2 = (esdm_fragment_tt *)malloc(sizeof(esdm_fragment_tt));
-  smd2->dataspace        = (esdm_dataspace_t *)malloc(sizeof(esdm_dataspace_t));
-  smd2                   = e->metadata_vars->smd[varid].value;
+  smd2->dataspace = (esdm_dataspace_t *)malloc(sizeof(esdm_dataspace_t));
+  smd2 = e->metadata_vars->smd[varid].value;
 
   // *************************
 
@@ -729,7 +729,7 @@ const ptrdiff_t *stridep, const void *data, nc_type mem_nc_type) {
   // *************************
 
   // check the dimensions we actually want to write
-  int access_all          = 1;
+  int access_all = 1;
   esdm_dataspace_t *space = smd->space;
 
   // Copying the values
@@ -769,7 +769,7 @@ const ptrdiff_t *stridep, const void *data, nc_type mem_nc_type) {
     for (int i = 0; i < smd2->dataspace->dimensions; i++) {
       // *************************
 
-      size[i]   = countp[i];
+      size[i] = countp[i];
       offset[i] = startp[i];
     }
     esdm_dataspace_t *subspace;
@@ -825,8 +825,8 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
   // Copying the values
 
   esdm_fragment_tt *evar2 = (esdm_fragment_tt *)malloc(sizeof(esdm_fragment_tt));
-  evar2->dataspace        = (esdm_dataspace_t *)malloc(sizeof(esdm_dataspace_t));
-  evar2                   = (esdm_fragment_tt *)smd->value;
+  evar2->dataspace = (esdm_dataspace_t *)malloc(sizeof(esdm_dataspace_t));
+  evar2 = (esdm_fragment_tt *)smd->value;
 
   // *************************
 

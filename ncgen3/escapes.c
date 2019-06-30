@@ -78,7 +78,7 @@ int yyleng) {
         case 'x':
           t++; /* now t points to one or more hex digits */
           *s++ = (char)strtol(t, &endp, 16);
-          t    = endp;
+          t = endp;
           break;
         case '0':
         case '1':
@@ -90,7 +90,7 @@ int yyleng) {
         case '7':
           /* t now points to octal digits */
           *s++ = (char)strtol(t, &endp, 8);
-          t    = endp;
+          t = endp;
           break;
         default:
           *s++ = *t++;

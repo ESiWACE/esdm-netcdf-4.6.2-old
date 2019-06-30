@@ -51,8 +51,8 @@ int main(int argc, char **argv) {
     case 3:
     default:
       filename = argv[1];
-      oldname  = argv[2];
-      newname  = argv[3];
+      oldname = argv[2];
+      newname = argv[3];
       break;
   }
 

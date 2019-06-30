@@ -154,7 +154,7 @@ static int defineBytestringType(NCD4parser *);
 /* API */
 
 int NCD4_parse(NCD4meta *metadata) {
-  int ret            = NC_NOERR;
+  int ret = NC_NOERR;
   NCD4parser *parser = NULL;
   int ilen;
   ezxml_t dom = NULL;
@@ -166,15 +166,15 @@ int NCD4_parse(NCD4meta *metadata) {
     goto done;
   }
   parser->metadata = metadata;
-  ilen             = strlen(parser->metadata->serial.dmr);
-  dom              = ezxml_parse_str(parser->metadata->serial.dmr, ilen);
+  ilen = strlen(parser->metadata->serial.dmr);
+  dom = ezxml_parse_str(parser->metadata->serial.dmr, ilen);
   if (dom == NULL) {
     ret = NC_ENOMEM;
     goto done;
   }
   parser->types = nclistnew();
-  parser->dims  = nclistnew();
-  parser->vars  = nclistnew();
+  parser->dims = nclistnew();
+  parser->vars = nclistnew();
 #ifdef D4DEBUG
   parser->debuglevel = 1;
 #endif
@@ -223,8 +223,8 @@ traverse(NCD4parser *parser, ezxml_t dom) {
     const char *xattr = NULL;
     if ((ret = makeNode(parser, NULL, NULL, NCD4_GROUP, NC_NULL, &parser->metadata->root))) goto done;
     parser->metadata->root->group.isdataset = 1;
-    parser->metadata->root->meta.id         = parser->metadata->ncid;
-    parser->metadata->groupbyid             = nclistnew();
+    parser->metadata->root->meta.id = parser->metadata->ncid;
+    parser->metadata->groupbyid = nclistnew();
     SETNAME(parser->metadata->root, "/");
     xattr = ezxml_attr(dom, "name");
     if (xattr != NULL) parser->metadata->root->group.datasetname = strdup(xattr);
@@ -275,7 +275,7 @@ parseDimensions(NCD4parser *parser, NCD4node *group, ezxml_t xml) {
     unlimstr = ezxml_attr(x, UCARTAGUNLIM);
     if ((ret = parseULL(sizestr, &size))) goto done;
     if ((ret = makeNode(parser, group, x, NCD4_DIM, NC_NULL, &dimnode))) goto done;
-    dimnode->dim.size        = (long long)size;
+    dimnode->dim.size = (long long)size;
     dimnode->dim.isunlimited = (unlimstr != NULL);
     /* Process attributes */
     if ((ret = parseAttributes(parser, dimnode, x))) goto done;
@@ -291,10 +291,10 @@ parseEnumerations(NCD4parser *parser, NCD4node *group, ezxml_t xml) {
   ezxml_t x;
 
   for (x = ezxml_child(xml, "Enumeration"); x != NULL; x = ezxml_next(x)) {
-    NCD4node *node     = NULL;
+    NCD4node *node = NULL;
     NCD4node *basetype = NULL;
-    const char *fqn    = ezxml_attr(x, "basetype");
-    basetype           = lookupFQN(parser, fqn, NCD4_TYPE);
+    const char *fqn = ezxml_attr(x, "basetype");
+    basetype = lookupFQN(parser, fqn, NCD4_TYPE);
     if (basetype == NULL) {
       FAIL(NC_EBADTYPE, "Enumeration has unknown type: ", fqn);
     }
@@ -345,14 +345,14 @@ parseVariables(NCD4parser *parser, NCD4node *group, ezxml_t xml) {
   int ret = NC_NOERR;
   ezxml_t x;
   for (x = xml->child; x != NULL; x = x->ordered) {
-    NCD4node *node          = NULL;
+    NCD4node *node = NULL;
     const KEYWORDINFO *info = keyword(x->name);
     if (info == NULL)
       FAIL(NC_ETRANSLATION, "Unexpected node type: %s", x->name);
     /* Check if we need to process this node */
     if (!ISVAR(info->sort)) continue; /* Handle elsewhere */
     node = NULL;
-    ret  = parseVariable(parser, group, x, &node);
+    ret = parseVariable(parser, group, x, &node);
     if (ret != NC_NOERR || node == NULL) break;
   }
 done:
@@ -361,8 +361,8 @@ done:
 
 static int
 parseVariable(NCD4parser *parser, NCD4node *container, ezxml_t xml, NCD4node **nodep) {
-  int ret                 = NC_NOERR;
-  NCD4node *node          = NULL;
+  int ret = NC_NOERR;
+  NCD4node *node = NULL;
   const KEYWORDINFO *info = keyword(xml->name);
 
   switch (info->subsort) {
@@ -395,11 +395,11 @@ done:
 
 static int
 parseStructure(NCD4parser *parser, NCD4node *container, ezxml_t xml, NCD4node **nodep) {
-  int ret         = NC_NOERR;
-  NCD4node *var   = NULL;
-  NCD4node *type  = NULL;
+  int ret = NC_NOERR;
+  NCD4node *var = NULL;
+  NCD4node *type = NULL;
   NCD4node *group = NULL;
-  char *fqnname   = NULL;
+  char *fqnname = NULL;
 
   group = NCD4_groupFor(container); /* default: put type in the same group as var */
 
@@ -447,7 +447,7 @@ parseFields(NCD4parser *parser, NCD4node *container, ezxml_t xml) {
   int ret = NC_NOERR;
   ezxml_t x;
   for (x = xml->child; x != NULL; x = x->ordered) {
-    NCD4node *node          = NULL;
+    NCD4node *node = NULL;
     const KEYWORDINFO *info = keyword(x->name);
     if (!ISVAR(info->sort)) continue; /* not a field */
     ret = parseVariable(parser, container, x, &node);
@@ -463,7 +463,7 @@ to attach a singleton field to a vlentype
 */
 static int
 parseVlenField(NCD4parser *parser, NCD4node *container, ezxml_t xml, NCD4node **fieldp) {
-  int ret         = NC_NOERR;
+  int ret = NC_NOERR;
   NCD4node *field = NULL;
   ezxml_t x;
   for (x = xml->child; x != NULL; x = x->ordered) {
@@ -483,14 +483,14 @@ done:
 
 static int
 parseSequence(NCD4parser *parser, NCD4node *container, ezxml_t xml, NCD4node **nodep) {
-  int ret              = NC_NOERR;
-  NCD4node *var        = NULL;
+  int ret = NC_NOERR;
+  NCD4node *var = NULL;
   NCD4node *structtype = NULL;
-  NCD4node *vlentype   = NULL;
-  NCD4node *group      = NULL;
+  NCD4node *vlentype = NULL;
+  NCD4node *group = NULL;
   char name[NC_MAX_NAME];
   char *fqnname = NULL;
-  int usevlen   = 0;
+  int usevlen = 0;
 
   group = NCD4_groupFor(container);
 
@@ -592,7 +592,7 @@ parseGroups(NCD4parser *parser, NCD4node *parent, ezxml_t xml) {
   int ret = NC_NOERR;
   ezxml_t x;
   for (x = ezxml_child(xml, "Group"); x != NULL; x = ezxml_next(x)) {
-    NCD4node *group  = NULL;
+    NCD4node *group = NULL;
     const char *name = ezxml_attr(x, "name");
     if (name == NULL) FAIL(NC_EBADNAME, "Group has no name");
     if ((ret = makeNode(parser, parent, x, NCD4_GROUP, NC_NULL, &group))) goto done;
@@ -608,7 +608,7 @@ done:
 
 static int
 parseAtomicVar(NCD4parser *parser, NCD4node *container, ezxml_t xml, NCD4node **nodep) {
-  int ret        = NC_NOERR;
+  int ret = NC_NOERR;
   NCD4node *node = NULL;
   NCD4node *base = NULL;
   const char *typename;
@@ -714,9 +714,9 @@ parseAttributes(NCD4parser *parser, NCD4node *container, ezxml_t xml) {
 
   /* First, transfer any reserved xml attributes */
   {
-    int count        = 0;
+    int count = 0;
     const char **all = NULL;
-    all              = ezxml_all_attr(xml, &count);
+    all = ezxml_all_attr(xml, &count);
     if (all != NULL && count > 0) {
       const char **p;
       container->xmlattributes = nclistnew();
@@ -732,7 +732,7 @@ parseAttributes(NCD4parser *parser, NCD4node *container, ezxml_t xml) {
   for (x = ezxml_child(xml, "Attribute"); x != NULL; x = ezxml_next(x)) {
     const char *name = ezxml_attr(x, "name");
     const char *type = ezxml_attr(x, "type");
-    NCD4node *attr   = NULL;
+    NCD4node *attr = NULL;
     NCD4node *basetype;
 
     if (name == NULL) FAIL(NC_EBADNAME, "Missing <Attribute> name");
@@ -754,12 +754,12 @@ parseAttributes(NCD4parser *parser, NCD4node *container, ezxml_t xml) {
     if (basetype->subsort == NC_NAT && basetype->subsort != NC_ENUM)
       FAIL(NC_EBADTYPE, "<Attribute> type must be atomic or enum: ", type);
     attr->basetype = basetype;
-    values         = nclistnew();
+    values = nclistnew();
     if ((ret = getValueStrings(parser, basetype, x, values))) {
       FAIL(NC_EINVAL, "Malformed attribute: %s", name);
     }
     attr->attr.values = values;
-    values            = NULL;
+    values = NULL;
     PUSH(container->attributes, attr);
   }
 done:
@@ -778,17 +778,17 @@ parseError(NCD4parser *parser, ezxml_t errxml) {
     nclog(NCLOGERR, "Malformed <ERROR> response");
   x = ezxml_child(errxml, "Message");
   if (x != NULL) {
-    const char *txt                 = ezxml_txt(x);
+    const char *txt = ezxml_txt(x);
     parser->metadata->error.message = (txt == NULL ? NULL : strdup(txt));
   }
   x = ezxml_child(errxml, "Context");
   if (x != NULL) {
-    const char *txt                 = ezxml_txt(x);
+    const char *txt = ezxml_txt(x);
     parser->metadata->error.context = (txt == NULL ? NULL : strdup(txt));
   }
   x = ezxml_child(errxml, "OtherInformation");
   if (x != NULL) {
-    const char *txt                   = ezxml_txt(x);
+    const char *txt = ezxml_txt(x);
     parser->metadata->error.otherinfo = (txt == NULL ? NULL : strdup(txt));
   }
   return THROW(NC_NOERR);
@@ -918,10 +918,10 @@ done:
 
 static int
 splitOrigType(NCD4parser *parser, const char *fqn, NCD4node *type) {
-  int ret         = NC_NOERR;
-  NClist *pieces  = nclistnew();
+  int ret = NC_NOERR;
+  NClist *pieces = nclistnew();
   NCD4node *group = NULL;
-  char *name      = NULL;
+  char *name = NULL;
 
   if ((ret = NCD4_parseFQN(fqn, pieces))) goto done;
   /* It should be the case that the pieces are {/group}+/name */
@@ -930,7 +930,7 @@ splitOrigType(NCD4parser *parser, const char *fqn, NCD4node *type) {
   if (group == NULL) {
     FAIL(NC_ENOGRP, "Non-existent group in FQN: ", fqn);
   }
-  type->nc4.orig.name  = strdup(name + 1); /* plus 1 to skip the leading separator */
+  type->nc4.orig.name = strdup(name + 1); /* plus 1 to skip the leading separator */
   type->nc4.orig.group = group;
 
 done:
@@ -963,7 +963,7 @@ parseULL(const char *text, unsigned long long *ullp) {
   char *endptr;
   unsigned long long uint64 = 0;
 
-  errno  = 0;
+  errno = 0;
   endptr = NULL;
 #ifdef HAVE_STRTOULL
   uint64 = strtoull(text, &endptr, 10);
@@ -988,7 +988,7 @@ parseLL(const char *text, long long *llp) {
   char *endptr;
   long long int64 = 0;
 
-  errno  = 0;
+  errno = 0;
   endptr = NULL;
 #ifdef HAVE_STRTOLL
   int64 = strtoll(text, &endptr, 10);
@@ -1014,12 +1014,12 @@ lookupFQNList(NCD4parser *parser, NClist *fqn, NCD4sort sort, NCD4node **result)
   int ret = NC_NOERR;
   int i, nsteps;
   NCD4node *current;
-  char *name     = NULL;
+  char *name = NULL;
   NCD4node *node = NULL;
 
   /* Step 1: walk thru groups until can go no further */
   current = parser->metadata->root;
-  nsteps  = nclistlength(fqn);
+  nsteps = nclistlength(fqn);
   for (i = 1; i < nsteps; i++) { /* start at 1 to side-step root name */
     assert(ISGROUP(current->sort));
     name = (char *)nclistget(fqn, i);
@@ -1114,7 +1114,7 @@ void NCD4_printElems(NCD4node *group) {
 
 static NCD4node *
 lookupFQN(NCD4parser *parser, const char *sfqn, NCD4sort sort) {
-  int ret         = NC_NOERR;
+  int ret = NC_NOERR;
   NClist *fqnlist = nclistnew();
   NCD4node *match = NULL;
 
@@ -1140,8 +1140,8 @@ keyword(const char *name) {
   const struct KEYWORDINFO *p;
   for (;;) {
     if (L > R) break;
-    m   = (L + R) / 2;
-    p   = &keywordmap[m];
+    m = (L + R) / 2;
+    p = &keywordmap[m];
     cmp = strcasecmp(p->tag, name);
     if (cmp == 0) return p;
     if (cmp < 0)
@@ -1155,7 +1155,7 @@ keyword(const char *name) {
 #ifndef FIXEDOPAQUE
 static int
 defineBytestringType(NCD4parser *parser) {
-  int ret           = NC_NOERR;
+  int ret = NC_NOERR;
   NCD4node *bstring = NULL;
   if (parser->metadata->_bytestring == NULL) {
     /* Construct a single global opaque type for mapping DAP opaque type */
@@ -1163,7 +1163,7 @@ defineBytestringType(NCD4parser *parser) {
     if (ret != NC_NOERR) goto done;
     SETNAME(bstring, "_bytestring");
     bstring->opaque.size = 0;
-    bstring->basetype    = lookupAtomictype(parser, "UInt8");
+    bstring->basetype = lookupAtomictype(parser, "UInt8");
     PUSH(parser->metadata->root->types, bstring);
     parser->metadata->_bytestring = bstring;
   } else
@@ -1210,8 +1210,8 @@ lookupAtomictype(NCD4parser *parser, const char *name) {
 
   for (;;) {
     if (L > R) break;
-    m   = (L + R) / 2;
-    p   = (NCD4node *)nclistget(parser->atomictypes, m);
+    m = (L + R) / 2;
+    p = (NCD4node *)nclistget(parser->atomictypes, m);
     cmp = strcasecmp(p->name, name);
     if (cmp == 0) return p;
     if (cmp < 0)
@@ -1226,12 +1226,12 @@ lookupAtomictype(NCD4parser *parser, const char *name) {
 
 static int
 makeNode(NCD4parser *parser, NCD4node *parent, ezxml_t xml, NCD4sort sort, nc_type subsort, NCD4node **nodep) {
-  int ret        = NC_NOERR;
+  int ret = NC_NOERR;
   NCD4node *node = (NCD4node *)calloc(1, sizeof(NCD4node));
 
   if (node == NULL) return THROW(NC_ENOMEM);
-  node->sort      = sort;
-  node->subsort   = subsort;
+  node->sort = sort;
+  node->subsort = subsort;
   node->container = parent;
   /* Set node name, if it exists */
   if (xml != NULL) {
@@ -1257,7 +1257,7 @@ makeAnonDim(NCD4parser *parser, const char *sizestr) {
   long long size = 0;
   int ret;
   char name[NC_MAX_NAME + 1];
-  NCD4node *dim  = NULL;
+  NCD4node *dim = NULL;
   NCD4node *root = parser->metadata->root;
 
   ret = parseLL(sizestr, &size);
@@ -1268,7 +1268,7 @@ makeAnonDim(NCD4parser *parser, const char *sizestr) {
   if (dim == NULL) { /* create it */
     if ((ret = makeNode(parser, root, NULL, NCD4_DIM, NC_NULL, &dim))) goto done;
     SETNAME(dim, name + 1); /* leave out the '/' separator */
-    dim->dim.size        = (long long)size;
+    dim->dim.size = (long long)size;
     dim->dim.isanonymous = 1;
     PUSH(root->dims, dim);
   }
@@ -1405,9 +1405,9 @@ convertString(union ATOMICS *converter, NCD4node *type, const char *s) {
 static int
 downConvert(union ATOMICS *converter, NCD4node *type) {
   unsigned long long u64 = converter->u64[0];
-  long long i64          = converter->i64[0];
-  double f64             = converter->f64[0];
-  char *s                = converter->s[0];
+  long long i64 = converter->i64[0];
+  double f64 = converter->f64[0];
+  char *s = converter->s[0];
   switch (type->subsort) {
     case NC_BYTE:
       converter->i8[0] = (char)i64;

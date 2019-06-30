@@ -47,8 +47,8 @@ int main() {
   free(dummy);
 
   for (i = 0; i < DIM1_LEN; i++) {
-    data[i].i1  = 99;
-    data[i].i2  = -99;
+    data[i].i1 = 99;
+    data[i].i2 = -99;
     data2[i].i2 = -99;
     for (j = 0; j < ARRAY_LEN; j++)
       data2[i].i1[j] = 99;
@@ -277,11 +277,11 @@ int main() {
 
     /* Initialize data. */
     for (i = 0; i < DIM6_LEN; i++) {
-      obsdata[i].day    = 15 * i + 1;
-      obsdata[i].elev   = 2 * i + 1;
-      obsdata[i].count  = 2 * i + 1;
+      obsdata[i].day = 15 * i + 1;
+      obsdata[i].elev = 2 * i + 1;
+      obsdata[i].count = 2 * i + 1;
       obsdata[i].relhum = 2.0 * i + 1;
-      obsdata[i].time   = 2.0 * i + 1;
+      obsdata[i].time = 2.0 * i + 1;
     }
 
     /* Open file and create group. */
@@ -403,11 +403,11 @@ int main() {
     /* Create some phony data. */
     for (i = 0; i < DIM1_LEN; i++) {
       hr_data_out[i].starfleet_id = i;
-      hr_data_out[i].svc_rec.i1   = 95;
-      hr_data_out[i].svc_rec.i2   = 90;
+      hr_data_out[i].svc_rec.i1 = 95;
+      hr_data_out[i].svc_rec.i2 = 90;
       if (sprintf(hr_data_out[i].name, "alien_%d", i) < 0) ERR;
-      hr_data_out[i].max_temp                     = 99.99;
-      hr_data_out[i].min_temp                     = -9.99;
+      hr_data_out[i].max_temp = 99.99;
+      hr_data_out[i].min_temp = -9.99;
       hr_data_out[i].percent_transporter_errosion = .1;
     }
 
@@ -491,11 +491,11 @@ int main() {
     /* Create some phony data. */
     for (i = 0; i < DIM1_LEN; i++) {
       hr_data_out[i].starfleet_id = i;
-      hr_data_out[i].svc_rec.i1   = 95;
-      hr_data_out[i].svc_rec.i2   = 90;
+      hr_data_out[i].svc_rec.i1 = 95;
+      hr_data_out[i].svc_rec.i2 = 90;
       if (sprintf(hr_data_out[i].name, "alien_%d", i) < 0) ERR;
-      hr_data_out[i].max_temp                     = 99.99;
-      hr_data_out[i].min_temp                     = -9.99;
+      hr_data_out[i].max_temp = 99.99;
+      hr_data_out[i].min_temp = -9.99;
       hr_data_out[i].percent_transporter_errosion = .1;
     }
 
@@ -581,11 +581,11 @@ int main() {
     /* Create some phony data. */
     for (i = 0; i < DIM1_LEN; i++) {
       hr_data_out[i].starfleet_id = i;
-      hr_data_out[i].svc_rec.i1   = 95;
-      hr_data_out[i].svc_rec.i2   = 90;
+      hr_data_out[i].svc_rec.i1 = 95;
+      hr_data_out[i].svc_rec.i2 = 90;
       if (sprintf(hr_data_out[i].name, "alien_%d", i) < 0) ERR;
-      hr_data_out[i].max_temp                     = 99.99;
-      hr_data_out[i].min_temp                     = -9.99;
+      hr_data_out[i].max_temp = 99.99;
+      hr_data_out[i].min_temp = -9.99;
       hr_data_out[i].percent_transporter_errosion = .1;
     }
 

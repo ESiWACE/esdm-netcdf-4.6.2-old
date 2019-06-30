@@ -705,18 +705,18 @@ int main() {
   int chars_dim;
 
   /* dimension lengths */
-  size_t lat_len          = 96;
-  size_t lon_len          = 144;
-  size_t slat_len         = 95;
-  size_t slon_len         = 144;
-  size_t lev_len          = 30;
-  size_t ilev_len         = 31;
-  size_t isccp_prs_len    = 7;
-  size_t isccp_tau_len    = 7;
+  size_t lat_len = 96;
+  size_t lon_len = 144;
+  size_t slat_len = 95;
+  size_t slon_len = 144;
+  size_t lev_len = 30;
+  size_t ilev_len = 31;
+  size_t isccp_prs_len = 7;
+  size_t isccp_tau_len = 7;
   size_t isccp_prstau_len = 49;
-  size_t time_len         = NC_UNLIMITED;
-  size_t tbnd_len         = 2;
-  size_t chars_len        = 8;
+  size_t time_len = NC_UNLIMITED;
+  size_t tbnd_len = 2;
+  size_t chars_len = 8;
 
   /* variable ids */
   int P0_id;

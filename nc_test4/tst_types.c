@@ -24,10 +24,10 @@
 
 #define CLEAN_INPUT_BUFFERS    \
   for (i = 0; i < SIZE; i++) { \
-    ubyte_data_out[i]  = 0;    \
+    ubyte_data_out[i] = 0;     \
     ushort_data_out[i] = 0;    \
-    uint_data_out[i]   = 0;    \
-    int64_data_out[i]  = 0;    \
+    uint_data_out[i] = 0;      \
+    int64_data_out[i] = 0;     \
     uint64_data_out[i] = 0;    \
   }
 
@@ -62,10 +62,10 @@ int main(int argc, char *argv[]) {
   ptrdiff_t stride[NUM_DIMS];
 
   /* Phoney data we will write. */
-  unsigned char ubyte_data_out[]           = {0, 1, 2, 3, 4};
-  unsigned short ushort_data_out[]         = {0, 11, 22, 33, 44};
-  unsigned int uint_data_out[]             = {0, 111, 222, 333, 3000000000u};
-  long long int int64_data_out[]           = {0, -111111111, 2222222222, -3333333333, 444444444};
+  unsigned char ubyte_data_out[] = {0, 1, 2, 3, 4};
+  unsigned short ushort_data_out[] = {0, 11, 22, 33, 44};
+  unsigned int uint_data_out[] = {0, 111, 222, 333, 3000000000u};
+  long long int int64_data_out[] = {0, -111111111, 2222222222, -3333333333, 444444444};
   unsigned long long int uint64_data_out[] = {0, 111111111, 2222222222, 33333333, 44444444};
 
   /* We will read back in the phoney data with these. */
@@ -119,7 +119,7 @@ int main(int argc, char *argv[]) {
     int typeid1, typeid2, typeid3;
     int enum_value = TEST_VAL_42;
     int equal;
-    int classic_type[NUM_CLASSIC_TYPES]   = {NC_BYTE, NC_CHAR, NC_SHORT, NC_INT, NC_FLOAT, NC_DOUBLE};
+    int classic_type[NUM_CLASSIC_TYPES] = {NC_BYTE, NC_CHAR, NC_SHORT, NC_INT, NC_FLOAT, NC_DOUBLE};
     int enhanced_type[NUM_ENHANCED_TYPES] = {NC_BYTE, NC_CHAR, NC_SHORT, NC_INT, NC_FLOAT, NC_DOUBLE,
     NC_UBYTE, NC_USHORT, NC_UINT, NC_INT64, NC_UINT64, NC_STRING};
     int t;
@@ -270,8 +270,8 @@ int main(int argc, char *argv[]) {
   printf("*** testing vars functions with new netCDF-4 atomic types...");
   {
     CLEAN_INPUT_BUFFERS;
-    start[0]  = 0;
-    count[0]  = 2;
+    start[0] = 0;
+    count[0] = 2;
     stride[0] = STRIDE_SIZE;
 
     /* Open a netcdf-4 file, and one dimension. */
@@ -378,10 +378,10 @@ int main(int argc, char *argv[]) {
   {
     int ncid, varid[NUM_TYPES];
     CLEAN_INPUT_BUFFERS;
-    start[0]  = 0;
-    count[0]  = 1;
+    start[0] = 0;
+    count[0] = 1;
     stride[0] = 1;
-    imap[0]   = 0;
+    imap[0] = 0;
 
     /* Open a netcdf-4 file, and one dimension. */
     if (create_test_file(FILENAME, varid, &ncid)) ERR;

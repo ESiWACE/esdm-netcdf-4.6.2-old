@@ -167,7 +167,7 @@ timeval_subtract(result, x, y) struct timeval *result,
 
   /* Compute the time remaining to wait.
       `tv_usec' is certainly positive. */
-  result->tv_sec  = x->tv_sec - y->tv_sec;
+  result->tv_sec = x->tv_sec - y->tv_sec;
   result->tv_usec = x->tv_usec - y->tv_usec;
 
   /* Return 1 if result is negative. */
@@ -211,7 +211,7 @@ int main(int argc, char **argv) {
   char name_in[NC_MAX_NAME + 1];
   size_t len;
   size_t cs[NDIMS4] = {0, 0, 0, 0};
-  int cache         = MEGABYTE;
+  int cache = MEGABYTE;
   int ndims, dimid[NDIMS4];
   float hor_data[LAT_LEN * LON_LEN];
   float vert_data[DEPTH_LEN];
@@ -316,7 +316,7 @@ int main(int argc, char **argv) {
         }
     if (gettimeofday(&end_time, NULL)) ERR;
     if (timeval_subtract(&diff_time, &end_time, &start_time)) ERR;
-    num_reads   = (read_count == MAX_READ_COUNT) ? MAX_READ_COUNT : (LAT_LEN * LON_LEN * DEPTH_LEN);
+    num_reads = (read_count == MAX_READ_COUNT) ? MAX_READ_COUNT : (LAT_LEN * LON_LEN * DEPTH_LEN);
     avg_read_us = ((int)diff_time.tv_sec * MILLION + (int)diff_time.tv_usec + read_1_us) / num_reads;
   } else if (vertical_profile) {
     /* Read the var as a vertical profile. */
@@ -348,7 +348,7 @@ int main(int argc, char **argv) {
     /* 	    } */
     if (gettimeofday(&end_time, NULL)) ERR;
     if (timeval_subtract(&diff_time, &end_time, &start_time)) ERR;
-    num_reads   = (read_count == MAX_READ_COUNT) ? MAX_READ_COUNT : (LAT_LEN * LON_LEN * DEPTH_LEN);
+    num_reads = (read_count == MAX_READ_COUNT) ? MAX_READ_COUNT : (LAT_LEN * LON_LEN * DEPTH_LEN);
     avg_read_us = ((int)diff_time.tv_sec * MILLION + (int)diff_time.tv_usec + read_1_us) / num_reads;
   } else {
     /* Read the data variable in horizontal slices. */
@@ -377,7 +377,7 @@ int main(int argc, char **argv) {
       }
     if (gettimeofday(&end_time, NULL)) ERR;
     if (timeval_subtract(&diff_time, &end_time, &start_time)) ERR;
-    num_reads   = (read_count == MAX_READ_COUNT) ? MAX_READ_COUNT : TIME_LEN;
+    num_reads = (read_count == MAX_READ_COUNT) ? MAX_READ_COUNT : TIME_LEN;
     avg_read_us = ((int)diff_time.tv_sec * MILLION + (int)diff_time.tv_usec + read_1_us) / num_reads;
   }
 

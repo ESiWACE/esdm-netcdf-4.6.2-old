@@ -206,7 +206,7 @@ int main(int argc, char **argv) {
     size_t dim_len;
     char dim_name[NC_MAX_NAME + 1], var_name[NC_MAX_NAME + 1];
     float float_in, float_out = 99.99;
-    int int_in, int_out       = -9999;
+    int int_in, int_out = -9999;
 
     /* Create a file, this time with attributes. */
     if (nc_create(FILE_NAME, NC_NETCDF4 | NC_CLOBBER, &ncid)) ERR;

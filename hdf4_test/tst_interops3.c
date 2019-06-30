@@ -72,8 +72,8 @@ int main(int argc, char **argv) {
     "MOD29.A2000055.0005.005.2006267200024.hdf",
     "MYD29.A2002185.0000.005.2007160150627.hdf",
     "MYD29.A2009152.0000.005.2009153124331.hdf"};
-    int expected_mode                                 = NC_NETCDF4;
-    int expected_extended_format                      = NC_FORMATX_NC_HDF4;
+    int expected_mode = NC_NETCDF4;
+    int expected_extended_format = NC_FORMATX_NC_HDF4;
     int f;
 
     for (f = 0; f < NUM_SAMPLE_FILES; f++) {

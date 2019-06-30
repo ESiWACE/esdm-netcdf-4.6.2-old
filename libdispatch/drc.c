@@ -55,7 +55,7 @@ static char *rcfilenames[] = {".daprc", ".dodsrc", NULL};
 
 /* locate, read and compile the rc file, if any */
 int NC_rcload(void) {
-  int ret    = NC_NOERR;
+  int ret = NC_NOERR;
   char *path = NULL;
 
   if (ncrc_globalstate.rcinfo.ignore) {
@@ -128,7 +128,7 @@ call in order for this to take effect.
 
 int NC_set_rcfile(const char *rcfile) {
   int stat = NC_NOERR;
-  FILE *f  = NULL;
+  FILE *f = NULL;
 
   if (rcfile != NULL && strlen(rcfile) == 0)
     rcfile = NULL;
@@ -182,7 +182,7 @@ rcreadline(char **nextlinep) {
     else if (*p == '\n')
       break;
   }
-  *p++       = '\0'; /* null terminate line; overwrite newline */
+  *p++ = '\0'; /* null terminate line; overwrite newline */
   *nextlinep = p;
   return line;
 }
@@ -190,7 +190,7 @@ rcreadline(char **nextlinep) {
 /* Trim TRIMCHARS from both ends of text; */
 static void
 rctrim(char *text) {
-  char *p    = text;
+  char *p = text;
   size_t len = 0;
   int i;
 
@@ -217,7 +217,7 @@ rctrim(char *text) {
 static void
 rcorder(NClist *rc) {
   int i;
-  int len       = nclistlength(rc);
+  int len = nclistlength(rc);
   NClist *tmprc = NULL;
   if (rc == NULL || len == 0) return;
   tmprc = nclistnew();
@@ -248,11 +248,11 @@ rcorder(NClist *rc) {
 /* Create a triple store from a file */
 static int
 rccompile(const char *path) {
-  int ret        = NC_NOERR;
-  NClist *rc     = NULL;
+  int ret = NC_NOERR;
+  NClist *rc = NULL;
   char *contents = NULL;
-  NCbytes *tmp   = ncbytesnew();
-  NCURI *uri     = NULL;
+  NCbytes *tmp = ncbytesnew();
+  NCURI *uri = NULL;
   char *nextline = NULL;
 
   if ((ret = NC_readfile(path, tmp))) {
@@ -266,7 +266,7 @@ rccompile(const char *path) {
   if (rc != NULL)
     rcfreetriples(rc); /* clear out any old data */
   else {
-    rc                              = nclistnew();
+    rc = nclistnew();
     ncrc_globalstate.rcinfo.triples = rc;
   }
   nextline = contents;
@@ -288,14 +288,14 @@ rccompile(const char *path) {
       goto done;
     }
     if (line[0] == LTAG) {
-      char *url  = ++line;
+      char *url = ++line;
       char *rtag = strchr(line, RTAG);
       if (rtag == NULL) {
         nclog(NCLOGERR, "Malformed [url] in %s entry: %s", path, line);
         free(triple);
         continue;
       }
-      line  = rtag + 1;
+      line = rtag + 1;
       *rtag = '\0';
       /* compile the url and pull out the host */
       if (uri) ncurifree(uri);
@@ -318,7 +318,7 @@ rccompile(const char *path) {
       }
     }
     /* split off key and value */
-    key   = line;
+    key = line;
     value = strchr(line, '=');
     if (value == NULL)
       value = line + strlen(line);
@@ -326,7 +326,7 @@ rccompile(const char *path) {
       *value = '\0';
       value++;
     }
-    triple->key   = strdup(key);
+    triple->key = strdup(key);
     triple->value = strdup(value);
     rctrim(triple->key);
     rctrim(triple->value);
@@ -354,7 +354,7 @@ done:
 static struct NCTriple *
 rclocate(const char *key, const char *hostport) {
   int i, found;
-  NClist *rc       = ncrc_globalstate.rcinfo.triples;
+  NClist *rc = ncrc_globalstate.rcinfo.triples;
   NCTriple *triple = NULL;
 
   if (ncrc_globalstate.rcinfo.ignore)
@@ -396,13 +396,13 @@ rclocate(const char *key, const char *hostport) {
 static int
 rcsearch(const char *prefix, const char *rcname, char **pathp) {
   char *path = NULL;
-  FILE *f    = NULL;
-  int plen   = strlen(prefix);
-  int rclen  = strlen(rcname);
-  int ret    = NC_NOERR;
+  FILE *f = NULL;
+  int plen = strlen(prefix);
+  int rclen = strlen(rcname);
+  int ret = NC_NOERR;
 
-  size_t pathlen = plen + rclen + 1;            /*+1 for '/' */
-  path           = (char *)malloc(pathlen + 1); /* +1 for nul*/
+  size_t pathlen = plen + rclen + 1;  /*+1 for '/' */
+  path = (char *)malloc(pathlen + 1); /* +1 for nul*/
   if (path == NULL) {
     ret = NC_ENOMEM;
     goto done;
@@ -434,7 +434,7 @@ int NC_rcfile_insert(const char *key, const char *value, const char *hostport) {
   int ret = NC_NOERR;
   /* See if this key already defined */
   struct NCTriple *triple = NULL;
-  NClist *rc              = ncrc_globalstate.rcinfo.triples;
+  NClist *rc = ncrc_globalstate.rcinfo.triples;
 
   if (rc == NULL) {
     rc = nclistnew();
@@ -450,7 +450,7 @@ int NC_rcfile_insert(const char *key, const char *value, const char *hostport) {
       ret = NC_ENOMEM;
       goto done;
     }
-    triple->key   = strdup(key);
+    triple->key = strdup(key);
     triple->value = NULL;
     rctrim(triple->key);
     triple->host = (hostport == NULL ? NULL : strdup(hostport));

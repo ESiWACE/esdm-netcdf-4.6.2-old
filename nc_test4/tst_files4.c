@@ -37,9 +37,9 @@ int main() { /* create data.nc */
 
 
   size_t snapshot_len = SNAPSHOT_LEN;
-  size_t axis_len     = AXIS_LEN;
+  size_t axis_len = AXIS_LEN;
   size_t particle_len = PARTICLE_LEN;
-  size_t slice_len    = SLICE_LEN;
+  size_t slice_len = SLICE_LEN;
 
   int snapshot_id;
   int position_id;

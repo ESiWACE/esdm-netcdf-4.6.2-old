@@ -225,7 +225,7 @@ int main(int argc, char **argv) {
     int ncid, dimids[RANK_P], time_id, p_id;
     int ndims, dimids_in[RANK_P];
 
-    double data[1]  = {3.14159};
+    double data[1] = {3.14159};
     size_t start[1] = {0}, count[1] = {1};
     static float P_data[LEN];
     size_t cor[RANK_P] = {0, 1, 0};
@@ -319,8 +319,8 @@ int main(int argc, char **argv) {
     size_t timeDimSize = 2, bDimSize = 3, cDimSize = 1;
     int cNdims = 1, eeNdims = 1, ddNdims = 1;
     int cVarId, eeVarId, ddVarId;
-    size_t index           = 0;
-    double s1Data          = 10;
+    size_t index = 0;
+    double s1Data = 10;
     const double timeVar[] = {1.3, 4.6};
 
     if (nc_create(FILE_NAME, NC_NETCDF4, &ncid)) ERR;
@@ -354,7 +354,7 @@ int main(int argc, char **argv) {
 #define SCALAR_VARNAME DIMNAME
     int ncid;
     int dimid, varid;
-    int ndims      = 1;
+    int ndims = 1;
     size_t dimsize = 3;
     char varname_in[NC_MAX_NAME];
 

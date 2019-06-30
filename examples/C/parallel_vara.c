@@ -120,7 +120,7 @@ int main(int argc, char **argv) {
 
   /* create a new file for writing ----------------------------------------*/
   cmode = NC_CLOBBER;
-  err   = nc_create_par(filename, cmode, MPI_COMM_WORLD, MPI_INFO_NULL, &ncid);
+  err = nc_create_par(filename, cmode, MPI_COMM_WORLD, MPI_INFO_NULL, &ncid);
   FATAL_ERR
 
   /* the global array is NY * (NX * nprocs) */

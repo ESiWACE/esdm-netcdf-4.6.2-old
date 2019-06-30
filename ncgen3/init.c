@@ -36,7 +36,7 @@ struct atts *atts; /* table of variable and global attributes */
 void init_netcdf(void) { /* initialize global counts, flags */
 
   clearout(); /* reset symbol table to empty */
-  ndims   = 0;
-  nvars   = 0;
+  ndims = 0;
+  nvars = 0;
   rec_dim = -1; /* means no unlimited dimension (yet) */
 }

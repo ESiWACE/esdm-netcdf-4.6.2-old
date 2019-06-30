@@ -55,14 +55,14 @@ NVARATTRS =  Number attributes per variable
 
 #define CHECK(expr) assert((expr) == NC_NOERR)
 
-static int treedepth   = TREEDEPTH;
-static int ngroups     = NGROUPS;
+static int treedepth = TREEDEPTH;
+static int ngroups = NGROUPS;
 static int ngroupattrs = NGROUPATTRS;
-static int ndims       = NDIMS;
-static int ntypes      = NTYPES;
-static int nvars       = NVARS;
-static int varrank     = VARRANK;
-static int nvarattrs   = NVARATTRS;
+static int ndims = NDIMS;
+static int ntypes = NTYPES;
+static int nvars = NVARS;
+static int varrank = VARRANK;
+static int nvarattrs = NVARATTRS;
 
 /* Define the getopt tags */
 #define OPT_UNKNOWN 0
@@ -232,7 +232,7 @@ int main(int argc, char **argv) {
   reportparameters();
 
   starttime = 0;
-  endtime   = 0;
+  endtime = 0;
 
   time(&starttime);
 

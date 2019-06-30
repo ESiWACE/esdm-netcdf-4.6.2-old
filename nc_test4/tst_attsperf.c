@@ -106,7 +106,7 @@ int readfile(char *file_name, long long *delta, int do_inq, int num_vars) {
 
   /* Compute the time delta */
   startt = (1000000 * starttime.tv_sec) + starttime.tv_usec;
-  endt   = (1000000 * endtime.tv_sec) + endtime.tv_usec;
+  endt = (1000000 * endtime.tv_sec) + endtime.tv_usec;
   *delta = endt - startt;
 
   return 0;
@@ -147,7 +147,7 @@ int readfile_hdf5(char *file_name, long long *delta, int do_inq, int num_vars) {
 
   /* Compute the time delta */
   startt = (1000000 * starttime.tv_sec) + starttime.tv_usec;
-  endt   = (1000000 * endtime.tv_sec) + endtime.tv_usec;
+  endt = (1000000 * endtime.tv_sec) + endtime.tv_usec;
   *delta = endt - startt;
 
   return 0;
@@ -175,7 +175,7 @@ int main(int argc, char **argv) {
       do_inq ? "with inq" : "");
       printf("Number of Attributes\tHDF5 Open Time (s)\tNetcdf4 Open Time (s)\n");
       for (s = 0; s < NUM_STEPS; s++) {
-        tot_nc4  = 0;
+        tot_nc4 = 0;
         tot_hdf5 = 0;
         num_atts += factor * s;
 

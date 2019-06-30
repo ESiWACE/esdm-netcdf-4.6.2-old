@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
   MPI_Info info = MPI_INFO_NULL;
   int ncid, v1id, dimid;
   size_t start[NDIMS1] = {0}, count[NDIMS1] = {0};
-  int data    = MASTS;
+  int data = MASTS;
   int data_in = TEST_VAL_42;
   int acc;
 
@@ -97,7 +97,7 @@ int main(int argc, char **argv) {
       "bails of old nanny goats' tails", "barrels of stones",
       "dogs", "hogs", "barrels of porter",
       "sides of old blind horses hides"};
-      unsigned long long field_value[NUM_ENUM_FIELDS]   = {1000000, 2000000, 3000000, 4000000,
+      unsigned long long field_value[NUM_ENUM_FIELDS] = {1000000, 2000000, 3000000, 4000000,
       5000000, 6000000, 7000000, 8000000};
       unsigned long long data = 1000000, data_in = TEST_VAL_42;
 
@@ -158,10 +158,10 @@ int main(int argc, char **argv) {
         char origin[NC_MAX_NAME + 1];
         int age;
       };
-      struct crew data    = {"Mick McCann", "the skipper of the Irish Rover",
+      struct crew data = {"Mick McCann", "the skipper of the Irish Rover",
       "from the banks of the Bann", 42};
       struct crew data_in = {"", "", "", -42};
-      int dim_size        = NC_MAX_NAME + 1;
+      int dim_size = NC_MAX_NAME + 1;
 
       /* Create a parallel netcdf-4 file. */
       /*nc_set_log_level(3);*/

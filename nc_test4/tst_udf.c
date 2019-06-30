@@ -180,7 +180,7 @@ int main(int argc, char **argv) {
     int ncid;
     NC_Dispatch *disp_in;
     char magic_number[5] = "1111";
-    char dummy_data[11]  = "0123456789";
+    char dummy_data[11] = "0123456789";
     char magic_number_in[NC_MAX_MAGIC_NUMBER_LEN];
     FILE *FP;
     int i;

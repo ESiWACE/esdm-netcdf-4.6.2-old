@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
     int n = 0;
     int i;
     int num_formats = 2;
-    int *formats    = NULL;
+    int *formats = NULL;
     /* Determine how many formats are in use. */
 
 #ifdef USE_NETCDF4

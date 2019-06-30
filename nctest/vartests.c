@@ -114,7 +114,7 @@ int
 test_ncvarinq(path)
 const char *path; /* name of writable netcdf file to open */
 {
-  int nerrs           = 0;
+  int nerrs = 0;
   static char pname[] = "test_ncvarinq";
   int cdfid;         /* netcdf id */
   int varid;         /* variable id */
@@ -266,7 +266,7 @@ struct cdfelm { /* coordinates and generic value */
 static int
 test_varputget1(cdfid) int cdfid; /* handle of netcdf open and in data mode */
 {
-  int nerrs           = 0;
+  int nerrs = 0;
   static char pname[] = "test_varputget1";
   int id, ie, iv;
   int ne = 3;           /* number of test points */
@@ -299,28 +299,28 @@ test_varputget1(cdfid) int cdfid; /* handle of netcdf open and in data mode */
         case NC_BYTE:
         case NC_CHAR:
           elm[ie].val.by = (char)(ie + 1);
-          voidp          = (void *)&elm[ie].val.by;
-          tmpp           = (void *)&chval;
+          voidp = (void *)&elm[ie].val.by;
+          tmpp = (void *)&chval;
           break;
         case NC_SHORT:
           elm[ie].val.sh = (short)(ie - 1);
-          voidp          = (void *)&elm[ie].val.sh;
-          tmpp           = (void *)&shval;
+          voidp = (void *)&elm[ie].val.sh;
+          tmpp = (void *)&shval;
           break;
         case NC_LONG:
           elm[ie].val.lo = (nclong)(ie - 3);
-          voidp          = (void *)&elm[ie].val.lo;
-          tmpp           = (void *)&loval;
+          voidp = (void *)&elm[ie].val.lo;
+          tmpp = (void *)&loval;
           break;
         case NC_FLOAT:
           elm[ie].val.fl = (float)(ie + 1);
-          voidp          = (void *)&elm[ie].val.fl;
-          tmpp           = (void *)&flval;
+          voidp = (void *)&elm[ie].val.fl;
+          tmpp = (void *)&flval;
           break;
         case NC_DOUBLE:
           elm[ie].val.db = (double)(ie - 1);
-          voidp          = (void *)&elm[ie].val.db;
-          tmpp           = (void *)&dbval;
+          voidp = (void *)&elm[ie].val.db;
+          tmpp = (void *)&dbval;
           break;
         default:
           error("%s: bad type, test program error", pname);
@@ -399,7 +399,7 @@ int
 test_ncvarput1(path)
 const char *path; /* name of writable netcdf file to open */
 {
-  int nerrs           = 0;
+  int nerrs = 0;
   static char pname[] = "test_ncvarput1";
   int cdfid;         /* netcdf id */
   int iv;            /* variable id */
@@ -491,7 +491,7 @@ int
 test_ncvarget1(path)
 const char *path; /* name of writable netcdf file to open */
 {
-  int nerrs           = 0;
+  int nerrs = 0;
   static char pname[] = "test_ncvarget1";
   int cdfid;         /* netcdf id */
   int iv;            /* variable id */
@@ -583,17 +583,17 @@ int
 test_ncvarrename(path)
 const char *path; /* name of writable netcdf file to open */
 {
-  int nerrs           = 0;
+  int nerrs = 0;
   static char pname[] = "test_ncvarrename";
   int cdfid;                /* netcdf id */
   int id;                   /* dimension id */
   int yy_id;                /* variable id */
   static struct cdfvar yy = /* variable */
   {"old_name", NC_SHORT, 1, ___, 0};
-  static char newname[]   = "yyy"; /* variable name */
-  static char shortname[] = "yy";  /* variable name */
-  struct cdfvar var;               /* variable */
-  static struct cdfvar zz =        /* variable */
+  static char newname[] = "yyy";  /* variable name */
+  static char shortname[] = "yy"; /* variable name */
+  struct cdfvar var;              /* variable */
+  static struct cdfvar zz =       /* variable */
   {"zz", NC_BYTE, 2, ___, 0};
 
   (void)fprintf(stderr, "*** Testing %s ...\t", &pname[5]);

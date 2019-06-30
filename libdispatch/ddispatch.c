@@ -61,12 +61,12 @@ int NCDISPATCH_initialize(void) {
   memset(&ncrc_globalstate, 0, sizeof(NCRCglobalstate));
 
   for (i = 0; i < NC_MAX_VAR_DIMS; i++) {
-    nc_sizevector0[i]    = 0;
-    nc_sizevector1[i]    = 1;
+    nc_sizevector0[i] = 0;
+    nc_sizevector1[i] = 1;
     nc_ptrdiffvector1[i] = 1;
   }
   for (i = 0; i < NC_MAX_VAR_DIMS; i++) {
-    NC_coord_one[i]  = 1;
+    NC_coord_one[i] = 1;
     NC_coord_zero[i] = 0;
   }
 
@@ -155,7 +155,7 @@ int NCDISPATCH_finalize(void) {
 
 /* return 1 if path looks like a url; 0 otherwise */
 int NC_testurl(const char *path) {
-  int isurl     = 0;
+  int isurl = 0;
   NCURI *tmpurl = NULL;
   char *p;
 

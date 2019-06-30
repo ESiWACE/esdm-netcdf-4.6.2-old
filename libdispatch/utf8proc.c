@@ -122,7 +122,7 @@ const nc_utf8proc_uint8_t *str, nc_utf8proc_ssize_t strlen, nc_utf8proc_int32_t 
   *dst = -1;
   if (!strlen) return 0;
   end = str + ((strlen < 0) ? 4 : strlen);
-  uc  = *str++;
+  uc = *str++;
   if (uc < 0x80) {
     *dst = uc;
     return 1;
@@ -341,7 +341,7 @@ nc_utf8proc_int32_t c1, nc_utf8proc_int32_t c2) {
 static nc_utf8proc_int32_t nc_seqindex_decode_entry(const nc_utf8proc_uint16_t **entry) {
   nc_utf8proc_int32_t entry_cp = **entry;
   if ((entry_cp & 0xF800) == 0xD800) {
-    *entry   = *entry + 1;
+    *entry = *entry + 1;
     entry_cp = ((entry_cp & 0x03FF) << 10) | (**entry & 0x03FF);
     entry_cp += 0x10000;
   }
@@ -354,9 +354,9 @@ static nc_utf8proc_int32_t nc_seqindex_decode_index(const nc_utf8proc_uint32_t s
 }
 
 static nc_utf8proc_ssize_t nc_seqindex_write_char_decomposed(nc_utf8proc_uint16_t seqindex, nc_utf8proc_int32_t *dst, nc_utf8proc_ssize_t bufsize, nc_utf8proc_option_t options, int *last_boundclass) {
-  nc_utf8proc_ssize_t written       = 0;
+  nc_utf8proc_ssize_t written = 0;
   const nc_utf8proc_uint16_t *entry = &nc_utf8proc_sequences[seqindex & 0x1FFF];
-  int len                           = seqindex >> 13;
+  int len = seqindex >> 13;
   if (len >= 7) {
     len = *entry;
     entry++;
@@ -411,8 +411,8 @@ nc_utf8proc_ssize_t nc_utf8proc_decompose_char(nc_utf8proc_int32_t uc, nc_utf8pr
   nc_utf8proc_propval_t category;
   nc_utf8proc_int32_t hangul_sindex;
   if (uc < 0 || uc >= 0x110000) return UTF8PROC_ERROR_NOTASSIGNED;
-  property      = nc_unsafe_get_property(uc);
-  category      = property->category;
+  property = nc_unsafe_get_property(uc);
+  category = property->category;
   hangul_sindex = uc - UTF8PROC_HANGUL_SBASE;
   if (options & (UTF8PROC_COMPOSE | UTF8PROC_DECOMPOSE)) {
     if (hangul_sindex >= 0 && hangul_sindex < UTF8PROC_HANGUL_SCOUNT) {
@@ -473,7 +473,7 @@ nc_utf8proc_ssize_t nc_utf8proc_decompose_char(nc_utf8proc_int32_t uc, nc_utf8pr
   }
   if (options & UTF8PROC_CHARBOUND) {
     nc_utf8proc_bool boundary;
-    int tbc  = property->boundclass;
+    int tbc = property->boundclass;
     boundary = nc_grapheme_break_extended(*last_boundclass, tbc, last_boundclass);
     if (boundary) {
       if (bufsize >= 1) dst[0] = 0xFFFF;
@@ -537,12 +537,12 @@ nc_utf8proc_custom_func custom_func, void *custom_data) {
     while (pos < wpos - 1) {
       nc_utf8proc_int32_t uc1, uc2;
       const nc_utf8proc_property_t *property1, *property2;
-      uc1       = buffer[pos];
-      uc2       = buffer[pos + 1];
+      uc1 = buffer[pos];
+      uc2 = buffer[pos + 1];
       property1 = nc_unsafe_get_property(uc1);
       property2 = nc_unsafe_get_property(uc2);
       if (property1->combining_class > property2->combining_class && property2->combining_class > 0) {
-        buffer[pos]     = uc2;
+        buffer[pos] = uc2;
         buffer[pos + 1] = uc1;
         if (pos > 0)
           pos--;
@@ -591,12 +591,12 @@ nc_utf8proc_ssize_t nc_utf8proc_normalize_utf32(nc_utf8proc_int32_t *buffer, nc_
     nc_utf8proc_int32_t *starter = NULL;
     nc_utf8proc_int32_t current_char;
     const nc_utf8proc_property_t *starter_property = NULL, *current_property;
-    nc_utf8proc_propval_t max_combining_class      = -1;
+    nc_utf8proc_propval_t max_combining_class = -1;
     nc_utf8proc_ssize_t rpos;
     nc_utf8proc_ssize_t wpos = 0;
     nc_utf8proc_int32_t composition;
     for (rpos = 0; rpos < length; rpos++) {
-      current_char     = buffer[rpos];
+      current_char = buffer[rpos];
       current_property = nc_unsafe_get_property(current_char);
       if (starter && current_property->combining_class > max_combining_class) {
         /* combination perhaps possible */
@@ -607,7 +607,7 @@ nc_utf8proc_ssize_t nc_utf8proc_normalize_utf32(nc_utf8proc_int32_t *buffer, nc_
           nc_utf8proc_int32_t hangul_vindex;
           hangul_vindex = current_char - UTF8PROC_HANGUL_VBASE;
           if (hangul_vindex >= 0 && hangul_vindex < UTF8PROC_HANGUL_VCOUNT) {
-            *starter         = UTF8PROC_HANGUL_SBASE + (hangul_lindex * UTF8PROC_HANGUL_VCOUNT + hangul_vindex) * UTF8PROC_HANGUL_TCOUNT;
+            *starter = UTF8PROC_HANGUL_SBASE + (hangul_lindex * UTF8PROC_HANGUL_VCOUNT + hangul_vindex) * UTF8PROC_HANGUL_TCOUNT;
             starter_property = NULL;
             continue;
           }
@@ -627,7 +627,7 @@ nc_utf8proc_ssize_t nc_utf8proc_normalize_utf32(nc_utf8proc_int32_t *buffer, nc_
         }
         if (starter_property->comb_index < 0x8000 && current_property->comb_index != UINT16_MAX && current_property->comb_index >= 0x8000) {
           int sidx = starter_property->comb_index;
-          int idx  = (current_property->comb_index & 0x3FFF) - nc_utf8proc_combinations[sidx];
+          int idx = (current_property->comb_index & 0x3FFF) - nc_utf8proc_combinations[sidx];
           if (idx >= 0 && idx <= nc_utf8proc_combinations[sidx + 1]) {
             idx += sidx + 2;
             if (current_property->comb_index & 0x4000) {
@@ -636,7 +636,7 @@ nc_utf8proc_ssize_t nc_utf8proc_normalize_utf32(nc_utf8proc_int32_t *buffer, nc_
               composition = nc_utf8proc_combinations[idx];
 
             if (composition > 0 && (!(options & UTF8PROC_STABLE) || !(nc_unsafe_get_property(composition)->comp_exclusion))) {
-              *starter         = composition;
+              *starter = composition;
               starter_property = NULL;
               continue;
             }
@@ -649,8 +649,8 @@ nc_utf8proc_ssize_t nc_utf8proc_normalize_utf32(nc_utf8proc_int32_t *buffer, nc_
           max_combining_class = current_property->combining_class;
         }
       } else {
-        starter             = buffer + wpos;
-        starter_property    = NULL;
+        starter = buffer + wpos;
+        starter_property = NULL;
         max_combining_class = -1;
       }
       wpos++;
@@ -695,7 +695,7 @@ nc_utf8proc_custom_func custom_func, void *custom_data) {
   nc_utf8proc_int32_t *buffer;
   nc_utf8proc_ssize_t result;
   *dstptr = NULL;
-  result  = nc_utf8proc_decompose_custom(str, strlen, NULL, 0, options, custom_func, custom_data);
+  result = nc_utf8proc_decompose_custom(str, strlen, NULL, 0, options, custom_func, custom_data);
   if (result < 0) return result;
   buffer = (nc_utf8proc_int32_t *)malloc(result * sizeof(nc_utf8proc_int32_t) + 1);
   if (!buffer) return UTF8PROC_ERROR_NOMEM;

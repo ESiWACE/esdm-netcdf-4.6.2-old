@@ -17,7 +17,7 @@ int main(void) {
   ;
 
   /* Create and write a variable attribute of the vlen type */
-  missing_val.p   = &missing_value;
+  missing_val.p = &missing_value;
   missing_val.len = 1;
   if (nc_put_att(ncid, varid, "_FillValue", typeid, 1, (void *)&missing_val)) abort();
   ;

@@ -34,7 +34,7 @@ int main() {
   /* Now init our values. */
   for (i = 0; i < DIM1_LEN; i++) {
     data[i].c1 = 126;
-    data[i].d  = -9999999;
+    data[i].d = -9999999;
   }
 
   printf("\n*** Checking HDF5 compound types (even more so).\n");

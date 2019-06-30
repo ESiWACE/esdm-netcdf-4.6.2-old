@@ -216,7 +216,7 @@ typedef struct ncio_ffio {
 static int
 ncio_ffio_rel(ncio *const nciop, off_t offset, int rflags) {
   ncio_ffio *ffp = (ncio_ffio *)nciop->pvt;
-  int status     = NC_NOERR;
+  int status = NC_NOERR;
 
   assert(ffp->bf_offset <= offset);
   assert(ffp->bf_cnt != 0);
@@ -236,7 +236,7 @@ ncio_ffio_rel(ncio *const nciop, off_t offset, int rflags) {
     /* if error, invalidate buffer anyway */
   }
   ffp->bf_offset = OFF_NONE;
-  ffp->bf_cnt    = 0;
+  ffp->bf_cnt = 0;
   return status;
 }
 
@@ -247,7 +247,7 @@ off_t offset, size_t extent,
 int rflags,
 void **const vpp) {
   ncio_ffio *ffp = (ncio_ffio *)nciop->pvt;
-  int status     = NC_NOERR;
+  int status = NC_NOERR;
 #ifdef X_ALIGN
   size_t rem;
 #endif
@@ -281,7 +281,7 @@ void **const vpp) {
   if (ffp->bf_extent < extent) {
     if (ffp->bf_base != NULL) {
       free(ffp->bf_base);
-      ffp->bf_base   = NULL;
+      ffp->bf_base = NULL;
       ffp->bf_extent = 0;
     }
     assert(ffp->bf_extent == 0);
@@ -310,7 +310,7 @@ void **const vpp) {
 #ifdef X_ALIGN
   *vpp = (char *)ffp->bf_base + rem;
 #else
-  *vpp       = (char *)ffp->bf_base;
+  *vpp = (char *)ffp->bf_base;
 #endif
   return NC_NOERR;
 }
@@ -319,11 +319,11 @@ void **const vpp) {
 static int
 ncio_ffio_move(ncio *const nciop, off_t to, off_t from,
 size_t nbytes, int rflags) {
-  int status  = NC_NOERR;
+  int status = NC_NOERR;
   off_t lower = from;
   off_t upper = to;
   char *base;
-  size_t diff   = upper - lower;
+  size_t diff = upper - lower;
   size_t extent = diff + nbytes;
 
   rflags &= RGN_NOLOCK; /* filter unwanted flags */
@@ -341,7 +341,7 @@ size_t nbytes, int rflags) {
     upper = from;
   }
 
-  diff   = upper - lower;
+  diff = upper - lower;
   extent = diff + nbytes;
 
   status = ncio_ffio_get(nciop, lower, extent, RGN_WRITE | rflags,
@@ -409,10 +409,10 @@ ncio_ffio_free(void *const pvt) {
 
   if (ffp->bf_base != NULL) {
     free(ffp->bf_base);
-    ffp->bf_base   = NULL;
+    ffp->bf_base = NULL;
     ffp->bf_offset = OFF_NONE;
     ffp->bf_extent = 0;
-    ffp->bf_cnt    = 0;
+    ffp->bf_cnt = 0;
   }
 }
 
@@ -442,19 +442,19 @@ static void
 ncio_ffio_init(ncio *const nciop) {
   ncio_ffio *ffp = (ncio_ffio *)nciop->pvt;
 
-  *((ncio_relfunc **)&nciop->rel)               = ncio_ffio_rel;        /* cast away const */
-  *((ncio_getfunc **)&nciop->get)               = ncio_ffio_get;        /* cast away const */
-  *((ncio_movefunc **)&nciop->move)             = ncio_ffio_move;       /* cast away const */
-  *((ncio_syncfunc **)&nciop->sync)             = ncio_ffio_sync;       /* cast away const */
-  *((ncio_filesizefunc **)&nciop->filesize)     = ncio_ffio_filesize;   /* cast away const */
+  *((ncio_relfunc **)&nciop->rel) = ncio_ffio_rel;                      /* cast away const */
+  *((ncio_getfunc **)&nciop->get) = ncio_ffio_get;                      /* cast away const */
+  *((ncio_movefunc **)&nciop->move) = ncio_ffio_move;                   /* cast away const */
+  *((ncio_syncfunc **)&nciop->sync) = ncio_ffio_sync;                   /* cast away const */
+  *((ncio_filesizefunc **)&nciop->filesize) = ncio_ffio_filesize;       /* cast away const */
   *((ncio_pad_lengthfunc **)&nciop->pad_length) = ncio_ffio_pad_length; /* cast away const */
-  *((ncio_closefunc **)&nciop->close)           = ncio_ffio_close;      /* cast away const */
+  *((ncio_closefunc **)&nciop->close) = ncio_ffio_close;                /* cast away const */
 
-  ffp->pos       = -1;
+  ffp->pos = -1;
   ffp->bf_offset = OFF_NONE;
   ffp->bf_extent = 0;
-  ffp->bf_cnt    = 0;
-  ffp->bf_base   = NULL;
+  ffp->bf_cnt = 0;
+  ffp->bf_base = NULL;
 }
 
 /* */
@@ -491,7 +491,7 @@ ncio_ffio_new(const char *path, int ioflags) {
   if (nciop == NULL)
     return NULL;
 
-  nciop->ioflags       = ioflags;
+  nciop->ioflags = ioflags;
   *((int *)&nciop->fd) = -1; /* cast away const */
 
   nciop->path = (char *)((char *)nciop + sz_ncio);
@@ -770,9 +770,9 @@ ncio_ffio_filesize(ncio *nciop, off_t *filesizep) {
   if (nciop == NULL)
     return EINVAL;
 
-  current    = ffseek(nciop->fd, 0, SEEK_CUR);       /* save current */
-  *filesizep = ffseek(nciop->fd, 0, SEEK_END);       /* get size */
-  reset      = ffseek(nciop->fd, current, SEEK_SET); /* reset */
+  current = ffseek(nciop->fd, 0, SEEK_CUR);     /* save current */
+  *filesizep = ffseek(nciop->fd, 0, SEEK_END);  /* get size */
+  reset = ffseek(nciop->fd, current, SEEK_SET); /* reset */
 
   if (reset != current)
     return EINVAL;

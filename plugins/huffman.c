@@ -32,7 +32,7 @@
 #define UPHEAP(z)                                 \
   {                                               \
     Int32 zz, tmp;                                \
-    zz  = z;                                      \
+    zz = z;                                       \
     tmp = heap[zz];                               \
     while (weight[tmp] < weight[heap[zz >> 1]]) { \
       heap[zz] = heap[zz >> 1];                   \
@@ -44,7 +44,7 @@
 #define DOWNHEAP(z)                                              \
   {                                                              \
     Int32 zz, yy, tmp;                                           \
-    zz  = z;                                                     \
+    zz = z;                                                      \
     tmp = heap[zz];                                              \
     while (True) {                                               \
       yy = zz << 1;                                              \
@@ -53,7 +53,7 @@
         yy++;                                                    \
       if (weight[tmp] < weight[heap[yy]]) break;                 \
       heap[zz] = heap[yy];                                       \
-      zz       = yy;                                             \
+      zz = yy;                                                   \
     }                                                            \
     heap[zz] = tmp;                                              \
   }
@@ -80,9 +80,9 @@ Int32 maxLen) {
 
   while (True) {
     nNodes = alphaSize;
-    nHeap  = 0;
+    nHeap = 0;
 
-    heap[0]   = 0;
+    heap[0] = 0;
     weight[0] = 0;
     parent[0] = -2;
 
@@ -96,18 +96,18 @@ Int32 maxLen) {
     AssertH(nHeap < (BZ_MAX_ALPHA_SIZE + 2), 2001);
 
     while (nHeap > 1) {
-      n1      = heap[1];
+      n1 = heap[1];
       heap[1] = heap[nHeap];
       nHeap--;
       DOWNHEAP(1);
-      n2      = heap[1];
+      n2 = heap[1];
       heap[1] = heap[nHeap];
       nHeap--;
       DOWNHEAP(1);
       nNodes++;
       parent[n1] = parent[n2] = nNodes;
-      weight[nNodes]          = ADDWEIGHTS(weight[n1], weight[n2]);
-      parent[nNodes]          = -1;
+      weight[nNodes] = ADDWEIGHTS(weight[n1], weight[n2]);
+      parent[nNodes] = -1;
       nHeap++;
       heap[nHeap] = nNodes;
       UPHEAP(nHeap);
@@ -147,8 +147,8 @@ Int32 maxLen) {
          handle lengths of up to 20. */
 
     for (i = 1; i <= alphaSize; i++) {
-      j         = weight[i] >> 8;
-      j         = 1 + (j / 2);
+      j = weight[i] >> 8;
+      j = 1 + (j / 2);
       weight[i] = j << 8;
     }
   }

@@ -34,18 +34,18 @@ int main(int argc, char **argv) {
   int i;
 
   enum clouds { /* a C enumeration */
-    CLEAR         = 0,
-    CUMULONIMBUS  = 1,
-    STRATUS       = 2,
+    CLEAR = 0,
+    CUMULONIMBUS = 1,
+    STRATUS = 2,
     STRATOCUMULUS = 3,
-    CUMULUS       = 4,
-    ALTOSTRATUS   = 5,
-    NIMBOSTRATUS  = 6,
-    ALTOCUMULUS   = 7,
-    CIRROSTRATUS  = 8,
-    CIRROCUMULUS  = 9,
-    CIRRUS        = 10,
-    MISSING       = 255
+    CUMULUS = 4,
+    ALTOSTRATUS = 5,
+    NIMBOSTRATUS = 6,
+    ALTOCUMULUS = 7,
+    CIRROSTRATUS = 8,
+    CIRROCUMULUS = 9,
+    CIRRUS = 10,
+    MISSING = 255
   };
 
   struct {

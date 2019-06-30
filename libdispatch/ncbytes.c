@@ -32,9 +32,9 @@ NCbytes *
 ncbytesnew(void) {
   NCbytes *bb = (NCbytes *)malloc(sizeof(NCbytes));
   if (bb == NULL) return (ncbytesfail(), NULL);
-  bb->alloc         = 0;
-  bb->length        = 0;
-  bb->content       = NULL;
+  bb->alloc = 0;
+  bb->length = 0;
+  bb->content = NULL;
   bb->nonextendible = 0;
   return bb;
 }
@@ -54,7 +54,7 @@ int ncbytessetalloc(NCbytes *bb, unsigned long sz) {
   }
   if (bb->content != NULL) free(bb->content);
   bb->content = newcontent;
-  bb->alloc   = sz;
+  bb->alloc = sz;
   return TRUE;
 }
 
@@ -157,9 +157,9 @@ ncbytesdup(NCbytes *bb) {
 char *
 ncbytesextract(NCbytes *bb) {
   char *result = bb->content;
-  bb->alloc    = 0;
-  bb->length   = 0;
-  bb->content  = NULL;
+  bb->alloc = 0;
+  bb->length = 0;
+  bb->content = NULL;
   return result;
 }
 
@@ -167,9 +167,9 @@ int ncbytessetcontents(NCbytes *bb, char *contents, unsigned long alloc) {
   if (bb == NULL) return ncbytesfail();
   ncbytesclear(bb);
   if (!bb->nonextendible && bb->content != NULL) free(bb->content);
-  bb->content       = contents;
-  bb->length        = 0;
-  bb->alloc         = alloc;
+  bb->content = contents;
+  bb->length = 0;
+  bb->alloc = alloc;
   bb->nonextendible = 1;
   return 1;
 }

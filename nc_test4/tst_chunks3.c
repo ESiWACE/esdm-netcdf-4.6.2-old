@@ -69,8 +69,8 @@
     }                                                           \
     emic = (1000000 * (ru.ru_utime.tv_sec + ru.ru_stime.tv_sec) \
             + ru.ru_utime.tv_usec + ru.ru_stime.tv_usec);       \
-    inb  = ru.ru_inblock;                                       \
-    oub  = ru.ru_oublock;                                       \
+    inb = ru.ru_inblock;                                        \
+    oub = ru.ru_oublock;                                        \
     for (TMreps = 0; TMreps < TMrepeats; TMreps++) {
 #define TIMING_END(seconds)                                   \
   }                                                           \
@@ -116,7 +116,7 @@ float *cache_prep)                      /* returned: cache preemption policy (0-
     *deflate_levelp = atol(argv[1]);
     if (*deflate_levelp < 0) {
       *deflate_levelp = -*deflate_levelp;
-      *shufflep       = NC_SHUFFLE;
+      *shufflep = NC_SHUFFLE;
     }
   }
   if (argc > 2)
@@ -179,20 +179,20 @@ int main(int argc, char *argv[]) {
 
   float *varxy, *varxz, *varyz; /* 2D memory slabs used for I/O */
   int mm;
-  size_t dims[]   = {256, 256, 256}; /* default dim lengths */
-  size_t chunks[] = {32, 32, 32};    /* default chunk sizes */
+  size_t dims[] = {256, 256, 256}; /* default dim lengths */
+  size_t chunks[] = {32, 32, 32};  /* default chunk sizes */
   size_t start[3], count[3];
   float contig_time, chunked_time, compressed_time, ratio;
   int deflate_level = 1; /* default compression level, 9 is
 				 * better and slower.  If negative,
 				 * turn on shuffle filter also. */
-  int shuffle       = NC_NOSHUFFLE;
+  int shuffle = NC_NOSHUFFLE;
   size_t cache_size_def;
   size_t cache_hash_def;
   float cache_pre_def;
-  size_t cache_size = 0;     /* use library default */
-  size_t cache_hash = 0;     /* use library default */
-  float cache_pre   = -1.0f; /* use library default */
+  size_t cache_size = 0;   /* use library default */
+  size_t cache_hash = 0;   /* use library default */
+  float cache_pre = -1.0f; /* use library default */
 
   /* rank (number of dimensions) for each variable */
 #define RANK_var1 3
@@ -237,7 +237,7 @@ int main(int argc, char *argv[]) {
   varyz = (float *)emalloc(sizeof(float) * 1 * dims[1] * dims[2]);
   varxz = (float *)emalloc(sizeof(float) * dims[0] * 1 * dims[2]);
   varxy = (float *)emalloc(sizeof(float) * dims[0] * dims[1] * 1);
-  mm    = 0;
+  mm = 0;
   for (j = 0; j < dims[1]; j++) {
     for (k = 0; k < dims[2]; k++) {
       varyz[mm++] = k + dims[2] * j;
@@ -330,7 +330,7 @@ int main(int argc, char *argv[]) {
   }
   TIMING_END(TMsec);
   chunked_time = TMsec;
-  ratio        = contig_time / chunked_time;
+  ratio = contig_time / chunked_time;
   if (ratio >= 1.0)
     printf(" %5.2g x faster\n", ratio);
   else
@@ -346,7 +346,7 @@ int main(int argc, char *argv[]) {
   }
   TIMING_END(TMsec);
   compressed_time = TMsec;
-  ratio           = contig_time / compressed_time;
+  ratio = contig_time / compressed_time;
   if (ratio >= 1.0)
     printf(" %5.2g x faster\n", ratio);
   else
@@ -383,7 +383,7 @@ int main(int argc, char *argv[]) {
   }
   TIMING_END(TMsec);
   chunked_time = TMsec;
-  ratio        = contig_time / chunked_time;
+  ratio = contig_time / chunked_time;
   if (ratio >= 1.0)
     printf(" %5.2g x faster\n", ratio);
   else
@@ -399,7 +399,7 @@ int main(int argc, char *argv[]) {
   }
   TIMING_END(TMsec);
   compressed_time = TMsec;
-  ratio           = contig_time / compressed_time;
+  ratio = contig_time / compressed_time;
   if (ratio >= 1.0)
     printf(" %5.2g x faster\n", ratio);
   else
@@ -436,7 +436,7 @@ int main(int argc, char *argv[]) {
   }
   TIMING_END(TMsec);
   chunked_time = TMsec;
-  ratio        = contig_time / chunked_time;
+  ratio = contig_time / chunked_time;
   if (ratio >= 1.0)
     printf(" %5.2g x faster\n", ratio);
   else
@@ -452,7 +452,7 @@ int main(int argc, char *argv[]) {
   }
   TIMING_END(TMsec);
   compressed_time = TMsec;
-  ratio           = contig_time / compressed_time;
+  ratio = contig_time / compressed_time;
   if (ratio >= 1.0)
     printf(" %5.2g x faster\n", ratio);
   else
@@ -489,7 +489,7 @@ int main(int argc, char *argv[]) {
   }
   TIMING_END(TMsec);
   chunked_time = TMsec;
-  ratio        = contig_time / chunked_time;
+  ratio = contig_time / chunked_time;
   if (ratio >= 1.0)
     printf(" %5.2g x faster\n", ratio);
   else
@@ -505,7 +505,7 @@ int main(int argc, char *argv[]) {
   }
   TIMING_END(TMsec);
   compressed_time = TMsec;
-  ratio           = contig_time / compressed_time;
+  ratio = contig_time / compressed_time;
   if (ratio >= 1.0)
     printf(" %5.2g x faster\n", ratio);
   else
@@ -542,7 +542,7 @@ int main(int argc, char *argv[]) {
   }
   TIMING_END(TMsec);
   chunked_time = TMsec;
-  ratio        = contig_time / chunked_time;
+  ratio = contig_time / chunked_time;
   if (ratio >= 1.0)
     printf(" %5.2g x faster\n", ratio);
   else
@@ -558,7 +558,7 @@ int main(int argc, char *argv[]) {
   }
   TIMING_END(TMsec);
   compressed_time = TMsec;
-  ratio           = contig_time / compressed_time;
+  ratio = contig_time / compressed_time;
   if (ratio >= 1.0)
     printf(" %5.2g x faster\n", ratio);
   else
@@ -595,7 +595,7 @@ int main(int argc, char *argv[]) {
   }
   TIMING_END(TMsec);
   chunked_time = TMsec;
-  ratio        = contig_time / chunked_time;
+  ratio = contig_time / chunked_time;
   if (ratio >= 1.0)
     printf(" %5.2g x faster\n", ratio);
   else
@@ -611,7 +611,7 @@ int main(int argc, char *argv[]) {
   }
   TIMING_END(TMsec);
   compressed_time = TMsec;
-  ratio           = contig_time / compressed_time;
+  ratio = contig_time / compressed_time;
   if (ratio >= 1.0)
     printf(" %5.2g x faster\n", ratio);
   else

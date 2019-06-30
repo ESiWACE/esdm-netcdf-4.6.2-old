@@ -490,18 +490,18 @@ int inRange(const double value, const nc_type datatype);
  */
 typedef enum {
   NCT_UNSPECIFIED = 0,
-  NCT_UCHAR       = 1,  /* unsigned char */
-  NCT_TEXT        = 16, /* char */
+  NCT_UCHAR = 1, /* unsigned char */
+  NCT_TEXT = 16, /* char */
 #define NCT_CHAR NCT_TEXT
-  NCT_SCHAR  = 17, /* signed char */
-  NCT_SHORT  = 18, /* short */
-  NCT_INT    = 20, /* int */
-  NCT_LONG   = 22, /* long */
-  NCT_FLOAT  = 36, /* float */
+  NCT_SCHAR = 17,  /* signed char */
+  NCT_SHORT = 18,  /* short */
+  NCT_INT = 20,    /* int */
+  NCT_LONG = 22,   /* long */
+  NCT_FLOAT = 36,  /* float */
   NCT_DOUBLE = 40, /* double */
   NCT_USHORT = 41,
-  NCT_UINT   = 42,
-  NCT_INT64  = 43,
+  NCT_UINT = 42,
+  NCT_INT64 = 43,
 #define NCT_LONGLONG NCT_INT64
   NCT_UINT64 = 44
 #define NCT_ULONGLONG NCT_UINT64

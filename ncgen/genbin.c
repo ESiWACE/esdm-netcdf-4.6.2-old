@@ -36,9 +36,9 @@ void genbin_netcdf(void) {
   int ntyps, ngrps, igrp;
 #  endif
 
-  ndims  = listlength(dimdefs);
-  nvars  = listlength(vardefs);
-  natts  = listlength(attdefs);
+  ndims = listlength(dimdefs);
+  nvars = listlength(vardefs);
+  natts = listlength(attdefs);
   ngatts = listlength(gattdefs);
 #  ifdef USE_NETCDF4
   ntyps = listlength(typdefs);
@@ -89,7 +89,7 @@ void genbin_netcdf(void) {
   if (ndims > 0) {
     for (idim = 0; idim < ndims; idim++) {
       Symbol *dsym = (Symbol *)listget(dimdefs, idim);
-      stat         = nc_def_dim(dsym->container->nc_id,
+      stat = nc_def_dim(dsym->container->nc_id,
       dsym->name,
       (dsym->dim.isunlimited ? NC_UNLIMITED : dsym->dim.declsize),
       &dsym->nc_id);
@@ -193,7 +193,7 @@ genbin_defineglobalspecials(void)
 
 static int
 genbin_definespecialattributes(Symbol *var) {
-  int stat             = NC_NOERR;
+  int stat = NC_NOERR;
   Specialdata *special = var->var.special;
   if (special->flags & _STORAGE_FLAG) {
     if (special->_Storage == NC_CONTIGUOUS) {
@@ -341,7 +341,7 @@ genbin_deftype(Symbol *tsym) {
           /* Generate the field dimension constants*/
           for (j = 0; j < efield->typ.dimset.ndims; j++) {
             unsigned int size = efield->typ.dimset.dimsyms[j]->dim.declsize;
-            dimsizes[j]       = size;
+            dimsizes[j] = size;
           }
           stat = nc_insert_array_compound(
           tsym->container->nc_id,
@@ -363,7 +363,7 @@ genbin_deftype(Symbol *tsym) {
 
 static int
 genbin_defineattr(Symbol *asym) {
-  int stat            = NC_NOERR;
+  int stat = NC_NOERR;
   Bytebuffer *databuf = bbNew();
   generator_reset(bin_generator, NULL);
   generate_attrdata(asym, bin_generator, (Writer)genbin_write, databuf);
@@ -378,7 +378,7 @@ done:
 /* Following is patterned after the walk functions in semantics.c */
 static int
 genbin_definevardata(Symbol *vsym) {
-  int stat            = NC_NOERR;
+  int stat = NC_NOERR;
   Bytebuffer *databuf = NULL;
   if (vsym->data == NULL) goto done;
   databuf = bbNew();
@@ -431,7 +431,7 @@ int rank, size_t *start, size_t *count) {
 
   if (rank == 0) {
     size_t count[1] = {1};
-    stat            = nc_put_var1(vsym->container->nc_id, vsym->nc_id, count, data);
+    stat = nc_put_var1(vsym->container->nc_id, vsym->nc_id, count, data);
   } else {
     stat = nc_put_vara(vsym->container->nc_id, vsym->nc_id, start, count, data);
   }
@@ -457,18 +457,18 @@ int rank, size_t *start, size_t *count) {
   typid = basetype->nc_id;
 
   list = asym->data;
-  len  = list->length;
+  len = list->length;
 
   /* Use the specialized put_att_XX routines if possible*/
   if (isprim(basetype->typ.typecode)) {
     switch (basetype->typ.typecode) {
       case NC_BYTE: {
         signed char *data = (signed char *)bbContents(databuf);
-        stat              = nc_put_att_schar(grpid, varid, asym->name, typid, len, data);
+        stat = nc_put_att_schar(grpid, varid, asym->name, typid, len, data);
         check_err(stat, __LINE__, __FILE__);
       } break;
       case NC_CHAR: {
-        char *data  = (char *)bbContents(databuf);
+        char *data = (char *)bbContents(databuf);
         size_t slen = bbLength(databuf);
         /* Revise length if slen == 0 */
         if (slen == 0) {
@@ -483,22 +483,22 @@ int rank, size_t *start, size_t *count) {
       } break;
       case NC_SHORT: {
         short *data = (short *)bbContents(databuf);
-        stat        = nc_put_att_short(grpid, varid, asym->name, typid, len, data);
+        stat = nc_put_att_short(grpid, varid, asym->name, typid, len, data);
         check_err(stat, __LINE__, __FILE__);
       } break;
       case NC_INT: {
         int *data = (int *)bbContents(databuf);
-        stat      = nc_put_att_int(grpid, varid, asym->name, typid, len, data);
+        stat = nc_put_att_int(grpid, varid, asym->name, typid, len, data);
         check_err(stat, __LINE__, __FILE__);
       } break;
       case NC_FLOAT: {
         float *data = (float *)bbContents(databuf);
-        stat        = nc_put_att_float(grpid, varid, asym->name, typid, len, data);
+        stat = nc_put_att_float(grpid, varid, asym->name, typid, len, data);
         check_err(stat, __LINE__, __FILE__);
       } break;
       case NC_DOUBLE: {
         double *data = (double *)bbContents(databuf);
-        stat         = nc_put_att_double(grpid, varid, asym->name, typid, len, data);
+        stat = nc_put_att_double(grpid, varid, asym->name, typid, len, data);
         check_err(stat, __LINE__, __FILE__);
       } break;
       case NC_STRING: {
@@ -510,27 +510,27 @@ int rank, size_t *start, size_t *count) {
       } break;
       case NC_UBYTE: {
         unsigned char *data = (unsigned char *)bbContents(databuf);
-        stat                = nc_put_att_uchar(grpid, varid, asym->name, typid, len, data);
+        stat = nc_put_att_uchar(grpid, varid, asym->name, typid, len, data);
         check_err(stat, __LINE__, __FILE__);
       } break;
       case NC_USHORT: {
         unsigned short *data = (unsigned short *)bbContents(databuf);
-        stat                 = nc_put_att_ushort(grpid, varid, asym->name, typid, len, data);
+        stat = nc_put_att_ushort(grpid, varid, asym->name, typid, len, data);
         check_err(stat, __LINE__, __FILE__);
       } break;
       case NC_UINT: {
         unsigned int *data = (unsigned int *)bbContents(databuf);
-        stat               = nc_put_att_uint(grpid, varid, asym->name, typid, len, data);
+        stat = nc_put_att_uint(grpid, varid, asym->name, typid, len, data);
         check_err(stat, __LINE__, __FILE__);
       } break;
       case NC_INT64: {
         long long *data = (long long *)bbContents(databuf);
-        stat            = nc_put_att_longlong(grpid, varid, asym->name, typid, len, data);
+        stat = nc_put_att_longlong(grpid, varid, asym->name, typid, len, data);
         check_err2(stat, asym->lineno, __LINE__, __FILE__);
       } break;
       case NC_UINT64: {
         unsigned long long *data = (unsigned long long *)bbContents(databuf);
-        stat                     = nc_put_att_ulonglong(grpid, varid, asym->name, typid, len, data);
+        stat = nc_put_att_ulonglong(grpid, varid, asym->name, typid, len, data);
         check_err(stat, __LINE__, __FILE__);
       } break;
       default: PANIC1("genbin_defineattr: unexpected basetype: %d", basetype->typ.typecode);

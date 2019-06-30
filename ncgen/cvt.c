@@ -454,7 +454,7 @@ void convert1(NCConstant *src, NCConstant *dst) {
       break;
     case CASE(NC_STRING, NC_STRING):
       /* Need to watch out for embedded NULs */
-      tmp.stringv.len     = src->value.stringv.len;
+      tmp.stringv.len = src->value.stringv.len;
       tmp.stringv.stringv = (char *)ecalloc(src->value.stringv.len + 1);
       memcpy((void *)tmp.stringv.stringv,
       (void *)src->value.stringv.stringv,
@@ -465,57 +465,57 @@ void convert1(NCConstant *src, NCConstant *dst) {
     /* What is the proper conversion for T->STRING?*/
     case CASE(NC_CHAR, NC_STRING):
       sprintf(stmp, "%c", src->value.charv);
-      tmp.stringv.len     = nulllen(stmp);
+      tmp.stringv.len = nulllen(stmp);
       tmp.stringv.stringv = nulldup(stmp);
       break;
     case CASE(NC_BYTE, NC_STRING):
       sprintf(stmp, "%hhd", src->value.uint8v);
-      tmp.stringv.len     = nulllen(stmp);
+      tmp.stringv.len = nulllen(stmp);
       tmp.stringv.stringv = nulldup(stmp);
       break;
     case CASE(NC_UBYTE, NC_STRING):
       sprintf(stmp, "%hhu", src->value.uint8v);
-      tmp.stringv.len     = nulllen(stmp);
+      tmp.stringv.len = nulllen(stmp);
       tmp.stringv.stringv = nulldup(stmp);
       break;
     case CASE(NC_USHORT, NC_STRING):
       sprintf(stmp, "%hu", src->value.uint16v);
-      tmp.stringv.len     = nulllen(stmp);
+      tmp.stringv.len = nulllen(stmp);
       tmp.stringv.stringv = nulldup(stmp);
       break;
     case CASE(NC_UINT, NC_STRING):
       sprintf(stmp, "%u", src->value.uint32v);
-      tmp.stringv.len     = nulllen(stmp);
+      tmp.stringv.len = nulllen(stmp);
       tmp.stringv.stringv = nulldup(stmp);
       break;
     case CASE(NC_UINT64, NC_STRING):
       sprintf(stmp, "%llu", src->value.uint64v);
-      tmp.stringv.len     = nulllen(stmp);
+      tmp.stringv.len = nulllen(stmp);
       tmp.stringv.stringv = nulldup(stmp);
       break;
     case CASE(NC_SHORT, NC_STRING):
       sprintf(stmp, "%hd", src->value.int16v);
-      tmp.stringv.len     = nulllen(stmp);
+      tmp.stringv.len = nulllen(stmp);
       tmp.stringv.stringv = nulldup(stmp);
       break;
     case CASE(NC_INT, NC_STRING):
       sprintf(stmp, "%d", src->value.int32v);
-      tmp.stringv.len     = nulllen(stmp);
+      tmp.stringv.len = nulllen(stmp);
       tmp.stringv.stringv = nulldup(stmp);
       break;
     case CASE(NC_INT64, NC_STRING):
       sprintf(stmp, "%lld", src->value.int64v);
-      tmp.stringv.len     = nulllen(stmp);
+      tmp.stringv.len = nulllen(stmp);
       tmp.stringv.stringv = nulldup(stmp);
       break;
     case CASE(NC_FLOAT, NC_STRING):
       sprintf(stmp, "%.8g", src->value.floatv);
-      tmp.stringv.len     = nulllen(stmp);
+      tmp.stringv.len = nulllen(stmp);
       tmp.stringv.stringv = nulldup(stmp);
       break;
     case CASE(NC_DOUBLE, NC_STRING):
       sprintf(stmp, "%.8g", src->value.doublev);
-      tmp.stringv.len     = nulllen(stmp);
+      tmp.stringv.len = nulllen(stmp);
       tmp.stringv.stringv = nulldup(stmp);
       break;
 
@@ -566,13 +566,13 @@ void convert1(NCConstant *src, NCConstant *dst) {
     case CASE(NC_OPAQUE, NC_OPAQUE):
       tmp.opaquev.stringv = (char *)ecalloc(src->value.opaquev.len + 1);
       memcpy(tmp.opaquev.stringv, src->value.opaquev.stringv, src->value.opaquev.len);
-      tmp.opaquev.len                      = src->value.opaquev.len;
+      tmp.opaquev.len = src->value.opaquev.len;
       tmp.opaquev.stringv[tmp.opaquev.len] = '\0';
       break;
     case CASE(NC_NIL, NC_NIL):
       break; /* probably will never happen */
     case CASE(NC_NIL, NC_STRING):
-      tmp.stringv.len     = 0;
+      tmp.stringv.len = 0;
       tmp.stringv.stringv = NULL;
       break;
 
@@ -601,7 +601,7 @@ void setprimlength(NCConstant *prim, unsigned long len) {
       /* do nothing*/
     } else if (prim->value.stringv.len > len) { /* truncate*/
       prim->value.stringv.stringv[len] = '\0';
-      prim->value.stringv.len          = len;
+      prim->value.stringv.len = len;
     } else { /* prim->value.stringv.len > srcov->len*/
       char *s;
       s = (char *)ecalloc(len + 1);
@@ -610,7 +610,7 @@ void setprimlength(NCConstant *prim, unsigned long len) {
       memcpy(s, prim->value.stringv.stringv, prim->value.stringv.len);
       efree(prim->value.stringv.stringv);
       prim->value.stringv.stringv = s;
-      prim->value.stringv.len     = len;
+      prim->value.stringv.len = len;
     }
   } else if (prim->nctype == NC_OPAQUE) {
     /* Note that expansion/contraction is in terms of whole
@@ -620,7 +620,7 @@ void setprimlength(NCConstant *prim, unsigned long len) {
       /* do nothing*/
     } else if (prim->value.opaquev.len > len) { /* truncate*/
       prim->value.opaquev.stringv[len] = '\0';
-      prim->value.opaquev.len          = len;
+      prim->value.opaquev.len = len;
     } else { /* prim->value.opaquev.len < len => expand*/
       char *s;
       s = (char *)ecalloc(len + 1);
@@ -629,7 +629,7 @@ void setprimlength(NCConstant *prim, unsigned long len) {
       s[len] = '\0';
       efree(prim->value.opaquev.stringv);
       prim->value.opaquev.stringv = s;
-      prim->value.opaquev.len     = len;
+      prim->value.opaquev.len = len;
     }
   }
 }
@@ -643,14 +643,14 @@ convertstringtochars(NCConstant *str) {
   char *s;
 
   slen = str->value.stringv.len;
-  dl   = builddatalist(slen);
-  s    = str->value.stringv.stringv;
+  dl = builddatalist(slen);
+  s = str->value.stringv.stringv;
   for (i = 0; i < slen; i++) {
     NCConstant con;
-    con.nctype      = NC_CHAR;
-    con.lineno      = str->lineno;
+    con.nctype = NC_CHAR;
+    con.lineno = str->lineno;
     con.value.charv = s[i];
-    con.filled      = 0;
+    con.filled = 0;
     dlappend(dl, &con);
   }
   return dl;
@@ -659,7 +659,7 @@ convertstringtochars(NCConstant *str) {
 unsigned int
 convertFilterID(const char *id) {
   unsigned int nid = 0;
-  int ok           = 0;
+  int ok = 0;
 
   /* for now, must be an integer */
   ok = sscanf(id, "%u", &nid);

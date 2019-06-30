@@ -33,7 +33,7 @@ int main(int argc, char **argv) {
     NCbytes *buf;
 
     filename = argv[i];
-    buf      = ncbytesnew();
+    buf = ncbytesnew();
 
     if ((ret = nc_open(filename, NC_NETCDF4, &ncid))) goto fail;
 

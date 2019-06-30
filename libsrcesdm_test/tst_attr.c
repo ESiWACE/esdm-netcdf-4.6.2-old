@@ -43,7 +43,7 @@ int main(int argc, char **argv) {
     * NC_INT (4-byte integer). */
   if ((retval = nc_def_var(ncid, "data", NC_INT, 2, dimids, &varid))) ERR(retval);
 
-  short s         = 32;
+  short s = 32;
   const char *str = "this is test1";
   if ((retval = nc_put_att_short(ncid, NC_GLOBAL, "short", NC_SHORT, 1, &s))) ERR(retval);
   if ((retval = nc_put_att_string(ncid, varid, "string", 1, &str))) ERR(retval);

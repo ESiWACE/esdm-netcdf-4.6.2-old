@@ -181,7 +181,7 @@ int getopt(int argc, TCHAR *argv[], TCHAR *optstring) {
     optind++;
   }
 
-  c  = *next++;
+  c = *next++;
   cp = strchr(optstring, c);
 
   if (cp == NULL || c == _T(':'))
@@ -191,7 +191,7 @@ int getopt(int argc, TCHAR *argv[], TCHAR *optstring) {
   if (*cp == _T(':')) {
     if (*next != _T('\0')) {
       optarg = next;
-      next   = NULL;
+      next = NULL;
     } else if (optind < argc) {
       optarg = argv[optind];
       optind++;

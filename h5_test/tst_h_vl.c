@@ -30,7 +30,7 @@ int main() {
       if (!(phoney = malloc(sizeof(int) * (i + 1)))) ERR;
       for (j = 0; j < i + 1; j++)
         phoney[j] = -99;
-      data[i].p   = phoney;
+      data[i].p = phoney;
       data[i].len = i + 1;
     }
 

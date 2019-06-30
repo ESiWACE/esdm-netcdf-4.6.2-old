@@ -79,9 +79,9 @@ int main() {
     if ((grpid = H5Gcreate(fileid, GRP2_NAME, 0)) < 0) ERR;
 
     /* Create a space corresponding to these three dimensions. */
-    dims[0]     = 0;
-    dims[1]     = LAT_LEN;
-    dims[2]     = LON_LEN;
+    dims[0] = 0;
+    dims[1] = LAT_LEN;
+    dims[2] = LON_LEN;
     max_dims[0] = H5S_UNLIMITED;
     max_dims[1] = LAT_LEN;
     max_dims[2] = LON_LEN;
@@ -191,7 +191,7 @@ int main() {
     hid_t propid;
     unsigned int flags, cd_values[NUM_CD_ELEM], filter_config;
     size_t cd_nelems = NUM_CD_ELEM;
-    size_t namelen   = MAX_NAME;
+    size_t namelen = MAX_NAME;
     char name[MAX_NAME + 1];
 
 
@@ -244,7 +244,7 @@ int main() {
     hid_t propid;
     unsigned int flags, cd_values[NUM_CD_ELEM], filter_config;
     size_t cd_nelems = NUM_CD_ELEM;
-    size_t namelen   = MAX_NAME;
+    size_t namelen = MAX_NAME;
     char name[MAX_NAME + 1];
     int found_shuffle = 0, found_fletcher32 = 0, found_deflate = 0;
     int f;

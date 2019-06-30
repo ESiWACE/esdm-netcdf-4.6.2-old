@@ -28,11 +28,11 @@ nciter_t *iter                /* returned iteration state, don't mess with it */
   long long prod;
   size_t *dims = iter->dimsizes;
 
-  iter->rank    = rank;
-  iter->first   = 1;
-  iter->more    = 1;
+  iter->rank = rank;
+  iter->first = 1;
+  iter->more = 1;
   iter->chunked = chunked;
-  prod          = value_size;
+  prod = value_size;
   if (iter->chunked == 0) { /* contiguous */
     iter->right_dim = rank - 1;
     for (i = rank; i > 0; i--) {
@@ -44,17 +44,17 @@ nciter_t *iter                /* returned iteration state, don't mess with it */
       }
     }
     if (i > 0) { /* variable won't fit in bufsize bytes */
-      iter->rows     = bufsize / prod;
-      iter->numrows  = dims[iter->right_dim] / iter->rows;
+      iter->rows = bufsize / prod;
+      iter->numrows = dims[iter->right_dim] / iter->rows;
       iter->leftover = dims[iter->right_dim] - iter->numrows * iter->rows;
-      iter->cur      = 1;
-      iter->inc      = iter->rows;
+      iter->cur = 1;
+      iter->inc = iter->rows;
       return stat;
     }
     /* else, variable will fit in bufsize bytes of memory. */
     iter->right_dim = 0;
-    iter->rows      = dims[0];
-    iter->inc       = 0;
+    iter->rows = dims[0];
+    iter->inc = 0;
     return stat;
   }
   /* else, handle chunked case */
@@ -191,7 +191,7 @@ nciter_t **iterpp /* returned opaque iteration state */) {
 
   dimids = (int *)emalloc((ndims + 1) * sizeof(int));
 
-  iterp->dimsizes   = (size_t *)emalloc((ndims + 1) * sizeof(size_t));
+  iterp->dimsizes = (size_t *)emalloc((ndims + 1) * sizeof(size_t));
   iterp->chunksizes = (size_t *)emalloc((ndims + 1) * sizeof(size_t));
 
   NC_CHECK(nc_inq_vardimid(ncid, varid, dimids));
@@ -269,14 +269,14 @@ size_t *count                /* returned count vector for next vara call */
       iter->inc, start);
       /* iterate on pieces of variable */
       if (iter->cur < iter->numrows) {
-        iter->inc              = iter->rows;
+        iter->inc = iter->rows;
         count[iter->right_dim] = iter->rows;
         iter->cur++;
       } else {
         if (iter->leftover > 0) {
           count[iter->right_dim] = iter->leftover;
-          iter->inc              = iter->leftover;
-          iter->cur              = 0;
+          iter->inc = iter->leftover;
+          iter->cur = 0;
         }
       }
     } else { /* chunked storage */

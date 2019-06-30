@@ -151,9 +151,9 @@ int main() {
     short val[NUM_LANG];
     char lang[NUM_LANG][STR_LEN + 1] = {"C", "Fortran", "C++", "MISSING"};
     enum langs { CLANG = 0,
-      Fortran          = 1,
-      CPP              = 2,
-      MISSING          = 255 };
+      Fortran = 1,
+      CPP = 2,
+      MISSING = 255 };
     short the_value, fill_value = MISSING, data_point = CLANG;
     hsize_t start[1] = {1}, count[1] = {1};
     int num_members;

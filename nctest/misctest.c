@@ -19,7 +19,7 @@
  *    check returned values for each proper data type
  */
 int test_nctypelen() {
-  int nerrs           = 0;
+  int nerrs = 0;
   static char pname[] = "test_nctypelen";
 
   (void)fprintf(stderr, "*** Testing %s ...\t", &pname[5]);

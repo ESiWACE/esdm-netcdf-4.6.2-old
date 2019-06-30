@@ -88,8 +88,8 @@ int main(int argc, char **argv) { /* create tst_classic_fills.nc */
 #define MAX_VALS 10
     int ncid, varid, rec_id, dims[2];
     static int rec[1] = {1};
-    size_t start[2]   = {0, 0};
-    size_t count[2]   = {1, MAX_VALS};
+    size_t start[2] = {0, 0};
+    size_t count[2] = {1, MAX_VALS};
     char vals[MAX_VALS];
     int i;
 
@@ -152,8 +152,8 @@ int main(int argc, char **argv) { /* create tst_classic_fills.nc */
     int recvar_dims[RANK_RECVARS];
     int fixvar, recvar, i;
 
-    char *fnames[]  = {"c", "b", "s", "i", "f", "d"};
-    char *rnames[]  = {"cr", "br", "sr", "ir", "fr", "dr"};
+    char *fnames[] = {"c", "b", "s", "i", "f", "d"};
+    char *rnames[] = {"cr", "br", "sr", "ir", "fr", "dr"};
     nc_type types[] = {NC_CHAR, NC_BYTE, NC_SHORT, NC_INT, NC_FLOAT, NC_DOUBLE};
 
     /*if (nc_set_default_format(format + 1, NULL)) ERR;*/
@@ -185,9 +185,9 @@ int main(int argc, char **argv) { /* create tst_classic_fills.nc */
       static size_t rec_start[RANK_REC];
       static size_t rec_count[RANK_REC];
       static int rec[] = {1};
-      rec_len          = 1; /* number of records of rec data */
-      rec_start[0]     = 0;
-      rec_count[0]     = rec_len;
+      rec_len = 1; /* number of records of rec data */
+      rec_start[0] = 0;
+      rec_count[0] = rec_len;
       if (nc_put_vara_int(ncid, rec_id, rec_start, rec_count, rec)) ERR;
     }
     if (nc_close(ncid)) ERR;
@@ -307,10 +307,10 @@ int main(int argc, char **argv) { /* create tst_classic_fills.nc */
     int ncid;
     int dimid;
     int varid;
-    int cmode       = 0;
+    int cmode = 0;
     char testfile[] = "test.nc";
-    size_t index    = 2;
-    int test_val    = 42;
+    size_t index = 2;
+    int test_val = 42;
     int no_fill;
     int ret;
 

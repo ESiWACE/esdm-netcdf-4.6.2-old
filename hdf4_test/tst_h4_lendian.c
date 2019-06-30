@@ -18,9 +18,9 @@
 
 /* Read the file. Return -1 if endianness is not little. */
 int read_hdf_file(int dtype) {
-  int ncid           = 0;
+  int ncid = 0;
   int le_int16_varid = 0;
-  int ed             = 0;
+  int ed = 0;
 
   if (nc_open(FILENAME, NC_NETCDF4 | NC_NOWRITE, &ncid)) ERR;
   if (nc_inq_varid(ncid, SDSNAME, &le_int16_varid)) ERR;
@@ -48,8 +48,8 @@ int create_hdf_file(int dtype) {
   count = 0;
   for (j = 0; j < DIM0; j++) {
     for (i = 0; i < DIM1; i++) {
-      array_data[j][i]         = count;
-      array_data_int32[j][i]   = count;
+      array_data[j][i] = count;
+      array_data_int32[j][i] = count;
       array_data_float32[j][i] = count;
       array_data_float64[j][i] = count++;
     }

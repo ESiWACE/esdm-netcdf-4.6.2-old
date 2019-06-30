@@ -17,7 +17,7 @@
 /* Define the test cases */
 
 typedef enum H5testcase {
-  TC_NONE   = 0,
+  TC_NONE = 0,
   TC_ENDIAN = 1,
 } H5testcase;
 

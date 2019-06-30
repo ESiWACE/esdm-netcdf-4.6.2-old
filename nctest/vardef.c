@@ -33,9 +33,9 @@ float_epsilon() {
     float etop, ebot, eps;
     float one = 1.0;
     float two = 2.0;
-    etop      = 1.0;
-    ebot      = 0.0;
-    eps       = ebot + (etop - ebot) / two;
+    etop = 1.0;
+    ebot = 0.0;
+    eps = ebot + (etop - ebot) / two;
     while (eps != ebot && eps != etop) {
       float epsp1;
 
@@ -63,9 +63,9 @@ double_epsilon() {
     double etop, ebot, eps;
     double one = 1.0;
     double two = 2.0;
-    etop       = 1.0;
-    ebot       = 0.0;
-    eps        = ebot + (etop - ebot) / two;
+    etop = 1.0;
+    ebot = 0.0;
+    eps = ebot + (etop - ebot) / two;
     while (eps != ebot && eps != etop) {
       double epsp1;
 
@@ -85,7 +85,7 @@ double_epsilon() {
 
 static void
 init_epsilons() {
-  float_eps  = float_epsilon();
+  float_eps = float_epsilon();
   double_eps = double_epsilon();
 }
 
@@ -117,15 +117,15 @@ const char *path; /* name of writable netcdf file to open */
   {"floatv", NC_FLOAT, 2, ___, 0},
   {"doublev", NC_DOUBLE, 1, ___, 0},
   {"scalarv", NC_DOUBLE, 0, ___, 0}};
-  int nv                    = LEN_OF(va); /* number of variables to define */
-  int va_id[LEN_OF(va)];                  /* variable ids */
-  static struct cdfvar tmp =              /* variable for testing bad types, etc. */
+  int nv = LEN_OF(va);       /* number of variables to define */
+  int va_id[LEN_OF(va)];     /* variable ids */
+  static struct cdfvar tmp = /* variable for testing bad types, etc. */
   {"tmpv", NC_DOUBLE, 1, ___, 0};
   /* if d5 >= 91 in following, problem on machines with 16-bit ints ??? */
   static struct cdfdim di[] = {/* a bunch of dimensions */
   {"d0", 2}, {"d1", 3}, {"d2", 5}, {"d3", 6}, {"d4", 4}, {"d5", 31}};
-  int nd                    = LEN_OF(di); /* number of dimensions */
-  int di_id[LEN_OF(di)];                  /* dimension ids */
+  int nd = LEN_OF(di);   /* number of dimensions */
+  int di_id[LEN_OF(di)]; /* dimension ids */
 
   (void)fprintf(stderr, "*** Testing %s ...\t", &pname[5]);
 

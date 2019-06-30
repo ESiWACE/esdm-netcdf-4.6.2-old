@@ -56,9 +56,9 @@ int main(int argc, char **argv) {
   int failcount = 0;
 
   for (test = TESTS; test->url; test++) {
-    int ret    = 0;
+    int ret = 0;
     NCURI *uri = NULL;
-    ret        = ncuriparse(test->url, &uri);
+    ret = ncuriparse(test->url, &uri);
     if (ret != NCU_OK) {
       fprintf(stderr, "Parse fail: %s\n", test->url);
       failcount++;
@@ -79,9 +79,9 @@ int main(int argc, char **argv) {
   }
 
   for (xtest = XTESTS; *xtest; xtest++) {
-    int ret    = 0;
+    int ret = 0;
     NCURI *uri = NULL;
-    ret        = ncuriparse(*xtest, &uri);
+    ret = ncuriparse(*xtest, &uri);
     if (ret == NCU_OK) {
       fprintf(stderr, "XTEST succeeded: %s\n", *xtest);
       failcount++;

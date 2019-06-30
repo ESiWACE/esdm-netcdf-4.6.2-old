@@ -34,11 +34,11 @@ const size_t *edges, const ptrdiff_t *stride) {
   odom->rank = rank;
   assert(odom->rank <= NC_MAX_VAR_DIMS);
   for (i = 0; i < odom->rank; i++) {
-    odom->start[i]  = (start != NULL ? start[i] : 0);
-    odom->edges[i]  = (edges != NULL ? edges[i] : 1);
+    odom->start[i] = (start != NULL ? start[i] : 0);
+    odom->edges[i] = (edges != NULL ? edges[i] : 1);
     odom->stride[i] = (stride != NULL ? stride[i] : 1);
-    odom->stop[i]   = odom->start[i] + (odom->edges[i] * (size_t)odom->stride[i]);
-    odom->index[i]  = odom->start[i];
+    odom->stop[i] = odom->start[i] + (odom->edges[i] * (size_t)odom->stride[i]);
+    odom->index[i] = odom->start[i];
   }
 }
 
@@ -199,7 +199,7 @@ const void *value0, nc_type memtype) {
 
   /* Do various checks and fixups on start/edges/stride */
   isstride1 = 1; /* assume so */
-  nels      = 1;
+  nels = 1;
   for (i = 0; i < rank; i++) {
     size_t dimlen;
     mystart[i] = (start == NULL ? 0 : start[i]);
@@ -301,10 +301,10 @@ const ptrdiff_t *stride,
 const ptrdiff_t *imapp,
 const void *value0,
 nc_type memtype) {
-  int status      = NC_NOERR;
+  int status = NC_NOERR;
   nc_type vartype = NC_NAT;
-  int varndims    = 0;
-  int maxidim     = 0;
+  int varndims = 0;
+  int maxidim = 0;
   NC *ncp;
   int memtypelen;
   const char *value = (char *)value0;
@@ -356,13 +356,13 @@ nc_type memtype) {
     */
   {
     int idim;
-    size_t *mystart     = NULL;
-    size_t *myedges     = 0;
-    size_t *iocount     = 0; /* count vector */
-    size_t *stop        = 0; /* stop indexes */
-    size_t *length      = 0; /* edge lengths in bytes */
+    size_t *mystart = NULL;
+    size_t *myedges = 0;
+    size_t *iocount = 0; /* count vector */
+    size_t *stop = 0;    /* stop indexes */
+    size_t *length = 0;  /* edge lengths in bytes */
     ptrdiff_t *mystride = 0;
-    ptrdiff_t *mymap    = 0;
+    ptrdiff_t *mymap = 0;
     size_t varshape[NC_MAX_VAR_DIMS];
     int isrecvar;
     size_t numrecs;
@@ -397,12 +397,12 @@ nc_type memtype) {
     /* assert(sizeof(ptrdiff_t) >= sizeof(size_t)); */
     mystart = (size_t *)calloc((size_t)(varndims * 7), sizeof(ptrdiff_t));
     if (mystart == NULL) return NC_ENOMEM;
-    myedges  = mystart + varndims;
-    iocount  = myedges + varndims;
-    stop     = iocount + varndims;
-    length   = stop + varndims;
+    myedges = mystart + varndims;
+    iocount = myedges + varndims;
+    stop = iocount + varndims;
+    length = stop + varndims;
     mystride = (ptrdiff_t *)(length + varndims);
-    mymap    = mystride + varndims;
+    mymap = mystride + varndims;
 
     /*
        * Check start, edges
@@ -455,8 +455,8 @@ nc_type memtype) {
                       : mymap[idim + 1] * (ptrdiff_t)myedges[idim + 1];
 
       iocount[idim] = 1;
-      length[idim]  = ((size_t)mymap[idim]) * myedges[idim];
-      stop[idim]    = mystart[idim] + myedges[idim] * (size_t)mystride[idim];
+      length[idim] = ((size_t)mymap[idim]) * myedges[idim];
+      stop[idim] = mystart[idim] + myedges[idim] * (size_t)mystride[idim];
     }
 
     /* Lower body */
@@ -468,9 +468,9 @@ nc_type memtype) {
        */
     if (mystride[maxidim] == 1
         && mymap[maxidim] == 1) {
-      iocount[maxidim]  = myedges[maxidim];
+      iocount[maxidim] = myedges[maxidim];
       mystride[maxidim] = (ptrdiff_t)myedges[maxidim];
-      mymap[maxidim]    = (ptrdiff_t)length[maxidim];
+      mymap[maxidim] = (ptrdiff_t)length[maxidim];
     }
 
     /*
@@ -518,7 +518,7 @@ NC_put_vars(int ncid, int varid, const size_t *start,
 const size_t *edges, const ptrdiff_t *stride,
 const void *value, nc_type memtype) {
   NC *ncp;
-  size_t *my_count     = (size_t *)edges;
+  size_t *my_count = (size_t *)edges;
   ptrdiff_t *my_stride = (ptrdiff_t *)stride;
   int stat;
 
@@ -546,7 +546,7 @@ NC_put_varm(int ncid, int varid, const size_t *start,
 const size_t *edges, const ptrdiff_t *stride, const ptrdiff_t *map,
 const void *value, nc_type memtype) {
   NC *ncp;
-  size_t *my_count     = (size_t *)edges;
+  size_t *my_count = (size_t *)edges;
   ptrdiff_t *my_stride = (ptrdiff_t *)stride;
   int stat;
 

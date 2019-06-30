@@ -56,14 +56,14 @@ int main(int argc, char **argv) {
 
 #ifdef USE_MPE
   MPE_Init_log();
-  s_init   = MPE_Log_get_event_number();
-  e_init   = MPE_Log_get_event_number();
+  s_init = MPE_Log_get_event_number();
+  e_init = MPE_Log_get_event_number();
   s_define = MPE_Log_get_event_number();
   e_define = MPE_Log_get_event_number();
-  s_write  = MPE_Log_get_event_number();
-  e_write  = MPE_Log_get_event_number();
-  s_close  = MPE_Log_get_event_number();
-  e_close  = MPE_Log_get_event_number();
+  s_write = MPE_Log_get_event_number();
+  e_write = MPE_Log_get_event_number();
+  s_close = MPE_Log_get_event_number();
+  e_close = MPE_Log_get_event_number();
   MPE_Describe_state(s_init, e_init, "Init", "red");
   MPE_Describe_state(s_define, e_define, "Define", "yellow");
   MPE_Describe_state(s_write, e_write, "Write", "green");

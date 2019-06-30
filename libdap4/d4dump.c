@@ -17,7 +17,7 @@ void NCD4_dumpbytes(size_t size, const void *data0, int swap) {
   size_t i;
 
   extended = size + 8;
-  data     = calloc(1, extended); /* provide some space to simplify the code */
+  data = calloc(1, extended); /* provide some space to simplify the code */
   memcpy(data, data0, size);
   for (i = 0, pos = data; i < size; pos++, i++) {
     struct {
@@ -33,10 +33,10 @@ void NCD4_dumpbytes(size_t size, const void *data0, int swap) {
       double f64[1];
       char s[8];
     } v;
-    v.s[0]   = *((char *)pos);
-    v.s[1]   = '\0';
-    v.u8[0]  = *((unsigned char *)pos);
-    v.i8[0]  = *((signed char *)pos);
+    v.s[0] = *((char *)pos);
+    v.s[1] = '\0';
+    v.u8[0] = *((unsigned char *)pos);
+    v.i8[0] = *((signed char *)pos);
     v.u16[0] = *((unsigned short *)pos);
     v.i16[0] = *((short *)pos);
     v.u32[0] = *((unsigned int *)pos);

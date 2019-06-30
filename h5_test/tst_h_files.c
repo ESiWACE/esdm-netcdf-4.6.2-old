@@ -205,7 +205,7 @@ int main() {
 
     /* Write the data in num_step steps. */
     num_steps = DIM1_LEN / SC;
-    count[0]  = SC;
+    count[0] = SC;
     for (s = 0; s < num_steps; s++) {
       /* Select hyperslab for write of one slice. */
       start[0] = s * SC;
@@ -272,7 +272,7 @@ int main() {
 
     /* Create the dim1 dimscale. */
     if ((plistid = H5Pcreate(H5P_DATASET_CREATE)) < 0) ERR;
-    dims[0]    = DIM1;
+    dims[0] = DIM1;
     maxdims[0] = DIM1;
     if ((spaceid = H5Screate_simple(1, dims, maxdims)) < 0) ERR;
     if (H5Pset_attr_creation_order(plistid, H5P_CRT_ORDER_TRACKED | H5P_CRT_ORDER_INDEXED) < 0) ERR;
@@ -286,7 +286,7 @@ int main() {
 
     /* Create the dim2 dimscale. */
     if ((plistid = H5Pcreate(H5P_DATASET_CREATE)) < 0) ERR;
-    dims[0]    = DIM2;
+    dims[0] = DIM2;
     maxdims[0] = DIM2;
     if ((spaceid = H5Screate_simple(1, dims, maxdims)) < 0) ERR;
     if (H5Pset_attr_creation_order(plistid, H5P_CRT_ORDER_TRACKED | H5P_CRT_ORDER_INDEXED) < 0) ERR;
@@ -310,8 +310,8 @@ int main() {
     if (H5Pset_chunk(plistid, NDIMS2, chunksize) < 0) ERR;
     if (!(dimsize = malloc(NDIMS2 * sizeof(hsize_t)))) ERR;
     if (!(maxdimsize = malloc(NDIMS2 * sizeof(hsize_t)))) ERR;
-    dimsize[0]    = 2048;
-    dimsize[1]    = 2097153;
+    dimsize[0] = 2048;
+    dimsize[1] = 2097153;
     maxdimsize[0] = 2048;
     maxdimsize[1] = 2097153;
     if ((spaceid = H5Screate_simple(NDIMS2, dimsize, maxdimsize)) < 0) ERR;

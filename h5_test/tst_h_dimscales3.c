@@ -36,9 +36,9 @@ void *visitor_data) {
   /* Get more info on the dimscale object.*/
   if (H5Gget_objinfo(dsid, ".", 1, &statbuf) < 0) ERR;
   objid->fileno[0] = statbuf.fileno[0];
-  objid->objno[0]  = statbuf.objno[0];
+  objid->objno[0] = statbuf.objno[0];
   objid->fileno[1] = statbuf.fileno[1];
-  objid->objno[1]  = statbuf.objno[1];
+  objid->objno[1] = statbuf.objno[1];
 
   return 0;
 }
@@ -51,9 +51,9 @@ herr_t alien_visitor2(hid_t did, unsigned dim, hid_t dsid, void *visitor_data) {
     * match dimensions to dimscales. */
   if (H5Gget_objinfo(dsid, ".", 1, &statbuf) < 0) ERR;
   objid->fileno[0] = statbuf.fileno[0];
-  objid->objno[0]  = statbuf.objno[0];
+  objid->objno[0] = statbuf.objno[0];
   objid->fileno[1] = statbuf.fileno[1];
-  objid->objno[1]  = statbuf.objno[1];
+  objid->objno[1] = statbuf.objno[1];
 
   return 0;
 }
@@ -146,9 +146,9 @@ int main() {
 		      * HDF5 file. */
               if (H5Gget_objinfo(datasetid, ".", 1, &statbuf) < 0) ERR;
               dimscale_obj.fileno[0] = statbuf.fileno[0];
-              dimscale_obj.objno[0]  = statbuf.objno[0];
+              dimscale_obj.objno[0] = statbuf.objno[0];
               dimscale_obj.fileno[1] = statbuf.fileno[1];
-              dimscale_obj.objno[1]  = statbuf.objno[1];
+              dimscale_obj.objno[1] = statbuf.objno[1];
             } else {
               /* Here's how to get the number of scales attached
 		      * to the dataset's dimension 0. */

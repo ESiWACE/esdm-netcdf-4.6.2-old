@@ -700,8 +700,8 @@ nc_type memtype) {
 
   /* We must convert the start, count, and stride arrays to MPI_Offset type. */
   for (d = 0; d < ndims; d++) {
-    mpi_start[d]  = startp[d];
-    mpi_count[d]  = countp[d];
+    mpi_start[d] = startp[d];
+    mpi_count[d] = countp[d];
     mpi_stride[d] = stridep[d];
   }
 
@@ -795,8 +795,8 @@ nc_type memtype) {
 
   /* We must convert the start, count, and stride arrays to MPI_Offset type. */
   for (d = 0; d < ndims; d++) {
-    mpi_start[d]  = startp[d];
-    mpi_count[d]  = countp[d];
+    mpi_start[d] = startp[d];
+    mpi_count[d] = countp[d];
     mpi_stride[d] = stridep[d];
   }
 
@@ -895,10 +895,10 @@ nc_type memtype) {
 
   /* We must convert the start, count, stride, and imap arrays to MPI_Offset type. */
   for (d = 0; d < ndims; d++) {
-    mpi_start[d]  = startp[d];
-    mpi_count[d]  = countp[d];
+    mpi_start[d] = startp[d];
+    mpi_count[d] = countp[d];
     mpi_stride[d] = (stridep == NULL) ? 1 : stridep[d];
-    mpi_imap[d]   = imapp[d];
+    mpi_imap[d] = imapp[d];
   }
 
   if (memtype == NC_NAT) {
@@ -996,10 +996,10 @@ nc_type memtype) {
 
   /* We must convert the start, count, stride, and imap arrays to MPI_Offset type. */
   for (d = 0; d < ndims; d++) {
-    mpi_start[d]  = startp[d];
-    mpi_count[d]  = countp[d];
+    mpi_start[d] = startp[d];
+    mpi_count[d] = countp[d];
     mpi_stride[d] = (stridep == NULL) ? 1 : stridep[d];
-    mpi_imap[d]   = imapp[d];
+    mpi_imap[d] = imapp[d];
   }
 
   if (memtype == NC_NAT) {

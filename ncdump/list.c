@@ -28,8 +28,8 @@ List *listnew(void) {
 */
   l = (List *)malloc(sizeof(List));
   if (l) {
-    l->alloc   = 0;
-    l->length  = 0;
+    l->alloc = 0;
+    l->length = 0;
     l->content = NULL;
   }
   return l;
@@ -62,7 +62,7 @@ int listsetalloc(List *l, unsigned long sz) {
   }
   if (l->content != NULL) free(l->content);
   l->content = newcontent;
-  l->alloc   = sz;
+  l->alloc = sz;
   return TRUE;
 }
 
@@ -180,7 +180,7 @@ int listunique(List *l) {
   unsigned long i, j, k, len;
   void **content;
   if (l == NULL || l->length == 0) return 1;
-  len     = l->length;
+  len = l->length;
   content = l->content;
   for (i = 0; i < len; i++) {
     for (j = i + 1; j < len; j++) {
@@ -198,8 +198,8 @@ int listunique(List *l) {
 
 List *
 listclone(List *l) {
-  List *clone    = listnew();
-  *clone         = *l;
+  List *clone = listnew();
+  *clone = *l;
   clone->content = listdup(l);
   return clone;
 }

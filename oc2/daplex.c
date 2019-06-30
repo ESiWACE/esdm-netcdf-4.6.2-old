@@ -238,11 +238,11 @@ int daplex(YYSTYPE *lvalp, DAPparsestate *state) {
         dapaddyytext(lexstate, *p);
         p++;
         if (p[0] == '\n') {
-          token      = SCAN_DATA;
+          token = SCAN_DATA;
           isdatamark = 1;
           p++;
         } else if (p[0] == '\r' && p[1] == '\n') {
-          token      = SCAN_DATA;
+          token = SCAN_DATA;
           isdatamark = 1;
           p += 2;
         }
@@ -327,13 +327,13 @@ void dapsetwordchars(DAPlexstate *lexstate, int kind) {
 void daplexinit(char *input, DAPlexstate **lexstatep) {
   DAPlexstate *lexstate;
   if (lexstatep == NULL) return; /* no point in building it */
-  lexstate   = (DAPlexstate *)malloc(sizeof(DAPlexstate));
+  lexstate = (DAPlexstate *)malloc(sizeof(DAPlexstate));
   *lexstatep = lexstate;
   if (lexstate == NULL) return;
   memset((void *)lexstate, 0, sizeof(DAPlexstate));
-  lexstate->input   = strdup(input);
-  lexstate->next    = lexstate->input;
-  lexstate->yytext  = ncbytesnew();
+  lexstate->input = strdup(input);
+  lexstate->next = lexstate->input;
+  lexstate->yytext = ncbytesnew();
   lexstate->reclaim = nclistnew();
   dapsetwordchars(lexstate, 0); /* Assume DDS */
 }

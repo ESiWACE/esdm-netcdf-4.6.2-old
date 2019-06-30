@@ -28,8 +28,8 @@ NClist *nclistnew(void) {
 */
   l = (NClist *)malloc(sizeof(NClist));
   if (l) {
-    l->alloc   = 0;
-    l->length  = 0;
+    l->alloc = 0;
+    l->length = 0;
     l->content = NULL;
   }
   return l;
@@ -54,7 +54,7 @@ int nclistfreeall(NClist *l) {
   size_t i, len;
   void **content = NULL;
   if (l == NULL) return TRUE;
-  len     = l->length;
+  len = l->length;
   content = nclistextract(l);
   for (i = 0; i < len; i++) {
     void *value = content[i];
@@ -79,7 +79,7 @@ int nclistsetalloc(NClist *l, size_t sz) {
   }
   if (l->content != NULL) free(l->content);
   l->content = newcontent;
-  l->alloc   = sz;
+  l->alloc = sz;
   return TRUE;
 }
 
@@ -207,7 +207,7 @@ int nclistunique(NClist *l) {
   size_t i, j, k, len;
   void **content;
   if (l == NULL || l->length == 0) return 1;
-  len     = l->length;
+  len = l->length;
   content = l->content;
   for (i = 0; i < len; i++) {
     for (j = i + 1; j < len; j++) {
@@ -225,8 +225,8 @@ int nclistunique(NClist *l) {
 
 NClist *
 nclistclone(NClist *l) {
-  NClist *clone  = nclistnew();
-  *clone         = *l;
+  NClist *clone = nclistnew();
+  *clone = *l;
   clone->content = nclistdup(l);
   return clone;
 }
@@ -234,8 +234,8 @@ nclistclone(NClist *l) {
 void *
 nclistextract(NClist *l) {
   void *result = l->content;
-  l->alloc     = 0;
-  l->length    = 0;
-  l->content   = NULL;
+  l->alloc = 0;
+  l->length = 0;
+  l->content = NULL;
   return result;
 }

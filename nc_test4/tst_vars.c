@@ -288,15 +288,15 @@ int main(int argc, char **argv) {
   unsigned char ubyte_out[DIM1_LEN][DIM2_LEN] = {{1, 128, 255}, {1, 128, 255}};
   signed char byte_in[DIM1_LEN][DIM2_LEN], byte_out[DIM1_LEN][DIM2_LEN] = {{-127, 1, 127}, {-127, 1, 127}};
   unsigned short ushort_out[DIM1_LEN][DIM2_LEN] = {{110, 128, 255}, {110, 128, 255}};
-  short short_in[DIM1_LEN][DIM2_LEN], short_out[DIM1_LEN][DIM2_LEN]      = {{-110, -128, 255}, {-110, -128, 255}};
-  int int_in[DIM1_LEN][DIM2_LEN], int_out[DIM1_LEN][DIM2_LEN]            = {{0, 128, 255}, {0, 128, 255}};
-  float float_in[DIM1_LEN][DIM2_LEN], float_out[DIM1_LEN][DIM2_LEN]      = {{-.1, 9999.99, 100.001}, {-.1, 9999.99, 100.001}};
-  double double_in[DIM1_LEN][DIM2_LEN], double_out[DIM1_LEN][DIM2_LEN]   = {{0.02, .1128, 1090.1}, {0.02, .1128, 1090.1}};
+  short short_in[DIM1_LEN][DIM2_LEN], short_out[DIM1_LEN][DIM2_LEN] = {{-110, -128, 255}, {-110, -128, 255}};
+  int int_in[DIM1_LEN][DIM2_LEN], int_out[DIM1_LEN][DIM2_LEN] = {{0, 128, 255}, {0, 128, 255}};
+  float float_in[DIM1_LEN][DIM2_LEN], float_out[DIM1_LEN][DIM2_LEN] = {{-.1, 9999.99, 100.001}, {-.1, 9999.99, 100.001}};
+  double double_in[DIM1_LEN][DIM2_LEN], double_out[DIM1_LEN][DIM2_LEN] = {{0.02, .1128, 1090.1}, {0.02, .1128, 1090.1}};
   unsigned int uint_in[DIM1_LEN][DIM2_LEN], uint_out[DIM1_LEN][DIM2_LEN] = {{0, 128, 255}, {0, 128, 255}};
-  long long int64_in[DIM1_LEN][DIM2_LEN], int64_out[DIM1_LEN][DIM2_LEN]  = {{-111, 777, 100}, {-111, 777, 100}};
+  long long int64_in[DIM1_LEN][DIM2_LEN], int64_out[DIM1_LEN][DIM2_LEN] = {{-111, 777, 100}, {-111, 777, 100}};
   unsigned long long uint64_in[DIM1_LEN][DIM2_LEN];
   unsigned long long uint64_out[DIM1_LEN][DIM2_LEN] = {{0, 10101, 9999999}, {0, 10101, 9999999}};
-  char char_out[DIM1_LEN][DIM2_LEN][DIM3_LEN]       = {{"lalala", "lololo", "lelele"}, {"lalala", "lololo", "lelele"}};
+  char char_out[DIM1_LEN][DIM2_LEN][DIM3_LEN] = {{"lalala", "lololo", "lelele"}, {"lalala", "lololo", "lelele"}};
 
   printf("\n*** Testing netcdf-4 variable functions.\n");
 
@@ -1028,8 +1028,8 @@ int main(int argc, char **argv) {
     char name_in[NC_MAX_NAME + 1];
     int shuffle_in, deflate_in, deflate_level_in;
     int checksum_in, no_fill;
-    unsigned short ushort_data    = 42, ushort_data_in, fill_value_in;
-    unsigned short my_fill_value  = 999;
+    unsigned short ushort_data = 42, ushort_data_in, fill_value_in;
+    unsigned short my_fill_value = 999;
     unsigned short my_fill_value2 = 111;
 
     /* Create a netcdf-4 file with one dim and some NC_USHORT vars. */
@@ -1103,7 +1103,7 @@ int main(int argc, char **argv) {
     size_t index[NDIMS];
     int varid;
     int no_fill;
-    unsigned short ushort_data   = 42, ushort_data_in, fill_value_in;
+    unsigned short ushort_data = 42, ushort_data_in, fill_value_in;
     unsigned short my_fill_value = 999;
 
     /* Create a netcdf-4 file with one dim and 1 NC_USHORT var. */

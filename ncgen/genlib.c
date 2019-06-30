@@ -89,7 +89,7 @@ void topfqn(Symbol *sym) {
     parentfqn = parent->fqn;
 
     fqnname = fqnescape(sym->name);
-    fqn     = (char *)ecalloc(strlen(fqnname) + strlen(parentfqn) + 1 + 1);
+    fqn = (char *)ecalloc(strlen(fqnname) + strlen(parentfqn) + 1 + 1);
     strcpy(fqn, parentfqn);
     strcat(fqn, "/");
     strcat(fqn, fqnname);
@@ -122,7 +122,7 @@ void nestedfqn(Symbol *sym) {
   assert(parent->fqn != NULL);
 
   fqnname = fqnescape(sym->name);
-  fqn     = (char *)ecalloc(strlen(fqnname) + strlen(parent->fqn) + 1 + 1);
+  fqn = (char *)ecalloc(strlen(fqnname) + strlen(parent->fqn) + 1 + 1);
   strcpy(fqn, parent->fqn);
   strcat(fqn, ".");
   strcat(fqn, fqnname);
@@ -152,7 +152,7 @@ void attfqn(Symbol *sym) {
     parentfqn = parent->fqn;
 
   fqnname = fqnescape(sym->name);
-  fqn     = (char *)ecalloc(strlen(fqnname) + strlen(parentfqn) + 1 + 1);
+  fqn = (char *)ecalloc(strlen(fqnname) + strlen(parentfqn) + 1 + 1);
   strcpy(fqn, parentfqn);
   strcat(fqn, "_");
   strcat(fqn, fqnname);

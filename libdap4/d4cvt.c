@@ -22,7 +22,7 @@ int NCD4_convert(nc_type srctype, nc_type dsttype, char *memory0, char *value0, 
   int ncstat = NC_NOERR;
   size_t i;
   char *memory = memory0;
-  char *value  = value0;
+  char *value = value0;
 
   /* In order to deal with the DAP upgrade problem,
 	try to preserve the bit patterns
@@ -59,9 +59,9 @@ int NCD4_convert(nc_type srctype, nc_type dsttype, char *memory0, char *value0, 
 #define CUT32(e) ((unsigned int)((e)&0xffffffff))
 #define ARM(vs, ncs, ts, vd, ncd, td) \
   case CASE(ncs, ncd):                \
-    vs##p  = (ts *)value;             \
-    vs     = *vs##p;                  \
-    vd##p  = (td *)memory;            \
+    vs##p = (ts *)value;              \
+    vs = *vs##p;                      \
+    vd##p = (td *)memory;             \
     *vd##p = (td)vs;                  \
     break;
 

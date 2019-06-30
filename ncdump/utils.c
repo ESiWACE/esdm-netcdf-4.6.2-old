@@ -97,7 +97,7 @@ escaped_name(const char *cp) {
   }
 
   ret = emalloc(4 * strlen(cp) + 1); /* max if every char escaped */
-  sp  = ret;
+  sp = ret;
   *sp = 0; /* empty name OK */
   /* Special case: leading number allowed, but we must escape it for CDL */
   if ((*cp >= '0' && *cp <= '9')) {
@@ -164,7 +164,7 @@ void print_name(const char *name) {
 
 /* Convert a full path name to a group to the specific groupid. */
 int nc_inq_grpid2(int ncid, const char *grpname0, int *grpidp) {
-  int ret       = NC_NOERR;
+  int ret = NC_NOERR;
   char *grpname = NULL;
 #ifdef USE_NETCDF4
   char *sp = NULL;
@@ -203,7 +203,7 @@ int nc_inq_grpid2(int ncid, const char *grpname0, int *grpidp) {
       /* Lookup this path segment wrt to current group */
       if ((ret = nc_inq_ncid(ncid, p, &next))) goto done;
       /* move to next segment */
-      p    = q;
+      p = q;
       ncid = next;
     }
     if (grpidp) *grpidp = ncid;
@@ -237,12 +237,12 @@ int nc_inq_varid2(int ncid, const char *path0, int *varidp, int *grpidp) {
   /* Find the rightmost '/' and tag the start of the path */
   g = strrchr(path, '/');
   if (g == NULL) {
-    v      = path;
+    v = path;
     prefix = "/"; /* make sure not free'd */
   } else {
-    *g++   = '\0'; /* separate out the prefix */
+    *g++ = '\0'; /* separate out the prefix */
     prefix = path;
-    v      = g;
+    v = g;
   }
   /* convert the group prefix to a group id */
   if ((ret = nc_inq_grpid2(ncid, prefix, &grpid)))
@@ -273,12 +273,12 @@ int nc_inq_dimid2(int ncid, const char *dimname, int *dimidp) {
 #ifdef USE_NETCDF4
   else { /* Parse group name out and get dimid using that */
     size_t grp_namelen = sp - dimname;
-    char *grpname      = emalloc(grp_namelen + 1);
+    char *grpname = emalloc(grp_namelen + 1);
 
     int grpid;
     strncpy(grpname, dimname, grp_namelen + 1);
     grpname[grp_namelen] = '\0';
-    ret                  = nc_inq_grp_full_ncid(ncid, grpname, &grpid);
+    ret = nc_inq_grp_full_ncid(ncid, grpname, &grpid);
     if (ret == NC_NOERR) {
       ret = nc_inq_dimid(grpid, dimname, dimidp);
     }
@@ -347,7 +347,7 @@ newidlist(void) {
   idnode_t *vp = newidnode();
 
   vp->next = 0;
-  vp->id   = -1; /* bad id */
+  vp->id = -1; /* bad id */
 
   return vp;
 }
@@ -356,7 +356,7 @@ void idadd(idnode_t *vlist, int varid) {
   idnode_t *newvp = newidnode();
 
   newvp->next = vlist->next;
-  newvp->id   = varid;
+  newvp->id = varid;
   vlist->next = newvp;
 }
 
@@ -622,7 +622,7 @@ int missing_vars(int ncid, int nlvars, char **lvars) {
 }
 
 void make_lvars(char *optarg, int *nlvarsp, char ***lvarsp) {
-  char *cp  = optarg;
+  char *cp = optarg;
   int nvars = 1;
   char **cpp;
 
@@ -632,8 +632,8 @@ void make_lvars(char *optarg, int *nlvarsp, char ***lvarsp) {
     if (*cp == ',')
       nvars++;
   *nlvarsp = nvars;
-  *lvarsp  = (char **)emalloc(nvars * sizeof(char *));
-  cpp      = *lvarsp;
+  *lvarsp = (char **)emalloc(nvars * sizeof(char *));
+  cpp = *lvarsp;
   /* copy variable names into list */
   for (cp = strtok(optarg, ","); cp != NULL; cp = strtok((char *)NULL, ",")) {
     *cpp = strdup(cp);
@@ -642,7 +642,7 @@ void make_lvars(char *optarg, int *nlvarsp, char ***lvarsp) {
 }
 
 void make_lgrps(char *optarg, int *nlgrps, char ***lgrpsp, idnode_t **grpidsp) {
-  char *cp  = optarg;
+  char *cp = optarg;
   int ngrps = 1;
   char **cpp;
 
@@ -652,7 +652,7 @@ void make_lgrps(char *optarg, int *nlgrps, char ***lgrpsp, idnode_t **grpidsp) {
       ngrps++;
   *nlgrps = ngrps;
   *lgrpsp = (char **)emalloc(ngrps * sizeof(char *));
-  cpp     = *lgrpsp;
+  cpp = *lgrpsp;
   /* copy group names into list */
   for (cp = strtok(optarg, ","); cp != NULL; cp = strtok((char *)NULL, ",")) {
     *cpp = strdup(cp);
@@ -666,8 +666,8 @@ void make_lgrps(char *optarg, int *nlgrps, char ***lgrpsp, idnode_t **grpidsp) {
 static ncgiter_t *
 gs_init() {
   ncgiter_t *s = emalloc(sizeof(ncgiter_t));
-  s->ngrps     = 0;
-  s->top       = NULL;
+  s->ngrps = 0;
+  s->top = NULL;
   return s;
 }
 
@@ -696,8 +696,8 @@ gs_push(ncgiter_t *s, int grpid) {
   grpnode_t *node = emalloc(sizeof(grpnode_t));
 
   node->grpid = grpid;
-  node->next  = gs_empty(s) ? NULL : s->top;
-  s->top      = node;
+  node->next = gs_empty(s) ? NULL : s->top;
+  s->top = node;
   s->ngrps++;
 }
 
@@ -708,8 +708,8 @@ gs_pop(ncgiter_t *s) {
     return -1; /* underflow, stack is empty */
   } else {     /* pop a node */
     grpnode_t *top = s->top;
-    int value      = top->grpid;
-    s->top         = top->next;
+    int value = top->grpid;
+    s->top = top->next;
     /* TODO: first call to free gets seg fault with libumem */
     free(top);
     s->ngrps--;
@@ -726,7 +726,7 @@ gs_top(ncgiter_t *s) {
     return -1; /* underflow, stack is empty */
   } else {     /* get top value */
     grpnode_t *top = s->top;
-    int value      = top->grpid;
+    int value = top->grpid;
     return value;
   }
 }

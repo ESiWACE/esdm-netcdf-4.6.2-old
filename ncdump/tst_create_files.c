@@ -51,10 +51,10 @@ You only charm software defects."};
 
 int main(int argc, char **argv) {
   /* These values will be written in various places. */
-  unsigned char num_vogons[ATT_LEN]     = {2, 23, 230};
+  unsigned char num_vogons[ATT_LEN] = {2, 23, 230};
   unsigned long long num_poems[ATT_LEN] = {23232244LL, 1214124123423LL, 2353424234LL};
-  long long alien[ATT_LEN]              = {-23232244LL, 1214124123423LL, -2353424234LL};
-  long long data[DIM_LEN]               = {42LL, -42LL};
+  long long alien[ATT_LEN] = {-23232244LL, 1214124123423LL, -2353424234LL};
+  long long data[DIM_LEN] = {42LL, -42LL};
 
   printf("\n*** Creating test files for ncdump.\n");
   /*nc_set_log_level(4);*/
@@ -193,7 +193,7 @@ int main(int argc, char **argv) {
         return NC_ENOMEM;
       for (j = 0; j < i + 1; j++)
         phoney[j] = -99;
-      data[i].p   = phoney;
+      data[i].p = phoney;
       data[i].len = i + 1;
     }
 

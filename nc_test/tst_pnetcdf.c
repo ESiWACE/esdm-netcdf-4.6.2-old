@@ -64,7 +64,7 @@ int main(int argc, char *argv[]) {
 #endif
 
   cmode = NC_CLOBBER;
-  st    = nc_create_par(FILENAME, cmode, comm, info, &ncid);
+  st = nc_create_par(FILENAME, cmode, comm, info, &ncid);
 #ifdef USE_PNETCDF
   CHK_ERR(st)
 #else
@@ -105,14 +105,14 @@ int main(int argc, char *argv[]) {
     if (i % 2) {
       start[0] = 0;
       count[0] = NX;
-      st       = nc_put_vara_int(ncid, varid[i], start, count, buf);
+      st = nc_put_vara_int(ncid, varid[i], start, count, buf);
       CHK_ERR(st)
     } else {
       start[0] = 0;
       start[1] = 0;
       count[0] = 1;
       count[1] = NX;
-      st       = nc_put_vara_int(ncid, varid[i], start, count, buf);
+      st = nc_put_vara_int(ncid, varid[i], start, count, buf);
       CHK_ERR(st)
     }
   }
@@ -143,7 +143,7 @@ int main(int argc, char *argv[]) {
     if (i % 2) {
       start[0] = 0;
       count[0] = NX;
-      st       = nc_get_var_int(ncid, varid[i], buf);
+      st = nc_get_var_int(ncid, varid[i], buf);
       CHK_ERR(st)
       for (j = 0; j < NX; j++)
         if (buf[j] != i * 10 + j)
@@ -153,7 +153,7 @@ int main(int argc, char *argv[]) {
       start[1] = 0;
       count[0] = 1;
       count[1] = NX;
-      st       = nc_get_vara_int(ncid, varid[i], start, count, buf);
+      st = nc_get_vara_int(ncid, varid[i], start, count, buf);
       CHK_ERR(st)
       for (j = 0; j < NX; j++)
         if (buf[j] != i * 10 + j)

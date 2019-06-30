@@ -52,7 +52,7 @@ nciter_t *iterp /* returned opaque iteration state */) {
   size_t value_size;                      /* size in bytes of each variable element */
   int ndims;                              /* number of dimensions for variable */
   size_t dimsizes[NC_MAX_VAR_DIMS] = {0}; /* variable dimension sizes */
-  long long nvalues                = 1;
+  long long nvalues = 1;
   int dim;
 
   memset((void *)iterp, 0, sizeof(nciter_t)); /* make sure it is initialized */
@@ -109,14 +109,14 @@ size_t *count                /* returned count vector for next vara call */
     iter->inc, start);
     /* iterate on pieces of variable */
     if (iter->cur < iter->numrows) {
-      iter->inc              = iter->rows;
+      iter->inc = iter->rows;
       count[iter->right_dim] = iter->rows;
       iter->cur++;
     } else {
       if (iter->leftover > 0) {
         count[iter->right_dim] = iter->leftover;
-        iter->inc              = iter->leftover;
-        iter->cur              = 0;
+        iter->inc = iter->leftover;
+        iter->cur = 0;
       }
     }
   }
@@ -142,12 +142,12 @@ nciter_t *iter                /* returned iteration state, don't mess with it */
   int i;
   long long prod;
 
-  iter->rank  = rank;
+  iter->rank = rank;
   iter->first = 1;
-  iter->more  = 1;
+  iter->more = 1;
   for (i = 0; i < rank; i++)
     iter->dimsizes[i] = dims[i];
-  prod            = value_size;
+  prod = value_size;
   iter->right_dim = rank - 1;
   for (i = rank; i > 0; i--) {
     if (prod * dims[i - 1] <= bufsize) {
@@ -158,17 +158,17 @@ nciter_t *iter                /* returned iteration state, don't mess with it */
     }
   }
   if (i > 0) { /* variable won't fit in bufsize bytes */
-    iter->rows     = bufsize / prod;
-    iter->numrows  = dims[iter->right_dim] / iter->rows;
+    iter->rows = bufsize / prod;
+    iter->numrows = dims[iter->right_dim] / iter->rows;
     iter->leftover = dims[iter->right_dim] - iter->numrows * iter->rows;
-    iter->cur      = 1;
-    iter->inc      = iter->rows;
+    iter->cur = 1;
+    iter->inc = iter->rows;
     return stat;
   }
   /* else, variable will fit in bufsize bytes of memory. */
   iter->right_dim = 0;
-  iter->rows      = dims[0];
-  iter->inc       = 0;
+  iter->rows = dims[0];
+  iter->inc = 0;
   return stat;
 }
 
@@ -215,7 +215,7 @@ nciter_dimlens(Symbol *sym, size_t *dimlens) {
   int ndims = sym->typ.dimset.ndims;
   for (i = 0; i < ndims; i++) {
     Symbol *dim = sym->typ.dimset.dimsyms[i];
-    dimlens[i]  = dim->dim.declsize;
+    dimlens[i] = dim->dim.declsize;
   }
   return NC_NOERR;
 }

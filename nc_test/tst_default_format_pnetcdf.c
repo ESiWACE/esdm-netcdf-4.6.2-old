@@ -112,7 +112,7 @@ int main(int argc, char *argv[]) {
 
   /* check illegal cmode */
   cmode = NC_64BIT_OFFSET | NC_64BIT_DATA;
-  err   = nc_create_par(fname, cmode, MPI_COMM_WORLD, MPI_INFO_NULL, &ncid);
+  err = nc_create_par(fname, cmode, MPI_COMM_WORLD, MPI_INFO_NULL, &ncid);
   if (err != NC_EINVAL) {
     printf("Error at %s line %d: expect NC_EINVAL but got %d\n",
     __FILE__, __LINE__, err);
@@ -121,7 +121,7 @@ int main(int argc, char *argv[]) {
 #ifdef USE_NETCDF4
   /* check illegal cmode */
   cmode = NC_NETCDF4 | NC_64BIT_OFFSET;
-  err   = nc_create_par(fname, cmode, MPI_COMM_WORLD, MPI_INFO_NULL, &ncid);
+  err = nc_create_par(fname, cmode, MPI_COMM_WORLD, MPI_INFO_NULL, &ncid);
   if (err != NC_EINVAL) {
     printf("Error at %s line %d: expect NC_EINVAL but got %d\n",
     __FILE__, __LINE__, err);
@@ -145,7 +145,7 @@ int main(int argc, char *argv[]) {
 
   /* set default file format to NC_FORMAT_64BIT_OFFSET ------------------*/
   default_format = NC_FORMAT_64BIT_OFFSET;
-  err            = nc_set_default_format(default_format, NULL);
+  err = nc_set_default_format(default_format, NULL);
   ERR
 
   /* create a file in default format */
@@ -160,7 +160,7 @@ int main(int argc, char *argv[]) {
 
   /* set default file format to NC_FORMAT_64BIT_DATA --------------------*/
   default_format = NC_FORMAT_64BIT_DATA;
-  err            = nc_set_default_format(default_format, NULL);
+  err = nc_set_default_format(default_format, NULL);
   ERR
 
   /* create a file in default format */

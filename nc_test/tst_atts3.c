@@ -85,12 +85,12 @@ int tst_att_ordering(int cmode) {
   int ncid;
   char name[NUM_ATTS][ATT_MAX_NAME + 1] = {"Gc", "Gb", "Gs", "Gi", "Gf",
   "Gd", "Gatt-name-dashes", "Gatt.name.dots"};
-  int len[NUM_ATTS]                     = {0, 2, 3, 3, 3, 3, 1, 1};
-  signed char b[2]                      = {-128, 127};
-  short s[3]                            = {-32768, 0, 32767};
-  int i[3]                              = {42, 0, -42};
-  float f[3]                            = {42.0, -42.0, 42.0};
-  double d[3]                           = {420.0, -420.0, 420.0};
+  int len[NUM_ATTS] = {0, 2, 3, 3, 3, 3, 1, 1};
+  signed char b[2] = {-128, 127};
+  short s[3] = {-32768, 0, 32767};
+  int i[3] = {42, 0, -42};
+  float f[3] = {42.0, -42.0, 42.0};
+  double d[3] = {420.0, -420.0, 420.0};
   int att_name_dashes = -1, att_name_dots = -2;
   char name_in[NC_MAX_NAME];
   int j;
@@ -130,9 +130,9 @@ int tst_att_ordering(int cmode) {
 int main(int argc, char **argv) {
   signed char schar_in[ATT_LEN], schar_out[ATT_LEN] = {NC_MIN_BYTE, 1, NC_MAX_BYTE};
   unsigned char uchar_in[ATT_LEN];
-  short short_in[ATT_LEN], short_out[ATT_LEN]    = {NC_MIN_SHORT, -128, NC_MAX_SHORT};
-  int int_in[ATT_LEN], int_out[ATT_LEN]          = {-100000, 127, 100000};
-  float float_in[ATT_LEN], float_out[ATT_LEN]    = {-0.5, 0.25, 0.125};
+  short short_in[ATT_LEN], short_out[ATT_LEN] = {NC_MIN_SHORT, -128, NC_MAX_SHORT};
+  int int_in[ATT_LEN], int_out[ATT_LEN] = {-100000, 127, 100000};
+  float float_in[ATT_LEN], float_out[ATT_LEN] = {-0.5, 0.25, 0.125};
   double double_in[ATT_LEN], double_out[ATT_LEN] = {-0.25, .5, 0.125};
   long long longlong_in[ATT_LEN] = {-1LL, -1LL, -1LL};
 
@@ -776,10 +776,10 @@ int main(int argc, char **argv) {
 
     char *speech_in;
     signed char schar_in[ATT_LEN], schar_out[ATT_LEN] = {NC_MIN_BYTE, 1, NC_MAX_BYTE};
-    short short_in[ATT_LEN], short_out[ATT_LEN]       = {NC_MIN_SHORT, -128, NC_MAX_SHORT};
-    int int_in[ATT_LEN], int_out[ATT_LEN]             = {-100000, 128, 100000};
-    float float_in[ATT_LEN], float_out[ATT_LEN]       = {.5, 0.25, 0.125};
-    double double_in[ATT_LEN], double_out[ATT_LEN]    = {0.25, .5, 0.125};
+    short short_in[ATT_LEN], short_out[ATT_LEN] = {NC_MIN_SHORT, -128, NC_MAX_SHORT};
+    int int_in[ATT_LEN], int_out[ATT_LEN] = {-100000, 128, 100000};
+    float float_in[ATT_LEN], float_out[ATT_LEN] = {.5, 0.25, 0.125};
+    double double_in[ATT_LEN], double_out[ATT_LEN] = {0.25, .5, 0.125};
 
     /* Create a file with a global attribute of each type. */
 #ifdef TEST_PNETCDF

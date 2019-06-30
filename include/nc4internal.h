@@ -90,7 +90,7 @@ typedef enum { NCNAT,
 
 /* Boolean type, to make the code easier to read */
 typedef enum { NC_FALSE = 0,
-  NC_TRUE               = 1 } nc_bool_t;
+  NC_TRUE = 1 } nc_bool_t;
 
 /*Forward*/
 struct NCPROVENANCE;

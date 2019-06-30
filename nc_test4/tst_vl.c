@@ -44,7 +44,7 @@ int main(int argc, char **argv) {
         return NC_ENOMEM;
       for (j = 0; j < i + 1; j++)
         phony[j] = PHONY_VAL;
-      data[i].p   = phony;
+      data[i].p = phony;
       data[i].len = i + 1;
     }
 
@@ -112,7 +112,7 @@ int main(int argc, char **argv) {
         return NC_ENOMEM;
       for (j = 0; j < i + 1; j++)
         phony[j] = PHONY_VAL;
-      data[i].p   = phony;
+      data[i].p = phony;
       data[i].len = i + 1;
     }
 
@@ -163,7 +163,7 @@ int main(int argc, char **argv) {
         return NC_ENOMEM;
       for (j = 0; j < i + 1; j++)
         phony[j] = PHONY_VAL;
-      data[i].p   = phony;
+      data[i].p = phony;
       data[i].len = i + 1;
     }
 

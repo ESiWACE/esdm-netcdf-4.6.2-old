@@ -57,7 +57,7 @@ ignored_if_null.
  */
 int nc_inq_opaque(int ncid, nc_type xtype, char *name, size_t *sizep) {
   int class = 0;
-  int stat  = nc_inq_user_type(ncid, xtype, name, sizep, NULL, NULL, &class);
+  int stat = nc_inq_user_type(ncid, xtype, name, sizep, NULL, NULL, &class);
   if (stat != NC_NOERR) return stat;
   if (class != NC_OPAQUE) stat = NC_EBADTYPE;
   return stat;

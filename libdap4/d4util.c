@@ -105,7 +105,7 @@ NCD4_makeFQN(NCD4node *node) {
   char *fqn = NULL;
   char *escaped;
   int i;
-  NCD4node *g  = node;
+  NCD4node *g = node;
   NClist *path = nclistnew();
   size_t estimate;
 
@@ -136,9 +136,9 @@ NCD4_makeFQN(NCD4node *node) {
   }
   /* Add in the final name part (if not group) */
   if (i < nclistlength(path)) {
-    int last    = nclistlength(path) - 1;
+    int last = nclistlength(path) - 1;
     NCD4node *n = (NCD4node *)nclistget(path, last);
-    char *name  = NCD4_makeName(n, ".");
+    char *name = NCD4_makeName(n, ".");
     strlcat(fqn, "/", estimate);
     strlcat(fqn, name, estimate);
     nullfree(name);
@@ -159,7 +159,7 @@ NCD4_makeName(NCD4node *elem, const char *sep) {
   size_t estimate = 0;
   NCD4node *n;
   NClist *path = nclistnew();
-  char *fqn    = NULL;
+  char *fqn = NULL;
 
   /* Collect the path upto, but not including, the first containing group */
   for (estimate = 0, n = elem; n->sort != NCD4_GROUP; n = n->container) {
@@ -173,7 +173,7 @@ NCD4_makeName(NCD4node *elem, const char *sep) {
 
   for (i = 0; i < nclistlength(path); i++) {
     NCD4node *elem = (NCD4node *)nclistget(path, i);
-    char *escaped  = backslashEscape(elem->name);
+    char *escaped = backslashEscape(elem->name);
     if (escaped == NULL) {
       free(fqn);
       fqn = NULL;
@@ -196,7 +196,7 @@ backslashEscape(const char *s) {
   size_t len;
   char *escaped = NULL;
 
-  len     = strlen(s);
+  len = strlen(s);
   escaped = (char *)malloc(1 + (2 * len)); /* max is everychar is escaped */
   if (escaped == NULL) return NULL;
   for (p = s, q = escaped; *p; p++) {
@@ -226,7 +226,7 @@ int NCD4_parseFQN(const char *fqn0, NClist *pieces) {
   char *fqn = NULL;
 
   if (fqn0 == NULL) fqn0 = "/";
-  fqn   = strdup(fqn0[0] == '/' ? fqn0 + 1 : fqn0);
+  fqn = strdup(fqn0[0] == '/' ? fqn0 + 1 : fqn0);
   start = fqn;
   /* Step 0: insert rootname */
   nclistpush(pieces, strdup("/"));
@@ -238,7 +238,7 @@ int NCD4_parseFQN(const char *fqn0, NClist *pieces) {
         p += 2;
         break;
       case '/': /*capture the piece name */
-        *p++  = '\0';
+        *p++ = '\0';
         start = p; /* mark start of the next part */
         count++;
         break;
@@ -255,7 +255,7 @@ int NCD4_parseFQN(const char *fqn0, NClist *pieces) {
         p += 2;
         break;
       case '.': /*capture the piece name */
-        *p++  = '\0';
+        *p++ = '\0';
         start = p;
         count++;
         break;
@@ -285,7 +285,7 @@ NCD4_deescape(const char *esc) {
 
   if (esc == NULL) return NULL;
   len = strlen(esc);
-  s   = (char *)malloc(len + 1);
+  s = (char *)malloc(len + 1);
   if (s == NULL) return NULL;
   for (p = esc, q = s; *p;) {
     switch (*p) {
@@ -307,7 +307,7 @@ NCD4_entityescape(const char *s) {
   char *escaped = NULL;
   const char *entity;
 
-  len     = strlen(s);
+  len = strlen(s);
   escaped = (char *)malloc(1 + (6 * len)); /* 6 = |&apos;| */
   if (escaped == NULL) return NULL;
   for (p = s, q = escaped; *p; p++) {
@@ -333,7 +333,7 @@ NCD4_entityescape(const char *s) {
 }
 
 int NCD4_readfile(const char *filename, NCbytes *content) {
-  int ret      = NC_NOERR;
+  int ret = NC_NOERR;
   FILE *stream = NULL;
   char part[1024];
 
@@ -375,7 +375,7 @@ int NCD4_mktmp(const char *base, char **tmpnamep) {
   /* Note Potential problem: old versions of this function
        leave the file in mode 0666 instead of 0600 */
   mask = umask(0077);
-  fd   = mkstemp(tmp);
+  fd = mkstemp(tmp);
   (void)umask(mask);
 #else /* !HAVE_MKSTEMP */
   /* Need to simulate by using some kind of pseudo-random number */

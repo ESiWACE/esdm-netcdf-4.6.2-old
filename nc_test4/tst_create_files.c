@@ -33,7 +33,7 @@ int main(int argc, char **argv) {
 
     int ncid, dimids[NDIMS3], varid;
     size_t start[NDIMS3], count[NDIMS3];
-    size_t dim_len[NDIMS3]     = {D0, D1, D2};
+    size_t dim_len[NDIMS3] = {D0, D1, D2};
     size_t chunk_sizes[NDIMS3] = {1, D1, D2};
     float *data;
     char file_name[NC_MAX_NAME * 2 + 1];
@@ -139,7 +139,7 @@ int main(int argc, char **argv) {
     int ncid, dimids[MAX_DIMS], varid;
     char dim_name[NC_MAX_NAME + 1], file_name[NC_MAX_NAME + 1];
     char type_name[MAX_TYPES][NC_MAX_NAME + 1] = {"floats", "ints", "shorts"};
-    int typeid[MAX_TYPES]                      = {NC_FLOAT, NC_INT, NC_SHORT};
+    int typeid[MAX_TYPES] = {NC_FLOAT, NC_INT, NC_SHORT};
     size_t len;
     float fdata[TOTAL_SIZE];
     int idata[TOTAL_SIZE];
@@ -247,7 +247,7 @@ int main(int argc, char **argv) {
     int ncid, dimids[MAX_DIMS], varid;
     char dim_name[NC_MAX_NAME + 1], file_name[NC_MAX_NAME + 1];
     char type_name[MAX_TYPES][NC_MAX_NAME + 1] = {"floats", "ints", "shorts"};
-    int typeid[MAX_TYPES]                      = {NC_FLOAT, NC_INT, NC_SHORT};
+    int typeid[MAX_TYPES] = {NC_FLOAT, NC_INT, NC_SHORT};
     size_t len;
     float fdata[TOTAL_SIZE];
     int idata[TOTAL_SIZE];

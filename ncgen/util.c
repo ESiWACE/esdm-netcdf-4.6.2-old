@@ -11,9 +11,9 @@ Symbol *primsymbols[PRIMNO];
 
 char *
 append(const char *s1, const char *s2) {
-  int len      = (s1 ? strlen(s1) : 0) + (s2 ? strlen(s2) : 0);
+  int len = (s1 ? strlen(s1) : 0) + (s2 ? strlen(s2) : 0);
   char *result = (char *)ecalloc(len + 1);
-  result[0]    = '\0';
+  result[0] = '\0';
   if (s1) strcat(result, s1);
   if (s2) strcat(result, s2);
   return result;
@@ -348,7 +348,7 @@ prefixtostring(List *prefix, char *separator) {
     slen = 0;
     /* slen += strlen(separator);*/
     slen++; /* for null terminator*/
-    result    = poolalloc(slen);
+    result = poolalloc(slen);
     result[0] = '\0';
     /*strcat(result,separator);*/
   } else {
@@ -357,7 +357,7 @@ prefixtostring(List *prefix, char *separator) {
       slen += (strlen(separator) + strlen(sym->name));
     }
     slen++; /* for null terminator*/
-    result    = poolalloc(slen);
+    result = poolalloc(slen);
     result[0] = '\0';
     for (i = 0; i < plen; i++) {
       Symbol *sym = (Symbol *)listget(prefix, i);
@@ -377,7 +377,7 @@ fullname(Symbol *sym) {
   char *result;
   char *prefix;
   prefix = prefixtostring(sym->prefix, PATHSEPARATOR);
-  s1     = poolcat(prefix, PATHSEPARATOR);
+  s1 = poolcat(prefix, PATHSEPARATOR);
   result = poolcat(s1, sym->name);
   return result;
 #else
@@ -452,9 +452,9 @@ poolcat(const char *s1, const char *s2) {
   int len1, len2;
   char *cat;
   if (s1 == NULL && s2 == NULL) return NULL;
-  len1   = (s1 ? strlen(s1) : 0);
-  len2   = (s2 ? strlen(s2) : 0);
-  cat    = poolalloc(len1 + len2 + 1);
+  len1 = (s1 ? strlen(s1) : 0);
+  len2 = (s2 ? strlen(s2) : 0);
+  cat = poolalloc(len1 + len2 + 1);
   cat[0] = '\0';
   if (s1 != NULL) strcat(cat, s1);
   if (s2 != NULL) strcat(cat, s2);
@@ -473,12 +473,12 @@ makebytestring(char *s, size_t *lenp) {
   ASSERT((slen % 2) == 0);
   ASSERT(blen > 0);
   bytes = (unsigned char *)ecalloc(blen);
-  b     = bytes;
+  b = bytes;
   for (i = 0; i < slen; i += 2) {
     unsigned int digit1 = chartohex(*s++);
     unsigned int digit2 = chartohex(*s++);
-    unsigned int byte   = (digit1 << 4) | digit2;
-    *b++                = byte;
+    unsigned int byte = (digit1 << 4) | digit2;
+    *b++ = byte;
   }
   if (lenp) *lenp = blen;
   return bytes;
@@ -606,7 +606,7 @@ kind_string(int kind) {
 #ifdef USE_NETCDF4i
 nt getrootid(int grpid) {
   int current = grpid;
-  int parent  = current;
+  int parent = current;
   /* see if root id */
   for (;;) {
     int stat = nc_inq_grp_parent(current, &parent);

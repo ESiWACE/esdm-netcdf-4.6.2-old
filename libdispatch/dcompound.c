@@ -168,7 +168,7 @@ placed here. \ref ignored_if_null.
 int nc_inq_compound(int ncid, nc_type xtype, char *name,
 size_t *sizep, size_t *nfieldsp) {
   int class = 0;
-  int stat  = nc_inq_user_type(ncid, xtype, name, sizep, NULL, nfieldsp, &class);
+  int stat = nc_inq_user_type(ncid, xtype, name, sizep, NULL, nfieldsp, &class);
   if (stat != NC_NOERR) return stat;
   if (class != NC_COMPOUND) stat = NC_EBADTYPE;
   return stat;

@@ -28,7 +28,7 @@ int
 test_ncvargetg(path)
 const char *path; /* name of writable netcdf file to open */
 {
-  int nerrs           = 0;
+  int nerrs = 0;
   static char pname[] = "test_ncvargetg";
   int cdfid;                 /* netcdf id */
   int iv;                    /* variable id */
@@ -58,8 +58,8 @@ const char *path; /* name of writable netcdf file to open */
 
     /* set coords and strides */
     for (id = 0; id < test.vars[iv].ndims; id++) {
-      hc.cor[id]  = 0;
-      hc.edg[id]  = 1;
+      hc.cor[id] = 0;
+      hc.edg[id] = 1;
       strides[id] = 1;
     }
 
@@ -71,8 +71,8 @@ const char *path; /* name of writable netcdf file to open */
    strides, (long *)NULL, hc.vals)         \
    != -1)
 
-    id         = test.vars[iv].ndims - 1;
-    tmp        = hc.cor[id];
+    id = test.vars[iv].ndims - 1;
+    tmp = hc.cor[id];
     hc.cor[id] = -1; /* try negative coordinate, should fail */
     if (TEST_FAILS(iv)) {
       error("%s: ncvargetg should fail for negative corner", pname);
@@ -80,7 +80,7 @@ const char *path; /* name of writable netcdf file to open */
       return ++nerrs;
     }
     hc.cor[id] = tmp;
-    tmp        = hc.edg[id];
+    tmp = hc.edg[id];
     hc.edg[id] = -1; /* try negative edge, should fail */
     if (TEST_FAILS(iv)) {
       error("%s: ncvargetg should fail for negative edge", pname);
@@ -88,7 +88,7 @@ const char *path; /* name of writable netcdf file to open */
       return ++nerrs;
     }
     hc.edg[id] = tmp;
-    tmp        = hc.cor[id];
+    tmp = hc.cor[id];
     hc.cor[id] = test.dims[id].size; /* try big coordinate, should fail */
     if (TEST_FAILS(iv)) {
       error("%s: ncvargetg should fail for too-high coordinate", pname);
@@ -96,15 +96,15 @@ const char *path; /* name of writable netcdf file to open */
       return ++nerrs;
     }
     hc.cor[id] = tmp;
-    tmp        = hc.edg[id];
+    tmp = hc.edg[id];
     hc.edg[id] = test.dims[id].size + 1; /* try big edge, should fail */
     if (TEST_FAILS(iv)) {
       error("%s: ncvargetg should fail for too-high edge", pname);
       ncclose(cdfid);
       return ++nerrs;
     }
-    hc.edg[id]  = tmp;
-    tmp         = strides[id];
+    hc.edg[id] = tmp;
+    tmp = strides[id];
     strides[id] = -1; /* try non-positive stride, should fail */
     if (TEST_FAILS(iv)) {
       error("%s: ncvargetg should fail for non-positive stride", pname);

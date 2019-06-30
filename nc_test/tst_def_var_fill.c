@@ -102,7 +102,7 @@ int main(int argc, char **argv) {
     start[1] = 2;
     count[0] = NY;
     count[1] = 2;
-    err      = nc_put_vara_int(ncid, varid[0], start, count, buf);
+    err = nc_put_vara_int(ncid, varid[0], start, count, buf);
     CHECK_ERR
     err = nc_put_vara_int(ncid, varid[1], start, count, buf);
     CHECK_ERR

@@ -228,7 +228,7 @@ int main(int argc, char **argv) {
    int attnums[NUM_GOOD];
 #endif
   char *testfile = FILE_NAME;
-  int formats[]  = {
+  int formats[] = {
   NC_FORMAT_CLASSIC,
   NC_FORMAT_64BIT_OFFSET
 #ifdef ENABLE_CDF5
@@ -241,7 +241,7 @@ int main(int argc, char **argv) {
   NC_FORMAT_NETCDF4_CLASSIC
 #endif /* USE_NETCDF4 */
   };
-  int num_formats      = (sizeof formats) / (sizeof formats[0]);
+  int num_formats = (sizeof formats) / (sizeof formats[0]);
   char *format_names[] = {
   "classic", "64-bit offset", "64-bit data", "netCDF-4/HDF5", "netCDF-4 classic model"};
 

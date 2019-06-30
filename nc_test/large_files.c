@@ -51,10 +51,10 @@ int main(int argc, char **argv) {
 
   /* dimension lengths */
   size_t rec_len = NC_UNLIMITED;
-  size_t i_len   = I_LEN;
-  size_t j_len   = J_LEN;
-  size_t k_len   = K_LEN;
-  size_t n_len   = N_LEN;
+  size_t i_len = I_LEN;
+  size_t j_len = J_LEN;
+  size_t k_len = K_LEN;
+  size_t n_len = N_LEN;
 
   /* variable ids */
   int var1_id;
@@ -93,7 +93,7 @@ int main(int argc, char **argv) {
 
   x_dims[0] = rec_dim;
   x_dims[1] = n_dim;
-  stat      = nc_def_var(ncid, "x", NC_INT, RANK_x, x_dims, &x_id);
+  stat = nc_def_var(ncid, "x", NC_INT, RANK_x, x_dims, &x_id);
   check_err(stat, __LINE__, __FILE__);
 
   var1_dims[0] = rec_dim;
@@ -114,24 +114,24 @@ int main(int argc, char **argv) {
   { /* store var1 */
     /*static float var1[J_LEN];*/
     static float *var1 = NULL;
-    var1               = malloc(sizeof(float) * J_LEN);
+    var1 = malloc(sizeof(float) * J_LEN);
     if (!var1) {
       printf("Malloc failed.  This may happen on systems with < 4GB. THIS TEST DID NOT PASS, but is returning 0.\n");
       return 0;
     }
     static size_t var1_start[RANK_var1] = {0, 0, 0};
     static size_t var1_count[RANK_var1] = {1, 1, J_LEN};
-    static size_t x_start[RANK_x]       = {0, 0};
-    static size_t x_count[RANK_x]       = {1, N_LEN};
+    static size_t x_start[RANK_x] = {0, 0};
+    static size_t x_count[RANK_x] = {1, N_LEN};
     for (rec = 0; rec < NUMRECS; rec++) {
       var1_start[0] = rec;
-      x_start[0]    = rec;
+      x_start[0] = rec;
       for (i = 0; i < I_LEN; i++) {
         for (j = 0; j < J_LEN; j++) {
           var1[j] = (float)(j + (rec + 1) * i);
         }
         var1_start[1] = i;
-        stat          = nc_put_vara_float(ncid, var1_id, var1_start, var1_count, var1);
+        stat = nc_put_vara_float(ncid, var1_id, var1_start, var1_count, var1);
         check_err(stat, __LINE__, __FILE__);
       }
       x[0] += rec;
@@ -154,18 +154,18 @@ int main(int argc, char **argv) {
   { /* read var1 */
 
     /*static float avar1[J_LEN];*/
-    static float *avar1                  = NULL;
-    avar1                                = (float *)malloc(sizeof(float) * J_LEN);
+    static float *avar1 = NULL;
+    avar1 = (float *)malloc(sizeof(float) * J_LEN);
     static size_t avar1_start[RANK_var1] = {0, 0, 0};
     static size_t avar1_count[RANK_var1] = {1, 1, J_LEN};
-    static size_t ax_start[RANK_x]       = {0, 0};
-    static size_t ax_count[RANK_x]       = {1, N_LEN};
+    static size_t ax_start[RANK_x] = {0, 0};
+    static size_t ax_count[RANK_x] = {1, N_LEN};
     for (rec = 0; rec < NUMRECS; rec++) {
       avar1_start[0] = rec;
-      ax_start[0]    = rec;
+      ax_start[0] = rec;
       for (i = 0; i < I_LEN; i++) {
         avar1_start[1] = i;
-        stat           = nc_get_vara_float(ncid, var1_id, avar1_start, avar1_count, avar1);
+        stat = nc_get_vara_float(ncid, var1_id, avar1_start, avar1_count, avar1);
         check_err(stat, __LINE__, __FILE__);
         for (j = 0; j < J_LEN; j++) {
           if (avar1[j] != (float)(j + (rec + 1) * i)) {

@@ -57,7 +57,7 @@ NC_parsefilterspec(const char *spec, unsigned int *idp, size_t *nparamsp, unsign
     char *q = strchr(p, ',');
     if (q == NULL) break;
     *q++ = '\0';
-    p    = q;
+    p = q;
   }
   count++; /* for final piece */
 
@@ -65,7 +65,7 @@ NC_parsefilterspec(const char *spec, unsigned int *idp, size_t *nparamsp, unsign
     goto fail; /* no id and no parameters */
 
   /* Extract the filter id */
-  p     = sdata;
+  p = sdata;
   sstat = sscanf(p, "%u", &id);
   if (sstat != 1) goto fail;
   /* skip past the filter id */
@@ -86,7 +86,7 @@ NC_parsefilterspec(const char *spec, unsigned int *idp, size_t *nparamsp, unsign
     unsigned int *vector;
     int isunsigned = 0;
     int isnegative = 0;
-    int type       = 0;
+    int type = 0;
     char *q;
 
     len = strlen(p);
@@ -103,11 +103,11 @@ NC_parsefilterspec(const char *spec, unsigned int *idp, size_t *nparamsp, unsign
         goto fail; /* empty parameter */
       case 1:
       case 2:
-        q    = (p + len) - 1; /* point to last char */
+        q = (p + len) - 1; /* point to last char */
         type = gettype(*q, '\0', &isunsigned);
         break;
       default: /* > 2 => we might have a two letter tag */
-        q    = (p + len) - 2;
+        q = (p + len) - 2;
         type = gettype(*q, *(q + 1), &isunsigned);
         break;
     }
@@ -133,7 +133,7 @@ NC_parsefilterspec(const char *spec, unsigned int *idp, size_t *nparamsp, unsign
       case 'f':
         sstat = sscanf(p, "%lf", &vald);
         if (sstat != 1) goto fail;
-        valf             = (float)vald;
+        valf = (float)vald;
         ulist[nparams++] = *(unsigned int *)&valf;
         break;
 
@@ -145,7 +145,7 @@ NC_parsefilterspec(const char *spec, unsigned int *idp, size_t *nparamsp, unsign
 #ifdef WORDS_BIGENDIAN
         NC_byteswap8(mem); /* convert big endian to little endian */
 #endif
-        vector           = (unsigned int *)mem;
+        vector = (unsigned int *)mem;
         ulist[nparams++] = vector[0];
         ulist[nparams++] = vector[1];
         break;
@@ -160,7 +160,7 @@ NC_parsefilterspec(const char *spec, unsigned int *idp, size_t *nparamsp, unsign
 #ifdef WORDS_BIGENDIAN
         NC_byteswap8(mem); /* convert big endian to little endian */
 #endif
-        vector           = (unsigned int *)mem;
+        vector = (unsigned int *)mem;
         ulist[nparams++] = vector[0];
         ulist[nparams++] = vector[1];
         break;
@@ -174,7 +174,7 @@ NC_parsefilterspec(const char *spec, unsigned int *idp, size_t *nparamsp, unsign
   if (nparamsp) *nparamsp = nparams;
   if (paramsp) {
     *paramsp = ulist;
-    ulist    = NULL; /* avoid duplicate free */
+    ulist = NULL; /* avoid duplicate free */
   }
 done:
   if (sdata) free(sdata);
@@ -188,7 +188,7 @@ fail:
 /* Look at q0 and q1) to determine type */
 static int
 gettype(const int q0, const int q1, int *isunsignedp) {
-  int type       = 0;
+  int type = 0;
   int isunsigned = 0;
   char typechar;
 
@@ -223,7 +223,7 @@ gettype(const int q0, const int q1, int *isunsignedp) {
     case '9': type = 'i'; break;
     case 'u':
     case 'U':
-      type       = 'i';
+      type = 'i';
       isunsigned = 1;
       break; /* unsigned int */
     case '\0': type = 'i'; break;
@@ -238,16 +238,16 @@ gettype(const int q0, const int q1, int *isunsignedp) {
 EXTERNL
 void NC_byteswap8(unsigned char *mem) {
   unsigned char c;
-  c      = mem[0];
+  c = mem[0];
   mem[0] = mem[7];
   mem[7] = c;
-  c      = mem[1];
+  c = mem[1];
   mem[1] = mem[6];
   mem[6] = c;
-  c      = mem[2];
+  c = mem[2];
   mem[2] = mem[5];
   mem[5] = c;
-  c      = mem[3];
+  c = mem[3];
   mem[3] = mem[4];
   mem[4] = c;
 }

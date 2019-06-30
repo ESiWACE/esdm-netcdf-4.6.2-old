@@ -25,14 +25,14 @@
 #define NCTAGDFALT "Log";
 
 static int nclogginginitialized = 0;
-static int nclogging            = 0;
-static int ncsystemfile         = 0; /* 1 => we are logging to file we did not open */
-static char *nclogfile          = NULL;
-static FILE *nclogstream        = NULL;
+static int nclogging = 0;
+static int ncsystemfile = 0; /* 1 => we are logging to file we did not open */
+static char *nclogfile = NULL;
+static FILE *nclogstream = NULL;
 
-static int nctagsize         = 0;
-static char **nctagset       = NULL;
-static char *nctagdfalt      = NULL;
+static int nctagsize = 0;
+static char **nctagset = NULL;
+static char *nctagdfalt = NULL;
 static char *nctagsetdfalt[] = {"Warning", "Error", "Note", "Debug"};
 static char *nctagname(int tag);
 
@@ -48,7 +48,7 @@ void ncloginit(void) {
     return;
   nclogginginitialized = 1;
   ncsetlogging(0);
-  nclogfile   = NULL;
+  nclogfile = NULL;
   nclogstream = NULL;
   /* Use environment variables to preset nclogging state*/
   /* I hope this is portable*/
@@ -59,7 +59,7 @@ void ncloginit(void) {
     }
   }
   nctagdfalt = NCTAGDFALT;
-  nctagset   = nctagsetdfalt;
+  nctagset = nctagsetdfalt;
 }
 
 /*!
@@ -73,7 +73,7 @@ Enable/Disable logging.
 int ncsetlogging(int tf) {
   int was;
   if (!nclogginginitialized) ncloginit();
-  was       = nclogging;
+  was = nclogging;
   nclogging = tf;
   return was;
 }
@@ -93,22 +93,22 @@ int nclogopen(const char *file) {
   nclogclose();
   if (file == NULL || strlen(file) == 0) {
     /* use stderr*/
-    nclogstream  = stderr;
-    nclogfile    = NULL;
+    nclogstream = stderr;
+    nclogfile = NULL;
     ncsystemfile = 1;
   } else if (strcmp(file, "stdout") == 0) {
     /* use stdout*/
-    nclogstream  = stdout;
-    nclogfile    = NULL;
+    nclogstream = stdout;
+    nclogfile = NULL;
     ncsystemfile = 1;
   } else if (strcmp(file, "stderr") == 0) {
     /* use stderr*/
-    nclogstream  = stderr;
-    nclogfile    = NULL;
+    nclogstream = stderr;
+    nclogfile = NULL;
     ncsystemfile = 1;
   } else {
     int fd;
-    nclogfile   = strdup(file);
+    nclogfile = strdup(file);
     nclogstream = NULL;
     /* We need to deal with this file carefully
 	   to avoid unauthorized access*/
@@ -117,7 +117,7 @@ int nclogopen(const char *file) {
       nclogstream = fdopen(fd, "a");
     } else {
       free(nclogfile);
-      nclogfile   = NULL;
+      nclogfile = NULL;
       nclogstream = NULL;
       ncsetlogging(0);
       return 0;
@@ -133,8 +133,8 @@ void nclogclose(void) {
     fclose(nclogstream);
   }
   if (nclogfile != NULL) free(nclogfile);
-  nclogstream  = NULL;
-  nclogfile    = NULL;
+  nclogstream = NULL;
+  nclogfile = NULL;
   ncsystemfile = 0;
 }
 

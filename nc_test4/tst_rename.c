@@ -116,8 +116,8 @@ int check_charlies_no_enddef_file(int ncid, char *dim_name, char *var_name) {
 int main(int argc, char **argv) {
 #define NUM_FORMATS 2
   int formats[NUM_FORMATS] = {NC_FORMAT_NETCDF4, NC_FORMAT_NETCDF4_CLASSIC};
-  char *fmt_names[]        = {"netCDF-4", "netCDF-4 classic model"};
-  char *file_names[]       = {FILE_NAME3, FILE_NAME4};
+  char *fmt_names[] = {"netCDF-4", "netCDF-4 classic model"};
+  char *file_names[] = {FILE_NAME3, FILE_NAME4};
   int format;
 
   printf("*** Testing netcdf rename bugs and fixes.\n");
@@ -506,14 +506,14 @@ int main(int argc, char **argv) {
         /* write variable data */
         {
           float lon_data[4] = {0, 90, 180, 270};
-          size_t start[]    = {0};
-          size_t count[]    = {4};
+          size_t start[] = {0};
+          size_t count[] = {4};
           if (nc_put_vara(ncid, lon_var, start, count, lon_data)) ERR;
         }
         {
           float g1_lon_data[4] = {0, 90, 180, 270};
-          size_t start[]       = {0};
-          size_t count[]       = {4};
+          size_t start[] = {0};
+          size_t count[] = {4};
           if (nc_put_vara(g1_grp, g1_lon_var, start, count, g1_lon_data)) ERR;
         }
         if (nc_close(ncid)) ERR;

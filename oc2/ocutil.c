@@ -134,7 +134,7 @@ int ocfindbod(NCbytes *buffer, size_t *bodp, size_t *ddslenp) {
   content = ncbytescontents(buffer);
 
   for (marks = DDSdatamarks; *marks; marks++) {
-    char *mark  = *marks;
+    char *mark = *marks;
     size_t tlen = strlen(mark);
     for (i = 0; i < len; i++) {
       if ((i + tlen) <= len
@@ -147,7 +147,7 @@ int ocfindbod(NCbytes *buffer, size_t *bodp, size_t *ddslenp) {
     }
   }
   *ddslenp = 0;
-  *bodp    = 0;
+  *bodp = 0;
   return 0; /* tag not found; not necessarily an error*/
 }
 
@@ -420,7 +420,7 @@ void ocdataddsmsg(OCstate *state, OCtree *tree) {
   if (tree == NULL) return;
   /* get available space */
   xdrs = tree->data.xdrs;
-  len  = xxdr_length(xdrs);
+  len = xxdr_length(xdrs);
   if (len < strlen(ERRTAG))
     return; /* no room */
   ckp = xxdr_getpos(xdrs);
@@ -469,7 +469,7 @@ void ocarrayindices(size_t index, size_t rank, size_t *sizes, size_t *indices) {
   int i;
   for (i = rank - 1; i >= 0; i--) {
     indices[i] = index % sizes[i];
-    index      = (index - indices[i]) / sizes[i];
+    index = (index - indices[i]) / sizes[i];
   }
 }
 
@@ -498,8 +498,8 @@ int ocvalidateindices(size_t rank, size_t *sizes, size_t *indices) {
 
 int oc_ispacked(OCnode *node) {
   OCtype octype = node->octype;
-  OCtype etype  = node->etype;
-  int isscalar  = (node->array.rank == 0);
+  OCtype etype = node->etype;
+  int isscalar = (node->array.rank == 0);
   int packed;
 
   if (isscalar || octype != OC_Atomic)
@@ -529,7 +529,7 @@ const char *
 ocdtmodestring(OCDT mode, int compact) {
   static char result[1 + (NMODES * (MAXMODENAME + 1))]; /* hack to avoid malloc */
   int i;
-  char *p   = result;
+  char *p = result;
   result[0] = '\0';
   if (mode == 0) {
     if (compact)
@@ -578,7 +578,7 @@ int occopycat(char *dst, size_t size, size_t n, ...) {
   size_t avail = size - 1;
   int i;
   int status = 1; /* assume ok */
-  char *p    = dst;
+  char *p = dst;
 
   if (n == 0) {
     if (size > 0)
@@ -622,7 +622,7 @@ Return 0 if overrun, 1 otherwise.
 */
 int occoncat(char *dst, size_t size, size_t n, ...) {
   va_list args;
-  int status   = 1; /* assume ok */
+  int status = 1; /* assume ok */
   size_t avail = 0;
   int i;
   char *p;

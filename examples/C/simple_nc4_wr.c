@@ -56,7 +56,7 @@ int main() {
   /* Create some pretend data. */
   for (x = 0; x < NX; x++)
     for (y = 0; y < NY; y++) {
-      data_out[x][y]         = x * NY + y;
+      data_out[x][y] = x * NY + y;
       compound_data[x][y].i1 = 42;
       compound_data[x][y].i2 = -42;
     }

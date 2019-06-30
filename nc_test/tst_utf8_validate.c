@@ -335,7 +335,7 @@ static char *
 trim(const char *s) {
   int i;
   size_t l = strlen(s);
-  char *t  = strdup(s);
+  char *t = strdup(s);
   for (i = l - 1; i >= 0; i--) {
     if (t[i] != ' ') break;
   }
@@ -345,7 +345,7 @@ trim(const char *s) {
 
 static int
 test(const struct Test *tests, const char *title) {
-  int status   = NC_NOERR;
+  int status = NC_NOERR;
   int failures = 0;
   const struct Test *p;
 
@@ -354,9 +354,9 @@ test(const struct Test *tests, const char *title) {
     char *id;
     char *description;
     const char *pf;
-    id          = trim(p->id);
+    id = trim(p->id);
     description = trim(p->description);
-    status      = nc_utf8_validate((const unsigned char *)p->data);
+    status = nc_utf8_validate((const unsigned char *)p->data);
     if (status == NC_NOERR && p->xfail) {
       pf = "Fail";
       failures++;

@@ -238,7 +238,7 @@ int nclistconcat(NClist *l1, NClist *l2) {
 
 int nclistminus(NClist *l1, NClist *l2) {
   unsigned int i, len, found;
-  len   = nclistlength(l2);
+  len = nclistlength(l2);
   found = 0;
   for (i = 0; i < len; i++) {
     if (nclistdeleteall(l1, nclistget(l2, i))) found = 1;
@@ -250,7 +250,7 @@ int nclistdeleteall(NClist *l, void *elem) {
   int i; /* do not make unsigned */
   unsigned int len, found;
   found = 0;
-  len   = nclistlength(l);
+  len = nclistlength(l);
   for (i = len - 1; i >= 0; i--) {
     void *test = nclistget(l, i);
     if (test == elem) {
@@ -292,7 +292,7 @@ makeocpathstring(OClink conn, OCddsnode node, const char *sep) {
   char *result;
   char *name;
   OCtype octype;
-  NClist *ocpath    = NULL;
+  NClist *ocpath = NULL;
   NCbytes *pathname = NULL;
 
   /* If we are asking for the dataset path only,
@@ -393,7 +393,7 @@ simplepathstring(NClist *names, char *separator) {
     len += strlen(separator);
   }
   len++; /* room for strlcat to null terminate */
-  result    = (char *)malloc(len + 1);
+  result = (char *)malloc(len + 1);
   result[0] = '\0';
   for (i = 0; i < nclistlength(names); i++) {
     char *segment = (char *)nclistget(names, i);
@@ -558,7 +558,7 @@ void dapexpandescapes(char *termstring) {
         case 'x':
           t++; /* now t points to one or more hex digits */
           *s++ = (char)strtol(t, &endp, 16);
-          t    = endp;
+          t = endp;
           break;
         case '0':
         case '1':
@@ -576,7 +576,7 @@ void dapexpandescapes(char *termstring) {
           if (c == 0 || c < '0' || c > '7') goto normal;
           c = t[2];
           if (c == 0 || c < '0' || c > '7') goto normal;
-          c    = ((t[0] - '0') << 6) + ((t[1] - '0') << 3) + (t[2] - '0');
+          c = ((t[0] - '0') << 6) + ((t[1] - '0') << 3) + (t[2] - '0');
           *s++ = (char)c;
           t += 3;
         } break;
@@ -617,9 +617,9 @@ dap_fetch(NCDAPCOMMON *nccomm, OClink conn, const char *ce,
 OCdxd dxd, OCddsnode *rootp) {
   NCerror ncstat = NC_NOERR;
   OCerror ocstat = OC_NOERR;
-  char *ext      = NULL;
-  OCflags flags  = 0;
-  int httpcode   = 0;
+  char *ext = NULL;
+  OCflags flags = 0;
+  int httpcode = 0;
 
   if (dxd == OCDDS)
     ext = ".dds";
@@ -720,18 +720,18 @@ repairname(const char *name, const char *badchars) {
   int nnlen = 0;
 
   if (name == NULL) return NULL;
-  nnlen = (3 * strlen(name));             /* max needed */
-  nnlen++;                                /* room for strlcat to add nul */
-  newname    = (char *)malloc(1 + nnlen); /* max needed */
-  newname[0] = '\0';                      /* so we can use strlcat */
+  nnlen = (3 * strlen(name));          /* max needed */
+  nnlen++;                             /* room for strlcat to add nul */
+  newname = (char *)malloc(1 + nnlen); /* max needed */
+  newname[0] = '\0';                   /* so we can use strlcat */
   for (p = name, q = newname; (c = *p); p++) {
     if (strchr(badchars, c) != NULL) {
       int digit;
       char newchar[4];
       newchar[0] = '%';
-      digit      = (c & 0xf0) >> 4;
+      digit = (c & 0xf0) >> 4;
       newchar[1] = hexdigits[digit];
-      digit      = (c & 0x0f);
+      digit = (c & 0x0f);
       newchar[2] = hexdigits[digit];
       newchar[3] = '\0';
       strlcat(newname, newchar, nnlen);

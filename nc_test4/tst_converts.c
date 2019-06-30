@@ -37,7 +37,7 @@ void determine_test_formats(int *num_formats, int *format) {
   assert(num_formats && format);
 
   /* We always have classic and 64-bit offset */
-  num           = 2;
+  num = 2;
   format[ind++] = NC_FORMAT_CLASSIC;
   format[ind++] = NC_FORMAT_64BIT_OFFSET;
 

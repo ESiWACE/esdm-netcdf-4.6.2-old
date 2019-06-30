@@ -40,11 +40,11 @@ const size_t *edges, const ptrdiff_t *stride) {
   odom->rank = rank;
   assert(odom->rank <= NC_MAX_VAR_DIMS);
   for (i = 0; i < odom->rank; i++) {
-    odom->start[i]  = (start != NULL ? start[i] : 0);
-    odom->edges[i]  = (edges != NULL ? edges[i] : 1);
+    odom->start[i] = (start != NULL ? start[i] : 0);
+    odom->edges[i] = (edges != NULL ? edges[i] : 1);
     odom->stride[i] = (stride != NULL ? stride[i] : 1);
-    odom->stop[i]   = odom->start[i] + (odom->edges[i] * ((size_t)odom->stride[i]));
-    odom->index[i]  = odom->start[i];
+    odom->stop[i] = odom->start[i] + (odom->edges[i] * ((size_t)odom->stride[i]));
+    odom->index[i] = odom->start[i];
   }
 }
 
@@ -89,7 +89,7 @@ const size_t *start, const size_t *edges,
 void *value, nc_type memtype) {
   NC *ncp;
   size_t *my_count = (size_t *)edges;
-  int stat         = NC_check_id(ncid, &ncp);
+  int stat = NC_check_id(ncid, &ncp);
   if (stat != NC_NOERR) return stat;
 
   if (start == NULL || edges == NULL) {
@@ -211,7 +211,7 @@ void *value0, nc_type memtype) {
 
   /* Do various checks and fixups on start/edges/stride */
   simplestride = 1; /* assume so */
-  nels         = 1;
+  nels = 1;
   for (i = 0; i < rank; i++) {
     size_t dimlen;
     mystart[i] = (start == NULL ? 0 : start[i]);
@@ -289,7 +289,7 @@ nc_type memtype) {
 int NCDEFAULT_get_varm(int ncid, int varid, const size_t *start,
 const size_t *edges, const ptrdiff_t *stride,
 const ptrdiff_t *imapp, void *value0, nc_type memtype) {
-  int status      = NC_NOERR;
+  int status = NC_NOERR;
   nc_type vartype = NC_NAT;
   int varndims, maxidim;
   NC *ncp;
@@ -381,12 +381,12 @@ const ptrdiff_t *imapp, void *value0, nc_type memtype) {
     /* Allocate space for mystart,mystride,mymap etc.all at once */
     mystart = (size_t *)calloc((size_t)(varndims * 7), sizeof(ptrdiff_t));
     if (mystart == NULL) return NC_ENOMEM;
-    myedges  = mystart + varndims;
-    iocount  = myedges + varndims;
-    stop     = iocount + varndims;
-    length   = stop + varndims;
+    myedges = mystart + varndims;
+    iocount = myedges + varndims;
+    stop = iocount + varndims;
+    length = stop + varndims;
     mystride = (ptrdiff_t *)(length + varndims);
-    mymap    = mystride + varndims;
+    mymap = mystride + varndims;
 
     /*
        * Check start, edges
@@ -468,8 +468,8 @@ const ptrdiff_t *imapp, void *value0, nc_type memtype) {
         mymap[idim] = mymap[idim + 1] * (ptrdiff_t)myedges[idim + 1];
 #endif
       iocount[idim] = 1;
-      length[idim]  = ((size_t)mymap[idim]) * myedges[idim];
-      stop[idim]    = (mystart[idim] + myedges[idim] * (size_t)mystride[idim]);
+      length[idim] = ((size_t)mymap[idim]) * myedges[idim];
+      stop[idim] = (mystart[idim] + myedges[idim] * (size_t)mystride[idim]);
     }
 
     /* Lower body */
@@ -481,9 +481,9 @@ const ptrdiff_t *imapp, void *value0, nc_type memtype) {
        */
     if (mystride[maxidim] == 1
         && mymap[maxidim] == 1) {
-      iocount[maxidim]  = myedges[maxidim];
+      iocount[maxidim] = myedges[maxidim];
       mystride[maxidim] = (ptrdiff_t)myedges[maxidim];
-      mymap[maxidim]    = (ptrdiff_t)length[maxidim];
+      mymap[maxidim] = (ptrdiff_t)length[maxidim];
     }
 
     /*
@@ -559,7 +559,7 @@ NC_get_vars(int ncid, int varid, const size_t *start,
 const size_t *edges, const ptrdiff_t *stride, void *value,
 nc_type memtype) {
   NC *ncp;
-  size_t *my_count     = (size_t *)edges;
+  size_t *my_count = (size_t *)edges;
   ptrdiff_t *my_stride = (ptrdiff_t *)stride;
   int stat;
 
@@ -620,7 +620,7 @@ NC_get_varm(int ncid, int varid, const size_t *start,
 const size_t *edges, const ptrdiff_t *stride, const ptrdiff_t *map,
 void *value, nc_type memtype) {
   NC *ncp;
-  size_t *my_count     = (size_t *)edges;
+  size_t *my_count = (size_t *)edges;
   ptrdiff_t *my_stride = (ptrdiff_t *)stride;
   int stat;
 
@@ -724,7 +724,7 @@ int nc_get_vara(int ncid, int varid, const size_t *startp,
 const size_t *countp, void *ip) {
   NC *ncp;
   nc_type xtype = NC_NAT;
-  int stat      = NC_check_id(ncid, &ncp);
+  int stat = NC_check_id(ncid, &ncp);
   if (stat != NC_NOERR) return stat;
   stat = nc_inq_vartype(ncid, varid, &xtype);
   if (stat != NC_NOERR) return stat;

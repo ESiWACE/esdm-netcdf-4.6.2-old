@@ -52,7 +52,7 @@ typedef enum {
   /* future	NC_BITFIELD = 7, */
   /*	NC_STRING =	8,	*/
   NC_DIMENSION = 10,
-  NC_VARIABLE  = 11,
+  NC_VARIABLE = 11,
   NC_ATTRIBUTE = 12
 } NCtype;
 

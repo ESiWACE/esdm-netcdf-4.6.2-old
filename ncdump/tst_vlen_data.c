@@ -57,7 +57,7 @@ int main(int argc, char **argv) {
   if (nc_def_var(ncid, VAR5_NAME, typeid, VAR5_RANK, var_dims, &varid)) ERR;
 
   /* Create and write a variable attribute of the vlen type */
-  missing_val.p   = &missing_value;
+  missing_val.p = &missing_value;
   missing_val.len = 1;
   if (nc_put_att(ncid, varid, ATT5_NAME, typeid, ATT5_LEN, (void *)&missing_val)) ERR;
   if (nc_enddef(ncid)) ERR;
@@ -67,7 +67,7 @@ int main(int argc, char **argv) {
   if (array == NULL) ERR;
   for (i = 0; i < NROWS; i++) {
     int ncolumns = NROWS - i;
-    array[i]     = (float *)malloc(ncolumns * sizeof(float));
+    array[i] = (float *)malloc(ncolumns * sizeof(float));
     if (array[i] == NULL) ERR;
     for (j = 0; j < ncolumns; j++) {
       array[i][j] = 10.0 * (i + 1) + j;
@@ -76,7 +76,7 @@ int main(int argc, char **argv) {
   array[4][0] = missing_value; /* overwrite last row with missing for equality test */
 
   for (i = 0; i < DIM5_LEN; i++) {
-    ragged_data[i].p   = array[i];
+    ragged_data[i].p = array[i];
     ragged_data[i].len = NROWS - i;
   }
 

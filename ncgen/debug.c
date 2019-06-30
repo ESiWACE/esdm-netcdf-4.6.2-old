@@ -20,7 +20,7 @@ extern char *ncclassname(nc_class);
 #  define T(fcn, mem)
 #endif
 
-int debug        = 0;
+int debug = 0;
 static int trace = 0;
 
 int settrace(int tf) {

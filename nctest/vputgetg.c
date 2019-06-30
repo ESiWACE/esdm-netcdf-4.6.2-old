@@ -36,7 +36,7 @@
 int
 test_varputgetg(cdfid) int cdfid; /* handle of netcdf open and in data mode */
 {
-  int nerrs           = 0;
+  int nerrs = 0;
   static char pname[] = "test_varputgetg";
   int id = 0, ie = 0, iv = 0; /* loop indices */
   int ne = 3;                 /* number of test hypercubes for each var */
@@ -72,7 +72,7 @@ test_varputgetg(cdfid) int cdfid; /* handle of netcdf open and in data mode */
 
       /* start at "lower-left" corner, do whole variable.  unity
 	     * strides and trivial index mapping */
-      hc[0].cor[id]  = 0;
+      hc[0].cor[id] = 0;
       hc[0].npts[id] = EXTNPTS(iv, id);
       hc[0].strd[id] = 1;
       hc[0].imap[id] = id == test.vars[iv].ndims - 1
@@ -83,7 +83,7 @@ test_varputgetg(cdfid) int cdfid; /* handle of netcdf open and in data mode */
         hc[0].offset = 0;
 
       /* start at "upper-right" corner, do one point */
-      hc[1].cor[id]  = EXTNPTS(iv, id) - 1;
+      hc[1].cor[id] = EXTNPTS(iv, id) - 1;
       hc[1].npts[id] = 1;
       hc[1].strd[id] = 1;
       hc[1].imap[id] = id == test.vars[iv].ndims - 1
@@ -96,7 +96,7 @@ test_varputgetg(cdfid) int cdfid; /* handle of netcdf open and in data mode */
       /* start about 1/3 way along diagonal, do 1/3 in each direction.
 	     * dimension-dependent strides; inverted index mapping starting
 	     * from "upper-right" corner. */
-      hc[2].cor[id]  = EXTNPTS(iv, id) / 3;
+      hc[2].cor[id] = EXTNPTS(iv, id) / 3;
       hc[2].npts[id] = INTNPTS(max(EXTNPTS(iv, id) / 3, 1), id);
       hc[2].strd[id] = STRIDE(id);
       hc[2].imap[id] = id == test.vars[iv].ndims - 1
@@ -111,7 +111,7 @@ test_varputgetg(cdfid) int cdfid; /* handle of netcdf open and in data mode */
       int nelms = (int)nel[ie] * nctypelen(test.vars[iv].type) + 8;
       /* allocate space for the cube of values */
       hc[ie].vals = emalloc(nelms);
-      tmp.vals    = emalloc(nelms);
+      tmp.vals = emalloc(nelms);
 
       /* fill allocated space with different values of right type */
       val_fill(test.vars[iv].type, nel[ie], hc[ie].vals);

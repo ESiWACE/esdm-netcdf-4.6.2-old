@@ -23,7 +23,7 @@ int dumpmetadata(int ncid, NChdr **hdrp) {
   int stat, i, j, k;
   NChdr *hdr = (NChdr *)calloc(1, sizeof(NChdr));
   MEMCHECK(hdr, NC_ENOMEM);
-  hdr->ncid    = ncid;
+  hdr->ncid = ncid;
   hdr->content = ncbytesnew();
   if (hdrp) *hdrp = hdr;
 
@@ -51,15 +51,15 @@ int dumpmetadata(int ncid, NChdr **hdrp) {
     stat = nc_inq_attname(hdr->ncid, NC_GLOBAL, i, attname);
     CHECK(stat);
     att->name = nulldup(attname);
-    stat      = nc_inq_att(hdr->ncid, NC_GLOBAL, att->name, &nctype, &nvalues);
+    stat = nc_inq_att(hdr->ncid, NC_GLOBAL, att->name, &nctype, &nvalues);
     CHECK(stat);
     att->etype = nctypetodap(nctype);
-    typesize   = nctypesizeof(att->etype);
+    typesize = nctypesizeof(att->etype);
     fprintf(stdout, "\t[%d]: name=%s type=%s values(%lu)=",
     i, att->name, nctypetostring(octypetonc(att->etype)),
     (unsigned long)nvalues);
     if (nctype == NC_CHAR) {
-      size_t len   = typesize * nvalues;
+      size_t len = typesize * nvalues;
       char *values = (char *)malloc(len + 1); /* for null terminate*/
       MEMCHECK(values, NC_ENOMEM);
       stat = nc_get_att(hdr->ncid, NC_GLOBAL, att->name, values);
@@ -67,7 +67,7 @@ int dumpmetadata(int ncid, NChdr **hdrp) {
       values[len] = '\0';
       fprintf(stdout, " '%s'", values);
     } else {
-      size_t len   = typesize * nvalues;
+      size_t len = typesize * nvalues;
       char *values = (char *)malloc(len);
       MEMCHECK(values, NC_ENOMEM);
       stat = nc_get_att(hdr->ncid, NC_GLOBAL, att->name, values);
@@ -84,7 +84,7 @@ int dumpmetadata(int ncid, NChdr **hdrp) {
   MEMCHECK(hdr->dims, NC_ENOMEM);
   for (i = 0; i < hdr->ndims; i++) {
     hdr->dims[i].dimid = i;
-    stat               = nc_inq_dim(hdr->ncid,
+    stat = nc_inq_dim(hdr->ncid,
     hdr->dims[i].dimid,
     hdr->dims[i].name,
     &hdr->dims[i].size);
@@ -98,7 +98,7 @@ int dumpmetadata(int ncid, NChdr **hdrp) {
     Var *var = &hdr->vars[i];
     nc_type nctype;
     var->varid = i;
-    stat       = nc_inq_var(hdr->ncid,
+    stat = nc_inq_var(hdr->ncid,
     var->varid,
     var->name,
     &nctype,
@@ -129,11 +129,11 @@ int dumpmetadata(int ncid, NChdr **hdrp) {
       stat = nc_inq_attname(hdr->ncid, var->varid, j, attname);
       CHECK(stat);
       att->name = nulldup(attname);
-      stat      = nc_inq_att(hdr->ncid, var->varid, att->name, &nctype, &nvalues);
+      stat = nc_inq_att(hdr->ncid, var->varid, att->name, &nctype, &nvalues);
       CHECK(stat);
       att->etype = nctypetodap(nctype);
-      typesize   = nctypesizeof(att->etype);
-      values     = (char *)malloc(typesize * nvalues);
+      typesize = nctypesizeof(att->etype);
+      values = (char *)malloc(typesize * nvalues);
       MEMCHECK(values, NC_ENOMEM);
       stat = nc_get_att(hdr->ncid, var->varid, att->name, values);
       CHECK(stat);
@@ -199,9 +199,9 @@ void dumpdata1(nc_type nctype, size_t index, char *data) {
 char *
 dumpprojections(NClist *projections) {
   char *tmp;
-  int v      = dceverbose;
+  int v = dceverbose;
   dceverbose = 1;
-  tmp        = dcelisttostring(projections, ",");
+  tmp = dcelisttostring(projections, ",");
   dceverbose = v;
   return tmp;
 }
@@ -209,9 +209,9 @@ dumpprojections(NClist *projections) {
 char *
 dumpprojection(DCEprojection *proj) {
   char *tmp;
-  int v      = dceverbose;
+  int v = dceverbose;
   dceverbose = 1;
-  tmp        = dcetostring((DCEnode *)proj);
+  tmp = dcetostring((DCEnode *)proj);
   dceverbose = v;
   return tmp;
 }
@@ -229,9 +229,9 @@ dumpselection(DCEselection *sel) {
 char *
 dumpconstraint(DCEconstraint *con) {
   char *tmp;
-  int v      = dceverbose;
+  int v = dceverbose;
   dceverbose = 1;
-  tmp        = dcetostring((DCEnode *)con);
+  tmp = dcetostring((DCEnode *)con);
   dceverbose = v;
   return tmp;
 }
@@ -387,7 +387,7 @@ dumpnode(CDFnode *node) {
   NCbytes *buf = ncbytesnew();
   char *result;
   int i;
-  char *nctype   = NULL;
+  char *nctype = NULL;
   char *primtype = NULL;
   char tmp[1024];
 
@@ -496,7 +496,7 @@ dumpcachenode(NCcachenode *node) {
   NCbytes *buf;
 
   if (node == NULL) return strdup("cachenode{null}");
-  buf    = ncbytesnew();
+  buf = ncbytesnew();
   result = dcebuildconstraintstring(node->constraint);
   snprintf(tmp, sizeof(tmp), "cachenode%s(%lx){size=%lu; constraint=%s; vars=",
   node->isprefetch ? "*" : "",

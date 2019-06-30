@@ -40,11 +40,11 @@ int main() {
     int stat;
     float *dat0, *dat1, *dat2;
     float *data2;
-    size_t startp[3]  = {0, 0, 0};
-    size_t countp[3]  = {VLEN0, VLEN1, VLEN2};
+    size_t startp[3] = {0, 0, 0};
+    size_t countp[3] = {VLEN0, VLEN1, VLEN2};
     size_t startp2[1] = {0};
     size_t countp2[1] = {VLEN2};
-    int i             = 0;
+    int i = 0;
     /* Create File */
     printf("\t* Creating File:\tnc_create()\n");
     if (nc_create(FILE_NAME_UNLIM, NC_NETCDF4 | NC_CLOBBER, &ncid)) ERR;
@@ -103,13 +103,13 @@ int main() {
       dat2[i] = (float)i;
     }
 
-    data[0].p   = dat0;
+    data[0].p = dat0;
     data[0].len = VLEN0;
 
-    data[1].p   = dat1;
+    data[1].p = dat1;
     data[1].len = VLEN1;
 
-    data[2].p   = dat2;
+    data[2].p = dat2;
     data[2].len = VLEN2;
 
     printf("\t* Putting data in VLEN variable:\tnc_put_vara().\n");
@@ -132,11 +132,11 @@ int main() {
     int stat;
     float *dat0, *dat1, *dat2;
     float *data2;
-    size_t startp[3]  = {0, 0, 0};
-    size_t countp[3]  = {VLEN0, VLEN1, VLEN2};
+    size_t startp[3] = {0, 0, 0};
+    size_t countp[3] = {VLEN0, VLEN1, VLEN2};
     size_t startp2[1] = {0};
     size_t countp2[1] = {VLEN2};
-    int i             = 0;
+    int i = 0;
     /* Create File */
     printf("\t* Creating File:\tnc_create()\n");
     if (nc_create(FILE_NAME_LIM, NC_NETCDF4 | NC_CLOBBER, &ncid)) ERR;
@@ -195,13 +195,13 @@ int main() {
       dat2[i] = (float)i;
     }
 
-    data[0].p   = dat0;
+    data[0].p = dat0;
     data[0].len = VLEN0;
 
-    data[1].p   = dat1;
+    data[1].p = dat1;
     data[1].len = VLEN1;
 
-    data[2].p   = dat2;
+    data[2].p = dat2;
     data[2].len = VLEN2;
 
     printf("\t* Putting data in VLEN variable:\tnc_put_vara().\n");

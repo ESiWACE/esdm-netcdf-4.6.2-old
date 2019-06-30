@@ -65,7 +65,7 @@ int main(int argc, char **argv) {
 #define FILE_NAME2 "tst_vars2_latefill.nc"
     printf("**** testing simple fill value attribute creation...");
     {
-      int schar_data  = 0;
+      int schar_data = 0;
       size_t index[1] = {0};
       int expected_ret;
       int dimid;
@@ -209,7 +209,7 @@ int main(int argc, char **argv) {
       char leader[NUM_LEADERS][NC_MAX_NAME + 1] = {"hair_length_of_strategoi",
       "hair_length_of_Miltiades",
       "hair_length_of_Darius_I"};
-      short hair_length[NUM_LEADERS]            = {3, 11, 4};
+      short hair_length[NUM_LEADERS] = {3, 11, 4};
       short short_in;
       int a;
 
@@ -607,7 +607,7 @@ int main(int argc, char **argv) {
     int ncid, wind_id;
     size_t len[NDIMS] = {7, 3, 1};
     int dimids[NDIMS], dimids_in[NDIMS], ndims_in;
-    char funny_name[NNAMES][NC_MAX_NAME]   = {"\a\t", "\f\n", "\r\v", "\b"};
+    char funny_name[NNAMES][NC_MAX_NAME] = {"\a\t", "\f\n", "\r\v", "\b"};
     char serious_name[NNAMES][NC_MAX_NAME] = {"name1", "name2", "name3", "name4"};
     char name_in[NC_MAX_NAME + 1];
     char *speech[NLINES] = {"who would fardels bear, ",
@@ -787,8 +787,8 @@ int main(int argc, char **argv) {
     nc_type xtype_in;
     char name_in[NC_MAX_NAME + 1];
     int data[DIM5_LEN], data_in[DIM5_LEN];
-    size_t chunksize[NDIMS5]       = {5};
-    size_t bad_chunksize[NDIMS5]   = {-5};                             /* Converted to large pos number since size_t is unsigned. */
+    size_t chunksize[NDIMS5] = {5};
+    size_t bad_chunksize[NDIMS5] = {-5};                               /* Converted to large pos number since size_t is unsigned. */
     size_t large_chunksize[NDIMS5] = {(size_t)NC_MAX_INT + (size_t)1}; /* Too big for inq_var_chunking_ints(). */
     size_t chunksize_in[NDIMS5];
     int chunksize_int[NDIMS5];
@@ -1343,7 +1343,7 @@ int main(int argc, char **argv) {
     int ndims, nvars, natts, unlimdimid;
     nc_type xtype_in;
     char name_in[NC_MAX_NAME + 1];
-    size_t chunksize[NDIMS17]     = {5, 5};
+    size_t chunksize[NDIMS17] = {5, 5};
     size_t bad_chunksize[NDIMS17] = {5, DIM17_LEN};
     size_t chunksize_in[NDIMS17];
     int storage_in;

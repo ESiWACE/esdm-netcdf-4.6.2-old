@@ -21,7 +21,7 @@
 #ifdef MEM
 static int mem = 1;
 #else
-static int mem          = 0;
+static int mem = 0;
 #endif
 
 #ifdef DISKLESS
@@ -29,7 +29,7 @@ static int mem          = 0;
 static int diskless = 1;
 #else
 #  define MODE 0
-static int diskless     = 0;
+static int diskless = 0;
 #endif
 
 #define PATH "tst_diskless5.nc"
@@ -54,7 +54,7 @@ static void fill();
 #endif
 
 static size_t value_count[] = {HRAPY, HRAPX};
-static size_t start[]       = {0, 0};
+static size_t start[] = {0, 0};
 
 int main(int argc, const char *argv[]) {
   int status;

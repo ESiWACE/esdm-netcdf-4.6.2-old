@@ -176,7 +176,7 @@ EXTERNL int nc_initialize(void);
 static void
 init() {
   memset(&ocopt, 0, sizeof(ocopt));
-  ocopt.generate   = 1;            /* -G|-g */
+  ocopt.generate = 1;              /* -G|-g */
   ocopt.userparams = ncbytesnew(); /* -U */
   nc_initialize();
 }
@@ -230,7 +230,7 @@ int main(int argc, char **argv) {
             case 'N': ocopt.debug.dumpdds = 1; break;
             case 'X':
               ocopt.debug.dumpdatadds = 1;
-              ocopt.debug.dumplevel   = atoi(optarg + 1);
+              ocopt.debug.dumplevel = atoi(optarg + 1);
               break;
             case 'V': ocopt.debug.verbose = 1; break;
             default: usage("unknown -D option");
@@ -273,8 +273,8 @@ int main(int argc, char **argv) {
         else if (strcasecmp(optarg, "datadds") == 0)
           ocopt.optdatadds = 1;
         else if (strcasecmp(optarg, "all") == 0) {
-          ocopt.optdas     = 1;
-          ocopt.optdds     = 1;
+          ocopt.optdas = 1;
+          ocopt.optdds = 1;
           ocopt.optdatadds = 1;
         } else
           usage("unknown -p option");
@@ -328,20 +328,20 @@ int main(int argc, char **argv) {
   if (suffix != NULL) {
     int match = 0;
     if (strcmp(suffix, ".das") == 0) {
-      ocopt.optdas     = 1;
-      ocopt.optdds     = 0;
+      ocopt.optdas = 1;
+      ocopt.optdds = 0;
       ocopt.optdatadds = 0;
-      match            = 1;
+      match = 1;
     } else if (strcmp(suffix, ".dds") == 0) {
-      ocopt.optdas     = 0;
-      ocopt.optdds     = 1;
+      ocopt.optdas = 0;
+      ocopt.optdds = 1;
       ocopt.optdatadds = 0;
-      match            = 1;
+      match = 1;
     } else if (strcmp(suffix, ".dods") == 0) {
-      ocopt.optdas     = 0;
-      ocopt.optdds     = 0;
+      ocopt.optdas = 0;
+      ocopt.optdds = 0;
       ocopt.optdatadds = 1;
-      match            = 1;
+      match = 1;
     }
     /* Remove the suffix */
     if (match)
@@ -450,7 +450,7 @@ processdata(OCflags flags) {
     if (ocstat != OC_NOERR) {
       fprintf(stderr, "error status returned: (%d) %s\n", ocstat, oc_errstring(ocstat));
       fprintf(stderr, "Could not read DAS; continuing.\n");
-      ocopt.optdas         = 0;
+      ocopt.optdas = 0;
       ocopt.showattributes = 0;
     } else if (ocopt.generate) {
       char *das = generatedas(link, dasroot);
@@ -676,9 +676,9 @@ printdata_leaf(OClink link, OCdatanode datanode, NCbytes *buffer, int istoplevel
     size_t indices[OC_MAX_DIMENSIONS];
     FAIL(oc_dds_dimensionsizes(link, node, dimsizes));
     /* init odometer and get cross-product */
-    count   = odom_init(rank, indices, dimsizes);
+    count = odom_init(rank, indices, dimsizes);
     memsize = elemsize * count;
-    memory  = calloc(memsize, 1);
+    memory = calloc(memsize, 1);
 
 #ifdef ALLATONCE /* read all at once */
                  /* indices should be all zeros at this point */
@@ -804,7 +804,7 @@ generateddsattributes(OClink link, OCddsnode node, NCbytes *buffer, int depth) {
   char tmp[128];
   size_t nattrs;
   char *aname = NULL;
-  char *name  = NULL;
+  char *name = NULL;
   OCtype atomtype;
   size_t nvalues;
   char **values = NULL;
@@ -837,7 +837,7 @@ generateddsattributes(OClink link, OCddsnode node, NCbytes *buffer, int depth) {
       if (values) free(values);
       if (aname) free(aname);
       values = NULL;
-      aname  = NULL;
+      aname = NULL;
     }
   }
   if (name) free(name);
@@ -929,9 +929,9 @@ stringescape(char *s) {
   char *escapedstring;
 
   if (s == NULL) return NULL;
-  len           = strlen(s);
+  len = strlen(s);
   escapedstring = (char *)malloc(4 * len);
-  p             = escapedstring;
+  p = escapedstring;
   while ((c = *s++)) {
     if (c == '"' || c == '\\') {
       *p++ = '\\';
@@ -957,7 +957,7 @@ idescape(char *id, char *escapeid, size_t esize) {
   int c;
 
   if (id == NULL) return NULL;
-  p  = escapeid;
+  p = escapeid;
   *p = '\0';
   esize--; /* leave room for null */
   while (esize-- > 0 && (c = *id++)) {
@@ -1004,7 +1004,7 @@ dumpdatanode(OClink link, OCdatanode datanode, size_t count, void *memory, NCbyt
   OCtype atomtype;
   OCtype octype;
   NCbytes *path = NULL;
-  char *name    = NULL;
+  char *name = NULL;
   char id[1024];
   char tmp[1024];
   struct DUMPPATH *entry = NULL;
@@ -1148,7 +1148,7 @@ indent(int n) {
 static void
 pushstack(OCdatanode datanode) {
   struct DUMPPATH *entry = stack + stacknext;
-  entry->datanode        = datanode;
+  entry->datanode = datanode;
   FAIL(oc_data_ddsnode(glink, entry->datanode, &entry->node));
   FAIL(oc_dds_octype(glink, entry->node, &entry->octype));
   FAIL(oc_dds_rank(glink, entry->node, &entry->rank));

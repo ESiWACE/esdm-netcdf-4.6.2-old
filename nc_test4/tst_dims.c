@@ -1108,10 +1108,10 @@ int main(int argc, char **argv) {
     /* Now use nc_put_vara to really write pressure and hp
        * data. Write TIME_LEN (4) records of each. */
     start[0] = start[1] = start[2] = start[3] = 0;
-    count[0]                                  = LAT_LEN;
-    count[1]                                  = LON_LEN;
-    count[2]                                  = LEVEL_LEN;
-    count[3]                                  = TIME_LEN;
+    count[0] = LAT_LEN;
+    count[1] = LON_LEN;
+    count[2] = LEVEL_LEN;
+    count[3] = TIME_LEN;
     if (nc_put_vara(ncid, pres_varid, start, count,
         (double *)pres)) ERR;
     count[2] = TIME_LEN;

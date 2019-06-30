@@ -28,7 +28,7 @@ extern int fortran_flag;
 extern int cmode_modifier;
 extern int nofill_flag;
 
-int lineno       = 1;
+int lineno = 1;
 int derror_count = 0;
 
 
@@ -133,8 +133,8 @@ int num)      /* element of vector desired */
   switch (type) {
     case NC_CHAR:
       sp = cp = (char *)emalloc(7);
-      *cp++   = '\'';
-      ch      = *((char *)valp + num);
+      *cp++ = '\'';
+      ch = *((char *)valp + num);
       switch (ch) {
         case '\b':
           *cp++ = '\\';
@@ -171,47 +171,47 @@ int num)      /* element of vector desired */
         default:
           if (!isprint((unsigned char)ch)) {
             static char octs[] = "01234567";
-            int rem            = ((unsigned char)ch) % 64;
-            *cp++              = '\\';
-            *cp++              = octs[((unsigned char)ch) / 64]; /* to get, e.g. '\177' */
-            *cp++              = octs[rem / 8];
-            *cp++              = octs[rem % 8];
+            int rem = ((unsigned char)ch) % 64;
+            *cp++ = '\\';
+            *cp++ = octs[((unsigned char)ch) / 64]; /* to get, e.g. '\177' */
+            *cp++ = octs[rem / 8];
+            *cp++ = octs[rem % 8];
           } else {
             *cp++ = ch;
           }
           break;
       }
       *cp++ = '\'';
-      *cp   = '\0';
+      *cp = '\0';
       return sp;
 
     case NC_BYTE:
-      cp    = (char *)emalloc(7);
+      cp = (char *)emalloc(7);
       bytep = (signed char *)valp;
       /* Need to convert '\377' to -1, for example, on all platforms */
       (void)sprintf(cp, "%d", (signed char)*(bytep + num));
       return cp;
 
     case NC_SHORT:
-      cp     = (char *)emalloc(10);
+      cp = (char *)emalloc(10);
       shortp = (short *)valp;
       (void)sprintf(cp, "%d", *(shortp + num));
       return cp;
 
     case NC_INT:
-      cp   = (char *)emalloc(20);
+      cp = (char *)emalloc(20);
       intp = (int *)valp;
       (void)sprintf(cp, "%d", *(intp + num));
       return cp;
 
     case NC_FLOAT:
-      cp     = (char *)emalloc(20);
+      cp = (char *)emalloc(20);
       floatp = (float *)valp;
       (void)sprintf(cp, "%.8g", *(floatp + num));
       return cp;
 
     case NC_DOUBLE:
-      cp      = (char *)emalloc(20);
+      cp = (char *)emalloc(20);
       doublep = (double *)valp;
       (void)sprintf(cp, "%.16g", *(doublep + num));
       return cp;
@@ -728,7 +728,7 @@ const char *filename) {
   for (iatt = 0; iatt < natts; iatt++) {
     if (atts[iatt].len > max_atts[(int)atts[iatt].type]) {
       max_atts[(int)atts[iatt].type] = atts[iatt].len;
-      vector_atts                    = 1;
+      vector_atts = 1;
     }
   }
   if (vector_atts) {
@@ -881,9 +881,9 @@ const char *stmnt) {
  */
 void fline(
 const char *stmnt) {
-  FILE *fout         = stdout;
-  int len            = (int)strlen(stmnt);
-  int line           = 0;
+  FILE *fout = stdout;
+  int len = (int)strlen(stmnt);
+  int line = 0;
   static char cont[] = {/* continuation characters */
   ' ', '1', '2', '3', '4', '5', '6', '7', '8', '9',
   '+', '1', '2', '3', '4', '5', '6', '7', '8', '9',
@@ -1060,31 +1060,31 @@ int num)      /* element of vector desired */
 
   switch (type) {
     case NC_BYTE:
-      cp   = (char *)emalloc(10);
+      cp = (char *)emalloc(10);
       schp = (signed char *)valp;
       sprintf(cp, "%d", schp[num]);
       return cp;
 
     case NC_SHORT:
-      cp     = (char *)emalloc(10);
+      cp = (char *)emalloc(10);
       shortp = (short *)valp;
       (void)sprintf(cp, "%d", *(shortp + num));
       return cp;
 
     case NC_INT:
-      cp   = (char *)emalloc(20);
+      cp = (char *)emalloc(20);
       intp = (int *)valp;
       (void)sprintf(cp, "%d", *(intp + num));
       return cp;
 
     case NC_FLOAT:
-      cp     = (char *)emalloc(20);
+      cp = (char *)emalloc(20);
       floatp = (float *)valp;
       (void)sprintf(cp, "%.8g", *(floatp + num));
       return cp;
 
     case NC_DOUBLE:
-      cp      = (char *)emalloc(25);
+      cp = (char *)emalloc(25);
       doublep = (double *)valp;
       (void)sprintf(cp, "%.16g", *(doublep + num));
       expe2d(cp); /* change 'e' to 'd' in exponent */
@@ -1172,11 +1172,11 @@ size_t len)       /* number of characters in valp */
       default:
         if (!isprint((unsigned char)*istr)) {
           static char octs[] = "01234567";
-          int rem            = ((unsigned char)*istr) % 64;
-          *cp++              = '\\';
-          *cp++              = octs[((unsigned char)*istr) / 64]; /* to get, e.g. '\177' */
-          *cp++              = octs[rem / 8];
-          *cp++              = octs[rem % 8];
+          int rem = ((unsigned char)*istr) % 64;
+          *cp++ = '\\';
+          *cp++ = octs[((unsigned char)*istr) / 64]; /* to get, e.g. '\177' */
+          *cp++ = octs[rem / 8];
+          *cp++ = octs[rem % 8];
         } else {
           *cp++ = *istr;
         }
@@ -1185,7 +1185,7 @@ size_t len)       /* number of characters in valp */
     istr++;
   }
   *cp++ = '"';
-  *cp   = '\0';
+  *cp = '\0';
   free(istr0);
   return sp;
 }
@@ -1227,7 +1227,7 @@ size_t ilen)     /* number of characters in istr */
     return ostr;
   }
   ostr = cp = (char *)emalloc(12 * ilen);
-  *ostr     = '\0';
+  *ostr = '\0';
   if (isprint((unsigned char)*istr)) { /* handle first character in input */
     *cp++ = '\'';
     switch (*istr) {
@@ -1243,7 +1243,7 @@ size_t ilen)     /* number of characters in istr */
         *cp++ = *istr;
         break;
     }
-    *cp       = '\0';
+    *cp = '\0';
     was_print = 1;
   } else {
     sprintf(tstr, "char(%d)", (unsigned char)*istr);
@@ -1272,12 +1272,12 @@ size_t ilen)     /* number of characters in istr */
           *cp++ = *istr;
           break;
       }
-      *cp       = '\0';
+      *cp = '\0';
       was_print = 1;
     } else {
       if (was_print) {
         *cp++ = '\'';
-        *cp   = '\0';
+        *cp = '\0';
       }
       sprintf(tstr, "//char(%d)", (unsigned char)*istr);
       strcat(cp, tstr);
@@ -1928,9 +1928,9 @@ const char *name) {
     char *rp;
 
     for (i = 0; i < 128; i++) {
-      rp       = emalloc(2);
-      rp[0]    = i;
-      rp[1]    = '\0';
+      rp = emalloc(2);
+      rp[0] = i;
+      rp[1] = '\0';
       repls[i] = rp;
     }
     for (i = 0; i < nctable; i++) {
@@ -1942,7 +1942,7 @@ const char *name) {
       rp = emalloc(hexlen);
       snprintf(rp, hexlen, "_X%2.2X", i);
       rp[hexlen - 1] = '\0';
-      repls[i]       = rp;
+      repls[i] = rp;
     }
     for (i = 0; i < 256; i++) {
       lens[i] = strlen(repls[i]);
@@ -1951,7 +1951,7 @@ const char *name) {
   }
 
   count = 0;
-  cp    = name;
+  cp = name;
   while (*cp != '\0') { /* get number of extra bytes for newname */
     size_t j;
     if (*cp < 0) { /* handle signed or unsigned chars */
@@ -1967,9 +1967,9 @@ const char *name) {
   if ('0' <= *cp && *cp <= '9') { /* names that begin with a digit */
     count += idtlen - 1;
   }
-  newlen  = strlen(name) + count + 1; /* bytes left to be filled */
+  newlen = strlen(name) + count + 1; /* bytes left to be filled */
   newname = (char *)emalloc(newlen);
-  sp      = newname;
+  sp = newname;
   if ('0' <= *cp && *cp <= '9') { /* handle initial digit, if any */
     snprintf(sp, newlen, "DIGIT_%c_", *cp);
     sp += idtlen;
@@ -2009,8 +2009,8 @@ void deescapify(char *name) {
     return;
 
   newname = (char *)emalloc(len + 1);
-  cp      = name;
-  sp      = newname;
+  cp = name;
+  sp = newname;
   while (*cp != '\0') { /* delete '\' chars, except change '\\' to '\' */
     switch (*cp) {
       case '\\':

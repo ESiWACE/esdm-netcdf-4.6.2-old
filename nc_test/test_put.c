@@ -306,7 +306,7 @@ int check_vars_text(const char *filename, int numVars) {
       error("error in toMixedBase");
       expect = hash4(cdf_format, var_type[i], var_rank[i], index,
       NCT_TEXT);
-      err    = nc_get_var1_text(ncid, i, index, &value);
+      err = nc_get_var1_text(ncid, i, index, &value);
       if (1) {
         IF(err != NC_NOERR) {
           error("nc_get_var1_text: %s", nc_strerror(err));
@@ -387,7 +387,7 @@ int check_vars_uchar(const char *filename, int numVars) {
       error("error in toMixedBase");
       expect = hash4(cdf_format, var_type[i], var_rank[i], index,
       NCT_UCHAR);
-      err    = nc_get_var1_uchar(ncid, i, index, &value);
+      err = nc_get_var1_uchar(ncid, i, index, &value);
       if (inRange3(cdf_format, (double)expect, datatype, NCT_UCHAR) && (expect >= uchar_min && expect <= uchar_max)) {
         IF(err != NC_NOERR) {
           error("nc_get_var1_uchar: %s", nc_strerror(err));
@@ -476,7 +476,7 @@ int check_vars_schar(const char *filename, int numVars) {
       error("error in toMixedBase");
       expect = hash4(cdf_format, var_type[i], var_rank[i], index,
       NCT_SCHAR);
-      err    = nc_get_var1_schar(ncid, i, index, &value);
+      err = nc_get_var1_schar(ncid, i, index, &value);
       if (inRange3(cdf_format, (double)expect, datatype, NCT_SCHAR) && (expect >= schar_min && expect <= schar_max)) {
         IF(err != NC_NOERR) {
           error("nc_get_var1_schar: %s", nc_strerror(err));
@@ -557,7 +557,7 @@ int check_vars_short(const char *filename, int numVars) {
       error("error in toMixedBase");
       expect = hash4(cdf_format, var_type[i], var_rank[i], index,
       NCT_SHORT);
-      err    = nc_get_var1_short(ncid, i, index, &value);
+      err = nc_get_var1_short(ncid, i, index, &value);
       if (inRange3(cdf_format, (double)expect, datatype, NCT_SHORT) && (expect >= short_min && expect <= short_max)) {
         IF(err != NC_NOERR) {
           error("nc_get_var1_short: %s", nc_strerror(err));
@@ -638,7 +638,7 @@ int check_vars_int(const char *filename, int numVars) {
       error("error in toMixedBase");
       expect = hash4(cdf_format, var_type[i], var_rank[i], index,
       NCT_INT);
-      err    = nc_get_var1_int(ncid, i, index, &value);
+      err = nc_get_var1_int(ncid, i, index, &value);
       if (inRange3(cdf_format, (double)expect, datatype, NCT_INT) && (expect >= int_min && expect <= int_max)) {
         IF(err != NC_NOERR) {
           error("nc_get_var1_int: %s", nc_strerror(err));
@@ -719,7 +719,7 @@ int check_vars_long(const char *filename, int numVars) {
       error("error in toMixedBase");
       expect = hash4(cdf_format, var_type[i], var_rank[i], index,
       NCT_LONG);
-      err    = nc_get_var1_long(ncid, i, index, &value);
+      err = nc_get_var1_long(ncid, i, index, &value);
       if (inRange3(cdf_format, (double)expect, datatype, NCT_LONG) && (expect >= long_min && expect <= long_max)) {
         IF(err != NC_NOERR) {
           error("nc_get_var1_long: %s", nc_strerror(err));
@@ -800,7 +800,7 @@ int check_vars_float(const char *filename, int numVars) {
       error("error in toMixedBase");
       expect = hash4(cdf_format, var_type[i], var_rank[i], index,
       NCT_FLOAT);
-      err    = nc_get_var1_float(ncid, i, index, &value);
+      err = nc_get_var1_float(ncid, i, index, &value);
       if (inRange3(cdf_format, (double)expect, datatype, NCT_FLOAT) && (expect >= float_min && expect <= float_max)) {
         IF(err != NC_NOERR) {
           error("nc_get_var1_float: %s", nc_strerror(err));
@@ -881,7 +881,7 @@ int check_vars_double(const char *filename, int numVars) {
       error("error in toMixedBase");
       expect = hash4(cdf_format, var_type[i], var_rank[i], index,
       NCT_DOUBLE);
-      err    = nc_get_var1_double(ncid, i, index, &value);
+      err = nc_get_var1_double(ncid, i, index, &value);
       if (inRange3(cdf_format, (double)expect, datatype, NCT_DOUBLE) && (expect >= double_min && expect <= double_max)) {
         IF(err != NC_NOERR) {
           error("nc_get_var1_double: %s", nc_strerror(err));
@@ -962,7 +962,7 @@ int check_vars_ushort(const char *filename, int numVars) {
       error("error in toMixedBase");
       expect = hash4(cdf_format, var_type[i], var_rank[i], index,
       NCT_USHORT);
-      err    = nc_get_var1_ushort(ncid, i, index, &value);
+      err = nc_get_var1_ushort(ncid, i, index, &value);
       if (inRange3(cdf_format, (double)expect, datatype, NCT_USHORT) && (expect >= ushort_min && expect <= ushort_max)) {
         IF(err != NC_NOERR) {
           error("nc_get_var1_ushort: %s", nc_strerror(err));
@@ -1043,7 +1043,7 @@ int check_vars_uint(const char *filename, int numVars) {
       error("error in toMixedBase");
       expect = hash4(cdf_format, var_type[i], var_rank[i], index,
       NCT_UINT);
-      err    = nc_get_var1_uint(ncid, i, index, &value);
+      err = nc_get_var1_uint(ncid, i, index, &value);
       if (inRange3(cdf_format, (double)expect, datatype, NCT_UINT) && (expect >= uint_min && expect <= uint_max)) {
         IF(err != NC_NOERR) {
           error("nc_get_var1_uint: %s", nc_strerror(err));
@@ -1124,7 +1124,7 @@ int check_vars_longlong(const char *filename, int numVars) {
       error("error in toMixedBase");
       expect = hash4(cdf_format, var_type[i], var_rank[i], index,
       NCT_LONGLONG);
-      err    = nc_get_var1_longlong(ncid, i, index, &value);
+      err = nc_get_var1_longlong(ncid, i, index, &value);
       if (inRange3(cdf_format, (double)expect, datatype, NCT_LONGLONG) && (expect >= longlong_min && expect <= longlong_max)) {
         IF(err != NC_NOERR) {
           error("nc_get_var1_longlong: %s", nc_strerror(err));
@@ -1205,7 +1205,7 @@ int check_vars_ulonglong(const char *filename, int numVars) {
       error("error in toMixedBase");
       expect = hash4(cdf_format, var_type[i], var_rank[i], index,
       NCT_ULONGLONG);
-      err    = nc_get_var1_ulonglong(ncid, i, index, &value);
+      err = nc_get_var1_ulonglong(ncid, i, index, &value);
       if (inRange3(cdf_format, (double)expect, datatype, NCT_ULONGLONG) && (expect >= ulonglong_min && expect <= ulonglong_max)) {
         IF(err != NC_NOERR) {
           error("nc_get_var1_ulonglong: %s", nc_strerror(err));
@@ -1277,7 +1277,7 @@ int check_atts_text(int ncid, int numGatts, int numVars) {
       assert(length <= MAX_NELS);
       nInIntRange = nInExtRange = 0;
       for (k = 0; k < length; k++) {
-        ndx[0]    = k;
+        ndx[0] = k;
         expect[k] = hash4(cdf_format, datatype, -1, ndx, NCT_TEXT);
         if (inRange3(cdf_format, expect[k], datatype, NCT_TEXT)) {
           ++nInExtRange;
@@ -1355,7 +1355,7 @@ int check_atts_uchar(int ncid, int numGatts, int numVars) {
       assert(length <= MAX_NELS);
       nInIntRange = nInExtRange = 0;
       for (k = 0; k < length; k++) {
-        ndx[0]    = k;
+        ndx[0] = k;
         expect[k] = hash4(cdf_format, datatype, -1, ndx, NCT_UCHAR);
         if (inRange3(cdf_format, expect[k], datatype, NCT_UCHAR)) {
           ++nInExtRange;
@@ -1441,7 +1441,7 @@ int check_atts_schar(int ncid, int numGatts, int numVars) {
       assert(length <= MAX_NELS);
       nInIntRange = nInExtRange = 0;
       for (k = 0; k < length; k++) {
-        ndx[0]    = k;
+        ndx[0] = k;
         expect[k] = hash4(cdf_format, datatype, -1, ndx, NCT_SCHAR);
         if (inRange3(cdf_format, expect[k], datatype, NCT_SCHAR)) {
           ++nInExtRange;
@@ -1519,7 +1519,7 @@ int check_atts_short(int ncid, int numGatts, int numVars) {
       assert(length <= MAX_NELS);
       nInIntRange = nInExtRange = 0;
       for (k = 0; k < length; k++) {
-        ndx[0]    = k;
+        ndx[0] = k;
         expect[k] = hash4(cdf_format, datatype, -1, ndx, NCT_SHORT);
         if (inRange3(cdf_format, expect[k], datatype, NCT_SHORT)) {
           ++nInExtRange;
@@ -1597,7 +1597,7 @@ int check_atts_int(int ncid, int numGatts, int numVars) {
       assert(length <= MAX_NELS);
       nInIntRange = nInExtRange = 0;
       for (k = 0; k < length; k++) {
-        ndx[0]    = k;
+        ndx[0] = k;
         expect[k] = hash4(cdf_format, datatype, -1, ndx, NCT_INT);
         if (inRange3(cdf_format, expect[k], datatype, NCT_INT)) {
           ++nInExtRange;
@@ -1675,7 +1675,7 @@ int check_atts_long(int ncid, int numGatts, int numVars) {
       assert(length <= MAX_NELS);
       nInIntRange = nInExtRange = 0;
       for (k = 0; k < length; k++) {
-        ndx[0]    = k;
+        ndx[0] = k;
         expect[k] = hash4(cdf_format, datatype, -1, ndx, NCT_LONG);
         if (inRange3(cdf_format, expect[k], datatype, NCT_LONG)) {
           ++nInExtRange;
@@ -1753,7 +1753,7 @@ int check_atts_float(int ncid, int numGatts, int numVars) {
       assert(length <= MAX_NELS);
       nInIntRange = nInExtRange = 0;
       for (k = 0; k < length; k++) {
-        ndx[0]    = k;
+        ndx[0] = k;
         expect[k] = hash4(cdf_format, datatype, -1, ndx, NCT_FLOAT);
         if (inRange3(cdf_format, expect[k], datatype, NCT_FLOAT)) {
           ++nInExtRange;
@@ -1831,7 +1831,7 @@ int check_atts_double(int ncid, int numGatts, int numVars) {
       assert(length <= MAX_NELS);
       nInIntRange = nInExtRange = 0;
       for (k = 0; k < length; k++) {
-        ndx[0]    = k;
+        ndx[0] = k;
         expect[k] = hash4(cdf_format, datatype, -1, ndx, NCT_DOUBLE);
         if (inRange3(cdf_format, expect[k], datatype, NCT_DOUBLE)) {
           ++nInExtRange;
@@ -1909,7 +1909,7 @@ int check_atts_ushort(int ncid, int numGatts, int numVars) {
       assert(length <= MAX_NELS);
       nInIntRange = nInExtRange = 0;
       for (k = 0; k < length; k++) {
-        ndx[0]    = k;
+        ndx[0] = k;
         expect[k] = hash4(cdf_format, datatype, -1, ndx, NCT_USHORT);
         if (inRange3(cdf_format, expect[k], datatype, NCT_USHORT)) {
           ++nInExtRange;
@@ -1987,7 +1987,7 @@ int check_atts_uint(int ncid, int numGatts, int numVars) {
       assert(length <= MAX_NELS);
       nInIntRange = nInExtRange = 0;
       for (k = 0; k < length; k++) {
-        ndx[0]    = k;
+        ndx[0] = k;
         expect[k] = hash4(cdf_format, datatype, -1, ndx, NCT_UINT);
         if (inRange3(cdf_format, expect[k], datatype, NCT_UINT)) {
           ++nInExtRange;
@@ -2065,7 +2065,7 @@ int check_atts_longlong(int ncid, int numGatts, int numVars) {
       assert(length <= MAX_NELS);
       nInIntRange = nInExtRange = 0;
       for (k = 0; k < length; k++) {
-        ndx[0]    = k;
+        ndx[0] = k;
         expect[k] = hash4(cdf_format, datatype, -1, ndx, NCT_LONGLONG);
         if (inRange3(cdf_format, expect[k], datatype, NCT_LONGLONG)) {
           ++nInExtRange;
@@ -2143,7 +2143,7 @@ int check_atts_ulonglong(int ncid, int numGatts, int numVars) {
       assert(length <= MAX_NELS);
       nInIntRange = nInExtRange = 0;
       for (k = 0; k < length; k++) {
-        ndx[0]    = k;
+        ndx[0] = k;
         expect[k] = hash4(cdf_format, datatype, -1, ndx, NCT_ULONGLONG);
         if (inRange3(cdf_format, expect[k], datatype, NCT_ULONGLONG)) {
           ++nInExtRange;
@@ -2241,7 +2241,7 @@ int test_nc_put_var1_text(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       index[j] = var_shape[i][j];              /* out of boundary check */
-      err      = nc_put_var1_text(ncid, i, index, value);
+      err = nc_put_var1_text(ncid, i, index, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -2261,7 +2261,7 @@ int test_nc_put_var1_text(void) {
       error("error in toMixedBase");
       value[0] = hash_text(cdf_format, var_type[i], var_rank[i], index,
       NCT_TEXT);
-      err      = nc_put_var1_text(ncid, i, index, value);
+      err = nc_put_var1_text(ncid, i, index, value);
       if (canConvert) {
         if (1) {
           IF(err != NC_NOERR)
@@ -2353,7 +2353,7 @@ int test_nc_put_var1_uchar(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       index[j] = var_shape[i][j];              /* out of boundary check */
-      err      = nc_put_var1_uchar(ncid, i, index, value);
+      err = nc_put_var1_uchar(ncid, i, index, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -2373,7 +2373,7 @@ int test_nc_put_var1_uchar(void) {
       error("error in toMixedBase");
       value[0] = hash_uchar(cdf_format, var_type[i], var_rank[i], index,
       NCT_UCHAR);
-      err      = nc_put_var1_uchar(ncid, i, index, value);
+      err = nc_put_var1_uchar(ncid, i, index, value);
       if (canConvert) {
         if (inRange3(cdf_format, (double)value[0], var_type[i], NCT_UCHAR)) {
           IF(err != NC_NOERR)
@@ -2466,7 +2466,7 @@ int test_nc_put_var1_schar(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       index[j] = var_shape[i][j];              /* out of boundary check */
-      err      = nc_put_var1_schar(ncid, i, index, value);
+      err = nc_put_var1_schar(ncid, i, index, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -2486,7 +2486,7 @@ int test_nc_put_var1_schar(void) {
       error("error in toMixedBase");
       value[0] = hash_schar(cdf_format, var_type[i], var_rank[i], index,
       NCT_SCHAR);
-      err      = nc_put_var1_schar(ncid, i, index, value);
+      err = nc_put_var1_schar(ncid, i, index, value);
       if (canConvert) {
         if (inRange3(cdf_format, (double)value[0], var_type[i], NCT_SCHAR)) {
           IF(err != NC_NOERR)
@@ -2581,7 +2581,7 @@ int test_nc_put_var1_short(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       index[j] = var_shape[i][j];              /* out of boundary check */
-      err      = nc_put_var1_short(ncid, i, index, value);
+      err = nc_put_var1_short(ncid, i, index, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -2601,7 +2601,7 @@ int test_nc_put_var1_short(void) {
       error("error in toMixedBase");
       value[0] = hash_short(cdf_format, var_type[i], var_rank[i], index,
       NCT_SHORT);
-      err      = nc_put_var1_short(ncid, i, index, value);
+      err = nc_put_var1_short(ncid, i, index, value);
       if (canConvert) {
         if (inRange3(cdf_format, (double)value[0], var_type[i], NCT_SHORT)) {
           IF(err != NC_NOERR)
@@ -2693,7 +2693,7 @@ int test_nc_put_var1_int(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       index[j] = var_shape[i][j];              /* out of boundary check */
-      err      = nc_put_var1_int(ncid, i, index, value);
+      err = nc_put_var1_int(ncid, i, index, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -2713,7 +2713,7 @@ int test_nc_put_var1_int(void) {
       error("error in toMixedBase");
       value[0] = hash_int(cdf_format, var_type[i], var_rank[i], index,
       NCT_INT);
-      err      = nc_put_var1_int(ncid, i, index, value);
+      err = nc_put_var1_int(ncid, i, index, value);
       if (canConvert) {
         if (inRange3(cdf_format, (double)value[0], var_type[i], NCT_INT)) {
           IF(err != NC_NOERR)
@@ -2805,7 +2805,7 @@ int test_nc_put_var1_long(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       index[j] = var_shape[i][j];              /* out of boundary check */
-      err      = nc_put_var1_long(ncid, i, index, value);
+      err = nc_put_var1_long(ncid, i, index, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -2825,7 +2825,7 @@ int test_nc_put_var1_long(void) {
       error("error in toMixedBase");
       value[0] = hash_long(cdf_format, var_type[i], var_rank[i], index,
       NCT_LONG);
-      err      = nc_put_var1_long(ncid, i, index, value);
+      err = nc_put_var1_long(ncid, i, index, value);
       if (canConvert) {
         if (inRange3(cdf_format, (double)value[0], var_type[i], NCT_LONG)) {
           IF(err != NC_NOERR)
@@ -2917,7 +2917,7 @@ int test_nc_put_var1_float(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       index[j] = var_shape[i][j];              /* out of boundary check */
-      err      = nc_put_var1_float(ncid, i, index, value);
+      err = nc_put_var1_float(ncid, i, index, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -2937,7 +2937,7 @@ int test_nc_put_var1_float(void) {
       error("error in toMixedBase");
       value[0] = hash_float(cdf_format, var_type[i], var_rank[i], index,
       NCT_FLOAT);
-      err      = nc_put_var1_float(ncid, i, index, value);
+      err = nc_put_var1_float(ncid, i, index, value);
       if (canConvert) {
         if (inRange3(cdf_format, (double)value[0], var_type[i], NCT_FLOAT)) {
           IF(err != NC_NOERR)
@@ -3029,7 +3029,7 @@ int test_nc_put_var1_double(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       index[j] = var_shape[i][j];              /* out of boundary check */
-      err      = nc_put_var1_double(ncid, i, index, value);
+      err = nc_put_var1_double(ncid, i, index, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -3049,7 +3049,7 @@ int test_nc_put_var1_double(void) {
       error("error in toMixedBase");
       value[0] = hash_double(cdf_format, var_type[i], var_rank[i], index,
       NCT_DOUBLE);
-      err      = nc_put_var1_double(ncid, i, index, value);
+      err = nc_put_var1_double(ncid, i, index, value);
       if (canConvert) {
         if (inRange3(cdf_format, (double)value[0], var_type[i], NCT_DOUBLE)) {
           IF(err != NC_NOERR)
@@ -3141,7 +3141,7 @@ int test_nc_put_var1_ushort(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       index[j] = var_shape[i][j];              /* out of boundary check */
-      err      = nc_put_var1_ushort(ncid, i, index, value);
+      err = nc_put_var1_ushort(ncid, i, index, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -3161,7 +3161,7 @@ int test_nc_put_var1_ushort(void) {
       error("error in toMixedBase");
       value[0] = hash_ushort(cdf_format, var_type[i], var_rank[i], index,
       NCT_USHORT);
-      err      = nc_put_var1_ushort(ncid, i, index, value);
+      err = nc_put_var1_ushort(ncid, i, index, value);
       if (canConvert) {
         if (inRange3(cdf_format, (double)value[0], var_type[i], NCT_USHORT)) {
           IF(err != NC_NOERR)
@@ -3253,7 +3253,7 @@ int test_nc_put_var1_uint(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       index[j] = var_shape[i][j];              /* out of boundary check */
-      err      = nc_put_var1_uint(ncid, i, index, value);
+      err = nc_put_var1_uint(ncid, i, index, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -3273,7 +3273,7 @@ int test_nc_put_var1_uint(void) {
       error("error in toMixedBase");
       value[0] = hash_uint(cdf_format, var_type[i], var_rank[i], index,
       NCT_UINT);
-      err      = nc_put_var1_uint(ncid, i, index, value);
+      err = nc_put_var1_uint(ncid, i, index, value);
       if (canConvert) {
         if (inRange3(cdf_format, (double)value[0], var_type[i], NCT_UINT)) {
           IF(err != NC_NOERR)
@@ -3365,7 +3365,7 @@ int test_nc_put_var1_longlong(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       index[j] = var_shape[i][j];              /* out of boundary check */
-      err      = nc_put_var1_longlong(ncid, i, index, value);
+      err = nc_put_var1_longlong(ncid, i, index, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -3385,7 +3385,7 @@ int test_nc_put_var1_longlong(void) {
       error("error in toMixedBase");
       value[0] = hash_longlong(cdf_format, var_type[i], var_rank[i], index,
       NCT_LONGLONG);
-      err      = nc_put_var1_longlong(ncid, i, index, value);
+      err = nc_put_var1_longlong(ncid, i, index, value);
       if (canConvert) {
         if (inRange3(cdf_format, (double)value[0], var_type[i], NCT_LONGLONG)) {
           IF(err != NC_NOERR)
@@ -3477,7 +3477,7 @@ int test_nc_put_var1_ulonglong(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       index[j] = var_shape[i][j];              /* out of boundary check */
-      err      = nc_put_var1_ulonglong(ncid, i, index, value);
+      err = nc_put_var1_ulonglong(ncid, i, index, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -3497,7 +3497,7 @@ int test_nc_put_var1_ulonglong(void) {
       error("error in toMixedBase");
       value[0] = hash_ulonglong(cdf_format, var_type[i], var_rank[i], index,
       NCT_ULONGLONG);
-      err      = nc_put_var1_ulonglong(ncid, i, index, value);
+      err = nc_put_var1_ulonglong(ncid, i, index, value);
       if (canConvert) {
         if (inRange3(cdf_format, (double)value[0], var_type[i], NCT_ULONGLONG)) {
           IF(err != NC_NOERR)
@@ -3626,7 +3626,7 @@ int test_nc_put_var_text(void) {
   IF(err != NC_NOERR)
   error("inq_varid: %s", nc_strerror(err));
   index[0] = NRECS - 1;
-  err      = nc_put_var1_text(ncid, varid, index, "x");
+  err = nc_put_var1_text(ncid, varid, index, "x");
   IF(err != NC_NOERR)
   error("put_var1_text: %s", nc_strerror(err));
 
@@ -3769,7 +3769,7 @@ int test_nc_put_var_uchar(void) {
   IF(err != NC_NOERR)
   error("inq_varid: %s", nc_strerror(err));
   index[0] = NRECS - 1;
-  err      = nc_put_var1_text(ncid, varid, index, "x");
+  err = nc_put_var1_text(ncid, varid, index, "x");
   IF(err != NC_NOERR)
   error("put_var1_text: %s", nc_strerror(err));
 
@@ -3914,7 +3914,7 @@ int test_nc_put_var_schar(void) {
   IF(err != NC_NOERR)
   error("inq_varid: %s", nc_strerror(err));
   index[0] = NRECS - 1;
-  err      = nc_put_var1_text(ncid, varid, index, "x");
+  err = nc_put_var1_text(ncid, varid, index, "x");
   IF(err != NC_NOERR)
   error("put_var1_text: %s", nc_strerror(err));
 
@@ -4056,7 +4056,7 @@ int test_nc_put_var_short(void) {
   IF(err != NC_NOERR)
   error("inq_varid: %s", nc_strerror(err));
   index[0] = NRECS - 1;
-  err      = nc_put_var1_text(ncid, varid, index, "x");
+  err = nc_put_var1_text(ncid, varid, index, "x");
   IF(err != NC_NOERR)
   error("put_var1_text: %s", nc_strerror(err));
 
@@ -4198,7 +4198,7 @@ int test_nc_put_var_int(void) {
   IF(err != NC_NOERR)
   error("inq_varid: %s", nc_strerror(err));
   index[0] = NRECS - 1;
-  err      = nc_put_var1_text(ncid, varid, index, "x");
+  err = nc_put_var1_text(ncid, varid, index, "x");
   IF(err != NC_NOERR)
   error("put_var1_text: %s", nc_strerror(err));
 
@@ -4340,7 +4340,7 @@ int test_nc_put_var_long(void) {
   IF(err != NC_NOERR)
   error("inq_varid: %s", nc_strerror(err));
   index[0] = NRECS - 1;
-  err      = nc_put_var1_text(ncid, varid, index, "x");
+  err = nc_put_var1_text(ncid, varid, index, "x");
   IF(err != NC_NOERR)
   error("put_var1_text: %s", nc_strerror(err));
 
@@ -4482,7 +4482,7 @@ int test_nc_put_var_float(void) {
   IF(err != NC_NOERR)
   error("inq_varid: %s", nc_strerror(err));
   index[0] = NRECS - 1;
-  err      = nc_put_var1_text(ncid, varid, index, "x");
+  err = nc_put_var1_text(ncid, varid, index, "x");
   IF(err != NC_NOERR)
   error("put_var1_text: %s", nc_strerror(err));
 
@@ -4624,7 +4624,7 @@ int test_nc_put_var_double(void) {
   IF(err != NC_NOERR)
   error("inq_varid: %s", nc_strerror(err));
   index[0] = NRECS - 1;
-  err      = nc_put_var1_text(ncid, varid, index, "x");
+  err = nc_put_var1_text(ncid, varid, index, "x");
   IF(err != NC_NOERR)
   error("put_var1_text: %s", nc_strerror(err));
 
@@ -4766,7 +4766,7 @@ int test_nc_put_var_ushort(void) {
   IF(err != NC_NOERR)
   error("inq_varid: %s", nc_strerror(err));
   index[0] = NRECS - 1;
-  err      = nc_put_var1_text(ncid, varid, index, "x");
+  err = nc_put_var1_text(ncid, varid, index, "x");
   IF(err != NC_NOERR)
   error("put_var1_text: %s", nc_strerror(err));
 
@@ -4908,7 +4908,7 @@ int test_nc_put_var_uint(void) {
   IF(err != NC_NOERR)
   error("inq_varid: %s", nc_strerror(err));
   index[0] = NRECS - 1;
-  err      = nc_put_var1_text(ncid, varid, index, "x");
+  err = nc_put_var1_text(ncid, varid, index, "x");
   IF(err != NC_NOERR)
   error("put_var1_text: %s", nc_strerror(err));
 
@@ -5050,7 +5050,7 @@ int test_nc_put_var_longlong(void) {
   IF(err != NC_NOERR)
   error("inq_varid: %s", nc_strerror(err));
   index[0] = NRECS - 1;
-  err      = nc_put_var1_text(ncid, varid, index, "x");
+  err = nc_put_var1_text(ncid, varid, index, "x");
   IF(err != NC_NOERR)
   error("put_var1_text: %s", nc_strerror(err));
 
@@ -5192,7 +5192,7 @@ int test_nc_put_var_ulonglong(void) {
   IF(err != NC_NOERR)
   error("inq_varid: %s", nc_strerror(err));
   index[0] = NRECS - 1;
-  err      = nc_put_var1_text(ncid, varid, index, "x");
+  err = nc_put_var1_text(ncid, varid, index, "x");
   IF(err != NC_NOERR)
   error("put_var1_text: %s", nc_strerror(err));
 
@@ -5296,7 +5296,7 @@ int test_nc_put_vara_text(void) {
 
     for (j = 0; j < var_rank[i]; j++) {
       start[j] = 0;
-      edge[j]  = 1;
+      edge[j] = 1;
     }
 
 
@@ -5304,7 +5304,7 @@ int test_nc_put_vara_text(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_vara_text(ncid, i, start, edge, value);
+      err = nc_put_vara_text(ncid, i, start, edge, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -5316,8 +5316,8 @@ int test_nc_put_vara_text(void) {
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
       start[j] = 0;
-      edge[j]  = var_shape[i][j] + 1;
-      err      = nc_put_vara_text(ncid, i, start, edge, value);
+      edge[j] = var_shape[i][j] + 1;
+      err = nc_put_vara_text(ncid, i, start, edge, value);
       IF(err != NC_EEDGE)
       error("expecting NC_EEDG but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -5331,7 +5331,7 @@ int test_nc_put_vara_text(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_vara_text(ncid, i, start, edge, value);
+      err = nc_put_vara_text(ncid, i, start, edge, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -5348,7 +5348,7 @@ int test_nc_put_vara_text(void) {
 #endif
       ELSE_NOK
       start[j] = var_shape[i][j] + 1; /* out of boundary check */
-      err      = nc_put_vara_text(ncid, i, start, edge, value);
+      err = nc_put_vara_text(ncid, i, start, edge, value);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -5370,10 +5370,10 @@ int test_nc_put_vara_text(void) {
       for (j = 0; j < var_rank[i]; j++) {
         if ((k >> j) & 1) {
           start[j] = 0;
-          edge[j]  = mid[j];
+          edge[j] = mid[j];
         } else {
           start[j] = mid[j];
-          edge[j]  = var_shape[i][j] - mid[j];
+          edge[j] = var_shape[i][j] - mid[j];
         }
         nels *= edge[j];
       }
@@ -5479,7 +5479,7 @@ int test_nc_put_vara_uchar(void) {
 
     for (j = 0; j < var_rank[i]; j++) {
       start[j] = 0;
-      edge[j]  = 1;
+      edge[j] = 1;
     }
 
 
@@ -5487,7 +5487,7 @@ int test_nc_put_vara_uchar(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_vara_uchar(ncid, i, start, edge, value);
+      err = nc_put_vara_uchar(ncid, i, start, edge, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -5499,8 +5499,8 @@ int test_nc_put_vara_uchar(void) {
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
       start[j] = 0;
-      edge[j]  = var_shape[i][j] + 1;
-      err      = nc_put_vara_uchar(ncid, i, start, edge, value);
+      edge[j] = var_shape[i][j] + 1;
+      err = nc_put_vara_uchar(ncid, i, start, edge, value);
       IF(err != NC_EEDGE)
       error("expecting NC_EEDG but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -5514,7 +5514,7 @@ int test_nc_put_vara_uchar(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_vara_uchar(ncid, i, start, edge, value);
+      err = nc_put_vara_uchar(ncid, i, start, edge, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -5531,7 +5531,7 @@ int test_nc_put_vara_uchar(void) {
 #endif
       ELSE_NOK
       start[j] = var_shape[i][j] + 1; /* out of boundary check */
-      err      = nc_put_vara_uchar(ncid, i, start, edge, value);
+      err = nc_put_vara_uchar(ncid, i, start, edge, value);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -5553,10 +5553,10 @@ int test_nc_put_vara_uchar(void) {
       for (j = 0; j < var_rank[i]; j++) {
         if ((k >> j) & 1) {
           start[j] = 0;
-          edge[j]  = mid[j];
+          edge[j] = mid[j];
         } else {
           start[j] = mid[j];
-          edge[j]  = var_shape[i][j] - mid[j];
+          edge[j] = var_shape[i][j] - mid[j];
         }
         nels *= edge[j];
       }
@@ -5663,7 +5663,7 @@ int test_nc_put_vara_schar(void) {
 
     for (j = 0; j < var_rank[i]; j++) {
       start[j] = 0;
-      edge[j]  = 1;
+      edge[j] = 1;
     }
 
 
@@ -5671,7 +5671,7 @@ int test_nc_put_vara_schar(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_vara_schar(ncid, i, start, edge, value);
+      err = nc_put_vara_schar(ncid, i, start, edge, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -5683,8 +5683,8 @@ int test_nc_put_vara_schar(void) {
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
       start[j] = 0;
-      edge[j]  = var_shape[i][j] + 1;
-      err      = nc_put_vara_schar(ncid, i, start, edge, value);
+      edge[j] = var_shape[i][j] + 1;
+      err = nc_put_vara_schar(ncid, i, start, edge, value);
       IF(err != NC_EEDGE)
       error("expecting NC_EEDG but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -5698,7 +5698,7 @@ int test_nc_put_vara_schar(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_vara_schar(ncid, i, start, edge, value);
+      err = nc_put_vara_schar(ncid, i, start, edge, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -5715,7 +5715,7 @@ int test_nc_put_vara_schar(void) {
 #endif
       ELSE_NOK
       start[j] = var_shape[i][j] + 1; /* out of boundary check */
-      err      = nc_put_vara_schar(ncid, i, start, edge, value);
+      err = nc_put_vara_schar(ncid, i, start, edge, value);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -5737,10 +5737,10 @@ int test_nc_put_vara_schar(void) {
       for (j = 0; j < var_rank[i]; j++) {
         if ((k >> j) & 1) {
           start[j] = 0;
-          edge[j]  = mid[j];
+          edge[j] = mid[j];
         } else {
           start[j] = mid[j];
-          edge[j]  = var_shape[i][j] - mid[j];
+          edge[j] = var_shape[i][j] - mid[j];
         }
         nels *= edge[j];
       }
@@ -5849,7 +5849,7 @@ int test_nc_put_vara_short(void) {
 
     for (j = 0; j < var_rank[i]; j++) {
       start[j] = 0;
-      edge[j]  = 1;
+      edge[j] = 1;
     }
 
 
@@ -5857,7 +5857,7 @@ int test_nc_put_vara_short(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_vara_short(ncid, i, start, edge, value);
+      err = nc_put_vara_short(ncid, i, start, edge, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -5869,8 +5869,8 @@ int test_nc_put_vara_short(void) {
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
       start[j] = 0;
-      edge[j]  = var_shape[i][j] + 1;
-      err      = nc_put_vara_short(ncid, i, start, edge, value);
+      edge[j] = var_shape[i][j] + 1;
+      err = nc_put_vara_short(ncid, i, start, edge, value);
       IF(err != NC_EEDGE)
       error("expecting NC_EEDG but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -5884,7 +5884,7 @@ int test_nc_put_vara_short(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_vara_short(ncid, i, start, edge, value);
+      err = nc_put_vara_short(ncid, i, start, edge, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -5901,7 +5901,7 @@ int test_nc_put_vara_short(void) {
 #endif
       ELSE_NOK
       start[j] = var_shape[i][j] + 1; /* out of boundary check */
-      err      = nc_put_vara_short(ncid, i, start, edge, value);
+      err = nc_put_vara_short(ncid, i, start, edge, value);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -5923,10 +5923,10 @@ int test_nc_put_vara_short(void) {
       for (j = 0; j < var_rank[i]; j++) {
         if ((k >> j) & 1) {
           start[j] = 0;
-          edge[j]  = mid[j];
+          edge[j] = mid[j];
         } else {
           start[j] = mid[j];
-          edge[j]  = var_shape[i][j] - mid[j];
+          edge[j] = var_shape[i][j] - mid[j];
         }
         nels *= edge[j];
       }
@@ -6032,7 +6032,7 @@ int test_nc_put_vara_int(void) {
 
     for (j = 0; j < var_rank[i]; j++) {
       start[j] = 0;
-      edge[j]  = 1;
+      edge[j] = 1;
     }
 
 
@@ -6040,7 +6040,7 @@ int test_nc_put_vara_int(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_vara_int(ncid, i, start, edge, value);
+      err = nc_put_vara_int(ncid, i, start, edge, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -6052,8 +6052,8 @@ int test_nc_put_vara_int(void) {
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
       start[j] = 0;
-      edge[j]  = var_shape[i][j] + 1;
-      err      = nc_put_vara_int(ncid, i, start, edge, value);
+      edge[j] = var_shape[i][j] + 1;
+      err = nc_put_vara_int(ncid, i, start, edge, value);
       IF(err != NC_EEDGE)
       error("expecting NC_EEDG but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -6067,7 +6067,7 @@ int test_nc_put_vara_int(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_vara_int(ncid, i, start, edge, value);
+      err = nc_put_vara_int(ncid, i, start, edge, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -6084,7 +6084,7 @@ int test_nc_put_vara_int(void) {
 #endif
       ELSE_NOK
       start[j] = var_shape[i][j] + 1; /* out of boundary check */
-      err      = nc_put_vara_int(ncid, i, start, edge, value);
+      err = nc_put_vara_int(ncid, i, start, edge, value);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -6106,10 +6106,10 @@ int test_nc_put_vara_int(void) {
       for (j = 0; j < var_rank[i]; j++) {
         if ((k >> j) & 1) {
           start[j] = 0;
-          edge[j]  = mid[j];
+          edge[j] = mid[j];
         } else {
           start[j] = mid[j];
-          edge[j]  = var_shape[i][j] - mid[j];
+          edge[j] = var_shape[i][j] - mid[j];
         }
         nels *= edge[j];
       }
@@ -6215,7 +6215,7 @@ int test_nc_put_vara_long(void) {
 
     for (j = 0; j < var_rank[i]; j++) {
       start[j] = 0;
-      edge[j]  = 1;
+      edge[j] = 1;
     }
 
 
@@ -6223,7 +6223,7 @@ int test_nc_put_vara_long(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_vara_long(ncid, i, start, edge, value);
+      err = nc_put_vara_long(ncid, i, start, edge, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -6235,8 +6235,8 @@ int test_nc_put_vara_long(void) {
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
       start[j] = 0;
-      edge[j]  = var_shape[i][j] + 1;
-      err      = nc_put_vara_long(ncid, i, start, edge, value);
+      edge[j] = var_shape[i][j] + 1;
+      err = nc_put_vara_long(ncid, i, start, edge, value);
       IF(err != NC_EEDGE)
       error("expecting NC_EEDG but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -6250,7 +6250,7 @@ int test_nc_put_vara_long(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_vara_long(ncid, i, start, edge, value);
+      err = nc_put_vara_long(ncid, i, start, edge, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -6267,7 +6267,7 @@ int test_nc_put_vara_long(void) {
 #endif
       ELSE_NOK
       start[j] = var_shape[i][j] + 1; /* out of boundary check */
-      err      = nc_put_vara_long(ncid, i, start, edge, value);
+      err = nc_put_vara_long(ncid, i, start, edge, value);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -6289,10 +6289,10 @@ int test_nc_put_vara_long(void) {
       for (j = 0; j < var_rank[i]; j++) {
         if ((k >> j) & 1) {
           start[j] = 0;
-          edge[j]  = mid[j];
+          edge[j] = mid[j];
         } else {
           start[j] = mid[j];
-          edge[j]  = var_shape[i][j] - mid[j];
+          edge[j] = var_shape[i][j] - mid[j];
         }
         nels *= edge[j];
       }
@@ -6398,7 +6398,7 @@ int test_nc_put_vara_float(void) {
 
     for (j = 0; j < var_rank[i]; j++) {
       start[j] = 0;
-      edge[j]  = 1;
+      edge[j] = 1;
     }
 
 
@@ -6406,7 +6406,7 @@ int test_nc_put_vara_float(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_vara_float(ncid, i, start, edge, value);
+      err = nc_put_vara_float(ncid, i, start, edge, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -6418,8 +6418,8 @@ int test_nc_put_vara_float(void) {
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
       start[j] = 0;
-      edge[j]  = var_shape[i][j] + 1;
-      err      = nc_put_vara_float(ncid, i, start, edge, value);
+      edge[j] = var_shape[i][j] + 1;
+      err = nc_put_vara_float(ncid, i, start, edge, value);
       IF(err != NC_EEDGE)
       error("expecting NC_EEDG but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -6433,7 +6433,7 @@ int test_nc_put_vara_float(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_vara_float(ncid, i, start, edge, value);
+      err = nc_put_vara_float(ncid, i, start, edge, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -6450,7 +6450,7 @@ int test_nc_put_vara_float(void) {
 #endif
       ELSE_NOK
       start[j] = var_shape[i][j] + 1; /* out of boundary check */
-      err      = nc_put_vara_float(ncid, i, start, edge, value);
+      err = nc_put_vara_float(ncid, i, start, edge, value);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -6472,10 +6472,10 @@ int test_nc_put_vara_float(void) {
       for (j = 0; j < var_rank[i]; j++) {
         if ((k >> j) & 1) {
           start[j] = 0;
-          edge[j]  = mid[j];
+          edge[j] = mid[j];
         } else {
           start[j] = mid[j];
-          edge[j]  = var_shape[i][j] - mid[j];
+          edge[j] = var_shape[i][j] - mid[j];
         }
         nels *= edge[j];
       }
@@ -6581,7 +6581,7 @@ int test_nc_put_vara_double(void) {
 
     for (j = 0; j < var_rank[i]; j++) {
       start[j] = 0;
-      edge[j]  = 1;
+      edge[j] = 1;
     }
 
 
@@ -6589,7 +6589,7 @@ int test_nc_put_vara_double(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_vara_double(ncid, i, start, edge, value);
+      err = nc_put_vara_double(ncid, i, start, edge, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -6601,8 +6601,8 @@ int test_nc_put_vara_double(void) {
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
       start[j] = 0;
-      edge[j]  = var_shape[i][j] + 1;
-      err      = nc_put_vara_double(ncid, i, start, edge, value);
+      edge[j] = var_shape[i][j] + 1;
+      err = nc_put_vara_double(ncid, i, start, edge, value);
       IF(err != NC_EEDGE)
       error("expecting NC_EEDG but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -6616,7 +6616,7 @@ int test_nc_put_vara_double(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_vara_double(ncid, i, start, edge, value);
+      err = nc_put_vara_double(ncid, i, start, edge, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -6633,7 +6633,7 @@ int test_nc_put_vara_double(void) {
 #endif
       ELSE_NOK
       start[j] = var_shape[i][j] + 1; /* out of boundary check */
-      err      = nc_put_vara_double(ncid, i, start, edge, value);
+      err = nc_put_vara_double(ncid, i, start, edge, value);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -6655,10 +6655,10 @@ int test_nc_put_vara_double(void) {
       for (j = 0; j < var_rank[i]; j++) {
         if ((k >> j) & 1) {
           start[j] = 0;
-          edge[j]  = mid[j];
+          edge[j] = mid[j];
         } else {
           start[j] = mid[j];
-          edge[j]  = var_shape[i][j] - mid[j];
+          edge[j] = var_shape[i][j] - mid[j];
         }
         nels *= edge[j];
       }
@@ -6764,7 +6764,7 @@ int test_nc_put_vara_ushort(void) {
 
     for (j = 0; j < var_rank[i]; j++) {
       start[j] = 0;
-      edge[j]  = 1;
+      edge[j] = 1;
     }
 
 
@@ -6772,7 +6772,7 @@ int test_nc_put_vara_ushort(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_vara_ushort(ncid, i, start, edge, value);
+      err = nc_put_vara_ushort(ncid, i, start, edge, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -6784,8 +6784,8 @@ int test_nc_put_vara_ushort(void) {
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
       start[j] = 0;
-      edge[j]  = var_shape[i][j] + 1;
-      err      = nc_put_vara_ushort(ncid, i, start, edge, value);
+      edge[j] = var_shape[i][j] + 1;
+      err = nc_put_vara_ushort(ncid, i, start, edge, value);
       IF(err != NC_EEDGE)
       error("expecting NC_EEDG but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -6799,7 +6799,7 @@ int test_nc_put_vara_ushort(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_vara_ushort(ncid, i, start, edge, value);
+      err = nc_put_vara_ushort(ncid, i, start, edge, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -6816,7 +6816,7 @@ int test_nc_put_vara_ushort(void) {
 #endif
       ELSE_NOK
       start[j] = var_shape[i][j] + 1; /* out of boundary check */
-      err      = nc_put_vara_ushort(ncid, i, start, edge, value);
+      err = nc_put_vara_ushort(ncid, i, start, edge, value);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -6838,10 +6838,10 @@ int test_nc_put_vara_ushort(void) {
       for (j = 0; j < var_rank[i]; j++) {
         if ((k >> j) & 1) {
           start[j] = 0;
-          edge[j]  = mid[j];
+          edge[j] = mid[j];
         } else {
           start[j] = mid[j];
-          edge[j]  = var_shape[i][j] - mid[j];
+          edge[j] = var_shape[i][j] - mid[j];
         }
         nels *= edge[j];
       }
@@ -6947,7 +6947,7 @@ int test_nc_put_vara_uint(void) {
 
     for (j = 0; j < var_rank[i]; j++) {
       start[j] = 0;
-      edge[j]  = 1;
+      edge[j] = 1;
     }
 
 
@@ -6955,7 +6955,7 @@ int test_nc_put_vara_uint(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_vara_uint(ncid, i, start, edge, value);
+      err = nc_put_vara_uint(ncid, i, start, edge, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -6967,8 +6967,8 @@ int test_nc_put_vara_uint(void) {
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
       start[j] = 0;
-      edge[j]  = var_shape[i][j] + 1;
-      err      = nc_put_vara_uint(ncid, i, start, edge, value);
+      edge[j] = var_shape[i][j] + 1;
+      err = nc_put_vara_uint(ncid, i, start, edge, value);
       IF(err != NC_EEDGE)
       error("expecting NC_EEDG but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -6982,7 +6982,7 @@ int test_nc_put_vara_uint(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_vara_uint(ncid, i, start, edge, value);
+      err = nc_put_vara_uint(ncid, i, start, edge, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -6999,7 +6999,7 @@ int test_nc_put_vara_uint(void) {
 #endif
       ELSE_NOK
       start[j] = var_shape[i][j] + 1; /* out of boundary check */
-      err      = nc_put_vara_uint(ncid, i, start, edge, value);
+      err = nc_put_vara_uint(ncid, i, start, edge, value);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -7021,10 +7021,10 @@ int test_nc_put_vara_uint(void) {
       for (j = 0; j < var_rank[i]; j++) {
         if ((k >> j) & 1) {
           start[j] = 0;
-          edge[j]  = mid[j];
+          edge[j] = mid[j];
         } else {
           start[j] = mid[j];
-          edge[j]  = var_shape[i][j] - mid[j];
+          edge[j] = var_shape[i][j] - mid[j];
         }
         nels *= edge[j];
       }
@@ -7130,7 +7130,7 @@ int test_nc_put_vara_longlong(void) {
 
     for (j = 0; j < var_rank[i]; j++) {
       start[j] = 0;
-      edge[j]  = 1;
+      edge[j] = 1;
     }
 
 
@@ -7138,7 +7138,7 @@ int test_nc_put_vara_longlong(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_vara_longlong(ncid, i, start, edge, value);
+      err = nc_put_vara_longlong(ncid, i, start, edge, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -7150,8 +7150,8 @@ int test_nc_put_vara_longlong(void) {
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
       start[j] = 0;
-      edge[j]  = var_shape[i][j] + 1;
-      err      = nc_put_vara_longlong(ncid, i, start, edge, value);
+      edge[j] = var_shape[i][j] + 1;
+      err = nc_put_vara_longlong(ncid, i, start, edge, value);
       IF(err != NC_EEDGE)
       error("expecting NC_EEDG but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -7165,7 +7165,7 @@ int test_nc_put_vara_longlong(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_vara_longlong(ncid, i, start, edge, value);
+      err = nc_put_vara_longlong(ncid, i, start, edge, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -7182,7 +7182,7 @@ int test_nc_put_vara_longlong(void) {
 #endif
       ELSE_NOK
       start[j] = var_shape[i][j] + 1; /* out of boundary check */
-      err      = nc_put_vara_longlong(ncid, i, start, edge, value);
+      err = nc_put_vara_longlong(ncid, i, start, edge, value);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -7204,10 +7204,10 @@ int test_nc_put_vara_longlong(void) {
       for (j = 0; j < var_rank[i]; j++) {
         if ((k >> j) & 1) {
           start[j] = 0;
-          edge[j]  = mid[j];
+          edge[j] = mid[j];
         } else {
           start[j] = mid[j];
-          edge[j]  = var_shape[i][j] - mid[j];
+          edge[j] = var_shape[i][j] - mid[j];
         }
         nels *= edge[j];
       }
@@ -7313,7 +7313,7 @@ int test_nc_put_vara_ulonglong(void) {
 
     for (j = 0; j < var_rank[i]; j++) {
       start[j] = 0;
-      edge[j]  = 1;
+      edge[j] = 1;
     }
 
 
@@ -7321,7 +7321,7 @@ int test_nc_put_vara_ulonglong(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_vara_ulonglong(ncid, i, start, edge, value);
+      err = nc_put_vara_ulonglong(ncid, i, start, edge, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -7333,8 +7333,8 @@ int test_nc_put_vara_ulonglong(void) {
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
       start[j] = 0;
-      edge[j]  = var_shape[i][j] + 1;
-      err      = nc_put_vara_ulonglong(ncid, i, start, edge, value);
+      edge[j] = var_shape[i][j] + 1;
+      err = nc_put_vara_ulonglong(ncid, i, start, edge, value);
       IF(err != NC_EEDGE)
       error("expecting NC_EEDG but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -7348,7 +7348,7 @@ int test_nc_put_vara_ulonglong(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_vara_ulonglong(ncid, i, start, edge, value);
+      err = nc_put_vara_ulonglong(ncid, i, start, edge, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -7365,7 +7365,7 @@ int test_nc_put_vara_ulonglong(void) {
 #endif
       ELSE_NOK
       start[j] = var_shape[i][j] + 1; /* out of boundary check */
-      err      = nc_put_vara_ulonglong(ncid, i, start, edge, value);
+      err = nc_put_vara_ulonglong(ncid, i, start, edge, value);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -7387,10 +7387,10 @@ int test_nc_put_vara_ulonglong(void) {
       for (j = 0; j < var_rank[i]; j++) {
         if ((k >> j) & 1) {
           start[j] = 0;
-          edge[j]  = mid[j];
+          edge[j] = mid[j];
         } else {
           start[j] = mid[j];
-          edge[j]  = var_shape[i][j] - mid[j];
+          edge[j] = var_shape[i][j] - mid[j];
         }
         nels *= edge[j];
       }
@@ -7499,8 +7499,8 @@ int test_nc_put_vars_text(void) {
     canConvert = (var_type[i] == NC_CHAR);
 
     for (j = 0; j < var_rank[i]; j++) {
-      start[j]  = 0;
-      edge[j]   = 1;
+      start[j] = 0;
+      edge[j] = 1;
       stride[j] = 1;
     }
 
@@ -7508,7 +7508,7 @@ int test_nc_put_vars_text(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];              /* out of boundary check */
-      err      = nc_put_vars_text(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_text(ncid, i, start, edge, stride, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -7520,14 +7520,14 @@ int test_nc_put_vars_text(void) {
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
       start[j] = 0;
-      edge[j]  = var_shape[i][j] + 1;
-      err      = nc_put_vars_text(ncid, i, start, edge, stride, value);
+      edge[j] = var_shape[i][j] + 1;
+      err = nc_put_vars_text(ncid, i, start, edge, stride, value);
       IF(err != NC_EEDGE)
       error("expecting NC_EEDGE but got %s", nc_err_code_name(err));
       ELSE_NOK
-      edge[j]   = 1;
+      edge[j] = 1;
       stride[j] = 0;
-      err       = nc_put_vars_text(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_text(ncid, i, start, edge, stride, value);
       IF(err != NC_ESTRIDE)
       error("expecting NC_ESTRIDE but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -7540,7 +7540,7 @@ int test_nc_put_vars_text(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_vars_text(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_text(ncid, i, start, edge, stride, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -7557,7 +7557,7 @@ int test_nc_put_vars_text(void) {
 #endif
       ELSE_NOK
       start[j] = var_shape[i][j] + 1; /* out of boundary check */
-      err      = nc_put_vars_text(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_text(ncid, i, start, edge, stride, value);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -7580,13 +7580,13 @@ int test_nc_put_vars_text(void) {
       for (j = 0; j < var_rank[i]; j++) {
         if ((k >> j) & 1) {
           start[j] = 0;
-          edge[j]  = mid[j];
+          edge[j] = mid[j];
         } else {
           start[j] = mid[j];
-          edge[j]  = var_shape[i][j] - mid[j];
+          edge[j] = var_shape[i][j] - mid[j];
         }
         sstride[j] = edge[j] > 0 ? 1 + roll(edge[j]) : 1;
-        stride[j]  = (ptrdiff_t)sstride[j];
+        stride[j] = (ptrdiff_t)sstride[j];
         nstarts *= stride[j];
       }
       for (m = 0; m < nstarts; m++) {
@@ -7712,8 +7712,8 @@ int test_nc_put_vars_uchar(void) {
     canConvert = (var_type[i] == NC_CHAR) == (NCT_UCHAR == NCT_TEXT);
 
     for (j = 0; j < var_rank[i]; j++) {
-      start[j]  = 0;
-      edge[j]   = 1;
+      start[j] = 0;
+      edge[j] = 1;
       stride[j] = 1;
     }
 
@@ -7721,7 +7721,7 @@ int test_nc_put_vars_uchar(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];              /* out of boundary check */
-      err      = nc_put_vars_uchar(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_uchar(ncid, i, start, edge, stride, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -7733,14 +7733,14 @@ int test_nc_put_vars_uchar(void) {
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
       start[j] = 0;
-      edge[j]  = var_shape[i][j] + 1;
-      err      = nc_put_vars_uchar(ncid, i, start, edge, stride, value);
+      edge[j] = var_shape[i][j] + 1;
+      err = nc_put_vars_uchar(ncid, i, start, edge, stride, value);
       IF(err != NC_EEDGE)
       error("expecting NC_EEDGE but got %s", nc_err_code_name(err));
       ELSE_NOK
-      edge[j]   = 1;
+      edge[j] = 1;
       stride[j] = 0;
-      err       = nc_put_vars_uchar(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_uchar(ncid, i, start, edge, stride, value);
       IF(err != NC_ESTRIDE)
       error("expecting NC_ESTRIDE but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -7753,7 +7753,7 @@ int test_nc_put_vars_uchar(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_vars_uchar(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_uchar(ncid, i, start, edge, stride, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -7770,7 +7770,7 @@ int test_nc_put_vars_uchar(void) {
 #endif
       ELSE_NOK
       start[j] = var_shape[i][j] + 1; /* out of boundary check */
-      err      = nc_put_vars_uchar(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_uchar(ncid, i, start, edge, stride, value);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -7793,13 +7793,13 @@ int test_nc_put_vars_uchar(void) {
       for (j = 0; j < var_rank[i]; j++) {
         if ((k >> j) & 1) {
           start[j] = 0;
-          edge[j]  = mid[j];
+          edge[j] = mid[j];
         } else {
           start[j] = mid[j];
-          edge[j]  = var_shape[i][j] - mid[j];
+          edge[j] = var_shape[i][j] - mid[j];
         }
         sstride[j] = edge[j] > 0 ? 1 + roll(edge[j]) : 1;
-        stride[j]  = (ptrdiff_t)sstride[j];
+        stride[j] = (ptrdiff_t)sstride[j];
         nstarts *= stride[j];
       }
       for (m = 0; m < nstarts; m++) {
@@ -7926,8 +7926,8 @@ int test_nc_put_vars_schar(void) {
     canConvert = (var_type[i] == NC_CHAR) == (NCT_SCHAR == NCT_TEXT);
 
     for (j = 0; j < var_rank[i]; j++) {
-      start[j]  = 0;
-      edge[j]   = 1;
+      start[j] = 0;
+      edge[j] = 1;
       stride[j] = 1;
     }
 
@@ -7935,7 +7935,7 @@ int test_nc_put_vars_schar(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];              /* out of boundary check */
-      err      = nc_put_vars_schar(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_schar(ncid, i, start, edge, stride, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -7947,14 +7947,14 @@ int test_nc_put_vars_schar(void) {
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
       start[j] = 0;
-      edge[j]  = var_shape[i][j] + 1;
-      err      = nc_put_vars_schar(ncid, i, start, edge, stride, value);
+      edge[j] = var_shape[i][j] + 1;
+      err = nc_put_vars_schar(ncid, i, start, edge, stride, value);
       IF(err != NC_EEDGE)
       error("expecting NC_EEDGE but got %s", nc_err_code_name(err));
       ELSE_NOK
-      edge[j]   = 1;
+      edge[j] = 1;
       stride[j] = 0;
-      err       = nc_put_vars_schar(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_schar(ncid, i, start, edge, stride, value);
       IF(err != NC_ESTRIDE)
       error("expecting NC_ESTRIDE but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -7967,7 +7967,7 @@ int test_nc_put_vars_schar(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_vars_schar(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_schar(ncid, i, start, edge, stride, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -7984,7 +7984,7 @@ int test_nc_put_vars_schar(void) {
 #endif
       ELSE_NOK
       start[j] = var_shape[i][j] + 1; /* out of boundary check */
-      err      = nc_put_vars_schar(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_schar(ncid, i, start, edge, stride, value);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -8007,13 +8007,13 @@ int test_nc_put_vars_schar(void) {
       for (j = 0; j < var_rank[i]; j++) {
         if ((k >> j) & 1) {
           start[j] = 0;
-          edge[j]  = mid[j];
+          edge[j] = mid[j];
         } else {
           start[j] = mid[j];
-          edge[j]  = var_shape[i][j] - mid[j];
+          edge[j] = var_shape[i][j] - mid[j];
         }
         sstride[j] = edge[j] > 0 ? 1 + roll(edge[j]) : 1;
-        stride[j]  = (ptrdiff_t)sstride[j];
+        stride[j] = (ptrdiff_t)sstride[j];
         nstarts *= stride[j];
       }
       for (m = 0; m < nstarts; m++) {
@@ -8142,8 +8142,8 @@ int test_nc_put_vars_short(void) {
     canConvert = (var_type[i] == NC_CHAR) == (NCT_SHORT == NCT_TEXT);
 
     for (j = 0; j < var_rank[i]; j++) {
-      start[j]  = 0;
-      edge[j]   = 1;
+      start[j] = 0;
+      edge[j] = 1;
       stride[j] = 1;
     }
 
@@ -8151,7 +8151,7 @@ int test_nc_put_vars_short(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];              /* out of boundary check */
-      err      = nc_put_vars_short(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_short(ncid, i, start, edge, stride, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -8163,14 +8163,14 @@ int test_nc_put_vars_short(void) {
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
       start[j] = 0;
-      edge[j]  = var_shape[i][j] + 1;
-      err      = nc_put_vars_short(ncid, i, start, edge, stride, value);
+      edge[j] = var_shape[i][j] + 1;
+      err = nc_put_vars_short(ncid, i, start, edge, stride, value);
       IF(err != NC_EEDGE)
       error("expecting NC_EEDGE but got %s", nc_err_code_name(err));
       ELSE_NOK
-      edge[j]   = 1;
+      edge[j] = 1;
       stride[j] = 0;
-      err       = nc_put_vars_short(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_short(ncid, i, start, edge, stride, value);
       IF(err != NC_ESTRIDE)
       error("expecting NC_ESTRIDE but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -8183,7 +8183,7 @@ int test_nc_put_vars_short(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_vars_short(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_short(ncid, i, start, edge, stride, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -8200,7 +8200,7 @@ int test_nc_put_vars_short(void) {
 #endif
       ELSE_NOK
       start[j] = var_shape[i][j] + 1; /* out of boundary check */
-      err      = nc_put_vars_short(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_short(ncid, i, start, edge, stride, value);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -8223,13 +8223,13 @@ int test_nc_put_vars_short(void) {
       for (j = 0; j < var_rank[i]; j++) {
         if ((k >> j) & 1) {
           start[j] = 0;
-          edge[j]  = mid[j];
+          edge[j] = mid[j];
         } else {
           start[j] = mid[j];
-          edge[j]  = var_shape[i][j] - mid[j];
+          edge[j] = var_shape[i][j] - mid[j];
         }
         sstride[j] = edge[j] > 0 ? 1 + roll(edge[j]) : 1;
-        stride[j]  = (ptrdiff_t)sstride[j];
+        stride[j] = (ptrdiff_t)sstride[j];
         nstarts *= stride[j];
       }
       for (m = 0; m < nstarts; m++) {
@@ -8355,8 +8355,8 @@ int test_nc_put_vars_int(void) {
     canConvert = (var_type[i] == NC_CHAR) == (NCT_INT == NCT_TEXT);
 
     for (j = 0; j < var_rank[i]; j++) {
-      start[j]  = 0;
-      edge[j]   = 1;
+      start[j] = 0;
+      edge[j] = 1;
       stride[j] = 1;
     }
 
@@ -8364,7 +8364,7 @@ int test_nc_put_vars_int(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];              /* out of boundary check */
-      err      = nc_put_vars_int(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_int(ncid, i, start, edge, stride, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -8376,14 +8376,14 @@ int test_nc_put_vars_int(void) {
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
       start[j] = 0;
-      edge[j]  = var_shape[i][j] + 1;
-      err      = nc_put_vars_int(ncid, i, start, edge, stride, value);
+      edge[j] = var_shape[i][j] + 1;
+      err = nc_put_vars_int(ncid, i, start, edge, stride, value);
       IF(err != NC_EEDGE)
       error("expecting NC_EEDGE but got %s", nc_err_code_name(err));
       ELSE_NOK
-      edge[j]   = 1;
+      edge[j] = 1;
       stride[j] = 0;
-      err       = nc_put_vars_int(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_int(ncid, i, start, edge, stride, value);
       IF(err != NC_ESTRIDE)
       error("expecting NC_ESTRIDE but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -8396,7 +8396,7 @@ int test_nc_put_vars_int(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_vars_int(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_int(ncid, i, start, edge, stride, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -8413,7 +8413,7 @@ int test_nc_put_vars_int(void) {
 #endif
       ELSE_NOK
       start[j] = var_shape[i][j] + 1; /* out of boundary check */
-      err      = nc_put_vars_int(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_int(ncid, i, start, edge, stride, value);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -8436,13 +8436,13 @@ int test_nc_put_vars_int(void) {
       for (j = 0; j < var_rank[i]; j++) {
         if ((k >> j) & 1) {
           start[j] = 0;
-          edge[j]  = mid[j];
+          edge[j] = mid[j];
         } else {
           start[j] = mid[j];
-          edge[j]  = var_shape[i][j] - mid[j];
+          edge[j] = var_shape[i][j] - mid[j];
         }
         sstride[j] = edge[j] > 0 ? 1 + roll(edge[j]) : 1;
-        stride[j]  = (ptrdiff_t)sstride[j];
+        stride[j] = (ptrdiff_t)sstride[j];
         nstarts *= stride[j];
       }
       for (m = 0; m < nstarts; m++) {
@@ -8568,8 +8568,8 @@ int test_nc_put_vars_long(void) {
     canConvert = (var_type[i] == NC_CHAR) == (NCT_LONG == NCT_TEXT);
 
     for (j = 0; j < var_rank[i]; j++) {
-      start[j]  = 0;
-      edge[j]   = 1;
+      start[j] = 0;
+      edge[j] = 1;
       stride[j] = 1;
     }
 
@@ -8577,7 +8577,7 @@ int test_nc_put_vars_long(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];              /* out of boundary check */
-      err      = nc_put_vars_long(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_long(ncid, i, start, edge, stride, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -8589,14 +8589,14 @@ int test_nc_put_vars_long(void) {
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
       start[j] = 0;
-      edge[j]  = var_shape[i][j] + 1;
-      err      = nc_put_vars_long(ncid, i, start, edge, stride, value);
+      edge[j] = var_shape[i][j] + 1;
+      err = nc_put_vars_long(ncid, i, start, edge, stride, value);
       IF(err != NC_EEDGE)
       error("expecting NC_EEDGE but got %s", nc_err_code_name(err));
       ELSE_NOK
-      edge[j]   = 1;
+      edge[j] = 1;
       stride[j] = 0;
-      err       = nc_put_vars_long(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_long(ncid, i, start, edge, stride, value);
       IF(err != NC_ESTRIDE)
       error("expecting NC_ESTRIDE but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -8609,7 +8609,7 @@ int test_nc_put_vars_long(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_vars_long(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_long(ncid, i, start, edge, stride, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -8626,7 +8626,7 @@ int test_nc_put_vars_long(void) {
 #endif
       ELSE_NOK
       start[j] = var_shape[i][j] + 1; /* out of boundary check */
-      err      = nc_put_vars_long(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_long(ncid, i, start, edge, stride, value);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -8649,13 +8649,13 @@ int test_nc_put_vars_long(void) {
       for (j = 0; j < var_rank[i]; j++) {
         if ((k >> j) & 1) {
           start[j] = 0;
-          edge[j]  = mid[j];
+          edge[j] = mid[j];
         } else {
           start[j] = mid[j];
-          edge[j]  = var_shape[i][j] - mid[j];
+          edge[j] = var_shape[i][j] - mid[j];
         }
         sstride[j] = edge[j] > 0 ? 1 + roll(edge[j]) : 1;
-        stride[j]  = (ptrdiff_t)sstride[j];
+        stride[j] = (ptrdiff_t)sstride[j];
         nstarts *= stride[j];
       }
       for (m = 0; m < nstarts; m++) {
@@ -8781,8 +8781,8 @@ int test_nc_put_vars_float(void) {
     canConvert = (var_type[i] == NC_CHAR) == (NCT_FLOAT == NCT_TEXT);
 
     for (j = 0; j < var_rank[i]; j++) {
-      start[j]  = 0;
-      edge[j]   = 1;
+      start[j] = 0;
+      edge[j] = 1;
       stride[j] = 1;
     }
 
@@ -8790,7 +8790,7 @@ int test_nc_put_vars_float(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];              /* out of boundary check */
-      err      = nc_put_vars_float(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_float(ncid, i, start, edge, stride, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -8802,14 +8802,14 @@ int test_nc_put_vars_float(void) {
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
       start[j] = 0;
-      edge[j]  = var_shape[i][j] + 1;
-      err      = nc_put_vars_float(ncid, i, start, edge, stride, value);
+      edge[j] = var_shape[i][j] + 1;
+      err = nc_put_vars_float(ncid, i, start, edge, stride, value);
       IF(err != NC_EEDGE)
       error("expecting NC_EEDGE but got %s", nc_err_code_name(err));
       ELSE_NOK
-      edge[j]   = 1;
+      edge[j] = 1;
       stride[j] = 0;
-      err       = nc_put_vars_float(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_float(ncid, i, start, edge, stride, value);
       IF(err != NC_ESTRIDE)
       error("expecting NC_ESTRIDE but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -8822,7 +8822,7 @@ int test_nc_put_vars_float(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_vars_float(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_float(ncid, i, start, edge, stride, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -8839,7 +8839,7 @@ int test_nc_put_vars_float(void) {
 #endif
       ELSE_NOK
       start[j] = var_shape[i][j] + 1; /* out of boundary check */
-      err      = nc_put_vars_float(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_float(ncid, i, start, edge, stride, value);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -8862,13 +8862,13 @@ int test_nc_put_vars_float(void) {
       for (j = 0; j < var_rank[i]; j++) {
         if ((k >> j) & 1) {
           start[j] = 0;
-          edge[j]  = mid[j];
+          edge[j] = mid[j];
         } else {
           start[j] = mid[j];
-          edge[j]  = var_shape[i][j] - mid[j];
+          edge[j] = var_shape[i][j] - mid[j];
         }
         sstride[j] = edge[j] > 0 ? 1 + roll(edge[j]) : 1;
-        stride[j]  = (ptrdiff_t)sstride[j];
+        stride[j] = (ptrdiff_t)sstride[j];
         nstarts *= stride[j];
       }
       for (m = 0; m < nstarts; m++) {
@@ -8994,8 +8994,8 @@ int test_nc_put_vars_double(void) {
     canConvert = (var_type[i] == NC_CHAR) == (NCT_DOUBLE == NCT_TEXT);
 
     for (j = 0; j < var_rank[i]; j++) {
-      start[j]  = 0;
-      edge[j]   = 1;
+      start[j] = 0;
+      edge[j] = 1;
       stride[j] = 1;
     }
 
@@ -9003,7 +9003,7 @@ int test_nc_put_vars_double(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];              /* out of boundary check */
-      err      = nc_put_vars_double(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_double(ncid, i, start, edge, stride, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -9015,14 +9015,14 @@ int test_nc_put_vars_double(void) {
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
       start[j] = 0;
-      edge[j]  = var_shape[i][j] + 1;
-      err      = nc_put_vars_double(ncid, i, start, edge, stride, value);
+      edge[j] = var_shape[i][j] + 1;
+      err = nc_put_vars_double(ncid, i, start, edge, stride, value);
       IF(err != NC_EEDGE)
       error("expecting NC_EEDGE but got %s", nc_err_code_name(err));
       ELSE_NOK
-      edge[j]   = 1;
+      edge[j] = 1;
       stride[j] = 0;
-      err       = nc_put_vars_double(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_double(ncid, i, start, edge, stride, value);
       IF(err != NC_ESTRIDE)
       error("expecting NC_ESTRIDE but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -9035,7 +9035,7 @@ int test_nc_put_vars_double(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_vars_double(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_double(ncid, i, start, edge, stride, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -9052,7 +9052,7 @@ int test_nc_put_vars_double(void) {
 #endif
       ELSE_NOK
       start[j] = var_shape[i][j] + 1; /* out of boundary check */
-      err      = nc_put_vars_double(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_double(ncid, i, start, edge, stride, value);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -9075,13 +9075,13 @@ int test_nc_put_vars_double(void) {
       for (j = 0; j < var_rank[i]; j++) {
         if ((k >> j) & 1) {
           start[j] = 0;
-          edge[j]  = mid[j];
+          edge[j] = mid[j];
         } else {
           start[j] = mid[j];
-          edge[j]  = var_shape[i][j] - mid[j];
+          edge[j] = var_shape[i][j] - mid[j];
         }
         sstride[j] = edge[j] > 0 ? 1 + roll(edge[j]) : 1;
-        stride[j]  = (ptrdiff_t)sstride[j];
+        stride[j] = (ptrdiff_t)sstride[j];
         nstarts *= stride[j];
       }
       for (m = 0; m < nstarts; m++) {
@@ -9207,8 +9207,8 @@ int test_nc_put_vars_ushort(void) {
     canConvert = (var_type[i] == NC_CHAR) == (NCT_USHORT == NCT_TEXT);
 
     for (j = 0; j < var_rank[i]; j++) {
-      start[j]  = 0;
-      edge[j]   = 1;
+      start[j] = 0;
+      edge[j] = 1;
       stride[j] = 1;
     }
 
@@ -9216,7 +9216,7 @@ int test_nc_put_vars_ushort(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];              /* out of boundary check */
-      err      = nc_put_vars_ushort(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_ushort(ncid, i, start, edge, stride, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -9228,14 +9228,14 @@ int test_nc_put_vars_ushort(void) {
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
       start[j] = 0;
-      edge[j]  = var_shape[i][j] + 1;
-      err      = nc_put_vars_ushort(ncid, i, start, edge, stride, value);
+      edge[j] = var_shape[i][j] + 1;
+      err = nc_put_vars_ushort(ncid, i, start, edge, stride, value);
       IF(err != NC_EEDGE)
       error("expecting NC_EEDGE but got %s", nc_err_code_name(err));
       ELSE_NOK
-      edge[j]   = 1;
+      edge[j] = 1;
       stride[j] = 0;
-      err       = nc_put_vars_ushort(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_ushort(ncid, i, start, edge, stride, value);
       IF(err != NC_ESTRIDE)
       error("expecting NC_ESTRIDE but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -9248,7 +9248,7 @@ int test_nc_put_vars_ushort(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_vars_ushort(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_ushort(ncid, i, start, edge, stride, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -9265,7 +9265,7 @@ int test_nc_put_vars_ushort(void) {
 #endif
       ELSE_NOK
       start[j] = var_shape[i][j] + 1; /* out of boundary check */
-      err      = nc_put_vars_ushort(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_ushort(ncid, i, start, edge, stride, value);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -9288,13 +9288,13 @@ int test_nc_put_vars_ushort(void) {
       for (j = 0; j < var_rank[i]; j++) {
         if ((k >> j) & 1) {
           start[j] = 0;
-          edge[j]  = mid[j];
+          edge[j] = mid[j];
         } else {
           start[j] = mid[j];
-          edge[j]  = var_shape[i][j] - mid[j];
+          edge[j] = var_shape[i][j] - mid[j];
         }
         sstride[j] = edge[j] > 0 ? 1 + roll(edge[j]) : 1;
-        stride[j]  = (ptrdiff_t)sstride[j];
+        stride[j] = (ptrdiff_t)sstride[j];
         nstarts *= stride[j];
       }
       for (m = 0; m < nstarts; m++) {
@@ -9420,8 +9420,8 @@ int test_nc_put_vars_uint(void) {
     canConvert = (var_type[i] == NC_CHAR) == (NCT_UINT == NCT_TEXT);
 
     for (j = 0; j < var_rank[i]; j++) {
-      start[j]  = 0;
-      edge[j]   = 1;
+      start[j] = 0;
+      edge[j] = 1;
       stride[j] = 1;
     }
 
@@ -9429,7 +9429,7 @@ int test_nc_put_vars_uint(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];              /* out of boundary check */
-      err      = nc_put_vars_uint(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_uint(ncid, i, start, edge, stride, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -9441,14 +9441,14 @@ int test_nc_put_vars_uint(void) {
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
       start[j] = 0;
-      edge[j]  = var_shape[i][j] + 1;
-      err      = nc_put_vars_uint(ncid, i, start, edge, stride, value);
+      edge[j] = var_shape[i][j] + 1;
+      err = nc_put_vars_uint(ncid, i, start, edge, stride, value);
       IF(err != NC_EEDGE)
       error("expecting NC_EEDGE but got %s", nc_err_code_name(err));
       ELSE_NOK
-      edge[j]   = 1;
+      edge[j] = 1;
       stride[j] = 0;
-      err       = nc_put_vars_uint(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_uint(ncid, i, start, edge, stride, value);
       IF(err != NC_ESTRIDE)
       error("expecting NC_ESTRIDE but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -9461,7 +9461,7 @@ int test_nc_put_vars_uint(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_vars_uint(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_uint(ncid, i, start, edge, stride, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -9478,7 +9478,7 @@ int test_nc_put_vars_uint(void) {
 #endif
       ELSE_NOK
       start[j] = var_shape[i][j] + 1; /* out of boundary check */
-      err      = nc_put_vars_uint(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_uint(ncid, i, start, edge, stride, value);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -9501,13 +9501,13 @@ int test_nc_put_vars_uint(void) {
       for (j = 0; j < var_rank[i]; j++) {
         if ((k >> j) & 1) {
           start[j] = 0;
-          edge[j]  = mid[j];
+          edge[j] = mid[j];
         } else {
           start[j] = mid[j];
-          edge[j]  = var_shape[i][j] - mid[j];
+          edge[j] = var_shape[i][j] - mid[j];
         }
         sstride[j] = edge[j] > 0 ? 1 + roll(edge[j]) : 1;
-        stride[j]  = (ptrdiff_t)sstride[j];
+        stride[j] = (ptrdiff_t)sstride[j];
         nstarts *= stride[j];
       }
       for (m = 0; m < nstarts; m++) {
@@ -9633,8 +9633,8 @@ int test_nc_put_vars_longlong(void) {
     canConvert = (var_type[i] == NC_CHAR) == (NCT_LONGLONG == NCT_TEXT);
 
     for (j = 0; j < var_rank[i]; j++) {
-      start[j]  = 0;
-      edge[j]   = 1;
+      start[j] = 0;
+      edge[j] = 1;
       stride[j] = 1;
     }
 
@@ -9642,7 +9642,7 @@ int test_nc_put_vars_longlong(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];              /* out of boundary check */
-      err      = nc_put_vars_longlong(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_longlong(ncid, i, start, edge, stride, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -9654,14 +9654,14 @@ int test_nc_put_vars_longlong(void) {
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
       start[j] = 0;
-      edge[j]  = var_shape[i][j] + 1;
-      err      = nc_put_vars_longlong(ncid, i, start, edge, stride, value);
+      edge[j] = var_shape[i][j] + 1;
+      err = nc_put_vars_longlong(ncid, i, start, edge, stride, value);
       IF(err != NC_EEDGE)
       error("expecting NC_EEDGE but got %s", nc_err_code_name(err));
       ELSE_NOK
-      edge[j]   = 1;
+      edge[j] = 1;
       stride[j] = 0;
-      err       = nc_put_vars_longlong(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_longlong(ncid, i, start, edge, stride, value);
       IF(err != NC_ESTRIDE)
       error("expecting NC_ESTRIDE but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -9674,7 +9674,7 @@ int test_nc_put_vars_longlong(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_vars_longlong(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_longlong(ncid, i, start, edge, stride, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -9691,7 +9691,7 @@ int test_nc_put_vars_longlong(void) {
 #endif
       ELSE_NOK
       start[j] = var_shape[i][j] + 1; /* out of boundary check */
-      err      = nc_put_vars_longlong(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_longlong(ncid, i, start, edge, stride, value);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -9714,13 +9714,13 @@ int test_nc_put_vars_longlong(void) {
       for (j = 0; j < var_rank[i]; j++) {
         if ((k >> j) & 1) {
           start[j] = 0;
-          edge[j]  = mid[j];
+          edge[j] = mid[j];
         } else {
           start[j] = mid[j];
-          edge[j]  = var_shape[i][j] - mid[j];
+          edge[j] = var_shape[i][j] - mid[j];
         }
         sstride[j] = edge[j] > 0 ? 1 + roll(edge[j]) : 1;
-        stride[j]  = (ptrdiff_t)sstride[j];
+        stride[j] = (ptrdiff_t)sstride[j];
         nstarts *= stride[j];
       }
       for (m = 0; m < nstarts; m++) {
@@ -9846,8 +9846,8 @@ int test_nc_put_vars_ulonglong(void) {
     canConvert = (var_type[i] == NC_CHAR) == (NCT_ULONGLONG == NCT_TEXT);
 
     for (j = 0; j < var_rank[i]; j++) {
-      start[j]  = 0;
-      edge[j]   = 1;
+      start[j] = 0;
+      edge[j] = 1;
       stride[j] = 1;
     }
 
@@ -9855,7 +9855,7 @@ int test_nc_put_vars_ulonglong(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];              /* out of boundary check */
-      err      = nc_put_vars_ulonglong(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_ulonglong(ncid, i, start, edge, stride, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -9867,14 +9867,14 @@ int test_nc_put_vars_ulonglong(void) {
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
       start[j] = 0;
-      edge[j]  = var_shape[i][j] + 1;
-      err      = nc_put_vars_ulonglong(ncid, i, start, edge, stride, value);
+      edge[j] = var_shape[i][j] + 1;
+      err = nc_put_vars_ulonglong(ncid, i, start, edge, stride, value);
       IF(err != NC_EEDGE)
       error("expecting NC_EEDGE but got %s", nc_err_code_name(err));
       ELSE_NOK
-      edge[j]   = 1;
+      edge[j] = 1;
       stride[j] = 0;
-      err       = nc_put_vars_ulonglong(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_ulonglong(ncid, i, start, edge, stride, value);
       IF(err != NC_ESTRIDE)
       error("expecting NC_ESTRIDE but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -9887,7 +9887,7 @@ int test_nc_put_vars_ulonglong(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_vars_ulonglong(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_ulonglong(ncid, i, start, edge, stride, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -9904,7 +9904,7 @@ int test_nc_put_vars_ulonglong(void) {
 #endif
       ELSE_NOK
       start[j] = var_shape[i][j] + 1; /* out of boundary check */
-      err      = nc_put_vars_ulonglong(ncid, i, start, edge, stride, value);
+      err = nc_put_vars_ulonglong(ncid, i, start, edge, stride, value);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -9927,13 +9927,13 @@ int test_nc_put_vars_ulonglong(void) {
       for (j = 0; j < var_rank[i]; j++) {
         if ((k >> j) & 1) {
           start[j] = 0;
-          edge[j]  = mid[j];
+          edge[j] = mid[j];
         } else {
           start[j] = mid[j];
-          edge[j]  = var_shape[i][j] - mid[j];
+          edge[j] = var_shape[i][j] - mid[j];
         }
         sstride[j] = edge[j] > 0 ? 1 + roll(edge[j]) : 1;
-        stride[j]  = (ptrdiff_t)sstride[j];
+        stride[j] = (ptrdiff_t)sstride[j];
         nstarts *= stride[j];
       }
       for (m = 0; m < nstarts; m++) {
@@ -10060,10 +10060,10 @@ int test_nc_put_varm_text(void) {
     canConvert = (var_type[i] == NC_CHAR);
 
     for (j = 0; j < var_rank[i]; j++) {
-      start[j]  = 0;
-      edge[j]   = 1;
+      start[j] = 0;
+      edge[j] = 1;
       stride[j] = 1;
-      imap[j]   = 1;
+      imap[j] = 1;
     }
 
 
@@ -10071,7 +10071,7 @@ int test_nc_put_varm_text(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];              /* out of boundary check */
-      err      = nc_put_varm_text(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_text(ncid, i, start, edge, stride, imap, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -10083,14 +10083,14 @@ int test_nc_put_varm_text(void) {
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
       start[j] = 0;
-      edge[j]  = var_shape[i][j] + 1;
-      err      = nc_put_varm_text(ncid, i, start, edge, stride, imap, value);
+      edge[j] = var_shape[i][j] + 1;
+      err = nc_put_varm_text(ncid, i, start, edge, stride, imap, value);
       IF(err != NC_EEDGE)
       error("expecting NC_EEDGE but got %s", nc_err_code_name(err));
       ELSE_NOK
-      edge[j]   = 1;
+      edge[j] = 1;
       stride[j] = 0;
-      err       = nc_put_varm_text(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_text(ncid, i, start, edge, stride, imap, value);
       IF(err != NC_ESTRIDE)
       error("expecting NC_ESTRIDE but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -10103,7 +10103,7 @@ int test_nc_put_varm_text(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_varm_text(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_text(ncid, i, start, edge, stride, imap, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -10120,7 +10120,7 @@ int test_nc_put_varm_text(void) {
 #endif
       ELSE_NOK
       start[j] = var_shape[i][j] + 1; /* out of boundary check */
-      err      = nc_put_varm_text(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_text(ncid, i, start, edge, stride, imap, value);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -10143,13 +10143,13 @@ int test_nc_put_varm_text(void) {
       for (j = 0; j < var_rank[i]; j++) {
         if ((k >> j) & 1) {
           start[j] = 0;
-          edge[j]  = mid[j];
+          edge[j] = mid[j];
         } else {
           start[j] = mid[j];
-          edge[j]  = var_shape[i][j] - mid[j];
+          edge[j] = var_shape[i][j] - mid[j];
         }
         sstride[j] = edge[j] > 0 ? 1 + roll(edge[j]) : 1;
-        stride[j]  = (ptrdiff_t)sstride[j];
+        stride[j] = (ptrdiff_t)sstride[j];
         nstarts *= stride[j];
       }
       for (m = 0; m < nstarts; m++) {
@@ -10172,7 +10172,7 @@ int test_nc_put_varm_text(void) {
                 }
 */
         if (var_rank[i] > 0) {
-          int jj   = var_rank[i] - 1;
+          int jj = var_rank[i] - 1;
           imap[jj] = 1;
           for (; jj > 0; jj--)
             imap[jj - 1] = imap[jj] * (ptrdiff_t)count[jj];
@@ -10281,10 +10281,10 @@ int test_nc_put_varm_uchar(void) {
     canConvert = (var_type[i] == NC_CHAR) == (NCT_UCHAR == NCT_TEXT);
 
     for (j = 0; j < var_rank[i]; j++) {
-      start[j]  = 0;
-      edge[j]   = 1;
+      start[j] = 0;
+      edge[j] = 1;
       stride[j] = 1;
-      imap[j]   = 1;
+      imap[j] = 1;
     }
 
 
@@ -10292,7 +10292,7 @@ int test_nc_put_varm_uchar(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];              /* out of boundary check */
-      err      = nc_put_varm_uchar(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_uchar(ncid, i, start, edge, stride, imap, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -10304,14 +10304,14 @@ int test_nc_put_varm_uchar(void) {
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
       start[j] = 0;
-      edge[j]  = var_shape[i][j] + 1;
-      err      = nc_put_varm_uchar(ncid, i, start, edge, stride, imap, value);
+      edge[j] = var_shape[i][j] + 1;
+      err = nc_put_varm_uchar(ncid, i, start, edge, stride, imap, value);
       IF(err != NC_EEDGE)
       error("expecting NC_EEDGE but got %s", nc_err_code_name(err));
       ELSE_NOK
-      edge[j]   = 1;
+      edge[j] = 1;
       stride[j] = 0;
-      err       = nc_put_varm_uchar(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_uchar(ncid, i, start, edge, stride, imap, value);
       IF(err != NC_ESTRIDE)
       error("expecting NC_ESTRIDE but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -10324,7 +10324,7 @@ int test_nc_put_varm_uchar(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_varm_uchar(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_uchar(ncid, i, start, edge, stride, imap, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -10341,7 +10341,7 @@ int test_nc_put_varm_uchar(void) {
 #endif
       ELSE_NOK
       start[j] = var_shape[i][j] + 1; /* out of boundary check */
-      err      = nc_put_varm_uchar(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_uchar(ncid, i, start, edge, stride, imap, value);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -10364,13 +10364,13 @@ int test_nc_put_varm_uchar(void) {
       for (j = 0; j < var_rank[i]; j++) {
         if ((k >> j) & 1) {
           start[j] = 0;
-          edge[j]  = mid[j];
+          edge[j] = mid[j];
         } else {
           start[j] = mid[j];
-          edge[j]  = var_shape[i][j] - mid[j];
+          edge[j] = var_shape[i][j] - mid[j];
         }
         sstride[j] = edge[j] > 0 ? 1 + roll(edge[j]) : 1;
-        stride[j]  = (ptrdiff_t)sstride[j];
+        stride[j] = (ptrdiff_t)sstride[j];
         nstarts *= stride[j];
       }
       for (m = 0; m < nstarts; m++) {
@@ -10393,7 +10393,7 @@ int test_nc_put_varm_uchar(void) {
                 }
 */
         if (var_rank[i] > 0) {
-          int jj   = var_rank[i] - 1;
+          int jj = var_rank[i] - 1;
           imap[jj] = 1;
           for (; jj > 0; jj--)
             imap[jj - 1] = imap[jj] * (ptrdiff_t)count[jj];
@@ -10503,10 +10503,10 @@ int test_nc_put_varm_schar(void) {
     canConvert = (var_type[i] == NC_CHAR) == (NCT_SCHAR == NCT_TEXT);
 
     for (j = 0; j < var_rank[i]; j++) {
-      start[j]  = 0;
-      edge[j]   = 1;
+      start[j] = 0;
+      edge[j] = 1;
       stride[j] = 1;
-      imap[j]   = 1;
+      imap[j] = 1;
     }
 
 
@@ -10514,7 +10514,7 @@ int test_nc_put_varm_schar(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];              /* out of boundary check */
-      err      = nc_put_varm_schar(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_schar(ncid, i, start, edge, stride, imap, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -10526,14 +10526,14 @@ int test_nc_put_varm_schar(void) {
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
       start[j] = 0;
-      edge[j]  = var_shape[i][j] + 1;
-      err      = nc_put_varm_schar(ncid, i, start, edge, stride, imap, value);
+      edge[j] = var_shape[i][j] + 1;
+      err = nc_put_varm_schar(ncid, i, start, edge, stride, imap, value);
       IF(err != NC_EEDGE)
       error("expecting NC_EEDGE but got %s", nc_err_code_name(err));
       ELSE_NOK
-      edge[j]   = 1;
+      edge[j] = 1;
       stride[j] = 0;
-      err       = nc_put_varm_schar(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_schar(ncid, i, start, edge, stride, imap, value);
       IF(err != NC_ESTRIDE)
       error("expecting NC_ESTRIDE but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -10546,7 +10546,7 @@ int test_nc_put_varm_schar(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_varm_schar(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_schar(ncid, i, start, edge, stride, imap, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -10563,7 +10563,7 @@ int test_nc_put_varm_schar(void) {
 #endif
       ELSE_NOK
       start[j] = var_shape[i][j] + 1; /* out of boundary check */
-      err      = nc_put_varm_schar(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_schar(ncid, i, start, edge, stride, imap, value);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -10586,13 +10586,13 @@ int test_nc_put_varm_schar(void) {
       for (j = 0; j < var_rank[i]; j++) {
         if ((k >> j) & 1) {
           start[j] = 0;
-          edge[j]  = mid[j];
+          edge[j] = mid[j];
         } else {
           start[j] = mid[j];
-          edge[j]  = var_shape[i][j] - mid[j];
+          edge[j] = var_shape[i][j] - mid[j];
         }
         sstride[j] = edge[j] > 0 ? 1 + roll(edge[j]) : 1;
-        stride[j]  = (ptrdiff_t)sstride[j];
+        stride[j] = (ptrdiff_t)sstride[j];
         nstarts *= stride[j];
       }
       for (m = 0; m < nstarts; m++) {
@@ -10615,7 +10615,7 @@ int test_nc_put_varm_schar(void) {
                 }
 */
         if (var_rank[i] > 0) {
-          int jj   = var_rank[i] - 1;
+          int jj = var_rank[i] - 1;
           imap[jj] = 1;
           for (; jj > 0; jj--)
             imap[jj - 1] = imap[jj] * (ptrdiff_t)count[jj];
@@ -10727,10 +10727,10 @@ int test_nc_put_varm_short(void) {
     canConvert = (var_type[i] == NC_CHAR) == (NCT_SHORT == NCT_TEXT);
 
     for (j = 0; j < var_rank[i]; j++) {
-      start[j]  = 0;
-      edge[j]   = 1;
+      start[j] = 0;
+      edge[j] = 1;
       stride[j] = 1;
-      imap[j]   = 1;
+      imap[j] = 1;
     }
 
 
@@ -10738,7 +10738,7 @@ int test_nc_put_varm_short(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];              /* out of boundary check */
-      err      = nc_put_varm_short(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_short(ncid, i, start, edge, stride, imap, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -10750,14 +10750,14 @@ int test_nc_put_varm_short(void) {
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
       start[j] = 0;
-      edge[j]  = var_shape[i][j] + 1;
-      err      = nc_put_varm_short(ncid, i, start, edge, stride, imap, value);
+      edge[j] = var_shape[i][j] + 1;
+      err = nc_put_varm_short(ncid, i, start, edge, stride, imap, value);
       IF(err != NC_EEDGE)
       error("expecting NC_EEDGE but got %s", nc_err_code_name(err));
       ELSE_NOK
-      edge[j]   = 1;
+      edge[j] = 1;
       stride[j] = 0;
-      err       = nc_put_varm_short(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_short(ncid, i, start, edge, stride, imap, value);
       IF(err != NC_ESTRIDE)
       error("expecting NC_ESTRIDE but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -10770,7 +10770,7 @@ int test_nc_put_varm_short(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_varm_short(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_short(ncid, i, start, edge, stride, imap, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -10787,7 +10787,7 @@ int test_nc_put_varm_short(void) {
 #endif
       ELSE_NOK
       start[j] = var_shape[i][j] + 1; /* out of boundary check */
-      err      = nc_put_varm_short(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_short(ncid, i, start, edge, stride, imap, value);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -10810,13 +10810,13 @@ int test_nc_put_varm_short(void) {
       for (j = 0; j < var_rank[i]; j++) {
         if ((k >> j) & 1) {
           start[j] = 0;
-          edge[j]  = mid[j];
+          edge[j] = mid[j];
         } else {
           start[j] = mid[j];
-          edge[j]  = var_shape[i][j] - mid[j];
+          edge[j] = var_shape[i][j] - mid[j];
         }
         sstride[j] = edge[j] > 0 ? 1 + roll(edge[j]) : 1;
-        stride[j]  = (ptrdiff_t)sstride[j];
+        stride[j] = (ptrdiff_t)sstride[j];
         nstarts *= stride[j];
       }
       for (m = 0; m < nstarts; m++) {
@@ -10839,7 +10839,7 @@ int test_nc_put_varm_short(void) {
                 }
 */
         if (var_rank[i] > 0) {
-          int jj   = var_rank[i] - 1;
+          int jj = var_rank[i] - 1;
           imap[jj] = 1;
           for (; jj > 0; jj--)
             imap[jj - 1] = imap[jj] * (ptrdiff_t)count[jj];
@@ -10948,10 +10948,10 @@ int test_nc_put_varm_int(void) {
     canConvert = (var_type[i] == NC_CHAR) == (NCT_INT == NCT_TEXT);
 
     for (j = 0; j < var_rank[i]; j++) {
-      start[j]  = 0;
-      edge[j]   = 1;
+      start[j] = 0;
+      edge[j] = 1;
       stride[j] = 1;
-      imap[j]   = 1;
+      imap[j] = 1;
     }
 
 
@@ -10959,7 +10959,7 @@ int test_nc_put_varm_int(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];              /* out of boundary check */
-      err      = nc_put_varm_int(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_int(ncid, i, start, edge, stride, imap, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -10971,14 +10971,14 @@ int test_nc_put_varm_int(void) {
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
       start[j] = 0;
-      edge[j]  = var_shape[i][j] + 1;
-      err      = nc_put_varm_int(ncid, i, start, edge, stride, imap, value);
+      edge[j] = var_shape[i][j] + 1;
+      err = nc_put_varm_int(ncid, i, start, edge, stride, imap, value);
       IF(err != NC_EEDGE)
       error("expecting NC_EEDGE but got %s", nc_err_code_name(err));
       ELSE_NOK
-      edge[j]   = 1;
+      edge[j] = 1;
       stride[j] = 0;
-      err       = nc_put_varm_int(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_int(ncid, i, start, edge, stride, imap, value);
       IF(err != NC_ESTRIDE)
       error("expecting NC_ESTRIDE but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -10991,7 +10991,7 @@ int test_nc_put_varm_int(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_varm_int(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_int(ncid, i, start, edge, stride, imap, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -11008,7 +11008,7 @@ int test_nc_put_varm_int(void) {
 #endif
       ELSE_NOK
       start[j] = var_shape[i][j] + 1; /* out of boundary check */
-      err      = nc_put_varm_int(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_int(ncid, i, start, edge, stride, imap, value);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -11031,13 +11031,13 @@ int test_nc_put_varm_int(void) {
       for (j = 0; j < var_rank[i]; j++) {
         if ((k >> j) & 1) {
           start[j] = 0;
-          edge[j]  = mid[j];
+          edge[j] = mid[j];
         } else {
           start[j] = mid[j];
-          edge[j]  = var_shape[i][j] - mid[j];
+          edge[j] = var_shape[i][j] - mid[j];
         }
         sstride[j] = edge[j] > 0 ? 1 + roll(edge[j]) : 1;
-        stride[j]  = (ptrdiff_t)sstride[j];
+        stride[j] = (ptrdiff_t)sstride[j];
         nstarts *= stride[j];
       }
       for (m = 0; m < nstarts; m++) {
@@ -11060,7 +11060,7 @@ int test_nc_put_varm_int(void) {
                 }
 */
         if (var_rank[i] > 0) {
-          int jj   = var_rank[i] - 1;
+          int jj = var_rank[i] - 1;
           imap[jj] = 1;
           for (; jj > 0; jj--)
             imap[jj - 1] = imap[jj] * (ptrdiff_t)count[jj];
@@ -11169,10 +11169,10 @@ int test_nc_put_varm_long(void) {
     canConvert = (var_type[i] == NC_CHAR) == (NCT_LONG == NCT_TEXT);
 
     for (j = 0; j < var_rank[i]; j++) {
-      start[j]  = 0;
-      edge[j]   = 1;
+      start[j] = 0;
+      edge[j] = 1;
       stride[j] = 1;
-      imap[j]   = 1;
+      imap[j] = 1;
     }
 
 
@@ -11180,7 +11180,7 @@ int test_nc_put_varm_long(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];              /* out of boundary check */
-      err      = nc_put_varm_long(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_long(ncid, i, start, edge, stride, imap, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -11192,14 +11192,14 @@ int test_nc_put_varm_long(void) {
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
       start[j] = 0;
-      edge[j]  = var_shape[i][j] + 1;
-      err      = nc_put_varm_long(ncid, i, start, edge, stride, imap, value);
+      edge[j] = var_shape[i][j] + 1;
+      err = nc_put_varm_long(ncid, i, start, edge, stride, imap, value);
       IF(err != NC_EEDGE)
       error("expecting NC_EEDGE but got %s", nc_err_code_name(err));
       ELSE_NOK
-      edge[j]   = 1;
+      edge[j] = 1;
       stride[j] = 0;
-      err       = nc_put_varm_long(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_long(ncid, i, start, edge, stride, imap, value);
       IF(err != NC_ESTRIDE)
       error("expecting NC_ESTRIDE but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -11212,7 +11212,7 @@ int test_nc_put_varm_long(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_varm_long(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_long(ncid, i, start, edge, stride, imap, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -11229,7 +11229,7 @@ int test_nc_put_varm_long(void) {
 #endif
       ELSE_NOK
       start[j] = var_shape[i][j] + 1; /* out of boundary check */
-      err      = nc_put_varm_long(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_long(ncid, i, start, edge, stride, imap, value);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -11252,13 +11252,13 @@ int test_nc_put_varm_long(void) {
       for (j = 0; j < var_rank[i]; j++) {
         if ((k >> j) & 1) {
           start[j] = 0;
-          edge[j]  = mid[j];
+          edge[j] = mid[j];
         } else {
           start[j] = mid[j];
-          edge[j]  = var_shape[i][j] - mid[j];
+          edge[j] = var_shape[i][j] - mid[j];
         }
         sstride[j] = edge[j] > 0 ? 1 + roll(edge[j]) : 1;
-        stride[j]  = (ptrdiff_t)sstride[j];
+        stride[j] = (ptrdiff_t)sstride[j];
         nstarts *= stride[j];
       }
       for (m = 0; m < nstarts; m++) {
@@ -11281,7 +11281,7 @@ int test_nc_put_varm_long(void) {
                 }
 */
         if (var_rank[i] > 0) {
-          int jj   = var_rank[i] - 1;
+          int jj = var_rank[i] - 1;
           imap[jj] = 1;
           for (; jj > 0; jj--)
             imap[jj - 1] = imap[jj] * (ptrdiff_t)count[jj];
@@ -11390,10 +11390,10 @@ int test_nc_put_varm_float(void) {
     canConvert = (var_type[i] == NC_CHAR) == (NCT_FLOAT == NCT_TEXT);
 
     for (j = 0; j < var_rank[i]; j++) {
-      start[j]  = 0;
-      edge[j]   = 1;
+      start[j] = 0;
+      edge[j] = 1;
       stride[j] = 1;
-      imap[j]   = 1;
+      imap[j] = 1;
     }
 
 
@@ -11401,7 +11401,7 @@ int test_nc_put_varm_float(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];              /* out of boundary check */
-      err      = nc_put_varm_float(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_float(ncid, i, start, edge, stride, imap, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -11413,14 +11413,14 @@ int test_nc_put_varm_float(void) {
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
       start[j] = 0;
-      edge[j]  = var_shape[i][j] + 1;
-      err      = nc_put_varm_float(ncid, i, start, edge, stride, imap, value);
+      edge[j] = var_shape[i][j] + 1;
+      err = nc_put_varm_float(ncid, i, start, edge, stride, imap, value);
       IF(err != NC_EEDGE)
       error("expecting NC_EEDGE but got %s", nc_err_code_name(err));
       ELSE_NOK
-      edge[j]   = 1;
+      edge[j] = 1;
       stride[j] = 0;
-      err       = nc_put_varm_float(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_float(ncid, i, start, edge, stride, imap, value);
       IF(err != NC_ESTRIDE)
       error("expecting NC_ESTRIDE but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -11433,7 +11433,7 @@ int test_nc_put_varm_float(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_varm_float(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_float(ncid, i, start, edge, stride, imap, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -11450,7 +11450,7 @@ int test_nc_put_varm_float(void) {
 #endif
       ELSE_NOK
       start[j] = var_shape[i][j] + 1; /* out of boundary check */
-      err      = nc_put_varm_float(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_float(ncid, i, start, edge, stride, imap, value);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -11473,13 +11473,13 @@ int test_nc_put_varm_float(void) {
       for (j = 0; j < var_rank[i]; j++) {
         if ((k >> j) & 1) {
           start[j] = 0;
-          edge[j]  = mid[j];
+          edge[j] = mid[j];
         } else {
           start[j] = mid[j];
-          edge[j]  = var_shape[i][j] - mid[j];
+          edge[j] = var_shape[i][j] - mid[j];
         }
         sstride[j] = edge[j] > 0 ? 1 + roll(edge[j]) : 1;
-        stride[j]  = (ptrdiff_t)sstride[j];
+        stride[j] = (ptrdiff_t)sstride[j];
         nstarts *= stride[j];
       }
       for (m = 0; m < nstarts; m++) {
@@ -11502,7 +11502,7 @@ int test_nc_put_varm_float(void) {
                 }
 */
         if (var_rank[i] > 0) {
-          int jj   = var_rank[i] - 1;
+          int jj = var_rank[i] - 1;
           imap[jj] = 1;
           for (; jj > 0; jj--)
             imap[jj - 1] = imap[jj] * (ptrdiff_t)count[jj];
@@ -11611,10 +11611,10 @@ int test_nc_put_varm_double(void) {
     canConvert = (var_type[i] == NC_CHAR) == (NCT_DOUBLE == NCT_TEXT);
 
     for (j = 0; j < var_rank[i]; j++) {
-      start[j]  = 0;
-      edge[j]   = 1;
+      start[j] = 0;
+      edge[j] = 1;
       stride[j] = 1;
-      imap[j]   = 1;
+      imap[j] = 1;
     }
 
 
@@ -11622,7 +11622,7 @@ int test_nc_put_varm_double(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];              /* out of boundary check */
-      err      = nc_put_varm_double(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_double(ncid, i, start, edge, stride, imap, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -11634,14 +11634,14 @@ int test_nc_put_varm_double(void) {
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
       start[j] = 0;
-      edge[j]  = var_shape[i][j] + 1;
-      err      = nc_put_varm_double(ncid, i, start, edge, stride, imap, value);
+      edge[j] = var_shape[i][j] + 1;
+      err = nc_put_varm_double(ncid, i, start, edge, stride, imap, value);
       IF(err != NC_EEDGE)
       error("expecting NC_EEDGE but got %s", nc_err_code_name(err));
       ELSE_NOK
-      edge[j]   = 1;
+      edge[j] = 1;
       stride[j] = 0;
-      err       = nc_put_varm_double(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_double(ncid, i, start, edge, stride, imap, value);
       IF(err != NC_ESTRIDE)
       error("expecting NC_ESTRIDE but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -11654,7 +11654,7 @@ int test_nc_put_varm_double(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_varm_double(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_double(ncid, i, start, edge, stride, imap, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -11671,7 +11671,7 @@ int test_nc_put_varm_double(void) {
 #endif
       ELSE_NOK
       start[j] = var_shape[i][j] + 1; /* out of boundary check */
-      err      = nc_put_varm_double(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_double(ncid, i, start, edge, stride, imap, value);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -11694,13 +11694,13 @@ int test_nc_put_varm_double(void) {
       for (j = 0; j < var_rank[i]; j++) {
         if ((k >> j) & 1) {
           start[j] = 0;
-          edge[j]  = mid[j];
+          edge[j] = mid[j];
         } else {
           start[j] = mid[j];
-          edge[j]  = var_shape[i][j] - mid[j];
+          edge[j] = var_shape[i][j] - mid[j];
         }
         sstride[j] = edge[j] > 0 ? 1 + roll(edge[j]) : 1;
-        stride[j]  = (ptrdiff_t)sstride[j];
+        stride[j] = (ptrdiff_t)sstride[j];
         nstarts *= stride[j];
       }
       for (m = 0; m < nstarts; m++) {
@@ -11723,7 +11723,7 @@ int test_nc_put_varm_double(void) {
                 }
 */
         if (var_rank[i] > 0) {
-          int jj   = var_rank[i] - 1;
+          int jj = var_rank[i] - 1;
           imap[jj] = 1;
           for (; jj > 0; jj--)
             imap[jj - 1] = imap[jj] * (ptrdiff_t)count[jj];
@@ -11832,10 +11832,10 @@ int test_nc_put_varm_ushort(void) {
     canConvert = (var_type[i] == NC_CHAR) == (NCT_USHORT == NCT_TEXT);
 
     for (j = 0; j < var_rank[i]; j++) {
-      start[j]  = 0;
-      edge[j]   = 1;
+      start[j] = 0;
+      edge[j] = 1;
       stride[j] = 1;
-      imap[j]   = 1;
+      imap[j] = 1;
     }
 
 
@@ -11843,7 +11843,7 @@ int test_nc_put_varm_ushort(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];              /* out of boundary check */
-      err      = nc_put_varm_ushort(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_ushort(ncid, i, start, edge, stride, imap, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -11855,14 +11855,14 @@ int test_nc_put_varm_ushort(void) {
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
       start[j] = 0;
-      edge[j]  = var_shape[i][j] + 1;
-      err      = nc_put_varm_ushort(ncid, i, start, edge, stride, imap, value);
+      edge[j] = var_shape[i][j] + 1;
+      err = nc_put_varm_ushort(ncid, i, start, edge, stride, imap, value);
       IF(err != NC_EEDGE)
       error("expecting NC_EEDGE but got %s", nc_err_code_name(err));
       ELSE_NOK
-      edge[j]   = 1;
+      edge[j] = 1;
       stride[j] = 0;
-      err       = nc_put_varm_ushort(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_ushort(ncid, i, start, edge, stride, imap, value);
       IF(err != NC_ESTRIDE)
       error("expecting NC_ESTRIDE but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -11875,7 +11875,7 @@ int test_nc_put_varm_ushort(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_varm_ushort(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_ushort(ncid, i, start, edge, stride, imap, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -11892,7 +11892,7 @@ int test_nc_put_varm_ushort(void) {
 #endif
       ELSE_NOK
       start[j] = var_shape[i][j] + 1; /* out of boundary check */
-      err      = nc_put_varm_ushort(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_ushort(ncid, i, start, edge, stride, imap, value);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -11915,13 +11915,13 @@ int test_nc_put_varm_ushort(void) {
       for (j = 0; j < var_rank[i]; j++) {
         if ((k >> j) & 1) {
           start[j] = 0;
-          edge[j]  = mid[j];
+          edge[j] = mid[j];
         } else {
           start[j] = mid[j];
-          edge[j]  = var_shape[i][j] - mid[j];
+          edge[j] = var_shape[i][j] - mid[j];
         }
         sstride[j] = edge[j] > 0 ? 1 + roll(edge[j]) : 1;
-        stride[j]  = (ptrdiff_t)sstride[j];
+        stride[j] = (ptrdiff_t)sstride[j];
         nstarts *= stride[j];
       }
       for (m = 0; m < nstarts; m++) {
@@ -11944,7 +11944,7 @@ int test_nc_put_varm_ushort(void) {
                 }
 */
         if (var_rank[i] > 0) {
-          int jj   = var_rank[i] - 1;
+          int jj = var_rank[i] - 1;
           imap[jj] = 1;
           for (; jj > 0; jj--)
             imap[jj - 1] = imap[jj] * (ptrdiff_t)count[jj];
@@ -12053,10 +12053,10 @@ int test_nc_put_varm_uint(void) {
     canConvert = (var_type[i] == NC_CHAR) == (NCT_UINT == NCT_TEXT);
 
     for (j = 0; j < var_rank[i]; j++) {
-      start[j]  = 0;
-      edge[j]   = 1;
+      start[j] = 0;
+      edge[j] = 1;
       stride[j] = 1;
-      imap[j]   = 1;
+      imap[j] = 1;
     }
 
 
@@ -12064,7 +12064,7 @@ int test_nc_put_varm_uint(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];              /* out of boundary check */
-      err      = nc_put_varm_uint(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_uint(ncid, i, start, edge, stride, imap, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -12076,14 +12076,14 @@ int test_nc_put_varm_uint(void) {
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
       start[j] = 0;
-      edge[j]  = var_shape[i][j] + 1;
-      err      = nc_put_varm_uint(ncid, i, start, edge, stride, imap, value);
+      edge[j] = var_shape[i][j] + 1;
+      err = nc_put_varm_uint(ncid, i, start, edge, stride, imap, value);
       IF(err != NC_EEDGE)
       error("expecting NC_EEDGE but got %s", nc_err_code_name(err));
       ELSE_NOK
-      edge[j]   = 1;
+      edge[j] = 1;
       stride[j] = 0;
-      err       = nc_put_varm_uint(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_uint(ncid, i, start, edge, stride, imap, value);
       IF(err != NC_ESTRIDE)
       error("expecting NC_ESTRIDE but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -12096,7 +12096,7 @@ int test_nc_put_varm_uint(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_varm_uint(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_uint(ncid, i, start, edge, stride, imap, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -12113,7 +12113,7 @@ int test_nc_put_varm_uint(void) {
 #endif
       ELSE_NOK
       start[j] = var_shape[i][j] + 1; /* out of boundary check */
-      err      = nc_put_varm_uint(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_uint(ncid, i, start, edge, stride, imap, value);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -12136,13 +12136,13 @@ int test_nc_put_varm_uint(void) {
       for (j = 0; j < var_rank[i]; j++) {
         if ((k >> j) & 1) {
           start[j] = 0;
-          edge[j]  = mid[j];
+          edge[j] = mid[j];
         } else {
           start[j] = mid[j];
-          edge[j]  = var_shape[i][j] - mid[j];
+          edge[j] = var_shape[i][j] - mid[j];
         }
         sstride[j] = edge[j] > 0 ? 1 + roll(edge[j]) : 1;
-        stride[j]  = (ptrdiff_t)sstride[j];
+        stride[j] = (ptrdiff_t)sstride[j];
         nstarts *= stride[j];
       }
       for (m = 0; m < nstarts; m++) {
@@ -12165,7 +12165,7 @@ int test_nc_put_varm_uint(void) {
                 }
 */
         if (var_rank[i] > 0) {
-          int jj   = var_rank[i] - 1;
+          int jj = var_rank[i] - 1;
           imap[jj] = 1;
           for (; jj > 0; jj--)
             imap[jj - 1] = imap[jj] * (ptrdiff_t)count[jj];
@@ -12274,10 +12274,10 @@ int test_nc_put_varm_longlong(void) {
     canConvert = (var_type[i] == NC_CHAR) == (NCT_LONGLONG == NCT_TEXT);
 
     for (j = 0; j < var_rank[i]; j++) {
-      start[j]  = 0;
-      edge[j]   = 1;
+      start[j] = 0;
+      edge[j] = 1;
       stride[j] = 1;
-      imap[j]   = 1;
+      imap[j] = 1;
     }
 
 
@@ -12285,7 +12285,7 @@ int test_nc_put_varm_longlong(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];              /* out of boundary check */
-      err      = nc_put_varm_longlong(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_longlong(ncid, i, start, edge, stride, imap, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -12297,14 +12297,14 @@ int test_nc_put_varm_longlong(void) {
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
       start[j] = 0;
-      edge[j]  = var_shape[i][j] + 1;
-      err      = nc_put_varm_longlong(ncid, i, start, edge, stride, imap, value);
+      edge[j] = var_shape[i][j] + 1;
+      err = nc_put_varm_longlong(ncid, i, start, edge, stride, imap, value);
       IF(err != NC_EEDGE)
       error("expecting NC_EEDGE but got %s", nc_err_code_name(err));
       ELSE_NOK
-      edge[j]   = 1;
+      edge[j] = 1;
       stride[j] = 0;
-      err       = nc_put_varm_longlong(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_longlong(ncid, i, start, edge, stride, imap, value);
       IF(err != NC_ESTRIDE)
       error("expecting NC_ESTRIDE but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -12317,7 +12317,7 @@ int test_nc_put_varm_longlong(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_varm_longlong(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_longlong(ncid, i, start, edge, stride, imap, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -12334,7 +12334,7 @@ int test_nc_put_varm_longlong(void) {
 #endif
       ELSE_NOK
       start[j] = var_shape[i][j] + 1; /* out of boundary check */
-      err      = nc_put_varm_longlong(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_longlong(ncid, i, start, edge, stride, imap, value);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -12357,13 +12357,13 @@ int test_nc_put_varm_longlong(void) {
       for (j = 0; j < var_rank[i]; j++) {
         if ((k >> j) & 1) {
           start[j] = 0;
-          edge[j]  = mid[j];
+          edge[j] = mid[j];
         } else {
           start[j] = mid[j];
-          edge[j]  = var_shape[i][j] - mid[j];
+          edge[j] = var_shape[i][j] - mid[j];
         }
         sstride[j] = edge[j] > 0 ? 1 + roll(edge[j]) : 1;
-        stride[j]  = (ptrdiff_t)sstride[j];
+        stride[j] = (ptrdiff_t)sstride[j];
         nstarts *= stride[j];
       }
       for (m = 0; m < nstarts; m++) {
@@ -12386,7 +12386,7 @@ int test_nc_put_varm_longlong(void) {
                 }
 */
         if (var_rank[i] > 0) {
-          int jj   = var_rank[i] - 1;
+          int jj = var_rank[i] - 1;
           imap[jj] = 1;
           for (; jj > 0; jj--)
             imap[jj - 1] = imap[jj] * (ptrdiff_t)count[jj];
@@ -12495,10 +12495,10 @@ int test_nc_put_varm_ulonglong(void) {
     canConvert = (var_type[i] == NC_CHAR) == (NCT_ULONGLONG == NCT_TEXT);
 
     for (j = 0; j < var_rank[i]; j++) {
-      start[j]  = 0;
-      edge[j]   = 1;
+      start[j] = 0;
+      edge[j] = 1;
       stride[j] = 1;
-      imap[j]   = 1;
+      imap[j] = 1;
     }
 
 
@@ -12506,7 +12506,7 @@ int test_nc_put_varm_ulonglong(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];              /* out of boundary check */
-      err      = nc_put_varm_ulonglong(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_ulonglong(ncid, i, start, edge, stride, imap, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -12518,14 +12518,14 @@ int test_nc_put_varm_ulonglong(void) {
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
       start[j] = 0;
-      edge[j]  = var_shape[i][j] + 1;
-      err      = nc_put_varm_ulonglong(ncid, i, start, edge, stride, imap, value);
+      edge[j] = var_shape[i][j] + 1;
+      err = nc_put_varm_ulonglong(ncid, i, start, edge, stride, imap, value);
       IF(err != NC_EEDGE)
       error("expecting NC_EEDGE but got %s", nc_err_code_name(err));
       ELSE_NOK
-      edge[j]   = 1;
+      edge[j] = 1;
       stride[j] = 0;
-      err       = nc_put_varm_ulonglong(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_ulonglong(ncid, i, start, edge, stride, imap, value);
       IF(err != NC_ESTRIDE)
       error("expecting NC_ESTRIDE but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -12538,7 +12538,7 @@ int test_nc_put_varm_ulonglong(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_varm_ulonglong(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_ulonglong(ncid, i, start, edge, stride, imap, value);
       if (!canConvert) {
         IF(err != NC_ECHAR)
         error("expecting NC_ECHAR but got %s", nc_err_code_name(err));
@@ -12555,7 +12555,7 @@ int test_nc_put_varm_ulonglong(void) {
 #endif
       ELSE_NOK
       start[j] = var_shape[i][j] + 1; /* out of boundary check */
-      err      = nc_put_varm_ulonglong(ncid, i, start, edge, stride, imap, value);
+      err = nc_put_varm_ulonglong(ncid, i, start, edge, stride, imap, value);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -12578,13 +12578,13 @@ int test_nc_put_varm_ulonglong(void) {
       for (j = 0; j < var_rank[i]; j++) {
         if ((k >> j) & 1) {
           start[j] = 0;
-          edge[j]  = mid[j];
+          edge[j] = mid[j];
         } else {
           start[j] = mid[j];
-          edge[j]  = var_shape[i][j] - mid[j];
+          edge[j] = var_shape[i][j] - mid[j];
         }
         sstride[j] = edge[j] > 0 ? 1 + roll(edge[j]) : 1;
-        stride[j]  = (ptrdiff_t)sstride[j];
+        stride[j] = (ptrdiff_t)sstride[j];
         nstarts *= stride[j];
       }
       for (m = 0; m < nstarts; m++) {
@@ -12607,7 +12607,7 @@ int test_nc_put_varm_ulonglong(void) {
                 }
 */
         if (var_rank[i] > 0) {
-          int jj   = var_rank[i] - 1;
+          int jj = var_rank[i] - 1;
           imap[jj] = 1;
           for (; jj > 0; jj--)
             imap[jj - 1] = imap[jj] * (ptrdiff_t)count[jj];
@@ -12689,7 +12689,7 @@ int test_nc_put_att_text(void) {
 
   {
     const char *const tval = "value for bad name";
-    const size_t tval_len  = (size_t)strlen(tval);
+    const size_t tval_len = (size_t)strlen(tval);
 
     err = nc_put_att_text(ncid, 0, "", tval_len, tval);
     IF(err != NC_EBADNAME)
@@ -12707,8 +12707,8 @@ int test_nc_put_att_text(void) {
         ELSE_NOK
 
         for (k = 0; k < ATT_LEN(i, j); k++) {
-          ndx[0]   = k;
-          dtmp     = hash(ATT_TYPE(i, j), -1, ndx);
+          ndx[0] = k;
+          dtmp = hash(ATT_TYPE(i, j), -1, ndx);
           value[k] = (text)dtmp;
         }
         err = nc_put_att_text(ncid, i, ATT_NAME(i, j), ATT_LEN(i, j), value);
@@ -12784,7 +12784,7 @@ int test_nc_put_att_uchar(void) {
         ELSE_NOK
 
         for (allInExtRange = 1, k = 0; k < ATT_LEN(i, j); k++) {
-          ndx[0]   = k;
+          ndx[0] = k;
           value[k] = hash_uchar(cdf_format, ATT_TYPE(i, j), -1, ndx, NCT_UCHAR);
 
           allInExtRange &= inRange3(cdf_format, (double)value[k], ATT_TYPE(i, j), NCT_UCHAR);
@@ -12871,7 +12871,7 @@ int test_nc_put_att_schar(void) {
         ELSE_NOK
 
         for (allInExtRange = 1, k = 0; k < ATT_LEN(i, j); k++) {
-          ndx[0]   = k;
+          ndx[0] = k;
           value[k] = hash_schar(cdf_format, ATT_TYPE(i, j), -1, ndx, NCT_SCHAR);
 
           allInExtRange &= inRange3(cdf_format, (double)value[k], ATT_TYPE(i, j), NCT_SCHAR);
@@ -12959,7 +12959,7 @@ int test_nc_put_att_short(void) {
         ELSE_NOK
 
         for (allInExtRange = 1, k = 0; k < ATT_LEN(i, j); k++) {
-          ndx[0]   = k;
+          ndx[0] = k;
           value[k] = hash_short(cdf_format, ATT_TYPE(i, j), -1, ndx, NCT_SHORT);
 
           allInExtRange &= inRange3(cdf_format, (double)value[k], ATT_TYPE(i, j), NCT_SHORT);
@@ -13044,7 +13044,7 @@ int test_nc_put_att_int(void) {
         ELSE_NOK
 
         for (allInExtRange = 1, k = 0; k < ATT_LEN(i, j); k++) {
-          ndx[0]   = k;
+          ndx[0] = k;
           value[k] = hash_int(cdf_format, ATT_TYPE(i, j), -1, ndx, NCT_INT);
 
           allInExtRange &= inRange3(cdf_format, (double)value[k], ATT_TYPE(i, j), NCT_INT);
@@ -13129,7 +13129,7 @@ int test_nc_put_att_long(void) {
         ELSE_NOK
 
         for (allInExtRange = 1, k = 0; k < ATT_LEN(i, j); k++) {
-          ndx[0]   = k;
+          ndx[0] = k;
           value[k] = hash_long(cdf_format, ATT_TYPE(i, j), -1, ndx, NCT_LONG);
 
           allInExtRange &= inRange3(cdf_format, (double)value[k], ATT_TYPE(i, j), NCT_LONG);
@@ -13214,7 +13214,7 @@ int test_nc_put_att_float(void) {
         ELSE_NOK
 
         for (allInExtRange = 1, k = 0; k < ATT_LEN(i, j); k++) {
-          ndx[0]   = k;
+          ndx[0] = k;
           value[k] = hash_float(cdf_format, ATT_TYPE(i, j), -1, ndx, NCT_FLOAT);
 
           allInExtRange &= inRange3(cdf_format, (double)value[k], ATT_TYPE(i, j), NCT_FLOAT);
@@ -13299,7 +13299,7 @@ int test_nc_put_att_double(void) {
         ELSE_NOK
 
         for (allInExtRange = 1, k = 0; k < ATT_LEN(i, j); k++) {
-          ndx[0]   = k;
+          ndx[0] = k;
           value[k] = hash_double(cdf_format, ATT_TYPE(i, j), -1, ndx, NCT_DOUBLE);
 
           allInExtRange &= inRange3(cdf_format, (double)value[k], ATT_TYPE(i, j), NCT_DOUBLE);
@@ -13384,7 +13384,7 @@ int test_nc_put_att_ushort(void) {
         ELSE_NOK
 
         for (allInExtRange = 1, k = 0; k < ATT_LEN(i, j); k++) {
-          ndx[0]   = k;
+          ndx[0] = k;
           value[k] = hash_ushort(cdf_format, ATT_TYPE(i, j), -1, ndx, NCT_USHORT);
 
           allInExtRange &= inRange3(cdf_format, (double)value[k], ATT_TYPE(i, j), NCT_USHORT);
@@ -13469,7 +13469,7 @@ int test_nc_put_att_uint(void) {
         ELSE_NOK
 
         for (allInExtRange = 1, k = 0; k < ATT_LEN(i, j); k++) {
-          ndx[0]   = k;
+          ndx[0] = k;
           value[k] = hash_uint(cdf_format, ATT_TYPE(i, j), -1, ndx, NCT_UINT);
 
           allInExtRange &= inRange3(cdf_format, (double)value[k], ATT_TYPE(i, j), NCT_UINT);
@@ -13554,7 +13554,7 @@ int test_nc_put_att_longlong(void) {
         ELSE_NOK
 
         for (allInExtRange = 1, k = 0; k < ATT_LEN(i, j); k++) {
-          ndx[0]   = k;
+          ndx[0] = k;
           value[k] = hash_longlong(cdf_format, ATT_TYPE(i, j), -1, ndx, NCT_LONGLONG);
 
           allInExtRange &= inRange3(cdf_format, (double)value[k], ATT_TYPE(i, j), NCT_LONGLONG);
@@ -13639,7 +13639,7 @@ int test_nc_put_att_ulonglong(void) {
         ELSE_NOK
 
         for (allInExtRange = 1, k = 0; k < ATT_LEN(i, j); k++) {
-          ndx[0]   = k;
+          ndx[0] = k;
           value[k] = hash_ulonglong(cdf_format, ATT_TYPE(i, j), -1, ndx, NCT_ULONGLONG);
 
           allInExtRange &= inRange3(cdf_format, (double)value[k], ATT_TYPE(i, j), NCT_ULONGLONG);

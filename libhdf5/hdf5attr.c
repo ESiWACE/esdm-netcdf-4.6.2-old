@@ -84,7 +84,7 @@ int NC4_rename_att(int ncid, int varid, const char *name, const char *newname) {
   NCindex *list;
   char norm_newname[NC_MAX_NAME + 1], norm_name[NC_MAX_NAME + 1];
   hid_t datasetid = 0;
-  int retval      = NC_NOERR;
+  int retval = NC_NOERR;
 
   if (!name || !newname)
     return NC_EINVAL;
@@ -190,7 +190,7 @@ int NC4_del_att(int ncid, int varid, const char *name) {
   NC_FILE_INFO_T *h5;
   NC_ATT_INFO_T *att;
   NCindex *attlist = NULL;
-  hid_t locid      = 0;
+  hid_t locid = 0;
   int i;
   size_t deletedid;
   int retval;
@@ -320,7 +320,7 @@ size_t len, const void *data, nc_type mem_type, int force) {
   NC *nc;
   NC_FILE_INFO_T *h5;
   NC_VAR_INFO_T *var = NULL;
-  NCindex *attlist   = NULL;
+  NCindex *attlist = NULL;
   NC_ATT_INFO_T *att;
   char norm_name[NC_MAX_NAME + 1];
   nc_bool_t new_att = NC_FALSE;
@@ -433,7 +433,7 @@ size_t len, const void *data, nc_type mem_type, int force) {
   }
 
   /* Now fill in the metadata. */
-  att->dirty     = NC_TRUE;
+  att->dirty = NC_TRUE;
   att->nc_typeid = file_type;
 
   /* If this att has vlen or string data, release it before we lose the length value. */
@@ -606,7 +606,7 @@ size_t len, const void *data, nc_type mem_type, int force) {
       }
     }
   }
-  att->dirty   = NC_TRUE;
+  att->dirty = NC_TRUE;
   att->created = NC_FALSE;
 
   /* Mark attributes on variable dirty, so they get written */

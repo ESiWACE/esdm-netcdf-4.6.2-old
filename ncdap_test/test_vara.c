@@ -125,9 +125,9 @@ fail:
 }
 
 static int check(size_t *start, size_t *count) {
-  int ok          = 1;
-  Odom *odom      = odom_create(RANK);
-  float *result   = (float *)threeD;
+  int ok = 1;
+  Odom *odom = odom_create(RANK);
+  float *result = (float *)threeD;
   float *expected = (float *)threeD;
   odom_set(odom, start, count);
   while (odom_more(odom)) {
@@ -146,9 +146,9 @@ static int check(size_t *start, size_t *count) {
 static Odom *odom_create(int rank) {
   Odom *odom = (Odom *)malloc(sizeof(Odom));
   /* Init the odometer */
-  odom->rank  = rank;
+  odom->rank = rank;
   odom->index = (size_t *)calloc(sizeof(size_t) * rank, 1);
-  odom->stop  = (size_t *)calloc(sizeof(size_t) * rank, 1);
+  odom->stop = (size_t *)calloc(sizeof(size_t) * rank, 1);
   odom->start = (size_t *)calloc(sizeof(size_t) * rank, 1);
   odom->count = (size_t *)calloc(sizeof(size_t) * rank, 1);
   return odom;
@@ -172,7 +172,7 @@ static void odom_set(Odom *odom, size_t *start, size_t *count) {
   }
   for (i = 0; i < odom->rank; i++) {
     odom->index[i] = odom->start[i];
-    odom->stop[i]  = odom->start[i] + odom->count[i];
+    odom->stop[i] = odom->start[i] + odom->count[i];
   }
 }
 

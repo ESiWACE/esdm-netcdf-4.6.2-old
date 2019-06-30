@@ -151,7 +151,7 @@ int xxdr_opaque(XXDR *xdr, char *mem, off_t count) {
   off_t pos, rounded;
   if (!xdr->getbytes(xdr, mem, count))
     return 0;
-  pos     = xxdr_getpos(xdr);
+  pos = xxdr_getpos(xdr);
   rounded = RNDUP(pos);
   return xxdr_skip(xdr, (rounded - pos));
 }
@@ -229,10 +229,10 @@ xxdr_roundup(off_t n) {
 unsigned int
 ocbyteswap(unsigned int i) {
   unsigned int swap, b0, b1, b2, b3;
-  b0   = (i >> 24) & 0x000000ff;
-  b1   = (i >> 16) & 0x000000ff;
-  b2   = (i >> 8) & 0x000000ff;
-  b3   = (i)&0x000000ff;
+  b0 = (i >> 24) & 0x000000ff;
+  b1 = (i >> 16) & 0x000000ff;
+  b2 = (i >> 8) & 0x000000ff;
+  b3 = (i)&0x000000ff;
   swap = (b0 | (b1 << 8) | (b2 << 16) | (b3 << 24));
   return swap;
 }
@@ -297,7 +297,7 @@ xxdr_filesetpos(XXDR *xdrs, off_t pos) {
     ok = 0;
     goto done;
   }
-  xdrs->pos   = pos;
+  xdrs->pos = pos;
   xdrs->valid = 0;
 done:
   return ok;
@@ -319,9 +319,9 @@ XXDR *
 xxdr_filecreate(FILE *file, off_t base) {
   XXDR *xdrs = (XXDR *)calloc(1, sizeof(XXDR));
   if (xdrs != NULL) {
-    xdrs->data  = (void *)file;
-    xdrs->base  = base;
-    xdrs->pos   = 0;
+    xdrs->data = (void *)file;
+    xdrs->base = base;
+    xdrs->pos = 0;
     xdrs->valid = 0;
     if (fseek(file, 0L, SEEK_END)) {
       free(xdrs);
@@ -330,10 +330,10 @@ xxdr_filecreate(FILE *file, off_t base) {
     xdrs->length = (off_t)ftell(file);
     xdrs->length -= xdrs->base;
     xdrs->getbytes = xxdr_filegetbytes;
-    xdrs->setpos   = xxdr_filesetpos;
-    xdrs->getpos   = xxdr_filegetpos;
+    xdrs->setpos = xxdr_filesetpos;
+    xdrs->getpos = xxdr_filegetpos;
     xdrs->getavail = xxdr_filegetavail;
-    xdrs->free     = xxdr_filefree;
+    xdrs->free = xxdr_filefree;
   }
   xxdrtrace(xdrs, "create", base);
   return xdrs;
@@ -410,15 +410,15 @@ xxdr_memcreate(char *mem, off_t memsize, off_t base) {
   XXDR *xdrs = (XXDR *)calloc(1, sizeof(XXDR));
   if (xdrs != NULL) {
     /* zero base memory */
-    xdrs->data     = (void *)(mem + base);
-    xdrs->base     = 0;
-    xdrs->length   = memsize - base;
-    xdrs->pos      = 0;
+    xdrs->data = (void *)(mem + base);
+    xdrs->base = 0;
+    xdrs->length = memsize - base;
+    xdrs->pos = 0;
     xdrs->getbytes = xxdr_memgetbytes;
-    xdrs->setpos   = xxdr_memsetpos;
-    xdrs->getpos   = xxdr_memgetpos;
+    xdrs->setpos = xxdr_memsetpos;
+    xdrs->getpos = xxdr_memgetpos;
     xdrs->getavail = xxdr_memgetavail;
-    xdrs->free     = xxdr_memfree;
+    xdrs->free = xxdr_memfree;
   }
   xxdrtrace(xdrs, "create", base);
   return xdrs;
@@ -460,7 +460,7 @@ void xxdrntohdouble(char *c8, double *dp) {
     swapinline32(&ii[0]);
     swapinline32(&ii[1]);
     /* interchange ii[0] and ii[1] */
-    tmp   = ii[0];
+    tmp = ii[0];
     ii[0] = ii[1];
     ii[1] = tmp;
   }
@@ -469,9 +469,9 @@ void xxdrntohdouble(char *c8, double *dp) {
 
 void xxdr_init() {
   /* Compute if we are same as network order v-a-v xdr */
-  int testint        = 0x00000001;
-  char *byte         = (char *)&testint;
-  xxdr_big_endian    = (byte[0] == 0 ? 1 : 0);
+  int testint = 0x00000001;
+  char *byte = (char *)&testint;
+  xxdr_big_endian = (byte[0] == 0 ? 1 : 0);
   xxdr_network_order = xxdr_big_endian;
 #ifdef ENDIAN_VALIDATE
   /* validate using ntohl */

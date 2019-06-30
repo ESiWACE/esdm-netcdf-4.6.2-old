@@ -761,7 +761,7 @@ int main() {
   DECL(I, 64)
   DECL(U, 64)
 #  endif
-  intmax_t imax  = INTMAX_C(0);
+  intmax_t imax = INTMAX_C(0);
   uintmax_t umax = UINTMAX_C(0);
   char str0[256], str1[256];
 

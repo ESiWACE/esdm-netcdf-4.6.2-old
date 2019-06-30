@@ -27,7 +27,7 @@ nc4_timeval_subtract(result, x, y) struct timeval *result,
 
   /* Compute the time remaining to wait.
       `tv_usec' is certainly positive. */
-  result->tv_sec  = x->tv_sec - y->tv_sec;
+  result->tv_sec = x->tv_sec - y->tv_sec;
   result->tv_usec = x->tv_usec - y->tv_usec;
 
   /* Return 1 if result is negative. */

@@ -243,7 +243,7 @@ int main(int argc, char **argv) {
   MPI_Comm comm = MPI_COMM_WORLD;
   MPI_Info info = MPI_INFO_NULL;
   int mpi_size, mpi_rank;
-  int facc_type[NUM_FACC]                           = {NC_INDEPENDENT, NC_COLLECTIVE};
+  int facc_type[NUM_FACC] = {NC_INDEPENDENT, NC_COLLECTIVE};
   size_t chunk_size_2d[NUM_CHUNK_COMBOS_2D][NDIMS1] = {{0, 0},
   {DIMSIZE2, DIMSIZE1},
   {DIMSIZE2 / 2 + 1, DIMSIZE1 / 2}};
@@ -251,7 +251,7 @@ int main(int argc, char **argv) {
   {1, DIMSIZE3, DIMSIZE2, DIMSIZE1},
   {TIMELEN / 2, DIMSIZE3 / 2 + 1, DIMSIZE2 / 2 + 1, DIMSIZE1 / 2},
   {TIMELEN, DIMSIZE3, DIMSIZE2, DIMSIZE1}};
-  size_t cache_size[NUM_CACHE_SIZES]                = {MEGABYTE, 32 * MEGABYTE, 64 * MEGABYTE};
+  size_t cache_size[NUM_CACHE_SIZES] = {MEGABYTE, 32 * MEGABYTE, 64 * MEGABYTE};
   int f, c, i;
 
   /* Initialize MPI. */

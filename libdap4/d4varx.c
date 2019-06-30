@@ -35,7 +35,7 @@ void *memoryin, nc_type xtype) {
   nc_type nc4type;
   size_t nc4size, xsize;
   void *instance = NULL; /* Staging area in case we have to convert */
-  NClist *blobs  = NULL;
+  NClist *blobs = NULL;
   int rank;
   size_t dimsizes[NC_MAX_VAR_DIMS];
   d4size_t dimproduct;
@@ -46,10 +46,10 @@ void *memoryin, nc_type xtype) {
     goto done;
   }
 
-  meta   = info->substrate.metadata;
+  meta = info->substrate.metadata;
   nctype = ncvar->basetype;
-  rank   = nclistlength(ncvar->dims);
-  blobs  = nclistnew();
+  rank = nclistlength(ncvar->dims);
+  blobs = nclistnew();
 
   instance = malloc(nc4size);
   if (instance == NULL) {
@@ -61,7 +61,7 @@ void *memoryin, nc_type xtype) {
   /* build size vector */
   for (i = 0; i < rank; i++) {
     NCD4node *dim = nclistget(ncvar->dims, i);
-    dimsizes[i]   = (size_t)dim->dim.size;
+    dimsizes[i] = (size_t)dim->dim.size;
   }
 
   /* Extract and desired subset of data */
@@ -165,8 +165,8 @@ nc_type *xtypep, size_t *xsizep, nc_type *nc4typep, size_t *nc4sizep) {
   var = nclistget(group->group.varbyid, varid);
   if (var == NULL)
     return THROW(NC_EBADID);
-  type         = var->basetype;
-  actualtype   = type->meta.id;
+  type = var->basetype;
+  actualtype = type->meta.id;
   instancesize = type->meta.memsize;
 
   /* Figure out the type conversion, if any */

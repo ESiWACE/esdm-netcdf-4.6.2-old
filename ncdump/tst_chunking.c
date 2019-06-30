@@ -38,8 +38,8 @@ static const size_t dim_lens[VAR_RANK] = {7, 4, 2, 3, 5, 6, 9};
 
 int main(int argc, char **argv) {
   /* mutually exclusive command line options */
-  int option_group     = 0;
-  int option_deflate   = 0;
+  int option_group = 0;
+  int option_deflate = 0;
   int option_unlimited = 0;
   /* file metadata */
   int mode = NC_CLOBBER;
@@ -107,7 +107,7 @@ int main(int argc, char **argv) {
 
   /* Fill in the data */
   if (option_unlimited) {
-    int nvals       = UNLIM_SIZE * dim_lens[0];
+    int nvals = UNLIM_SIZE * dim_lens[0];
     size_t start[2] = {0, 0};
     size_t count[2];
     for (i = 0; i < nvals; i++) {

@@ -44,14 +44,14 @@ int main(int argc, char **argv) {
 
 #ifdef USE_MPE
   MPE_Init_log();
-  s_init   = MPE_Log_get_event_number();
-  e_init   = MPE_Log_get_event_number();
+  s_init = MPE_Log_get_event_number();
+  e_init = MPE_Log_get_event_number();
   s_define = MPE_Log_get_event_number();
   e_define = MPE_Log_get_event_number();
-  s_write  = MPE_Log_get_event_number();
-  e_write  = MPE_Log_get_event_number();
-  s_close  = MPE_Log_get_event_number();
-  e_close  = MPE_Log_get_event_number();
+  s_write = MPE_Log_get_event_number();
+  e_write = MPE_Log_get_event_number();
+  s_close = MPE_Log_get_event_number();
+  e_close = MPE_Log_get_event_number();
   MPE_Describe_state(s_init, e_init, "Init", "red");
   MPE_Describe_state(s_define, e_define, "Define", "yellow");
   MPE_Describe_state(s_write, e_write, "Write", "green");
@@ -115,7 +115,7 @@ int main(int argc, char **argv) {
 #endif /* USE_MPE */
 
     /* Write the data in num_step steps. */
-    ftime     = MPI_Wtime();
+    ftime = MPI_Wtime();
     num_steps = (DIM2_LEN / SC1) / p;
     for (s = 0; s < num_steps; s++) {
 #ifdef USE_MPE

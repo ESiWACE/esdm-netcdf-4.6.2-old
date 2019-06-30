@@ -21,9 +21,9 @@ dapodom_fromsegment(DCEsegment *segment, size_t startindex, size_t stopindex) {
   MEMCHECK(odom, NULL);
   odom->rank = (stopindex - startindex);
   for (i = 0; i < odom->rank; i++) {
-    odom->start[i]  = segment->slices[i + startindex].first;
+    odom->start[i] = segment->slices[i + startindex].first;
     odom->stride[i] = segment->slices[i + startindex].stride;
-    odom->stop[i]   = (segment->slices[i + startindex].last + 1);
+    odom->stop[i] = (segment->slices[i + startindex].last + 1);
     /* should the above line be instead?
  	odom->stop[i] = odom->start[i] + (odom->count[i]*odom->stride[i]);
 	*/
@@ -31,7 +31,7 @@ dapodom_fromsegment(DCEsegment *segment, size_t startindex, size_t stopindex) {
 	odom->count[i] = segment->slices[i+startindex].count;
 #endif
     odom->declsize[i] = segment->slices[i + startindex].declsize;
-    odom->index[i]    = odom->start[i];
+    odom->index[i] = odom->start[i];
   }
   return odom;
 }
@@ -48,16 +48,16 @@ const ptrdiff_t *stride, const size_t *size) {
   for (i = 0; i < odom->rank; i++) {
     size_t istart, icount, istop, ideclsize;
     ptrdiff_t istride;
-    istart            = (start != NULL ? start[i] : 0);
-    icount            = (count != NULL ? count[i] : (size != NULL ? size[i] : 1));
-    istride           = (size_t)(stride != NULL ? stride[i] : 1);
-    istop             = istart + icount * istride;
-    ideclsize         = (size != NULL ? size[i] : (istop - istart));
-    odom->start[i]    = istart;
-    odom->stop[i]     = istop;
-    odom->stride[i]   = istride;
+    istart = (start != NULL ? start[i] : 0);
+    icount = (count != NULL ? count[i] : (size != NULL ? size[i] : 1));
+    istride = (size_t)(stride != NULL ? stride[i] : 1);
+    istop = istart + icount * istride;
+    ideclsize = (size != NULL ? size[i] : (istop - istart));
+    odom->start[i] = istart;
+    odom->stop[i] = istop;
+    odom->stride[i] = istride;
     odom->declsize[i] = ideclsize;
-    odom->index[i]    = odom->start[i];
+    odom->index[i] = odom->start[i];
   }
   return odom;
 }

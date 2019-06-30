@@ -19,7 +19,7 @@ static struct {
 int dimmap_init(size_t n) {
   int stat = NC_NOERR;
   int i;
-  dimmap.ndims   = n;
+  dimmap.ndims = n;
   dimmap.odimids = emalloc(n * sizeof(int));
   dimmap.idimids = emalloc(n * sizeof(int));
   dimmap.ounlims = emalloc(n * sizeof(int));
@@ -36,7 +36,7 @@ int dimmap_init(size_t n) {
 /* store association between an input dimid and an output dimid, which
  * should be ints between 0 and ndims-1, inclusive */
 int dimmap_store(int idimid, int odimid, int iunlim, int ounlim) {
-  int stat               = NC_NOERR;
+  int stat = NC_NOERR;
   dimmap.odimids[idimid] = odimid; /* used to map input dimids to output dimids */
   dimmap.idimids[odimid] = idimid; /* used to map output dimids to input dimids */
   dimmap.ounlims[odimid] = ounlim;

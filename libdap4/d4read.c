@@ -28,7 +28,7 @@ deltatime() {
 #endif
 
 int NCD4_readDMR(NCD4INFO *state) {
-  int stat          = NC_NOERR;
+  int stat = NC_NOERR;
   long lastmodified = -1;
 
   stat = readpacket(state, state->uri, state->curl->packet, NCD4_DMR, &lastmodified);
@@ -38,7 +38,7 @@ int NCD4_readDMR(NCD4INFO *state) {
 }
 
 int NCD4_readDAP(NCD4INFO *state, int flags) {
-  int stat     = NC_NOERR;
+  int stat = NC_NOERR;
   long lastmod = -1;
 
   if ((flags & NCF_ONDISK) == 0) {
@@ -46,13 +46,13 @@ int NCD4_readDAP(NCD4INFO *state, int flags) {
     if (stat == NC_NOERR)
       state->data.daplastmodified = lastmod;
   } else { /*((flags & NCF_ONDISK) != 0) */
-    NCURI *url       = state->uri;
+    NCURI *url = state->uri;
     int fileprotocol = (strcmp(url->protocol, "file") == 0);
     if (fileprotocol) {
       stat = readfiletofile(state, url, ".dap", state->data.ondiskfile, &state->data.datasize);
     } else {
       char *readurl = NULL;
-      int flags     = 0;
+      int flags = 0;
       if (!fileprotocol) flags |= NCURIQUERY;
       flags |= NCURIENCODE;
       flags |= NCURIPWD;
@@ -84,10 +84,10 @@ dxxextension(int dxx) {
 
 static int
 readpacket(NCD4INFO *state, NCURI *url, NCbytes *packet, NCD4mode dxx, long *lastmodified) {
-  int stat           = NC_NOERR;
-  int fileprotocol   = 0;
+  int stat = NC_NOERR;
+  int fileprotocol = 0;
   const char *suffix = dxxextension(dxx);
-  CURL *curl         = state->curl->curl;
+  CURL *curl = state->curl->curl;
 
   fileprotocol = (strcmp(url->protocol, "file") == 0);
 
@@ -97,7 +97,7 @@ readpacket(NCD4INFO *state, NCURI *url, NCbytes *packet, NCD4mode dxx, long *las
     stat = readfile(state, url, suffix, packet);
   } else {
     char *fetchurl = NULL;
-    int flags      = NCURIBASE;
+    int flags = NCURIBASE;
     if (!fileprotocol) flags |= NCURIQUERY;
     flags |= NCURIENCODE;
     fetchurl = ncuribuild(url, NULL, suffix, flags);
@@ -132,7 +132,7 @@ fail:
 
 static int
 readfiletofile(NCD4INFO *state, const NCURI *uri, const char *suffix, FILE *stream, d4size_t *sizep) {
-  int stat        = NC_NOERR;
+  int stat = NC_NOERR;
   NCbytes *packet = ncbytesnew();
   size_t len;
   stat = readfile(state, uri, suffix, packet);
@@ -162,8 +162,8 @@ unwind:
 
 static int
 readfile(NCD4INFO *state, const NCURI *uri, const char *suffix, NCbytes *packet) {
-  int stat       = NC_NOERR;
-  NCbytes *tmp   = ncbytesnew();
+  int stat = NC_NOERR;
+  NCbytes *tmp = ncbytesnew();
   char *filename = NULL;
 
   ncbytescat(tmp, uri->path);

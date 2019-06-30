@@ -34,9 +34,9 @@ Set a specific curl flag; primary wrapper for curl_easy_setopt
 */
 OCerror
 ocset_curlopt(OCstate *state, int flag, void *value) {
-  OCerror stat   = OC_NOERR;
+  OCerror stat = OC_NOERR;
   CURLcode cstat = CURLE_OK;
-  cstat          = OCCURLERR(state, curl_easy_setopt(state->curl, flag, value));
+  cstat = OCCURLERR(state, curl_easy_setopt(state->curl, flag, value));
   if (cstat != CURLE_OK)
     stat = OC_ECURL;
   return stat;

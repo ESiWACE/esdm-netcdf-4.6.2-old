@@ -19,7 +19,7 @@
 
 typedef int bool_t;
 enum { false = 0,
-  true       = 1 };
+  true = 1 };
 
 struct safebuf_t;
 /* Buffer structure for implementing growable strings, used in

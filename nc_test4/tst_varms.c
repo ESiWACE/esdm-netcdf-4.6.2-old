@@ -71,8 +71,8 @@ int main(int argc, char **argv) {
     start[0] = start[1] = 0;
     count[0] = count[1] = 2;
     stride[0] = stride[1] = 1;
-    map[0]                = 1;
-    map[1]                = 2;
+    map[0] = 1;
+    map[1] = 2;
     if (nc_get_varm_int(ncid, varid, start, count, stride, map,
         (int *)data_2d_in)) ERR;
     for (i = 0; i < 2; i++)
@@ -125,11 +125,11 @@ int main(int argc, char **argv) {
 
     /* Get a transpose of the array. */
     start[0] = start[1] = 0;
-    count[0]            = DIM1_LEN;
-    count[1]            = DIM2_LEN;
+    count[0] = DIM1_LEN;
+    count[1] = DIM2_LEN;
     stride[0] = stride[1] = 1;
-    map[0]                = 1;
-    map[1]                = 2;
+    map[0] = 1;
+    map[1] = 2;
     if (nc_get_varm_int(ncid, varid, start, count, stride, map,
         (int *)data_in_t)) ERR;
     for (i = 0; i < DIM1_LEN; i++)
@@ -220,7 +220,7 @@ int main(int argc, char **argv) {
     /* Phoney data. */
     for (i = 0; i < 4; i++)
       for (j = 0; j < 6; j++) {
-        data[i][j]    = k;
+        data[i][j] = k;
         data_in[j][i] = k;
         k++;
       }

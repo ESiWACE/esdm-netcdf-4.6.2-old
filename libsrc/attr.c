@@ -74,7 +74,7 @@ nc_type type,
 size_t nelems) {
   NC_attr *attrp;
   const size_t xsz = ncx_len_NC_attrV(type, nelems);
-  size_t sz        = M_RNDUP(sizeof(NC_attr));
+  size_t sz = M_RNDUP(sizeof(NC_attr));
 
   assert(!(xsz == 0 && nelems != 0));
 
@@ -86,8 +86,8 @@ size_t nelems) {
 
   attrp->xsz = xsz;
 
-  attrp->name   = strp;
-  attrp->type   = type;
+  attrp->name = strp;
+  attrp->type = type;
   attrp->nelems = nelems;
   if (xsz != 0)
     attrp->xvalue = (char *)attrp + M_RNDUP(sizeof(NC_attr));
@@ -108,9 +108,9 @@ const char *uname,
 nc_type type,
 size_t nelems) {
   NC_string *strp = NULL;
-  NC_attr *attrp  = NULL;
-  char *name      = NULL;
-  int stat        = NC_NOERR;
+  NC_attr *attrp = NULL;
+  char *name = NULL;
+  int stat = NC_NOERR;
 
   stat = nc_utf8_normalize((const unsigned char *)uname, (unsigned char **)&name);
   if (stat != NC_NOERR)
@@ -158,7 +158,7 @@ void free_NC_attrarrayV0(NC_attrarray *ncap) {
   assert(ncap->value != NULL);
 
   {
-    NC_attr **app             = ncap->value;
+    NC_attr **app = ncap->value;
     NC_attr *const *const end = &app[ncap->nelems];
     for (/*NADA*/; app < end; app++) {
       free_NC_attr(*app);
@@ -185,7 +185,7 @@ void free_NC_attrarrayV(NC_attrarray *ncap) {
   free_NC_attrarrayV0(ncap);
 
   free(ncap->value);
-  ncap->value  = NULL;
+  ncap->value = NULL;
   ncap->nalloc = 0;
 }
 
@@ -198,7 +198,7 @@ int dup_NC_attrarrayV(NC_attrarray *ncap, const NC_attrarray *ref) {
 
   if (ref->nelems != 0) {
     const size_t sz = ref->nelems * sizeof(NC_attr *);
-    ncap->value     = (NC_attr **)malloc(sz);
+    ncap->value = (NC_attr **)malloc(sz);
     if (ncap->value == NULL)
       return NC_ENOMEM;
 
@@ -208,8 +208,8 @@ int dup_NC_attrarrayV(NC_attrarray *ncap, const NC_attrarray *ref) {
 
   ncap->nelems = 0;
   {
-    NC_attr **app             = ncap->value;
-    const NC_attr **drpp      = (const NC_attr **)ref->value;
+    NC_attr **app = ncap->value;
+    const NC_attr **drpp = (const NC_attr **)ref->value;
     NC_attr *const *const end = &app[ref->nelems];
     for (/*NADA*/; app < end; drpp++, app++, ncap->nelems++) {
       *app = dup_NC_attr(*drpp);
@@ -248,7 +248,7 @@ incr_NC_attrarray(NC_attrarray *ncap, NC_attr *newelemp) {
     if (vp == NULL)
       return NC_ENOMEM;
 
-    ncap->value  = vp;
+    ncap->value = vp;
     ncap->nalloc = NC_ARRAY_GROWBY;
   } else if (ncap->nelems + 1 > ncap->nalloc) {
     vp = (NC_attr **)realloc(ncap->value,
@@ -315,7 +315,7 @@ NC_findattr(const NC_attrarray *ncap, const char *uname) {
   size_t attrid;
   size_t slen;
   char *name = NULL;
-  int stat   = NC_NOERR;
+  int stat = NC_NOERR;
 
   assert(ncap != NULL);
 
@@ -455,12 +455,12 @@ size_t *lenp) {
 
 
 int NC3_rename_att(int ncid, int varid, const char *name, const char *unewname) {
-  int status         = NC_NOERR;
-  NC *nc             = NULL;
-  NC3_INFO *ncp      = NULL;
+  int status = NC_NOERR;
+  NC *nc = NULL;
+  NC3_INFO *ncp = NULL;
   NC_attrarray *ncap = NULL;
-  NC_attr **tmp      = NULL;
-  NC_attr *attrp     = NULL;
+  NC_attr **tmp = NULL;
+  NC_attr *attrp = NULL;
   NC_string *newStr, *old;
   char *newname = NULL; /* normalized version */
 
@@ -499,7 +499,7 @@ int NC3_rename_att(int ncid, int varid, const char *name, const char *unewname) 
     goto done;
   } /* name in use */
 
-  old    = attrp->name;
+  old = attrp->name;
   status = nc_utf8_normalize((const unsigned char *)unewname, (unsigned char **)&newname);
   if (status != NC_NOERR)
     goto done;
@@ -539,12 +539,12 @@ done:
 }
 
 int NC3_del_att(int ncid, int varid, const char *uname) {
-  int status         = NC_NOERR;
-  NC *nc             = NULL;
-  NC3_INFO *ncp      = NULL;
+  int status = NC_NOERR;
+  NC *nc = NULL;
+  NC3_INFO *ncp = NULL;
   NC_attrarray *ncap = NULL;
-  NC_attr **attrpp   = NULL;
-  NC_attr *old       = NULL;
+  NC_attr **attrpp = NULL;
+  NC_attr *old = NULL;
   int attrid;
   size_t slen;
   char *name = NULL;
@@ -1412,13 +1412,13 @@ nc_type memtype) {
   if (attrpp != NULL) { /* name in use */
     if (!NC_indef(ncp)) {
       const size_t xsz = ncx_len_NC_attrV(type, nelems);
-      attrp            = *attrpp; /* convenience */
+      attrp = *attrpp; /* convenience */
 
       if (xsz > attrp->xsz) return NC_ENOTINDEFINE;
       /* else, we can reuse existing without redef */
 
-      attrp->xsz    = xsz;
-      attrp->type   = type;
+      attrp->xsz = xsz;
+      attrp->type = type;
       attrp->nelems = nelems;
 
       if (nelems != 0) {

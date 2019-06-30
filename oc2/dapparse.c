@@ -39,9 +39,9 @@ void dap_tagparse(DAPparsestate *state, int kind) {
 
 Object
 dap_datasetbody(DAPparsestate *state, Object name, Object decls) {
-  OCnode *root  = newocnode((char *)name, OC_Dataset, state);
+  OCnode *root = newocnode((char *)name, OC_Dataset, state);
   char *dupname = NULL;
-  NClist *dups  = scopeduplicates((NClist *)decls);
+  NClist *dups = scopeduplicates((NClist *)decls);
   if (dups != NULL) {
     /* Sometimes, some servers (i.e. Thredds)
            return a dds with duplicate field names
@@ -54,7 +54,7 @@ dap_datasetbody(DAPparsestate *state, Object name, Object decls) {
   }
   root->subnodes = (NClist *)decls;
   OCASSERT((state->root == NULL));
-  state->root       = root;
+  state->root = root;
   state->root->root = state->root; /* make sure to cross link */
   addedges(root);
   setroot(root, state->ocnodes);
@@ -77,15 +77,15 @@ dap_attributebody(DAPparsestate *state, Object attrlist) {
   state->root = node;
   /* make sure to cross link */
   state->root->root = state->root;
-  node->subnodes    = (NClist *)attrlist;
+  node->subnodes = (NClist *)attrlist;
   addedges(node);
   return NULL;
 }
 
 void dap_errorbody(DAPparsestate *state,
 Object code, Object msg, Object ptype, Object prog) {
-  state->error   = OC_EDAPSVC;
-  state->code    = nulldup((char *)code);
+  state->error = OC_EDAPSVC;
+  state->code = nulldup((char *)code);
   state->message = nulldup((char *)msg);
   /* Ignore ptype and prog for now */
 }
@@ -168,8 +168,8 @@ dap_attrvalue(DAPparsestate *state, Object valuelist, Object value, Object etype
 Object
 dap_attribute(DAPparsestate *state, Object name, Object values, Object etype) {
   OCnode *att;
-  att             = newocnode((char *)name, OC_Attribute, state);
-  att->etype      = octypefor(etype);
+  att = newocnode((char *)name, OC_Attribute, state);
+  att->etype = octypefor(etype);
   att->att.values = (NClist *)values;
   return att;
 }
@@ -180,15 +180,15 @@ dap_attrset(DAPparsestate *state, Object name, Object attributes) {
   attset = newocnode((char *)name, OC_Attributeset, state);
   /* Check var set vs global set */
   attset->att.isglobal = isglobalname(name);
-  attset->att.isdods   = isdodsname(name);
-  attset->subnodes     = (NClist *)attributes;
+  attset->att.isdods = isdodsname(name);
+  attset->subnodes = (NClist *)attributes;
   addedges(attset);
   return attset;
 }
 
 static int
 isglobalname(const char *name) {
-  int len  = strlen(name);
+  int len = strlen(name);
   int glen = strlen("global");
   const char *p;
   if (len < glen) return 0;
@@ -200,7 +200,7 @@ isglobalname(const char *name) {
 
 static int
 isdodsname(const char *name) {
-  size_t len  = strlen(name);
+  size_t len = strlen(name);
   size_t glen = strlen("DODS");
   if (len < glen) return 0;
   if (ocstrncmp(name, "DODS", glen) != 0)
@@ -220,12 +220,12 @@ isnumber(const char* text)
 static void
 dimension(OCnode *node, NClist *dimensions) {
   unsigned int i;
-  unsigned int rank      = nclistlength(dimensions);
+  unsigned int rank = nclistlength(dimensions);
   node->array.dimensions = (NClist *)dimensions;
-  node->array.rank       = rank;
+  node->array.rank = rank;
   for (i = 0; i < rank; i++) {
-    OCnode *dim         = (OCnode *)nclistget(node->array.dimensions, i);
-    dim->dim.array      = node;
+    OCnode *dim = (OCnode *)nclistget(node->array.dimensions, i);
+    dim->dim.array = node;
     dim->dim.arrayindex = i;
 #if 0
 	if(dim->name == NULL) {
@@ -246,7 +246,7 @@ dimnameanon(char *basename, unsigned int index) {
 Object
 dap_makebase(DAPparsestate *state, Object name, Object etype, Object dimensions) {
   OCnode *node;
-  node        = newocnode((char *)name, OC_Atomic, state);
+  node = newocnode((char *)name, OC_Atomic, state);
   node->etype = octypefor(etype);
   dimension(node, (NClist *)dimensions);
   return node;
@@ -262,7 +262,7 @@ dap_makestructure(DAPparsestate *state, Object name, Object dimensions, Object f
     state->error = OC_ENAMEINUSE; /* semantic error */
     return (Object)NULL;
   }
-  node           = newocnode(name, OC_Structure, state);
+  node = newocnode(name, OC_Structure, state);
   node->subnodes = fields;
   dimension(node, (NClist *)dimensions);
   addedges(node);
@@ -278,7 +278,7 @@ dap_makesequence(DAPparsestate *state, Object name, Object members) {
     dap_parse_error(state, "Duplicate sequence member names in same sequence: %s", (char *)name);
     return (Object)NULL;
   }
-  node           = newocnode(name, OC_Sequence, state);
+  node = newocnode(name, OC_Sequence, state);
   node->subnodes = members;
   addedges(node);
   return node;
@@ -295,7 +295,7 @@ dap_makegrid(DAPparsestate *state, Object name, Object arraydecl, Object mapdecl
     state->error = OC_ENAMEINUSE; /* semantic error */
     return (Object)NULL;
   }
-  node           = newocnode(name, OC_Grid, state);
+  node = newocnode(name, OC_Grid, state);
   node->subnodes = (NClist *)mapdecls;
   nclistinsert(node->subnodes, 0, (void *)arraydecl);
   addedges(node);
@@ -307,7 +307,7 @@ addedges(OCnode *node) {
   unsigned int i;
   if (node->subnodes == NULL) return;
   for (i = 0; i < nclistlength(node->subnodes); i++) {
-    OCnode *subnode    = (OCnode *)nclistget(node->subnodes, i);
+    OCnode *subnode = (OCnode *)nclistget(node->subnodes, i);
     subnode->container = node;
   }
 }
@@ -317,7 +317,7 @@ setroot(OCnode *root, NClist *ocnodes) {
   size_t i;
   for (i = 0; i < nclistlength(ocnodes); i++) {
     OCnode *node = (OCnode *)nclistget(ocnodes, i);
-    node->root   = root;
+    node->root = root;
   }
 }
 
@@ -337,7 +337,7 @@ flatten(char *s, char *tmp, size_t tlen) {
   char *p, *q;
   strncpy(tmp, s, tlen);
   tmp[tlen] = '\0';
-  p         = (q = tmp);
+  p = (q = tmp);
   while ((c = *p++)) {
     switch (c) {
       case '\r':
@@ -364,7 +364,7 @@ newocnode(char *name, OCtype octype, DAPparsestate *state) {
 static int
 check_int32(char *val, long *value) {
   char *ptr;
-  int ok  = 1;
+  int ok = 1;
   long iv = strtol(val, &ptr, 0); /* 0=>auto determine base */
   if ((iv == 0 && val == ptr) || *ptr != '\0') {
     ok = 0;
@@ -379,7 +379,7 @@ static NClist *
 scopeduplicates(NClist *list) {
   unsigned int i, j;
   unsigned int len = nclistlength(list);
-  NClist *dups     = NULL;
+  NClist *dups = NULL;
   for (i = 0; i < len; i++) {
     OCnode *io = (OCnode *)nclistget(list, i);
   retry:
@@ -421,10 +421,10 @@ void dap_parse_error(DAPparsestate *state, const char *fmt, ...) {
   va_start(argv, fmt);
   (void)vfprintf(stderr, fmt, argv);
   (void)fputc('\n', stderr);
-  len       = strlen(state->lexstate->input);
+  len = strlen(state->lexstate->input);
   suffixlen = strlen(state->lexstate->next);
   prefixlen = (len - suffixlen);
-  tmp       = (char *)ocmalloc(len + 1);
+  tmp = (char *)ocmalloc(len + 1);
   flatten(state->lexstate->input, tmp, prefixlen);
   (void)fprintf(stderr, "context: %s", tmp);
   flatten(state->lexstate->next, tmp, suffixlen);
@@ -463,18 +463,18 @@ OCerror
 DAPparse(OCstate *conn, OCtree *tree, char *parsestring) {
   DAPparsestate *state = dap_parse_init(parsestring);
   int parseresult;
-  OCerror ocerr  = OC_NOERR;
+  OCerror ocerr = OC_NOERR;
   state->ocnodes = nclistnew();
-  state->conn    = conn;
+  state->conn = conn;
   if (ocdebug >= 2)
     dapdebug = 1;
   parseresult = dapparse(state);
   if (parseresult == 0) { /* 0 => parse ok */
     if (state->error == OC_EDAPSVC) {
       /* we ended up parsing an error message from server */
-      conn->error.code    = nulldup(state->code);
+      conn->error.code = nulldup(state->code);
       conn->error.message = nulldup(state->message);
-      tree->root          = NULL;
+      tree->root = NULL;
       /* Attempt to further decipher the error code */
       if (state->code != NULL
           && (strcmp(state->code, "404") == 0    /* tds returns 404 */
@@ -486,12 +486,12 @@ DAPparse(OCstate *conn, OCtree *tree, char *parsestring) {
       /* Parse failed for semantic reasons */
       ocerr = state->error;
     } else {
-      tree->root       = state->root;
-      state->root      = NULL; /* avoid reclaim */
-      tree->nodes      = state->ocnodes;
-      state->ocnodes   = NULL; /* avoid reclaim */
+      tree->root = state->root;
+      state->root = NULL; /* avoid reclaim */
+      tree->nodes = state->ocnodes;
+      state->ocnodes = NULL; /* avoid reclaim */
       tree->root->tree = tree;
-      ocerr            = OC_NOERR;
+      ocerr = OC_NOERR;
     }
   } else { /* Parse failed */
     switch (tree->dxdclass) {

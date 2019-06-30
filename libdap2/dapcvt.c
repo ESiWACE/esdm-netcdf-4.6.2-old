@@ -26,7 +26,7 @@ dapconvert(nc_type srctype, nc_type dsttype, char *memory0, char *value0, size_t
   NCerror ncstat = NC_NOERR;
   size_t i;
   char *memory = memory0;
-  char *value  = value0;
+  char *value = value0;
 
   /* In order to deal with the DAP upgrade problem,
 	try to preserve the bit patterns
@@ -63,9 +63,9 @@ dapconvert(nc_type srctype, nc_type dsttype, char *memory0, char *value0, size_t
 #define CUT32(e) ((unsigned int)((e)&0xffffffff))
 #define ARM(vs, ncs, ts, vd, ncd, td) \
   case CASE(ncs, ncd):                \
-    vs##p  = (ts *)value;             \
-    vs     = *vs##p;                  \
-    vd##p  = (td *)memory;            \
+    vs##p = (ts *)value;              \
+    vs = *vs##p;                      \
+    vd##p = (td *)memory;             \
     *vd##p = (td)vs;                  \
     break;
 
@@ -217,10 +217,10 @@ If we need an int and the string value is out of range, return NC_ERANGE.
 NCerror
 dapcvtattrval(nc_type etype, void *dst, NClist *src, NCattribute *att) {
   int i;
-  NCerror ncstat       = NC_NOERR;
+  NCerror ncstat = NC_NOERR;
   unsigned int memsize = nctypesizeof(etype);
   unsigned int nvalues = nclistlength(src);
-  char *dstmem         = (char *)dst;
+  char *dstmem = (char *)dst;
 
   for (i = 0; i < nvalues; i++) {
     /* Convert numeric looking constants to either double
@@ -228,7 +228,7 @@ dapcvtattrval(nc_type etype, void *dst, NClist *src, NCattribute *att) {
     char *s;
     size_t slen;
 
-    s    = (char *)nclistget(src, i);
+    s = (char *)nclistget(src, i);
     slen = strlen(s);
     if (etype <= NC_DOUBLE && etype != NC_CHAR) {
       struct Value val;
@@ -264,31 +264,31 @@ dapcvtattrval(nc_type etype, void *dst, NClist *src, NCattribute *att) {
       switch (etype) {
         case NC_BYTE:
           /* Note that in DAP2, this is unsigned 8-bit integer */
-          u8p  = (unsigned char *)dstmem;
+          u8p = (unsigned char *)dstmem;
           *u8p = (unsigned char)(val.llval);
           break;
         case NC_SHORT:
-          i16p  = (short *)dstmem;
+          i16p = (short *)dstmem;
           *i16p = (short)(val.llval);
           break;
         case NC_USHORT:
-          u16p  = (unsigned short *)dstmem;
+          u16p = (unsigned short *)dstmem;
           *u16p = (unsigned short)(val.llval);
           break;
         case NC_INT:
-          i32p  = (int *)dstmem;
+          i32p = (int *)dstmem;
           *i32p = (int)(val.llval);
           break;
         case NC_UINT:
-          u32p  = (unsigned int *)dstmem;
+          u32p = (unsigned int *)dstmem;
           *u32p = (unsigned int)(val.llval);
           break;
         case NC_FLOAT:
-          fp  = (float *)dstmem;
+          fp = (float *)dstmem;
           *fp = (float)(val.dval);
           break;
         case NC_DOUBLE:
-          dp  = (double *)dstmem;
+          dp = (double *)dstmem;
           *dp = (double)(val.dval);
           break;
         default: return NC_EINTERNAL;
@@ -304,7 +304,7 @@ dapcvtattrval(nc_type etype, void *dst, NClist *src, NCattribute *att) {
       }
     } else if (etype == NC_STRING || etype == NC_URL) {
       char **p = (char **)dstmem;
-      *p       = nulldup(s);
+      *p = nulldup(s);
     } else {
       PANIC1("unexpected nc_type: %d", (int)etype);
     }
@@ -335,8 +335,8 @@ cvtnumconst(const char *s, struct Value *val) {
     /* Try to convert to float second */
 #ifdef _WIN32
   if (!_strnicmp(s, "NaN", 3)) {
-    count     = 1;
-    nread     = 3;
+    count = 1;
+    nread = 3;
     val->dval = NAN;
   } else
 #endif

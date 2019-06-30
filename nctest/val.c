@@ -20,7 +20,7 @@ long len;     /* number of elements to fill with */
 void *vals;   /* start of first block of values */
 {
   static char pname[] = "val_fill";
-  long half           = len / 2;
+  long half = len / 2;
   int iel;
   union {
     char *cp;

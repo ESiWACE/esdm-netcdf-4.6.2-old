@@ -50,7 +50,7 @@ char file_name[NC_MAX_NAME + 1];
 int main(int argc, char **argv) {
   int mpi_size, mpi_rank; /* mpi variables */
   int i;
-  int NUMP[8]   = {1, 2, 3, 4, 6, 8, 12, 16};
+  int NUMP[8] = {1, 2, 3, 4, 6, 8, 12, 16};
   int size_flag = 0;
 
   /* Un-buffer the stdout and stderr */
@@ -77,7 +77,7 @@ int main(int argc, char **argv) {
     return -1;
   }
 
-  facc_type      = NC_NETCDF4;
+  facc_type = NC_NETCDF4;
   facc_type_open = 0;
 
   /* Create file name. */
@@ -113,7 +113,7 @@ int main(int argc, char **argv) {
 
   if (mpi_rank == 0)
     printf("*** Testing parallel IO for raw-data with MPIPOSIX-IO (driver)...");
-  facc_type      = NC_NETCDF4;
+  facc_type = NC_NETCDF4;
   facc_type_open = 0;
   if (test_pio(NC_INDEPENDENT) != 0) ERR;
   if (test_pio(NC_COLLECTIVE) != 0) ERR;
@@ -393,7 +393,7 @@ int test_pio_attr(int flag) {
   /* Create one var. */
   if (nc_def_var(ncid, "v1", NC_INT, NDIMS1, dimids, &nvid)) ERR;
 
-  orivr_len   = 2;
+  orivr_len = 2;
   rh_range[0] = 1.0;
   rh_range[1] = 1000.0;
 
@@ -422,7 +422,7 @@ int test_pio_attr(int flag) {
   if (nc_var_par_access(ncid, nvid, flag)) ERR;
 
   /* Allocating data */
-  data     = malloc(sizeof(int) * count[1] * count[0]);
+  data = malloc(sizeof(int) * count[1] * count[0]);
   tempdata = data;
   for (j = 0; j < count[0]; j++)
     for (i = 0; i < count[1]; i++) {
@@ -535,7 +535,7 @@ int test_pio_attr(int flag) {
 int test_pio_hyper(int flag) {
   /* MPI stuff. */
   int mpi_size, mpi_rank;
-  int res       = NC_NOERR;
+  int res = NC_NOERR;
   MPI_Comm comm = MPI_COMM_WORLD;
   MPI_Info info = MPI_INFO_NULL;
 
@@ -619,7 +619,7 @@ int test_pio_hyper(int flag) {
   }
 
   if (nc_var_par_access(ncid, nvid, flag)) ERR;
-  data     = malloc(sizeof(int) * count[1] * count[0]);
+  data = malloc(sizeof(int) * count[1] * count[0]);
   tempdata = data;
   for (j = 0; j < count[0]; j++) {
     for (i = 0; i < count[1]; i++) {
@@ -738,7 +738,7 @@ int test_pio_extend(int flag) {
 
 char *getenv_all(MPI_Comm comm, int root, const char *name) {
   int nID;
-  int len          = -1;
+  int len = -1;
   static char *env = NULL;
 
   assert(name);

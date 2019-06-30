@@ -24,8 +24,8 @@ int main(int argc, char **argv) { /* create file that caused seg fault in ncdump
 
   /* dimension lengths */
   size_t Time_len = NC_UNLIMITED;
-  size_t X_len    = 4;
-  size_t Y_len    = 3;
+  size_t X_len = 4;
+  size_t Y_len = 3;
 
   /* variable ids */
   int Time_id;
@@ -64,7 +64,7 @@ int main(int argc, char **argv) { /* create file that caused seg fault in ncdump
   if (nc_enddef(ncid)) ERR;
 
   { /* assign variable data */
-    static double Time_data[1]     = {3.14159};
+    static double Time_data[1] = {3.14159};
     static size_t Time_startset[1] = {0};
     static size_t Time_countset[1] = {1};
     if (nc_put_vara(ncid, Time_id, Time_startset, Time_countset, Time_data)) ERR;

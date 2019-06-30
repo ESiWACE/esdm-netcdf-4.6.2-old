@@ -31,7 +31,7 @@ void occomputesemantics(NClist *ocnodes) {
     if (node->array.rank > 0) {
       node->array.sizes = (size_t *)malloc(node->array.rank * sizeof(size_t));
       for (j = 0; j < node->array.rank; j++) {
-        OCnode *dim          = (OCnode *)nclistget(node->array.dimensions, j);
+        OCnode *dim = (OCnode *)nclistget(node->array.dimensions, j);
         node->array.sizes[j] = dim->dim.declsize;
       }
     }
@@ -109,12 +109,12 @@ ocnode_new(char *name, OCtype ptype, OCnode *root) {
   OCnode *cdf = (OCnode *)ocmalloc(sizeof(OCnode));
   MEMCHECK(cdf, (OCnode *)NULL);
   memset((void *)cdf, 0, sizeof(OCnode));
-  cdf->header.magic     = OCMAGIC;
-  cdf->header.occlass   = OC_Node;
-  cdf->name             = (name ? nulldup(name) : NULL);
-  cdf->octype           = ptype;
+  cdf->header.magic = OCMAGIC;
+  cdf->header.occlass = OC_Node;
+  cdf->name = (name ? nulldup(name) : NULL);
+  cdf->octype = ptype;
   cdf->array.dimensions = NULL;
-  cdf->root             = root;
+  cdf->root = root;
   return cdf;
 }
 
@@ -122,10 +122,10 @@ static OCattribute *
 makeattribute(char *name, OCtype ptype, NClist *values) {
   OCattribute *att = (OCattribute *)ocmalloc(sizeof(OCattribute)); /* ocmalloc zeros*/
   MEMCHECK(att, (OCattribute *)NULL);
-  att->name    = nulldup(name);
-  att->etype   = ptype;
+  att->name = nulldup(name);
+  att->etype = ptype;
   att->nvalues = nclistlength(values);
-  att->values  = NULL;
+  att->values = NULL;
   if (att->nvalues > 0) {
     int i;
     att->values = (char **)ocmalloc(sizeof(char *) * att->nvalues);
@@ -142,7 +142,7 @@ void ocroot_free(OCnode *root) {
 
   if (root == NULL || root->tree == NULL) return;
 
-  tree  = root->tree;
+  tree = root->tree;
   state = tree->state;
 
   /* Free up the OCDATA instance, if any */
@@ -230,11 +230,11 @@ As described there, the algorithm is as follows.
 
 OCerror
 ocddsdasmerge(OCstate *state, OCnode *dasroot, OCnode *ddsroot) {
-  OCerror stat        = OC_NOERR;
-  NClist *dasglobals  = nclistnew();
+  OCerror stat = OC_NOERR;
+  NClist *dasglobals = nclistnew();
   NClist *dodsglobals = nclistnew(); /* top-level DODS_XXX {...} */
-  NClist *dasnodes    = nclistnew();
-  NClist *varnodes    = nclistnew();
+  NClist *dasnodes = nclistnew();
+  NClist *varnodes = nclistnew();
   NClist *ddsnodes;
   unsigned int i, j;
 
@@ -256,7 +256,7 @@ ocddsdasmerge(OCstate *state, OCnode *dasroot, OCnode *ddsroot) {
           if found; complain but continue: result are indeterminate.
           also collect globals separately*/
   for (i = 0; i < nclistlength(dasroot->tree->nodes); i++) {
-    OCnode *das       = (OCnode *)nclistget(dasroot->tree->nodes, i);
+    OCnode *das = (OCnode *)nclistget(dasroot->tree->nodes, i);
     int hasattributes = 0;
     if (das->octype == OC_Attribute) continue; /* ignore these for now*/
     if (das->name == NULL || das->att.isglobal) {
@@ -417,7 +417,7 @@ mergeother(OCnode *ddsroot, NClist *dasnodes) {
 
 static OCerror
 mergeother1(OCnode *root, OCnode *das) {
-  OCerror stat     = OC_NOERR;
+  OCerror stat = OC_NOERR;
   OCattribute *att = NULL;
 
   OCASSERT(root != NULL);
@@ -452,7 +452,7 @@ ocuncorrelate(OCnode *root) {
   unsigned int i;
   if (tree == NULL) return;
   for (i = 0; i < nclistlength(tree->nodes); i++) {
-    OCnode *node  = (OCnode *)nclistget(tree->nodes, i);
+    OCnode *node = (OCnode *)nclistget(tree->nodes, i);
     node->datadds = NULL;
   }
 }
@@ -513,7 +513,7 @@ occorrelater(OCnode *dds, OCnode *dxd) {
     for (i = 0; i < nclistlength(dxd->subnodes); i++) {
       OCnode *ddsdim = (OCnode *)nclistget(dds->array.dimensions, (size_t)i);
       OCnode *dxddim = (OCnode *)nclistget(dxd->array.dimensions, (size_t)i);
-      ocstat         = occorrelater(ddsdim, dxddim);
+      ocstat = occorrelater(ddsdim, dxddim);
       if (!ocstat) goto fail;
     }
   }
@@ -539,7 +539,7 @@ void ocmarkcacheable(OCstate *state, OCnode *ddsroot) {
     int ok;
 #endif
   NClist *treenodes = ddsroot->tree->nodes;
-  NClist *path      = nclistnew();
+  NClist *path = nclistnew();
   for (i = 0; i < nclistlength(treenodes); i++) {
     OCnode *node = (OCnode *)nclistget(treenodes, (size_t)i);
     if (node->octype != OC_Atomic) continue;

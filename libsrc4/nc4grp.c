@@ -149,7 +149,7 @@ int NC4_inq_grpname(int ncid, char *name) {
 */
 int NC4_inq_grpname_full(int ncid, size_t *lenp, char *full_name) {
   char *name, grp_name[NC_MAX_NAME + 1];
-  int g, id  = ncid, parent_id, *gid;
+  int g, id = ncid, parent_id, *gid;
   int i, ret = NC_NOERR;
 
   /* How many generations? */

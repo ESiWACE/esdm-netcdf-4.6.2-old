@@ -108,7 +108,7 @@ int test_nc_redef(void) {
   int dimid;  /* dimension id */
   int varid;  /* variable id */
   int varid1; /* variable id */
-  int nok           = 0, err;
+  int nok = 0, err;
   const char *title = "Not funny";
   double var;
   char name[NC_MAX_NAME];
@@ -199,7 +199,7 @@ int test_nc_redef(void) {
     for (ii = 0; ii < NDIMS; ii++)
       dimids[ii] = ii;
     dimids[NDIMS] = dimid;
-    err           = nc_def_var(ncid, "abcRec", NC_INT, NDIMS, dimids, &varid1);
+    err = nc_def_var(ncid, "abcRec", NC_INT, NDIMS, dimids, &varid1);
     IF(err != NC_NOERR)
     error("def_var: %s", nc_strerror(err));
   }
@@ -741,7 +741,7 @@ int test_nc_def_var(void) {
 
   /* try bad dim ids */
   dimids[0] = BAD_DIMID;
-  err       = nc_def_var(ncid, "abc", NC_SHORT, 1, dimids, &varid);
+  err = nc_def_var(ncid, "abc", NC_SHORT, 1, dimids, &varid);
   IF(err != NC_EBADDIM)
   error("expecting NC_EBADDIM but got %s", nc_err_code_name(err));
   ELSE_NOK
@@ -805,7 +805,7 @@ int test_nc_put_var1(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       index[j] = var_shape[i][j];              /* out of boundary check */
-      err      = nc_put_var1(ncid, i, index, value);
+      err = nc_put_var1(ncid, i, index, value);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -901,7 +901,7 @@ int test_nc_put_vara(void) {
 
     for (j = 0; j < var_rank[i]; j++) {
       start[j] = 0;
-      edge[j]  = 1;
+      edge[j] = 1;
     }
 
 
@@ -909,13 +909,13 @@ int test_nc_put_vara(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_vara(ncid, i, start, edge, buf);
+      err = nc_put_vara(ncid, i, start, edge, buf);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
       start[j] = 0;
-      edge[j]  = var_shape[i][j] + 1;
-      err      = nc_put_vara(ncid, i, start, edge, buf);
+      edge[j] = var_shape[i][j] + 1;
+      err = nc_put_vara(ncid, i, start, edge, buf);
       IF(err != NC_EEDGE)
       error("expecting NC_EEDG but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -928,7 +928,7 @@ int test_nc_put_vara(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == RECDIM) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_vara(ncid, i, start, edge, buf);
+      err = nc_put_vara(ncid, i, start, edge, buf);
 #ifdef RELAX_COORD_BOUND
       IF(err != NC_NOERR) /* allowed when edge[j]==0 */
       error("expecting NC_NOERR but got %s", nc_err_code_name(err));
@@ -938,7 +938,7 @@ int test_nc_put_vara(void) {
 #endif
       ELSE_NOK
       start[j] = var_shape[i][j] + 1; /* out of boundary check */
-      err      = nc_put_vara(ncid, i, start, edge, buf);
+      err = nc_put_vara(ncid, i, start, edge, buf);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -960,10 +960,10 @@ int test_nc_put_vara(void) {
       for (j = 0; j < var_rank[i]; j++) {
         if ((k >> j) & 1) {
           start[j] = 0;
-          edge[j]  = mid[j];
+          edge[j] = mid[j];
         } else {
           start[j] = mid[j];
-          edge[j]  = var_shape[i][j] - mid[j];
+          edge[j] = var_shape[i][j] - mid[j];
         }
         nels *= edge[j];
       }
@@ -1065,8 +1065,8 @@ int test_nc_put_vars(void) {
 
 
     for (j = 0; j < var_rank[i]; j++) {
-      start[j]  = 0;
-      edge[j]   = 1;
+      start[j] = 0;
+      edge[j] = 1;
       stride[j] = 1;
     }
 
@@ -1075,19 +1075,19 @@ int test_nc_put_vars(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == 0) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_vars(ncid, i, start, edge, stride, buf);
+      err = nc_put_vars(ncid, i, start, edge, stride, buf);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
       start[j] = 0;
-      edge[j]  = var_shape[i][j] + 1; /* edge error check */
-      err      = nc_put_vars(ncid, i, start, edge, stride, buf);
+      edge[j] = var_shape[i][j] + 1; /* edge error check */
+      err = nc_put_vars(ncid, i, start, edge, stride, buf);
       IF(err != NC_EEDGE)
       error("expecting NC_EEDG but got %s", nc_err_code_name(err));
       ELSE_NOK
-      edge[j]   = 1;
+      edge[j] = 1;
       stride[j] = 0; /* strided edge error check */
-      err       = nc_put_vars(ncid, i, start, edge, stride, buf);
+      err = nc_put_vars(ncid, i, start, edge, stride, buf);
       IF(err != NC_ESTRIDE)
       error("expecting NC_ESTRIDE but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -1100,7 +1100,7 @@ int test_nc_put_vars(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == 0) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_vars(ncid, i, start, edge, stride, buf);
+      err = nc_put_vars(ncid, i, start, edge, stride, buf);
 #ifdef RELAX_COORD_BOUND
       IF(err != NC_NOERR) /* allowed when edge[j]==0 */
       error("expecting NC_NOERR but got %s", nc_err_code_name(err));
@@ -1110,7 +1110,7 @@ int test_nc_put_vars(void) {
 #endif
       ELSE_NOK
       start[j] = var_shape[i][j] + 1; /* out of boundary check */
-      err      = nc_put_vars(ncid, i, start, edge, stride, buf);
+      err = nc_put_vars(ncid, i, start, edge, stride, buf);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -1133,13 +1133,13 @@ int test_nc_put_vars(void) {
       for (j = 0; j < var_rank[i]; j++) {
         if ((k >> j) & 1) {
           start[j] = 0;
-          edge[j]  = mid[j];
+          edge[j] = mid[j];
         } else {
           start[j] = mid[j];
-          edge[j]  = var_shape[i][j] - mid[j];
+          edge[j] = var_shape[i][j] - mid[j];
         }
         sstride[j] = edge[j] > 0 ? 1 + roll(edge[j]) : 1;
-        stride[j]  = (ptrdiff_t)sstride[j];
+        stride[j] = (ptrdiff_t)sstride[j];
         nstarts *= stride[j];
       }
       for (m = 0; m < nstarts; m++) {
@@ -1267,10 +1267,10 @@ int test_nc_put_varm(void) {
 
 
     for (j = 0; j < var_rank[i]; j++) {
-      start[j]  = 0;
-      edge[j]   = 1;
+      start[j] = 0;
+      edge[j] = 1;
       stride[j] = 1;
-      imap[j]   = 1;
+      imap[j] = 1;
     }
 
 
@@ -1278,19 +1278,19 @@ int test_nc_put_varm(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == 0) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_varm(ncid, i, start, edge, stride, imap, buf);
+      err = nc_put_varm(ncid, i, start, edge, stride, imap, buf);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
       start[j] = 0;
-      edge[j]  = var_shape[i][j] + 1; /* edge error check */
-      err      = nc_put_varm(ncid, i, start, edge, stride, imap, buf);
+      edge[j] = var_shape[i][j] + 1; /* edge error check */
+      err = nc_put_varm(ncid, i, start, edge, stride, imap, buf);
       IF(err != NC_EEDGE)
       error("expecting NC_EEDG but got %s", nc_err_code_name(err));
       ELSE_NOK
-      edge[j]   = 1;
+      edge[j] = 1;
       stride[j] = 0; /* strided edge error check */
-      err       = nc_put_varm(ncid, i, start, edge, stride, imap, buf);
+      err = nc_put_varm(ncid, i, start, edge, stride, imap, buf);
       IF(err != NC_ESTRIDE)
       error("expecting NC_ESTRIDE but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -1303,7 +1303,7 @@ int test_nc_put_varm(void) {
     for (j = 0; j < var_rank[i]; j++) {
       if (var_dimid[i][j] == 0) continue; /* skip record dim */
       start[j] = var_shape[i][j];
-      err      = nc_put_varm(ncid, i, start, edge, stride, imap, buf);
+      err = nc_put_varm(ncid, i, start, edge, stride, imap, buf);
 #ifdef RELAX_COORD_BOUND
       IF(err != NC_NOERR) /* allowed when edge[j]==0 */
       error("expecting NC_NOERR but got %s", nc_err_code_name(err));
@@ -1313,7 +1313,7 @@ int test_nc_put_varm(void) {
 #endif
       ELSE_NOK
       start[j] = var_shape[i][j] + 1; /* out of boundary check */
-      err      = nc_put_varm(ncid, i, start, edge, stride, imap, buf);
+      err = nc_put_varm(ncid, i, start, edge, stride, imap, buf);
       IF(err != NC_EINVALCOORDS)
       error("expecting NC_EINVALCOORDS but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -1323,7 +1323,7 @@ int test_nc_put_varm(void) {
       edge[j] = 1;
 
     if (var_rank[i] > 0) {
-      int jj   = var_rank[i] - 1;
+      int jj = var_rank[i] - 1;
       imap[jj] = nctypelen(var_type[i]); /*  netCDF considers imap in bytes */
       imap[jj] = 1;                      /* PnetCDF considers imap in elements */
       for (; jj > 0; jj--)
@@ -1357,14 +1357,14 @@ int test_nc_put_varm(void) {
       for (j = 0; j < var_rank[i]; j++) {
         if ((k >> j) & 1) {
           start[j] = 0;
-          edge[j]  = mid[j];
+          edge[j] = mid[j];
         } else {
           start[j] = mid[j];
-          edge[j]  = var_shape[i][j] - mid[j];
+          edge[j] = var_shape[i][j] - mid[j];
         }
         sstride[j] = edge[j] > 0 ? 1 + roll(edge[j]) : 1;
-        stride[j]  = (ptrdiff_t)sstride[j];
-        imap2[j]   = imap[j] * (ptrdiff_t)sstride[j];
+        stride[j] = (ptrdiff_t)sstride[j];
+        imap2[j] = imap[j] * (ptrdiff_t)sstride[j];
         nstarts *= stride[j];
       }
       for (m = 0; m < nstarts; m++) {
@@ -1523,10 +1523,10 @@ int test_nc_put_att(void) {
   for (i = -1; i < numVars; i++) {
     varid = VARID(i);
     for (j = 0; j < NATTS(i); j++) {
-      name     = ATT_NAME(i, j);
+      name = ATT_NAME(i, j);
       datatype = ATT_TYPE(i, j);
-      length   = ATT_LEN(i, j);
-      err      = nc_put_att(BAD_ID, varid, name, datatype, length, buf);
+      length = ATT_LEN(i, j);
+      err = nc_put_att(BAD_ID, varid, name, datatype, length, buf);
       IF(err != NC_EBADID)
       error("expecting NC_EBADID but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -1545,7 +1545,7 @@ int test_nc_put_att(void) {
       p = (char *)buf;
       for (k = 0; k < length; k++) {
         ndx[0] = k;
-        value  = hash(datatype, -1, ndx);
+        value = hash(datatype, -1, ndx);
         if (!inRange(value, datatype))
           value = 0;
         err = dbl2nc(value, datatype, p);
@@ -1611,7 +1611,7 @@ int test_nc_copy_att(void) {
     varid = VARID(i);
     for (j = 0; j < NATTS(i); j++) {
       name = ATT_NAME(i, j);
-      err  = nc_copy_att(ncid_in, BAD_VARID, name, ncid_out, varid);
+      err = nc_copy_att(ncid_in, BAD_VARID, name, ncid_out, varid);
       IF(err != NC_ENOTVAR)
       error("expecting NC_ENOTVAR but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -1770,7 +1770,7 @@ int test_nc_rename_att(void) {
     varid = VARID(i);
     for (j = 0; j < NATTS(i); j++) {
       attname = ATT_NAME(i, j);
-      err     = nc_rename_att(BAD_ID, varid, attname, "newName");
+      err = nc_rename_att(BAD_ID, varid, attname, "newName");
       IF(err != NC_EBADID)
       error("expecting NC_EBADID but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -1803,8 +1803,8 @@ int test_nc_rename_att(void) {
   for (i = -1; i < numVars; i++) {
     varid = VARID(i);
     for (j = 0; j < NATTS(i); j++) {
-      attname   = ATT_NAME(i, j);
-      atttype   = ATT_TYPE(i, j);
+      attname = ATT_NAME(i, j);
+      atttype = ATT_TYPE(i, j);
       attlength = ATT_LEN(i, j);
       strcpy(newname, "new_");
       strcat(newname, attname);
@@ -1917,11 +1917,11 @@ int test_nc_del_att(void) {
   put_atts(ncid);
 
   for (i = -1; i < numVars; i++) {
-    varid   = VARID(i);
+    varid = VARID(i);
     numatts = NATTS(i);
     for (j = 0; j < numatts; j++) {
       name = ATT_NAME(i, j);
-      err  = nc_del_att(BAD_ID, varid, name);
+      err = nc_del_att(BAD_ID, varid, name);
       IF(err != NC_EBADID)
       error("expecting NC_EBADID but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -1965,7 +1965,7 @@ int test_nc_del_att(void) {
   error("natts: expected %d, got %d", 0, natts);
   for (i = -1; i < numVars; i++) {
     varid = VARID(i);
-    err   = nc_inq_varnatts(ncid, varid, &natts);
+    err = nc_inq_varnatts(ncid, varid, &natts);
     IF(err != NC_NOERR)
     error("inq_natts: %s", nc_strerror(err));
     IF(natts != 0)
@@ -1982,11 +1982,11 @@ int test_nc_del_att(void) {
   error("enddef: %s", nc_strerror(err));
 
   for (i = -1; i < numVars; i++) {
-    varid   = VARID(i);
+    varid = VARID(i);
     numatts = NATTS(i);
     for (j = 0; j < numatts; j++) {
       name = ATT_NAME(i, j);
-      err  = nc_del_att(ncid, varid, name);
+      err = nc_del_att(ncid, varid, name);
       IF(err != NC_ENOTINDEFINE)
       error("expecting NC_ENOTINDEFINE but got %s", nc_err_code_name(err));
       ELSE_NOK
@@ -2020,8 +2020,8 @@ int test_nc_set_fill(void) {
   int i;
   size_t j;
   int old_fillmode;
-  int nok      = 0; /* count of valid comparisons */
-  char text    = 0;
+  int nok = 0; /* count of valid comparisons */
+  char text = 0;
   double value = 0;
   double fill;
   size_t index[MAX_RANK];

@@ -24,7 +24,7 @@ NCerror
 dapparsedapconstraints(NCDAPCOMMON *dapcomm, char *constraints,
 DCEconstraint *dceconstraint) {
   NCerror ncstat = NC_NOERR;
-  char *errmsg   = NULL;
+  char *errmsg = NULL;
 
   ASSERT(dceconstraint != NULL);
   nclistclear(dceconstraint->projections);
@@ -54,13 +54,13 @@ NCerror
 dapmapconstraints(DCEconstraint *constraint,
 CDFnode *root) {
   size_t i;
-  NCerror ncstat         = NC_NOERR;
-  NClist *nodes          = root->tree->nodes;
+  NCerror ncstat = NC_NOERR;
+  NClist *nodes = root->tree->nodes;
   NClist *dceprojections = constraint->projections;
 
   /* Convert the projection paths to leaves in the dds tree */
   for (i = 0; i < nclistlength(dceprojections); i++) {
-    CDFnode *cdfmatch   = NULL;
+    CDFnode *cdfmatch = NULL;
     DCEprojection *proj = (DCEprojection *)nclistget(dceprojections, i);
     if (proj->discrim != CES_VAR) continue; /* ignore functions */
     ncstat = matchpartialname(nodes, proj->var->segments, &cdfmatch);
@@ -91,8 +91,8 @@ dapqualifyconstraints(DCEconstraint *constraint) {
   if (constraint != NULL) {
     for (i = 0; i < nclistlength(constraint->projections); i++) {
       DCEprojection *p = (DCEprojection *)nclistget(constraint->projections, i);
-      ncstat           = qualifyprojectionnames(p);
-      ncstat           = qualifyprojectionsizes(p);
+      ncstat = qualifyprojectionnames(p);
+      ncstat = qualifyprojectionsizes(p);
     }
   }
 #ifdef DEBUG
@@ -107,7 +107,7 @@ dapqualifyconstraints(DCEconstraint *constraint) {
 */
 static NCerror
 qualifyprojectionnames(DCEprojection *proj) {
-  NCerror ncstat   = NC_NOERR;
+  NCerror ncstat = NC_NOERR;
   NClist *fullpath = nclistnew();
 
   ASSERT((proj->discrim == CES_VAR
@@ -139,11 +139,11 @@ qualifyprojectionsizes(DCEprojection *proj) {
   dumpprojection(proj));
 #endif
   for (i = 0; i < nclistlength(proj->var->segments); i++) {
-    DCEsegment *seg  = (DCEsegment *)nclistget(proj->var->segments, i);
-    NClist *dimset   = NULL;
+    DCEsegment *seg = (DCEsegment *)nclistget(proj->var->segments, i);
+    NClist *dimset = NULL;
     CDFnode *cdfnode = (CDFnode *)seg->annotation;
     ASSERT(cdfnode != NULL);
-    dimset    = cdfnode->array.dimsetplus;
+    dimset = cdfnode->array.dimsetplus;
     seg->rank = nclistlength(dimset);
     /* For this, we do not want any string dimensions */
     if (cdfnode->array.stringdim != NULL) seg->rank--;
@@ -156,7 +156,7 @@ qualifyprojectionsizes(DCEprojection *proj) {
       else
         dcemakewholeslice(seg->slices + j, dim->dim.declsize);
     }
-    seg->slicesdefined  = 1;
+    seg->slicesdefined = 1;
     seg->slicesdeclized = 1;
   }
 #ifdef DEBUG
@@ -173,10 +173,10 @@ completesegments(NClist *fullpath, NClist *segments) {
   delta = (nclistlength(fullpath) - nclistlength(segments));
   for (i = 0; i < delta; i++) {
     DCEsegment *seg = (DCEsegment *)dcecreate(CES_SEGMENT);
-    CDFnode *node   = (CDFnode *)nclistget(fullpath, i);
-    seg->name       = nulldup(node->ocname);
+    CDFnode *node = (CDFnode *)nclistget(fullpath, i);
+    seg->name = nulldup(node->ocname);
     seg->annotation = (void *)node;
-    seg->rank       = nclistlength(node->array.dimset0);
+    seg->rank = nclistlength(node->array.dimset0);
     nclistinsert(segments, i, (void *)seg);
   }
   /* Now modify the segments to point to the appropriate node
@@ -184,7 +184,7 @@ completesegments(NClist *fullpath, NClist *segments) {
     */
   for (i = delta; i < nclistlength(segments); i++) {
     DCEsegment *seg = (DCEsegment *)nclistget(segments, i);
-    CDFnode *node   = (CDFnode *)nclistget(fullpath, i);
+    CDFnode *node = (CDFnode *)nclistget(fullpath, i);
     seg->annotation = (void *)node;
   }
 }
@@ -225,16 +225,16 @@ Additional constraints (4/12/2010):
 static NCerror
 matchpartialname(NClist *nodes, NClist *segments, CDFnode **nodep) {
   size_t i, nsegs;
-  NCerror ncstat      = NC_NOERR;
+  NCerror ncstat = NC_NOERR;
   DCEsegment *lastseg = NULL;
   NClist *namematches = nclistnew();
-  NClist *matches     = nclistnew();
-  NClist *matchpath   = nclistnew();
+  NClist *matches = nclistnew();
+  NClist *matchpath = nclistnew();
 
   /* Locate all nodes with the same name
        as the last element in the segment path
     */
-  nsegs   = nclistlength(segments);
+  nsegs = nclistlength(segments);
   lastseg = (DCEsegment *)nclistget(segments, nsegs - 1);
   for (i = 0; i < nclistlength(nodes); i++) {
     CDFnode *node = (CDFnode *)nclistget(nodes, i);
@@ -283,8 +283,8 @@ matchpartialname(NClist *nodes, NClist *segments, CDFnode **nodep) {
       break;
     default: {
       CDFnode *minnode = NULL;
-      int minpath      = 0;
-      int nmin         = 0; /* to catch multiple ones with same short path */
+      int minpath = 0;
+      int nmin = 0; /* to catch multiple ones with same short path */
       /* ok, see if one of the matches has a path that is shorter
            then all the others */
       for (i = 0; i < nclistlength(matches); i++) {
@@ -299,7 +299,7 @@ matchpartialname(NClist *nodes, NClist *segments, CDFnode **nodep) {
         } else if (nclistlength(matchpath) < minpath) {
           minpath = nclistlength(matchpath);
           minnode = candidate;
-          nmin    = 1;
+          nmin = 1;
         }
       } /*for*/
       if (minnode == NULL || nmin > 1) {
@@ -326,7 +326,7 @@ done:
 static int
 matchsuffix(NClist *matchpath, NClist *segments) {
   int i, pathstart;
-  int nsegs   = nclistlength(segments);
+  int nsegs = nclistlength(segments);
   int pathlen = nclistlength(matchpath);
   int segmatch;
 
@@ -343,10 +343,10 @@ matchsuffix(NClist *matchpath, NClist *segments) {
        matching as we go
     */
   for (i = 0; i < nsegs; i++) {
-    CDFnode *node   = (CDFnode *)nclistget(matchpath, pathstart + i);
+    CDFnode *node = (CDFnode *)nclistget(matchpath, pathstart + i);
     DCEsegment *seg = (DCEsegment *)nclistget(segments, i);
-    int rank        = seg->rank;
-    segmatch        = 1; /* until proven otherwise */
+    int rank = seg->rank;
+    segmatch = 1; /* until proven otherwise */
     /* Do the names match (in oc name space) */
     if (strcmp(seg->name, node->ocname) != 0) {
       segmatch = 0;
@@ -373,10 +373,10 @@ dapbuildvaraprojection(CDFnode *var,
 const size_t *startp, const size_t *countp, const ptrdiff_t *stridep,
 DCEprojection **projectionp) {
   int i, j;
-  NCerror ncstat            = NC_NOERR;
+  NCerror ncstat = NC_NOERR;
   DCEprojection *projection = NULL;
-  NClist *path              = nclistnew();
-  NClist *segments          = NULL;
+  NClist *path = nclistnew();
+  NClist *segments = NULL;
   int dimindex;
 
   /* Build a skeleton projection that has 1 segment for
@@ -398,16 +398,16 @@ DCEprojection **projectionp) {
   for (i = 0; i < nclistlength(segments); i++) {
     DCEsegment *segment = (DCEsegment *)nclistget(segments, i);
     for (j = 0; j < segment->rank; j++) {
-      size_t count    = 0;
+      size_t count = 0;
       DCEslice *slice = &segment->slices[j];
       /* make each slice represent the corresponding
                start/count/stride */
-      slice->first  = startp[dimindex + j];
+      slice->first = startp[dimindex + j];
       slice->stride = stridep[dimindex + j];
-      count         = countp[dimindex + j];
-      slice->count  = count;
+      count = countp[dimindex + j];
+      slice->count = count;
       slice->length = count * slice->stride;
-      slice->last   = (slice->first + slice->length) - 1;
+      slice->last = (slice->first + slice->length) - 1;
       if (slice->last >= slice->declsize) {
         slice->last = slice->declsize - 1;
         /* reverse compute the new length */
@@ -453,8 +453,8 @@ int dapiswholesegment(DCEsegment *seg) {
   if (!seg->slicesdefined) return 0;
   if (seg->annotation == NULL) return 0;
   dimset = ((CDFnode *)seg->annotation)->array.dimset0;
-  rank   = nclistlength(dimset);
-  whole  = 1; /* assume so */
+  rank = nclistlength(dimset);
+  whole = 1; /* assume so */
   for (i = 0; i < rank; i++) {
     CDFnode *dim = (CDFnode *)nclistget(dimset, i);
     if (!dapiswholeslice(&seg->slices[i], dim)) {
@@ -513,7 +513,7 @@ NCerror
 dapfixprojections(NClist *list) {
   int i, j, k;
   NCerror ncstat = NC_NOERR;
-  NClist *tmp    = nclistnew(); /* misc. uses */
+  NClist *tmp = nclistnew(); /* misc. uses */
 
 #ifdef DEBUG
   fprintf(stderr, "fixprojection: list = %s\n", dumpprojections(list));
@@ -590,7 +590,7 @@ dapfixprojections(NClist *list) {
     /* Now explode the containers */
     for (i = 0; i < nclistlength(tmp); i++) {
       DCEprojection *container = (DCEprojection *)nclistget(tmp, i);
-      CDFnode *leaf            = (CDFnode *)container->var->annotation;
+      CDFnode *leaf = (CDFnode *)container->var->annotation;
       for (j = 0; i < nclistlength(leaf->subnodes); j++) {
         CDFnode *field = (CDFnode *)nclistget(leaf->subnodes, j);
         /* Convert field node to a proper constraint */
@@ -628,14 +628,14 @@ iscontainer(CDFnode *node) {
 static DCEprojection *
 projectify(CDFnode *field, DCEprojection *container) {
   DCEprojection *proj = (DCEprojection *)dcecreate(CES_PROJECT);
-  DCEvar *var         = (DCEvar *)dcecreate(CES_VAR);
-  DCEsegment *seg     = (DCEsegment *)dcecreate(CES_SEGMENT);
-  proj->discrim       = CES_VAR;
-  proj->var           = var;
-  var->annotation     = (void *)field;
+  DCEvar *var = (DCEvar *)dcecreate(CES_VAR);
+  DCEsegment *seg = (DCEsegment *)dcecreate(CES_SEGMENT);
+  proj->discrim = CES_VAR;
+  proj->var = var;
+  var->annotation = (void *)field;
   /* Dup the segment list */
   var->segments = dceclonelist(container->var->segments);
-  seg->rank     = 0;
+  seg->rank = 0;
   nclistpush(var->segments, (void *)seg);
   return proj;
 }
@@ -655,8 +655,8 @@ slicematch(NClist *seglist1, NClist *seglist2) {
     for (j = 0; j < seg1->rank; j++) {
       DCEslice *slice1 = &seg1->slices[j];
       DCEslice *slice2 = &seg2->slices[j];
-      size_t count1    = slice1->count;
-      size_t count2    = slice2->count;
+      size_t count1 = slice1->count;
+      size_t count2 = slice2->count;
       if (slice1->first != slice2->first
           || count1 != count2
           || slice1->stride != slice2->stride)
@@ -671,7 +671,7 @@ slicematch(NClist *seglist1, NClist *seglist2) {
 */
 int dapvar2projection(CDFnode *var, DCEprojection **projectionp) {
   int i, j;
-  int ncstat   = NC_NOERR;
+  int ncstat = NC_NOERR;
   NClist *path = nclistnew();
   NClist *segments;
   DCEprojection *projection = NULL;
@@ -685,35 +685,35 @@ int dapvar2projection(CDFnode *var, DCEprojection **projectionp) {
   nclistsetalloc(segments, nclistlength(path));
   for (i = 0; i < nclistlength(path); i++) {
     DCEsegment *segment = (DCEsegment *)dcecreate(CES_SEGMENT);
-    CDFnode *n          = (CDFnode *)nclistget(path, i);
+    CDFnode *n = (CDFnode *)nclistget(path, i);
     int localrank;
     NClist *dimset;
 
     segment->annotation = (void *)n;
-    segment->name       = nulldup(n->ocname);
+    segment->name = nulldup(n->ocname);
     /* We need to assign whole slices to each segment */
-    localrank     = nclistlength(n->array.dimsetplus);
+    localrank = nclistlength(n->array.dimsetplus);
     segment->rank = localrank;
-    dimset        = n->array.dimsetplus;
+    dimset = n->array.dimsetplus;
     for (j = 0; j < localrank; j++) {
       DCEslice *slice;
       CDFnode *dim;
       slice = &segment->slices[j];
-      dim   = (CDFnode *)nclistget(dimset, j);
+      dim = (CDFnode *)nclistget(dimset, j);
       ASSERT(dim->dim.declsize0 > 0);
       dcemakewholeslice(slice, dim->dim.declsize0);
     }
-    segment->slicesdefined  = 1;
+    segment->slicesdefined = 1;
     segment->slicesdeclized = 1;
     dimindex += localrank;
     nclistpush(segments, (void *)segment);
   }
 
-  projection                  = (DCEprojection *)dcecreate(CES_PROJECT);
-  projection->discrim         = CES_VAR;
-  projection->var             = (DCEvar *)dcecreate(CES_VAR);
+  projection = (DCEprojection *)dcecreate(CES_PROJECT);
+  projection->discrim = CES_VAR;
+  projection->var = (DCEvar *)dcecreate(CES_VAR);
   projection->var->annotation = (void *)var;
-  projection->var->segments   = segments;
+  projection->var->segments = segments;
 
 #ifdef DEBUG1
   fprintf(stderr, "dapvar2projection: projection=%s\n",
@@ -782,13 +782,13 @@ done:
 /* Shift the slice so it runs from 0..count by step 1 */
 static void
 dapshiftslice(DCEslice *slice) {
-  size_t first  = slice->first;
+  size_t first = slice->first;
   size_t stride = slice->stride;
   if (first == 0 && stride == 1) return; /* no need to do anything */
-  slice->first  = 0;
+  slice->first = 0;
   slice->stride = 1;
   slice->length = slice->count;
-  slice->last   = slice->length - 1;
+  slice->last = slice->length - 1;
 }
 
 int dapshiftprojection(DCEprojection *projection) {
@@ -823,7 +823,7 @@ int dapshiftprojection(DCEprojection *projection) {
 NCerror
 dapcomputeprojectedvars(NCDAPCOMMON *dapcomm, DCEconstraint *constraint) {
   NCerror ncstat = NC_NOERR;
-  NClist *vars   = NULL;
+  NClist *vars = NULL;
   int i;
 
   vars = nclistnew();

@@ -76,7 +76,7 @@ size_t *buf_size, void **buf) {
 
     /* Prepare the output buffer. */
     outbuflen = M; /* worst case */
-    outbuf    = H5allocate_memory(outbuflen, 0);
+    outbuf = H5allocate_memory(outbuflen, 0);
     if (outbuf == NULL) {
       fprintf(stderr, "memory allocation failed for xxxx compression\n");
       goto cleanupAndFail;
@@ -87,7 +87,7 @@ size_t *buf_size, void **buf) {
 
   /* Always replace the input buffer with the output buffer. */
   H5free_memory(*buf);
-  *buf      = outbuf;
+  *buf = outbuf;
   *buf_size = outbuflen;
   return outdatalen;
 

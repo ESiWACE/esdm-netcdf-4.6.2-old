@@ -152,12 +152,12 @@ int main(int argc, char **argv) {
   int i;
 
   /* Set defaults */
-  persist    = 0;
+  persist = 0;
   usenetcdf4 = 0;
-  mmap       = 0;
-  diskless   = 0;
-  file       = 0;
-  diskmode   = 0;
+  mmap = 0;
+  diskless = 0;
+  file = 0;
+  diskmode = 0;
 
   for (i = 1; i < argc; i++) {
     if (strcmp(argv[i], "diskless") == 0)

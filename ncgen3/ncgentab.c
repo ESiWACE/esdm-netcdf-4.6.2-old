@@ -181,25 +181,25 @@ extern int ncgdebug;
       know about them.  */
 enum yytokentype {
   NC_UNLIMITED_K = 258,
-  BYTE_K         = 259,
-  CHAR_K         = 260,
-  SHORT_K        = 261,
-  INT_K          = 262,
-  FLOAT_K        = 263,
-  DOUBLE_K       = 264,
-  IDENT          = 265,
-  TERMSTRING     = 266,
-  BYTE_CONST     = 267,
-  CHAR_CONST     = 268,
-  SHORT_CONST    = 269,
-  INT_CONST      = 270,
-  FLOAT_CONST    = 271,
-  DOUBLE_CONST   = 272,
-  DIMENSIONS     = 273,
-  VARIABLES      = 274,
-  NETCDF         = 275,
-  DATA           = 276,
-  FILLVALUE      = 277
+  BYTE_K = 259,
+  CHAR_K = 260,
+  SHORT_K = 261,
+  INT_K = 262,
+  FLOAT_K = 263,
+  DOUBLE_K = 264,
+  IDENT = 265,
+  TERMSTRING = 266,
+  BYTE_CONST = 267,
+  CHAR_CONST = 268,
+  SHORT_CONST = 269,
+  INT_CONST = 270,
+  FLOAT_CONST = 271,
+  DOUBLE_CONST = 272,
+  DIMENSIONS = 273,
+  VARIABLES = 274,
+  NETCDF = 275,
+  DATA = 276,
+  FILLVALUE = 277
 };
 #  endif
 
@@ -417,7 +417,7 @@ union yyalloc {
     do {                                                               \
       YYSIZE_T yynewbytes;                                             \
       YYCOPY(&yyptr->Stack_alloc, Stack, yysize);                      \
-      Stack      = &yyptr->Stack_alloc;                                \
+      Stack = &yyptr->Stack_alloc;                                     \
       yynewbytes = yystacksize * sizeof(*Stack) + YYSTACK_GAP_MAXIMUM; \
       yyptr += yynewbytes / sizeof(*yyptr);                            \
     } while (YYID(0))
@@ -741,10 +741,10 @@ static const yytype_uint8 yystos[] = {
 #  define YYLLOC_DEFAULT(Current, Rhs, N)                                              \
     do                                                                                 \
       if (YYID(N)) {                                                                   \
-        (Current).first_line   = YYRHSLOC(Rhs, 1).first_line;                          \
+        (Current).first_line = YYRHSLOC(Rhs, 1).first_line;                            \
         (Current).first_column = YYRHSLOC(Rhs, 1).first_column;                        \
-        (Current).last_line    = YYRHSLOC(Rhs, N).last_line;                           \
-        (Current).last_column  = YYRHSLOC(Rhs, N).last_column;                         \
+        (Current).last_line = YYRHSLOC(Rhs, N).last_line;                              \
+        (Current).last_column = YYRHSLOC(Rhs, N).last_column;                          \
       } else {                                                                         \
         (Current).first_line = (Current).last_line = YYRHSLOC(Rhs, 0).last_line;       \
         (Current).first_column = (Current).last_column = YYRHSLOC(Rhs, 0).last_column; \
@@ -989,7 +989,7 @@ yystpcpy(yydest, yysrc) char *yydest;
 const char *yysrc;
 #      endif
 {
-  char *yyd       = yydest;
+  char *yyd = yydest;
   const char *yys = yysrc;
 
   while ((*yyd++ = *yys++) != '\0')
@@ -1011,7 +1011,7 @@ const char *yysrc;
 static YYSIZE_T
 yytnamerr(char *yyres, const char *yystr) {
   if (*yystr == '"') {
-    YYSIZE_T yyn    = 0;
+    YYSIZE_T yyn = 0;
     char const *yyp = yystr;
 
     for (;;)
@@ -1057,7 +1057,7 @@ static int
 yysyntax_error(YYSIZE_T *yymsg_alloc, char **yymsg,
 yytype_int16 *yyssp, int yytoken) {
   YYSIZE_T yysize0 = yytnamerr(YY_NULL, yytname[yytoken]);
-  YYSIZE_T yysize  = yysize0;
+  YYSIZE_T yysize = yysize0;
   YYSIZE_T yysize1;
   enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
   /* Internationalized format string. */
@@ -1096,7 +1096,7 @@ yytype_int16 *yyssp, int yytoken) {
        accepted due to an error action in a later state.
   */
   if (yytoken != YYEMPTY) {
-    int yyn          = yypact[*yyssp];
+    int yyn = yypact[*yyssp];
     yyarg[yycount++] = yytname[yytoken];
     if (!yypact_value_is_default(yyn)) {
       /* Start YYX at -YYN if negative to avoid negative indexes in
@@ -1105,7 +1105,7 @@ yytype_int16 *yyssp, int yytoken) {
       int yyxbegin = yyn < 0 ? -yyn : 0;
       /* Stay within bounds of both yycheck and yytname.  */
       int yychecklim = YYLAST - yyn + 1;
-      int yyxend     = yychecklim < YYNTOKENS ? yychecklim : YYNTOKENS;
+      int yyxend = yychecklim < YYNTOKENS ? yychecklim : YYNTOKENS;
       int yyx;
 
       for (yyx = yyxbegin; yyx < yyxend; ++yyx)
@@ -1113,11 +1113,11 @@ yytype_int16 *yyssp, int yytoken) {
             && !yytable_value_is_error(yytable[yyx + yyn])) {
           if (yycount == YYERROR_VERBOSE_ARGS_MAXIMUM) {
             yycount = 1;
-            yysize  = yysize0;
+            yysize = yysize0;
             break;
           }
           yyarg[yycount++] = yytname[yyx];
-          yysize1          = yysize + yytnamerr(YY_NULL, yytname[yyx]);
+          yysize1 = yysize + yytnamerr(YY_NULL, yytname[yyx]);
           if (!(yysize <= yysize1
                 && yysize1 <= YYSTACK_ALLOC_MAXIMUM))
             return 2;
@@ -1158,7 +1158,7 @@ yytype_int16 *yyssp, int yytoken) {
      produced a string with the wrong number of "%s"s.  */
   {
     char *yyp = *yymsg;
-    int yyi   = 0;
+    int yyi = 0;
     while ((*yyp = *yyformat) != '\0')
       if (*yyp == '%' && yyformat[1] == 's' && yyi < yycount) {
         yyp += yytnamerr(yyp, yyarg[yyi++]);
@@ -1277,7 +1277,7 @@ int yyparse()
 #if YYERROR_VERBOSE
   /* Buffer for error messages, and its allocated size.  */
   char yymsgbuf[128];
-  char *yymsg          = yymsgbuf;
+  char *yymsg = yymsgbuf;
   YYSIZE_T yymsg_alloc = sizeof yymsgbuf;
 #endif
 
@@ -1287,16 +1287,16 @@ int yyparse()
      Keep to zero when no symbol should be popped.  */
   int yylen = 0;
 
-  yyss        = yyssa;
-  yyvs        = yyvsa;
+  yyss = yyssa;
+  yyvs = yyvsa;
   yystacksize = YYINITDEPTH;
 
   YYDPRINTF((stderr, "Starting parse\n"));
 
-  yystate     = 0;
+  yystate = 0;
   yyerrstatus = 0;
-  yynerrs     = 0;
-  yychar      = YYEMPTY; /* Cause a token to be read.  */
+  yynerrs = 0;
+  yychar = YYEMPTY; /* Cause a token to be read.  */
 
   /* Initialize stack pointers.
      Waste one element of value and location stack
@@ -1328,7 +1328,7 @@ yysetstate:
       /* Give user a chance to reallocate the stack.  Use copies of
 	   these so that the &'s don't force the real ones into
 	   memory.  */
-      YYSTYPE *yyvs1      = yyvs;
+      YYSTYPE *yyvs1 = yyvs;
       yytype_int16 *yyss1 = yyss;
 
       /* Each stack pointer address is followed by the size of the
@@ -1355,7 +1355,7 @@ yysetstate:
       yystacksize = YYMAXDEPTH;
 
     {
-      yytype_int16 *yyss1  = yyss;
+      yytype_int16 *yyss1 = yyss;
       union yyalloc *yyptr = (union yyalloc *)YYSTACK_ALLOC(YYSTACK_BYTES(yystacksize));
       if (!yyptr)
         goto yyexhaustedlab;
@@ -1531,7 +1531,7 @@ yyreduce:
     {
       if (rec_dim != -1)
         derror("only one NC_UNLIMITED dimension allowed");
-      rec_dim          = ndims; /* the unlimited (record) dimension */
+      rec_dim = ndims; /* the unlimited (record) dimension */
       dims[ndims].size = NC_UNLIMITED;
       ndims++;
     } break;
@@ -1545,7 +1545,7 @@ yyreduce:
         (yyvsp[(1) - (1)])->name);
       }
       (yyvsp[(1) - (1)])->is_dim = 1;
-      (yyvsp[(1) - (1)])->dnum   = ndims;
+      (yyvsp[(1) - (1)])->dnum = ndims;
       /* make sure dims array will hold dimensions */
       grow_darray(ndims, /* must hold ndims+1 dims */
       &dims);            /* grow as needed */
@@ -1603,12 +1603,12 @@ yyreduce:
     {
       static struct vars dummyvar;
 
-      dummyvar.name               = "dummy";
-      dummyvar.type               = NC_DOUBLE;
-      dummyvar.ndims              = 0;
-      dummyvar.dims               = 0;
+      dummyvar.name = "dummy";
+      dummyvar.type = NC_DOUBLE;
+      dummyvar.ndims = 0;
+      dummyvar.dims = 0;
       dummyvar.fill_value.doublev = NC_FILL_DOUBLE;
-      dummyvar.has_data           = 0;
+      dummyvar.has_data = 0;
 
       nvdims = 0;
       /* make sure variable not re-declared */
@@ -1617,16 +1617,16 @@ yyreduce:
         (yyvsp[(1) - (1)])->name);
       }
       (yyvsp[(1) - (1)])->is_var = 1;
-      (yyvsp[(1) - (1)])->vnum   = nvars;
+      (yyvsp[(1) - (1)])->vnum = nvars;
       /* make sure vars array will hold variables */
-      grow_varray(nvars,           /* must hold nvars+1 vars */
-      &vars);                      /* grow as needed */
-      vars[nvars]      = dummyvar; /* to make Purify happy */
+      grow_varray(nvars,      /* must hold nvars+1 vars */
+      &vars);                 /* grow as needed */
+      vars[nvars] = dummyvar; /* to make Purify happy */
       vars[nvars].name = (char *)emalloc(strlen((yyvsp[(1) - (1)])->name) + 1);
       (void)strcpy(vars[nvars].name, (yyvsp[(1) - (1)])->name);
       /* name for use in generated Fortran and C variables */
       vars[nvars].lname = decodify((yyvsp[(1) - (1)])->name);
-      vars[nvars].type  = type_code;
+      vars[nvars].type = type_code;
       /* set default fill value.  You can override this with
 		     * the variable attribute "_FillValue". */
       nc_getfill(type_code, &vars[nvars].fill_value);
@@ -1739,7 +1739,7 @@ yyreduce:
 /* Line 1813 of yacc.c  */
 #line 336 "ncgen.y"
     {
-      atype_code   = NC_CHAR;
+      atype_code = NC_CHAR;
       *char_valp++ = char_val;
       valnum++;
     } break;
@@ -1764,7 +1764,7 @@ yyreduce:
 /* Line 1813 of yacc.c  */
 #line 355 "ncgen.y"
     {
-      atype_code   = NC_BYTE;
+      atype_code = NC_BYTE;
       *byte_valp++ = byte_val;
       valnum++;
     } break;
@@ -1773,7 +1773,7 @@ yyreduce:
 /* Line 1813 of yacc.c  */
 #line 361 "ncgen.y"
     {
-      atype_code    = NC_SHORT;
+      atype_code = NC_SHORT;
       *short_valp++ = short_val;
       valnum++;
     } break;
@@ -1782,7 +1782,7 @@ yyreduce:
 /* Line 1813 of yacc.c  */
 #line 367 "ncgen.y"
     {
-      atype_code  = NC_INT;
+      atype_code = NC_INT;
       *int_valp++ = int_val;
       valnum++;
     } break;
@@ -1791,7 +1791,7 @@ yyreduce:
 /* Line 1813 of yacc.c  */
 #line 373 "ncgen.y"
     {
-      atype_code    = NC_FLOAT;
+      atype_code = NC_FLOAT;
       *float_valp++ = float_val;
       valnum++;
     } break;
@@ -1800,7 +1800,7 @@ yyreduce:
 /* Line 1813 of yacc.c  */
 #line 379 "ncgen.y"
     {
-      atype_code     = NC_DOUBLE;
+      atype_code = NC_DOUBLE;
       *double_valp++ = double_val;
       valnum++;
     } break;
@@ -1809,8 +1809,8 @@ yyreduce:
 /* Line 1813 of yacc.c  */
 #line 395 "ncgen.y"
     {
-      valtype               = vars[varnum].type; /* variable type */
-      valnum                = 0;                 /* values accumulated for variable */
+      valtype = vars[varnum].type; /* variable type */
+      valnum = 0;                  /* values accumulated for variable */
       vars[varnum].has_data = 1;
       /* compute dimensions product */
       var_size = nctypesize(valtype);
@@ -1829,7 +1829,7 @@ yyreduce:
         vars[varnum].name);
         exit(9);
       }
-      rec_len   = var_len;
+      rec_len = var_len;
       rec_start = malloc((size_t)(rec_len * var_size));
       if (rec_start == 0) {
         derror("out of memory\n");
@@ -1891,14 +1891,14 @@ yyreduce:
 				      multiple of record size */
           ptrdiff_t rec_inc = (char *)rec_cur
                               - (char *)rec_start;
-          var_len     = rec_len * (1 + valnum / rec_len);
-          rec_start   = erealloc(rec_start, var_len * var_size);
-          rec_cur     = (char *)rec_start + rec_inc;
-          char_valp   = (char *)rec_cur;
-          byte_valp   = (signed char *)rec_cur;
-          short_valp  = (short *)rec_cur;
-          int_valp    = (int *)rec_cur;
-          float_valp  = (float *)rec_cur;
+          var_len = rec_len * (1 + valnum / rec_len);
+          rec_start = erealloc(rec_start, var_len * var_size);
+          rec_cur = (char *)rec_start + rec_inc;
+          char_valp = (char *)rec_cur;
+          byte_valp = (signed char *)rec_cur;
+          short_valp = (short *)rec_cur;
+          int_valp = (int *)rec_cur;
+          float_valp = (float *)rec_cur;
           double_valp = (double *)rec_cur;
         }
       }
@@ -1968,7 +1968,7 @@ yyreduce:
 #line 544 "ncgen.y"
     {
       not_a_string = 0;
-      atype_code   = NC_CHAR;
+      atype_code = NC_CHAR;
       {
         size_t len = strlen(termstring);
 
@@ -1982,7 +1982,7 @@ yyreduce:
                                 - (char *)rec_start;
             var_len += rec_len * (len + valnum - var_len) / rec_len;
             rec_start = erealloc(rec_start, var_len * var_size);
-            rec_cur   = (char *)rec_start + rec_inc;
+            rec_cur = (char *)rec_start + rec_inc;
             char_valp = (char *)rec_cur;
           }
         }
@@ -2268,12 +2268,12 @@ yyerrlab:
           YYSTACK_FREE(yymsg);
         yymsg = (char *)YYSTACK_ALLOC(yymsg_alloc);
         if (!yymsg) {
-          yymsg                 = yymsgbuf;
-          yymsg_alloc           = sizeof yymsgbuf;
+          yymsg = yymsgbuf;
+          yymsg_alloc = sizeof yymsgbuf;
           yysyntax_error_status = 2;
         } else {
           yysyntax_error_status = YYSYNTAX_ERROR;
-          yymsgp                = yymsg;
+          yymsgp = yymsg;
         }
       }
       yyerror(yymsgp);
@@ -2426,16 +2426,16 @@ yyreturn:
 
 /* HELPER PROGRAMS */
 void defatt() {
-  valnum  = 0;
+  valnum = 0;
   valtype = NC_UNSPECIFIED;
   /* get a large block for attributes, realloc later */
   att_space = emalloc(MAX_NC_ATTSIZE);
   /* make all kinds of pointers point to it */
-  char_valp   = (char *)att_space;
-  byte_valp   = (signed char *)att_space;
-  short_valp  = (short *)att_space;
-  int_valp    = (int *)att_space;
-  float_valp  = (float *)att_space;
+  char_valp = (char *)att_space;
+  byte_valp = (signed char *)att_space;
+  short_valp = (short *)att_space;
+  int_valp = (int *)att_space;
+  float_valp = (float *)att_space;
   double_valp = (double *)att_space;
 }
 
@@ -2448,11 +2448,11 @@ void equalatt() {
       vars[varnum].name, atts[natts].name);
     }
   }
-  atts[natts].var  = varnum;
+  atts[natts].var = varnum;
   atts[natts].type = valtype;
-  atts[natts].len  = valnum;
+  atts[natts].len = valnum;
   /* shrink space down to what was really needed */
-  att_space       = erealloc(att_space, valnum * nctypesize(valtype));
+  att_space = erealloc(att_space, valnum * nctypesize(valtype));
   atts[natts].val = att_space;
   if (STREQ(atts[natts].name, _FillValue) && atts[natts].var != NC_GLOBAL) {
     nc_putfill(atts[natts].type, atts[natts].val,
@@ -2512,14 +2512,14 @@ YYSTYPE install(/* install sname in symbol table */
 const char *sname) {
   YYSTYPE sp;
 
-  sp       = (YYSTYPE)emalloc(sizeof(struct Symbol));
+  sp = (YYSTYPE)emalloc(sizeof(struct Symbol));
   sp->name = (char *)emalloc(strlen(sname) + 1); /* +1 for '\0' */
   (void)strcpy(sp->name, sname);
-  sp->next   = symlist; /* put at front of list */
+  sp->next = symlist; /* put at front of list */
   sp->is_dim = 0;
   sp->is_var = 0;
   sp->is_att = 0;
-  symlist    = sp;
+  symlist = sp;
   return sp;
 }
 

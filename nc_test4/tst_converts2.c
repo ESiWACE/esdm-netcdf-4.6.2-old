@@ -51,10 +51,10 @@ int main(int argc, char **argv) {
   {
     /* Write a scalar NC_USHORT, converted from various types, testing a bug fix. */
     unsigned short usval = 65535;
-    int ival             = 65535;
-    long lval            = 65535;
-    float fval           = 65535;
-    double dval          = 65535;
+    int ival = 65535;
+    long lval = 65535;
+    float fval = 65535;
+    double dval = 65535;
     int dimid;
     size_t coord[1];
     unsigned short ushort_in;
@@ -111,10 +111,10 @@ int main(int argc, char **argv) {
     /* Write a scalar NC_USHORT that's not default fill value,
        * converted from various types. */
     unsigned short usval = 65534;
-    int ival             = 65534;
-    long lval            = 65534;
-    float fval           = 65534;
-    double dval          = 65534;
+    int ival = 65534;
+    long lval = 65534;
+    float fval = 65534;
+    double dval = 65534;
     int dimid;
     size_t coord[1];
     unsigned short ushort_in;

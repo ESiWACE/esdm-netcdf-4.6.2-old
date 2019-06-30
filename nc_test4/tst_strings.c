@@ -30,7 +30,7 @@ int main(int argc, char **argv) {
     nc_type att_type;
     int ncid, i;
     char *data_in[ATT_LEN_1] = {NULL};
-    char *data[ATT_LEN_1]    = {"R"};
+    char *data[ATT_LEN_1] = {"R"};
 
     if (nc_create(FILE_NAME, NC_NETCDF4, &ncid)) ERR;
     if (nc_put_att(ncid, NC_GLOBAL, MOUNTAIN_RANGE, NC_STRING, ATT_LEN_1, data)) ERR;
@@ -219,10 +219,10 @@ int main(int argc, char **argv) {
     if (nc_create(FILE_NAME, NC_NETCDF4, &ncid)) ERR;
     if (nc_def_dim(ncid, DIM_NAME, NUM_PRES, dimids)) ERR;
     if (nc_def_var(ncid, VAR_NAME_P, NC_STRING, NDIMS_PRES, dimids, &varid)) ERR;
-    start[0]  = 0;
-    count[0]  = SOME_PRES;
+    start[0] = 0;
+    count[0] = SOME_PRES;
     stride[0] = 2;
-    status    = nc_put_vars_string(ncid, varid, start, count, stride, (const char **)data);
+    status = nc_put_vars_string(ncid, varid, start, count, stride, (const char **)data);
     if (status != NC_NOERR)
       fprintf(stderr, "%s\n", nc_strerror(status));
     if (nc_close(ncid)) ERR;
@@ -420,7 +420,7 @@ int main(int argc, char **argv) {
     "for any State, group or person any right to engage in any "
     "activity or to perform any act aimed at the destruction of "
     "any of the rights and freedoms set forth herein."};
-    char *empty_string[]   = {""};
+    char *empty_string[] = {""};
     char *my_string_fill[] = {"fill_string"};
 
 #define NUM_DIM_COMBOS 4
@@ -428,10 +428,10 @@ int main(int argc, char **argv) {
 
     for (dim_combo = 0; dim_combo < NUM_DIM_COMBOS; dim_combo++) {
       char filename[NC_MAX_NAME + 1];
-      int dim_len             = dim_combo ? NC_UNLIMITED : DHR_LEN;
+      int dim_len = dim_combo ? NC_UNLIMITED : DHR_LEN;
       int expected_unlimdimid = dim_combo ? 0 : -1;
-      char *default_fill      = ((char *)"");
-      char **string_fillp     = dim_combo == 3 ? my_string_fill : &default_fill;
+      char *default_fill = ((char *)"");
+      char **string_fillp = dim_combo == 3 ? my_string_fill : &default_fill;
       char *data_in;
 
       sprintf(filename, "%s_dim_combo_%d.nc", TEST_NAME, dim_combo);

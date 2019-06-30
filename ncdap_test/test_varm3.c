@@ -101,10 +101,10 @@ int main() {
   check(err = nc_open(url, NC_NOWRITE, &ncid), __FILE__, __LINE__);
   check(err = nc_inq_varid(ncid, VAR, &varid), __FILE__, __LINE__);
   for (idim = 0; idim < 4; idim++) {
-    start[idim]  = 0;
-    count[idim]  = 1;
+    start[idim] = 0;
+    count[idim] = 1;
     stride[idim] = 1;
-    imap[idim]   = 1;
+    imap[idim] = 1;
   }
 #ifdef STANDALONE
   ndim = 3;
@@ -163,9 +163,9 @@ int main() {
 
   printf("*** Testing: stride case 2\n");
   /* case with strides #1 where len % stride == 0 */
-  start[1]  = 44;
-  start[2]  = 66;
-  count[0]  = 6;
+  start[1] = 44;
+  start[2] = 66;
+  count[0] = 6;
   stride[0] = 2;
 
 #ifdef STANDALONE
@@ -216,9 +216,9 @@ int main() {
 
   /* case with strides #2: len % stride != 0 */
   printf("*** Testing: stride case 3\n");
-  start[1]  = 44;
-  start[2]  = 66;
-  count[0]  = 3;
+  start[1] = 44;
+  start[2] = 66;
+  count[0] = 3;
   stride[0] = 5;
 
 #ifdef STANDALONE

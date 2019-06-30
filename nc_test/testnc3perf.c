@@ -182,8 +182,8 @@ long val;                  /* value to compare with */
 #define TIMING_END                              \
   }                                             \
   times(&TMru);                                 \
-  TMus      = TMru.tms_utime - TMus;            \
-  TMsy      = TMru.tms_stime - TMsy;            \
+  TMus = TMru.tms_utime - TMus;                 \
+  TMsy = TMru.tms_stime - TMsy;                 \
   TMelapsed = (float)(TMus + TMsy) / (float)HZ; \
   if (TMreps < TMrepeats) break;                \
   }                                             \
@@ -296,7 +296,7 @@ int *sizes;                       /* dimension sizes */
 
     for (idim = 0; idim < NDIMS; idim++) {
       corner[idim] = 0;
-      edge[idim]   = dims[idim].size;
+      edge[idim] = dims[idim].size;
     }
 
     sprintf(time_mess, "ncvarput %ldx%ldx%ldx%ld",
@@ -318,8 +318,8 @@ int *sizes;                       /* dimension sizes */
     /* get an interior point */
     for (idim = 0; idim < NDIMS; idim++) {
       corner[idim] = dims[idim].size / 2;
-      edge[idim]   = 1;
-      point[idim]  = corner[idim];
+      edge[idim] = 1;
+      point[idim] = corner[idim];
     }
 
     sprintf(time_mess, "ncvarget %ldx%ldx%ldx%ld", edge[0], edge[1], edge[2], edge[3]);
@@ -337,11 +337,11 @@ int *sizes;                       /* dimension sizes */
     for (idim = 0; idim < NDIMS; idim++) {
       for (jdim = 0; jdim < NDIMS; jdim++) {
         corner[jdim] = 0;
-        edge[jdim]   = 1;
-        point[jdim]  = corner[jdim];
+        edge[jdim] = 1;
+        point[jdim] = corner[jdim];
       }
       corner[idim] = 0; /* get vector along dimension idim */
-      edge[idim]   = dims[idim].size;
+      edge[idim] = dims[idim].size;
 
       sprintf(time_mess, "ncvarget %ldx%ldx%ldx%ld", edge[0], edge[1], edge[2], edge[3]);
 
@@ -363,13 +363,13 @@ int *sizes;                       /* dimension sizes */
       for (jdim = idim + 1; jdim < NDIMS; jdim++) {
         for (kdim = 0; kdim < NDIMS; kdim++) { /* reset corners and edges */
           corner[kdim] = 0;
-          edge[kdim]   = 1;
-          point[kdim]  = corner[kdim];
+          edge[kdim] = 1;
+          point[kdim] = corner[kdim];
         }
         corner[idim] = 0; /* plane along dimensions idim jdim */
         corner[jdim] = 0;
-        edge[idim]   = dims[idim].size;
-        edge[jdim]   = dims[jdim].size;
+        edge[idim] = dims[idim].size;
+        edge[jdim] = dims[jdim].size;
 
         sprintf(time_mess, "ncvarget %ldx%ldx%ldx%ld", edge[0], edge[1], edge[2], edge[3]);
 
@@ -399,15 +399,15 @@ int *sizes;                       /* dimension sizes */
         for (kdim = jdim + 1; kdim < NDIMS; kdim++) {
           for (ldim = 0; ldim < NDIMS; ldim++) { /* reset corners, edges */
             corner[ldim] = 0;
-            edge[ldim]   = 1;
-            point[ldim]  = corner[ldim];
+            edge[ldim] = 1;
+            point[ldim] = corner[ldim];
           }
           corner[idim] = 0; /* intr. cube along idim jdim kdim */
           corner[jdim] = 0;
           corner[kdim] = 0;
-          edge[idim]   = dims[idim].size;
-          edge[jdim]   = dims[jdim].size;
-          edge[kdim]   = dims[kdim].size;
+          edge[idim] = dims[idim].size;
+          edge[jdim] = dims[jdim].size;
+          edge[kdim] = dims[kdim].size;
 
           sprintf(time_mess, "ncvarget %ldx%ldx%ldx%ld", edge[0], edge[1], edge[2], edge[3]);
 
@@ -441,7 +441,7 @@ int *sizes;                       /* dimension sizes */
     /* get one 4-D slab of data */
     for (idim = 0; idim < NDIMS; idim++) {
       corner[idim] = 0;
-      edge[idim]   = dims[idim].size;
+      edge[idim] = dims[idim].size;
     }
 
     sprintf(time_mess, "ncvarget %ldx%ldx%ldx%ld", edge[0], edge[1], edge[2], edge[3]);

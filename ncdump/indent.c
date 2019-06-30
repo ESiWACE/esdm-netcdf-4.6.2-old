@@ -7,7 +7,7 @@
 #include <stdio.h>
 
 #include "indent.h"
-static int indent           = 0;
+static int indent = 0;
 static int indent_increment = 2; /* blanks for each nesting level */
 
 void indent_init() { /*  initialize output line indent */
@@ -24,7 +24,7 @@ void indent_out() { /*  output current indent */
     */
 
   int indent_small = 8;
-  char *indents[]  = {"",
+  char *indents[] = {"",
   " ",
   "  ",
   "   ",

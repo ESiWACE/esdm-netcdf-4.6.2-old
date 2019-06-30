@@ -212,24 +212,24 @@ char *argv[]) {
 
   init_netcdf();
 
-  opterr           = 1; /* print error message if bad option */
-  progname         = nulldup(ubasename(argv[0]));
-  cdlname          = NULL;
-  netcdf_name      = NULL;
-  datasetname      = NULL;
-  l_flag           = 0;
-  nofill_flag      = 0;
-  syntax_only      = 0;
-  header_only      = 0;
-  mainname         = "main";
+  opterr = 1; /* print error message if bad option */
+  progname = nulldup(ubasename(argv[0]));
+  cdlname = NULL;
+  netcdf_name = NULL;
+  datasetname = NULL;
+  l_flag = 0;
+  nofill_flag = 0;
+  syntax_only = 0;
+  header_only = 0;
+  mainname = "main";
   nciterbuffersize = 0;
 
-  k_flag           = 0;
+  k_flag = 0;
   format_attribute = 0;
-  enhanced_flag    = 0;
-  cdf5_flag        = 0;
-  specials_flag    = 0;
-  diskless         = 0;
+  enhanced_flag = 0;
+  cdf5_flag = 0;
+  specials_flag = 0;
+  diskless = 0;
 #ifdef LOGGING
   ncloglevel = NC_TURN_OFF_LOGGING;
 #else
@@ -315,7 +315,7 @@ char *argv[]) {
           fprintf(stderr, "Please specify only one language\n");
           return 1;
         }
-        l_flag     = L_BINARY;
+        l_flag = L_BINARY;
         binary_ext = ".cdf";
         break;
       case 'o': /* to explicitly specify output name */
@@ -541,7 +541,7 @@ char *argv[]) {
 #ifdef USE_NETCDF4
     k_flag = NC_FORMAT_NETCDF4;
 #else
-    k_flag   = NC_FORMAT_CLASSIC;
+    k_flag = NC_FORMAT_CLASSIC;
 #endif
 
   if (k_flag == 0)
@@ -598,11 +598,11 @@ done:
 void init_netcdf(void) /* initialize global counts, flags */
 {
   memset((void *)&nullconstant, 0, sizeof(NCConstant));
-  fillconstant        = nullconstant;
+  fillconstant = nullconstant;
   fillconstant.nctype = NC_FILLVALUE;
 
-  codebuffer  = bbNew();
-  stmt        = bbNew();
+  codebuffer = bbNew();
+  stmt = bbNew();
   error_count = 0; /* Track # of errors */
 }
 

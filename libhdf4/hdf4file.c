@@ -93,7 +93,7 @@ hdf4_rec_grp_del(NC_GRP_INFO_T *grp) {
 static int
 hdf4_type_info(NC_FILE_INFO_T *h5, int32 hdf4_typeid, nc_type *xtypep,
 int *endiannessp, size_t *type_sizep, char *type_name) {
-  int t          = 0;
+  int t = 0;
   int endianness = NC_ENDIAN_BIG;
   nc_type xtype;
 
@@ -102,79 +102,79 @@ int *endiannessp, size_t *type_sizep, char *type_name) {
   switch (hdf4_typeid) {
     case DFNT_CHAR:
       xtype = NC_CHAR;
-      t     = 0;
+      t = 0;
       break;
     case DFNT_UCHAR:
     case DFNT_UINT8:
       xtype = NC_UBYTE;
-      t     = 6;
+      t = 6;
       break;
     case DFNT_LUINT8:
-      xtype      = NC_UBYTE;
-      t          = 6;
+      xtype = NC_UBYTE;
+      t = 6;
       endianness = NC_ENDIAN_LITTLE;
       break;
     case DFNT_INT8:
       xtype = NC_BYTE;
-      t     = 1;
+      t = 1;
       break;
     case DFNT_LINT8:
-      xtype      = NC_BYTE;
-      t          = 1;
+      xtype = NC_BYTE;
+      t = 1;
       endianness = NC_ENDIAN_LITTLE;
       break;
     case DFNT_INT16:
       xtype = NC_SHORT;
-      t     = 2;
+      t = 2;
       break;
     case DFNT_LINT16:
-      xtype      = NC_SHORT;
-      t          = 2;
+      xtype = NC_SHORT;
+      t = 2;
       endianness = NC_ENDIAN_LITTLE;
       break;
     case DFNT_UINT16:
       xtype = NC_USHORT;
-      t     = 7;
+      t = 7;
       break;
     case DFNT_LUINT16:
-      xtype      = NC_USHORT;
-      t          = 7;
+      xtype = NC_USHORT;
+      t = 7;
       endianness = NC_ENDIAN_LITTLE;
       break;
     case DFNT_INT32:
       xtype = NC_INT;
-      t     = 3;
+      t = 3;
       break;
     case DFNT_LINT32:
-      xtype      = NC_INT;
-      t          = 3;
+      xtype = NC_INT;
+      t = 3;
       endianness = NC_ENDIAN_LITTLE;
       break;
     case DFNT_UINT32:
       xtype = NC_UINT;
-      t     = 8;
+      t = 8;
       break;
     case DFNT_LUINT32:
-      xtype      = NC_UINT;
-      t          = 8;
+      xtype = NC_UINT;
+      t = 8;
       endianness = NC_ENDIAN_LITTLE;
       break;
     case DFNT_FLOAT32:
       xtype = NC_FLOAT;
-      t     = 4;
+      t = 4;
       break;
     case DFNT_LFLOAT32:
-      xtype      = NC_FLOAT;
-      t          = 4;
+      xtype = NC_FLOAT;
+      t = 4;
       endianness = NC_ENDIAN_LITTLE;
       break;
     case DFNT_FLOAT64:
       xtype = NC_DOUBLE;
-      t     = 5;
+      t = 5;
       break;
     case DFNT_LFLOAT64:
-      xtype      = NC_DOUBLE;
-      t          = 5;
+      xtype = NC_DOUBLE;
+      t = 5;
       endianness = NC_ENDIAN_LITTLE;
       break;
     default:
@@ -234,9 +234,9 @@ NC_TYPE_INFO_T **typep) {
     type->nc_type_class = NC_INT;
 
   /* Set other type info values. */
-  type->endianness  = endianness;
-  type->size        = type_size;
-  type->hdr.id      = (size_t)xtype;
+  type->endianness = endianness;
+  type->size = type_size;
+  type->hdr.id = (size_t)xtype;
   type->hdr.hashkey = NC_hashmapkey(type->hdr.name, strlen(type->hdr.name));
 
   /* Return to caller. */
@@ -284,10 +284,10 @@ hdf4_read_att(NC_FILE_INFO_T *h5, NC_VAR_INFO_T *var, int a) {
     assert(var->format_var_info);
     att_list = var->att;
     hdf4_var = var->format_var_info;
-    sd_id    = hdf4_var->sdsid;
+    sd_id = hdf4_var->sdsid;
   } else {
     att_list = h5->root_grp->att;
-    sd_id    = hdf4_file->sdid;
+    sd_id = hdf4_file->sdid;
   }
 
   /* Learn about this attribute. */
@@ -304,8 +304,8 @@ hdf4_read_att(NC_FILE_INFO_T *h5, NC_VAR_INFO_T *var, int a) {
   if ((retval = nc4_att_list_add(att_list, name, &att)))
     return retval;
   att->nc_typeid = xtype;
-  att->created   = NC_TRUE;
-  att->len       = att_count;
+  att->created = NC_TRUE;
+  att->len = att_count;
 
   /* Allocate memory to hold the data. */
   if (att->len)
@@ -375,7 +375,7 @@ hdf4_read_dim(NC_FILE_INFO_T *h5, NC_VAR_INFO_T *var, int rec_dim_len, int d) {
 
   /* Tell the variable the id of this dimension. */
   var->dimids[d] = dim->hdr.id;
-  var->dim[d]    = dim;
+  var->dim[d] = dim;
 
   return NC_NOERR;
 }
@@ -404,8 +404,8 @@ NC_VAR_INFO_T **var) {
   /* Add the VAR_INFO_T struct to our list of vars. */
   if ((retval = nc4_var_list_add(grp, name, ndims, var)))
     return retval;
-  (*var)->created         = NC_TRUE;
-  (*var)->written_to      = NC_TRUE;
+  (*var)->created = NC_TRUE;
+  (*var)->written_to = NC_TRUE;
   (*var)->format_var_info = format_var_info;
 
   /* Fill special type_info struct for variable type information. */
@@ -526,7 +526,7 @@ hdf4_read_var(NC_FILE_INFO_T *h5, int v) {
 
   /* Remember these values. */
   hdf4_var->hdf4_data_type = data_type;
-  hdf4_var->sdsid          = sdsid;
+  hdf4_var->sdsid = sdsid;
 
   /* Add a variable to metadata structures. */
   LOG((3, "adding var for HDF4 dataset %s, rank %d netCDF type %d", name,
@@ -585,7 +585,7 @@ void *parameters, NC_Dispatch *dispatch, NC *nc_file) {
   int32 sdid;
   int v, a;
   NC_FILE_INFO_T *nc4_info = NULL;
-  int retval               = NC_NOERR;
+  int retval = NC_NOERR;
 
   /* Check inputs. */
   assert(nc_file && path);
@@ -612,14 +612,14 @@ void *parameters, NC_Dispatch *dispatch, NC *nc_file) {
     return retval;
   nc4_info = NC4_DATA(nc_file);
   assert(nc4_info && nc4_info->root_grp);
-  h5           = nc4_info;
+  h5 = nc4_info;
   h5->no_write = NC_TRUE;
 
   /* Allocate data to hold HDF4 specific file data. */
   if (!(hdf4_file = malloc(sizeof(NC_HDF4_FILE_INFO_T))))
     return NC_ENOMEM;
   h5->format_file_info = hdf4_file;
-  hdf4_file->sdid      = sdid;
+  hdf4_file->sdid = sdid;
 
   /* Read the global atts. */
   for (a = 0; a < num_gatts; a++)

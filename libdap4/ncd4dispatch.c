@@ -40,7 +40,7 @@ static int globalinit(void);
 /**************************************************/
 int NCD4_initialize(void) {
   NCD4_dispatch_table = &NCD4_dispatch_base;
-  ncd4initialized     = 1;
+  ncd4initialized = 1;
   ncloginit();
 #ifdef D4DEBUG
   /* force logging to go to stderr */
@@ -229,7 +229,7 @@ NCD4_inq_base_pe(int ncid, int *pe) {
   int substrateid;
   if ((ret = NC_check_id(ncid, (NC **)&ncp)) != NC_NOERR) return (ret);
   substrateid = makenc4id(ncp, ncid);
-  ret         = nc_inq_base_pe(substrateid, pe);
+  ret = nc_inq_base_pe(substrateid, pe);
   return (ret);
 }
 
@@ -240,7 +240,7 @@ NCD4_inq_format(int ncid, int *formatp) {
   int substrateid;
   if ((ret = NC_check_id(ncid, (NC **)&ncp)) != NC_NOERR) return (ret);
   substrateid = makenc4id(ncp, ncid);
-  ret         = nc_inq_format(substrateid, formatp);
+  ret = nc_inq_format(substrateid, formatp);
   return (ret);
 }
 
@@ -251,7 +251,7 @@ NCD4_inq(int ncid, int *ndimsp, int *nvarsp, int *nattsp, int *unlimdimidp) {
   int substrateid;
   if ((ret = NC_check_id(ncid, (NC **)&ncp)) != NC_NOERR) return (ret);
   substrateid = makenc4id(ncp, ncid);
-  ret         = nc_inq(substrateid, ndimsp, nvarsp, nattsp, unlimdimidp);
+  ret = nc_inq(substrateid, ndimsp, nvarsp, nattsp, unlimdimidp);
   return (ret);
 }
 
@@ -262,7 +262,7 @@ NCD4_inq_type(int ncid, nc_type p2, char *p3, size_t *p4) {
   int substrateid;
   if ((ret = NC_check_id(ncid, (NC **)&ncp)) != NC_NOERR) return (ret);
   substrateid = makenc4id(ncp, ncid);
-  ret         = nc_inq_type(substrateid, p2, p3, p4);
+  ret = nc_inq_type(substrateid, p2, p3, p4);
   return (ret);
 }
 
@@ -273,7 +273,7 @@ NCD4_inq_dimid(int ncid, const char *name, int *idp) {
   int substrateid;
   if ((ret = NC_check_id(ncid, (NC **)&ncp)) != NC_NOERR) return (ret);
   substrateid = makenc4id(ncp, ncid);
-  ret         = nc_inq_dimid(substrateid, name, idp);
+  ret = nc_inq_dimid(substrateid, name, idp);
   return (ret);
 }
 
@@ -284,7 +284,7 @@ NCD4_inq_unlimdim(int ncid, int *unlimdimidp) {
   int substrateid;
   if ((ret = NC_check_id(ncid, (NC **)&ncp)) != NC_NOERR) return (ret);
   substrateid = makenc4id(ncp, ncid);
-  ret         = nc_inq_unlimdim(substrateid, unlimdimidp);
+  ret = nc_inq_unlimdim(substrateid, unlimdimidp);
   return (ret);
 }
 
@@ -295,7 +295,7 @@ NCD4_rename_dim(int ncid, int dimid, const char *name) {
   int substrateid;
   if ((ret = NC_check_id(ncid, (NC **)&ncp)) != NC_NOERR) return (ret);
   substrateid = makenc4id(ncp, ncid);
-  ret         = nc_rename_dim(substrateid, dimid, name);
+  ret = nc_rename_dim(substrateid, dimid, name);
   return (ret);
 }
 
@@ -307,7 +307,7 @@ nc_type *xtypep, size_t *lenp) {
   int substrateid;
   if ((ret = NC_check_id(ncid, (NC **)&ncp)) != NC_NOERR) return (ret);
   substrateid = makenc4id(ncp, ncid);
-  ret         = nc_inq_att(substrateid, varid, name, xtypep, lenp);
+  ret = nc_inq_att(substrateid, varid, name, xtypep, lenp);
   return (ret);
 }
 
@@ -318,7 +318,7 @@ NCD4_inq_attid(int ncid, int varid, const char *name, int *idp) {
   int substrateid;
   if ((ret = NC_check_id(ncid, (NC **)&ncp)) != NC_NOERR) return (ret);
   substrateid = makenc4id(ncp, ncid);
-  ret         = nc_inq_attid(substrateid, varid, name, idp);
+  ret = nc_inq_attid(substrateid, varid, name, idp);
   return (ret);
 }
 
@@ -329,7 +329,7 @@ NCD4_inq_attname(int ncid, int varid, int attnum, char *name) {
   int substrateid;
   if ((ret = NC_check_id(ncid, (NC **)&ncp)) != NC_NOERR) return (ret);
   substrateid = makenc4id(ncp, ncid);
-  ret         = nc_inq_attname(substrateid, varid, attnum, name);
+  ret = nc_inq_attname(substrateid, varid, attnum, name);
   return (ret);
 }
 
@@ -340,7 +340,7 @@ NCD4_rename_att(int ncid, int varid, const char *name, const char *newname) {
   int substrateid;
   if ((ret = NC_check_id(ncid, (NC **)&ncp)) != NC_NOERR) return (ret);
   substrateid = makenc4id(ncp, ncid);
-  ret         = nc_rename_att(substrateid, varid, name, newname);
+  ret = nc_rename_att(substrateid, varid, name, newname);
   return (ret);
 }
 
@@ -351,7 +351,7 @@ NCD4_del_att(int ncid, int varid, const char *p3) {
   int substrateid;
   if ((ret = NC_check_id(ncid, (NC **)&ncp)) != NC_NOERR) return (ret);
   substrateid = makenc4id(ncp, ncid);
-  ret         = nc_del_att(substrateid, varid, p3);
+  ret = nc_del_att(substrateid, varid, p3);
   return (ret);
 }
 
@@ -362,7 +362,7 @@ NCD4_get_att(int ncid, int varid, const char *name, void *value, nc_type t) {
   int substrateid;
   if ((ret = NC_check_id(ncid, (NC **)&ncp)) != NC_NOERR) return (ret);
   substrateid = makenc4id(ncp, ncid);
-  ret         = NCDISPATCH_get_att(substrateid, varid, name, value, t);
+  ret = NCDISPATCH_get_att(substrateid, varid, name, value, t);
   return (ret);
 }
 
@@ -378,7 +378,7 @@ unsigned int *idp, size_t *nparamsp, unsigned int *params) {
   int substrateid;
   if ((ret = NC_check_id(ncid, (NC **)&ncp)) != NC_NOERR) return (ret);
   substrateid = makenc4id(ncp, ncid);
-  ret         = NCDISPATCH_inq_var_all(substrateid, varid, name, xtypep,
+  ret = NCDISPATCH_inq_var_all(substrateid, varid, name, xtypep,
   ndimsp, dimidsp, nattsp,
   shufflep, deflatep, deflate_levelp,
   fletcher32p, contiguousp, chunksizesp,
@@ -394,7 +394,7 @@ NCD4_inq_varid(int ncid, const char *name, int *varidp) {
   int substrateid;
   if ((ret = NC_check_id(ncid, (NC **)&ncp)) != NC_NOERR) return (ret);
   substrateid = makenc4id(ncp, ncid);
-  ret         = nc_inq_varid(substrateid, name, varidp);
+  ret = nc_inq_varid(substrateid, name, varidp);
   return (ret);
 }
 
@@ -405,7 +405,7 @@ NCD4_rename_var(int ncid, int varid, const char *name) {
   int substrateid;
   if ((ret = NC_check_id(ncid, (NC **)&ncp)) != NC_NOERR) return (ret);
   substrateid = makenc4id(ncp, ncid);
-  ret         = nc_rename_var(substrateid, varid, name);
+  ret = nc_rename_var(substrateid, varid, name);
   return (ret);
 }
 
@@ -424,7 +424,7 @@ NCD4_inq_ncid(int ncid, const char *name, int *grp_ncid) {
   int substrateid;
   if ((ret = NC_check_id(ncid, (NC **)&ncp)) != NC_NOERR) return (ret);
   substrateid = makenc4id(ncp, ncid);
-  ret         = nc_inq_ncid(substrateid, name, grp_ncid);
+  ret = nc_inq_ncid(substrateid, name, grp_ncid);
   return (ret);
 }
 
@@ -435,7 +435,7 @@ NCD4_show_metadata(int ncid) {
   int substrateid;
   if ((ret = NC_check_id(ncid, (NC **)&ncp)) != NC_NOERR) return (ret);
   substrateid = makenc4id(ncp, ncid);
-  ret         = nc_show_metadata(substrateid);
+  ret = nc_show_metadata(substrateid);
   return (ret);
 }
 
@@ -469,7 +469,7 @@ NCD4_inq_grpname(int ncid, char *p) {
   int substrateid;
   if ((ret = NC_check_id(ncid, (NC **)&ncp)) != NC_NOERR) return (ret);
   substrateid = makenc4id(ncp, ncid);
-  ret         = nc_inq_grpname(substrateid, p);
+  ret = nc_inq_grpname(substrateid, p);
   return (ret);
 }
 
@@ -481,7 +481,7 @@ NCD4_inq_unlimdims(int ncid, int *p2, int *p3) {
   int substrateid;
   if ((ret = NC_check_id(ncid, (NC **)&ncp)) != NC_NOERR) return (ret);
   substrateid = makenc4id(ncp, ncid);
-  ret         = nc_inq_unlimdims(substrateid, p2, p3);
+  ret = nc_inq_unlimdims(substrateid, p2, p3);
   return (ret);
 }
 
@@ -492,7 +492,7 @@ NCD4_inq_grpname_full(int ncid, size_t *p2, char *p3) {
   int substrateid;
   if ((ret = NC_check_id(ncid, (NC **)&ncp)) != NC_NOERR) return (ret);
   substrateid = makenc4id(ncp, ncid);
-  ret         = nc_inq_grpname_full(substrateid, p2, p3);
+  ret = nc_inq_grpname_full(substrateid, p2, p3);
   return (ret);
 }
 
@@ -503,7 +503,7 @@ NCD4_inq_grp_parent(int ncid, int *p) {
   int substrateid;
   if ((ret = NC_check_id(ncid, (NC **)&ncp)) != NC_NOERR) return (ret);
   substrateid = makenc4id(ncp, ncid);
-  ret         = nc_inq_grp_parent(substrateid, p);
+  ret = nc_inq_grp_parent(substrateid, p);
   if (p != NULL)
     *p = makedap4id(ncp, *p);
   return (ret);
@@ -516,7 +516,7 @@ NCD4_inq_grp_full_ncid(int ncid, const char *fullname, int *grpidp) {
   int substrateid;
   if ((ret = NC_check_id(ncid, (NC **)&ncp)) != NC_NOERR) return (ret);
   substrateid = makenc4id(ncp, ncid);
-  ret         = nc_inq_grp_full_ncid(substrateid, fullname, grpidp);
+  ret = nc_inq_grp_full_ncid(substrateid, fullname, grpidp);
   if (grpidp != NULL)
     *grpidp = makedap4id(ncp, *grpidp);
   return (ret);
@@ -529,7 +529,7 @@ NCD4_inq_varids(int ncid, int *nvars, int *p) {
   int substrateid;
   if ((ret = NC_check_id(ncid, (NC **)&ncp)) != NC_NOERR) return (ret);
   substrateid = makenc4id(ncp, ncid);
-  ret         = nc_inq_varids(substrateid, nvars, p);
+  ret = nc_inq_varids(substrateid, nvars, p);
   return (ret);
 }
 
@@ -540,7 +540,7 @@ NCD4_inq_dimids(int ncid, int *ndims, int *p3, int p4) {
   int substrateid;
   if ((ret = NC_check_id(ncid, (NC **)&ncp)) != NC_NOERR) return (ret);
   substrateid = makenc4id(ncp, ncid);
-  ret         = nc_inq_dimids(substrateid, ndims, p3, p4);
+  ret = nc_inq_dimids(substrateid, ndims, p3, p4);
   return (ret);
 }
 
@@ -551,7 +551,7 @@ NCD4_inq_typeids(int ncid, int *ntypes, int *p) {
   int substrateid;
   if ((ret = NC_check_id(ncid, (NC **)&ncp)) != NC_NOERR) return (ret);
   substrateid = makenc4id(ncp, ncid);
-  ret         = nc_inq_typeids(substrateid, ntypes, p);
+  ret = nc_inq_typeids(substrateid, ntypes, p);
   return (ret);
 }
 
@@ -562,7 +562,7 @@ NCD4_inq_type_equal(int ncid, nc_type t1, int p3, nc_type t2, int *p5) {
   int substrateid;
   if ((ret = NC_check_id(ncid, (NC **)&ncp)) != NC_NOERR) return (ret);
   substrateid = makenc4id(ncp, ncid);
-  ret         = nc_inq_type_equal(substrateid, t1, p3, t2, p5);
+  ret = nc_inq_type_equal(substrateid, t1, p3, t2, p5);
   return (ret);
 }
 
@@ -574,7 +574,7 @@ size_t *p6, int *p7) {
   int substrateid;
   if ((ret = NC_check_id(ncid, (NC **)&ncp)) != NC_NOERR) return (ret);
   substrateid = makenc4id(ncp, ncid);
-  ret         = nc_inq_user_type(substrateid, t, p3, p4, p5, p6, p7);
+  ret = nc_inq_user_type(substrateid, t, p3, p4, p5, p6, p7);
   return (ret);
 }
 
@@ -585,7 +585,7 @@ NCD4_inq_typeid(int ncid, const char *name, nc_type *t) {
   int substrateid;
   if ((ret = NC_check_id(ncid, (NC **)&ncp)) != NC_NOERR) return (ret);
   substrateid = makenc4id(ncp, ncid);
-  ret         = nc_inq_typeid(substrateid, name, t);
+  ret = nc_inq_typeid(substrateid, name, t);
   return (ret);
 }
 
@@ -598,7 +598,7 @@ int *dim_sizesp) {
   int substrateid;
   if ((ret = NC_check_id(ncid, (NC **)&ncp)) != NC_NOERR) return (ret);
   substrateid = makenc4id(ncp, ncid);
-  ret         = nc_inq_compound_field(substrateid, xtype, fieldid, name, offsetp, field_typeidp, ndimsp, dim_sizesp);
+  ret = nc_inq_compound_field(substrateid, xtype, fieldid, name, offsetp, field_typeidp, ndimsp, dim_sizesp);
   return (ret);
 }
 
@@ -610,7 +610,7 @@ int *fieldidp) {
   int substrateid;
   if ((ret = NC_check_id(ncid, (NC **)&ncp)) != NC_NOERR) return (ret);
   substrateid = makenc4id(ncp, ncid);
-  ret         = nc_inq_compound_fieldindex(substrateid, xtype, name, fieldidp);
+  ret = nc_inq_compound_fieldindex(substrateid, xtype, name, fieldidp);
   return (ret);
 }
 
@@ -621,7 +621,7 @@ NCD4_get_vlen_element(int ncid, int p2, const void *p3, size_t *p4, void *p5) {
   int substrateid;
   if ((ret = NC_check_id(ncid, (NC **)&ncp)) != NC_NOERR) return (ret);
   substrateid = makenc4id(ncp, ncid);
-  ret         = nc_get_vlen_element(substrateid, p2, p3, p4, p5);
+  ret = nc_get_vlen_element(substrateid, p2, p3, p4, p5);
   return (ret);
 }
 
@@ -632,7 +632,7 @@ NCD4_inq_enum_member(int ncid, nc_type t1, int p3, char *p4, void *p5) {
   int substrateid;
   if ((ret = NC_check_id(ncid, (NC **)&ncp)) != NC_NOERR) return (ret);
   substrateid = makenc4id(ncp, ncid);
-  ret         = nc_inq_enum_member(substrateid, t1, p3, p4, p5);
+  ret = nc_inq_enum_member(substrateid, t1, p3, p4, p5);
   return (ret);
 }
 
@@ -643,7 +643,7 @@ NCD4_inq_enum_ident(int ncid, nc_type t1, long long p3, char *p4) {
   int substrateid;
   if ((ret = NC_check_id(ncid, (NC **)&ncp)) != NC_NOERR) return (ret);
   substrateid = makenc4id(ncp, ncid);
-  ret         = nc_inq_enum_ident(substrateid, t1, p3, p4);
+  ret = nc_inq_enum_ident(substrateid, t1, p3, p4);
   return (ret);
 }
 
@@ -654,7 +654,7 @@ NCD4_get_var_chunk_cache(int ncid, int p2, size_t *p3, size_t *p4, float *p5) {
   int substrateid;
   if ((ret = NC_check_id(ncid, (NC **)&ncp)) != NC_NOERR) return (ret);
   substrateid = makenc4id(ncp, ncid);
-  ret         = nc_get_var_chunk_cache(substrateid, p2, p3, p4, p5);
+  ret = nc_get_var_chunk_cache(substrateid, p2, p3, p4, p5);
   return (ret);
 }
 

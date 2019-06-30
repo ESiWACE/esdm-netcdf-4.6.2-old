@@ -63,7 +63,7 @@ fill(Symbol *tsym, Datalist *filler) {
     case NC_ENUM:
     case NC_OPAQUE:
     case NC_PRIM:
-      con         = nullconst();
+      con = nullconst();
       con->nctype = tsym->typ.typecode;
       nc_getfill(con, tsym);
       dlappend(filler, con);
@@ -76,7 +76,7 @@ fill(Symbol *tsym, Datalist *filler) {
       Datalist *cmpdlist = builddatalist(listlength(tsym->subnodes)); /* list of field constants */
       for (i = 0; i < listlength(tsym->subnodes); i++) {
         NCConstant *fieldinstance = NULL;
-        Symbol *field             = (Symbol *)listget(tsym->subnodes, i);
+        Symbol *field = (Symbol *)listget(tsym->subnodes, i);
         if (field->typ.dimset.ndims > 0) {
           /*  Build a sublist for this field */
           Datalist *arraydata = builddatalist(0);
@@ -118,7 +118,7 @@ filllist(Symbol *tsym, Datalist *dl) {
     case NC_ENUM:
     case NC_OPAQUE:
     case NC_PRIM:
-      con         = nullconst();
+      con = nullconst();
       con->nctype = tsym->typ.typecode;
       nc_getfill(con, tsym);
       dlappend(dl, con);
@@ -148,10 +148,10 @@ is recursive over the dimensions as specified by the index argumen
 static void
 fillarray(Symbol *basetype, Dimset *dimset, int index, Datalist *arraylist) {
   int i;
-  Symbol *dim       = dimset->dimsyms[index];
+  Symbol *dim = dimset->dimsyms[index];
   unsigned int size = dim->dim.declsize;
-  int isunlimited   = (size == 0);
-  int lastdim       = (index == (dimset->ndims - 1));
+  int isunlimited = (size == 0);
+  int lastdim = (index == (dimset->ndims - 1));
 
   if (isunlimited) {
     /* do a single entry to satisfy*/
@@ -191,13 +191,13 @@ void nc_getfill(NCConstant *value, Symbol *tsym) {
     case NC_UINT64: value->value.uint64v = NC_FILL_UINT64; break;
     case NC_STRING:
       value->value.stringv.stringv = nulldup(NC_FILL_STRING);
-      value->value.stringv.len     = (int)strlen(NC_FILL_STRING);
+      value->value.stringv.len = (int)strlen(NC_FILL_STRING);
       /* Exception: if string is null, then make it's length be 1 */
       if (value->value.stringv.len == 0)
         value->value.stringv.len = 1;
       break;
     case NC_OPAQUE:
-      value->value.opaquev.len     = 2;
+      value->value.opaquev.len = 2;
       value->value.opaquev.stringv = nulldup("00");
       break;
     case NC_ENUM: {
@@ -211,7 +211,7 @@ void nc_getfill(NCConstant *value, Symbol *tsym) {
       if (listlength(tsym->subnodes) == 0)
         derror("nc_getfill: empty enum type");
       econst = listget(tsym->subnodes, 0);
-      eccon  = econst->typ.econst;
+      eccon = econst->typ.econst;
       switch (eccon->nctype) {
         case NC_BYTE:
         case NC_SHORT:

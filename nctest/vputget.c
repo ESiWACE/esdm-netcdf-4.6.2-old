@@ -36,7 +36,7 @@
 int
 test_varputget(cdfid) int cdfid; /* handle of netcdf open and in data mode */
 {
-  int nerrs           = 0;
+  int nerrs = 0;
   static char pname[] = "test_varputget";
   int id, ie, iv;          /* loop indices */
   int ne = 3;              /* number of test hypercubes for each var */
@@ -77,7 +77,7 @@ test_varputget(cdfid) int cdfid; /* handle of netcdf open and in data mode */
 
       /* allocate space for the cube of values */
       hc[ie].vals = emalloc(nel[ie] * nctypelen(test.vars[iv].type) + 8);
-      tmp.vals    = emalloc(nel[ie] * nctypelen(test.vars[iv].type) + 8);
+      tmp.vals = emalloc(nel[ie] * nctypelen(test.vars[iv].type) + 8);
 
       /* fill allocated space with different values of right type */
       val_fill(test.vars[iv].type, nel[ie], hc[ie].vals);

@@ -256,14 +256,14 @@ int main(int argc, char **argv) {
 
     /* Attempt to set too large chunksizes */
     chunks[0] = D_SMALL_LEN2 + 1;
-    stat      = nc_def_var_chunking(ncid, small_varid, NC_CHUNKED, chunks);
+    stat = nc_def_var_chunking(ncid, small_varid, NC_CHUNKED, chunks);
     if (stat != NC_EBADCHUNK) {
       printf("Return code is '%s', expected NC_BADCHUNK", nc_strerror(stat));
       ERR;
     }
     /* try again with proper chunksize */
     chunks[0] = D_SMALL_LEN2;
-    stat      = nc_def_var_chunking(ncid, small_varid, NC_CHUNKED, chunks);
+    stat = nc_def_var_chunking(ncid, small_varid, NC_CHUNKED, chunks);
     if (stat != NC_NOERR) {
       printf("Return code is '%s', expected NC_NOERR", nc_strerror(stat));
       ERR;
@@ -285,12 +285,12 @@ int main(int argc, char **argv) {
     int ncid;
     int dimid[NDIM2];
     int varid, varid2, varid3;
-    size_t chunks[NDIM2]     = {100, 100};
+    size_t chunks[NDIM2] = {100, 100};
     size_t chunks_big[NDIM2] = {DIM_X_LEN, DIM_Y_LEN};
     size_t chunks_in[NDIM2];
     int contiguous;
-    size_t cache_size      = 16;
-    size_t cache_nelems    = 1;
+    size_t cache_size = 16;
+    size_t cache_nelems = 1;
     float cache_preemption = 0.5;
     size_t cache_size_in;
     size_t cache_nelems_in;

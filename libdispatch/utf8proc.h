@@ -301,25 +301,25 @@ typedef enum {
 
 /** Bidirectional character classes. */
 typedef enum {
-  UTF8PROC_BIDI_CLASS_L   = 1,  /**< Left-to-Right */
+  UTF8PROC_BIDI_CLASS_L = 1,    /**< Left-to-Right */
   UTF8PROC_BIDI_CLASS_LRE = 2,  /**< Left-to-Right Embedding */
   UTF8PROC_BIDI_CLASS_LRO = 3,  /**< Left-to-Right Override */
-  UTF8PROC_BIDI_CLASS_R   = 4,  /**< Right-to-Left */
-  UTF8PROC_BIDI_CLASS_AL  = 5,  /**< Right-to-Left Arabic */
+  UTF8PROC_BIDI_CLASS_R = 4,    /**< Right-to-Left */
+  UTF8PROC_BIDI_CLASS_AL = 5,   /**< Right-to-Left Arabic */
   UTF8PROC_BIDI_CLASS_RLE = 6,  /**< Right-to-Left Embedding */
   UTF8PROC_BIDI_CLASS_RLO = 7,  /**< Right-to-Left Override */
   UTF8PROC_BIDI_CLASS_PDF = 8,  /**< Pop Directional Format */
-  UTF8PROC_BIDI_CLASS_EN  = 9,  /**< European Number */
-  UTF8PROC_BIDI_CLASS_ES  = 10, /**< European Separator */
-  UTF8PROC_BIDI_CLASS_ET  = 11, /**< European Number Terminator */
-  UTF8PROC_BIDI_CLASS_AN  = 12, /**< Arabic Number */
-  UTF8PROC_BIDI_CLASS_CS  = 13, /**< Common Number Separator */
+  UTF8PROC_BIDI_CLASS_EN = 9,   /**< European Number */
+  UTF8PROC_BIDI_CLASS_ES = 10,  /**< European Separator */
+  UTF8PROC_BIDI_CLASS_ET = 11,  /**< European Number Terminator */
+  UTF8PROC_BIDI_CLASS_AN = 12,  /**< Arabic Number */
+  UTF8PROC_BIDI_CLASS_CS = 13,  /**< Common Number Separator */
   UTF8PROC_BIDI_CLASS_NSM = 14, /**< Nonspacing Mark */
-  UTF8PROC_BIDI_CLASS_BN  = 15, /**< Boundary Neutral */
-  UTF8PROC_BIDI_CLASS_B   = 16, /**< Paragraph Separator */
-  UTF8PROC_BIDI_CLASS_S   = 17, /**< Segment Separator */
-  UTF8PROC_BIDI_CLASS_WS  = 18, /**< Whitespace */
-  UTF8PROC_BIDI_CLASS_ON  = 19, /**< Other Neutrals */
+  UTF8PROC_BIDI_CLASS_BN = 15,  /**< Boundary Neutral */
+  UTF8PROC_BIDI_CLASS_B = 16,   /**< Paragraph Separator */
+  UTF8PROC_BIDI_CLASS_S = 17,   /**< Segment Separator */
+  UTF8PROC_BIDI_CLASS_WS = 18,  /**< Whitespace */
+  UTF8PROC_BIDI_CLASS_ON = 19,  /**< Other Neutrals */
   UTF8PROC_BIDI_CLASS_LRI = 20, /**< Left-to-Right Isolate */
   UTF8PROC_BIDI_CLASS_RLI = 21, /**< Right-to-Left Isolate */
   UTF8PROC_BIDI_CLASS_FSI = 22, /**< First Strong Isolate */
@@ -328,45 +328,45 @@ typedef enum {
 
 /** Decomposition type. */
 typedef enum {
-  UTF8PROC_DECOMP_TYPE_FONT     = 1,  /**< Font */
-  UTF8PROC_DECOMP_TYPE_NOBREAK  = 2,  /**< Nobreak */
-  UTF8PROC_DECOMP_TYPE_INITIAL  = 3,  /**< Initial */
-  UTF8PROC_DECOMP_TYPE_MEDIAL   = 4,  /**< Medial */
-  UTF8PROC_DECOMP_TYPE_FINAL    = 5,  /**< Final */
+  UTF8PROC_DECOMP_TYPE_FONT = 1,      /**< Font */
+  UTF8PROC_DECOMP_TYPE_NOBREAK = 2,   /**< Nobreak */
+  UTF8PROC_DECOMP_TYPE_INITIAL = 3,   /**< Initial */
+  UTF8PROC_DECOMP_TYPE_MEDIAL = 4,    /**< Medial */
+  UTF8PROC_DECOMP_TYPE_FINAL = 5,     /**< Final */
   UTF8PROC_DECOMP_TYPE_ISOLATED = 6,  /**< Isolated */
-  UTF8PROC_DECOMP_TYPE_CIRCLE   = 7,  /**< Circle */
-  UTF8PROC_DECOMP_TYPE_SUPER    = 8,  /**< Super */
-  UTF8PROC_DECOMP_TYPE_SUB      = 9,  /**< Sub */
+  UTF8PROC_DECOMP_TYPE_CIRCLE = 7,    /**< Circle */
+  UTF8PROC_DECOMP_TYPE_SUPER = 8,     /**< Super */
+  UTF8PROC_DECOMP_TYPE_SUB = 9,       /**< Sub */
   UTF8PROC_DECOMP_TYPE_VERTICAL = 10, /**< Vertical */
-  UTF8PROC_DECOMP_TYPE_WIDE     = 11, /**< Wide */
-  UTF8PROC_DECOMP_TYPE_NARROW   = 12, /**< Narrow */
-  UTF8PROC_DECOMP_TYPE_SMALL    = 13, /**< Small */
-  UTF8PROC_DECOMP_TYPE_SQUARE   = 14, /**< Square */
+  UTF8PROC_DECOMP_TYPE_WIDE = 11,     /**< Wide */
+  UTF8PROC_DECOMP_TYPE_NARROW = 12,   /**< Narrow */
+  UTF8PROC_DECOMP_TYPE_SMALL = 13,    /**< Small */
+  UTF8PROC_DECOMP_TYPE_SQUARE = 14,   /**< Square */
   UTF8PROC_DECOMP_TYPE_FRACTION = 15, /**< Fraction */
-  UTF8PROC_DECOMP_TYPE_COMPAT   = 16, /**< Compat */
+  UTF8PROC_DECOMP_TYPE_COMPAT = 16,   /**< Compat */
 } nc_utf8proc_decomp_type_t;
 
 /** Boundclass property. (TR29) */
 typedef enum {
-  UTF8PROC_BOUNDCLASS_START              = 0,  /**< Start */
-  UTF8PROC_BOUNDCLASS_OTHER              = 1,  /**< Other */
-  UTF8PROC_BOUNDCLASS_CR                 = 2,  /**< Cr */
-  UTF8PROC_BOUNDCLASS_LF                 = 3,  /**< Lf */
-  UTF8PROC_BOUNDCLASS_CONTROL            = 4,  /**< Control */
-  UTF8PROC_BOUNDCLASS_EXTEND             = 5,  /**< Extend */
-  UTF8PROC_BOUNDCLASS_L                  = 6,  /**< L */
-  UTF8PROC_BOUNDCLASS_V                  = 7,  /**< V */
-  UTF8PROC_BOUNDCLASS_T                  = 8,  /**< T */
-  UTF8PROC_BOUNDCLASS_LV                 = 9,  /**< Lv */
-  UTF8PROC_BOUNDCLASS_LVT                = 10, /**< Lvt */
+  UTF8PROC_BOUNDCLASS_START = 0,               /**< Start */
+  UTF8PROC_BOUNDCLASS_OTHER = 1,               /**< Other */
+  UTF8PROC_BOUNDCLASS_CR = 2,                  /**< Cr */
+  UTF8PROC_BOUNDCLASS_LF = 3,                  /**< Lf */
+  UTF8PROC_BOUNDCLASS_CONTROL = 4,             /**< Control */
+  UTF8PROC_BOUNDCLASS_EXTEND = 5,              /**< Extend */
+  UTF8PROC_BOUNDCLASS_L = 6,                   /**< L */
+  UTF8PROC_BOUNDCLASS_V = 7,                   /**< V */
+  UTF8PROC_BOUNDCLASS_T = 8,                   /**< T */
+  UTF8PROC_BOUNDCLASS_LV = 9,                  /**< Lv */
+  UTF8PROC_BOUNDCLASS_LVT = 10,                /**< Lvt */
   UTF8PROC_BOUNDCLASS_REGIONAL_INDICATOR = 11, /**< Regional indicator */
-  UTF8PROC_BOUNDCLASS_SPACINGMARK        = 12, /**< Spacingmark */
-  UTF8PROC_BOUNDCLASS_PREPEND            = 13, /**< Prepend */
-  UTF8PROC_BOUNDCLASS_ZWJ                = 14, /**< Zero Width Joiner */
-  UTF8PROC_BOUNDCLASS_E_BASE             = 15, /**< Emoji Base */
-  UTF8PROC_BOUNDCLASS_E_MODIFIER         = 16, /**< Emoji Modifier */
-  UTF8PROC_BOUNDCLASS_GLUE_AFTER_ZWJ     = 17, /**< Glue_After_ZWJ */
-  UTF8PROC_BOUNDCLASS_E_BASE_GAZ         = 18, /**< E_BASE + GLUE_AFTER_ZJW */
+  UTF8PROC_BOUNDCLASS_SPACINGMARK = 12,        /**< Spacingmark */
+  UTF8PROC_BOUNDCLASS_PREPEND = 13,            /**< Prepend */
+  UTF8PROC_BOUNDCLASS_ZWJ = 14,                /**< Zero Width Joiner */
+  UTF8PROC_BOUNDCLASS_E_BASE = 15,             /**< Emoji Base */
+  UTF8PROC_BOUNDCLASS_E_MODIFIER = 16,         /**< Emoji Modifier */
+  UTF8PROC_BOUNDCLASS_GLUE_AFTER_ZWJ = 17,     /**< Glue_After_ZWJ */
+  UTF8PROC_BOUNDCLASS_E_BASE_GAZ = 18,         /**< E_BASE + GLUE_AFTER_ZJW */
 } nc_utf8proc_boundclass_t;
 
 /**

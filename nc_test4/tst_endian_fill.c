@@ -55,12 +55,12 @@ int main(int argc, char **argv) {
   {
 #define NUM_TYPES_TO_CHECK 6
     int ncid, varid[NUM_TYPES_TO_CHECK];
-    int check_type[NUM_TYPES_TO_CHECK]                 = {NC_SHORT, NC_USHORT, NC_INT,
+    int check_type[NUM_TYPES_TO_CHECK] = {NC_SHORT, NC_USHORT, NC_INT,
     NC_UINT, NC_INT64, NC_UINT64};
     char var_name[NUM_TYPES_TO_CHECK][NC_MAX_NAME + 1] = {"SHORT", "USHORT",
     "INT", "UINT", "INT64",
     "UINT64"};
-    long long fill_value[NUM_TYPES_TO_CHECK]           = {NC_FILL_SHORT, NC_FILL_USHORT, NC_FILL_INT,
+    long long fill_value[NUM_TYPES_TO_CHECK] = {NC_FILL_SHORT, NC_FILL_USHORT, NC_FILL_INT,
     NC_FILL_UINT, NC_FILL_INT64, NC_FILL_UINT64};
     long long data_in;
     int t;

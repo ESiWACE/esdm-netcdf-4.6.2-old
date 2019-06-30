@@ -49,7 +49,7 @@ int *attnump, void *data) {
 
   if (strcmp(name, NCPROPS) == 0) {
     char *propdata = NULL;
-    int stat       = NC_NOERR;
+    int stat = NC_NOERR;
     int len;
     if (h5->provenance->propattr.version == 0)
       return NC_ENOTATT;
@@ -116,10 +116,10 @@ nc_type mem_type, size_t *lenp, int *attnum, void *data) {
   NC_FILE_INFO_T *h5;
   NC_ATT_INFO_T *att = NULL;
   NC_VAR_INFO_T *var;
-  int my_attnum       = -1;
+  int my_attnum = -1;
   int need_to_convert = 0;
-  int range_error     = NC_NOERR;
-  void *bufr          = NULL;
+  int range_error = NC_NOERR;
+  void *bufr = NULL;
   size_t type_size;
   char norm_name[NC_MAX_NAME + 1];
   int i;

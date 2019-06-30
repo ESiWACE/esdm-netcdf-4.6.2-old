@@ -230,7 +230,7 @@ nc_type type_class, nc_type *typeidp) {
     type->u.v.base_nc_typeid = base_typeid;
   else if (type_class == NC_ENUM) {
     type->u.e.base_nc_typeid = base_typeid;
-    type->u.e.enum_member    = nclistnew();
+    type->u.e.enum_member = nclistnew();
   } else if (type_class == NC_COMPOUND)
     type->u.c.field = nclistnew();
 
@@ -482,8 +482,8 @@ const void *value) {
 int NC4_put_vlen_element(int ncid, int typeid1, void *vlen_element,
 size_t len, const void *data) {
   nc_vlen_t *tmp = (nc_vlen_t *)vlen_element;
-  tmp->len       = len;
-  tmp->p         = (void *)data;
+  tmp->len = len;
+  tmp->p = (void *)data;
   return NC_NOERR;
 }
 
@@ -503,7 +503,7 @@ size_t len, const void *data) {
 int NC4_get_vlen_element(int ncid, int typeid1, const void *vlen_element,
 size_t *len, void *data) {
   const nc_vlen_t *tmp = (nc_vlen_t *)vlen_element;
-  int type_size        = 4;
+  int type_size = 4;
 
   *len = tmp->len;
   memcpy(data, tmp->p, tmp->len * type_size);

@@ -163,7 +163,7 @@ int NC4_inq_dim(int ncid, int dimid, char *name, size_t *lenp) {
         return ret;
     } else {
       if (dim->too_long) {
-        ret   = NC_EDIMSIZE;
+        ret = NC_EDIMSIZE;
         *lenp = NC_MAX_UINT;
       } else
         *lenp = dim->len;

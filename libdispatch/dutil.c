@@ -82,7 +82,7 @@ NC_backslashEscape(const char *s) {
   size_t len;
   char *escaped = NULL;
 
-  len     = strlen(s);
+  len = strlen(s);
   escaped = (char *)malloc(1 + (2 * len)); /* max is everychar is escaped */
   if (escaped == NULL) return NULL;
   for (p = s, q = escaped; *p; p++) {
@@ -111,7 +111,7 @@ NC_backslashUnescape(const char *esc) {
 
   if (esc == NULL) return NULL;
   len = strlen(esc);
-  s   = (char *)malloc(len + 1);
+  s = (char *)malloc(len + 1);
   if (s == NULL) return NULL;
   for (p = esc, q = s; *p;) {
     switch (*p) {
@@ -133,7 +133,7 @@ NC_entityescape(const char *s) {
   char *escaped = NULL;
   const char *entity;
 
-  len     = strlen(s);
+  len = strlen(s);
   escaped = (char *)malloc(1 + (6 * len)); /* 6 = |&apos;| */
   if (escaped == NULL) return NULL;
   for (p = s, q = escaped; *p; p++) {
@@ -185,7 +185,7 @@ NC_mktmp(const char *base) {
   /* Note Potential problem: old versions of this function
        leave the file in mode 0666 instead of 0600 */
   mask = umask(0077);
-  fd   = mkstemp(tmp);
+  fd = mkstemp(tmp);
   (void)umask(mask);
 #else /* !HAVE_MKSTEMP */
   {
@@ -223,7 +223,7 @@ NC_mktmp(const char *base) {
 }
 
 int NC_readfile(const char *filename, NCbytes *content) {
-  int ret      = NC_NOERR;
+  int ret = NC_NOERR;
   FILE *stream = NULL;
   char part[1024];
 
@@ -253,7 +253,7 @@ done:
 }
 
 int NC_writefile(const char *filename, size_t size, void *content) {
-  int ret      = NC_NOERR;
+  int ret = NC_NOERR;
   FILE *stream = NULL;
   void *p;
   size_t remain;
@@ -267,7 +267,7 @@ int NC_writefile(const char *filename, size_t size, void *content) {
     ret = errno;
     goto done;
   }
-  p      = content;
+  p = content;
   remain = size;
   while (remain > 0) {
     size_t written = fwrite(p, 1, remain, stream);

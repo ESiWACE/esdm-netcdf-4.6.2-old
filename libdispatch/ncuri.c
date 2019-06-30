@@ -124,11 +124,11 @@ int ncuriparse(const char *uri0, NCURI **durip) {
   char *q;
   int isfile;
   int hashost;
-  char *uri         = NULL;
-  NCURI *duri       = NULL;
-  char *prefix      = NULL;
-  char *next        = NULL;
-  NClist *params    = nclistnew();
+  char *uri = NULL;
+  NCURI *duri = NULL;
+  char *prefix = NULL;
+  char *next = NULL;
+  NClist *params = nclistnew();
   NClist *querylist = nclistnew();
   size_t len0;
   int pathchar;
@@ -176,7 +176,7 @@ int ncuriparse(const char *uri0, NCURI **durip) {
   /* break up the url into coarse pieces */
   if (*p == LBRACKET) {
     prefix = p;
-    ret    = collectprefixparams(p, &next); /* collect the prefix */
+    ret = collectprefixparams(p, &next); /* collect the prefix */
     if (ret != NCU_OK) {
       THROW(NCU_EBADURL);
     }
@@ -193,7 +193,7 @@ int ncuriparse(const char *uri0, NCURI **durip) {
     next++;
     if (c == '?') {
       tmp.query = next;
-      next      = nclocate(next, "#");
+      next = nclocate(next, "#");
       if (next == NULL)
         tmp.fragment = NULL;
       else {
@@ -239,7 +239,7 @@ int ncuriparse(const char *uri0, NCURI **durip) {
 
   /* Mark the protocol */
   tmp.protocol = p;
-  p            = strchr(p, ':');
+  p = strchr(p, ':');
   if (!p) {
     THROW(NCU_EBADURL);
   }
@@ -275,7 +275,7 @@ int ncuriparse(const char *uri0, NCURI **durip) {
 
   isfile = (strcmp(tmp.protocol, "file") == 0);
   if (isfile) {
-    int l   = strlen(p);                                               /* to test if we have enough characters */
+    int l = strlen(p);                                                 /* to test if we have enough characters */
     hashost = 0;                                                       /* always */
     if (l >= 2 && p[1] == ':' && strchr(DRIVELETTERS, p[0]) != NULL) { /* case 1 */
       ;                                                                /* p points to the start of the path */
@@ -307,7 +307,7 @@ int ncuriparse(const char *uri0, NCURI **durip) {
            of the path.
         */
     tmp.host = p;
-    p        = nclocate(p, "/");
+    p = nclocate(p, "/");
     if (p == NULL) {   /* no path */
       tmp.path = NULL; /* default */
       pathchar = EOFCHAR;
@@ -347,7 +347,7 @@ int ncuriparse(const char *uri0, NCURI **durip) {
         THROW(NCU_EUSRPWD);
       } /* we have empty password */
       tmp.password = pp;
-      tmp.host     = newhost;
+      tmp.host = newhost;
     }
     /* Breakup host into host + port */
     pp = tmp.host;
@@ -377,10 +377,10 @@ int ncuriparse(const char *uri0, NCURI **durip) {
     THROW(NCU_ENOMEM);
   }
   /* save original uri */
-  duri->uri      = strdup(uri0);
+  duri->uri = strdup(uri0);
   duri->protocol = nulldup(tmp.protocol);
   /* before saving, we need to decode the user+pwd */
-  duri->user     = NULL;
+  duri->user = NULL;
   duri->password = NULL;
   if (tmp.user != NULL)
     duri->user = ncuridecode(tmp.user);
@@ -395,12 +395,12 @@ int ncuriparse(const char *uri0, NCURI **durip) {
       *tmp.path = pathchar;
     duri->path = nulldup(tmp.path);
   }
-  duri->query     = nulldup(tmp.query);
-  duri->fragment  = nulldup(tmp.fragment);
-  duri->fraglist  = tmp.fraglist;
-  tmp.fraglist    = NULL;
+  duri->query = nulldup(tmp.query);
+  duri->fragment = nulldup(tmp.fragment);
+  duri->fraglist = tmp.fraglist;
+  tmp.fraglist = NULL;
   duri->querylist = tmp.querylist;
-  tmp.querylist   = NULL;
+  tmp.querylist = NULL;
   if (durip)
     *durip = duri;
   else
@@ -483,12 +483,12 @@ int ncurisetquery(NCURI *duri, const char *query) {
   int ret = NCU_OK;
   freestringvec(duri->querylist);
   nullfree(duri->query);
-  duri->query     = NULL;
+  duri->query = NULL;
   duri->querylist = NULL;
   if (query != NULL && strlen(query) > 0) {
     NClist *params = nclistnew();
-    duri->query    = strdup(query);
-    ret            = parselist(duri->query, params);
+    duri->query = strdup(query);
+    ret = parselist(duri->query, params);
     if (ret != NCU_OK) {
       THROW(NC_EURL);
     }
@@ -797,7 +797,7 @@ ncuriencodeonly(char *s, char *allowable) {
 
   if (s == NULL) return NULL;
 
-  slen    = strlen(s);
+  slen = strlen(s);
   encoded = (char *)malloc((3 * slen) + 1); /* max possible size */
 
   for (inptr = s, outptr = encoded; *inptr;) {
@@ -833,11 +833,11 @@ ncuridecode(char *s) {
 
   if (s == NULL) return NULL;
 
-  slen    = strlen(s);
+  slen = strlen(s);
   decoded = (char *)malloc(slen + 1); /* Should be max we need */
 
   outptr = decoded;
-  inptr  = s;
+  inptr = s;
   while ((c = (unsigned int)*inptr++)) {
     if (c == '%') {
       /* try to pull two hex more characters */
@@ -870,11 +870,11 @@ ncuridecodepartial(char *s, const char *decodeset) {
 
   if (s == NULL || decodeset == NULL) return NULL;
 
-  slen    = strlen(s);
+  slen = strlen(s);
   decoded = (char *)malloc(slen + 1); /* Should be max we need */
 
   outptr = decoded;
-  inptr  = s;
+  inptr = s;
   while ((c = (unsigned int)*inptr++)) {
     if (c == '+' && strchr(decodeset, '+') != NULL)
       *outptr++ = ' ';
@@ -911,7 +911,7 @@ collectprefixparams(char *text, char **nextp) {
     return NCU_OK;
   }
   /* pass 1: locate last rbracket and nul term the prefix */
-  sp   = text;
+  sp = text;
   last = NULL;
   for (;;) {
     if (*sp != LBRACKET) {
@@ -975,10 +975,10 @@ parselist(char *ptext, NClist *list) {
     if (eq != NULL) { /* value is present */
       terminate(eq);
       eq++;
-      key   = strdup(sp);
+      key = strdup(sp);
       value = strdup(eq);
     } else { /* there is no value */
-      key   = strdup(sp);
+      key = strdup(sp);
       value = strdup("");
     }
     nclistpush(list, key);

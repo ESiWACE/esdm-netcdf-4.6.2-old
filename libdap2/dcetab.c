@@ -114,7 +114,7 @@ extern int dcedebug;
 #  ifndef YYTOKENTYPE
 #    define YYTOKENTYPE
 enum yytokentype {
-  SCAN_WORD        = 258,
+  SCAN_WORD = 258,
   SCAN_STRINGCONST = 259,
   SCAN_NUMBERCONST = 260
 };
@@ -346,7 +346,7 @@ union yyalloc {
     do {                                                               \
       YYSIZE_T yynewbytes;                                             \
       YYCOPY(&yyptr->Stack_alloc, Stack, yysize);                      \
-      Stack      = &yyptr->Stack_alloc;                                \
+      Stack = &yyptr->Stack_alloc;                                     \
       yynewbytes = yystacksize * sizeof(*Stack) + YYSTACK_GAP_MAXIMUM; \
       yyptr += yynewbytes / sizeof(*yyptr);                            \
     } while (0)
@@ -688,7 +688,7 @@ yy_stack_print(yytype_int16 *yybottom, yytype_int16 *yytop) {
 static void
 yy_reduce_print(yytype_int16 *yyssp, YYSTYPE *yyvsp, int yyrule, DCEparsestate *parsestate) {
   unsigned long int yylno = yyrline[yyrule];
-  int yynrhs              = yyr2[yyrule];
+  int yynrhs = yyr2[yyrule];
   int yyi;
   YYFPRINTF(stderr, "Reducing stack by rule %d (line %lu):\n",
   yyrule - 1, yylno);
@@ -761,7 +761,7 @@ yystrlen(const char *yystr) {
    YYDEST.  */
 static char *
 yystpcpy(char *yydest, const char *yysrc) {
-  char *yyd       = yydest;
+  char *yyd = yydest;
   const char *yys = yysrc;
 
   while ((*yyd++ = *yys++) != '\0')
@@ -783,7 +783,7 @@ yystpcpy(char *yydest, const char *yysrc) {
 static YYSIZE_T
 yytnamerr(char *yyres, const char *yystr) {
   if (*yystr == '"') {
-    YYSIZE_T yyn    = 0;
+    YYSIZE_T yyn = 0;
     char const *yyp = yystr;
 
     for (;;)
@@ -829,7 +829,7 @@ static int
 yysyntax_error(YYSIZE_T *yymsg_alloc, char **yymsg,
 yytype_int16 *yyssp, int yytoken) {
   YYSIZE_T yysize0 = yytnamerr(YY_NULLPTR, yytname[yytoken]);
-  YYSIZE_T yysize  = yysize0;
+  YYSIZE_T yysize = yysize0;
   enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
   /* Internationalized format string. */
   const char *yyformat = YY_NULLPTR;
@@ -863,7 +863,7 @@ yytype_int16 *yyssp, int yytoken) {
        accepted due to an error action in a later state.
   */
   if (yytoken != YYEMPTY) {
-    int yyn          = yypact[*yyssp];
+    int yyn = yypact[*yyssp];
     yyarg[yycount++] = yytname[yytoken];
     if (!yypact_value_is_default(yyn)) {
       /* Start YYX at -YYN if negative to avoid negative indexes in
@@ -872,7 +872,7 @@ yytype_int16 *yyssp, int yytoken) {
       int yyxbegin = yyn < 0 ? -yyn : 0;
       /* Stay within bounds of both yycheck and yytname.  */
       int yychecklim = YYLAST - yyn + 1;
-      int yyxend     = yychecklim < YYNTOKENS ? yychecklim : YYNTOKENS;
+      int yyxend = yychecklim < YYNTOKENS ? yychecklim : YYNTOKENS;
       int yyx;
 
       for (yyx = yyxbegin; yyx < yyxend; ++yyx)
@@ -880,7 +880,7 @@ yytype_int16 *yyssp, int yytoken) {
             && !yytable_value_is_error(yytable[yyx + yyn])) {
           if (yycount == YYERROR_VERBOSE_ARGS_MAXIMUM) {
             yycount = 1;
-            yysize  = yysize0;
+            yysize = yysize0;
             break;
           }
           yyarg[yycount++] = yytname[yyx];
@@ -929,7 +929,7 @@ yytype_int16 *yyssp, int yytoken) {
      produced a string with the wrong number of "%s"s.  */
   {
     char *yyp = *yymsg;
-    int yyi   = 0;
+    int yyi = 0;
     while ((*yyp = *yyformat) != '\0')
       if (*yyp == '%' && yyformat[1] == 's' && yyi < yycount) {
         yyp += yytnamerr(yyp, yyarg[yyi++]);
@@ -1013,7 +1013,7 @@ int yyparse(DCEparsestate *parsestate) {
 #if YYERROR_VERBOSE
   /* Buffer for error messages, and its allocated size.  */
   char yymsgbuf[128];
-  char *yymsg          = yymsgbuf;
+  char *yymsg = yymsgbuf;
   YYSIZE_T yymsg_alloc = sizeof yymsgbuf;
 #endif
 
@@ -1025,14 +1025,14 @@ int yyparse(DCEparsestate *parsestate) {
 
   yyssp = yyss = yyssa;
   yyvsp = yyvs = yyvsa;
-  yystacksize  = YYINITDEPTH;
+  yystacksize = YYINITDEPTH;
 
   YYDPRINTF((stderr, "Starting parse\n"));
 
-  yystate     = 0;
+  yystate = 0;
   yyerrstatus = 0;
-  yynerrs     = 0;
-  yychar      = YYEMPTY; /* Cause a token to be read.  */
+  yynerrs = 0;
+  yychar = YYEMPTY; /* Cause a token to be read.  */
   goto yysetstate;
 
   /*------------------------------------------------------------.
@@ -1055,7 +1055,7 @@ yysetstate:
       /* Give user a chance to reallocate the stack.  Use copies of
            these so that the &'s don't force the real ones into
            memory.  */
-      YYSTYPE *yyvs1      = yyvs;
+      YYSTYPE *yyvs1 = yyvs;
       yytype_int16 *yyss1 = yyss;
 
       /* Each stack pointer address is followed by the size of the
@@ -1082,7 +1082,7 @@ yysetstate:
       yystacksize = YYMAXDEPTH;
 
     {
-      yytype_int16 *yyss1  = yyss;
+      yytype_int16 *yyss1 = yyss;
       union yyalloc *yyptr = (union yyalloc *)YYSTACK_ALLOC(YYSTACK_BYTES(yystacksize));
       if (!yyptr)
         goto yyexhaustedlab;
@@ -1684,12 +1684,12 @@ yyerrlab:
           YYSTACK_FREE(yymsg);
         yymsg = (char *)YYSTACK_ALLOC(yymsg_alloc);
         if (!yymsg) {
-          yymsg                 = yymsgbuf;
-          yymsg_alloc           = sizeof yymsgbuf;
+          yymsg = yymsgbuf;
+          yymsg_alloc = sizeof yymsgbuf;
           yysyntax_error_status = 2;
         } else {
           yysyntax_error_status = YYSYNTAX_ERROR;
-          yymsgp                = yymsg;
+          yymsgp = yymsg;
         }
       }
       yyerror(parsestate, yymsgp);

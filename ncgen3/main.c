@@ -100,15 +100,15 @@ char *argv[]) {
   malloc_debug(2); /* helps find malloc/free errors on Sun */
 #endif             /* MDEBUG */
 
-  opterr   = 1; /* print error message if bad option */
+  opterr = 1; /* print error message if bad option */
   progname = ubasename(argv[0]);
-  cdlname  = "-";
+  cdlname = "-";
 
-  c_flag         = 0;
-  fortran_flag   = 0;
-  netcdf_flag    = 0;
+  c_flag = 0;
+  fortran_flag = 0;
+  netcdf_flag = 0;
   cmode_modifier = 0;
-  nofill_flag    = 0;
+  nofill_flag = 0;
 
 #if _CRAYMPP && 0
   /* initialize CRAY MPP parallel-I/O library */
@@ -220,7 +220,7 @@ char *argv[]) {
     }
     cdlname = argv[0];
   }
-  ncgin     = fp;
+  ncgin = fp;
   any_error = ncgparse();
   if (any_error || derror_count > 0)
     return 1;

@@ -63,12 +63,12 @@ data:
 #define DIMSIZE 4
 #define CHUNKSIZE 4 /* Note: not the total size of the chunk, but size wrt a dim*/
 
-static size_t dimsize    = DIMSIZE;
-static size_t chunksize  = CHUNKSIZE;
+static size_t dimsize = DIMSIZE;
+static size_t chunksize = CHUNKSIZE;
 static size_t actualdims = NDIMS;
 
 static size_t actualproduct = 1; /* x-product over dim sizes */
-static size_t chunkproduct  = 1; /* x-product over chunksizes */
+static size_t chunkproduct = 1;  /* x-product over chunksizes */
 
 static size_t dims[NDIMS];
 static size_t chunks[NDIMS];
@@ -77,10 +77,10 @@ static int nerrs = 0;
 
 static int ncid, varid;
 static int dimids[NDIMS];
-static float *array          = NULL;
-static float *expected       = NULL;
+static float *array = NULL;
+static float *expected = NULL;
 static unsigned int filterid = 0;
-static unsigned int *params  = NULL;
+static unsigned int *params = NULL;
 
 /* Forward */
 static void init(int argc, char **argv);
@@ -166,8 +166,8 @@ static int
 test_bzip2(void) {
   int i;
   unsigned int level = BZIP2_LEVEL;
-  unsigned int id    = 0;
-  size_t nparams     = 0;
+  unsigned int id = 0;
+  size_t nparams = 0;
 
   printf("\n*** Testing API: bzip2 compression.\n");
 
@@ -241,8 +241,8 @@ test_bzip2(void) {
 
   /* Check the compression algorithm */
   filterid = 0;
-  nparams  = 0;
-  params   = NULL;
+  nparams = 0;
+  params = NULL;
   CHECK(nc_inq_var_filter(ncid, varid, &filterid, &nparams, NULL));
   if (nparams > 0) {
     params = (unsigned int *)malloc(sizeof(unsigned int) * nparams);
@@ -279,9 +279,9 @@ init(int argc, char **argv) {
   int i;
   /* Setup various variables */
   actualproduct = 1;
-  chunkproduct  = 1;
+  chunkproduct = 1;
   for (i = 0; i < NDIMS; i++) {
-    dims[i]   = dimsize;
+    dims[i] = dimsize;
     chunks[i] = chunksize;
     if (i < actualdims) {
       actualproduct *= dims[i];
@@ -289,7 +289,7 @@ init(int argc, char **argv) {
     }
   }
   /* Allocate max size */
-  array    = (float *)calloc(1, sizeof(float) * actualproduct);
+  array = (float *)calloc(1, sizeof(float) * actualproduct);
   expected = (float *)calloc(1, sizeof(float) * actualproduct);
 }
 

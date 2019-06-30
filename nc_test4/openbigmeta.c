@@ -17,7 +17,7 @@ int main(int argc, char **argv) {
   long long delta;
 
   starttime = 0;
-  endtime   = 0;
+  endtime = 0;
   time(&starttime);
   assert(nc_open(FILE, NC_NETCDF4, &ncid) == NC_NOERR);
   time(&endtime);

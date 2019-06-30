@@ -46,16 +46,16 @@ const ptrdiff_t *stride, const size_t *size) {
   for (i = 0; i < odom->rank; i++) {
     size_t istart, icount, istop, ideclsize;
     ptrdiff_t istride;
-    istart            = (start != NULL ? start[i] : 0);
-    icount            = (count != NULL ? count[i] : (size != NULL ? size[i] : 1));
-    istride           = (size_t)(stride != NULL ? stride[i] : 1);
-    istop             = istart + icount * istride;
-    ideclsize         = (size != NULL ? size[i] : (istop - istart));
-    odom->start[i]    = istart;
-    odom->stop[i]     = istop;
-    odom->stride[i]   = istride;
+    istart = (start != NULL ? start[i] : 0);
+    icount = (count != NULL ? count[i] : (size != NULL ? size[i] : 1));
+    istride = (size_t)(stride != NULL ? stride[i] : 1);
+    istop = istart + icount * istride;
+    ideclsize = (size != NULL ? size[i] : (istop - istart));
+    odom->start[i] = istart;
+    odom->stop[i] = istop;
+    odom->stride[i] = istride;
     odom->declsize[i] = ideclsize;
-    odom->index[i]    = odom->start[i];
+    odom->index[i] = odom->start[i];
   }
   return odom;
 }
@@ -151,9 +151,9 @@ int d4odom_isWhole(D4odometer *odom) {
 D4odometer *
 d4scalarodom_new(void) {
   D4odometer *odom = (D4odometer *)calloc(1, sizeof(D4odometer));
-  odom->rank       = 0;
+  odom->rank = 0;
   /* Fake things to execute exactly once */
   odom->index[0] = 0;
-  odom->stop[0]  = 1;
+  odom->stop[0] = 1;
   return odom;
 }

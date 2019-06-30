@@ -154,7 +154,7 @@ extern Int32 BZ2_rNums[512];
 
 #  define BZ_RAND_INIT_MASK \
     s->rNToGo = 0;          \
-    s->rTPos  = 0
+    s->rTPos = 0
 
 #  define BZ_RAND_MASK ((s->rNToGo == 1) ? 1 : 0)
 
@@ -448,14 +448,14 @@ typedef struct {
     /* c_tPos is unsigned, hence test < 0 is pointless. */                 \
     if (s->tPos >= (UInt32)100000 * (UInt32)s->blockSize100k) return True; \
     s->tPos = s->tt[s->tPos];                                              \
-    cccc    = (UChar)(s->tPos & 0xff);                                     \
+    cccc = (UChar)(s->tPos & 0xff);                                        \
     s->tPos >>= 8;
 
 #  define BZ_GET_FAST_C(cccc)                                             \
     /* c_tPos is unsigned, hence test < 0 is pointless. */                \
     if (c_tPos >= (UInt32)100000 * (UInt32)ro_blockSize100k) return True; \
     c_tPos = c_tt[c_tPos];                                                \
-    cccc   = (UChar)(c_tPos & 0xff);                                      \
+    cccc = (UChar)(c_tPos & 0xff);                                        \
     c_tPos >>= 8;
 
 #  define SET_LL4(i, n)                                            \
@@ -481,7 +481,7 @@ typedef struct {
 #  define BZ_GET_SMALL(cccc)                                               \
     /* c_tPos is unsigned, hence test < 0 is pointless. */                 \
     if (s->tPos >= (UInt32)100000 * (UInt32)s->blockSize100k) return True; \
-    cccc    = BZ2_indexIntoF(s->tPos, s->cftab);                           \
+    cccc = BZ2_indexIntoF(s->tPos, s->cftab);                              \
     s->tPos = GET_LL(s->tPos);
 
 

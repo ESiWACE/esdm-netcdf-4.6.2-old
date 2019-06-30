@@ -33,10 +33,10 @@
  */
 int main() {
   int ncid, dimids[RANK_P], time_id, p_id, test_id, status;
-  int test_data[1]     = {1};
+  int test_data[1] = {1};
   size_t test_start[1] = {0}, test_count[1] = {1};
   int test_fill_val[] = {5};
-  double data[1]      = {3.14159};
+  double data[1] = {3.14159};
   size_t start[1] = {0}, count[1] = {1};
 
   printf("\n*** Testing for a netCDF-4 fill-value bug.\n");

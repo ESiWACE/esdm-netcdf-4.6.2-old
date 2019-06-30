@@ -27,8 +27,8 @@ XFAIL(int e, const char *msg) {
 
 int main() {
   int ncid, retval;
-  char *serverlist    = NULL;
-  char *svcurl        = NULL;
+  char *serverlist = NULL;
+  char *svcurl = NULL;
   const char *servlet = "dts";
 
 #ifdef REMOTETESTSERVERS

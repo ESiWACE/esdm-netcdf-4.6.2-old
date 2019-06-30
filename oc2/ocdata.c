@@ -72,7 +72,7 @@ ocdata_root(OCstate *state, OCdata *data, OCdata **rootp) {
   OCASSERT(state != NULL);
 
   pattern = data->pattern;
-  root    = pattern->tree->data.data;
+  root = pattern->tree->data.data;
   if (rootp) *rootp = root;
 
   octrace("root", state, root);
@@ -116,7 +116,7 @@ ocdata_ithelement(OCstate *state, OCdata *data, size_t *indices, OCdata **elemen
   OCASSERT(data != NULL);
 
   pattern = data->pattern;
-  rank    = pattern->array.rank;
+  rank = pattern->array.rank;
 
   /* Must be a dimensioned Structure */
   if (pattern->octype != OC_Structure || rank == 0)
@@ -247,7 +247,7 @@ void *memory, size_t memsize)
   isscalar = (pattern->array.rank == 0 ? 1 : 0);
 
   /* validate memory space*/
-  elemsize  = octypesize(etype);
+  elemsize = octypesize(etype);
   totalsize = elemsize * data->ninstances;
   countsize = elemsize * count;
   if (totalsize < countsize || memsize < countsize)
@@ -291,14 +291,14 @@ ocread(OCdata *data, XXDR *xdrs, char *memory, size_t memsize, size_t start, siz
   OCASSERT((start + count) <= data->ninstances);
 
   pattern = data->pattern;
-  etype   = pattern->etype;
-  scalar  = (pattern->array.rank == 0);
+  etype = pattern->etype;
+  scalar = (pattern->array.rank == 0);
 
   /* Note that for strings, xdrsize == 0 */
   xdrtotal = count * data->xdrsize; /* amount (in xdr sizes) to read */
   xdrstart = start * data->xdrsize; /* offset from the start of the data */
 
-  elemsize  = octypesize(etype); /* wrt memory, not xdrsize */
+  elemsize = octypesize(etype); /* wrt memory, not xdrsize */
   totalsize = elemsize * count;
 
   /* validate memory space*/

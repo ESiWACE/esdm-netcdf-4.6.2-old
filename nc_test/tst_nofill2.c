@@ -34,7 +34,7 @@ int create_file(char *file_name, int fill_mode, size_t *sizehintp) {
   size_t count[NDIMS4] = {TIME_LEN, 1, LAT_LEN, LON_LEN};
   float zonal_wnd[LON_LEN * LAT_LEN * TIME_LEN];
   size_t default_initialsize = 0;
-  double time[TIME_LEN]      = {1.};
+  double time[TIME_LEN] = {1.};
   int i;
 
   /* Init data. */

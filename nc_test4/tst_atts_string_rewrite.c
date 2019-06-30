@@ -22,7 +22,7 @@
 int main() {
   int dataset_id;
   const char *attstring[1] = {"bar"};
-  int res                  = 0;
+  int res = 0;
   printf("\n*** Testing overwriting text attribute with string attribute.\n");
   printf("\n***Creating file...");
 

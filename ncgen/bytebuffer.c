@@ -35,9 +35,9 @@ Bytebuffer *
 bbNew(void) {
   Bytebuffer *bb = (Bytebuffer *)emalloc(sizeof(Bytebuffer));
   if (bb == NULL) return (Bytebuffer *)bbFail();
-  bb->alloc         = 0;
-  bb->length        = 0;
-  bb->content       = NULL;
+  bb->alloc = 0;
+  bb->length = 0;
+  bb->content = NULL;
   bb->nonextendible = 0;
   return bb;
 }
@@ -58,7 +58,7 @@ int bbSetalloc(Bytebuffer *bb, const unsigned int sz0) {
   }
   if (bb->content != NULL) efree(bb->content);
   bb->content = newcontent;
-  bb->alloc   = sz;
+  bb->alloc = sz;
   return TRUE;
 }
 
@@ -234,9 +234,9 @@ int bbSetcontents(Bytebuffer *bb, char *contents, const unsigned int alloc) {
   if (bb == NULL) return bbFail();
   bbClear(bb);
   if (!bb->nonextendible && bb->content != NULL) efree(bb->content);
-  bb->content       = contents;
-  bb->length        = 0;
-  bb->alloc         = alloc;
+  bb->content = contents;
+  bb->length = 0;
+  bb->alloc = alloc;
   bb->nonextendible = 1;
   return 1;
 }
@@ -254,9 +254,9 @@ bbExtract(Bytebuffer *bb) {
   char *x = NULL;
   if (bb == NULL || bb->content == NULL)
     return NULL;
-  x           = bb->content;
+  x = bb->content;
   bb->content = NULL;
-  bb->length  = 0;
-  bb->alloc   = 0;
+  bb->length = 0;
+  bb->alloc = 0;
   return x;
 }

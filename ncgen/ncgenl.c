@@ -430,7 +430,7 @@ extern FILE *yyin, *yyout;
     /* Undo effects of setting up yytext. */                                                \
     int yyless_macro_arg = (n);                                                             \
     YY_LESS_LINENO(yyless_macro_arg);                                                       \
-    *yy_cp                                = (yy_hold_char);                                 \
+    *yy_cp = (yy_hold_char);                                                                \
     YY_RESTORE_YY_MORE_OFFSET(yy_c_buf_p) = yy_cp = yy_bp + yyless_macro_arg - YY_MORE_ADJ; \
     YY_DO_BEFORE_ACTION; /* set up yytext again */                                          \
   } while (0)
@@ -500,8 +500,8 @@ struct yy_buffer_state {
 #endif /* !YY_STRUCT_YY_BUFFER_STATE */
 
 /* Stack of input buffers. */
-static size_t yy_buffer_stack_top       = 0;    /**< index of top of stack. */
-static size_t yy_buffer_stack_max       = 0;    /**< capacity of stack. */
+static size_t yy_buffer_stack_top = 0;          /**< index of top of stack. */
+static size_t yy_buffer_stack_max = 0;          /**< capacity of stack. */
 static YY_BUFFER_STATE *yy_buffer_stack = NULL; /**< Stack as an array. */
 
 /* We provide macros for accessing buffer states in case in the
@@ -525,8 +525,8 @@ int yyleng;
 
 /* Points to current character in buffer. */
 static char *yy_c_buf_p = NULL;
-static int yy_init      = 0; /* whether we need to initialize */
-static int yy_start     = 0; /* start state number */
+static int yy_init = 0;  /* whether we need to initialize */
+static int yy_start = 0; /* start state number */
 
 /* Flag which is used to allow yywrap()'s to do buffer switches
  * instead of setting up a fresh yyin.  A bit of a hack ...
@@ -597,12 +597,12 @@ static void yynoreturn yy_fatal_error(const char *msg);
 /* Done after the current pattern has been matched and before the
  * corresponding action - sets up yytext.
  */
-#define YY_DO_BEFORE_ACTION              \
-  (yytext_ptr)   = yy_bp;                \
-  yyleng         = (int)(yy_cp - yy_bp); \
-  (yy_hold_char) = *yy_cp;               \
-  *yy_cp         = '\0';                 \
-  (yy_c_buf_p)   = yy_cp;
+#define YY_DO_BEFORE_ACTION      \
+  (yytext_ptr) = yy_bp;          \
+  yyleng = (int)(yy_cp - yy_bp); \
+  (yy_hold_char) = *yy_cp;       \
+  *yy_cp = '\0';                 \
+  (yy_c_buf_p) = yy_cp;
 #define YY_NUM_RULES 49
 #define YY_END_OF_BUFFER 50
 /* This struct is not used in this scanner,
@@ -1406,14 +1406,14 @@ char *yytext;
 
 #undef DEBUG
 #ifdef DEBUG
-static int MIN_BYTE          = NC_MIN_BYTE;
-static int MIN_SHORT         = NC_MIN_SHORT;
-static int MIN_INT           = NC_MIN_INT;
-static int MAX_BYTE          = NC_MAX_BYTE;
-static int MAX_SHORT         = NC_MAX_SHORT;
-static int MAX_INT           = NC_MAX_INT;
-static int MAX_UBYTE         = NC_MAX_UBYTE;
-static int MAX_USHORT        = NC_MAX_USHORT;
+static int MIN_BYTE = NC_MIN_BYTE;
+static int MIN_SHORT = NC_MIN_SHORT;
+static int MIN_INT = NC_MIN_INT;
+static int MAX_BYTE = NC_MAX_BYTE;
+static int MAX_SHORT = NC_MAX_SHORT;
+static int MAX_INT = NC_MAX_INT;
+static int MAX_UBYTE = NC_MAX_UBYTE;
+static int MAX_USHORT = NC_MAX_USHORT;
 static unsigned int MAX_UINT = NC_MAX_UINT;
 
 #  undef NC_MIN_BYTE
@@ -1775,7 +1775,7 @@ YY_DECL {
         YY_CHAR yy_c = yy_ec[YY_SC_TO_UI(*yy_cp)];
         if (yy_accept[yy_current_state]) {
           (yy_last_accepting_state) = yy_current_state;
-          (yy_last_accepting_cpos)  = yy_cp;
+          (yy_last_accepting_cpos) = yy_cp;
         }
         while (yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state) {
           yy_current_state = (int)yy_def[yy_current_state];
@@ -1789,9 +1789,9 @@ YY_DECL {
     yy_find_action:
       yy_act = yy_accept[yy_current_state];
       if (yy_act == 0) { /* have to back up */
-        yy_cp            = (yy_last_accepting_cpos);
+        yy_cp = (yy_last_accepting_cpos);
         yy_current_state = (yy_last_accepting_state);
-        yy_act           = yy_accept[yy_current_state];
+        yy_act = yy_accept[yy_current_state];
       }
 
       YY_DO_BEFORE_ACTION;
@@ -1801,8 +1801,8 @@ YY_DECL {
       switch (yy_act) { /* beginning of action switch */
         case 0:         /* must back up */
           /* undo the effects of YY_DO_BEFORE_ACTION */
-          *yy_cp           = (yy_hold_char);
-          yy_cp            = (yy_last_accepting_cpos);
+          *yy_cp = (yy_hold_char);
+          yy_cp = (yy_last_accepting_cpos);
           yy_current_state = (yy_last_accepting_state);
           goto yy_find_action;
 
@@ -2036,7 +2036,7 @@ yytext[MAXTRST-1] = '\0';
           YY_RULE_SETUP
 #line 297 "ncgen.l"
           { /* missing value (pre-2.4 backward compatibility) */
-            double_val       = NAN;
+            double_val = NAN;
             specialconstants = 1;
             return lexdebug(DOUBLE_CONST);
           }
@@ -2058,7 +2058,7 @@ yytext[MAXTRST-1] = '\0';
           YY_RULE_SETUP
 #line 312 "ncgen.l"
           { /* missing value (pre-2.4 backward compatibility) */
-            float_val        = NANF;
+            float_val = NANF;
             specialconstants = 1;
             return lexdebug(FLOAT_CONST);
           }
@@ -2153,15 +2153,15 @@ yytext[MAXTRST-1] = '\0';
 		  Technically, the user should specify, but...
 		  If out of any integer range, then complain
 		*/
-            int slen    = strlen(ncgtext);
-            char *stag  = NULL;
-            int tag     = NC_NAT;
-            int isneg   = 0;
-            int c       = ncgtext[0];
-            int fail    = 0;
+            int slen = strlen(ncgtext);
+            char *stag = NULL;
+            int tag = NC_NAT;
+            int isneg = 0;
+            int c = ncgtext[0];
+            int fail = 0;
             nc_type nct = 0;
-            char *pos   = NULL;
-            int hasU    = 0;
+            char *pos = NULL;
+            int hasU = 0;
 
             /* capture the tag string */
             tag = collecttag(ncgtext, &stag);
@@ -2172,9 +2172,9 @@ yytext[MAXTRST-1] = '\0';
             }
             /* drop the tag from the input text */
             ncgtext[slen - strlen(stag)] = '\0';
-            hasU                         = isuinttype(tag);
+            hasU = isuinttype(tag);
             if (!tstdecimal(c)) {
-              pos   = ncgtext + 1;
+              pos = ncgtext + 1;
               isneg = (c == '-');
             } else
               pos = ncgtext;
@@ -2218,12 +2218,12 @@ yytext[MAXTRST-1] = '\0';
 #line 441 "ncgen.l"
           {
             int c;
-            int token  = 0;
-            int slen   = strlen(yytext);
+            int token = 0;
+            int slen = strlen(yytext);
             char *stag = NULL;
-            int tag    = NC_NAT;
-            char *hex  = yytext + 2; /* point to first true hex digit */
-            int xlen   = (slen - 3); /* true hex length */
+            int tag = NC_NAT;
+            char *hex = yytext + 2; /* point to first true hex digit */
+            int xlen = (slen - 3);  /* true hex length */
 
             yytext[slen - 1] = '\0';
             /* capture the tag string */
@@ -2241,12 +2241,12 @@ yytext[MAXTRST-1] = '\0';
             uint64_val = 0;
             while ((c = *hex++)) {
               unsigned int hexdigit = (c <= '9' ? (c - '0') : (c - 'a') + 0xa);
-              uint64_val            = ((uint64_val << 4) | hexdigit);
+              uint64_val = ((uint64_val << 4) | hexdigit);
             }
             switch (tag) {
               case NC_USHORT:
                 uint16_val = (unsigned short)uint64_val;
-                token      = USHORT_CONST;
+                token = USHORT_CONST;
                 break;
               case NC_UINT:
                 token = UINT_CONST;
@@ -2418,8 +2418,8 @@ yytext[MAXTRST-1] = '\0';
 			 * this is the first action (other than possibly a
 			 * back-up) that will match for the new input source.
 			 */
-            (yy_n_chars)                               = YY_CURRENT_BUFFER_LVALUE->yy_n_chars;
-            YY_CURRENT_BUFFER_LVALUE->yy_input_file    = yyin;
+            (yy_n_chars) = YY_CURRENT_BUFFER_LVALUE->yy_n_chars;
+            YY_CURRENT_BUFFER_LVALUE->yy_input_file = yyin;
             YY_CURRENT_BUFFER_LVALUE->yy_buffer_status = YY_BUFFER_NORMAL;
           }
 
@@ -2452,7 +2452,7 @@ yytext[MAXTRST-1] = '\0';
 
             if (yy_next_state) {
               /* Consume the NUL. */
-              yy_cp            = ++(yy_c_buf_p);
+              yy_cp = ++(yy_c_buf_p);
               yy_current_state = yy_next_state;
               goto yy_match;
             }
@@ -2528,7 +2528,7 @@ yytext[MAXTRST-1] = '\0';
  *	EOB_ACT_END_OF_FILE - end of file
  */
 static int yy_get_next_buffer(void) {
-  char *dest   = YY_CURRENT_BUFFER_LVALUE->yy_ch_buf;
+  char *dest = YY_CURRENT_BUFFER_LVALUE->yy_ch_buf;
   char *source = (yytext_ptr);
   int number_to_move, i;
   int ret_val;
@@ -2619,7 +2619,7 @@ static int yy_get_next_buffer(void) {
     }
 
     else {
-      ret_val                                    = EOB_ACT_LAST_MATCH;
+      ret_val = EOB_ACT_LAST_MATCH;
       YY_CURRENT_BUFFER_LVALUE->yy_buffer_status = YY_BUFFER_EOF_PENDING;
     }
   }
@@ -2629,7 +2629,7 @@ static int yy_get_next_buffer(void) {
 
   if (((yy_n_chars) + number_to_move) > YY_CURRENT_BUFFER_LVALUE->yy_buf_size) {
     /* Extend the array by 50%, plus the number we really need. */
-    int new_size                        = (yy_n_chars) + number_to_move + ((yy_n_chars) >> 1);
+    int new_size = (yy_n_chars) + number_to_move + ((yy_n_chars) >> 1);
     YY_CURRENT_BUFFER_LVALUE->yy_ch_buf = (char *)yyrealloc(
     (void *)YY_CURRENT_BUFFER_LVALUE->yy_ch_buf, (yy_size_t)new_size);
     if (!YY_CURRENT_BUFFER_LVALUE->yy_ch_buf)
@@ -2639,7 +2639,7 @@ static int yy_get_next_buffer(void) {
   }
 
   (yy_n_chars) += number_to_move;
-  YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[(yy_n_chars)]     = YY_END_OF_BUFFER_CHAR;
+  YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[(yy_n_chars)] = YY_END_OF_BUFFER_CHAR;
   YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[(yy_n_chars) + 1] = YY_END_OF_BUFFER_CHAR;
 
   (yytext_ptr) = &YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[0];
@@ -2659,7 +2659,7 @@ static yy_state_type yy_get_previous_state(void) {
     YY_CHAR yy_c = (*yy_cp ? yy_ec[YY_SC_TO_UI(*yy_cp)] : 1);
     if (yy_accept[yy_current_state]) {
       (yy_last_accepting_state) = yy_current_state;
-      (yy_last_accepting_cpos)  = yy_cp;
+      (yy_last_accepting_cpos) = yy_cp;
     }
     while (yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state) {
       yy_current_state = (int)yy_def[yy_current_state];
@@ -2684,7 +2684,7 @@ static yy_state_type yy_try_NUL_trans(yy_state_type yy_current_state) {
   YY_CHAR yy_c = 1;
   if (yy_accept[yy_current_state]) {
     (yy_last_accepting_state) = yy_current_state;
-    (yy_last_accepting_cpos)  = yy_cp;
+    (yy_last_accepting_cpos) = yy_cp;
   }
   while (yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state) {
     yy_current_state = (int)yy_def[yy_current_state];
@@ -2692,7 +2692,7 @@ static yy_state_type yy_try_NUL_trans(yy_state_type yy_current_state) {
       yy_c = yy_meta[yy_c];
   }
   yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
-  yy_is_jam        = (yy_current_state == 421);
+  yy_is_jam = (yy_current_state == 421);
 
   return yy_is_jam ? 0 : yy_current_state;
 }
@@ -2710,8 +2710,8 @@ static void yyunput(int c, char *yy_bp) {
   if (yy_cp < YY_CURRENT_BUFFER_LVALUE->yy_ch_buf + 2) { /* need to shift things up to make room */
     /* +2 for EOB chars. */
     int number_to_move = (yy_n_chars) + 2;
-    char *dest         = &YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[YY_CURRENT_BUFFER_LVALUE->yy_buf_size + 2];
-    char *source       = &YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[number_to_move];
+    char *dest = &YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[YY_CURRENT_BUFFER_LVALUE->yy_buf_size + 2];
+    char *source = &YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[number_to_move];
 
     while (source > YY_CURRENT_BUFFER_LVALUE->yy_ch_buf)
       *--dest = *--source;
@@ -2726,9 +2726,9 @@ static void yyunput(int c, char *yy_bp) {
 
   *--yy_cp = (char)c;
 
-  (yytext_ptr)   = yy_bp;
+  (yytext_ptr) = yy_bp;
   (yy_hold_char) = *yy_cp;
-  (yy_c_buf_p)   = yy_cp;
+  (yy_c_buf_p) = yy_cp;
 }
 
 #endif
@@ -2795,8 +2795,8 @@ static int input(void)
     }
   }
 
-  c              = *(unsigned char *)(yy_c_buf_p); /* cast for 8-bit char's */
-  *(yy_c_buf_p)  = '\0';                           /* preserve yytext */
+  c = *(unsigned char *)(yy_c_buf_p); /* cast for 8-bit char's */
+  *(yy_c_buf_p) = '\0';               /* preserve yytext */
   (yy_hold_char) = *++(yy_c_buf_p);
 
   return c;
@@ -2834,7 +2834,7 @@ void yy_switch_to_buffer(YY_BUFFER_STATE new_buffer) {
 
   if (YY_CURRENT_BUFFER) {
     /* Flush out information for old buffer. */
-    *(yy_c_buf_p)                        = (yy_hold_char);
+    *(yy_c_buf_p) = (yy_hold_char);
     YY_CURRENT_BUFFER_LVALUE->yy_buf_pos = (yy_c_buf_p);
     YY_CURRENT_BUFFER_LVALUE->yy_n_chars = (yy_n_chars);
   }
@@ -2853,8 +2853,8 @@ void yy_switch_to_buffer(YY_BUFFER_STATE new_buffer) {
 static void yy_load_buffer_state(void) {
   (yy_n_chars) = YY_CURRENT_BUFFER_LVALUE->yy_n_chars;
   (yytext_ptr) = (yy_c_buf_p) = YY_CURRENT_BUFFER_LVALUE->yy_buf_pos;
-  yyin                        = YY_CURRENT_BUFFER_LVALUE->yy_input_file;
-  (yy_hold_char)              = *(yy_c_buf_p);
+  yyin = YY_CURRENT_BUFFER_LVALUE->yy_input_file;
+  (yy_hold_char) = *(yy_c_buf_p);
 }
 
 /** Allocate and initialize an input buffer state.
@@ -2914,7 +2914,7 @@ static void yy_init_buffer(YY_BUFFER_STATE b, FILE *file)
 
   yy_flush_buffer(b);
 
-  b->yy_input_file  = file;
+  b->yy_input_file = file;
   b->yy_fill_buffer = 1;
 
   /* If b is the current buffer, then yy_init_buffer was _probably_
@@ -2950,7 +2950,7 @@ void yy_flush_buffer(YY_BUFFER_STATE b) {
 
   b->yy_buf_pos = &b->yy_ch_buf[0];
 
-  b->yy_at_bol        = 1;
+  b->yy_at_bol = 1;
   b->yy_buffer_status = YY_BUFFER_NEW;
 
   if (b == YY_CURRENT_BUFFER)
@@ -2972,7 +2972,7 @@ void yypush_buffer_state(YY_BUFFER_STATE new_buffer) {
   /* This block is copied from yy_switch_to_buffer. */
   if (YY_CURRENT_BUFFER) {
     /* Flush out information for old buffer. */
-    *(yy_c_buf_p)                        = (yy_hold_char);
+    *(yy_c_buf_p) = (yy_hold_char);
     YY_CURRENT_BUFFER_LVALUE->yy_buf_pos = (yy_c_buf_p);
     YY_CURRENT_BUFFER_LVALUE->yy_n_chars = (yy_n_chars);
   }
@@ -3017,7 +3017,7 @@ static void yyensure_buffer_stack(void) {
 		 * scanner will even need a stack. We use 2 instead of 1 to avoid an
 		 * immediate realloc on the next call.
          */
-    num_to_alloc      = 1; /* After all that talk, this was set to 1 anyways... */
+    num_to_alloc = 1; /* After all that talk, this was set to 1 anyways... */
     (yy_buffer_stack) = (struct yy_buffer_state **)yyalloc(num_to_alloc * sizeof(struct yy_buffer_state *));
     if (!(yy_buffer_stack))
       YY_FATAL_ERROR("out of dynamic memory in yyensure_buffer_stack()");
@@ -3033,7 +3033,7 @@ static void yyensure_buffer_stack(void) {
     /* Increase the buffer to prepare for a possible push. */
     yy_size_t grow_size = 8 /* arbitrary grow size */;
 
-    num_to_alloc      = (yy_buffer_stack_max) + grow_size;
+    num_to_alloc = (yy_buffer_stack_max) + grow_size;
     (yy_buffer_stack) = (struct yy_buffer_state **)yyrealloc((yy_buffer_stack),
     num_to_alloc * sizeof(struct yy_buffer_state *));
     if (!(yy_buffer_stack))
@@ -3064,13 +3064,13 @@ YY_BUFFER_STATE yy_scan_buffer(char *base, yy_size_t size) {
 
   b->yy_buf_size = (int)(size - 2); /* "- 2" to take care of EOB's */
   b->yy_buf_pos = b->yy_ch_buf = base;
-  b->yy_is_our_buffer          = 0;
-  b->yy_input_file             = NULL;
-  b->yy_n_chars                = b->yy_buf_size;
-  b->yy_is_interactive         = 0;
-  b->yy_at_bol                 = 1;
-  b->yy_fill_buffer            = 0;
-  b->yy_buffer_status          = YY_BUFFER_NEW;
+  b->yy_is_our_buffer = 0;
+  b->yy_input_file = NULL;
+  b->yy_n_chars = b->yy_buf_size;
+  b->yy_is_interactive = 0;
+  b->yy_at_bol = 1;
+  b->yy_fill_buffer = 0;
+  b->yy_buffer_status = YY_BUFFER_NEW;
 
   yy_switch_to_buffer(b);
 
@@ -3103,7 +3103,7 @@ YY_BUFFER_STATE yy_scan_bytes(const char *yybytes, int _yybytes_len) {
   int i;
 
   /* Get memory for full buffer, including space for trailing EOB's. */
-  n   = (yy_size_t)(_yybytes_len + 2);
+  n = (yy_size_t)(_yybytes_len + 2);
   buf = (char *)yyalloc(n);
   if (!buf)
     YY_FATAL_ERROR("out of dynamic memory in yy_scan_bytes()");
@@ -3137,16 +3137,16 @@ static void yynoreturn yy_fatal_error(const char *msg) {
 /* Redefine yyless() so it works in section 3 code. */
 
 #undef yyless
-#define yyless(n)                               \
-  do {                                          \
-    /* Undo effects of setting up yytext. */    \
-    int yyless_macro_arg = (n);                 \
-    YY_LESS_LINENO(yyless_macro_arg);           \
-    yytext[yyleng] = (yy_hold_char);            \
-    (yy_c_buf_p)   = yytext + yyless_macro_arg; \
-    (yy_hold_char) = *(yy_c_buf_p);             \
-    *(yy_c_buf_p)  = '\0';                      \
-    yyleng         = yyless_macro_arg;          \
+#define yyless(n)                             \
+  do {                                        \
+    /* Undo effects of setting up yytext. */  \
+    int yyless_macro_arg = (n);               \
+    YY_LESS_LINENO(yyless_macro_arg);         \
+    yytext[yyleng] = (yy_hold_char);          \
+    (yy_c_buf_p) = yytext + yyless_macro_arg; \
+    (yy_hold_char) = *(yy_c_buf_p);           \
+    *(yy_c_buf_p) = '\0';                     \
+    yyleng = yyless_macro_arg;                \
   } while (0)
 
 /* Accessor  methods (get/set functions) to struct members. */
@@ -3222,16 +3222,16 @@ static int yy_init_globals(void) {
      * This function is called from yylex_destroy(), so don't allocate here.
      */
 
-  (yy_buffer_stack)     = NULL;
+  (yy_buffer_stack) = NULL;
   (yy_buffer_stack_top) = 0;
   (yy_buffer_stack_max) = 0;
-  (yy_c_buf_p)          = NULL;
-  (yy_init)             = 0;
-  (yy_start)            = 0;
+  (yy_c_buf_p) = NULL;
+  (yy_init) = 0;
+  (yy_start) = 0;
 
 /* Defined in main.c */
 #ifdef YY_STDINIT
-  yyin  = stdin;
+  yyin = stdin;
   yyout = stdout;
 #else
   yyin = NULL;
@@ -3312,7 +3312,7 @@ void yyfree(void *ptr) {
 static int
 lexdebug(int token) {
   if (debug >= 2) {
-    char *text   = yytext;
+    char *text = yytext;
     text[yyleng] = 0;
     fprintf(stderr, "Token=%d |%s| line=%d\n", token, text, lineno);
   }
@@ -3320,7 +3320,7 @@ lexdebug(int token) {
 }
 
 int lex_init(void) {
-  lineno  = 1;
+  lineno = 1;
   lextext = bbNew();
   if (0) unput(0); /* keep -Wall quiet */
   return 0;
@@ -3345,13 +3345,13 @@ makepath(char *text0) {
     char *text = estrdup(text0);
     int lastident;
 
-    ident     = text + 1;
-    p         = ident; /* skip leading '/' */
+    ident = text + 1;
+    p = ident; /* skip leading '/' */
     lastident = 0;
     do {
-      match     = esc_strchr(p, '/', 0);
+      match = esc_strchr(p, '/', 0);
       lastident = (*match == '\0');
-      *match    = '\0';
+      *match = '\0';
       (void)unescape(p, strlen(p), ISIDENT, &ident);
       refsym = lookupingroup(NC_GRP, ident, container);
       if (!lastident) {
@@ -3361,15 +3361,15 @@ makepath(char *text0) {
           refsym = rootgroup;
         } else
           listpush(prefix, (void *)refsym);
-      } else {                                /* lasiident is true */
-        refsym              = install(ident); /* create as symbol */
-        refsym->objectclass = NC_GRP;         /* tentative */
-        refsym->ref.is_ref  = 1;
-        refsym->container   = container;
-        refsym->subnodes    = listnew();
+      } else {                        /* lasiident is true */
+        refsym = install(ident);      /* create as symbol */
+        refsym->objectclass = NC_GRP; /* tentative */
+        refsym->ref.is_ref = 1;
+        refsym->container = container;
+        refsym->subnodes = listnew();
       }
       container = refsym;
-      p         = (lastident ? match : match + 1);
+      p = (lastident ? match : match + 1);
       if (ident) efree(ident);
     } while (!lastident);
     refsym->prefix = prefix;
@@ -3388,7 +3388,7 @@ parseULL(char *text, int *failp) {
   char *endptr;
   unsigned long long uint64 = 0;
 
-  errno  = 0;
+  errno = 0;
   endptr = NULL;
   assert(tstdecimal(text[0]));
 #ifdef HAVE_STRTOULL
@@ -3421,9 +3421,9 @@ e.g. 65535s; is legal and is return as a negative short.
 */
 static nc_type
 downconvert(unsigned long long uint64, int *tagp, int isneg, int hasU) {
-  nc_type nct     = NC_NAT;
-  int tag         = *tagp;
-  int bit63set    = (uint64 >> 63);
+  nc_type nct = NC_NAT;
+  int tag = *tagp;
+  int bit63set = (uint64 >> 63);
   long long int64 = *((long long *)&uint64);
 
   if (isneg && hasU) {
@@ -3444,16 +3444,16 @@ downconvert(unsigned long long uint64, int *tagp, int isneg, int hasU) {
   if (tag == NC_NOTAG) {
     /* If we have no other info, then assume NC_(U)INT(64) */
     if (int64 >= NC_MIN_INT && int64 <= NC_MAX_INT) {
-      nct       = (tag = NC_INT);
+      nct = (tag = NC_INT);
       int32_val = (signed int)int64;
     } else if (int64 >= 0 && int64 <= NC_MAX_UINT) {
-      nct        = (tag = NC_UINT);
+      nct = (tag = NC_UINT);
       uint32_val = (unsigned int)int64;
     } else if (int64 < 0) {
-      nct       = (tag = NC_INT64);
+      nct = (tag = NC_INT64);
       int64_val = (signed long long)int64;
     } else {
-      nct        = (tag = NC_UINT64);
+      nct = (tag = NC_UINT64);
       uint64_val = (unsigned long long)int64;
     }
     goto done;
@@ -3463,46 +3463,46 @@ downconvert(unsigned long long uint64, int *tagp, int isneg, int hasU) {
   switch (tag) {
     case NC_UBYTE:
       if (int64 <= NC_MAX_UBYTE) {
-        nct       = NC_UBYTE;
+        nct = NC_UBYTE;
         ubyte_val = (unsigned char)int64;
       } else
         goto outofrange;
       break;
     case NC_USHORT:
       if (int64 <= NC_MAX_USHORT) {
-        nct        = NC_USHORT;
+        nct = NC_USHORT;
         uint16_val = (unsigned short)int64;
       } else
         goto outofrange;
       break;
     case NC_UINT:
       if (int64 <= NC_MAX_UINT) {
-        nct        = NC_UINT;
+        nct = NC_UINT;
         uint32_val = (unsigned int)int64;
       } else
         goto outofrange;
       break;
     case NC_UINT64:
       if (int64 <= NC_MAX_UINT64) {
-        nct        = NC_UINT64;
+        nct = NC_UINT64;
         uint64_val = uint64;
       } else
         goto outofrange;
       break;
     case NC_INT64:
-      nct       = NC_INT64;
+      nct = NC_INT64;
       int64_val = int64;
       break;
     case NC_BYTE:
-      nct      = NC_BYTE;
+      nct = NC_BYTE;
       byte_val = (signed char)int64;
       break;
     case NC_SHORT:
-      nct       = NC_SHORT;
+      nct = NC_SHORT;
       int16_val = (signed short)int64;
       break;
     case NC_INT:
-      nct       = NC_INT;
+      nct = NC_INT;
       int32_val = (signed int)int64;
       break;
     default:
@@ -3548,7 +3548,7 @@ collecttag(char *text, char **stagp) {
   char stag[MAXTAGLEN + 1];
   int slen = strlen(text);
   int staglen;
-  int tag  = NC_NAT;
+  int tag = NC_NAT;
   int hasU = 0;
 
   for (stag0 = text + (slen - 1); stag0 > 0; stag0--) {

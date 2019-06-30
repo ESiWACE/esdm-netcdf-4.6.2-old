@@ -16,7 +16,7 @@ struct Fetchdata {
 };
 
 long NCD4_fetchhttpcode(CURL *curl) {
-  long httpcode  = 200;
+  long httpcode = 200;
   CURLcode cstat = CURLE_OK;
   /* Extract the http code */
 #ifdef HAVE_CURLINFO_RESPONSE_CODE
@@ -33,7 +33,7 @@ long NCD4_fetchhttpcode(CURL *curl) {
 
 int NCD4_fetchurl_file(CURL *curl, const char *url, FILE *stream,
 d4size_t *sizep, long *filetime) {
-  int ret        = NC_NOERR;
+  int ret = NC_NOERR;
   CURLcode cstat = CURLE_OK;
   struct Fetchdata fetchdata;
 
@@ -54,8 +54,8 @@ d4size_t *sizep, long *filetime) {
   if (cstat != CURLE_OK) goto fail;
 
   fetchdata.stream = stream;
-  fetchdata.size   = 0;
-  cstat            = curl_easy_perform(curl);
+  fetchdata.size = 0;
+  cstat = curl_easy_perform(curl);
   if (cstat != CURLE_OK) {
     ret = NC_EDAPSVC;
     goto fail;
@@ -87,7 +87,7 @@ fail:
 }
 
 int NCD4_fetchurl(CURL *curl, const char *url, NCbytes *buf, long *filetime) {
-  int ret        = NC_NOERR;
+  int ret = NC_NOERR;
   CURLcode cstat = CURLE_OK;
   size_t len;
   long httpcode = 0;
@@ -175,7 +175,7 @@ WriteFileCallback(void *ptr, size_t size, size_t nmemb, void *data) {
 static size_t
 WriteMemoryCallback(void *ptr, size_t size, size_t nmemb, void *data) {
   size_t realsize = size * nmemb;
-  NCbytes *buf    = (NCbytes *)data;
+  NCbytes *buf = (NCbytes *)data;
   if (realsize == 0)
     nclog(NCLOGWARN, "WriteMemoryCallback: zero sized chunk");
   /* Optimize for reading potentially large dods datasets */
@@ -191,7 +191,7 @@ WriteMemoryCallback(void *ptr, size_t size, size_t nmemb, void *data) {
 }
 
 int NCD4_curlopen(CURL **curlp) {
-  int ret        = NC_NOERR;
+  int ret = NC_NOERR;
   CURLcode cstat = CURLE_OK;
   CURL *curl;
   /* initialize curl*/
@@ -218,7 +218,7 @@ void NCD4_curlclose(CURL *curl) {
 }
 
 int NCD4_fetchlastmodified(CURL *curl, char *url, long *filetime) {
-  int ret        = NC_NOERR;
+  int ret = NC_NOERR;
   CURLcode cstat = CURLE_OK;
 
   /* Set the URL */
@@ -250,10 +250,10 @@ fail:
 }
 
 int NCD4_ping(const char *url) {
-  int ret        = NC_NOERR;
+  int ret = NC_NOERR;
   CURLcode cstat = CURLE_OK;
-  CURL *curl     = NULL;
-  NCbytes *buf   = NULL;
+  CURL *curl = NULL;
+  NCbytes *buf = NULL;
 
   /* Create a CURL instance */
   ret = NCD4_curlopen(&curl);
@@ -283,7 +283,7 @@ int NCD4_ping(const char *url) {
   if (ret == NC_NOERR) {
     /* Don't trust curl to return an error when request gets 404 */
     long http_code = 0;
-    cstat          = curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
+    cstat = curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
     if (cstat != CURLE_OK)
       goto done;
     if (http_code >= 400) {

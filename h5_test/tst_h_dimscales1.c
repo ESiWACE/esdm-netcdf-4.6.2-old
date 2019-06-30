@@ -30,7 +30,7 @@ int main() {
     hid_t fileid, grpid, dimscaleid;
     hid_t dimscale_spaceid, var1_spaceid, var3_spaceid;
     hid_t var1_datasetid, var2_datasetid, var3_datasetid;
-    hsize_t dims[2]          = {DIM1_LEN, DIM2_LEN};
+    hsize_t dims[2] = {DIM1_LEN, DIM2_LEN};
     hsize_t dimscale_dims[1] = {DIM1_LEN};
 
     /* Open file and create group. */

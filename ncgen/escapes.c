@@ -68,10 +68,10 @@ escapifychar(unsigned int c, char *s0, int quote) {
         unsigned int oct1 = (c & 007);
         unsigned int oct2 = ((c >> 3) & 007);
         unsigned int oct3 = ((c >> 6) & 003);
-        *s++              = '\\';
-        *s++              = oct3 + '0';
-        *s++              = oct2 + '0';
-        *s++              = oct1 + '0';
+        *s++ = '\\';
+        *s++ = oct3 + '0';
+        *s++ = oct2 + '0';
+        *s++ = oct1 + '0';
       } break;
     }
   }
@@ -88,7 +88,7 @@ char *
 escapify(char *s0, int quote, size_t len) {
   int i;
   char *result;
-  result    = poolalloc(1 + 4 * len); /* overkill to support maximal expansion*/
+  result = poolalloc(1 + 4 * len); /* overkill to support maximal expansion*/
   result[0] = '\0';
   for (i = 0; i < len; i++) {
     char tmp[8];
@@ -180,12 +180,12 @@ initcodify(void) {
   char *rp;
 
   newname = bbNew();
-  idtlen  = strlen("DIGIT_n_"); /* initial digit template */
-  hexlen  = strlen("_XHH");     /* template for hex of non-ASCII bytes */
+  idtlen = strlen("DIGIT_n_"); /* initial digit template */
+  hexlen = strlen("_XHH");     /* template for hex of non-ASCII bytes */
   for (i = 0; i < 128; i++) {
-    rp       = ecalloc(2);
-    rp[0]    = i;
-    rp[1]    = '\0';
+    rp = ecalloc(2);
+    rp[0] = i;
+    rp[1] = '\0';
     repls[i] = rp;
   }
   for (i = 0; i < nctable; i++) {
@@ -197,7 +197,7 @@ initcodify(void) {
     rp = ecalloc(hexlen + 1);
     snprintf(rp, hexlen + 1, "_X%2.2X", i); /* need to include null*/
     rp[hexlen] = '\0';
-    repls[i]   = rp;
+    repls[i] = rp;
   }
   for (i = 0; i < 256; i++) {
     lens[i] = strlen(repls[i]);
@@ -280,7 +280,7 @@ Returns s as it result.
 static char hexdigits[] = "0123456789ABCDEF";
 
 static char printescapable[] = "\"&<>";
-static char *printescape[]   = {"quot", "amp", "lt", "gt"};
+static char *printescape[] = {"quot", "amp", "lt", "gt"};
 
 static void
 xescapifychar(unsigned int c, int quote, Bytebuffer *s) {
@@ -391,13 +391,13 @@ char *
 jescapify(char *s0, int quote, size_t len) {
   int stat = NC_NOERR;
   int i;
-  char *result        = NULL;
-  unsigned char *s8   = NULL;
+  char *result = NULL;
+  unsigned char *s8 = NULL;
   unsigned short *s16 = NULL; /* for storing the utf16 string */
   Bytebuffer *escaped = bbNew();
   size_t len16;
 
-  s8   = (unsigned char *)s0;
+  s8 = (unsigned char *)s0;
   stat = nc_utf8_to_utf16(s8, &s16, &len16);
   if (stat != NC_NOERR) {
     derror("Cannot convert UTF8 string to UTF16: %s", s0);
@@ -437,7 +437,7 @@ jcodify(const char *name) {
 char *
 f77escapifychar(unsigned int c, char *s0) {
   char *s = s0;
-  s0[0]   = '\0';
+  s0[0] = '\0';
   if (c == '\'') {
     *s++ = '\'';
     *s++ = '\'';
@@ -473,7 +473,7 @@ void f77quotestring(Bytebuffer *databuf) {
   lastcharescaped = 0;
   for (i = 0; i < slen; i++) {
     char tmp[32];
-    unsigned int c      = s[i];
+    unsigned int c = s[i];
     int thischarescaped = (c < ' ' || c >= '\177');
     if (i > 0) {
       if (!lastcharescaped && thischarescaped)
@@ -521,7 +521,7 @@ _SLASH_
 _DOT__
 */
   char *newname = poolalloc(l * 7 + 1);
-  *newname      = '\0';
+  *newname = '\0';
   for (q = newname, p = s; (c = *p++);) {
 #if 0
         if(c == '/' || c == '.') {
@@ -542,7 +542,7 @@ _DOT__
       q += 5;
     } else {
       *q++ = c;
-      *q   = '\0';
+      *q = '\0';
     }
 #endif
   }
@@ -625,9 +625,9 @@ char **sp           /* Return the unescaped version of yytext */
   s[yyleng] = '\0';
 
   /* translate "\" escapes, e.g. "\t" to tab character  */
-  t    = yytext;
+  t = yytext;
   tend = t + yyleng;
-  p    = s;
+  p = s;
   while (*t && t < tend) {
     if (*t == '\\') {
       t++;

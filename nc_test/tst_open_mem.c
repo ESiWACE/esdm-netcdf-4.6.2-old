@@ -17,12 +17,12 @@ extern int H5Eprint1(FILE *stream);
 
 static int
 readfile(const char *path, NC_memio *memio) {
-  int status      = NC_NOERR;
-  FILE *f         = NULL;
+  int status = NC_NOERR;
+  FILE *f = NULL;
   size_t filesize = 0;
-  size_t count    = 0;
-  char *memory    = NULL;
-  char *p         = NULL;
+  size_t count = 0;
+  char *memory = NULL;
+  char *p = NULL;
 
   /* Open the file for reading */
 #ifdef _MSC_VER
@@ -49,7 +49,7 @@ readfile(const char *path, NC_memio *memio) {
   /* move pointer back to beginning of file */
   rewind(f);
   count = filesize;
-  p     = memory;
+  p = memory;
   while (count > 0) {
     size_t actual;
     actual = fread(p, 1, count, f);
@@ -61,7 +61,7 @@ readfile(const char *path, NC_memio *memio) {
     p += actual;
   }
   if (memio) {
-    memio->size   = (size_t)filesize;
+    memio->size = (size_t)filesize;
     memio->memory = memory;
   }
 done:

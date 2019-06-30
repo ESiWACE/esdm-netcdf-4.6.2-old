@@ -56,9 +56,9 @@ object is to be returned.
 
 OCerror
 oc_open(const char *url, OCobject *linkp) {
-  OCerror ocerr  = OC_NOERR;
+  OCerror ocerr = OC_NOERR;
   OCstate *state = NULL;
-  ocerr          = ocopen(&state, url);
+  ocerr = ocopen(&state, url);
   if (ocerr == OC_NOERR && linkp) {
     *linkp = (OCobject)(state);
   } else {
@@ -538,7 +538,7 @@ oc_dds_fieldbyname(OCobject link, OCobject ddsnode, const char *name, OCobject *
   for (i = 0; i < count; i++) {
     OCobject field;
     char *fieldname = NULL;
-    int match       = 1;
+    int match = 1;
 
     err = oc_dds_ithfield(link, ddsnode, i, &field);
     if (err != OC_NOERR) return err;
@@ -582,7 +582,7 @@ oc_dds_dimensions(OCobject link, OCobject ddsnode, OCobject *dims) {
   if (dims != NULL) {
     for (i = 0; i < node->array.rank; i++) {
       OCnode *dim = (OCnode *)nclistget(node->array.dimensions, i);
-      dims[i]     = (OCobject)dim;
+      dims[i] = (OCobject)dim;
     }
   }
   return OCTHROW(OC_NOERR);
@@ -927,7 +927,7 @@ Obtain a data node by name from a container data node.
 
 OCerror
 oc_data_fieldbyname(OCobject link, OCobject datanode, const char *name, OCobject *fieldp) {
-  OCerror err  = OC_NOERR;
+  OCerror err = OC_NOERR;
   size_t count = 0, i;
   OCobject ddsnode;
   OCVERIFY(OC_State, link);
@@ -944,7 +944,7 @@ oc_data_fieldbyname(OCobject link, OCobject datanode, const char *name, OCobject
     int match;
     OCobject field;
     char *fieldname = NULL;
-    err             = oc_dds_ithfield(link, ddsnode, i, &field);
+    err = oc_dds_ithfield(link, ddsnode, i, &field);
     if (err != OC_NOERR) return err;
     /* Get the field's name */
     err = oc_dds_name(link, field, &fieldname);
@@ -1351,8 +1351,8 @@ size_t memsize, void *memory) {
 
   /* Convert edges to a count */
   pattern = data->pattern;
-  rank    = pattern->array.rank;
-  count   = octotaldimsize(rank, edges);
+  rank = pattern->array.rank;
+  count = octotaldimsize(rank, edges);
 
   return OCTHROW(oc_data_readn(link, datanode, start, count, memsize, memory));
 }
@@ -1435,11 +1435,11 @@ size_t memsize, void *memory) {
     return OCTHROW(OC_EINVAL);
 
   pattern = data->pattern;
-  rank    = pattern->array.rank;
+  rank = pattern->array.rank;
 
   if (rank == 0) {
     startpoint = 0;
-    N          = 1;
+    N = 1;
   } else if (start == NULL) {
     return OCTHROW(OCTHROW(OC_EINVALCOORDS));
   } else { /* not scalar */

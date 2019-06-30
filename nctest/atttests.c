@@ -44,7 +44,7 @@ int
 test_ncattput(path)
 const char *path; /* name of writable netcdf file to open */
 {
-  int nerrs           = 0;
+  int nerrs = 0;
   static char pname[] = "test_ncattput";
   int cdfid;               /* netcdf id */
   int ndims;               /* number of dimensions */
@@ -52,11 +52,11 @@ const char *path; /* name of writable netcdf file to open */
   int ngatts_prev, ngatts; /* number of global attributes */
   int xdimid;              /* id of unlimited dimension */
   int ia, id;
-  static char byte_vals[]     = {'a', 'b'};
-  static char char_vals[]     = "chars";
-  static short short_vals[]   = {-999, 0, 999};
-  static nclong long_vals[]   = {10, 20};
-  static float float_vals[]   = {1.5, 2.5, 3.5};
+  static char byte_vals[] = {'a', 'b'};
+  static char char_vals[] = "chars";
+  static short short_vals[] = {-999, 0, 999};
+  static nclong long_vals[] = {10, 20};
+  static float float_vals[] = {1.5, 2.5, 3.5};
   static double double_vals[] = {4.5, 5.5, 6.5, 7.5};
   /* 
      * test attributes; it is important for this test that the size 
@@ -213,8 +213,8 @@ const char *path; /* name of writable netcdf file to open */
     tmp.var = atts[ia].var;
     (void)strcpy(tmp.name, atts[ia - 1].name);
     tmp.type = atts[ia].type;
-    tmp.len  = atts[ia].len;
-    tmp.val  = atts[ia].val;
+    tmp.len = atts[ia].len;
+    tmp.val = atts[ia].val;
     add_att(&test, ww_id, &tmp); /* keep in-memory netcdf updated */
   }
   /* check with ncattinq and ncattget that variable attributes put OK */
@@ -306,8 +306,8 @@ const char *path; /* name of writable netcdf file to open */
     tmp.var = atts[ia].var;
     (void)strcpy(tmp.name, atts[ia + 1].name);
     tmp.type = atts[ia].type;
-    tmp.len  = atts[ia].len;
-    tmp.val  = atts[ia].val;
+    tmp.len = atts[ia].len;
+    tmp.val = atts[ia].val;
     add_att(&test, ww_id, &tmp); /* keep in-memory netcdf updated */
   }
   /* check with ncattinq and ncattget that variable attributes put OK */
@@ -381,7 +381,7 @@ int
 test_ncattinq(path)
 const char *path; /* name of writable netcdf file to open */
 {
-  int nerrs           = 0;
+  int nerrs = 0;
   static char pname[] = "test_ncattinq";
   int cdfid;  /* netcdf id */
   int ia, id; /* attribute number */
@@ -510,8 +510,8 @@ const char *path; /* name of writable netcdf file to open */
   int uu_id;                /* variable id */
   static struct cdfvar uu = /* variable */
   {"uu", NC_LONG, 2, ___, 0};
-  static nclong uumax       = 1000; /* attribute value */
-  static struct cdfatt vmax =       /* attribute */
+  static nclong uumax = 1000; /* attribute value */
+  static struct cdfatt vmax = /* attribute */
   {___, "valid_max", NC_LONG, 1, (void *)&uumax};
 
   static char pname[] = "test_ncattget";
@@ -690,7 +690,7 @@ test_ncattcopy(path1, path2)
 const char *path1; /* name of input netcdf file to open */
 const char *path2; /* name of output netcdf file to create */
 {
-  int nerrs           = 0;
+  int nerrs = 0;
   static char pname[] = "test_ncattcopy";
   int cdfid, cdfid2;        /* netcdf id */
   int id;                   /* dimension id */
@@ -701,8 +701,8 @@ const char *path2; /* name of output netcdf file to create */
   static struct cdfvar tu = /* new variable for target netcdf */
   {"tu", NC_DOUBLE, 2, ___, 0};
   static double double_vals[] = {-1., -2.};
-  static float float_vals[]   = {-1., -2.};
-  static struct cdfatt att    = /* attribute */
+  static float float_vals[] = {-1., -2.};
+  static struct cdfatt att = /* attribute */
   {___, "att", NC_DOUBLE, LEN_OF(double_vals), (void *)double_vals};
   static struct cdfatt att2 = /* attribute */
   {___, "att", NC_FLOAT, LEN_OF(float_vals), (void *)float_vals};
@@ -1024,14 +1024,14 @@ int
 test_ncattname(path)
 const char *path; /* name of writable netcdf file to open */
 {
-  int nerrs           = 0;
+  int nerrs = 0;
   static char pname[] = "test_ncattname";
   int cdfid;         /* netcdf id */
   struct cdfatt tmp; /* attributes */
   int ia, ib;        /* attribute numbers */
   int iv;            /* variable id */
   static short short_vals[] = {3, 4, 5};
-  static struct cdfatt att  = /* attribute */
+  static struct cdfatt att = /* attribute */
   {___, ___, NC_SHORT, LEN_OF(short_vals), (void *)short_vals};
 
   (void)fprintf(stderr, "*** Testing %s ...\t", &pname[5]);
@@ -1048,7 +1048,7 @@ const char *path; /* name of writable netcdf file to open */
   }
   /* for each NC_GLOBAL attribute, get name and compare with expected name */
   att.name = (char *)emalloc(MAX_NC_NAME);
-  ib       = 0;
+  ib = 0;
   for (ia = 0; ia < test.ngatts; ia++) {
     if (ncattname(cdfid, NC_GLOBAL, ia, att.name) == -1) {
       error("%s: ncattname failed on global attribute", pname);
@@ -1225,10 +1225,10 @@ int
 test_ncattrename(path)
 const char *path; /* name of writable netcdf file to open */
 {
-  int nerrs           = 0;
+  int nerrs = 0;
   static char pname[] = "test_ncattrename";
   int cdfid; /* netcdf id */
-  static char newname[]    = "shorter";
+  static char newname[] = "shorter";
   static char longername[] = "longer_name";
   struct cdfatt tmp; /* attributes */
   static short short_vals[] = {3, 4, 5};
@@ -1387,11 +1387,11 @@ int
 test_ncattdel(path)
 const char *path; /* name of writable netcdf file to open */
 {
-  int nerrs           = 0;
+  int nerrs = 0;
   static char pname[] = "test_ncattdel";
   int cdfid; /* netcdf id */
   static short short_vals[] = {-1, -2, -3};
-  static struct cdfatt yaa  = /* attribute */
+  static struct cdfatt yaa = /* attribute */
   {___, "yet_another_attribute", NC_SHORT, LEN_OF(short_vals),
   (void *)short_vals};
   int id;                    /* dimension id */

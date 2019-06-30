@@ -413,7 +413,7 @@ int ndims, const int *dimidsp, int *varidp) {
 
     /* Check for dim index 0 having the same name, in the same group */
     if (d == 0 && dim_grp == grp && strcmp(dim->hdr.name, norm_name) == 0) {
-      var->dimscale  = NC_TRUE;
+      var->dimscale = NC_TRUE;
       dim->coord_var = var;
 
       /* Use variable's dataset ID for the dimscale ID. So delete
@@ -444,7 +444,7 @@ int ndims, const int *dimidsp, int *varidp) {
 
     /* Track dimensions for variable */
     var->dimids[d] = dimidsp[d];
-    var->dim[d]    = dim;
+    var->dim[d] = dim;
   }
 
   /* Determine default chunksizes for this variable. (Even for
@@ -594,7 +594,7 @@ const void *fill_value, int *endianness) {
     /* Well, if we couldn't find any errors, I guess we have to take
        * the users settings. Darn! */
     var->contiguous = NC_FALSE;
-    var->deflate    = *deflate;
+    var->deflate = *deflate;
     if (*deflate)
       var->deflate_level = *deflate_level;
     LOG((3, "%s: *deflate_level %d", __func__, *deflate_level));
@@ -602,7 +602,7 @@ const void *fill_value, int *endianness) {
 
   /* Shuffle filter? */
   if (shuffle) {
-    var->shuffle    = *shuffle;
+    var->shuffle = *shuffle;
     var->contiguous = NC_FALSE;
   }
 
@@ -946,8 +946,8 @@ const unsigned int *parms) {
 #endif /*0*/
 
   var->filterid = id;
-  var->nparams  = nparams;
-  var->params   = NULL;
+  var->nparams = nparams;
+  var->params = NULL;
   if (parms != NULL) {
     var->params = (unsigned int *)calloc(nparams, sizeof(unsigned int));
     if (var->params == NULL) return NC_ENOMEM;
@@ -1265,10 +1265,10 @@ const ptrdiff_t *stridep, const void *data, nc_type mem_nc_type) {
   int extend_possible = 0;
 #endif
   int retval, range_error = 0, i, d2;
-  void *bufr          = NULL;
+  void *bufr = NULL;
   int need_to_convert = 0;
-  int zero_count      = 0; /* true if a count is zero */
-  size_t len          = 1;
+  int zero_count = 0; /* true if a count is zero */
+  size_t len = 1;
 
   /* Find info for this file, group, and var. */
   if ((retval = nc4_find_grp_h5_var(ncid, varid, &h5, &grp, &var)))
@@ -1295,8 +1295,8 @@ const ptrdiff_t *stridep, const void *data, nc_type mem_nc_type) {
     if (stridep && stridep[i] <= 0)
       return NC_ESTRIDE;
 
-    start[i]  = startp[i];
-    count[i]  = countp ? countp[i] : var->dim[i]->len;
+    start[i] = startp[i];
+    count[i] = countp ? countp[i] : var->dim[i]->len;
     stride[i] = stridep ? stridep[i] : 1;
 
     /* Check to see if any counts are zero. */
@@ -1320,7 +1320,7 @@ const ptrdiff_t *stridep, const void *data, nc_type mem_nc_type) {
     * put data beyond their current length. */
   for (d2 = 0; d2 < var->ndims; d2++) {
     hsize_t endindex = start[d2] + stride[d2] * (count[d2] - 1); /* last index written */
-    dim              = var->dim[d2];
+    dim = var->dim[d2];
     assert(dim && dim->hdr.id == var->dimids[d2]);
     if (count[d2] == 0)
       endindex = start[d2]; /* fixup for zero read count */
@@ -1418,7 +1418,7 @@ const ptrdiff_t *stridep, const void *data, nc_type mem_nc_type) {
           xtend_size[d2] = (long long unsigned)fdims[d2];
 
         if (!zero_count && endindex >= dim->len) {
-          dim->len      = endindex + 1;
+          dim->len = endindex + 1;
           dim->extended = NC_TRUE;
         }
       } else {
@@ -1559,9 +1559,9 @@ const ptrdiff_t *stridep, void *data, nc_type mem_nc_type) {
   int no_read = 0, provide_fill = 0;
   int fill_value_size[NC_MAX_VAR_DIMS];
   int scalar = 0, retval, range_error = 0, i, d2;
-  void *bufr          = NULL;
+  void *bufr = NULL;
   int need_to_convert = 0;
-  size_t len          = 1;
+  size_t len = 1;
 
   /* Find info for this file, group, and var. */
   if ((retval = nc4_find_grp_h5_var(ncid, varid, &h5, &grp, &var)))
@@ -1584,8 +1584,8 @@ const ptrdiff_t *stridep, void *data, nc_type mem_nc_type) {
     if (stridep && stridep[i] <= 0)
       return NC_ESTRIDE;
 
-    start[i]  = startp[i];
-    count[i]  = countp[i];
+    start[i] = startp[i];
+    count[i] = countp[i];
     stride[i] = stridep ? stridep[i] : 1;
 
     /* if any of the count values are zero don't actually read. */
@@ -1611,7 +1611,7 @@ const ptrdiff_t *stridep, void *data, nc_type mem_nc_type) {
     * put data beyond their current length. */
   for (d2 = 0; d2 < var->ndims; d2++) {
     hsize_t endindex = start[d2] + stride[d2] * (count[d2] - 1); /* last index read */
-    dim              = var->dim[d2];
+    dim = var->dim[d2];
     assert(dim && dim->hdr.id == var->dimids[d2]);
     if (count[d2] == 0)
       endindex = start[d2]; /* fixup for zero read count */

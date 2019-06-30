@@ -20,7 +20,7 @@ int main(int argc, char **argv) { /* Test bug fix for NCF-324, file that caused 
   int h_dim;   /* dimension with no associated coordinate variable */
 
   size_t lat_len = LEN_LAT;
-  size_t h_len   = LEN_H;
+  size_t h_len = LEN_H;
   int lat_id;
   int h_id;
 
@@ -43,13 +43,13 @@ int main(int argc, char **argv) { /* Test bug fix for NCF-324, file that caused 
 
   {
     double lat_data[LEN_LAT] = {((double)-45), ((double)45)};
-    size_t lat_startset[1]   = {0};
-    size_t lat_countset[1]   = {LEN_LAT};
+    size_t lat_startset[1] = {0};
+    size_t lat_countset[1] = {LEN_LAT};
     if (nc_put_vara(ncid, lat_id, lat_startset, lat_countset, lat_data)) ERR;
   }
 
   {
-    double h_data[2]     = {((double)5), ((double)6)};
+    double h_data[2] = {((double)5), ((double)6)};
     size_t h_startset[1] = {0};
     size_t h_countset[1] = {LEN_H};
     if (nc_put_vara(ncid, h_id, h_startset, h_countset, h_data)) ERR;
@@ -77,14 +77,14 @@ int main(int argc, char **argv) { /* Test bug fix for NCF-324, file that caused 
     {
       double lat_data[LEN_LAT];
       size_t start[RANK_LAT] = {0};
-      size_t count[1]        = {LEN_LAT};
+      size_t count[1] = {LEN_LAT};
       if (nc_get_vara(ncid, lat_id, start, count, lat_data)) ERR;
       if (lat_data[0] != -45.0 || lat_data[1] != 45.0) ERR;
     }
     {
       double h_data[LEN_H];
       size_t start[RANK_H] = {0};
-      size_t count[1]      = {LEN_H};
+      size_t count[1] = {LEN_H};
       if (nc_get_vara(ncid, h_id, start, count, h_data)) ERR;
       if (h_data[0] != 5 || h_data[1] != 6) ERR;
     }

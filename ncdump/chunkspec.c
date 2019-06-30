@@ -81,11 +81,11 @@ dimchunkspec_parse(int igrp, const char *spec) {
   const char *np;        /* beginning of current dimension name */
   size_t ndims = 0;
   int idim;
-  int ret        = NC_NOERR;
+  int ret = NC_NOERR;
   int comma_seen = 0;
 
   dimchunkspecs.ndims = 0;
-  dimchunkspecs.omit  = false;
+  dimchunkspecs.omit = false;
   if (!spec || *spec == '\0') /* default chunking */
     goto done;
   /* Special rule: // is treated as equivalent to / */
@@ -111,12 +111,12 @@ dimchunkspec_parse(int igrp, const char *spec) {
     pp = cp;
   }
   ndims++;
-  dimchunkspecs.ndims      = ndims;
-  dimchunkspecs.idimids    = (int *)emalloc(ndims * sizeof(int));
+  dimchunkspecs.ndims = ndims;
+  dimchunkspecs.idimids = (int *)emalloc(ndims * sizeof(int));
   dimchunkspecs.chunksizes = (size_t *)emalloc(ndims * sizeof(size_t));
   /* Look up dimension ids and assign chunksizes */
-  pp   = spec;
-  np   = spec;
+  pp = spec;
+  np = spec;
   idim = 0;
   for (cp = spec;; cp++) {
     if (*cp == '\0' || (*cp == ',' && *pp != '\\')) { /* found end of "dim/nn" part */
@@ -134,7 +134,7 @@ dimchunkspec_parse(int igrp, const char *spec) {
       }
       /* extract dimension name */
       dimname = (char *)emalloc(pp - np + 1);
-      dp      = dimname;
+      dp = dimname;
       while (np < pp) {
         *dp++ = *np++;
       }
@@ -234,7 +234,7 @@ varchunkspec_parse(int igrp, const char *spec0) {
   int i;
   int dimids[NC_MAX_VAR_DIMS];
   struct VarChunkSpec *chunkspec = NULL;
-  char *spec                     = NULL;
+  char *spec = NULL;
   char *p, *q; /* for walking strings */
 
   /* Copy spec so we can modify in place */

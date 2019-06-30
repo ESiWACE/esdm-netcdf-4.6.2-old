@@ -40,9 +40,9 @@ void *visitor_data) {
   /* Get more info on the dimscale object.*/
   if (H5Gget_objinfo(dsid, ".", 1, &statbuf) < 0) ERR;
   objid->fileno[0] = statbuf.fileno[0];
-  objid->objno[0]  = statbuf.objno[0];
+  objid->objno[0] = statbuf.objno[0];
   objid->fileno[1] = statbuf.fileno[1];
-  objid->objno[1]  = statbuf.objno[1];
+  objid->objno[1] = statbuf.objno[1];
 
   return 0;
 }

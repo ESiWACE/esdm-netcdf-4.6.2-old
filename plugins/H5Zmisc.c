@@ -131,8 +131,8 @@ static int
 paramcheck(size_t nparams, const unsigned int *params) {
   size_t i;
   /* Test endianness of this machine */
-  const unsigned char b[4] = {0x0, 0x0, 0x0, 0x1};      /* value 1 in big-endian*/
-  int bigendian            = (1 == *(unsigned int *)b); /* 1=>big 0=>little*/
+  const unsigned char b[4] = {0x0, 0x0, 0x0, 0x1}; /* value 1 in big-endian*/
+  int bigendian = (1 == *(unsigned int *)b);       /* 1=>big 0=>little*/
 
   if (nparams != 14) {
     fprintf(stderr, "Too few parameters: need=16 sent=%ld\n", (unsigned long)nparams);
@@ -197,7 +197,7 @@ paramcheck(size_t nparams, const unsigned int *params) {
         break;
       case 8: { /*double*/
         double x = *(double *)&params[i];
-        dval     = DBLVAL;
+        dval = DBLVAL;
         i++; /* takes two parameters */
         if (bigendian)
           byteswap8((unsigned char *)&x);
@@ -208,7 +208,7 @@ paramcheck(size_t nparams, const unsigned int *params) {
       }; break;
       case 10: { /*signed long long*/
         signed long long x = *(signed long long *)&params[i];
-        lval               = -9223372036854775807L;
+        lval = -9223372036854775807L;
         i++; /* takes two parameters */
         if (bigendian)
           byteswap8((unsigned char *)&x);
@@ -219,7 +219,7 @@ paramcheck(size_t nparams, const unsigned int *params) {
       }; break;
       case 12: { /*unsigned long long*/
         unsigned long long x = *(unsigned long long *)&params[i];
-        lval                 = 18446744073709551615UL;
+        lval = 18446744073709551615UL;
         i++; /* takes two parameters */
         if (bigendian)
           byteswap8((unsigned char *)&x);
@@ -254,16 +254,16 @@ fail:
 static void
 byteswap8(unsigned char *mem) {
   unsigned char c;
-  c      = mem[0];
+  c = mem[0];
   mem[0] = mem[7];
   mem[7] = c;
-  c      = mem[1];
+  c = mem[1];
   mem[1] = mem[6];
   mem[6] = c;
-  c      = mem[2];
+  c = mem[2];
   mem[2] = mem[5];
   mem[5] = c;
-  c      = mem[3];
+  c = mem[3];
   mem[3] = mem[4];
   mem[4] = c;
 }

@@ -29,10 +29,10 @@ int main(int argc, char **argv) {
     int longitude_dim;
 
     /* dimension lengths */
-    size_t basetime_len  = NC_UNLIMITED;
-    size_t forecast_len  = 32;
-    size_t bounds_len    = 2;
-    size_t latitude_len  = 121;
+    size_t basetime_len = NC_UNLIMITED;
+    size_t forecast_len = 32;
+    size_t bounds_len = 2;
+    size_t latitude_len = 121;
     size_t longitude_len = 101;
 
     /* variable ids */
@@ -43,10 +43,10 @@ int main(int argc, char **argv) {
 
     /* variable shapes */
     int temperature_2m_dims[RANK_temperature_2m];
-    static const float temperature_2m_FillValue_att[1]     = {9.96921e+36};
+    static const float temperature_2m_FillValue_att[1] = {9.96921e+36};
     static const float temperature_2m_missing_value_att[1] = {9.96921e+36};
-    static const float temperature_2m_valid_min_att[1]     = {180};
-    static const float temperature_2m_valid_max_att[1]     = {330};
+    static const float temperature_2m_valid_min_att[1] = {180};
+    static const float temperature_2m_valid_max_att[1] = {330};
 
     /* enter define mode */
     if (nc_create(FILE_NAME, NC_CLOBBER, &ncid)) ERR;

@@ -21,15 +21,15 @@ newodometer(Dimset *dimset, size_t *startp, size_t *countp) {
   if (odom == NULL) return NULL;
   odom->origin = odom;
   odom->offset = 0;
-  odom->rank   = dimset->ndims;
+  odom->rank = dimset->ndims;
   ASSERT(odom->rank <= NC_MAX_VAR_DIMS);
   for (i = 0; i < odom->rank; i++) {
     odom->declsize[i] = dimset->dimsyms[i]->dim.declsize;
-    odom->start[i]    = (startp == NULL ? 0
+    odom->start[i] = (startp == NULL ? 0
                                      : startp[i]);
-    odom->count[i]    = (countp == NULL ? odom->declsize[i]
+    odom->count[i] = (countp == NULL ? odom->declsize[i]
                                      : countp[i]);
-    odom->index[i]    = odom->start[i];
+    odom->index[i] = odom->start[i];
     /* verify */
     ASSERT(odom->start[i] + odom->count[i] <= odom->declsize[i]);
   }
@@ -46,7 +46,7 @@ newsubodometer(Odometer *origin, Dimset *dimset, int start, int stop) {
   if (odom == NULL) return NULL;
   odom->origin = origin;
   odom->offset = start;
-  odom->rank   = (stop - start);
+  odom->rank = (stop - start);
   ASSERT(odom->rank <= NC_MAX_VAR_DIMS);
   return odom;
 }

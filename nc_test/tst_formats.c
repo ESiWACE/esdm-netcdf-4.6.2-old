@@ -29,7 +29,7 @@ void determine_test_formats(int *num_formats, int *format) {
   assert(num_formats && format);
 
   /* We always have classic and 64-bit offset */
-  num           = 2;
+  num = 2;
   format[ind++] = NC_FORMAT_CLASSIC;
   format[ind++] = NC_FORMAT_64BIT_OFFSET;
 
@@ -119,23 +119,23 @@ int main(int argc, char **argv) {
         switch (format[f]) {
           case NC_FORMAT_CLASSIC:
             expected_extended_format = NC_FORMATX_NC3;
-            expected_mode            = 0;
+            expected_mode = 0;
             break;
           case NC_FORMAT_64BIT_OFFSET:
             expected_extended_format = NC_FORMATX_NC3;
-            expected_mode            = NC_64BIT_OFFSET;
+            expected_mode = NC_64BIT_OFFSET;
             break;
           case NC_FORMAT_CDF5:
             expected_extended_format = NC_FORMATX_NC3;
-            expected_mode            = NC_CDF5;
+            expected_mode = NC_CDF5;
             break;
           case NC_FORMAT_NETCDF4:
             expected_extended_format = NC_FORMATX_NC4;
-            expected_mode            = NC_NETCDF4;
+            expected_mode = NC_NETCDF4;
             break;
           case NC_FORMAT_NETCDF4_CLASSIC:
             expected_extended_format = NC_FORMATX_NC4;
-            expected_mode            = NC_NETCDF4 | NC_CLASSIC_MODEL;
+            expected_mode = NC_NETCDF4 | NC_CLASSIC_MODEL;
             break;
         }
         if (nc_set_default_format(format[f], NULL)) ERR;
@@ -165,7 +165,7 @@ int main(int argc, char **argv) {
           char file_name[NC_MAX_NAME + 1];
           int dimid, varid;
           size_t index = {DIM_LEN - 1};
-          int data     = TEST_VAL_42;
+          int data = TEST_VAL_42;
           int data_in;
           int fill_value = TEST_VAL_42 * 2;
 

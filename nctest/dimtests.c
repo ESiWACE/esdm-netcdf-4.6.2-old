@@ -28,7 +28,7 @@ int
 test_ncdimdef(path)
 const char *path; /* name of writable netcdf to open */
 {
-  int nerrs           = 0;
+  int nerrs = 0;
   static char pname[] = "test_ncdimdef";
   int cdfid;                 /* netcdf id */
   static struct cdfdim mm =  /* dimension */
@@ -142,7 +142,7 @@ int
 test_ncdimid(path)
 const char *path; /* name of writable netcdf file to open */
 {
-  int nerrs           = 0;
+  int nerrs = 0;
   static char pname[] = "test_ncdimid";
   int cdfid;                /* netcdf id */
   int nn_dim;               /* dimension id */
@@ -226,7 +226,7 @@ int
 test_ncdiminq(path)
 const char *path; /* name of writable netcdf file to open */
 {
-  int nerrs           = 0;
+  int nerrs = 0;
   static char pname[] = "test_ncdiminq";
   int cdfid;         /* netcdf id */
   int dimid;         /* dimension id */
@@ -327,7 +327,7 @@ int
 test_ncdimrename(path)
 const char *path; /* name of writable netcdf file to open */
 {
-  int nerrs           = 0;
+  int nerrs = 0;
   static char pname[] = "test_ncdimrename";
   int cdfid;                /* netcdf id */
   int pp_dim;               /* dimension id */

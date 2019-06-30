@@ -28,7 +28,7 @@ int
 test_ncvarput(path)
 const char *path; /* name of writable netcdf file to open */
 {
-  int nerrs           = 0;
+  int nerrs = 0;
   static char pname[] = "test_ncvarput";
   int cdfid;               /* netcdf id */
   int iv;                  /* variable id */
@@ -45,7 +45,7 @@ const char *path; /* name of writable netcdf file to open */
   /* handle case where struct netcdf test is uninitialised */
   hc.cor[0] = 0;
   hc.edg[0] = 1;
-  hc.vals   = 0;
+  hc.vals = 0;
 
   if ((cdfid = ncopen(path, NC_WRITE)) == -1) {
     error("%s: ncopen failed", pname);
@@ -69,8 +69,8 @@ const char *path; /* name of writable netcdf file to open */
     hc.vals = emalloc(nctypelen(test.vars[iv].type));
     val_fill(test.vars[iv].type, 1, hc.vals);
 
-    id         = test.vars[iv].ndims - 1;
-    tmp        = hc.cor[id];
+    id = test.vars[iv].ndims - 1;
+    tmp = hc.cor[id];
     hc.cor[id] = -1; /* try negative coordinate, should fail */
     if (ncvarput(cdfid, iv, hc.cor, hc.edg, hc.vals) != -1) {
       error("%s: ncvarput should fail for negative corner", pname);
@@ -78,7 +78,7 @@ const char *path; /* name of writable netcdf file to open */
       return ++nerrs;
     }
     hc.cor[id] = tmp;
-    tmp        = hc.edg[id];
+    tmp = hc.edg[id];
     hc.edg[id] = -1; /* try negative edge, should fail */
     if (ncvarput(cdfid, iv, hc.cor, hc.edg, hc.vals) != -1) {
       error("%s: ncvarput should fail for negative edge", pname);
@@ -88,9 +88,9 @@ const char *path; /* name of writable netcdf file to open */
     hc.edg[id] = tmp;
     {
       long mqv = test.vars[iv].ndims - 1;
-      int dim  = test.vars[iv].dims[mqv];
+      int dim = test.vars[iv].dims[mqv];
 
-      tmp         = hc.cor[mqv];
+      tmp = hc.cor[mqv];
       hc.cor[mqv] = test.dims[dim].size; /* try big coordinate, should fail */
       if (ncvarput(cdfid, iv, hc.cor, hc.edg, hc.vals) != -1) {
         error("%s: ncvarput should fail for too-high coordinate", pname);
@@ -99,7 +99,7 @@ const char *path; /* name of writable netcdf file to open */
       }
       hc.cor[mqv] = tmp;
 
-      tmp         = hc.edg[mqv];
+      tmp = hc.edg[mqv];
       hc.edg[mqv] = test.dims[dim].size + 1; /* try big edge, should fail */
       if (ncvarput(cdfid, iv, hc.cor, hc.edg, hc.vals) != -1) {
         error("%s: ncvarput should fail for too-high edge", pname);

@@ -83,7 +83,7 @@ int main() {
   int ncstatus;
   size_t start[5], count[5];
   ptrdiff_t stride[5];
-  int pass   = 1;
+  int pass = 1;
   int nelems = XSIZE * YSIZE;
   int idim, ndim;
   float *dat = (float *)malloc(sizeof(float) * nelems);
@@ -101,8 +101,8 @@ int main() {
   snprintf(url, sizeof(url), URL, svc);
 
   for (idim = 0; idim < 5; idim++) {
-    start[idim]  = 0;
-    count[idim]  = 1;
+    start[idim] = 0;
+    count[idim] = 1;
     stride[idim] = 1;
   }
 

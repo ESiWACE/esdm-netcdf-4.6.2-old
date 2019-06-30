@@ -270,7 +270,7 @@ size_t result[])     /* dimensioned [length] */
     for (i = length - 1; i > 0; i--) {
       if (base[i] == 0) return 1;
       result[i] = number % base[i];
-      number    = number / base[i];
+      number = number / base[i];
     }
     result[0] = number;
   }
@@ -384,7 +384,7 @@ int dbl2nc(const double d, const nc_type xtype, void *p) {
 #if INT_MAX >= X_INT_MAX
       *((int *)p) = (int)r;
 #else
-      *((long *)p)          = (long)r;
+      *((long *)p) = (long)r;
 #endif
       break;
     case NC_UINT:
@@ -683,7 +683,7 @@ static void
 init_dims(const char *digit) {
   int dimid; /* index of dimension */
   for (dimid = 0; dimid < NDIMS; dimid++) {
-    dim_len[dimid]     = dimid == 0 ? NRECS : dimid;
+    dim_len[dimid] = dimid == 0 ? NRECS : dimid;
     dim_name[dimid][0] = 'D';
     dim_name[dimid][1] = digit[dimid];
     dim_name[dimid][2] = '\0';
@@ -697,8 +697,8 @@ init_gatts(const char *type_letter) {
     gatt_name[attid][0] = 'G';
     gatt_name[attid][1] = type_letter[attid];
     gatt_name[attid][2] = '\0';
-    gatt_len[attid]     = 1 + attid;
-    gatt_type[attid]    = char2type(type_letter[attid]);
+    gatt_len[attid] = 1 + attid;
+    gatt_type[attid] = char2type(type_letter[attid]);
   }
 }
 
@@ -754,16 +754,16 @@ void init_gvars(void) {
         size_t tmp[MAX_RANK];
 
         var_name[vn][0] = type_letter[xtype];
-        var_type[vn]    = char2type(type_letter[xtype]);
-        var_rank[vn]    = rank;
-        var_natts[vn]   = rank == 0 ? vn % (MAX_NATTS + 1) : 0;
+        var_type[vn] = char2type(type_letter[xtype]);
+        var_rank[vn] = rank;
+        var_natts[vn] = rank == 0 ? vn % (MAX_NATTS + 1) : 0;
         {
           int ac;
           for (ac = 0; ac < var_natts[vn]; ac++, an++) {
             att_name[vn][ac][0] = type_letter[an % numTypes];
             att_name[vn][ac][1] = '\0';
-            att_len[vn][ac]     = an;
-            att_type[vn][ac]    = char2type(type_letter[an % numTypes]);
+            att_len[vn][ac] = an;
+            att_type[vn][ac] = char2type(type_letter[an % numTypes]);
           }
         } /* ac block */
 #ifndef NDEBUG
@@ -779,7 +779,7 @@ void init_gvars(void) {
             var_dimid[vn][dn] += dn > 0;
             assert(var_dimid[vn][dn] <= 9);
             var_name[vn][dn + 1] = digit[var_dimid[vn][dn]];
-            var_shape[vn][dn]    = var_dimid[vn][dn] ? var_dimid[vn][dn] : NRECS;
+            var_shape[vn][dn] = var_dimid[vn][dn] ? var_dimid[vn][dn] : NRECS;
             var_nels[vn] *= var_shape[vn][dn];
           }
         } /* dn block */
@@ -843,7 +843,7 @@ void put_atts(int ncid) {
         error("nc_put_att_text: %s", nc_strerror(err));
       } else {
         for (allInRange = 1, k = 0; k < ATT_LEN(i, j); k++) {
-          att[k]     = hash(ATT_TYPE(i, j), -1, &k);
+          att[k] = hash(ATT_TYPE(i, j), -1, &k);
           allInRange = allInRange && inRange(att[k], ATT_TYPE(i, j));
         }
         err = nc_put_att_double(ncid, i, ATT_NAME(i, j),
@@ -881,7 +881,7 @@ void put_vars(int ncid) {
       if (var_name[i][0] == 'c') {
         text[j] = (char)hash(var_type[i], var_rank[i], index);
       } else {
-        value[j]   = hash(var_type[i], var_rank[i], index);
+        value[j] = hash(var_type[i], var_rank[i], index);
         allInRange = allInRange && inRange(value[j], var_type[i]);
       }
     }
@@ -969,7 +969,7 @@ void check_vars(int ncid) {
 
   for (i = 0; i < numVars; i++) {
     isChar = var_type[i] == NC_CHAR;
-    err    = nc_inq_var(ncid, i, name, &xtype, &ndims, dimids, NULL);
+    err = nc_inq_var(ncid, i, name, &xtype, &ndims, dimids, NULL);
     IF(err)
     error("nc_inq_var: %s", nc_strerror(err));
     IF(strcmp(name, var_name[i]) != 0)

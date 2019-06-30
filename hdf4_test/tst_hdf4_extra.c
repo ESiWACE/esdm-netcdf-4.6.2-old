@@ -35,7 +35,7 @@ int create_hdf4_file() {
       data_out[i][j] = count++;
 
   /* Create a file with one SDS, containing our phony data. */
-  sd_id  = SDstart(FILE_NAME, DFACC_CREATE);
+  sd_id = SDstart(FILE_NAME, DFACC_CREATE);
   sds_id = SDcreate(sd_id, PRES_NAME, DFNT_INT32, NDIMS2, dim_size);
   if (SDwritedata(sds_id, start, NULL, edge, (void *)data_out)) ERR;
 

@@ -116,7 +116,7 @@ int NC_alignments_computed = 0;
 size_t
 NC_class_alignment(int ncclass) {
   NCalignment *align = NULL;
-  int index          = 0;
+  int index = 0;
   if (!NC_alignments_computed) {
     NC_compute_alignments();
     NC_alignments_computed = 1;
@@ -247,9 +247,9 @@ verify(NCtypealignvec *vec) {
   int *sizes16;
   int *sizes32;
 
-  vec16   = (NCtypealignvec *)emalloc(sizeof(NCtypealignvec) * NCTYPES);
-  vec32   = (NCtypealignvec *)emalloc(sizeof(NCtypealignvec) * NCTYPES);
-  sizes8  = (int *)emalloc(sizeof(int) * NCTYPES);
+  vec16 = (NCtypealignvec *)emalloc(sizeof(NCtypealignvec) * NCTYPES);
+  vec32 = (NCtypealignvec *)emalloc(sizeof(NCtypealignvec) * NCTYPES);
+  sizes8 = (int *)emalloc(sizeof(int) * NCTYPES);
   sizes16 = (int *)emalloc(sizeof(int) * NCTYPES);
   sizes32 = (int *)emalloc(sizeof(int) * NCTYPES);
 

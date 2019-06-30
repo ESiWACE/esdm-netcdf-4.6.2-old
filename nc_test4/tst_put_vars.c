@@ -25,8 +25,8 @@
     return 2;                              \
   }
 int main() {
-  size_t start[NDIMS]     = {0, 0, 0};
-  size_t count[NDIMS]     = {X_LEN, Y_LEN, Z_LEN};
+  size_t start[NDIMS] = {0, 0, 0};
+  size_t count[NDIMS] = {X_LEN, Y_LEN, Z_LEN};
   ptrdiff_t stride[NDIMS] = {1, 1, 1};
   float mydata[X_LEN * Y_LEN * Z_LEN];
   int i;

@@ -476,7 +476,7 @@ int main() {
     if ((grpid = H5Gopen(fileid, "/")) < 0) ERR;
 
     /* Create 1 D data space with unlimited dimension. */
-    dimsize[0]    = 0;
+    dimsize[0] = 0;
     maxdimsize[0] = H5S_UNLIMITED;
     if ((spaceid = H5Screate_simple(NDIMS1, dimsize, maxdimsize)) < 0) ERR;
 

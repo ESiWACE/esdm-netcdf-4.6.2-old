@@ -125,8 +125,8 @@ setconstlist(NCConstant *con, Datalist *dl) {
 NCConstant *
 cloneconstant(NCConstant *con) {
   NCConstant *newcon = NULL;
-  Datalist *newdl    = NULL;
-  char *s            = NULL;
+  Datalist *newdl = NULL;
+  char *s = NULL;
 
   newcon = nullconst();
   if (newcon == NULL) return newcon;
@@ -147,7 +147,7 @@ cloneconstant(NCConstant *con) {
       s = (char *)ecalloc(newcon->value.opaquev.len + 1);
       if (newcon->value.opaquev.len > 0)
         memcpy(s, newcon->value.opaquev.stringv, newcon->value.opaquev.len);
-      s[newcon->value.opaquev.len]  = '\0';
+      s[newcon->value.opaquev.len] = '\0';
       newcon->value.opaquev.stringv = s;
       break;
     case NC_COMPOUND:
@@ -245,7 +245,7 @@ void commify(Bytebuffer *buf) {
 
   if (bbLength(buf) == 0) return;
   list = bbDup(buf);
-  p    = list;
+  p = list;
   bbClear(buf);
   commifyr(p, buf);
   bbNull(buf);
@@ -335,7 +335,7 @@ void alignbuffer(NCConstant *prim, Bytebuffer *buf) {
   else
     alignment = ncaux_class_alignment(prim->nctype);
   offset = bbLength(buf);
-  pad    = getpadding(offset, alignment);
+  pad = getpadding(offset, alignment);
   if (pad > 0) {
     bbAppendn(buf, (void *)zeros, pad);
   }
@@ -515,8 +515,8 @@ void codeprintf(const char *fmt, ...) {
 NCConstant *
 emptycompoundconst(int lineno) {
   NCConstant *c = nullconst();
-  c->lineno     = lineno;
-  c->nctype     = NC_COMPOUND;
+  c->lineno = lineno;
+  c->nctype = NC_COMPOUND;
   setconstlist(c, builddatalist(0));
   c->filled = 0;
   return c;
@@ -527,11 +527,11 @@ NCConstant *
 emptystringconst(int lineno) {
   NCConstant *c = nullconst();
   ASSERT(c != NULL);
-  c->lineno                = lineno;
-  c->nctype                = NC_STRING;
-  c->value.stringv.len     = 0;
+  c->lineno = lineno;
+  c->nctype = NC_STRING;
+  c->value.stringv.len = 0;
   c->value.stringv.stringv = NULL;
-  c->filled                = 0;
+  c->filled = 0;
   return c;
 }
 
@@ -554,8 +554,8 @@ indented(int n) {
 void dlextend(Datalist *dl) {
   size_t newalloc;
   NCConstant **newdata = NULL;
-  newalloc             = (dl->alloc > 0 ? 2 * dl->alloc : 2);
-  newdata              = (NCConstant **)ecalloc(newalloc * sizeof(NCConstant *));
+  newalloc = (dl->alloc > 0 ? 2 * dl->alloc : 2);
+  newdata = (NCConstant **)ecalloc(newalloc * sizeof(NCConstant *));
   if (dl->length > 0)
     memcpy(newdata, dl->data, sizeof(NCConstant *) * dl->length);
   dl->alloc = newalloc;
@@ -576,8 +576,8 @@ builddatalist(int initial) {
   initial++; /* for header*/
   ci = (Datalist *)ecalloc(sizeof(Datalist));
   if (ci == NULL) semerror(0, "out of memory\n");
-  ci->data   = (NCConstant **)ecalloc(sizeof(NCConstant *) * initial);
-  ci->alloc  = initial;
+  ci->data = (NCConstant **)ecalloc(sizeof(NCConstant *) * initial);
+  ci->alloc = initial;
   ci->length = 0;
   return ci;
 }
@@ -597,8 +597,8 @@ void dlset(Datalist *dl, size_t pos, NCConstant *constant) {
 NCConstant *
 builddatasublist(Datalist *dl) {
   NCConstant *d = nullconst();
-  d->nctype     = NC_COMPOUND;
-  d->lineno     = (dl->length > 0 ? dl->data[0]->lineno : 0);
+  d->nctype = NC_COMPOUND;
+  d->lineno = (dl->length > 0 ? dl->data[0]->lineno : 0);
   setconstlist(d, dl);
   d->filled = 0;
   return d;
@@ -612,12 +612,12 @@ clonedatalist(Datalist *dl) {
   Datalist *newdl;
 
   if (dl == NULL) return NULL;
-  len   = datalistlen(dl);
+  len = datalistlen(dl);
   newdl = builddatalist(len);
   /* initialize */
   for (i = 0; i < len; i++) {
     NCConstant *con = datalistith(dl, i);
-    con             = cloneconstant(con);
+    con = cloneconstant(con);
     dlappend(newdl, con);
   }
 #if 0

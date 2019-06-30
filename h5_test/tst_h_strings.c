@@ -183,7 +183,7 @@ int main() {
     int i;
 
     /* Allocate space and copy strings. */
-    data    = malloc(sizeof(char *) * 2);
+    data = malloc(sizeof(char *) * 2);
     data[0] = malloc(strlen(S1) + 1);
     strcpy(data[0], S1);
     data[1] = malloc(strlen(S2) + 1);
@@ -268,7 +268,7 @@ int main() {
     int i;
 
     /* Allocate space and copy strings. */
-    data    = malloc(sizeof(char *) * 2);
+    data = malloc(sizeof(char *) * 2);
     data[0] = malloc(strlen(S1) + 1);
     strcpy(data[0], "");
     data[1] = malloc(strlen(S2) + 1);

@@ -13,8 +13,8 @@ int main(int argc, char *argv[]) {
   int ncid;
   int dim1id, dim2id;
   int var1id, var2id;
-  size_t start  = 0;
-  size_t count  = 5;
+  size_t start = 0;
+  size_t count = 5;
   double vals[] = {1.0, 2.0, 3.0, 4.0, 5.0};
 
   if ((ret = nc_create("tst_put_vars_two_unlim_dim.nc", NC_NETCDF4 | NC_CLOBBER, &ncid))) {

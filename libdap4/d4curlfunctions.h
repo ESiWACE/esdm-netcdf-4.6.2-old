@@ -15,9 +15,9 @@
 #endif
 
 enum CURLFLAGTYPE { CF_UNKNOWN = 0,
-  CF_OTHER                     = 1,
-  CF_STRING                    = 2,
-  CF_LONG                      = 3 };
+  CF_OTHER = 1,
+  CF_STRING = 2,
+  CF_LONG = 3 };
 struct CURLFLAG {
   const char *name;
   int flag;

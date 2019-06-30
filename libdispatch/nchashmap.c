@@ -93,8 +93,8 @@ rehash(NC_hashmap *hm) {
 
   TRACE("rehash");
 
-  hm->alloc  = findPrimeGreaterThan(alloc << 1);
-  hm->table  = (NC_hentry *)calloc(sizeof(NC_hentry), hm->alloc);
+  hm->alloc = findPrimeGreaterThan(alloc << 1);
+  hm->table = (NC_hentry *)calloc(sizeof(NC_hentry), hm->alloc);
   hm->active = 0;
 
   while (alloc > 0) {
@@ -117,8 +117,8 @@ static int
 locate(NC_hashmap *hash, unsigned int hashkey, const char *key, size_t keysize, size_t *indexp, int deletedok) {
   size_t i;
   size_t index;
-  size_t step         = 1; /* simple linear probe */
-  int deletefound     = 0;
+  size_t step = 1; /* simple linear probe */
+  int deletefound = 0;
   size_t deletedindex = 0; /* first deleted entry encountered */
   NC_hentry *entry;
   TRACE("locate");
@@ -138,7 +138,7 @@ locate(NC_hashmap *hash, unsigned int hashkey, const char *key, size_t keysize, 
       /* Keep looking */
     } else if (entry->flags & DELETED) {
       if (!deletefound) { /* save this position */
-        deletefound  = 1;
+        deletefound = 1;
         deletedindex = index;
       }
       /* Keep looking */
@@ -178,8 +178,8 @@ NC_hashmapnew(size_t startsize) {
     startsize /= 3;
     startsize = findPrimeGreaterThan(startsize);
   }
-  hm->table  = (NC_hentry *)calloc(sizeof(NC_hentry), (size_t)startsize);
-  hm->alloc  = startsize;
+  hm->table = (NC_hentry *)calloc(sizeof(NC_hentry), (size_t)startsize);
+  hm->alloc = startsize;
   hm->active = 0;
   return hm;
 }
@@ -208,11 +208,11 @@ int NC_hashmapadd(NC_hashmap *hash, uintptr_t data, const char *key, size_t keys
       entry->data = data;
       return 1;
     } else { /* !ACTIVE || DELETED */
-      entry->flags   = ACTIVE;
-      entry->data    = data;
+      entry->flags = ACTIVE;
+      entry->data = data;
       entry->hashkey = hashkey;
       entry->keysize = keysize;
-      entry->key     = malloc(keysize + 1);
+      entry->key = malloc(keysize + 1);
       if (entry->key == NULL)
         return 0;
       memcpy(entry->key, key, keysize);
@@ -241,7 +241,7 @@ int NC_hashmapremove(NC_hashmap *hash, const char *key, size_t keysize, uintptr_
   if (h->flags & ACTIVE) { /* matching entry found */
     h->flags = DELETED;    /* also turn off ACTIVE */
     if (h->key) free(h->key);
-    h->key     = NULL;
+    h->key = NULL;
     h->keysize = 0;
     --hash->active;
     if (datap) *datap = h->data;
@@ -333,7 +333,7 @@ int NC_hashmapdeactivate(NC_hashmap *map, uintptr_t data) {
     if ((h->flags & ACTIVE) && h->data == data) {
       h->flags = DELETED;
       if (h->key) free(h->key);
-      h->key     = NULL;
+      h->key = NULL;
       h->keysize = 0;
       --map->active;
       return 1;
@@ -353,9 +353,9 @@ equal to val
 
 static unsigned int
 findPrimeGreaterThan(size_t val) {
-  int n          = NC_nprimes;
-  int L          = 1;       /* skip leading flag number */
-  int R          = (n - 2); /* skip trailing flag */
+  int n = NC_nprimes;
+  int L = 1;       /* skip leading flag number */
+  int R = (n - 2); /* skip trailing flag */
   unsigned int v = 0;
   int m;
 
@@ -2033,11 +2033,11 @@ static unsigned int NC_nprimes = (sizeof(NC_primes) / sizeof(unsigned int));
 
 void printhashmapstats(NC_hashmap *hm) {
   size_t n, i;
-  size_t step     = 1;
+  size_t step = 1;
   size_t maxchain = 0;
   for (n = 0; n < hm->alloc; n++) {
     size_t chainlen = 0;
-    size_t index    = n;
+    size_t index = n;
     /* Follow chain at this index */
     for (i = 0; i < hm->alloc; i++) {
       NC_hentry *entry = &hm->table[index];

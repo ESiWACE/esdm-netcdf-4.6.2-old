@@ -32,7 +32,7 @@ int main(int argc, char **argv) {
     int data_out[LAT_LEN][LON_LEN], data_in[LAT_LEN][LON_LEN];
     size_t nstart[DIMS_2] = {0, 0}, ncount[DIMS_2] = {LAT_LEN, LON_LEN};
     size_t nindex[DIMS_2] = {0, 0};
-    int scalar_data_in    = 0;
+    int scalar_data_in = 0;
     int i, j;
 
     /* Create some data. */
@@ -41,7 +41,7 @@ int main(int argc, char **argv) {
         data_out[i][j] = j;
 
     /* Create a file with one SDS, containing our phony data. */
-    sd_id  = SDstart(FILE_NAME, DFACC_CREATE);
+    sd_id = SDstart(FILE_NAME, DFACC_CREATE);
     sds_id = SDcreate(sd_id, PRES_NAME, DFNT_INT32, DIMS_2, dim_size);
     if (SDwritedata(sds_id, start, NULL, edge, (void *)data_out)) ERR;
     if (SDendaccess(sds_id)) ERR;
@@ -122,7 +122,7 @@ int main(int argc, char **argv) {
     int ncid, nvars_in, ndims_in, natts_in, unlimdim_in;
     size_t len_in;
     nc_type type_in;
-    int hdf4_type[NUM_TYPES]   = {DFNT_FLOAT32, DFNT_FLOAT64,
+    int hdf4_type[NUM_TYPES] = {DFNT_FLOAT32, DFNT_FLOAT64,
     DFNT_INT8, DFNT_UINT8, DFNT_INT16,
     DFNT_UINT16, DFNT_INT32, DFNT_UINT32};
     int netcdf_type[NUM_TYPES] = {NC_FLOAT, NC_DOUBLE,

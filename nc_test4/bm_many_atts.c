@@ -50,9 +50,9 @@ int main(int argc, char **argv) {
      * Because only NC_MAX_ATTRS are permitted per group, create the
      * necessary number of groups to hold nitem attributes. */
   numatt = nitem;
-  a      = 1;
+  a = 1;
   numgrp = (numatt - 1) / NC_MAX_ATTRS + 1;
-  aleft  = numatt - (NC_MAX_ATTRS * (numgrp - 1));
+  aleft = numatt - (NC_MAX_ATTRS * (numgrp - 1));
   if (gettimeofday(&start_time, NULL))
     ERR;
 

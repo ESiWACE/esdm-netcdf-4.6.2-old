@@ -59,7 +59,7 @@ const size_t *countp, void *ip, int memtype) {
     * how many elements of data are being read. */
   for (d = 0; d < var->ndims; d++) {
     start32[d] = startp[d];
-    edge32[d]  = countp[d];
+    edge32[d] = countp[d];
     nelem *= countp[d];
   }
 

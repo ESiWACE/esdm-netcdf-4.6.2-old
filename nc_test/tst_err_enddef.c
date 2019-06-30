@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
   printf("*** TESTING error code returned from nc__enddef and nc_close ");
 
   cmode = NC_CLOBBER;
-  err   = nc_create(filename, cmode, &ncid);
+  err = nc_create(filename, cmode, &ncid);
   CHECK_ERR
   err = nc_set_fill(ncid, NC_NOFILL, NULL);
   CHECK_ERR

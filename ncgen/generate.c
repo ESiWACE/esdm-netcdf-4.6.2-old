@@ -70,8 +70,8 @@ void generate_attrdata(Symbol *asym, Generator *generator, Writer writer, Bytebu
 }
 
 void generate_vardata(Symbol *vsym, Generator *generator, Writer writer, Bytebuffer *code) {
-  Dimset *dimset   = &vsym->typ.dimset;
-  int rank         = dimset->ndims;
+  Dimset *dimset = &vsym->typ.dimset;
+  int rank = dimset->ndims;
   Symbol *basetype = vsym->typ.basetype;
   Datalist *filler = getfiller(vsym);
 
@@ -118,13 +118,13 @@ Bytebuffer *code,
 Datalist *filler,
 Generator *generator,
 Writer writer) {
-  Dimset *dimset   = &vsym->typ.dimset;
-  int rank         = dimset->ndims;
+  Dimset *dimset = &vsym->typ.dimset;
+  int rank = dimset->ndims;
   Symbol *basetype = vsym->typ.basetype;
   nc_type typecode = basetype->typ.typecode;
   nciter_t iter;
   int firstunlim = findunlimited(dimset, 1);
-  int nunlim     = countunlimited(dimset);
+  int nunlim = countunlimited(dimset);
   int isnc3unlim = (nunlim <= 1 && (firstunlim == 0 || firstunlim == rank)); /* netcdf-3 case of at most 1 unlim in 0th dimension */
 
   ASSERT(rank > 0);
@@ -132,7 +132,7 @@ Writer writer) {
   if (isnc3unlim) {
     /* Handle NC_CHAR case separately */
     if (typecode == NC_CHAR) {
-      Odometer *odom      = newodometer(dimset, NULL, NULL);
+      Odometer *odom = newodometer(dimset, NULL, NULL);
       Bytebuffer *charbuf = bbNew();
       gen_chararray(dimset, 0, vsym->data, charbuf, filler);
       generator->charconstant(generator, vsym, code, charbuf);
@@ -203,13 +203,13 @@ int dimindex,
 Datalist *filler,
 Generator *generator) {
   int uid, i;
-  Symbol *basetype  = vsym->typ.basetype;
-  Dimset *dimset    = &vsym->typ.dimset;
-  int rank          = dimset->ndims;
+  Symbol *basetype = vsym->typ.basetype;
+  Dimset *dimset = &vsym->typ.dimset;
+  int rank = dimset->ndims;
   int lastunlimited = findlastunlimited(dimset);
   int nextunlimited = findunlimited(dimset, dimindex + 1);
-  int typecode      = basetype->typ.typecode;
-  int islastgroup   = (lastunlimited == rank || dimindex >= lastunlimited || dimindex == rank - 1);
+  int typecode = basetype->typ.typecode;
+  int islastgroup = (lastunlimited == rank || dimindex >= lastunlimited || dimindex == rank - 1);
   Odometer *subodom = NULL;
 
   ASSERT(rank > 0);
@@ -227,7 +227,7 @@ Generator *generator) {
       subodom = newsubodometer(odom, dimset, dimindex, rank);
       generator->listbegin(generator, vsym, NULL, LISTDATA, list->length, code, &uid);
       for (i = 0; odometermore(subodom); i++) {
-        size_t offset   = odometeroffset(subodom);
+        size_t offset = odometeroffset(subodom);
         NCConstant *con = datalistith(list, offset);
         generator->list(generator, vsym, NULL, LISTDATA, uid, i, code);
         generate_basetype(basetype, con, code, filler, generator);
@@ -247,7 +247,7 @@ Generator *generator) {
     /* build a sub odometer */
     subodom = newsubodometer(odom, dimset, dimindex, nextunlimited);
     for (i = 0; odometermore(subodom); i++) {
-      size_t offset   = odometeroffset(subodom);
+      size_t offset = odometeroffset(subodom);
       NCConstant *con = datalistith(list, offset);
       if (con == NULL || con->nctype == NC_FILL) {
         if (filler == NULL)
@@ -309,9 +309,9 @@ void generate_basetype(Symbol *tsym, NCConstant *con, Bytebuffer *codebuf, Datal
         semerror(constline(con), "Compound data must be enclosed in {..}");
       }
 
-      data    = con->value.compoundv;
+      data = con->value.compoundv;
       nfields = listlength(tsym->subnodes);
-      dllen   = datalistlen(data);
+      dllen = datalistlen(data);
       if (dllen > nfields) {
         semerror(con->lineno, "Datalist longer than the number of compound fields");
         break;
@@ -319,7 +319,7 @@ void generate_basetype(Symbol *tsym, NCConstant *con, Bytebuffer *codebuf, Datal
       generator->listbegin(generator, tsym, &offsetbase, LISTCOMPOUND, listlength(tsym->subnodes), codebuf, &uid);
       for (i = 0; i < nfields; i++) {
         Symbol *field = (Symbol *)listget(tsym->subnodes, i);
-        con           = datalistith(data, i);
+        con = datalistith(data, i);
         generator->list(generator, field, &offsetbase, LISTCOMPOUND, uid, i, codebuf);
         generate_basetype(field, con, codebuf, NULL, generator);
       }
@@ -427,7 +427,7 @@ normalizeopaquelength(NCConstant *prim, unsigned long nbytes) {
     /* do nothing*/
   } else if (prim->value.opaquev.len > nnibs) { /* truncate*/
     prim->value.opaquev.stringv[nnibs] = '\0';
-    prim->value.opaquev.len            = nnibs;
+    prim->value.opaquev.len = nnibs;
   } else { /* prim->value.opaquev.len < nnibs => expand*/
     char *s;
     s = (char *)ecalloc(nnibs + 1);
@@ -436,7 +436,7 @@ normalizeopaquelength(NCConstant *prim, unsigned long nbytes) {
     s[nnibs] = '\0';
     efree(prim->value.opaquev.stringv);
     prim->value.opaquev.stringv = s;
-    prim->value.opaquev.len     = nnibs;
+    prim->value.opaquev.len = nnibs;
   }
 }
 
@@ -490,7 +490,7 @@ Datalist *filler, Generator *generator) {
         /* Make sure this econst belongs to this enum */
         Symbol *ec = prim->value.enumv;
         Symbol *en = ec->container;
-        match      = (en == basetype);
+        match = (en == basetype);
       }
       break;
 #endif
@@ -502,7 +502,7 @@ Datalist *filler, Generator *generator) {
     basetype->name);
   }
 
-  target         = nullconst();
+  target = nullconst();
   target->nctype = basetype->typ.typecode;
 
   if (target->nctype != NC_ECONST) {

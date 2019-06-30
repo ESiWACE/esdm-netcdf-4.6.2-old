@@ -21,7 +21,7 @@ static char **
 parseServers(const char *remotetestservers) {
   char *rts;
   char **servers = NULL;
-  char **list    = NULL;
+  char **list = NULL;
   char *p;
   char *svc;
   char **l;
@@ -34,15 +34,15 @@ parseServers(const char *remotetestservers) {
   p = rts;
   for (;;) {
     svc = p;
-    p   = strchr(svc, ',');
+    p = strchr(svc, ',');
     if (p != NULL) *p = '\0';
     *l++ = strdup(svc);
     if (p == NULL) break;
     p++;
   }
-  *l      = NULL;
+  *l = NULL;
   servers = list;
-  list    = NULL;
+  list = NULL;
 done:
   if (rts) free(rts);
   if (list) free(list);
@@ -109,8 +109,8 @@ struct Buffer {
 static size_t
 WriteMemoryCallback(void *ptr, size_t size, size_t nmemb, void *data) {
   struct Buffer *buffer = (struct Buffer *)data;
-  size_t total          = size * nmemb;
-  size_t canwrite       = total; /* assume so */
+  size_t total = size * nmemb;
+  size_t canwrite = total; /* assume so */
   if (total == 0) {
     fprintf(stderr, "WriteMemoryCallback: zero sized chunk\n");
     goto done;
@@ -130,9 +130,9 @@ Return NC_ECURL if the ping fails, NC_NOERR otherwise
 */
 static int
 ping(const char *url) {
-  int stat       = NC_NOERR;
+  int stat = NC_NOERR;
   CURLcode cstat = CURLE_OK;
-  CURL *curl     = NULL;
+  CURL *curl = NULL;
   long http_code = 0;
   struct Buffer data;
 

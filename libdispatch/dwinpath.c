@@ -62,7 +62,7 @@ NCpathcvt(const char *path) {
   /* Check for path debug env vars */
   if (pathdebug < 0) {
     const char *s = getenv("NCPATHDEBUG");
-    pathdebug     = (s == NULL ? 0 : 1);
+    pathdebug = (s == NULL ? 0 : 1);
   }
 
   pathlen = strlen(path);
@@ -75,7 +75,7 @@ NCpathcvt(const char *path) {
     /* Assume this is a mingw path */
     outpath = (char *)malloc(pathlen + 3); /* conservative */
     if (outpath == NULL) goto done;
-    q    = outpath;
+    q = outpath;
     *q++ = path[1];
     *q++ = ':';
     strncpy(q, &path[2], pathlen);
@@ -175,7 +175,7 @@ Provide wrappers for open and fopen.
 EXTERNL
 FILE *
 NCfopen(const char *path, const char *flags) {
-  FILE *f       = NULL;
+  FILE *f = NULL;
   char *cvtname = NCpathcvt(path);
   if (cvtname == NULL) return NULL;
   f = fopen(cvtname, flags);
@@ -185,7 +185,7 @@ NCfopen(const char *path, const char *flags) {
 
 EXTERNL
 int NCopen3(const char *path, int flags, int mode) {
-  int fd        = -1;
+  int fd = -1;
   char *cvtname = NCpathcvt(path);
   if (cvtname == NULL) return -1;
   fd = open(cvtname, flags, mode);
@@ -205,7 +205,7 @@ Provide wrappers for other file system functions
 /* Return access applied to path+mode */
 EXTERNL
 int NCaccess(const char *path, int mode) {
-  int status    = 0;
+  int status = 0;
   char *cvtname = NCpathcvt(path);
   if (cvtname == NULL) return -1;
 #  ifdef _MSC_VER
@@ -219,7 +219,7 @@ int NCaccess(const char *path, int mode) {
 
 EXTERNL
 int NCremove(const char *path) {
-  int status    = 0;
+  int status = 0;
   char *cvtname = NCpathcvt(path);
   if (cvtname == NULL) return ENOENT;
   status = remove(cvtname);

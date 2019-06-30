@@ -47,13 +47,13 @@ int NCD4_dechunk(NCD4meta *metadata) {
   if (metadata->mode == NCD4_DSR)
     return THROW(NC_EDMR);
 
-  metadata->serial.errdata            = NULL;
-  metadata->serial.dmr                = NULL;
-  metadata->serial.dap                = NULL;
-  metadata->serial.hostlittleendian   = NCD4_isLittleEndian();
+  metadata->serial.errdata = NULL;
+  metadata->serial.dmr = NULL;
+  metadata->serial.dap = NULL;
+  metadata->serial.hostlittleendian = NCD4_isLittleEndian();
   metadata->serial.remotelittleendian = 0; /* do not actually know yet */
   metadata->serial.remotechecksumming = 0; /* do not actually know yet */
-  metadata->localchecksumming         = 0; /* do not actually know yet */
+  metadata->localchecksumming = 0;         /* do not actually know yet */
 
   /* Assume proper mode has been inferred already. */
 
@@ -64,16 +64,16 @@ int NCD4_dechunk(NCD4meta *metadata) {
     if (metadata->mode != NCD4_DMR)
       return THROW(NC_EDMR);
     /* setup as dmr only */
-    metadata->serial.dmr                               = (char *)metadata->serial.rawdata; /* temp */
+    metadata->serial.dmr = (char *)metadata->serial.rawdata; /* temp */
     metadata->serial.dmr[metadata->serial.rawsize - 1] = '\0';
-    metadata->serial.dmr                               = strdup((char *)q);
+    metadata->serial.dmr = strdup((char *)q);
     if (metadata->serial.dmr == NULL)
       return THROW(NC_ENOMEM);
     return THROW(NC_NOERR);
   }
 
   /* We must be processing a DAP mode packet */
-  p                    = metadata->serial.rawdata;
+  p = metadata->serial.rawdata;
   metadata->serial.dap = p;
 
 #ifdef D4DUMPRAW
@@ -89,12 +89,12 @@ int NCD4_dechunk(NCD4meta *metadata) {
   }
 
   metadata->serial.remotechecksumming = ((hdr.flags & NOCHECKSUM_CHUNK) ? 0 : 1);
-  metadata->localchecksumming         = metadata->serial.remotechecksumming;
+  metadata->localchecksumming = metadata->serial.remotechecksumming;
 
   metadata->serial.remotelittleendian = ((hdr.flags & LITTLE_ENDIAN_CHUNK) ? 1 : 0);
-  metadata->serial.dmr                = (char *)p;
+  metadata->serial.dmr = (char *)p;
   metadata->serial.dmr[hdr.count - 1] = '\0';
-  metadata->serial.dmr                = strdup(metadata->serial.dmr);
+  metadata->serial.dmr = strdup(metadata->serial.dmr);
   if (metadata->serial.dmr == NULL)
     return THROW(NC_ENOMEM);
   p += hdr.count;
@@ -155,14 +155,14 @@ getheader(void *p, struct HDR *hdr, int hostlittleendian) {
   p = INCR(p, 4); /* on-the-wire hdr is 4 bytes */
   /* assume header is network (big) order */
   hdr->flags = bytes[0]; /* big endian => flags are in byte 0 */
-  bytes[0]   = 0;        /* so we can do byte swap to get count */
+  bytes[0] = 0;          /* so we can do byte swap to get count */
   if (hostlittleendian)
     swapinline32(bytes);               /* host is little endian */
   hdr->count = *(unsigned int *)bytes; /* get count */
 #ifdef HYRAXHACK
   memcpy(bytes, orig, sizeof(bytes)); /* restore */
   hyrax.flags = bytes[3];
-  bytes[3]    = 0; /* so we can do byte swap to get count */
+  bytes[3] = 0; /* so we can do byte swap to get count */
   if (!hostlittleendian)
     swapinline32(bytes);                /* host is big endian */
   hyrax.count = *(unsigned int *)bytes; /* get count */
@@ -181,7 +181,7 @@ Since DSR is not standardizes, it becomes the default.
 */
 int NCD4_infermode(NCD4meta *meta) {
   d4size_t size = meta->serial.rawsize;
-  char *raw     = meta->serial.rawdata;
+  char *raw = meta->serial.rawdata;
 
   if (size < 16)
     return THROW(NC_EDAP); /* must have at least this to hold a hdr + partial dmr*/

@@ -26,8 +26,8 @@ int main() {
     hsize_t dims[NDIMS] = {NUM_STR}, max_dims[NDIMS] = {H5S_UNLIMITED};
     hsize_t chunk_dims[NDIMS] = {1};
     hsize_t xtend_size[NDIMS] = {2};
-    int data[NUM_STR]         = {42};
-    int empty                 = -42;
+    int data[NUM_STR] = {42};
+    int empty = -42;
 
     /* Create the file, open root group. */
     if ((fileid = H5Fcreate(FILE_NAME, H5F_ACC_TRUNC, H5P_DEFAULT,

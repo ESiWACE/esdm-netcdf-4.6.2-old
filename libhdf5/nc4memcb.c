@@ -238,7 +238,7 @@ static herr_t local_udata_free(void *udata);
 static void *
 local_image_malloc(size_t size, H5FD_file_image_op_t file_image_op, void *_udata) {
   H5LT_file_image_ud_t *udata = (H5LT_file_image_ud_t *)_udata;
-  void *return_value          = NULL;
+  void *return_value = NULL;
 
   TRACE1("malloc", file_image_op, _udata, size);
 
@@ -266,9 +266,9 @@ local_image_malloc(size_t size, H5FD_file_image_op_t file_image_op, void *_udata
       if (udata->fapl_ref_count != 0)
         goto out;
 
-      udata->fapl_image_ptr  = udata->app_image_ptr;
+      udata->fapl_image_ptr = udata->app_image_ptr;
       udata->fapl_image_size = udata->app_image_size;
-      return_value           = udata->fapl_image_ptr;
+      return_value = udata->fapl_image_ptr;
       udata->fapl_ref_count++;
       return_value = udata->fapl_image_ptr;
       break;
@@ -307,7 +307,7 @@ local_image_malloc(size_t size, H5FD_file_image_op_t file_image_op, void *_udata
       if (udata->fapl_ref_count == 0)
         goto out;
 
-      udata->vfd_image_ptr  = udata->fapl_image_ptr;
+      udata->vfd_image_ptr = udata->fapl_image_ptr;
       udata->vfd_image_size = size;
       udata->vfd_ref_count++;
       return_value = udata->vfd_image_ptr;
@@ -474,7 +474,7 @@ out:
 static void *
 local_image_realloc(void *ptr, size_t size, H5FD_file_image_op_t file_image_op, void *_udata) {
   H5LT_file_image_ud_t *udata = (H5LT_file_image_ud_t *)_udata;
-  void *return_value          = NULL;
+  void *return_value = NULL;
 
   TRACE2("realloc", file_image_op, _udata, ptr, size);
 
@@ -521,7 +521,7 @@ local_image_realloc(void *ptr, size_t size, H5FD_file_image_op_t file_image_op, 
       udata->vfd_image_size = size;
 
       /* Make sure other pointers are consistent */
-      udata->app_image_ptr  = udata->vfd_image_ptr;
+      udata->app_image_ptr = udata->vfd_image_ptr;
       udata->fapl_image_ptr = udata->vfd_image_ptr;
 
     } else { /* Cannot realloc, so fake it */
@@ -709,11 +709,11 @@ hid_t NC4_image_init(NC_FILE_INFO_T *h5) {
   unsigned file_open_flags = 0;  /* Flags for hdf5 open */
   char file_name[64];            /* Filename buffer */
   size_t alloc_incr;             /* Buffer allocation increment */
-  size_t min_incr  = 65536;      /* Minimum buffer increment */
+  size_t min_incr = 65536;       /* Minimum buffer increment */
   double buf_prcnt = 0.1f;       /* Percentage of buffer size to set
                                              as increment */
   unsigned imageflags;
-  int create                  = 0;
+  int create = 0;
   H5LT_file_image_ud_t *udata = NULL; /* Pointer to udata structure */
 
   H5FD_file_image_callbacks_t callbacks = {&local_image_malloc, &local_image_memcpy,
@@ -723,7 +723,7 @@ hid_t NC4_image_init(NC_FILE_INFO_T *h5) {
   static long file_name_counter;
 
   imageflags = h5->mem.imageflags;
-  create     = h5->mem.created;
+  create = h5->mem.created;
 
   /* check arguments */
   if (h5->mem.memio.memory == NULL) {
@@ -758,19 +758,19 @@ hid_t NC4_image_init(NC_FILE_INFO_T *h5) {
       goto out;
 
     /* Initialize udata with info about app buffer containing file image  and flags */
-    udata->app_image_ptr   = h5->mem.memio.memory;
-    udata->app_image_size  = h5->mem.memio.size;
-    h5->mem.memio.memory   = NULL; /* move control */
-    h5->mem.memio.size     = 0;
-    udata->fapl_image_ptr  = NULL;
+    udata->app_image_ptr = h5->mem.memio.memory;
+    udata->app_image_size = h5->mem.memio.size;
+    h5->mem.memio.memory = NULL; /* move control */
+    h5->mem.memio.size = 0;
+    udata->fapl_image_ptr = NULL;
     udata->fapl_image_size = 0;
-    udata->fapl_ref_count  = 0;
-    udata->vfd_image_ptr   = NULL;
-    udata->vfd_image_size  = 0;
-    udata->vfd_ref_count   = 0;
-    udata->flags           = imageflags;
-    udata->ref_count       = 1; /* corresponding to the first FAPL */
-    udata->h5              = h5;
+    udata->fapl_ref_count = 0;
+    udata->vfd_image_ptr = NULL;
+    udata->vfd_image_size = 0;
+    udata->vfd_ref_count = 0;
+    udata->flags = imageflags;
+    udata->ref_count = 1; /* corresponding to the first FAPL */
+    udata->h5 = h5;
 
     /* copy address of udata into callbacks */
     callbacks.udata = (void *)udata;
@@ -805,7 +805,7 @@ hid_t NC4_image_init(NC_FILE_INFO_T *h5) {
 
   /* Maintain a backward link */
   h5->mem.udata = (void *)udata;
-  udata         = NULL;
+  udata = NULL;
 
 done:
   /* Reclaim the fapl object */
@@ -850,10 +850,10 @@ int NC4_extract_file_image(NC_FILE_INFO_T *h5) {
 
   /* Fill in h5->mem.memio from udata */
   h5->mem.memio.memory = udata->vfd_image_ptr;
-  h5->mem.memio.size   = udata->vfd_image_size;
+  h5->mem.memio.size = udata->vfd_image_size;
 
   /* Move control */
-  udata->vfd_image_ptr  = NULL;
+  udata->vfd_image_ptr = NULL;
   udata->vfd_image_size = 0;
 
   return stat;
@@ -893,7 +893,7 @@ trace(const char *fcn, H5FD_file_image_op_t op, void *_udata, ...) {
   char *ud;
 
   va_start(ap, _udata); /* Requires the last fixed parameter (to get the address) */
-  udata  = (H5LT_file_image_ud_t *)_udata;
+  udata = (H5LT_file_image_ud_t *)_udata;
   buf[0] = '\0';
   snprintf(tmp, sizeof(tmp), "trace [ %s: op=%s: ", fcn, traceop(op));
   strlcat(buf, tmp, sizeof(tmp));
@@ -901,15 +901,15 @@ trace(const char *fcn, H5FD_file_image_op_t op, void *_udata, ...) {
     size_t size = va_arg(ap, size_t);
     snprintf(tmp, sizeof(tmp), "size=%lld", (long long)size);
   } else if (strcmp("realloc", fcn) == 0) {
-    void *ptr   = va_arg(ap, void *);
+    void *ptr = va_arg(ap, void *);
     size_t size = va_arg(ap, size_t);
     snprintf(tmp, sizeof(tmp), "ptr=%p, size=%lld", ptr, (long long)size);
   } else if (strcmp("free", fcn) == 0) {
     void *ptr = va_arg(ap, void *);
     snprintf(tmp, sizeof(tmp), "ptr=%p", ptr);
   } else if (strcmp("memcpy", fcn) == 0) {
-    void *dest  = va_arg(ap, void *);
-    void *src   = va_arg(ap, void *);
+    void *dest = va_arg(ap, void *);
+    void *src = va_arg(ap, void *);
     size_t size = va_arg(ap, size_t);
     snprintf(tmp, sizeof(tmp), "dest=%p, src=%p, size=%lld", dest, src, (long long)size);
   } else if (strcmp("udata_copy", fcn) == 0) {
@@ -941,7 +941,7 @@ traceend(const char *fcn, void *_udata, uintptr_t retval) {
   char *ud;
   const char *tab = "    ";
 
-  buf[0]                      = '\0';
+  buf[0] = '\0';
   H5LT_file_image_ud_t *udata = (H5LT_file_image_ud_t *)_udata;
   snprintf(tmp, sizeof(tmp), "%s]: retval=%p", tab, (void *)retval);
   strlcat(buf, tmp, sizeof(buf));

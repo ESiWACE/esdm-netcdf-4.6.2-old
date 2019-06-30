@@ -42,8 +42,8 @@ int main() {
   int x, y, retval;
 
   /* Set chunking, shuffle, and deflate. */
-  shuffle       = NC_SHUFFLE;
-  deflate       = 1;
+  shuffle = NC_SHUFFLE;
+  deflate = 1;
   deflate_level = 1;
 
   /* Create some pretend data. If this wasn't an example program, we

@@ -24,7 +24,7 @@ indentstr(int n) {
 
 void dumpconstant(NCConstant *con, char *tag) {
   Bytebuffer *buf = bbNew();
-  Datalist *dl    = builddatalist(1);
+  Datalist *dl = builddatalist(1);
   dlappend(dl, con);
   bufdump(dl, buf);
   fprintf(stderr, "%s: %s\n", tag, bbContents(buf));
@@ -179,7 +179,7 @@ void dumpgroup(Symbol *g) {
 void dumpconstant1(NCConstant *con) {
   switch (con->nctype) {
     case NC_COMPOUND: {
-      Datalist *dl    = con->value.compoundv;
+      Datalist *dl = con->value.compoundv;
       Bytebuffer *buf = bbNew();
       bufdump(dl, buf);
       /*	fprintf(stderr,"(0x%lx){",(unsigned long)dl);*/

@@ -93,7 +93,7 @@ int dump_file3(const float *data, int docompression, int usedefdim) {
 int dump_hdf_file(const float *data, int docompression) {
   hid_t file_id, dataset_id, propid;
   hid_t file_spaceid, mem_spaceid, access_plistid, xfer_plistid;
-  hsize_t dims[NDIMS]  = {X_LEN, Y_LEN, Z_LEN};
+  hsize_t dims[NDIMS] = {X_LEN, Y_LEN, Z_LEN};
   hsize_t start[NDIMS] = {0, 0, 0};
   hsize_t count[NDIMS] = {1, 1, Z_LEN};
 

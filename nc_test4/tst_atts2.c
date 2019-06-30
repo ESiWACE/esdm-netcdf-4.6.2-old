@@ -211,10 +211,10 @@ int main(int argc, char **argv) {
 #define NUM_MEMBERS 4
 
     int ncid[NUM_FILES], typeid;
-    char file_name[NUM_FILES][NC_MAX_NAME + 1]     = {FILE_NAME1, FILE_NAME2};
+    char file_name[NUM_FILES][NC_MAX_NAME + 1] = {FILE_NAME1, FILE_NAME2};
     char member_name[NUM_MEMBERS][NC_MAX_NAME + 1] = {"Munster", "Connacht",
     "Leinster", "Ulster"};
-    int member_value[NUM_MEMBERS]                  = {0, 1, 2, 3};
+    int member_value[NUM_MEMBERS] = {0, 1, 2, 3};
     int data_in[DIM_LEN_10], data[DIM_LEN_10] = {0, 1, 2, 3, 0, 1, 2, 3, 0, 1};
     int i, j;
 

@@ -77,11 +77,11 @@ static void makeMaps_d(DState *s) {
       if (groupNo >= nSelectors)                  \
         RETURN(BZ_DATA_ERROR);                    \
       groupPos = BZ_G_SIZE;                       \
-      gSel     = s->selector[groupNo];            \
-      gMinlen  = s->minLens[gSel];                \
-      gLimit   = &(s->limit[gSel][0]);            \
-      gPerm    = &(s->perm[gSel][0]);             \
-      gBase    = &(s->base[gSel][0]);             \
+      gSel = s->selector[groupNo];                \
+      gMinlen = s->minLens[gSel];                 \
+      gLimit = &(s->limit[gSel][0]);              \
+      gPerm = &(s->perm[gSel][0]);                \
+      gBase = &(s->base[gSel][0]);                \
     }                                             \
     groupPos--;                                   \
     zn = gMinlen;                                 \
@@ -136,57 +136,57 @@ Int32 BZ2_decompress(DState *s) {
 
   if (s->state == BZ_X_MAGIC_1) {
     /*initialise the save area*/
-    s->save_i          = 0;
-    s->save_j          = 0;
-    s->save_t          = 0;
-    s->save_alphaSize  = 0;
-    s->save_nGroups    = 0;
+    s->save_i = 0;
+    s->save_j = 0;
+    s->save_t = 0;
+    s->save_alphaSize = 0;
+    s->save_nGroups = 0;
     s->save_nSelectors = 0;
-    s->save_EOB        = 0;
-    s->save_groupNo    = 0;
-    s->save_groupPos   = 0;
-    s->save_nextSym    = 0;
-    s->save_nblockMAX  = 0;
-    s->save_nblock     = 0;
-    s->save_es         = 0;
-    s->save_N          = 0;
-    s->save_curr       = 0;
-    s->save_zt         = 0;
-    s->save_zn         = 0;
-    s->save_zvec       = 0;
-    s->save_zj         = 0;
-    s->save_gSel       = 0;
-    s->save_gMinlen    = 0;
-    s->save_gLimit     = NULL;
-    s->save_gBase      = NULL;
-    s->save_gPerm      = NULL;
+    s->save_EOB = 0;
+    s->save_groupNo = 0;
+    s->save_groupPos = 0;
+    s->save_nextSym = 0;
+    s->save_nblockMAX = 0;
+    s->save_nblock = 0;
+    s->save_es = 0;
+    s->save_N = 0;
+    s->save_curr = 0;
+    s->save_zt = 0;
+    s->save_zn = 0;
+    s->save_zvec = 0;
+    s->save_zj = 0;
+    s->save_gSel = 0;
+    s->save_gMinlen = 0;
+    s->save_gLimit = NULL;
+    s->save_gBase = NULL;
+    s->save_gPerm = NULL;
   }
 
   /*restore from the save area*/
-  i          = s->save_i;
-  j          = s->save_j;
-  t          = s->save_t;
-  alphaSize  = s->save_alphaSize;
-  nGroups    = s->save_nGroups;
+  i = s->save_i;
+  j = s->save_j;
+  t = s->save_t;
+  alphaSize = s->save_alphaSize;
+  nGroups = s->save_nGroups;
   nSelectors = s->save_nSelectors;
-  EOB        = s->save_EOB;
-  groupNo    = s->save_groupNo;
-  groupPos   = s->save_groupPos;
-  nextSym    = s->save_nextSym;
-  nblockMAX  = s->save_nblockMAX;
-  nblock     = s->save_nblock;
-  es         = s->save_es;
-  N          = s->save_N;
-  curr       = s->save_curr;
-  zt         = s->save_zt;
-  zn         = s->save_zn;
-  zvec       = s->save_zvec;
-  zj         = s->save_zj;
-  gSel       = s->save_gSel;
-  gMinlen    = s->save_gMinlen;
-  gLimit     = s->save_gLimit;
-  gBase      = s->save_gBase;
-  gPerm      = s->save_gPerm;
+  EOB = s->save_EOB;
+  groupNo = s->save_groupNo;
+  groupPos = s->save_groupPos;
+  nextSym = s->save_nextSym;
+  nblockMAX = s->save_nblockMAX;
+  nblock = s->save_nblock;
+  es = s->save_es;
+  N = s->save_N;
+  curr = s->save_curr;
+  zt = s->save_zt;
+  zn = s->save_zn;
+  zvec = s->save_zvec;
+  zj = s->save_zj;
+  gSel = s->save_gSel;
+  gMinlen = s->save_gMinlen;
+  gLimit = s->save_gLimit;
+  gBase = s->save_gBase;
+  gPerm = s->save_gPerm;
 
   retVal = BZ_OK;
 
@@ -206,7 +206,7 @@ Int32 BZ2_decompress(DState *s) {
 
     if (s->smallDecompress) {
       s->ll16 = BZALLOC(s->blockSize100k * 100000 * sizeof(UInt16));
-      s->ll4  = BZALLOC(
+      s->ll4 = BZALLOC(
       ((1 + s->blockSize100k * 100000) >> 1) * sizeof(UChar));
       if (s->ll16 == NULL || s->ll4 == NULL) RETURN(BZ_MEM_ERROR);
     } else {
@@ -303,13 +303,13 @@ Int32 BZ2_decompress(DState *s) {
         pos[v] = v;
 
       for (i = 0; i < nSelectors; i++) {
-        v   = s->selectorMtf[i];
+        v = s->selectorMtf[i];
         tmp = pos[v];
         while (v > 0) {
           pos[v] = pos[v - 1];
           v--;
         }
-        pos[0]         = tmp;
+        pos[0] = tmp;
         s->selector[i] = tmp;
       }
     }
@@ -351,10 +351,10 @@ Int32 BZ2_decompress(DState *s) {
 
     /*--- Now the MTF values ---*/
 
-    EOB       = s->nInUse + 1;
+    EOB = s->nInUse + 1;
     nblockMAX = 100000 * s->blockSize100k;
-    groupNo   = -1;
-    groupPos  = 0;
+    groupNo = -1;
+    groupPos = 0;
 
     for (i = 0; i <= 255; i++)
       s->unzftab[i] = 0;
@@ -381,7 +381,7 @@ Int32 BZ2_decompress(DState *s) {
 
       if (nextSym == BZ_RUNA || nextSym == BZ_RUNB) {
         es = -1;
-        N  = 1;
+        N = 1;
         do {
           /* Check that N doesn't get too big, so that es doesn't
                   go negative.  The maximum value that can be
@@ -433,8 +433,8 @@ Int32 BZ2_decompress(DState *s) {
             pp = s->mtfbase[0];
             uc = s->mtfa[pp + nn];
             while (nn > 3) {
-              Int32 z        = pp + nn;
-              s->mtfa[(z)]   = s->mtfa[(z)-1];
+              Int32 z = pp + nn;
+              s->mtfa[(z)] = s->mtfa[(z)-1];
               s->mtfa[(z)-1] = s->mtfa[(z)-2];
               s->mtfa[(z)-2] = s->mtfa[(z)-3];
               s->mtfa[(z)-3] = s->mtfa[(z)-4];
@@ -449,8 +449,8 @@ Int32 BZ2_decompress(DState *s) {
             /* general case */
             lno = nn / MTFL_SIZE;
             off = nn % MTFL_SIZE;
-            pp  = s->mtfbase[lno] + off;
-            uc  = s->mtfa[pp];
+            pp = s->mtfbase[lno] + off;
+            uc = s->mtfa[pp];
             while (pp > s->mtfbase[lno]) {
               s->mtfa[pp] = s->mtfa[pp - 1];
               pp--;
@@ -523,7 +523,7 @@ Int32 BZ2_decompress(DState *s) {
     }
 
     s->state_out_len = 0;
-    s->state_out_ch  = 0;
+    s->state_out_ch = 0;
     BZ_INITIALISE_CRC(s->calculatedBlockCRC);
     s->state = BZ_X_OUTPUT;
     if (s->verbosity >= 2) VPrintf0("rt+rld");
@@ -550,7 +550,7 @@ Int32 BZ2_decompress(DState *s) {
         j = tmp;
       } while (i != s->origPtr);
 
-      s->tPos        = s->origPtr;
+      s->tPos = s->origPtr;
       s->nblock_used = 0;
       if (s->blockRandomised) {
         BZ_RAND_INIT_MASK;
@@ -571,7 +571,7 @@ Int32 BZ2_decompress(DState *s) {
         s->cftab[uc]++;
       }
 
-      s->tPos        = s->tt[s->origPtr] >> 8;
+      s->tPos = s->tt[s->origPtr] >> 8;
       s->nblock_used = 0;
       if (s->blockRandomised) {
         BZ_RAND_INIT_MASK;
@@ -621,30 +621,30 @@ Int32 BZ2_decompress(DState *s) {
 
 save_state_and_return:
 
-  s->save_i          = i;
-  s->save_j          = j;
-  s->save_t          = t;
-  s->save_alphaSize  = alphaSize;
-  s->save_nGroups    = nGroups;
+  s->save_i = i;
+  s->save_j = j;
+  s->save_t = t;
+  s->save_alphaSize = alphaSize;
+  s->save_nGroups = nGroups;
   s->save_nSelectors = nSelectors;
-  s->save_EOB        = EOB;
-  s->save_groupNo    = groupNo;
-  s->save_groupPos   = groupPos;
-  s->save_nextSym    = nextSym;
-  s->save_nblockMAX  = nblockMAX;
-  s->save_nblock     = nblock;
-  s->save_es         = es;
-  s->save_N          = N;
-  s->save_curr       = curr;
-  s->save_zt         = zt;
-  s->save_zn         = zn;
-  s->save_zvec       = zvec;
-  s->save_zj         = zj;
-  s->save_gSel       = gSel;
-  s->save_gMinlen    = gMinlen;
-  s->save_gLimit     = gLimit;
-  s->save_gBase      = gBase;
-  s->save_gPerm      = gPerm;
+  s->save_EOB = EOB;
+  s->save_groupNo = groupNo;
+  s->save_groupPos = groupPos;
+  s->save_nextSym = nextSym;
+  s->save_nblockMAX = nblockMAX;
+  s->save_nblock = nblock;
+  s->save_es = es;
+  s->save_N = N;
+  s->save_curr = curr;
+  s->save_zt = zt;
+  s->save_zn = zn;
+  s->save_zvec = zvec;
+  s->save_zj = zj;
+  s->save_gSel = gSel;
+  s->save_gMinlen = gMinlen;
+  s->save_gLimit = gLimit;
+  s->save_gBase = gBase;
+  s->save_gPerm = gPerm;
 
   return retVal;
 }

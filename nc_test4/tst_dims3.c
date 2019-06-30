@@ -34,7 +34,7 @@ int main(int argc, char **argv) {
     int time_dim, time_dim_in;
     int time_var, z_var;
     size_t len;
-    int time_data[NUM_TIMES]        = {1, 2};
+    int time_data[NUM_TIMES] = {1, 2};
     size_t time_startset[TIME_RANK] = {0};
     size_t time_countset[TIME_RANK] = {NUM_TIMES};
 

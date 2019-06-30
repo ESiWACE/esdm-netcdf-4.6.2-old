@@ -156,7 +156,7 @@ int main() {
     hsize_t dims[NDIMS] = {NUM_STR}, max_dims[NDIMS] = {H5S_UNLIMITED};
     hsize_t chunk_dims[NDIMS] = {1};
     hsize_t xtend_size[NDIMS] = {2};
-    char *data[NUM_STR]       = {
+    char *data[NUM_STR] = {
     "A man who carries a cat by the tail learns "
     "something he can learn in no other way."};
     char *empty = "";

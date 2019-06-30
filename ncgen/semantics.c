@@ -276,7 +276,7 @@ processtypes(void) {
   /*     e.g. uint vlen(*) or primitive types*/
   for (i = 0; i < listlength(typdefs); i++) {
     Symbol *sym = (Symbol *)listget(typdefs, i);
-    keep        = 0;
+    keep = 0;
     switch (sym->subclass) {
       case NC_PRIM: /*ignore pre-defined primitive types*/
         sym->touched = 1;
@@ -421,7 +421,7 @@ processenums(void) {
     ASSERT(tsym->objectclass == NC_TYPE);
     if (tsym->subclass != NC_ENUM) continue;
     for (j = 0; j < listlength(tsym->subnodes); j++) {
-      Symbol *esym      = (Symbol *)listget(tsym->subnodes, j);
+      Symbol *esym = (Symbol *)listget(tsym->subnodes, j);
       NCConstant *newec = nullconst();
       ASSERT(esym->subclass == NC_ECONST);
       newec->nctype = esym->typ.typecode;
@@ -477,8 +477,8 @@ processeconstrefsR(Symbol *avsym, Datalist *data) {
 static void
 fixeconstref(Symbol *avsym, NCConstant *con) {
   Symbol *basetype = NULL;
-  Symbol *refsym   = con->value.enumv;
-  Symbol *varsym   = NULL;
+  Symbol *refsym = con->value.enumv;
+  Symbol *varsym = NULL;
   int i;
 
   /* Figure out the proper type associated with avsym */
@@ -486,10 +486,10 @@ fixeconstref(Symbol *avsym, NCConstant *con) {
 
   if (avsym->objectclass == NC_VAR) {
     basetype = avsym->typ.basetype;
-    varsym   = avsym;
+    varsym = avsym;
   } else { /*(avsym->objectclass == NC_ATT)*/
     basetype = avsym->typ.basetype;
-    varsym   = avsym->container;
+    varsym = avsym->container;
     if (varsym->objectclass == NC_GRP)
       varsym = NULL;
   }
@@ -500,10 +500,10 @@ fixeconstref(Symbol *avsym, NCConstant *con) {
   if (con->nctype == NC_FILLVALUE) {
     Datalist *filllist = NULL;
     NCConstant *filler = NULL;
-    filllist           = getfiller(varsym == NULL ? basetype : varsym);
+    filllist = getfiller(varsym == NULL ? basetype : varsym);
     if (filllist == NULL)
       semerror(con->lineno, "Cannot determine enum constant fillvalue");
-    filler           = datalistith(filllist, 0);
+    filler = datalistith(filllist, 0);
     con->value.enumv = filler->value.enumv;
     return;
   }
@@ -673,14 +673,14 @@ void computesize(Symbol *tsym) {
   switch (tsym->subclass) {
     case NC_VLEN:                      /* actually two sizes for vlen*/
       computesize(tsym->typ.basetype); /* first size*/
-      tsym->typ.size      = ncsize(tsym->typ.typecode);
+      tsym->typ.size = ncsize(tsym->typ.typecode);
       tsym->typ.alignment = ncaux_class_alignment(tsym->typ.typecode);
-      tsym->typ.nelems    = 1; /* always a single compound datalist */
+      tsym->typ.nelems = 1; /* always a single compound datalist */
       break;
     case NC_PRIM:
-      tsym->typ.size      = ncsize(tsym->typ.typecode);
+      tsym->typ.size = ncsize(tsym->typ.typecode);
       tsym->typ.alignment = ncaux_class_alignment(tsym->typ.typecode);
-      tsym->typ.nelems    = 1;
+      tsym->typ.nelems = 1;
       break;
     case NC_OPAQUE:
       /* size and alignment already assigned*/
@@ -688,9 +688,9 @@ void computesize(Symbol *tsym) {
       break;
     case NC_ENUM:
       computesize(tsym->typ.basetype); /* first size*/
-      tsym->typ.size      = tsym->typ.basetype->typ.size;
+      tsym->typ.size = tsym->typ.basetype->typ.size;
       tsym->typ.alignment = tsym->typ.basetype->typ.alignment;
-      tsym->typ.nelems    = 1;
+      tsym->typ.nelems = 1;
       break;
     case NC_COMPOUND: /* keep if all fields are primitive*/
                       /* First, compute recursively, the size and alignment of fields*/
@@ -701,13 +701,13 @@ void computesize(Symbol *tsym) {
         if (i == 0) tsym->typ.alignment = field->typ.alignment;
       }
       /* now compute the size of the compound based on what user specified*/
-      offset     = 0;
+      offset = 0;
       largealign = 1;
       for (i = 0; i < listlength(tsym->subnodes); i++) {
         Symbol *field = (Symbol *)listget(tsym->subnodes, i);
         /* only support 'c' alignment for now*/
         int alignment = field->typ.alignment;
-        int padding   = getpadding(offset, alignment);
+        int padding = getpadding(offset, alignment);
         offset += padding;
         field->typ.offset = offset;
         offset += field->typ.size;
@@ -722,14 +722,14 @@ void computesize(Symbol *tsym) {
     case NC_FIELD: /* Compute size assume no unlimited dimensions*/
       if (tsym->typ.dimset.ndims > 0) {
         computesize(tsym->typ.basetype);
-        totaldimsize        = crossproduct(&tsym->typ.dimset, 0, rankfor(&tsym->typ.dimset));
-        tsym->typ.size      = tsym->typ.basetype->typ.size * totaldimsize;
+        totaldimsize = crossproduct(&tsym->typ.dimset, 0, rankfor(&tsym->typ.dimset));
+        tsym->typ.size = tsym->typ.basetype->typ.size * totaldimsize;
         tsym->typ.alignment = tsym->typ.basetype->typ.alignment;
-        tsym->typ.nelems    = 1;
+        tsym->typ.nelems = 1;
       } else {
-        tsym->typ.size      = tsym->typ.basetype->typ.size;
+        tsym->typ.size = tsym->typ.basetype->typ.size;
         tsym->typ.alignment = tsym->typ.basetype->typ.alignment;
-        tsym->typ.nelems    = tsym->typ.basetype->typ.nelems;
+        tsym->typ.nelems = tsym->typ.basetype->typ.nelems;
       }
       break;
     default:
@@ -741,13 +741,13 @@ void computesize(Symbol *tsym) {
 void processvars(void) {
   int i, j;
   for (i = 0; i < listlength(vardefs); i++) {
-    Symbol *vsym     = (Symbol *)listget(vardefs, i);
+    Symbol *vsym = (Symbol *)listget(vardefs, i);
     Symbol *basetype = vsym->typ.basetype;
     /* If we are in classic mode, then convert long -> int32 */
     if (usingclassic) {
       if (basetype->typ.typecode == NC_LONG || basetype->typ.typecode == NC_INT64) {
         vsym->typ.basetype = primsymbols[NC_INT];
-        basetype           = vsym->typ.basetype;
+        basetype = vsym->typ.basetype;
       }
     }
     /* fill in the typecode*/
@@ -770,7 +770,7 @@ processtypesizes(void) {
   int i;
   /* use touch flag to avoid circularity*/
   for (i = 0; i < listlength(typdefs); i++) {
-    Symbol *tsym  = (Symbol *)listget(typdefs, i);
+    Symbol *tsym = (Symbol *)listget(typdefs, i);
     tsym->touched = 0;
   }
   for (i = 0; i < listlength(typdefs); i++) {
@@ -835,7 +835,7 @@ processattributes(void) {
   /* collect per-variable attributes per variable*/
   for (i = 0; i < listlength(vardefs); i++) {
     Symbol *vsym = (Symbol *)listget(vardefs, i);
-    List *list   = listnew();
+    List *list = listnew();
     for (j = 0; j < listlength(attdefs); j++) {
       Symbol *asym = (Symbol *)listget(attdefs, j);
       if (asym->att.var == NULL)
@@ -873,11 +873,11 @@ Collect info by repeated walking of the attribute value list.
 */
 static nc_type
 inferattributetype1(Datalist *adata) {
-  nc_type result  = NC_NAT;
-  int hasneg      = 0;
+  nc_type result = NC_NAT;
+  int hasneg = 0;
   int stringcount = 0;
-  int charcount   = 0;
-  int forcefloat  = 0;
+  int charcount = 0;
+  int forcefloat = 0;
   int forcedouble = 0;
   int forceuint64 = 0;
   int i;
@@ -894,7 +894,7 @@ inferattributetype1(Datalist *adata) {
   /* Walk repeatedly to get info for inference (loops could be combined) */
   /* Compute: all strings or chars? */
   stringcount = 0;
-  charcount   = 0;
+  charcount = 0;
   for (i = 0; i < datalistlen(adata); i++) {
     NCConstant *con = datalistith(adata, i);
     if (con->nctype == NC_STRING)
@@ -909,7 +909,7 @@ inferattributetype1(Datalist *adata) {
   }
 
   /* Compute: any floats/doubles? */
-  forcefloat  = 0;
+  forcefloat = 0;
   forcedouble = 0;
   for (i = 0; i < datalistlen(adata); i++) {
     NCConstant *con = datalistith(adata, i);
@@ -965,7 +965,7 @@ inferattributetype1(Datalist *adata) {
   result = NC_NAT;
   for (i = 0; i < datalistlen(adata); i++) {
     NCConstant *con = datalistith(adata, i);
-    result          = infertype(result, con->nctype, hasneg);
+    result = infertype(result, con->nctype, hasneg);
     if (result == NC_NAT) break; /* something wrong */
   }
   return result;
@@ -1162,7 +1162,7 @@ computeunlimitedsizes(Dimset *dimset, int dimindex, Datalist *data, int ischar) 
 
   if (!lastunlim) {
     /* Compute candidate size of this unlimited */
-    length    = data->length;
+    length = data->length;
     unlimsize = length / xproduct;
     if (length % xproduct != 0)
       unlimsize++; /* => fill requires at some point */
@@ -1241,7 +1241,7 @@ processunlimiteddims(void) {
     if (dimset->ndims == 0) continue; /* ignore scalars */
     if (var->data == NULL) continue;  /* no data list to walk */
     ischar = (var->typ.basetype->typ.typecode == NC_CHAR);
-    first  = findunlimited(dimset, 0);
+    first = findunlimited(dimset, 0);
     if (first == dimset->ndims) continue; /* no unlimited dims */
     if (first == 0) {
       computeunlimitedsizes(dimset, first, var->data, ischar);

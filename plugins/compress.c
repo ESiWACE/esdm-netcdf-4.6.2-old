@@ -133,7 +133,7 @@ static void generateMTFValues(EState *s) {
       except for the last one, which is arranged in 
       compressBlock().
    */
-  UInt32 *ptr  = s->ptr;
+  UInt32 *ptr = s->ptr;
   UChar *block = s->block;
   UInt16 *mtfv = s->mtfv;
 
@@ -143,7 +143,7 @@ static void generateMTFValues(EState *s) {
   for (i = 0; i <= EOB; i++)
     s->mtfFreq[i] = 0;
 
-  wr    = 0;
+  wr = 0;
   zPend = 0;
   for (i = 0; i < s->nInUse; i++)
     yy[i] = (UChar)i;
@@ -180,19 +180,19 @@ static void generateMTFValues(EState *s) {
         register UChar rtmp;
         register UChar *ryy_j;
         register UChar rll_i;
-        rtmp  = yy[1];
+        rtmp = yy[1];
         yy[1] = yy[0];
         ryy_j = &(yy[1]);
         rll_i = ll_i;
         while (rll_i != rtmp) {
           register UChar rtmp2;
           ryy_j++;
-          rtmp2  = rtmp;
-          rtmp   = *ryy_j;
+          rtmp2 = rtmp;
+          rtmp = *ryy_j;
           *ryy_j = rtmp2;
         };
-        yy[0]    = rtmp;
-        j        = ryy_j - &(yy[0]);
+        yy[0] = rtmp;
+        j = ryy_j - &(yy[0]);
         mtfv[wr] = j + 1;
         wr++;
         s->mtfFreq[j + 1]++;
@@ -279,11 +279,11 @@ static void sendMTFValues(EState *s) {
     Int32 nPart, remF, tFreq, aFreq;
 
     nPart = nGroups;
-    remF  = s->nMTF;
-    gs    = 0;
+    remF = s->nMTF;
+    gs = 0;
     while (nPart > 0) {
       tFreq = remF / nPart;
-      ge    = gs - 1;
+      ge = gs - 1;
       aFreq = 0;
       while (aFreq < tFreq && ge < alphaSize - 1) {
         ge++;
@@ -339,8 +339,8 @@ static void sendMTFValues(EState *s) {
     }
 
     nSelectors = 0;
-    totc       = 0;
-    gs         = 0;
+    totc = 0;
+    gs = 0;
     while (True) {
       /*--- Set group start & end marks. --*/
       if (gs >= s->nMTF) break;
@@ -551,15 +551,15 @@ static void sendMTFValues(EState *s) {
       pos[i] = i;
     for (i = 0; i < nSelectors; i++) {
       ll_i = s->selector[i];
-      j    = 0;
-      tmp  = pos[j];
+      j = 0;
+      tmp = pos[j];
       while (ll_i != tmp) {
         j++;
-        tmp2   = tmp;
-        tmp    = pos[j];
+        tmp2 = tmp;
+        tmp = pos[j];
         pos[j] = tmp2;
       };
-      pos[0]            = tmp;
+      pos[0] = tmp;
       s->selectorMtf[i] = j;
     }
   };
@@ -644,7 +644,7 @@ static void sendMTFValues(EState *s) {
   /*--- And finally, the block data proper ---*/
   nBytes = s->numZ;
   selCtr = 0;
-  gs     = 0;
+  gs = 0;
   while (True) {
     if (gs >= s->nMTF) break;
     ge = gs + BZ_G_SIZE - 1;

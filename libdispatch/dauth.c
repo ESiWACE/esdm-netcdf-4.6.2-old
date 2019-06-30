@@ -45,14 +45,14 @@ static void setdefaults(NCauth *);
 /* External Entry Points */
 
 int NC_parseproxy(NCauth *auth, const char *surl) {
-  int ret    = NC_NOERR;
+  int ret = NC_NOERR;
   NCURI *uri = NULL;
   if (surl == NULL || strlen(surl) == 0)
     return (NC_NOERR); /* nothing there*/
   if (ncuriparse(surl, &uri) != NCU_OK)
     return (NC_EURL);
   auth->proxy.user = uri->user;
-  auth->proxy.pwd  = uri->password;
+  auth->proxy.pwd = uri->password;
   auth->proxy.host = strdup(uri->host);
   if (uri->port != NULL)
     auth->proxy.port = atoi(uri->port);
@@ -66,7 +66,7 @@ NC_combinehostport(NCURI *uri) {
   size_t len;
   char *host = NULL;
   char *port = NULL;
-  char *hp   = NULL;
+  char *hp = NULL;
   if (uri == NULL) return NULL;
   host = uri->host;
   port = uri->port;
@@ -85,7 +85,7 @@ NC_combinehostport(NCURI *uri) {
 }
 
 int NC_authsetup(NCauth *auth, NCURI *uri) {
-  int ret            = NC_NOERR;
+  int ret = NC_NOERR;
   char *uri_hostport = NULL;
 
   if (uri != NULL)
@@ -139,17 +139,17 @@ int NC_authsetup(NCauth *auth, NCURI *uri) {
   { /* Handle various cases for user + password */
     /* First, see if the user+pwd was in the original url */
     char *user = NULL;
-    char *pwd  = NULL;
+    char *pwd = NULL;
     if (uri->user != NULL && uri->password != NULL) {
       user = uri->user;
-      pwd  = uri->password;
+      pwd = uri->password;
     } else {
       user = NC_rclookup("HTTP.CREDENTIALS.USER", uri_hostport);
-      pwd  = NC_rclookup("HTTP.CREDENTIALS.PASSWORD", uri_hostport);
+      pwd = NC_rclookup("HTTP.CREDENTIALS.PASSWORD", uri_hostport);
     }
     if (user != NULL && pwd != NULL) {
       user = strdup(user); /* so we can consistently reclaim */
-      pwd  = strdup(pwd);
+      pwd = strdup(pwd);
     } else {
       /* Could not get user and pwd, so try USERPASSWORD */
       const char *userpwd = NC_rclookup("HTTP.CREDENTIALS.USERPASSWORD", uri_hostport);
@@ -300,7 +300,7 @@ setauthfield(NCauth *auth, const char *flag, const char *value) {
 
   if (strcmp(flag, "HTTP.SSL.VERIFYPEER") == 0) {
     const char *s = value;
-    int tf        = 0;
+    int tf = 0;
     if (s == NULL || strcmp(s, "0") == 0 || strcasecmp(s, "false") == 0)
       tf = 0;
     else if (strcmp(s, "1") == 0 || strcasecmp(s, "true") == 0)
@@ -346,7 +346,7 @@ and do %xx unescaping
 */
 int NC_parsecredentials(const char *userpwd, char **userp, char **pwdp) {
   char *user = NULL;
-  char *pwd  = NULL;
+  char *pwd = NULL;
 
   if (userpwd == NULL)
     return NC_EINVAL;

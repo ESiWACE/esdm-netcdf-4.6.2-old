@@ -51,15 +51,15 @@ typedef struct NCD4params NCD4params;
 /* Concepts from netcdf-4 data model */
 /* Define as powers of 2 so we can create a set */
 typedef enum NCD4sort {
-  NCD4_NULL    = 0,
-  NCD4_ATTR    = 1,
+  NCD4_NULL = 0,
+  NCD4_ATTR = 1,
   NCD4_ATTRSET = 2,
-  NCD4_XML     = 4, /* OtherXML */
-  NCD4_DIM     = 8,
-  NCD4_GROUP   = 16, /* Including Dataset */
-  NCD4_TYPE    = 32, /* atom types, opaque, enum, struct or seq */
-  NCD4_VAR     = 64, /* Variable or field */
-  NCD4_ECONST  = 128,
+  NCD4_XML = 4, /* OtherXML */
+  NCD4_DIM = 8,
+  NCD4_GROUP = 16, /* Including Dataset */
+  NCD4_TYPE = 32,  /* atom types, opaque, enum, struct or seq */
+  NCD4_VAR = 64,   /* Variable or field */
+  NCD4_ECONST = 128,
 } NCD4sort;
 
 #define ISA(sort, flags) ((sort) & (flags))
@@ -99,7 +99,7 @@ typedef enum NCD4sort {
 
 /* Define possible translation modes */
 enum NCD4translation {
-  NCD4_NOTRANS  = 0, /* Apply straight DAP4->NetCDF4 translation */
+  NCD4_NOTRANS = 0,  /* Apply straight DAP4->NetCDF4 translation */
   NCD4_TRANSNC4 = 1, /* Use _edu.ucar flags to achieve better translation */
 };
 

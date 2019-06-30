@@ -62,9 +62,9 @@ NC_findreserved(const char *name) {
   int R = (n - 1);
   for (;;) {
     if (L > R) break;
-    int m                   = (L + R) / 2;
+    int m = (L + R) / 2;
     const NC_reservedatt *p = &NC_reserved[m];
-    int cmp                 = strcmp(p->name, name);
+    int cmp = strcmp(p->name, name);
     if (cmp == 0) return p;
     if (cmp < 0)
       L = (m + 1);
@@ -208,8 +208,8 @@ int nc4_close_netcdf4_file(NC_FILE_INFO_T *h5, int abort, NC_memio *memio) {
     /* Pull out the final memory */
     (void)NC4_extract_file_image(h5);
     if (!abort && memio != NULL) {
-      *memio               = h5->mem.memio; /* capture it */
-      h5->mem.memio.memory = NULL;          /* avoid duplicate free */
+      *memio = h5->mem.memio;      /* capture it */
+      h5->mem.memio.memory = NULL; /* avoid duplicate free */
     }
     /* If needed, reclaim extraneous memory */
     if (h5->mem.memio.memory != NULL) {
@@ -219,7 +219,7 @@ int nc4_close_netcdf4_file(NC_FILE_INFO_T *h5, int abort, NC_memio *memio) {
         free(h5->mem.memio.memory);
     }
     h5->mem.memio.memory = NULL;
-    h5->mem.memio.size   = 0;
+    h5->mem.memio.size = 0;
     NC4_image_finalize(h5->mem.udata);
   }
 

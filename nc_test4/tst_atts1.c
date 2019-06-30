@@ -81,12 +81,12 @@ int tst_att_ordering(int cmode) {
   int ncid;
   char name[NUM_ATTS][ATT_MAX_NAME + 1] = {"Gc", "Gb", "Gs", "Gi", "Gf",
   "Gd", "Gatt-name-dashes", "Gatt.name.dots"};
-  int len[NUM_ATTS]                     = {0, 2, 3, 3, 3, 3, 1, 1};
-  signed char b[2]                      = {-128, 127};
-  short s[3]                            = {-32768, 0, 32767};
-  int i[3]                              = {42, 0, -42};
-  float f[3]                            = {42.0, -42.0, 42.0};
-  double d[3]                           = {420.0, -420.0, 420.0};
+  int len[NUM_ATTS] = {0, 2, 3, 3, 3, 3, 1, 1};
+  signed char b[2] = {-128, 127};
+  short s[3] = {-32768, 0, 32767};
+  int i[3] = {42, 0, -42};
+  float f[3] = {42.0, -42.0, 42.0};
+  double d[3] = {420.0, -420.0, 420.0};
   int att_name_dashes = -1, att_name_dots = -2;
   char name_in[NC_MAX_NAME];
   int j;
@@ -116,16 +116,16 @@ int tst_att_ordering(int cmode) {
 }
 
 int main(int argc, char **argv) {
-  signed char schar_in[ATT_LEN], schar_out[ATT_LEN]      = {NC_MIN_BYTE, 1, NC_MAX_BYTE};
-  unsigned char uchar_in[ATT_LEN], uchar_out[ATT_LEN]    = {0, 128, NC_MAX_UBYTE};
-  short short_in[ATT_LEN], short_out[ATT_LEN]            = {NC_MIN_SHORT, -128, NC_MAX_SHORT};
+  signed char schar_in[ATT_LEN], schar_out[ATT_LEN] = {NC_MIN_BYTE, 1, NC_MAX_BYTE};
+  unsigned char uchar_in[ATT_LEN], uchar_out[ATT_LEN] = {0, 128, NC_MAX_UBYTE};
+  short short_in[ATT_LEN], short_out[ATT_LEN] = {NC_MIN_SHORT, -128, NC_MAX_SHORT};
   unsigned short ushort_in[ATT_LEN], ushort_out[ATT_LEN] = {0, 128, NC_MAX_USHORT};
-  int int_in[ATT_LEN], int_out[ATT_LEN]                  = {-100000, 128, 100000};
+  int int_in[ATT_LEN], int_out[ATT_LEN] = {-100000, 128, 100000};
   long long_in[ATT_LEN];
-  unsigned int uint_in[ATT_LEN], uint_out[ATT_LEN]                 = {0, 128, NC_MAX_UINT};
-  float float_in[ATT_LEN], float_out[ATT_LEN]                      = {-0.5, 0.25, 0.125};
-  double double_in[ATT_LEN], double_out[ATT_LEN]                   = {-0.25, .5, 0.125};
-  long long longlong_in[ATT_LEN], longlong_out[ATT_LEN]            = {-3123456789LL, 128LL, 3123456789LL};
+  unsigned int uint_in[ATT_LEN], uint_out[ATT_LEN] = {0, 128, NC_MAX_UINT};
+  float float_in[ATT_LEN], float_out[ATT_LEN] = {-0.5, 0.25, 0.125};
+  double double_in[ATT_LEN], double_out[ATT_LEN] = {-0.25, .5, 0.125};
+  long long longlong_in[ATT_LEN], longlong_out[ATT_LEN] = {-3123456789LL, 128LL, 3123456789LL};
   unsigned long long ulonglong_in[ATT_LEN], ulonglong_out[ATT_LEN] = {0LL, 128LL, 3123456789LL};
 
   (void)signal(SIGFPE, SIG_IGN);
@@ -624,10 +624,10 @@ int main(int argc, char **argv) {
 
     char *speech_in;
     signed char schar_in[ATT_LEN], schar_out[ATT_LEN] = {NC_MIN_BYTE, 1, NC_MAX_BYTE};
-    short short_in[ATT_LEN], short_out[ATT_LEN]       = {NC_MIN_SHORT, -128, NC_MAX_SHORT};
+    short short_in[ATT_LEN], short_out[ATT_LEN] = {NC_MIN_SHORT, -128, NC_MAX_SHORT};
     /*int int_in[ATT_LEN], int_out[ATT_LEN] = {NC_MIN_INT, 128, NC_MAX_INT};*/
-    int int_in[ATT_LEN], int_out[ATT_LEN]          = {-100000, 128, 100000};
-    float float_in[ATT_LEN], float_out[ATT_LEN]    = {.5, 0.25, 0.125};
+    int int_in[ATT_LEN], int_out[ATT_LEN] = {-100000, 128, 100000};
+    float float_in[ATT_LEN], float_out[ATT_LEN] = {.5, 0.25, 0.125};
     double double_in[ATT_LEN], double_out[ATT_LEN] = {0.25, .5, 0.125};
 
     /* Create a file with two vars, attaching to each an attribute of
@@ -973,16 +973,16 @@ int main(int argc, char **argv) {
     int i;
 
     char *speech_in;
-    signed char schar_in[ATT_LEN], schar_out[ATT_LEN]                = {NC_MIN_BYTE, 1, NC_MAX_BYTE};
-    unsigned char uchar_in[ATT_LEN], uchar_out[ATT_LEN]              = {0, 128, NC_MAX_CHAR};
-    short short_in[ATT_LEN], short_out[ATT_LEN]                      = {NC_MIN_SHORT, -128, NC_MAX_SHORT};
-    int int_in[ATT_LEN], int_out[ATT_LEN]                            = {-100000, 128, 100000};
-    float float_in[ATT_LEN], float_out[ATT_LEN]                      = {.5, 0.25, 0.125};
-    double double_in[ATT_LEN], double_out[ATT_LEN]                   = {0.25, .5, 0.125};
-    unsigned short ushort_in[ATT_LEN], ushort_out[ATT_LEN]           = {0, 128, NC_MAX_USHORT};
-    unsigned int uint_in[ATT_LEN], uint_out[ATT_LEN]                 = {0, 128, NC_MAX_UINT};
+    signed char schar_in[ATT_LEN], schar_out[ATT_LEN] = {NC_MIN_BYTE, 1, NC_MAX_BYTE};
+    unsigned char uchar_in[ATT_LEN], uchar_out[ATT_LEN] = {0, 128, NC_MAX_CHAR};
+    short short_in[ATT_LEN], short_out[ATT_LEN] = {NC_MIN_SHORT, -128, NC_MAX_SHORT};
+    int int_in[ATT_LEN], int_out[ATT_LEN] = {-100000, 128, 100000};
+    float float_in[ATT_LEN], float_out[ATT_LEN] = {.5, 0.25, 0.125};
+    double double_in[ATT_LEN], double_out[ATT_LEN] = {0.25, .5, 0.125};
+    unsigned short ushort_in[ATT_LEN], ushort_out[ATT_LEN] = {0, 128, NC_MAX_USHORT};
+    unsigned int uint_in[ATT_LEN], uint_out[ATT_LEN] = {0, 128, NC_MAX_UINT};
     unsigned long long ulonglong_in[ATT_LEN], ulonglong_out[ATT_LEN] = {0, 128, 18446744073709551612ULL};
-    long long longlong_in[ATT_LEN], longlong_out[ATT_LEN]            = {NC_MIN_INT64, 128, NC_MAX_INT64};
+    long long longlong_in[ATT_LEN], longlong_out[ATT_LEN] = {NC_MIN_INT64, 128, NC_MAX_INT64};
 
     /* Create a file with a global attribute of each type. */
     if (nc_create(FILE_NAME, NC_NETCDF4, &ncid)) ERR;

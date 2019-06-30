@@ -62,7 +62,7 @@ int ocinitialized = 0;
 
 OCerror
 ocinternalinitialize(void) {
-  int stat       = OC_NOERR;
+  int stat = OC_NOERR;
   CURLcode cstat = CURLE_OK;
 
   if (ocinitialized) return OC_NOERR;
@@ -95,10 +95,10 @@ ocinternalinitialize(void) {
 /**************************************************/
 OCerror
 ocopen(OCstate **statep, const char *url) {
-  int stat       = OC_NOERR;
+  int stat = OC_NOERR;
   OCstate *state = NULL;
-  NCURI *tmpurl  = NULL;
-  CURL *curl     = NULL; /* curl handle*/
+  NCURI *tmpurl = NULL;
+  CURL *curl = NULL; /* curl handle*/
 
   if (ncuriparse(url, &tmpurl) != NCU_OK) {
     OCTHROWCHK(stat = OC_EBADURL);
@@ -118,11 +118,11 @@ ocopen(OCstate **statep, const char *url) {
   }
 
   /* Setup DAP state*/
-  state->header.magic   = OCMAGIC;
+  state->header.magic = OCMAGIC;
   state->header.occlass = OC_State;
-  state->curl           = curl;
-  state->trees          = nclistnew();
-  state->uri            = tmpurl;
+  state->curl = curl;
+  state->trees = nclistnew();
+  state->uri = tmpurl;
 
   state->packet = ncbytesnew();
   ncbytessetalloc(state->packet, DFALTPACKETSIZE); /*initial reasonable size*/
@@ -169,8 +169,8 @@ OCnode **rootp) {
   tree = (OCtree *)ocmalloc(sizeof(OCtree));
   MEMCHECK(tree, OC_ENOMEM);
   memset((void *)tree, 0, sizeof(OCtree));
-  tree->dxdclass   = kind;
-  tree->state      = state;
+  tree->dxdclass = kind;
+  tree->state = state;
   tree->constraint = constraintescape(constraint);
   if (tree->constraint == NULL)
     tree->constraint = nulldup(constraint);
@@ -238,7 +238,7 @@ OCnode **rootp) {
   }
 
   tree->nodes = NULL;
-  stat        = DAPparse(state, tree, tree->text);
+  stat = DAPparse(state, tree, tree->text);
   /* Check and report on an error return from the server */
   if (stat == OC_EDAPSVC && state->error.code != NULL) {
     nclog(NCLOGERR, "oc_open: server error retrieving url: code=%s message=\"%s\"",
@@ -335,8 +335,8 @@ fail:
 
 static OCerror
 createtempfile(OCstate *state, OCtree *tree) {
-  int stat      = OC_NOERR;
-  char *path    = NULL;
+  int stat = OC_NOERR;
+  char *path = NULL;
   char *tmppath = NULL;
   int len;
 
@@ -353,8 +353,8 @@ createtempfile(OCstate *state, OCtree *tree) {
   nclog(NCLOGNOTE, "oc_open: creating tmp file: %s", tmppath);
 #endif
   tree->data.filename = tmppath; /* remember our tmp file name */
-  tmppath             = NULL;
-  tree->data.file     = NCfopen(tree->data.filename, "w+");
+  tmppath = NULL;
+  tree->data.file = NCfopen(tree->data.filename, "w+");
   if (tree->data.file == NULL) return OC_EOPEN;
   /* make the temp file so it will automatically be reclaimed on close */
   if (ocdebug == 0)
@@ -398,10 +398,10 @@ ocextractddsinmemory(OCstate *state, OCtree *tree, OCflags flags) {
   /* Read until we find the separator (or EOF)*/
   bodfound = ocfindbod(state->packet, &bod, &ddslen);
   if (!bodfound) { /* No BOD; pretend */
-    bod    = tree->data.bod;
+    bod = tree->data.bod;
     ddslen = tree->data.datasize;
   }
-  tree->data.bod    = bod;
+  tree->data.bod = bod;
   tree->data.ddslen = ddslen;
   /* copy out the dds */
   if (ddslen > 0) {
@@ -418,8 +418,8 @@ ocextractddsinmemory(OCstate *state, OCtree *tree, OCflags flags) {
     unsigned long count = tree->data.datasize - tree->data.bod;
     memcpy(tree->xdrmemory, tree->xdrmemory + tree->data.bod, count);
     tree->data.datasize = count;
-    tree->data.bod      = 0;
-    tree->data.ddslen   = 0;
+    tree->data.bod = 0;
+    tree->data.ddslen = 0;
   }
 #endif
   if (tree->text == NULL) stat = OC_EDATADDS;
@@ -445,14 +445,14 @@ ocextractddsinfile(OCstate *state, OCtree *tree, OCflags flags) {
     bodfound = ocfindbod(state->packet, &bod, &ddslen);
   } while (!bodfound);
   if (!bodfound) { /* No BOD; pretend */
-    bod    = tree->data.bod;
+    bod = tree->data.bod;
     ddslen = tree->data.datasize;
 #ifdef OCDEBUG
     fprintf(stderr, "missing bod: ddslen=%lu bod=%lu\n",
     (unsigned long)ddslen, (unsigned long)bod);
 #endif
   }
-  tree->data.bod    = bod;
+  tree->data.bod = bod;
   tree->data.ddslen = ddslen;
   /* copy out the dds */
   if (ddslen > 0) {
@@ -469,7 +469,7 @@ ocextractddsinfile(OCstate *state, OCtree *tree, OCflags flags) {
 }
 
 /* Allow these (non-alpha-numerics) to pass thru */
-static char okchars[]   = "&/:;,.=?@'\"<>{}!|\\^[]`~";
+static char okchars[] = "&/:;,.=?@'\"<>{}!|\\^[]`~";
 static char hexdigits[] = "0123456789abcdef";
 
 /* Modify constraint to use %XX escapes */
@@ -481,10 +481,10 @@ constraintescape(const char *url) {
   char *eurl;
 
   if (url == NULL) return NULL;
-  len  = strlen(url);
+  len = strlen(url);
   eurl = ocmalloc(1 + 3 * len); /* worst case: c -> %xx */
   MEMCHECK(eurl, NULL);
-  p  = eurl;
+  p = eurl;
   *p = '\0';
   while ((c = *url++)) {
     if (c >= '0' && c <= '9') {
@@ -510,8 +510,8 @@ ocupdatelastmodifieddata(OCstate *state) {
   OCerror status = OC_NOERR;
   long lastmodified;
   char *base = NULL;
-  base       = ncuribuild(state->uri, NULL, NULL, NCURIENCODE);
-  status     = ocfetchlastmodified(state->curl, base, &lastmodified);
+  base = ncuribuild(state->uri, NULL, NULL, NCURIENCODE);
+  status = ocfetchlastmodified(state->curl, base, &lastmodified);
   free(base);
   if (status == OC_NOERR) {
     state->datalastmodified = lastmodified;
@@ -525,7 +525,7 @@ ocupdatelastmodifieddata(OCstate *state) {
 static OCerror
 ocget_rcproperties(OCstate *state) {
   OCerror ocerr = OC_NOERR;
-  char *option  = NULL;
+  char *option = NULL;
 #ifdef HAVE_CURLOPT_BUFFERSIZE
   option = NC_rclookup(OCBUFFERSIZE, state->uri->uri);
   if (option != NULL && strlen(option) != 0) {
@@ -546,13 +546,13 @@ ocget_rcproperties(OCstate *state) {
     if (strcasecmp(option, "on") == 0) {
       state->curlkeepalive.active = 1;
     } else {
-      unsigned long idle     = 0;
+      unsigned long idle = 0;
       unsigned long interval = 0;
       if (sscanf(option, "%lu/%lu", &idle, &interval) != 2)
         fprintf(stderr, "Illegal KEEPALIVE VALUE: %s\n", option);
-      state->curlkeepalive.idle     = idle;
+      state->curlkeepalive.idle = idle;
       state->curlkeepalive.interval = interval;
-      state->curlkeepalive.active   = 1;
+      state->curlkeepalive.active = 1;
     }
   }
 #endif
@@ -567,7 +567,7 @@ static OCerror
 ocset_curlproperties(OCstate *state) {
   OCerror stat = OC_NOERR;
   if (state->auth.curlflags.useragent == NULL) {
-    size_t len  = strlen(DFALTUSERAGENT) + strlen(VERSION) + 1;
+    size_t len = strlen(DFALTUSERAGENT) + strlen(VERSION) + 1;
     char *agent = (char *)malloc(len + 1);
     if (occopycat(agent, len, 2, DFALTUSERAGENT, VERSION))
       state->auth.curlflags.useragent = agent;
@@ -586,8 +586,8 @@ ocset_curlproperties(OCstate *state) {
 
   if (state->auth.curlflags.cookiejar == NULL) {
     /* If no cookie file was defined, define a default */
-    int stat      = NC_NOERR;
-    char *path    = NULL;
+    int stat = NC_NOERR;
+    char *path = NULL;
     char *tmppath = NULL;
     int len;
     errno = 0;
@@ -600,7 +600,7 @@ ocset_curlproperties(OCstate *state) {
     occopycat(path, len, 3, ncrc_globalstate.tempdir, "/", "occookies");
     tmppath = NC_mktmp(path);
     free(path);
-    state->auth.curlflags.cookiejar        = tmppath;
+    state->auth.curlflags.cookiejar = tmppath;
     state->auth.curlflags.cookiejarcreated = 1;
     if (stat != OC_NOERR && errno != EEXIST) {
       fprintf(stderr, "Cannot create cookie file\n");
@@ -612,7 +612,7 @@ ocset_curlproperties(OCstate *state) {
 
   /* Make sure the cookie jar exists and can be read and written */
   {
-    FILE *f     = NULL;
+    FILE *f = NULL;
     char *fname = state->auth.curlflags.cookiejar;
     /* See if the file exists already */
     f = NCfopen(fname, "r");
@@ -663,10 +663,10 @@ static char *ERROR_TAG = "Error ";
 
 static int
 dataError(XXDR *xdrs, OCstate *state) {
-  int depth    = 0;
+  int depth = 0;
   int errfound = 0;
   off_t ckp = 0, avail = 0;
-  int i        = 0;
+  int i = 0;
   char *errmsg = NULL;
   char errortext[16]; /* bigger than |ERROR_TAG|*/
   avail = xxdr_getavail(xdrs);
@@ -699,9 +699,9 @@ dataError(XXDR *xdrs, OCstate *state) {
   }
   xxdr_setpos(xdrs, ckp);
   xxdr_getbytes(xdrs, errmsg, (off_t)i);
-  errmsg[i]             = '\0';
-  state->error.message  = errmsg;
-  state->error.code     = strdup("?");
+  errmsg[i] = '\0';
+  state->error.message = errmsg;
+  state->error.code = strdup("?");
   state->error.httpcode = 404;
   xxdr_setpos(xdrs, ckp);
   errfound = 1;

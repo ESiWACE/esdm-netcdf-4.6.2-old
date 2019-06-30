@@ -104,7 +104,7 @@ find_var_dim_max_length(NC_GRP_INFO_T *grp, int varid, int dimid, size_t *maxlen
   hid_t datasetid = 0, spaceid = 0;
   NC_VAR_INFO_T *var;
   hsize_t *h5dimlen = NULL, *h5dimlenmax = NULL;
-  int d, dataset_ndims                   = 0;
+  int d, dataset_ndims = 0;
   int retval = NC_NOERR;
 
   *maxlen = 0;
@@ -286,10 +286,10 @@ int nc4_break_coord_var(NC_GRP_INFO_T *grp, NC_VAR_INFO_T *coord_var, NC_DIM_INF
 
   /* Detach dimension from variable */
   coord_var->dimscale = NC_FALSE;
-  dim->coord_var      = NULL;
+  dim->coord_var = NULL;
 
   /* Set state transition indicators */
-  coord_var->was_coord_var    = NC_TRUE;
+  coord_var->was_coord_var = NC_TRUE;
   coord_var->became_coord_var = NC_FALSE;
 
   return NC_NOERR;
@@ -360,7 +360,7 @@ int nc4_reform_coord_var(NC_GRP_INFO_T *grp, NC_VAR_INFO_T *var, NC_DIM_INFO_T *
   NC_HDF5_DIM_INFO_T *hdf5_dim;
   NC_HDF5_GRP_INFO_T *hdf5_grp;
   int need_to_reattach_scales = 0;
-  int retval                  = NC_NOERR;
+  int retval = NC_NOERR;
 
   assert(grp && grp->format_grp_info && var && dim && dim->format_dim_info);
   LOG((3, "%s: dim->hdr.name %s var->hdr.name %s", __func__, dim->hdr.name,
@@ -373,7 +373,7 @@ int nc4_reform_coord_var(NC_GRP_INFO_T *grp, NC_VAR_INFO_T *var, NC_DIM_INFO_T *
   /* Detach dimscales from the [new] coordinate variable */
   if (var->dimscale_attached) {
     int dims_detached = 0;
-    int finished      = 0;
+    int finished = 0;
     int d;
 
     /* Loop over all dimensions for variable */
@@ -439,7 +439,7 @@ int nc4_reform_coord_var(NC_GRP_INFO_T *grp, NC_VAR_INFO_T *var, NC_DIM_INFO_T *
   }
 
   /* Attach variable to dimension */
-  var->dimscale  = NC_TRUE;
+  var->dimscale = NC_TRUE;
   dim->coord_var = var;
 
   /* Check if this variable used to be a coord. var */

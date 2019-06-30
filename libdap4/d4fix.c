@@ -65,7 +65,7 @@ ADDNODE(NClist *list, NCD4node *node) {
 
 int NCD4_toposort(NCD4meta *compiler) {
   int i, ret = NC_NOERR;
-  size_t len      = nclistlength(compiler->allnodes);
+  size_t len = nclistlength(compiler->allnodes);
   NCD4node **list = (NCD4node **)nclistcontents(compiler->allnodes);
   NCD4node **p;
   NClist *sorted = nclistnew();
@@ -237,7 +237,7 @@ delimitAtomicVar(NCD4meta *compiler, NCD4node *var, void **offsetp) {
 
   assert(var->sort == NCD4_VAR);
   dimproduct = NCD4_dimproduct(var);
-  basetype   = var->basetype;
+  basetype = var->basetype;
   if (basetype->subsort == NC_OPAQUE)
     return delimitOpaqueVar(compiler, var, offsetp);
 
@@ -245,8 +245,8 @@ delimitAtomicVar(NCD4meta *compiler, NCD4node *var, void **offsetp) {
   if (truetype->subsort == NC_ENUM)
     truetype = basetype->basetype;
 
-  offset   = *offsetp;
-  tid      = truetype->subsort;
+  offset = *offsetp;
+  tid = truetype->subsort;
   typesize = NCD4_typesize(tid);
   if (tid != NC_STRING) {
     offset = INCR(offset, (typesize * dimproduct));
@@ -295,10 +295,10 @@ delimitStructArray(NCD4meta *compiler, NCD4node *varortype, void **offsetp) {
 
   if (varortype->sort == NCD4_VAR) {
     dimproduct = NCD4_dimproduct(varortype);
-    type       = varortype->basetype;
+    type = varortype->basetype;
   } else {
     dimproduct = 1;
-    type       = varortype;
+    type = varortype;
   }
 
   offset = *offsetp;
@@ -347,10 +347,10 @@ delimitSeqArray(NCD4meta *compiler, NCD4node *varortype, void **offsetp) {
 
   if (varortype->sort == NCD4_VAR) {
     dimproduct = NCD4_dimproduct(varortype);
-    type       = varortype->basetype;
+    type = varortype->basetype;
   } else {
     dimproduct = 1;
-    type       = varortype;
+    type = varortype;
   }
 
   offset = *offsetp;
@@ -410,16 +410,16 @@ Assumes that var is not fixed size.
 */
 
 int NCD4_moveto(NCD4meta *compiler, NCD4node *var, d4size_t count, void **offsetp) {
-  int ret             = NC_NOERR;
-  void *offset        = NULL;
+  int ret = NC_NOERR;
+  void *offset = NULL;
   d4size_t startcount = 0;
-  NCD4node *basetype  = NULL;
+  NCD4node *basetype = NULL;
 
   ASSERT((ISTOPLEVEL(var)));
 
-  offset     = *offsetp;
+  offset = *offsetp;
   startcount = 0;
-  basetype   = var->basetype;
+  basetype = var->basetype;
   for (; startcount < count; startcount++) {
     if ((ret = skipInstance(compiler, basetype, &offset)))
       goto done;
@@ -431,7 +431,7 @@ done:
 
 static int
 skipInstance(NCD4meta *compiler, NCD4node *type, void **offsetp) {
-  int ret      = NC_NOERR;
+  int ret = NC_NOERR;
   void *offset = NULL;
 
   offset = *offsetp;
@@ -464,7 +464,7 @@ skipAtomicInstance(NCD4meta *compiler, NCD4node *type, void **offsetp) {
   switch (type->subsort) {
     default: /* fixed size atomic type */
       typesize = NCD4_typesize(type->meta.id);
-      offset   = INCR(offset, typesize);
+      offset = INCR(offset, typesize);
       break;
     case NC_STRING:
       /* Get string count */
@@ -495,8 +495,8 @@ skipStructInstance(NCD4meta *compiler, NCD4node *type, void **offsetp) {
   offset = *offsetp;
   /* Skip each field */
   for (i = 0; i < nclistlength(type->vars); i++) {
-    NCD4node *field     = (NCD4node *)nclistget(type->vars, i);
-    NCD4node *ftype     = field->basetype;
+    NCD4node *field = (NCD4node *)nclistget(type->vars, i);
+    NCD4node *ftype = field->basetype;
     d4size_t dimproduct = NCD4_dimproduct(field);
     for (j = 0; j < dimproduct; j++) {
       if ((ret = skipInstance(compiler, ftype, &offset)))

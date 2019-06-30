@@ -72,9 +72,9 @@ int main(int argc, char **argv) {
      * format does not limit variable count), create the necessary number
      * of groups to hold nitem variables. */
   numvar = nitem;
-  v      = 1;
+  v = 1;
   numgrp = (numvar - 1) / NC_MAX_VARS + 1;
-  vleft  = numvar - (NC_MAX_VARS * (numgrp - 1));
+  vleft = numvar - (NC_MAX_VARS * (numgrp - 1));
   if (gettimeofday(&start_time, NULL))
     ERR;
 

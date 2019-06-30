@@ -53,9 +53,9 @@ int new_NC(NC_Dispatch *dispatcher, const char *path, int mode, int model, NC **
   NC *ncp = (NC *)calloc(1, sizeof(NC));
   if (ncp == NULL) return NC_ENOMEM;
   ncp->dispatch = dispatcher;
-  ncp->path     = nulldup(path);
-  ncp->mode     = mode;
-  ncp->model    = model;
+  ncp->path = nulldup(path);
+  ncp->mode = mode;
+  ncp->model = model;
   if (ncp->path == NULL) { /* fail */
     free_NC(ncp);
     return NC_ENOMEM;

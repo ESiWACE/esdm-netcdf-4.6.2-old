@@ -148,7 +148,7 @@ local void make_crc_table() {
   int n, k;
   z_crc_t poly; /* polynomial exclusive-or pattern */
   /* terms of polynomial defining this crc (except x^32): */
-  static volatile int first      = 1; /* flag to limit concurrent making */
+  static volatile int first = 1; /* flag to limit concurrent making */
   static const unsigned char p[] = {0, 1, 2, 4, 5, 7, 8, 10, 11, 12, 16, 22, 23, 26};
 
   /* See if another task is already doing this (not thread-safe, but better
@@ -174,11 +174,11 @@ local void make_crc_table() {
     /* generate crc for each value followed by one, two, and three zeros,
            and then the byte reversal of those as well as the first table */
     for (n = 0; n < 256; n++) {
-      c               = crc_table[0][n];
+      c = crc_table[0][n];
       crc_table[4][n] = ZSWAP32(c);
       for (k = 1; k < 4; k++) {
-        c                   = crc_table[0][c & 0xff] ^ (c >> 8);
-        crc_table[k][n]     = c;
+        c = crc_table[0][c & 0xff] ^ (c >> 8);
+        crc_table[k][n] = c;
         crc_table[k + 4][n] = ZSWAP32(c);
       }
     }
@@ -301,7 +301,7 @@ z_size_t len;
 /* ========================================================================= */
 unsigned int ZEXPORT NC_crc32(unsigned int crc, const unsigned char *buf, unsigned int len) {
   unsigned long value = (unsigned long)crc;
-  value               = crc32_z(value, buf, len);
+  value = crc32_z(value, buf, len);
   return (unsigned int)(value & 0xFFFFFFFF); /* in case |long| is 64 bits */
 }
 

@@ -45,8 +45,8 @@ int main() { /* create tst_diskless2.nc */
   int time_dim;
 
   /* dimension lengths */
-  size_t lat_len  = 10;
-  size_t lon_len  = 5;
+  size_t lat_len = 10;
+  size_t lon_len = 5;
   size_t time_len = NC_UNLIMITED;
 
   /* variable ids */
@@ -87,7 +87,7 @@ int main() { /* create tst_diskless2.nc */
   stat = nc_create("tst_diskless2.nc", NC_DISKLESS | NC_WRITE | NC_CLOBBER | NC_NETCDF4, &ncid);
   check_err(stat, __LINE__, __FILE__);
   root_grp = ncid;
-  stat     = nc_def_grp(root_grp, "g", &g_grp);
+  stat = nc_def_grp(root_grp, "g", &g_grp);
   check_err(stat, __LINE__, __FILE__);
   stat = nc_def_grp(root_grp, "h", &h_grp);
   check_err(stat, __LINE__, __FILE__);
@@ -97,13 +97,13 @@ int main() { /* create tst_diskless2.nc */
     stat = nc_def_enum(root_grp, NC_UBYTE, "enum_t", &enum_t_typ);
     check_err(stat, __LINE__, __FILE__);
     econst = 0;
-    stat   = nc_insert_enum(root_grp, enum_t_typ, "Clear", &econst);
+    stat = nc_insert_enum(root_grp, enum_t_typ, "Clear", &econst);
     check_err(stat, __LINE__, __FILE__);
     econst = 1;
-    stat   = nc_insert_enum(root_grp, enum_t_typ, "Cumulonimbus", &econst);
+    stat = nc_insert_enum(root_grp, enum_t_typ, "Cumulonimbus", &econst);
     check_err(stat, __LINE__, __FILE__);
     econst = 2;
-    stat   = nc_insert_enum(root_grp, enum_t_typ, "Stratus", &econst);
+    stat = nc_insert_enum(root_grp, enum_t_typ, "Stratus", &econst);
     check_err(stat, __LINE__, __FILE__);
   }
 
@@ -134,45 +134,45 @@ int main() { /* create tst_diskless2.nc */
   /* define variables */
 
   lat_dims[0] = lat_dim;
-  stat        = nc_def_var(root_grp, "lat", NC_INT, RANK_lat, lat_dims, &lat_id);
+  stat = nc_def_var(root_grp, "lat", NC_INT, RANK_lat, lat_dims, &lat_id);
   check_err(stat, __LINE__, __FILE__);
 
   lon_dims[0] = lon_dim;
-  stat        = nc_def_var(root_grp, "lon", NC_INT, RANK_lon, lon_dims, &lon_id);
+  stat = nc_def_var(root_grp, "lon", NC_INT, RANK_lon, lon_dims, &lon_id);
   check_err(stat, __LINE__, __FILE__);
 
   time_dims[0] = time_dim;
-  stat         = nc_def_var(root_grp, "time", NC_INT, RANK_time, time_dims, &time_id);
+  stat = nc_def_var(root_grp, "time", NC_INT, RANK_time, time_dims, &time_id);
   check_err(stat, __LINE__, __FILE__);
 
   Z_dims[0] = time_dim;
   Z_dims[1] = lat_dim;
   Z_dims[2] = lon_dim;
-  stat      = nc_def_var(root_grp, "Z", NC_FLOAT, RANK_Z, Z_dims, &Z_id);
+  stat = nc_def_var(root_grp, "Z", NC_FLOAT, RANK_Z, Z_dims, &Z_id);
   check_err(stat, __LINE__, __FILE__);
 
   t_dims[0] = time_dim;
   t_dims[1] = lat_dim;
   t_dims[2] = lon_dim;
-  stat      = nc_def_var(root_grp, "t", NC_FLOAT, RANK_t, t_dims, &t_id);
+  stat = nc_def_var(root_grp, "t", NC_FLOAT, RANK_t, t_dims, &t_id);
   check_err(stat, __LINE__, __FILE__);
 
   p_dims[0] = time_dim;
   p_dims[1] = lat_dim;
   p_dims[2] = lon_dim;
-  stat      = nc_def_var(root_grp, "p", NC_DOUBLE, RANK_p, p_dims, &p_id);
+  stat = nc_def_var(root_grp, "p", NC_DOUBLE, RANK_p, p_dims, &p_id);
   check_err(stat, __LINE__, __FILE__);
 
   rh_dims[0] = time_dim;
   rh_dims[1] = lat_dim;
   rh_dims[2] = lon_dim;
-  stat       = nc_def_var(root_grp, "rh", NC_INT, RANK_rh, rh_dims, &rh_id);
+  stat = nc_def_var(root_grp, "rh", NC_INT, RANK_rh, rh_dims, &rh_id);
   check_err(stat, __LINE__, __FILE__);
 
   country_dims[0] = time_dim;
   country_dims[1] = lat_dim;
   country_dims[2] = lon_dim;
-  stat            = nc_def_var(root_grp, "country", NC_STRING, RANK_country, country_dims, &country_id);
+  stat = nc_def_var(root_grp, "country", NC_STRING, RANK_country, country_dims, &country_id);
   check_err(stat, __LINE__, __FILE__);
 
   stat = nc_def_var(root_grp, "tag", NC_UBYTE, RANK_tag, 0, &tag_id);
@@ -184,9 +184,9 @@ int main() { /* create tst_diskless2.nc */
   /* assign global attributes */
 
   {
-    static const int vlen_2[]            = {17, 18, 19};
+    static const int vlen_2[] = {17, 18, 19};
     static const vlen_t globalatt_att[1] = {{3, (void *)vlen_2}};
-    stat                                 = nc_put_att(root_grp, NC_GLOBAL, "globalatt", vlen_t_typ, 1, globalatt_att);
+    stat = nc_put_att(root_grp, NC_GLOBAL, "globalatt", vlen_t_typ, 1, globalatt_att);
     check_err(stat, __LINE__, __FILE__);
   }
 
@@ -220,25 +220,25 @@ int main() { /* create tst_diskless2.nc */
 
   {
     static const char *Z_units_att[1] = {"geopotential meters"};
-    stat                              = nc_put_att_string(root_grp, Z_id, "units", 1, Z_units_att);
+    stat = nc_put_att_string(root_grp, Z_id, "units", 1, Z_units_att);
     check_err(stat, __LINE__, __FILE__);
   }
 
   {
     static const float Z_valid_range_att[2] = {((float)0), ((float)5000)};
-    stat                                    = nc_put_att_float(root_grp, Z_id, "valid_range", NC_FLOAT, 2, Z_valid_range_att);
+    stat = nc_put_att_float(root_grp, Z_id, "valid_range", NC_FLOAT, 2, Z_valid_range_att);
     check_err(stat, __LINE__, __FILE__);
   }
 
   {
     static const double p_FillValue_att[1] = {((double)-9999)};
-    stat                                   = nc_put_att_double(root_grp, p_id, "_FillValue", NC_DOUBLE, 1, p_FillValue_att);
+    stat = nc_put_att_double(root_grp, p_id, "_FillValue", NC_DOUBLE, 1, p_FillValue_att);
     check_err(stat, __LINE__, __FILE__);
   }
 
   {
     static const int rh_FillValue_att[1] = {-1};
-    stat                                 = nc_put_att_int(root_grp, rh_id, "_FillValue", NC_INT, 1, rh_FillValue_att);
+    stat = nc_put_att_int(root_grp, rh_id, "_FillValue", NC_INT, 1, rh_FillValue_att);
     check_err(stat, __LINE__, __FILE__);
   }
 
@@ -250,28 +250,28 @@ int main() { /* create tst_diskless2.nc */
   /* assign variable data */
 
   {
-    int lat_data[10]       = {0, 10, 20, 30, 40, 50, 60, 70, 80, 90};
+    int lat_data[10] = {0, 10, 20, 30, 40, 50, 60, 70, 80, 90};
     size_t lat_startset[1] = {0};
     size_t lat_countset[1] = {10};
-    stat                   = nc_put_vara(root_grp, lat_id, lat_startset, lat_countset, lat_data);
+    stat = nc_put_vara(root_grp, lat_id, lat_startset, lat_countset, lat_data);
     check_err(stat, __LINE__, __FILE__);
   }
 
 
   {
-    int lon_data[5]        = {-140, -118, -96, -84, -52};
+    int lon_data[5] = {-140, -118, -96, -84, -52};
     size_t lon_startset[1] = {0};
     size_t lon_countset[1] = {5};
-    stat                   = nc_put_vara(root_grp, lon_id, lon_startset, lon_countset, lon_data);
+    stat = nc_put_vara(root_grp, lon_id, lon_startset, lon_countset, lon_data);
     check_err(stat, __LINE__, __FILE__);
   }
 
 
   {
-    static const int vlen_10[]            = {3, 4, 5};
-    size_t zero                           = 0;
+    static const int vlen_10[] = {3, 4, 5};
+    size_t zero = 0;
     static g_cmpd_t h_compoundvar_data[1] = {{{3, (void *)vlen_10}, 2}};
-    stat                                  = nc_put_var1(h_grp, h_compoundvar_id, &zero, h_compoundvar_data);
+    stat = nc_put_var1(h_grp, h_compoundvar_id, &zero, h_compoundvar_data);
     check_err(stat, __LINE__, __FILE__);
   }
 

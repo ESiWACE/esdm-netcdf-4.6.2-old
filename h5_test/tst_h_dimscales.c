@@ -123,7 +123,7 @@ int main() {
     hid_t fileid, grpid, dimscaleid;
     hid_t dimscale_spaceid, var1_spaceid, var3_spaceid;
     hid_t var1_datasetid, var2_datasetid, var3_datasetid;
-    hsize_t dims[2]          = {DIM1_LEN, DIM2_LEN};
+    hsize_t dims[2] = {DIM1_LEN, DIM2_LEN};
     hsize_t dimscale_dims[1] = {DIM1_LEN};
 
     /* Open file and create group. */
@@ -267,7 +267,7 @@ int main() {
     hid_t fileid, grpid, dimscaleid;
     hid_t dimscale_spaceid, var1_spaceid;
     hid_t var1_datasetid[NUM_DATASETS];
-    hsize_t dims[2]          = {DIM1_LEN, DIM2_LEN};
+    hsize_t dims[2] = {DIM1_LEN, DIM2_LEN};
     hsize_t dimscale_dims[1] = {DIM1_LEN};
     char var_name[STR_LEN + 1];
     int v;
@@ -458,13 +458,13 @@ int main() {
 
     /* Create 3 1D spaces for the 3 dimension scale datasets. Time
        * starts out as size 0. It's an unlimited dimension scale. */
-    dims[0]     = 0;
+    dims[0] = 0;
     max_dims[0] = H5S_UNLIMITED;
     if ((time_spaceid = H5Screate_simple(1, dims, max_dims)) < 0) ERR;
-    dims[0]     = LAT_LEN;
+    dims[0] = LAT_LEN;
     max_dims[0] = LAT_LEN;
     if ((lat_spaceid = H5Screate_simple(1, dims, max_dims)) < 0) ERR;
-    dims[0]     = LON_LEN;
+    dims[0] = LON_LEN;
     max_dims[0] = LON_LEN;
     if ((lon_spaceid = H5Screate_simple(1, dims, max_dims)) < 0) ERR;
 
@@ -488,12 +488,12 @@ int main() {
     if (H5DSset_scale(lon_scaleid, LON_NAME) < 0) ERR;
 
     /* Create a space corresponding to these three dimensions. */
-    dims[TIME_DIM]     = 0;
-    dims[LAT_DIM]      = LAT_LEN;
-    dims[LON_DIM]      = LON_LEN;
+    dims[TIME_DIM] = 0;
+    dims[LAT_DIM] = LAT_LEN;
+    dims[LON_DIM] = LON_LEN;
     max_dims[TIME_DIM] = H5S_UNLIMITED;
-    max_dims[LAT_DIM]  = LAT_LEN;
-    max_dims[LON_DIM]  = LON_LEN;
+    max_dims[LAT_DIM] = LAT_LEN;
+    max_dims[LON_DIM] = LON_LEN;
     if ((spaceid = H5Screate_simple(NDIMS, dims, max_dims)) < 0) ERR;
 
     /* Create two variables which use them, and attach the dimension scales. */
@@ -656,13 +656,13 @@ int main() {
     /* Create 3 1D spaces for the 3 dimension scale datasets. Time
        * and smelliness starts out as 0. They are unlimited dimension
        * scales. */
-    dims[0]     = 0;
+    dims[0] = 0;
     max_dims[0] = H5S_UNLIMITED;
     if ((time_spaceid = H5Screate_simple(1, dims, max_dims)) < 0) ERR;
-    dims[0]     = 0;
+    dims[0] = 0;
     max_dims[0] = H5S_UNLIMITED;
     if ((smelliness_spaceid = H5Screate_simple(1, dims, max_dims)) < 0) ERR;
-    dims[0]     = DISTANCE_LEN;
+    dims[0] = DISTANCE_LEN;
     max_dims[0] = DISTANCE_LEN;
     if ((distance_spaceid = H5Screate_simple(1, dims, max_dims)) < 0) ERR;
 
@@ -686,16 +686,16 @@ int main() {
     if (H5DSset_scale(distance_scaleid, DISTANCE_NAME) < 0) ERR;
 
     /* Create a space corresponding to these three dimensions. */
-    dims[TIME_DIM]           = 0;
-    dims[SMELLINESS_DIM]     = 0;
-    dims[DISTANCE_DIM]       = DISTANCE_LEN;
-    max_dims[TIME_DIM]       = H5S_UNLIMITED;
+    dims[TIME_DIM] = 0;
+    dims[SMELLINESS_DIM] = 0;
+    dims[DISTANCE_DIM] = DISTANCE_LEN;
+    max_dims[TIME_DIM] = H5S_UNLIMITED;
     max_dims[SMELLINESS_DIM] = H5S_UNLIMITED;
-    max_dims[DISTANCE_DIM]   = DISTANCE_LEN;
+    max_dims[DISTANCE_DIM] = DISTANCE_LEN;
     if ((spaceid = H5Screate_simple(NDIMS, dims, max_dims)) < 0) ERR;
 
     /* Set up chunking for our 3D vars. */
-    dims[TIME_DIM]       = 1;
+    dims[TIME_DIM] = 1;
     dims[SMELLINESS_DIM] = 1;
     if (H5Pset_chunk(cparmsid, NDIMS, dims) < 0) ERR;
 

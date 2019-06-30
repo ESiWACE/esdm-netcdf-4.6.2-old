@@ -58,8 +58,8 @@ float preemption) {
   assert(var && var->hdr.id == varid);
 
   /* Set the values. */
-  var->chunk_cache_size       = size;
-  var->chunk_cache_nelems     = nelems;
+  var->chunk_cache_size = size;
+  var->chunk_cache_nelems = nelems;
   var->chunk_cache_preemption = preemption;
 
   if ((retval = nc4_reopen_dataset(grp, var)))
@@ -83,8 +83,8 @@ float preemption) {
  */
 int nc_set_var_chunk_cache_ints(int ncid, int varid, int size, int nelems,
 int preemption) {
-  size_t real_size      = H5D_CHUNK_CACHE_NBYTES_DEFAULT;
-  size_t real_nelems    = H5D_CHUNK_CACHE_NSLOTS_DEFAULT;
+  size_t real_size = H5D_CHUNK_CACHE_NBYTES_DEFAULT;
+  size_t real_nelems = H5D_CHUNK_CACHE_NSLOTS_DEFAULT;
   float real_preemption = CHUNK_CACHE_PREEMPTION;
 
   if (size >= 0)

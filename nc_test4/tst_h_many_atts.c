@@ -32,7 +32,7 @@ int main() {
 #define NUM_ATTS 10000
     hid_t fcpl_id, hdfid, grpid;
     hid_t spaceid, attid1;
-    int one         = 1;
+    int one = 1;
     hsize_t dims[1] = {1};
     int i;
     char name[NC_MAX_NAME];

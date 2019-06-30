@@ -77,10 +77,10 @@ dup_NC3INFO(const NC3_INFO *ref) {
   if (dup_NC_vararrayV(&ncp->vars, &ref->vars) != NC_NOERR)
     goto err;
 
-  ncp->xsz       = ref->xsz;
+  ncp->xsz = ref->xsz;
   ncp->begin_var = ref->begin_var;
   ncp->begin_rec = ref->begin_rec;
-  ncp->recsize   = ref->recsize;
+  ncp->recsize = ref->recsize;
   NC_set_numrecs(ncp, NC_get_numrecs(ref));
   return ncp;
 err:
@@ -158,7 +158,7 @@ size_t v_minfree, size_t r_align) {
   off_t index = 0;
   off_t old_ncp_begin_var;
   NC_var **vpp;
-  NC_var *last      = NULL;
+  NC_var *last = NULL;
   NC_var *first_var = NULL; /* first "non-record" var */
 
 
@@ -183,7 +183,7 @@ size_t v_minfree, size_t r_align) {
   /* only (re)calculate begin_var if there is not sufficient space in header
 	   or start of non-record variables is not aligned as requested by valign */
   if (ncp->begin_var < ncp->xsz + h_minfree || ncp->begin_var != D_RNDUP(ncp->begin_var, v_align)) {
-    index          = (off_t)ncp->xsz;
+    index = (off_t)ncp->xsz;
     ncp->begin_var = D_RNDUP(index, v_align);
     if (ncp->begin_var < index + h_minfree) {
       ncp->begin_var = D_RNDUP(index + (off_t)h_minfree, v_align);
@@ -199,7 +199,7 @@ size_t v_minfree, size_t r_align) {
   index = ncp->begin_var;
 
   /* loop thru vars, first pass is for the 'non-record' vars */
-  j   = 0;
+  j = 0;
   vpp = ncp->vars.value;
   for (ii = 0; ii < ncp->vars.nelems; ii++, vpp++) {
     if (IS_RECVAR(*vpp)) {
@@ -230,7 +230,7 @@ fprintf(stderr, "    VAR %d %s: %ld\n", ii, (*vpp)->name->cp, (long)index);
                  should be the same. If the new begin is smaller,
                  reuse the old begin */
           (*vpp)->begin = ncp->old->vars.value[j]->begin;
-          index         = (*vpp)->begin;
+          index = (*vpp)->begin;
         }
         j++;
       }
@@ -265,7 +265,7 @@ fprintf(stderr, "    VAR %d %s: %ld\n", ii, (*vpp)->name->cp, (long)index);
   ncp->recsize = 0;
 
   /* loop thru vars, second pass is for the 'record' vars */
-  j   = 0;
+  j = 0;
   vpp = (NC_var **)ncp->vars.value;
   for (ii = 0; ii < ncp->vars.nelems; ii++, vpp++) {
     if (!IS_RECVAR(*vpp)) {
@@ -331,10 +331,10 @@ fprintf(stderr, "    REC %d %s: %ld\n", ii, (*vpp)->name->cp, (long)index);
  * (A relatively expensive way to do things.)
  */
 int read_numrecs(NC3_INFO *ncp) {
-  int status               = NC_NOERR;
-  const void *xp           = NULL;
-  size_t new_nrecs         = 0;
-  size_t old_nrecs         = NC_get_numrecs(ncp);
+  int status = NC_NOERR;
+  const void *xp = NULL;
+  size_t new_nrecs = 0;
+  size_t old_nrecs = NC_get_numrecs(ncp);
   size_t nc_numrecs_extent = NC_NUMRECS_EXTENT3; /* CDF-1 and CDF-2 */
 
   assert(!NC_indef(ncp));
@@ -349,8 +349,8 @@ int read_numrecs(NC3_INFO *ncp) {
 
   if (fIsSet(ncp->flags, NC_64BIT_DATA)) {
     unsigned long long tmp = 0;
-    status                 = ncx_get_uint64(&xp, &tmp);
-    new_nrecs              = (size_t)tmp;
+    status = ncx_get_uint64(&xp, &tmp);
+    new_nrecs = (size_t)tmp;
   } else
     status = ncx_get_size_t(&xp, &new_nrecs);
 
@@ -370,8 +370,8 @@ int read_numrecs(NC3_INFO *ncp) {
  * (A relatively expensive way to do things.)
  */
 int write_numrecs(NC3_INFO *ncp) {
-  int status               = NC_NOERR;
-  void *xp                 = NULL;
+  int status = NC_NOERR;
+  void *xp = NULL;
   size_t nc_numrecs_extent = NC_NUMRECS_EXTENT3; /* CDF-1 and CDF-2 */
 
   assert(!NC_readonly(ncp));
@@ -497,11 +497,11 @@ static int
 fill_added_recs(NC3_INFO *gnu, NC3_INFO *old) {
   NC_var **const gnu_varpp = (NC_var **)gnu->vars.value;
 
-  const int old_nrecs      = (int)NC_get_numrecs(old);
-  int recno                = 0;
-  NC_var **vpp             = gnu_varpp;
+  const int old_nrecs = (int)NC_get_numrecs(old);
+  int recno = 0;
+  NC_var **vpp = gnu_varpp;
   NC_var *const *const end = &vpp[gnu->vars.nelems];
-  int numrecvars           = 0;
+  int numrecvars = 0;
 
   /* Determine if there is only one record variable.  If so, we
 	   must treat as a special case because there's no record padding */
@@ -524,7 +524,7 @@ fill_added_recs(NC3_INFO *gnu, NC3_INFO *old) {
       }
       /* else */
       {
-        size_t varsize   = numrecvars == 1 ? gnu->recsize : gnu_varp->len;
+        size_t varsize = numrecvars == 1 ? gnu->recsize : gnu_varp->len;
         const int status = fill_NC_var(gnu, gnu_varp, varsize, recno);
         if (status != NC_NOERR)
           return status;
@@ -539,7 +539,7 @@ fill_added_recs(NC3_INFO *gnu, NC3_INFO *old) {
 static int
 fill_added(NC3_INFO *gnu, NC3_INFO *old) {
   NC_var **const gnu_varpp = (NC_var **)gnu->vars.value;
-  int varid                = (int)old->vars.nelems;
+  int varid = (int)old->vars.nelems;
 
   for (; varid < (int)gnu->vars.nelems; varid++) {
     const NC_var *const gnu_varp = *(gnu_varpp + varid);
@@ -592,8 +592,8 @@ move_recs_r(NC3_INFO *gnu, NC3_INFO *old) {
 
       /* else, a pre-existing variable */
       old_varp = *(old_varpp + varid);
-      gnu_off  = gnu_varp->begin + (off_t)(gnu->recsize * recno);
-      old_off  = old_varp->begin + (off_t)(old->recsize * recno);
+      gnu_off = gnu_varp->begin + (off_t)(gnu->recsize * recno);
+      old_off = old_varp->begin + (off_t)(old->recsize * recno);
 
       if (gnu_off == old_off)
         continue; /* nothing to do */
@@ -640,8 +640,8 @@ move_vars_r(NC3_INFO *gnu, NC3_INFO *old) {
     /* else */
 
     old_varp = *(old_varpp + varid);
-    gnu_off  = gnu_varp->begin;
-    old_off  = old_varp->begin;
+    gnu_off = gnu_varp->begin;
+    old_off = old_varp->begin;
 
     if (gnu_off > old_off) {
       err = ncio_move(gnu->nciop, gnu_off, old_off,
@@ -681,8 +681,8 @@ int NC_check_vlens(NC3_INFO *ncp) {
 
   /* Loop through vars, first pass is for non-record variables.   */
   large_vars_count = 0;
-  rec_vars_count   = 0;
-  vpp              = ncp->vars.value;
+  rec_vars_count = 0;
+  vpp = ncp->vars.value;
   for (ii = 0; ii < ncp->vars.nelems; ii++, vpp++) {
     if (!IS_RECVAR(*vpp)) {
       last = 0;
@@ -712,7 +712,7 @@ int NC_check_vlens(NC3_INFO *ncp) {
     }
     /* Loop through vars, second pass is for record variables.   */
     large_vars_count = 0;
-    vpp              = ncp->vars.value;
+    vpp = ncp->vars.value;
     for (ii = 0; ii < ncp->vars.nelems; ii++, vpp++) {
       if (IS_RECVAR(*vpp)) {
         last = 0;
@@ -890,10 +890,10 @@ NC_init_pe(NC *ncp, int basepe) {
     return NC_EINVAL; /* invalid base pe */
   }
   /* initialize common values */
-  ncp->lock[LOCKNUMREC_VALUE]   = 0;
-  ncp->lock[LOCKNUMREC_LOCK]    = 0;
+  ncp->lock[LOCKNUMREC_VALUE] = 0;
+  ncp->lock[LOCKNUMREC_LOCK] = 0;
   ncp->lock[LOCKNUMREC_SERVING] = 0;
-  ncp->lock[LOCKNUMREC_BASEPE]  = basepe;
+  ncp->lock[LOCKNUMREC_BASEPE] = basepe;
   return NC_NOERR;
 }
 #endif
@@ -903,10 +903,10 @@ NC_init_pe(NC *ncp, int basepe) {
  * Compute the expected size of the file.
  */
 int NC_calcsize(const NC3_INFO *ncp, off_t *calcsizep) {
-  NC_var **vpp             = (NC_var **)ncp->vars.value;
+  NC_var **vpp = (NC_var **)ncp->vars.value;
   NC_var *const *const end = &vpp[ncp->vars.nelems];
-  NC_var *last_fix         = NULL; /* last "non-record" var */
-  int numrecvars           = 0;    /* number of record variables */
+  NC_var *last_fix = NULL; /* last "non-record" var */
+  int numrecvars = 0;      /* number of record variables */
 
   if (ncp->vars.nelems == 0) { /* no non-record variables and
 				       no record variables */
@@ -972,10 +972,10 @@ int NC3_new_nc(NC3_INFO** ncpp)
 int NC3_create(const char *path, int ioflags, size_t initialsz, int basepe,
 size_t *chunksizehintp, void *parameters,
 NC_Dispatch *dispatch, NC *nc) {
-  int status       = NC_NOERR;
-  void *xp         = NULL;
+  int status = NC_NOERR;
+  void *xp = NULL;
   int sizeof_off_t = 0;
-  NC3_INFO *nc3    = NULL;
+  NC3_INFO *nc3 = NULL;
 
   /* Create our specific NC3_INFO instance */
   nc3 = new_NC3INFO(chunksizehintp);

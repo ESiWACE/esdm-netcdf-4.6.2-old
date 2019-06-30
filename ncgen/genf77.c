@@ -50,9 +50,9 @@ void genf77_netcdf(void) {
   char *cmode_string;
   const char *filename = rootgroup->file.filename;
 
-  ndims  = listlength(dimdefs);
-  nvars  = listlength(vardefs);
-  natts  = listlength(attdefs);
+  ndims = listlength(dimdefs);
+  nvars = listlength(vardefs);
+  natts = listlength(attdefs);
   ngatts = listlength(gattdefs);
 
   /* Construct the main program */
@@ -134,7 +134,7 @@ void genf77_netcdf(void) {
     f77skip();
     f77comment("variable declarations");
     for (ivar = 0; ivar < nvars; ivar++) {
-      Symbol *vsym     = (Symbol *)listget(vardefs, ivar);
+      Symbol *vsym = (Symbol *)listget(vardefs, ivar);
       nc_type typecode = vsym->typ.basetype->typ.typecode;
       if (vsym->data == NULL) continue;
       if (typecode == NC_CHAR) continue;
@@ -145,7 +145,7 @@ void genf77_netcdf(void) {
       } else if (vsym->typ.dimset.dimsyms[0]->dim.declsize != NC_UNLIMITED) {
         int i;
         Bytebuffer *dimstring = bbNew();
-        Dimset *dimset        = &vsym->typ.dimset;
+        Dimset *dimset = &vsym->typ.dimset;
         /* Compute the dimensions (in reverse order for fortran) */
         for (i = dimset->ndims - 1; i >= 0; i--) {
           char tmp[32];
@@ -176,8 +176,8 @@ void genf77_netcdf(void) {
     if (ngatts > 0) {
       for (iatt = 0; iatt < ngatts; iatt++) {
         Symbol *gasym = (Symbol *)listget(gattdefs, iatt);
-        int count     = gasym->data->length;
-        int typecode  = gasym->typ.basetype->typ.typecode;
+        int count = gasym->data->length;
+        int typecode = gasym->typ.basetype->typ.typecode;
         if (count == 0) continue;
         if (pertypesizes[typecode] < count)
           pertypesizes[typecode] = count; /* keep max */
@@ -186,7 +186,7 @@ void genf77_netcdf(void) {
     if (natts > 0) {
       for (iatt = 0; iatt < natts; iatt++) {
         Symbol *asym = (Symbol *)listget(attdefs, iatt);
-        int count    = asym->data->length;
+        int count = asym->data->length;
         int typecode = asym->typ.basetype->typ.typecode;
         if (count == 0) continue;
         if (pertypesizes[typecode] < count)
@@ -250,14 +250,14 @@ void genf77_netcdf(void) {
     f77skip();
     f77comment("define variables");
     for (ivar = 0; ivar < nvars; ivar++) {
-      Symbol *vsym     = (Symbol *)listget(vardefs, ivar);
+      Symbol *vsym = (Symbol *)listget(vardefs, ivar);
       Symbol *basetype = vsym->typ.basetype;
-      Dimset *dimset   = &vsym->typ.dimset;
+      Dimset *dimset = &vsym->typ.dimset;
       f77skip();
       if (dimset->ndims > 0) {
         /* Remember; FORTRAN dimension order is reversed */
         for (idim = 0; idim < dimset->ndims; idim++) {
-          int reverse  = (dimset->ndims - idim) - 1;
+          int reverse = (dimset->ndims - idim) - 1;
           Symbol *dsym = dimset->dimsyms[reverse];
           bbprintf0(stmt,
           "%s_dims(%d) = %s\n",
@@ -401,7 +401,7 @@ static const char *
 f77varncid(Symbol *vsym) {
   const char *tmp1;
   char *vartmp;
-  tmp1   = f77name(vsym);
+  tmp1 = f77name(vsym);
   vartmp = poolalloc(strlen(tmp1) + strlen("_id") + 1);
   strcpy(vartmp, tmp1);
   strcat(vartmp, "_id");
@@ -414,7 +414,7 @@ static const char *
 f77dimncid(Symbol *dsym) {
   const char *tmp1;
   char *dimtmp;
-  tmp1   = f77name(dsym);
+  tmp1 = f77name(dsym);
   dimtmp = poolalloc(strlen(tmp1) + strlen("_dim") + 1);
   strcpy(dimtmp, tmp1);
   strcat(dimtmp, "_dim");
@@ -445,7 +445,7 @@ f77name(Symbol *sym) {
 static void
 genf77_defineattr(Symbol *asym) {
   Bytebuffer *code = bbNew();
-  List *oldstate   = NULL;
+  List *oldstate = NULL;
   generator_getstate(f77_generator, (void *)&oldstate);
   listfree(oldstate);
   generator_reset(f77_generator, (void *)listnew());
@@ -535,7 +535,7 @@ f77attrify(Symbol *asym, Bytebuffer *buf) {
 
   if (bbLength(buf) == 0) return;
   list = bbDup(buf);
-  p    = list;
+  p = list;
   bbClear(buf);
   f77attrifyr(asym, p, buf);
   bbNull(buf);
@@ -683,7 +683,7 @@ ncftype(nc_type type) {
 static void
 genf77_definevardata(Symbol *vsym) {
   Bytebuffer *code = bbNew();
-  List *oldstate   = NULL;
+  List *oldstate = NULL;
   generator_getstate(f77_generator, (void *)&oldstate);
   listfree(oldstate);
   generator_reset(f77_generator, (void *)listnew());
@@ -706,7 +706,7 @@ static void
 genf77_writevar(Generator *generator, Symbol *vsym, Bytebuffer *code,
 int rank, size_t *start, size_t *count) {
   Dimset *dimset = &vsym->typ.dimset;
-  int typecode   = vsym->typ.basetype->typ.typecode;
+  int typecode = vsym->typ.basetype->typ.typecode;
   int i;
 
   /* Deal with character variables specially */
@@ -747,8 +747,8 @@ int rank, size_t *start, size_t *count) {
     listpush(calllist, (void *)bbDup(stmt));
 
     /* Construct the procedure body and save it */
-    proctext   = bbNew();
-    save       = codebuffer;
+    proctext = bbNew();
+    save = codebuffer;
     codebuffer = proctext;
     f77skip();
     bbprintf0(stmt, "subroutine write_%s_%d(ncid,%s_id)\n",

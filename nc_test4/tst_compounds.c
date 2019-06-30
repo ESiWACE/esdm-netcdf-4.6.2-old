@@ -187,8 +187,8 @@ int main(int argc, char **argv) {
     { /* Test if we can read/write with get_vars */
 #define STRIDE_S 2
 #define DIM_LEN_S ((1 + DIM_LEN) / STRIDE_S)
-      size_t start[RANK]     = {0};
-      size_t edges[RANK]     = {2};
+      size_t start[RANK] = {0};
+      size_t edges[RANK] = {2};
       ptrdiff_t stride[RANK] = {2};
       struct s1 datas[DIM_LEN_S];
       memcpy(datas, data, sizeof(datas));
@@ -350,9 +350,9 @@ int main(int argc, char **argv) {
     for (i = 0; i < DIM_LEN; i++) {
       /* medical data */
       med_data_out[i].num_heads = 254;
-      med_data_out[i].num_arms  = NC_FILL_USHORT - 1;
-      med_data_out[i].num_toes  = NC_FILL_UINT - 1;
-      med_data_out[i].ago       = NC_FILL_INT64 + 1;
+      med_data_out[i].num_arms = NC_FILL_USHORT - 1;
+      med_data_out[i].num_toes = NC_FILL_UINT - 1;
+      med_data_out[i].ago = NC_FILL_INT64 + 1;
       med_data_out[i].num_hairs = NC_FILL_UINT64 - 1;
     }
 
@@ -523,10 +523,10 @@ int main(int argc, char **argv) {
       data[i].i2 = 10;
       /* hr data */
       hr_data_out[i].starfleet_id = i;
-      hr_data_out[i].svc_rec      = data[i];
+      hr_data_out[i].svc_rec = data[i];
       if (sprintf(hr_data_out[i].name, "alien_%d", i) < 0) ERR;
-      hr_data_out[i].max_temp                     = 99.99;
-      hr_data_out[i].min_temp                     = -9.99;
+      hr_data_out[i].max_temp = 99.99;
+      hr_data_out[i].min_temp = -9.99;
       hr_data_out[i].percent_transporter_errosion = .030303;
     }
 
@@ -629,17 +629,17 @@ int main(int argc, char **argv) {
 
     /* Initialize data. */
     for (i = 0; i < DIM6_LEN; i++) {
-      obsdata[i].day    = 15 * i + 1;
-      obsdata[i].elev   = 2 * i + 1;
-      obsdata[i].count  = 2 * i + 1;
+      obsdata[i].day = 15 * i + 1;
+      obsdata[i].elev = 2 * i + 1;
+      obsdata[i].count = 2 * i + 1;
       obsdata[i].relhum = 2.0 * i + 1;
-      obsdata[i].time   = 2.0 * i + 1;
+      obsdata[i].time = 2.0 * i + 1;
     }
-    missing_val.day    = 99;
-    missing_val.elev   = 99;
-    missing_val.count  = 99;
+    missing_val.day = 99;
+    missing_val.elev = 99;
+    missing_val.count = 99;
     missing_val.relhum = 99.;
-    missing_val.time   = 99.;
+    missing_val.time = 99.;
 
     if (nc_create(FILE_NAME, NC_CLOBBER | NC_NETCDF4, &ncid)) ERR;
 

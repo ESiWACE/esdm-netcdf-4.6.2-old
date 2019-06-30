@@ -51,11 +51,11 @@ Two special cases:
 */
 
 void gen_chararray(Dimset *dimset, int dimindex, Datalist *data, Bytebuffer *charbuf, Datalist *fillsrc) {
-  int fillchar   = getfillchar(fillsrc);
-  int rank       = rankfor(dimset);
+  int fillchar = getfillchar(fillsrc);
+  int rank = rankfor(dimset);
   int firstunlim = findunlimited(dimset, 0);
-  int nunlim     = countunlimited(dimset);
-  int nc3unlim   = (nunlim <= 1 && (firstunlim == 0 || firstunlim == rank)); /* netcdf-3 case of at most 1 unlim in 0th dimension */
+  int nunlim = countunlimited(dimset);
+  int nc3unlim = (nunlim <= 1 && (firstunlim == 0 || firstunlim == rank)); /* netcdf-3 case of at most 1 unlim in 0th dimension */
 
   /* Case: netcdf3 case */
   if (nc3unlim) {
@@ -245,9 +245,9 @@ Bytebuffer *charbuf, int fillchar) {
     }
     if (cccount > 1) {
       Bytebuffer *accum = bbNew();
-      int len           = 0; /* >0 implies doing accum */
+      int len = 0; /* >0 implies doing accum */
       Datalist *newlist = builddatalist(datalistlen(data));
-      int lineno        = 0;
+      int lineno = 0;
       NCConstant *con;
       /* We are going to construct a single string constant for each
 	       contiguous sequence of single char values.
@@ -266,8 +266,8 @@ Bytebuffer *charbuf, int fillchar) {
         } else {
           if (len > 0) { /* End the accumulation */
             bbNull(accum);
-            con    = makeconst(lineno, len, bbContents(accum));
-            len    = 0;
+            con = makeconst(lineno, len, bbContents(accum));
+            len = 0;
             lineno = 0;
             dlappend(newlist, con);
           } else
@@ -276,17 +276,17 @@ Bytebuffer *charbuf, int fillchar) {
       }
       /* deal with any unclosed strings */
       if (len > 0) {
-        con    = makeconst(lineno, len, bbContents(accum));
-        len    = 0;
+        con = makeconst(lineno, len, bbContents(accum));
+        len = 0;
         lineno = 0;
         dlappend(newlist, con);
       }
       bbFree(accum);
       /* Move the newlist sequence of constants into the old list */
       efree(data->data);
-      data->data   = newlist->data;
+      data->data = newlist->data;
       data->length = newlist->length;
-      data->alloc  = newlist->alloc;
+      data->alloc = newlist->alloc;
       efree(newlist);
     }
   }
@@ -296,16 +296,16 @@ Bytebuffer *charbuf, int fillchar) {
 
   /* Start casing it out */
   if (rank == 0) {
-    unitsize     = 1;
+    unitsize = 1;
     expectedsize = (xproduct * unitsize);
   } else if (rank == 1) {
-    unitsize     = 1;
+    unitsize = 1;
     expectedsize = (xproduct * declsizefor(dimset, rank - 1));
   } else if (isunlimited(dimset, rank - 1)) { /* last dimension is unlimited */
-    unitsize     = 1;
+    unitsize = 1;
     expectedsize = (xproduct * declsizefor(dimset, rank - 1));
   } else { /* rank > 0 && last dim is not unlimited */
-    unitsize     = declsizefor(dimset, rank - 1);
+    unitsize = declsizefor(dimset, rank - 1);
     expectedsize = (xproduct * unitsize);
   }
 
@@ -344,10 +344,10 @@ Bytebuffer *charbuf, int fillchar) {
 /* Create a new string constant */
 static NCConstant *
 makeconst(int lineno, int len, char *str) {
-  NCConstant *con        = nullconst();
-  con->nctype            = NC_STRING;
-  con->lineno            = lineno;
-  con->filled            = 0;
+  NCConstant *con = nullconst();
+  con->nctype = NC_STRING;
+  con->lineno = lineno;
+  con->filled = 0;
   con->value.stringv.len = len;
   /* We cannot use strdup because str might have embedded nuls */
   con->value.stringv.stringv = (char *)ecalloc(len + 1);

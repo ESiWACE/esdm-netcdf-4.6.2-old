@@ -51,11 +51,11 @@ extern int NC_ESDM_finalize(void);
 #  include <io.h>
 #endif
 
-int NC_argc     = 1;
+int NC_argc = 1;
 char *NC_argv[] = {"nc_initialize", NULL};
 
 int NC_initialized = 0;
-int NC_finalized   = 1;
+int NC_finalized = 1;
 
 /**
 This procedure invokes all defined
@@ -71,7 +71,7 @@ int nc_initialize() {
 
   if (NC_initialized) return NC_NOERR;
   NC_initialized = 1;
-  NC_finalized   = 0;
+  NC_finalized = 0;
 
   /* Do general initialization */
   if ((stat = NCDISPATCH_initialize())) goto done;
@@ -116,7 +116,7 @@ int nc_finalize(void) {
 
   if (NC_finalized) return NC_NOERR;
   NC_initialized = 0;
-  NC_finalized   = 1;
+  NC_finalized = 1;
 
   /* Finalize each active protocol */
 

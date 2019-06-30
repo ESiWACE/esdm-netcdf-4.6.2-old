@@ -21,8 +21,8 @@ int main(int argc, char **argv) {
   }
 
   /* Read the whole file */
-  p     = buffer;
-  red   = 0;
+  p = buffer;
+  red = 0;
   avail = BUFLEN;
   for (;;) {
     count = fread(p, 1, avail, input);
@@ -38,7 +38,7 @@ int main(int argc, char **argv) {
       break;
     }
   }
-  p     = buffer;
+  p = buffer;
   avail = trunc;
   for (;;) {
     count = fwrite(p, 1, avail, stdout);

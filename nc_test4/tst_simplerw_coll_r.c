@@ -27,8 +27,8 @@ int main(int argc, char **argv) {
   int mpi_namelen;
   char mpi_name[MPI_MAX_PROCESSOR_NAME];
   int mpi_size, mpi_rank;
-  MPI_Comm comm     = MPI_COMM_WORLD;
-  MPI_Info info     = MPI_INFO_NULL;
+  MPI_Comm comm = MPI_COMM_WORLD;
+  MPI_Info info = MPI_INFO_NULL;
   double start_time = 0, total_time;
   int mpi_size_in;
 #define NUM_TEST_TYPES 11
@@ -65,8 +65,8 @@ int main(int argc, char **argv) {
       size_t type_size;
       size_t write_start[NDIMS] = {0, 0, 1};
       size_t write_count[NDIMS] = {1, DIMSIZE, DIMSIZE - 1};
-      size_t read_start[NDIMS]  = {0, 0, 0};
-      size_t read_count[NDIMS]  = {1, DIMSIZE, DIMSIZE};
+      size_t read_start[NDIMS] = {0, 0, 0};
+      size_t read_count[NDIMS] = {1, DIMSIZE, DIMSIZE};
       int ncid, varid, dimids[NDIMS];
       int ndims_in, nvars_in, natts_in, unlimdimid_in;
 
@@ -84,16 +84,16 @@ int main(int argc, char **argv) {
       unsigned long long int uint64_expected_fill_value;
 
       /* Fill values used when writing. */
-      signed char byte_fill_value              = -TEST_VAL_42;
-      unsigned char char_fill_value            = 'x';
-      short short_fill_value                   = TEST_VAL_42 * 100;
-      int int_fill_value                       = TEST_VAL_42 * 1000;
-      float float_fill_value                   = TEST_VAL_42 * 1000;
-      double double_fill_value                 = TEST_VAL_42 * 1000;
-      unsigned char ubyte_fill_value           = TEST_VAL_42;
-      unsigned short ushort_fill_value         = TEST_VAL_42 * 100;
-      unsigned int uint_fill_value             = TEST_VAL_42 * 1000;
-      long long int int64_fill_value           = TEST_VAL_42 * 1000;
+      signed char byte_fill_value = -TEST_VAL_42;
+      unsigned char char_fill_value = 'x';
+      short short_fill_value = TEST_VAL_42 * 100;
+      int int_fill_value = TEST_VAL_42 * 1000;
+      float float_fill_value = TEST_VAL_42 * 1000;
+      double double_fill_value = TEST_VAL_42 * 1000;
+      unsigned char ubyte_fill_value = TEST_VAL_42;
+      unsigned short ushort_fill_value = TEST_VAL_42 * 100;
+      unsigned int uint_fill_value = TEST_VAL_42 * 1000;
+      long long int int64_fill_value = TEST_VAL_42 * 1000;
       unsigned long long int uint64_fill_value = TEST_VAL_42 * 1000;
 
       /* Fill values read in. */
@@ -131,101 +131,101 @@ int main(int argc, char **argv) {
         case NC_BYTE:
           for (i = 0; i < DIMSIZE * DIMSIZE; i++)
             byte_data[i] = mpi_rank;
-          data                     = byte_data;
-          data_in                  = byte_data_in;
+          data = byte_data;
+          data_in = byte_data_in;
           byte_expected_fill_value = fv ? byte_fill_value : NC_FILL_BYTE;
-          fill_value               = &byte_expected_fill_value;
-          fill_value_in            = &byte_fill_value_in;
+          fill_value = &byte_expected_fill_value;
+          fill_value_in = &byte_fill_value_in;
           break;
         case NC_CHAR:
           for (i = 0; i < DIMSIZE * DIMSIZE; i++)
             char_data[i] = mpi_rank;
-          data                     = char_data;
-          data_in                  = char_data_in;
+          data = char_data;
+          data_in = char_data_in;
           char_expected_fill_value = fv ? char_fill_value : NC_FILL_CHAR;
-          fill_value               = &char_expected_fill_value;
-          fill_value_in            = &char_fill_value_in;
+          fill_value = &char_expected_fill_value;
+          fill_value_in = &char_fill_value_in;
           break;
         case NC_SHORT:
           for (i = 0; i < DIMSIZE * DIMSIZE; i++)
             short_data[i] = mpi_rank;
-          data                      = short_data;
-          data_in                   = short_data_in;
+          data = short_data;
+          data_in = short_data_in;
           short_expected_fill_value = fv ? short_fill_value : NC_FILL_SHORT;
-          fill_value                = &short_expected_fill_value;
-          fill_value_in             = &short_fill_value_in;
+          fill_value = &short_expected_fill_value;
+          fill_value_in = &short_fill_value_in;
           break;
         case NC_INT:
           for (i = 0; i < DIMSIZE * DIMSIZE; i++)
             int_data[i] = mpi_rank;
-          data                    = int_data;
-          data_in                 = int_data_in;
+          data = int_data;
+          data_in = int_data_in;
           int_expected_fill_value = fv ? int_fill_value : NC_FILL_INT;
-          fill_value              = &int_expected_fill_value;
-          fill_value_in           = &int_fill_value_in;
+          fill_value = &int_expected_fill_value;
+          fill_value_in = &int_fill_value_in;
           break;
         case NC_FLOAT:
           for (i = 0; i < DIMSIZE * DIMSIZE; i++)
             float_data[i] = mpi_rank;
-          data                      = float_data;
-          data_in                   = float_data_in;
+          data = float_data;
+          data_in = float_data_in;
           float_expected_fill_value = fv ? float_fill_value : NC_FILL_FLOAT;
-          fill_value                = &float_expected_fill_value;
-          fill_value_in             = &float_fill_value_in;
+          fill_value = &float_expected_fill_value;
+          fill_value_in = &float_fill_value_in;
           break;
         case NC_DOUBLE:
           for (i = 0; i < DIMSIZE * DIMSIZE; i++)
             double_data[i] = mpi_rank;
-          data                       = double_data;
-          data_in                    = double_data_in;
+          data = double_data;
+          data_in = double_data_in;
           double_expected_fill_value = fv ? double_fill_value : NC_FILL_DOUBLE;
-          fill_value                 = &double_expected_fill_value;
-          fill_value_in              = &double_fill_value_in;
+          fill_value = &double_expected_fill_value;
+          fill_value_in = &double_fill_value_in;
           break;
         case NC_UBYTE:
           for (i = 0; i < DIMSIZE * DIMSIZE; i++)
             ubyte_data[i] = mpi_rank;
-          data                      = ubyte_data;
-          data_in                   = ubyte_data_in;
+          data = ubyte_data;
+          data_in = ubyte_data_in;
           ubyte_expected_fill_value = fv ? ubyte_fill_value : NC_FILL_UBYTE;
-          fill_value                = &ubyte_expected_fill_value;
-          fill_value_in             = &ubyte_fill_value_in;
+          fill_value = &ubyte_expected_fill_value;
+          fill_value_in = &ubyte_fill_value_in;
           break;
         case NC_USHORT:
           for (i = 0; i < DIMSIZE * DIMSIZE; i++)
             ushort_data[i] = mpi_rank;
-          data                       = ushort_data;
-          data_in                    = ushort_data_in;
+          data = ushort_data;
+          data_in = ushort_data_in;
           ushort_expected_fill_value = fv ? ushort_fill_value : NC_FILL_USHORT;
-          fill_value                 = &ushort_expected_fill_value;
-          fill_value_in              = &ushort_fill_value_in;
+          fill_value = &ushort_expected_fill_value;
+          fill_value_in = &ushort_fill_value_in;
           break;
         case NC_UINT:
           for (i = 0; i < DIMSIZE * DIMSIZE; i++)
             uint_data[i] = mpi_rank;
-          data                     = uint_data;
-          data_in                  = uint_data_in;
+          data = uint_data;
+          data_in = uint_data_in;
           uint_expected_fill_value = fv ? uint_fill_value : NC_FILL_UINT;
-          fill_value               = &uint_expected_fill_value;
-          fill_value_in            = &uint_fill_value_in;
+          fill_value = &uint_expected_fill_value;
+          fill_value_in = &uint_fill_value_in;
           break;
         case NC_INT64:
           for (i = 0; i < DIMSIZE * DIMSIZE; i++)
             int64_data[i] = mpi_rank;
-          data                      = int64_data;
-          data_in                   = int64_data_in;
+          data = int64_data;
+          data_in = int64_data_in;
           int64_expected_fill_value = fv ? int64_fill_value : NC_FILL_INT64;
-          fill_value                = &int64_expected_fill_value;
-          fill_value_in             = &int64_fill_value_in;
+          fill_value = &int64_expected_fill_value;
+          fill_value_in = &int64_fill_value_in;
           break;
         case NC_UINT64:
           for (i = 0; i < DIMSIZE * DIMSIZE; i++)
             uint64_data[i] = mpi_rank;
-          data                       = uint64_data;
-          data_in                    = uint64_data_in;
+          data = uint64_data;
+          data_in = uint64_data_in;
           uint64_expected_fill_value = fv ? uint64_fill_value : NC_FILL_UINT64;
-          fill_value                 = &uint64_expected_fill_value;
-          fill_value_in              = &uint64_fill_value_in;
+          fill_value = &uint64_expected_fill_value;
+          fill_value_in = &uint64_fill_value_in;
           break;
       }
 

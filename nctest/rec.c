@@ -119,7 +119,7 @@ int
 test_ncrecinq(path)
 const char *path; /* name of netcdf file to open */
 {
-  int nerrs           = 0;
+  int nerrs = 0;
   static char pname[] = "test_ncrecinq";
   int ncid;
   int nrvars;                   /* number of record variables */
@@ -324,7 +324,7 @@ int
 test_ncrecput(path)
 const char *path; /* name of writable netcdf file to open */
 {
-  int nerrs           = 0;
+  int nerrs = 0;
   static char pname[] = "test_ncrecput";
   int nrvars;                  /* number of record variables */
   int rvarids[MAX_NC_VARS];    /* id of each record variable */
@@ -482,7 +482,7 @@ int
 test_ncrecget(path)
 const char *path; /* name of netcdf file to open */
 {
-  int nerrs           = 0;
+  int nerrs = 0;
   static char pname[] = "test_ncrecget";
   int nrvars;                  /* number of record variables */
   int rvarids[MAX_NC_VARS];    /* id of each record variable */

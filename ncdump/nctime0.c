@@ -43,11 +43,11 @@ extern fspec_t formatting_specs; /* set from command-line options */
 void bounds_add(char *bounds_name, int ncid, int varid) {
   bounds_node_t *bnode = emalloc(sizeof(bounds_node_t) + 1);
   bounds_list.nbnds++;
-  bnode->ncid        = ncid;
-  bnode->varid       = varid;
+  bnode->ncid = ncid;
+  bnode->varid = varid;
   bnode->bounds_name = strdup(bounds_name);
-  bnode->next        = bounds_list.first;
-  bounds_list.first  = bnode;
+  bnode->next = bounds_list.first;
+  bounds_list.first = bnode;
 }
 
 /* Check for optional "calendar" attribute and return specified
@@ -76,8 +76,8 @@ calendar_type(int ncid, int varid) {
   };
 #define CF_CAL_ATT_NAME "calendar"
   int ncals = (sizeof calmap) / (sizeof calmap[0]);
-  ctype     = cdMixed; /* default mixed Gregorian/Julian ala udunits */
-  stat      = nc_inq_att(ncid, varid, CF_CAL_ATT_NAME, &catt.type, &catt.len);
+  ctype = cdMixed; /* default mixed Gregorian/Julian ala udunits */
+  stat = nc_inq_att(ncid, varid, CF_CAL_ATT_NAME, &catt.type, &catt.len);
   if (stat == NC_NOERR && catt.type == NC_CHAR && catt.len > 0) {
     char *calstr = (char *)emalloc(catt.len + 1);
     int itype;
@@ -181,11 +181,11 @@ void get_timeinfo(int ncid1, int varid1, ncvar_t *vp) {
   ncatt_t uatt;  /* units attribute */
   int nc_status; /* return from netcdf calls */
   char *units;
-  int ncid  = ncid1;
+  int ncid = ncid1;
   int varid = varid1;
 
   vp->has_timeval = false; /* by default, turn on if criteria met */
-  vp->timeinfo    = 0;
+  vp->timeinfo = 0;
   vp->is_bnds_var = false;
   /* for timeinfo, treat a bounds variable like its "parent" time variable */
   if (is_bounds_var(vp->name, &ncid, &varid)) {
@@ -219,7 +219,7 @@ void get_timeinfo(int ncid1, int varid1, ncvar_t *vp) {
     /* Currently this gets reparsed for every value, need function
 	 * like cdRel2Comp that resuses parsed units? */
     vp->timeinfo->units = strdup(units);
-    vp->has_timeval     = true;
+    vp->has_timeval = true;
     free(units);
   }
   return;
@@ -304,7 +304,7 @@ const ncatt_t *att /* attribute structure */
 
     size_t iel;                                  /* attrib index */
     const char *valp = (const char *)att->valgp; /* attrib value pointer */
-    safebuf_t *sb    = sbuf_new();               /* allocate new string buffer */
+    safebuf_t *sb = sbuf_new();                  /* allocate new string buffer */
 #ifdef NOTUSED
     int func;            /* line wrap control */
     int separator = ' '; /* default between data and time */

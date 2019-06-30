@@ -49,7 +49,7 @@ int main() {
   printf("*** Checking HDF5 attribute ordering...");
 
   {
-    float val                       = 99;
+    float val = 99;
     char emp[NUM_EMPS][MAX_LEN + 1] = {"Augustus", "Tiberius",
     "Caligula", "Claudius",
     "Ne_r_o", "V.esp.asi.an"};
@@ -531,7 +531,7 @@ int main() {
     hid_t fcpl_id, fapl_id;
     hsize_t num_obj, dims[1];
     char obj_name[MAX_LEN + 1];
-    char att_name[3][20]    = {"first", "second", "third"};
+    char att_name[3][20] = {"first", "second", "third"};
     signed char b[DIM2_LEN] = {-127, 126};
     int i;
 

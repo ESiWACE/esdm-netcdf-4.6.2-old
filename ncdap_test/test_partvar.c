@@ -162,14 +162,14 @@ subslice(int rank, size_t *count, int startdim) {
 
 static int
 check(float *target, size_t *start, size_t *count) {
-  int ok          = 1;
-  Odom *odom      = odom_create(RANK);
-  float *result   = (float *)target;
+  int ok = 1;
+  Odom *odom = odom_create(RANK);
+  float *result = (float *)target;
   float *expected = (float *)target_content;
   odom_set(odom, start, count);
   while (odom_more(odom)) {
     size_t offset = odom_count(odom);
-    int eq        = floateq(result[offset], expected[offset]);
+    int eq = floateq(result[offset], expected[offset]);
     if (eq == 0) {
       fprintf(stderr, "fail: result[%lu] = %f ; expected[%lu] = %f\n",
       (unsigned long)offset, result[offset], (unsigned long)offset, expected[offset]);
@@ -185,9 +185,9 @@ static Odom *
 odom_create(int rank) {
   Odom *odom = (Odom *)malloc(sizeof(Odom));
   /* Init the odometer */
-  odom->rank  = rank;
+  odom->rank = rank;
   odom->index = (size_t *)calloc(sizeof(size_t) * rank, 1);
-  odom->stop  = (size_t *)calloc(sizeof(size_t) * rank, 1);
+  odom->stop = (size_t *)calloc(sizeof(size_t) * rank, 1);
   odom->start = (size_t *)calloc(sizeof(size_t) * rank, 1);
   odom->count = (size_t *)calloc(sizeof(size_t) * rank, 1);
   return odom;
@@ -212,7 +212,7 @@ odom_set(Odom *odom, size_t *start, size_t *count) {
   }
   for (i = 0; i < odom->rank; i++) {
     odom->index[i] = odom->start[i];
-    odom->stop[i]  = odom->start[i] + odom->count[i];
+    odom->stop[i] = odom->start[i] + odom->count[i];
   }
 }
 

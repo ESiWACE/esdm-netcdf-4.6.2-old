@@ -26,8 +26,8 @@
 #define RANK 1
 
 int main() {
-  char *vs            = "variable-length string";
-  char fsdata[]       = "fixed-length string";
+  char *vs = "variable-length string";
+  char fsdata[] = "fixed-length string";
   char *v1ddata[DIM1] = {"strings", "of", "variable", "length"};
   int i;
 

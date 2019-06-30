@@ -56,8 +56,8 @@ int NC4_provenance_init(void) {
   int stat = NC_NOERR;
   int i;
   NClist *other = NULL;
-  char *name    = NULL;
-  char *value   = NULL;
+  char *name = NULL;
+  char *value = NULL;
   unsigned major, minor, release;
 
   if (globalpropinitialized)
@@ -67,7 +67,7 @@ int NC4_provenance_init(void) {
 
   /* Initialize globalpropinfo */
   memset((void *)&globalpropinfo, 0, sizeof(globalpropinfo));
-  globalpropinfo.version    = NCPROPS_VERSION;
+  globalpropinfo.version = NCPROPS_VERSION;
   globalpropinfo.properties = nclistnew();
   if (globalpropinfo.properties == NULL) {
     stat = NC_ENOMEM;
@@ -200,9 +200,9 @@ properties_parse(const char *text0, NClist *pairs) {
   /* Walk and fill in ncinfo */
   p = text;
   while (*p) {
-    char *name  = p;
+    char *name = p;
     char *value = NULL;
-    char *next  = NULL;
+    char *next = NULL;
 
     /* Delimit whole (key,value) pair */
     q = locate(p, NCPROPSSEP2);
@@ -210,9 +210,9 @@ properties_parse(const char *text0, NClist *pairs) {
       *q++ = '\0';
     next = q;
     /* split key and value */
-    q     = locate(p, '=');
-    name  = p;
-    *q++  = '\0';
+    q = locate(p, '=');
+    name = p;
+    *q++ = '\0';
     value = q;
     /* Set up p for next iteration */
     p = next;
@@ -247,7 +247,7 @@ propinfo_default(struct NCPROPINFO *dst, const struct NCPROPINFO *dfalt) {
   dst->version = dfalt->version;
   for (i = 0; i < nclistlength(dfalt->properties); i++) {
     char *s = nclistget(dfalt->properties, i);
-    s       = strdup(s);
+    s = strdup(s);
     if (s == NULL) return NC_ENOMEM;
     nclistpush(dst->properties, s);
   }
@@ -370,9 +370,9 @@ NC4_put_ncproperties(NC_FILE_INFO_T* file)
  * @author Dennis Heimbigner
  */
 int NC4_set_provenance(NC_FILE_INFO_T *file, const struct NCPROPINFO *dfalt) {
-  int ncstat                      = NC_NOERR;
+  int ncstat = NC_NOERR;
   struct NCPROVENANCE *provenance = NULL;
-  int superblock                  = -1;
+  int superblock = -1;
 
   assert(file->provenance == NULL);
   provenance = calloc(1, sizeof(struct NCPROVENANCE));
@@ -438,9 +438,9 @@ done:
 int NC4_get_provenance(NC_FILE_INFO_T *file, const char *propstring, const struct NCPROPINFO *dfalt) {
   int ncstat = NC_NOERR;
   struct NCPROVENANCE *provenance;
-  char *name     = NULL;
-  char *value    = NULL;
-  int v          = 0;
+  char *name = NULL;
+  char *value = NULL;
+  int v = 0;
   int superblock = -1;
 
   assert(file->provenance == NULL);
@@ -473,7 +473,7 @@ int NC4_get_provenance(NC_FILE_INFO_T *file, const char *propstring, const struc
       goto done;
     } /* bad _NCProperties attribute */
     /* Extract the purported version=... */
-    name  = nclistremove(list, 0);
+    name = nclistremove(list, 0);
     value = nclistremove(list, 0);
     if (strcmp(name, NCPVERSION) == 0) {
       if (sscanf(value, "%d", &v) != 1) {
@@ -535,13 +535,13 @@ int NC4_free_provenance(struct NCPROVENANCE *prov) {
 
 /* HDF5 Specific attribute read/write of _NCProperties */
 int NC4_read_ncproperties(NC_FILE_INFO_T *h5) {
-  int retval      = NC_NOERR;
+  int retval = NC_NOERR;
   hid_t hdf5grpid = -1;
-  hid_t attid     = -1;
-  hid_t aspace    = -1;
-  hid_t atype     = -1;
-  hid_t ntype     = -1;
-  char *text      = NULL;
+  hid_t attid = -1;
+  hid_t aspace = -1;
+  hid_t atype = -1;
+  hid_t ntype = -1;
+  char *text = NULL;
   H5T_class_t t_class;
   hsize_t size;
 
@@ -557,7 +557,7 @@ int NC4_read_ncproperties(NC_FILE_INFO_T *h5) {
   attid = H5Aopen_name(hdf5grpid, NCPROPS);
   assert(attid > 0);
   aspace = H5Aget_space(attid);
-  atype  = H5Aget_type(attid);
+  atype = H5Aget_type(attid);
   /* Verify atype and size */
   t_class = H5Tget_class(atype);
   if (t_class != H5T_STRING) {
@@ -605,13 +605,13 @@ done:
 }
 
 int NC4_write_ncproperties(NC_FILE_INFO_T *h5) {
-  int retval      = NC_NOERR;
+  int retval = NC_NOERR;
   hid_t hdf5grpid = -1;
-  hid_t attid     = -1;
-  hid_t aspace    = -1;
-  hid_t atype     = -1;
-  char *text      = NULL;
-  size_t len      = 0;
+  hid_t attid = -1;
+  hid_t aspace = -1;
+  hid_t atype = -1;
+  char *text = NULL;
+  size_t len = 0;
 
   /* If the file is read-only, return an error. */
   if (h5->no_write) {
@@ -691,7 +691,7 @@ void ncprintpropinfo(struct NCPROPINFO *info) {
   int i;
   fprintf(stderr, "[%p] version=%d\n", info, info->version);
   for (i = 0; i < nclistlength(info->properties); i += 2) {
-    char *name  = nclistget(info->properties, i);
+    char *name = nclistget(info->properties, i);
     char *value = nclistget(info->properties, i + 1);
     fprintf(stderr, "\t[%d] name=|%s| value=|%s|\n", i, name, value);
   }

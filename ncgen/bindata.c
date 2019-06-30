@@ -142,7 +142,7 @@ bin_vlendecl(Generator *generator, Symbol *tsym, Bytebuffer *buf, int uid, size_
   vlenmem = va_arg(ap, Bytebuffer *);
   va_end(ap);
   ptr.len = count;
-  ptr.p   = bbExtract(vlenmem);
+  ptr.p = bbExtract(vlenmem);
   bbAppendn(buf, (char *)&ptr, sizeof(ptr));
   return 1;
 }
@@ -157,7 +157,7 @@ bin_vlenstring(Generator *generator, Symbol *sym, Bytebuffer *codebuf, int *uidp
   vlenmem = va_arg(ap, Bytebuffer *);
   va_end(ap);
   ptr.len = bbLength(vlenmem);
-  ptr.p   = bbDup(vlenmem);
+  ptr.p = bbDup(vlenmem);
   bbAppendn(codebuf, (char *)&ptr, sizeof(ptr));
   return 1;
 }
@@ -166,7 +166,7 @@ static const char zeros[] = "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
 
 static void
 alignto(int alignment, Bytebuffer *buf, ptrdiff_t base) {
-  int pad          = 0;
+  int pad = 0;
   ptrdiff_t offset = bbLength(buf);
   offset -= base; /* Need to actually align wrt to the base */
   pad = getpadding(offset, alignment);
@@ -193,9 +193,9 @@ static int bin_generate_data_r(NCConstant *instance, Symbol *tsym, Datalist *fil
 
 static void
 write_alignment(int alignment, Bytebuffer *buf) {
-  int pad          = 0;
+  int pad = 0;
   ptrdiff_t offset = bbLength(buf);
-  pad              = getpadding(offset, alignment);
+  pad = getpadding(offset, alignment);
   if (pad > 0) {
     bbAppendn(buf, (void *)zeros, pad);
   }
@@ -212,7 +212,7 @@ Inputs:
 */
 
 int binary_generate_data(Datalist *data, Symbol *tsym, Datalist *fillvalue, Bytebuffer *databuf) {
-  int stat     = NC_NOERR;
+  int stat = NC_NOERR;
   size_t count = data->length;
   size_t i;
 
@@ -241,9 +241,9 @@ bin_generate_data_r(NCConstant *instance, Symbol *tsym, Datalist *fillvalue, Byt
     case NC_PRIM: {
       switch (tsym->nc_id) {
         case NC_CHAR: {
-          char *p         = NULL;
+          char *p = NULL;
           NCConstant *tmp = nullconst();
-          tmp->nctype     = NC_CHAR;
+          tmp->nctype = NC_CHAR;
           convert1(instance, tmp);
           p = &tmp->value.charv;
           ;
@@ -251,9 +251,9 @@ bin_generate_data_r(NCConstant *instance, Symbol *tsym, Datalist *fillvalue, Byt
           reclaimconstant(tmp);
         } break;
         case NC_BYTE: {
-          signed char *p  = NULL;
+          signed char *p = NULL;
           NCConstant *tmp = nullconst();
-          tmp->nctype     = NC_BYTE;
+          tmp->nctype = NC_BYTE;
           convert1(instance, tmp);
           p = &tmp->value.int8v;
           bbAppendn(databuf, p, sizeof(signed char));
@@ -261,17 +261,17 @@ bin_generate_data_r(NCConstant *instance, Symbol *tsym, Datalist *fillvalue, Byt
         } break;
         case NC_UBYTE: {
           unsigned char *p = NULL;
-          NCConstant *tmp  = nullconst();
-          tmp->nctype      = NC_UBYTE;
+          NCConstant *tmp = nullconst();
+          tmp->nctype = NC_UBYTE;
           convert1(instance, tmp);
           p = &tmp->value.uint8v;
           bbAppendn(databuf, p, sizeof(unsigned char));
           reclaimconstant(tmp);
         } break;
         case NC_SHORT: {
-          short *p        = NULL;
+          short *p = NULL;
           NCConstant *tmp = nullconst();
-          tmp->nctype     = NC_SHORT;
+          tmp->nctype = NC_SHORT;
           convert1(instance, tmp);
           p = &tmp->value.int16v;
           bbAppendn(databuf, p, sizeof(short));
@@ -279,17 +279,17 @@ bin_generate_data_r(NCConstant *instance, Symbol *tsym, Datalist *fillvalue, Byt
         } break;
         case NC_USHORT: {
           unsigned short *p = NULL;
-          NCConstant *tmp   = nullconst();
-          tmp->nctype       = NC_USHORT;
+          NCConstant *tmp = nullconst();
+          tmp->nctype = NC_USHORT;
           convert1(instance, tmp);
           p = &tmp->value.uint16v;
           bbAppendn(databuf, p, sizeof(unsigned short));
           reclaimconstant(tmp);
         } break;
         case NC_INT: {
-          int *p          = NULL;
+          int *p = NULL;
           NCConstant *tmp = nullconst();
-          tmp->nctype     = NC_INT;
+          tmp->nctype = NC_INT;
           convert1(instance, tmp);
           p = &tmp->value.int32v;
           bbAppendn(databuf, p, sizeof(int));
@@ -298,16 +298,16 @@ bin_generate_data_r(NCConstant *instance, Symbol *tsym, Datalist *fillvalue, Byt
         case NC_UINT: {
           unsigned int *p = NULL;
           NCConstant *tmp = nullconst();
-          tmp->nctype     = NC_UINT;
+          tmp->nctype = NC_UINT;
           convert1(instance, tmp);
           p = &tmp->value.uint32v;
           bbAppendn(databuf, p, sizeof(unsigned int));
           reclaimconstant(tmp);
         } break;
         case NC_INT64: {
-          long long *p    = NULL;
+          long long *p = NULL;
           NCConstant *tmp = nullconst();
-          tmp->nctype     = NC_INT64;
+          tmp->nctype = NC_INT64;
           convert1(instance, tmp);
           p = &tmp->value.int64v;
           bbAppendn(databuf, p, sizeof(long long));
@@ -315,35 +315,35 @@ bin_generate_data_r(NCConstant *instance, Symbol *tsym, Datalist *fillvalue, Byt
         } break;
         case NC_UINT64: {
           unsigned long long *p = NULL;
-          NCConstant *tmp       = nullconst();
-          tmp->nctype           = NC_UINT64;
+          NCConstant *tmp = nullconst();
+          tmp->nctype = NC_UINT64;
           convert1(instance, tmp);
           p = &tmp->value.uint64v;
           bbAppendn(databuf, p, sizeof(unsigned long long));
           reclaimconstant(tmp);
         } break;
         case NC_FLOAT: {
-          float *p        = NULL;
+          float *p = NULL;
           NCConstant *tmp = nullconst();
-          tmp->nctype     = NC_FLOAT;
+          tmp->nctype = NC_FLOAT;
           convert1(instance, tmp);
           p = &tmp->value.floatv;
           bbAppendn(databuf, p, sizeof(float));
           reclaimconstant(tmp);
         } break;
         case NC_DOUBLE: {
-          double *p       = NULL;
+          double *p = NULL;
           NCConstant *tmp = nullconst();
-          tmp->nctype     = NC_DOUBLE;
+          tmp->nctype = NC_DOUBLE;
           convert1(instance, tmp);
           p = &tmp->value.doublev;
           bbAppendn(databuf, p, sizeof(double));
           reclaimconstant(tmp);
         } break;
         case NC_STRING: {
-          char *p         = NULL;
+          char *p = NULL;
           NCConstant *tmp = nullconst();
-          tmp->nctype     = NC_STRING;
+          tmp->nctype = NC_STRING;
           convert1(instance, tmp);
           p = emalloc(tmp->value.stringv.len + 1);
           memcpy(p, tmp->value.stringv.stringv, tmp->value.stringv.len);
@@ -363,7 +363,7 @@ bin_generate_data_r(NCConstant *instance, Symbol *tsym, Datalist *fillvalue, Byt
     } break;
     case NC_OPAQUE: {
       unsigned char *bytes = NULL;
-      size_t len           = 0;
+      size_t len = 0;
       if (instance->nctype != NC_OPAQUE) {
         stat = NC_EBADTYPE;
         goto done;
@@ -378,7 +378,7 @@ bin_generate_data_r(NCConstant *instance, Symbol *tsym, Datalist *fillvalue, Byt
       free(bytes);
     } break;
     case NC_VLEN: {
-      Datalist *sublist    = NULL;
+      Datalist *sublist = NULL;
       Bytebuffer *vlendata = NULL;
       nc_vlen_t p;
       if (instance->nctype != NC_COMPOUND) {
@@ -386,11 +386,11 @@ bin_generate_data_r(NCConstant *instance, Symbol *tsym, Datalist *fillvalue, Byt
         stat = NC_EBADTYPE;
         goto done;
       }
-      sublist  = instance->value.compoundv;
+      sublist = instance->value.compoundv;
       vlendata = bbNew();
       if ((stat = binary_generate_data(sublist, tsym->typ.basetype, NULL, vlendata))) goto done;
       p.len = datalistlen(sublist);
-      p.p   = bbContents(vlendata);
+      p.p = bbContents(vlendata);
       bbAppendn(databuf, (char *)&p, sizeof(nc_vlen_t));
     } break;
     case NC_COMPOUND: { /* The really hard one */
@@ -400,9 +400,9 @@ bin_generate_data_r(NCConstant *instance, Symbol *tsym, Datalist *fillvalue, Byt
       /* Get info about each field in turn and build it*/
       nfields = listlength(tsym->subnodes);
       for (fid = 0; fid < nfields; fid++) {
-        Symbol *field             = listget(tsym->subnodes, fid);
+        Symbol *field = listget(tsym->subnodes, fid);
         NCConstant *fieldinstance = datalistith(cmpd, fid);
-        int ndims                 = field->typ.dimset.ndims;
+        int ndims = field->typ.dimset.ndims;
         size_t arraycount;
         if (ndims == 0) {
           ndims = 1; /* fake the scalar case */
@@ -533,7 +533,7 @@ bin_reclaim_vlen(Symbol *tsym, Reclaim *reclaimer) {
   int stat = NC_NOERR;
   size_t i;
   Symbol *basetype = tsym->typ.basetype;
-  nc_vlen_t *vl    = (nc_vlen_t *)(reclaimer->memory + reclaimer->offset);
+  nc_vlen_t *vl = (nc_vlen_t *)(reclaimer->memory + reclaimer->offset);
 
   /* Free up each entry in the vlen list */
   if (vl->p != NULL) {
@@ -572,13 +572,13 @@ bin_reclaim_compound(Symbol *tsym, Reclaim *reclaimer) {
   ptrdiff_t saveoffset;
 
   reclaimer->offset = read_alignment(reclaimer->offset, tsym->typ.cmpdalign);
-  saveoffset        = reclaimer->offset;
+  saveoffset = reclaimer->offset;
 
   /* Get info about each field in turn and reclaim it */
   nfields = listlength(tsym->subnodes);
   for (fid = 0; fid < nfields; fid++) {
     Symbol *field = listget(tsym->subnodes, fid);
-    int ndims     = field->typ.dimset.ndims;
+    int ndims = field->typ.dimset.ndims;
     /* compute the total number of elements in the field array */
     for (i = 0; i < ndims; i++)
       arraycount *= field->typ.dimset.dimsyms[i]->dim.declsize;

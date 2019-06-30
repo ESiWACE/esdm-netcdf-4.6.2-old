@@ -103,7 +103,7 @@ int nc4_nc4f_list_add(NC *nc, const char *path, int mode) {
   if (!(h5 = calloc(1, sizeof(NC_FILE_INFO_T))))
     return NC_ENOMEM;
   nc->dispatchdata = h5;
-  h5->controller   = nc;
+  h5->controller = nc;
 
   /* Hang on to cmode, and note that we're in define mode. */
   h5->cmode = mode | NC_INDEF;
@@ -113,8 +113,8 @@ int nc4_nc4f_list_add(NC *nc, const char *path, int mode) {
   h5->next_typeid = NC_FIRSTUSERTYPEID;
 
   /* Initialize lists for dimensions, types, and groups. */
-  h5->alldims   = nclistnew();
-  h5->alltypes  = nclistnew();
+  h5->alldims = nclistnew();
+  h5->alltypes = nclistnew();
   h5->allgroups = nclistnew();
 
   /* There's always at least one open group - the root
@@ -496,8 +496,8 @@ int nc4_var_list_add2(NC_GRP_INFO_T *grp, const char *name, NC_VAR_INFO_T **var)
   new_var->hdr.sort = NCVAR;
 
   /* These are the HDF5-1.8.4 defaults. */
-  new_var->chunk_cache_size       = nc4_chunk_cache_size;
-  new_var->chunk_cache_nelems     = nc4_chunk_cache_nelems;
+  new_var->chunk_cache_size = nc4_chunk_cache_size;
+  new_var->chunk_cache_nelems = nc4_chunk_cache_nelems;
   new_var->chunk_cache_preemption = nc4_chunk_cache_preemption;
 
   /* Now fill in the values in the var info structure. */
@@ -701,7 +701,7 @@ NC_GRP_INFO_T **grp) {
   /* Fill in this group's information. */
   new_grp->hdr.sort = NCGRP;
   new_grp->nc4_info = h5;
-  new_grp->parent   = parent;
+  new_grp->parent = parent;
 
   /* Assign the group ID. The root group will get id 0. */
   new_grp->hdr.id = h5->next_nc_grpid++;
@@ -717,10 +717,10 @@ NC_GRP_INFO_T **grp) {
 
   /* Set up new indexed lists for stuff this group can contain. */
   new_grp->children = ncindexnew(0);
-  new_grp->dim      = ncindexnew(0);
-  new_grp->att      = ncindexnew(0);
-  new_grp->type     = ncindexnew(0);
-  new_grp->vars     = ncindexnew(0);
+  new_grp->dim = ncindexnew(0);
+  new_grp->att = ncindexnew(0);
+  new_grp->type = ncindexnew(0);
+  new_grp->vars = ncindexnew(0);
 
   /* Add object to lists */
   if (parent)
@@ -798,7 +798,7 @@ NC_TYPE_INFO_T **type) {
 
   /* Remember info about this type. */
   new_type->hdr.id = assignedid;
-  new_type->size   = size;
+  new_type->size = size;
   if (!(new_type->hdr.name = strdup(name))) {
     free(new_type);
     return NC_ENOMEM;
@@ -886,12 +886,12 @@ nc_type xtype, int ndims, const int *dim_sizesp) {
     free(field);
     return NC_ENOMEM;
   }
-  field->hdr.hashkey       = NC_hashmapkey(field->hdr.name, strlen(field->hdr.name));
-  field->hdf_typeid        = field_hdf_typeid;
+  field->hdr.hashkey = NC_hashmapkey(field->hdr.name, strlen(field->hdr.name));
+  field->hdf_typeid = field_hdf_typeid;
   field->native_hdf_typeid = native_typeid;
-  field->nc_typeid         = xtype;
-  field->offset            = offset;
-  field->ndims             = ndims;
+  field->nc_typeid = xtype;
+  field->offset = offset;
+  field->ndims = ndims;
   if (ndims) {
     int i;
     if (!(field->dim_size = malloc(ndims * sizeof(int)))) {
@@ -1384,7 +1384,7 @@ rec_print_metadata(NC_GRP_INFO_T *grp, int tab_count) {
   NC_TYPE_INFO_T *type;
   NC_FIELD_INFO_T *field;
   char tabs[MAX_NESTS + 1] = "";
-  char *dims_string        = NULL;
+  char *dims_string = NULL;
   char temp_string[10];
   int t, retval, d, i;
 
@@ -1528,7 +1528,7 @@ int NC4_show_metadata(int ncid) {
 
   /* Log level must be 2 to see metadata. */
   nc_log_level = 2;
-  retval       = log_metadata_nc(h5);
+  retval = log_metadata_nc(h5);
   nc_log_level = old_log_level;
 #endif /*LOGGING*/
   return retval;

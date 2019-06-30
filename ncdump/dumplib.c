@@ -43,9 +43,9 @@ float_epsilon(void) {
     float etop, ebot, eps;
     float one = 1.0;
     float two = 2.0;
-    etop      = 1.0;
-    ebot      = 0.0;
-    eps       = ebot + (etop - ebot) / two;
+    etop = 1.0;
+    ebot = 0.0;
+    eps = ebot + (etop - ebot) / two;
     while (eps != ebot && eps != etop) {
       float epsp1;
 
@@ -73,9 +73,9 @@ double_epsilon(void) {
     double etop, ebot, eps;
     double one = 1.0;
     double two = 2.0;
-    etop       = 1.0;
-    ebot       = 0.0;
-    eps        = ebot + (etop - ebot) / two;
+    etop = 1.0;
+    ebot = 0.0;
+    eps = ebot + (etop - ebot) / two;
     while (eps != ebot && eps != etop) {
       double epsp1;
 
@@ -94,20 +94,20 @@ double_epsilon(void) {
 
 
 void init_epsilons(void) {
-  float_eps  = float_epsilon();
+  float_eps = float_epsilon();
   double_eps = double_epsilon();
 }
 
 
 static char *has_c_format_att(int ncid, int varid);
 
-int float_precision_specified  = 0; /* -p option specified float precision */
+int float_precision_specified = 0;  /* -p option specified float precision */
 int double_precision_specified = 0; /* -p option specified double precision */
-char float_var_fmt[]           = "%.NNg";
-char double_var_fmt[]          = "%.NNg";
-char float_att_fmt[]           = "%#.NNgf";
-char float_attx_fmt[]          = "%#.NNg";
-char double_att_fmt[]          = "%#.NNg";
+char float_var_fmt[] = "%.NNg";
+char double_var_fmt[] = "%.NNg";
+char float_att_fmt[] = "%#.NNgf";
+char float_attx_fmt[] = "%#.NNg";
+char double_att_fmt[] = "%#.NNg";
 
 /* magic number stored in a safebuf and checked, hoping it will be
  * changed if buffer was overwritten inadvertently */
@@ -128,13 +128,13 @@ safebuf_t *
 sbuf_new() {
   size_t len = SAFEBUF_INIT_LEN;
   safebuf_t *sb;
-  sb      = (safebuf_t *)emalloc(sizeof(safebuf_t));
+  sb = (safebuf_t *)emalloc(sizeof(safebuf_t));
   sb->buf = (char *)emalloc(len + sizeof(int));
   sb->len = len;
   /* write a "stamp" in last 4 bytes of buffer for id and to check for overflow */
   SAFEBUF_EXPR(sb) = SAFEBUF_CERT;
-  sb->buf[0]       = 0;
-  sb->cl           = strlen(sb->buf);
+  sb->buf[0] = 0;
+  sb->cl = strlen(sb->buf);
   assert(SAFEBUF_CHECK(sb));
   return sb;
 }
@@ -159,7 +159,7 @@ void sbuf_grow(safebuf_t *sb, size_t len) {
   memcpy(tmp, sb->buf, sb->len);
   sb->len = m;
   free(sb->buf);
-  sb->buf          = tmp;
+  sb->buf = tmp;
   SAFEBUF_EXPR(sb) = SAFEBUF_CERT;
   assert(SAFEBUF_CHECK(sb));
 }
@@ -384,9 +384,9 @@ prim_type_name(nc_type type) {
   }
 }
 
-static int max_type        = 0;
+static int max_type = 0;
 static int max_atomic_type = 0;
-static nctype_t **nctypes  = 0; /* holds all types in a netCDF dataset */
+static nctype_t **nctypes = 0; /* holds all types in a netCDF dataset */
 
 
 #ifdef USE_NETCDF4
@@ -420,10 +420,10 @@ count_udtypes(int ncid) {
 /* This routine really is intended to return the max atomic typeid */
 static int
 max_typeid(int ncid) {
-  int maxtypes       = NC_NAT;
+  int maxtypes = NC_NAT;
   int maxatomictypes = NC_NAT;
-  int format         = 0;
-  int err            = NC_NOERR;
+  int format = 0;
+  int err = NC_NOERR;
 
   /* get the file type */
   err = nc_inq_format(ncid, &format);
@@ -443,7 +443,7 @@ max_typeid(int ncid) {
     case NC_FORMAT_NETCDF4:
 #ifdef USE_NETCDF4
     {
-      int nuser      = 0;
+      int nuser = 0;
       maxatomictypes = (maxtypes = NC_STRING); /* extra netCDF-4 primitive types */
       maxtypes += 4;                           /* user-defined classes */
       nuser = count_udtypes(ncid);
@@ -457,7 +457,7 @@ max_typeid(int ncid) {
       fprintf(stderr, "Unexpected file format: %d\n", format);
       return 0;
   }
-  max_type        = maxtypes;
+  max_type = maxtypes;
   max_atomic_type = maxatomictypes;
   return maxtypes;
 }
@@ -604,7 +604,7 @@ const void *v1p, const void *v2p) {
 bool_t
 ncopaque_val_equals(const nctype_t *this,
 const void *v1p, const void *v2p) {
-  size_t nbytes   = this->size;
+  size_t nbytes = this->size;
   const char *c1p = (const char *)v1p;
   const char *c2p = (const char *)v2p;
   int i;
@@ -623,12 +623,12 @@ const void *v1p, const void *v2p) {
   if (v1len != v2len)
     return false;
   {
-    size_t base_size                = this->size;
-    nc_type base_type               = this->base_tid;
-    nctype_t *base_info             = get_typeinfo(base_type);
+    size_t base_size = this->size;
+    nc_type base_type = this->base_tid;
+    nctype_t *base_info = get_typeinfo(base_type);
     val_equals_func base_val_equals = base_info->val_equals;
-    const char *v1dat               = ((nc_vlen_t *)v1p)->p;
-    const char *v2dat               = ((nc_vlen_t *)v2p)->p;
+    const char *v1dat = ((nc_vlen_t *)v1p)->p;
+    const char *v2dat = ((nc_vlen_t *)v2p)->p;
     size_t i;
     for (i = 0; i < v1len; i++) {
       if (base_val_equals(base_info, (const void *)v1dat,
@@ -651,8 +651,8 @@ const void *v1p, const void *v2p) {
   int fidx; /* field id */
 
   for (fidx = 0; fidx < nfields; fidx++) {
-    size_t offset   = this->offsets[fidx];
-    nc_type fid     = this->fids[fidx]; /* field type id */
+    size_t offset = this->offsets[fidx];
+    nc_type fid = this->fids[fidx]; /* field type id */
     nctype_t *finfo = get_typeinfo(fid);
     if (finfo->ranks == 0 || finfo->ranks[fidx] == 0) {
       if (!finfo->val_equals(finfo,
@@ -833,8 +833,8 @@ int ncstring_typ_tostring(const nctype_t *typ, safebuf_t *sfbf, const void *valp
 
     slen = 4 + 5 * strlen(cp); /* need "'s around string, and extra space to escape control characters */
     slen++;                    /* nul term */
-    sout  = emalloc(slen);
-    sp    = sout;
+    sout = emalloc(slen);
+    sp = sout;
     *sp++ = '"';
     while (*cp) {
       switch (uc = *cp++ & 0377) {
@@ -884,7 +884,7 @@ int ncstring_typ_tostring(const nctype_t *typ, safebuf_t *sfbf, const void *valp
       }
     }
     *sp++ = '"';
-    *sp   = '\0';
+    *sp = '\0';
     sbuf_cpy(sfbf, sout);
     free(sout);
   } else {
@@ -937,10 +937,10 @@ int ncenum_typ_tostring(const nctype_t *typ, safebuf_t *sfbf, const void *valp) 
  * output string */
 int ncopaque_val_as_hex(size_t size, char *sout, const void *valp) {
   const unsigned char *cp = valp;
-  char *sp                = sout;
+  char *sp = sout;
   int i;
   char *prefix = "0X";
-  int prelen   = strlen(prefix);
+  int prelen = strlen(prefix);
 
   snprintf(sp, prelen + 1, "%s", prefix);
   sp += prelen;
@@ -967,10 +967,10 @@ const void *valp) {
 
 /* Convert a vlen value to a string, by using tostring function for base type */
 int ncvlen_typ_tostring(const nctype_t *tinfo, safebuf_t *sfbf, const void *valp) {
-  nc_type base_type                   = tinfo->base_tid;
-  nctype_t *base_info                 = get_typeinfo(base_type);
-  size_t base_size                    = base_info->size;
-  size_t len                          = ((nc_vlen_t *)valp)->len;
+  nc_type base_type = tinfo->base_tid;
+  nctype_t *base_info = get_typeinfo(base_type);
+  size_t base_size = base_info->size;
+  size_t len = ((nc_vlen_t *)valp)->len;
   typ_tostring_func base_typ_tostring = base_info->typ_tostring;
   size_t i;
   const char *vp; /* instead of void* so can increment to next */
@@ -1004,8 +1004,8 @@ const char *vals /* pointer to block of values */
   long iel;
   const char *sp;
   char *sout = (char *)emalloc(4 * len + 5); /* max len of string */
-  char *cp   = sout;
-  *cp++      = '"';
+  char *cp = sout;
+  *cp++ = '"';
 
   /* adjust len so trailing nulls don't get printed */
   sp = vals + len;
@@ -1037,7 +1037,7 @@ const char *vals /* pointer to block of values */
     }
   }
   *cp++ = '"';
-  *cp   = '\0';
+  *cp = '\0';
   sbuf_cpy(sbuf, sout);
   free(sout);
   return sbuf_len(sbuf);
@@ -1054,8 +1054,8 @@ int nccomp_typ_tostring(const nctype_t *tinfo, safebuf_t *sfbf, const void *valp
   sbuf_cpy(sfbf, "{");
   /* put each val in sout2, then append sout2 to sfbf if enough room */
   for (fidx = 0; fidx < nfields; fidx++) {
-    size_t offset   = tinfo->offsets[fidx];
-    nc_type fid     = tinfo->fids[fidx]; /* field type id */
+    size_t offset = tinfo->offsets[fidx];
+    nc_type fid = tinfo->fids[fidx]; /* field type id */
     nctype_t *finfo = get_typeinfo(fid);
 
     if (tinfo->ranks[fidx] == 0) {
@@ -1066,7 +1066,7 @@ int nccomp_typ_tostring(const nctype_t *tinfo, safebuf_t *sfbf, const void *valp
       }
     } else { /* this field is an array */
       int i; /* array element counter when rank > 0 */
-      void *vp         = (char *)valp + offset;
+      void *vp = (char *)valp + offset;
       safebuf_t *sout3 = sbuf_new();
       sbuf_cpy(sout2, "{");
       if (finfo->tid == NC_CHAR) { /* aggregate char rows into strings */
@@ -1074,7 +1074,7 @@ int nccomp_typ_tostring(const nctype_t *tinfo, safebuf_t *sfbf, const void *valp
         size_t nstrings;
         size_t slen;
         int j;
-        slen     = tinfo->sides[fidx][rank - 1];
+        slen = tinfo->sides[fidx][rank - 1];
         nstrings = 1; /* product of all but last array dimension */
         for (j = 0; j < rank - 1; j++) {
           nstrings *= tinfo->sides[fidx][j];
@@ -1219,7 +1219,7 @@ static double to_double(const ncvar_t *varp, const void *valp) {
 
 int nctime_val_tostring(const ncvar_t *varp, safebuf_t *sfbf, const void *valp) {
   char sout[PRIM_LEN];
-  double vv     = to_double(varp, valp);
+  double vv = to_double(varp, valp);
   int separator = formatting_specs.iso_separator ? 'T' : ' ';
   if (isfinite(vv)) {
     int oldopts = 0;
@@ -1232,9 +1232,9 @@ int nctime_val_tostring(const ncvar_t *varp, safebuf_t *sfbf, const void *valp) 
     cdSetErrOpts(newopts);
     cdRel2Iso(varp->timeinfo->calendar, varp->timeinfo->units, separator, vv, &sout[1]);
     cdSetErrOpts(oldopts);
-    res         = strlen(sout);
+    res = strlen(sout);
     sout[res++] = '"';
-    sout[res]   = '\0';
+    sout[res] = '\0';
     assert(res < PRIM_LEN);
   } else {
     double_special_tostring(vv, sout);
@@ -1427,22 +1427,22 @@ init_prim_types(int ncid) {
 #else
   for (i = 0; i < max_atomic_type; i++) {
 #endif
-  tp               = (nctype_t *)emalloc(sizeof(nctype_t));
-  tp->ncid         = ncid;
-  tp->tid          = types[i];
-  tp->name         = strdup(prim_type_name(tp->tid));
-  tp->grps         = 0;
-  tp->class        = 0; /* primitive type */
-  tp->size         = sizes[i];
-  tp->base_tid     = NC_NAT; /* not used for primitive types */
-  tp->nfields      = 0;      /* not used for primitive types */
-  tp->fmt          = get_default_fmt(types[i]);
-  tp->fids         = 0; /* not used for primitive types */
-  tp->offsets      = 0; /* not used for primitive types */
-  tp->ranks        = 0; /* not used for primitive types */
-  tp->sides        = 0; /* not used for primitive types */
-  tp->nvals        = 0; /* not used for primitive types */
-  tp->val_equals   = (val_equals_func)eq_funcs[i];
+  tp = (nctype_t *)emalloc(sizeof(nctype_t));
+  tp->ncid = ncid;
+  tp->tid = types[i];
+  tp->name = strdup(prim_type_name(tp->tid));
+  tp->grps = 0;
+  tp->class = 0; /* primitive type */
+  tp->size = sizes[i];
+  tp->base_tid = NC_NAT; /* not used for primitive types */
+  tp->nfields = 0;       /* not used for primitive types */
+  tp->fmt = get_default_fmt(types[i]);
+  tp->fids = 0;    /* not used for primitive types */
+  tp->offsets = 0; /* not used for primitive types */
+  tp->ranks = 0;   /* not used for primitive types */
+  tp->sides = 0;   /* not used for primitive types */
+  tp->nvals = 0;   /* not used for primitive types */
+  tp->val_equals = (val_equals_func)eq_funcs[i];
   tp->typ_tostring = (typ_tostring_func)ts_funcs[i];
   typeadd(tp);
 }
@@ -1487,7 +1487,7 @@ void init_types(int ncid) {
       NC_CHECK(nc_inq_user_type(ncid, typeids[t], type_name, &tinfo->size,
       &tinfo->base_tid, &tinfo->nfields,
       &tinfo->class));
-      tinfo->tid  = typeids[t];
+      tinfo->tid = typeids[t];
       tinfo->ncid = ncid;
       tinfo->name = strdup(type_name);
       tinfo->grps = 0;
@@ -1502,21 +1502,21 @@ void init_types(int ncid) {
       free(group_name);
       switch (tinfo->class) {
         case NC_ENUM:
-          tinfo->val_equals   = eq_funcs[tinfo->base_tid - 1];
+          tinfo->val_equals = eq_funcs[tinfo->base_tid - 1];
           tinfo->typ_tostring = (typ_tostring_func)ncenum_typ_tostring;
           break;
         case NC_COMPOUND:
-          tinfo->val_equals   = (val_equals_func)nccomp_val_equals;
+          tinfo->val_equals = (val_equals_func)nccomp_val_equals;
           tinfo->typ_tostring = (typ_tostring_func)nccomp_typ_tostring;
-          tinfo->fids         = (nc_type *)emalloc((tinfo->nfields + 1)
+          tinfo->fids = (nc_type *)emalloc((tinfo->nfields + 1)
                                            * sizeof(nc_type));
-          tinfo->offsets      = (size_t *)emalloc((tinfo->nfields + 1)
+          tinfo->offsets = (size_t *)emalloc((tinfo->nfields + 1)
                                              * sizeof(size_t));
-          tinfo->ranks        = (int *)emalloc((tinfo->nfields + 1)
+          tinfo->ranks = (int *)emalloc((tinfo->nfields + 1)
                                         * sizeof(int));
-          tinfo->sides        = (int **)emalloc((tinfo->nfields + 1)
+          tinfo->sides = (int **)emalloc((tinfo->nfields + 1)
                                          * sizeof(int *));
-          tinfo->nvals        = (int *)emalloc((tinfo->nfields + 1)
+          tinfo->nvals = (int *)emalloc((tinfo->nfields + 1)
                                         * sizeof(int));
           for (fidx = 0; fidx < tinfo->nfields; fidx++) {
             size_t offset;
@@ -1531,9 +1531,9 @@ void init_types(int ncid) {
             if (rank > 0) sides = (int *)emalloc(rank * sizeof(int));
             NC_CHECK(nc_inq_compound_field(ncid, tinfo->tid, fidx, NULL,
             NULL, NULL, NULL, sides));
-            tinfo->fids[fidx]    = ftype;
+            tinfo->fids[fidx] = ftype;
             tinfo->offsets[fidx] = offset;
-            tinfo->ranks[fidx]   = rank;
+            tinfo->ranks[fidx] = rank;
             if (rank > 0)
               tinfo->sides[fidx] = (int *)emalloc(rank * sizeof(int));
             tinfo->nvals[fidx] = 1;
@@ -1546,11 +1546,11 @@ void init_types(int ncid) {
           }
           break;
         case NC_VLEN:
-          tinfo->val_equals   = (val_equals_func)ncvlen_val_equals;
+          tinfo->val_equals = (val_equals_func)ncvlen_val_equals;
           tinfo->typ_tostring = (typ_tostring_func)ncvlen_typ_tostring;
           break;
         case NC_OPAQUE:
-          tinfo->val_equals   = (val_equals_func)ncopaque_val_equals;
+          tinfo->val_equals = (val_equals_func)ncopaque_val_equals;
           tinfo->typ_tostring = (typ_tostring_func)ncopaque_typ_tostring;
           break;
         default:
@@ -1591,7 +1591,7 @@ void init_types(int ncid) {
 int iscoordvar(int ncid, int varid) {
   int ndims, ndims1;
   int dimid;
-  int *dimids   = 0;
+  int *dimids = 0;
   ncdim_t *dims = 0;
 #ifdef USE_NETCDF4
   int include_parents = 1;
@@ -1738,17 +1738,17 @@ void print_type_name(int locid, int typeid) {
 #ifdef USE_NETCDF4
 static int
 init_is_unlim(int ncid, int **is_unlim_p) {
-  int num_grps;          /* total number of groups */
-  int num_dims   = 0;    /* total number of dimensions in all groups */
-  int num_undims = 0;    /* total number of unlimited dimensions in all groups */
-  int *grpids    = NULL; /* temporary list of all grpids */
+  int num_grps;       /* total number of groups */
+  int num_dims = 0;   /* total number of dimensions in all groups */
+  int num_undims = 0; /* total number of unlimited dimensions in all groups */
+  int *grpids = NULL; /* temporary list of all grpids */
   int igrp;
   int grpid;
 
   /* if ncid is not root group, find its ancestor root group id */
   int status = nc_inq_grp_parent(ncid, &grpid);
   while (status == NC_NOERR && grpid != ncid) {
-    ncid   = grpid;
+    ncid = grpid;
     status = nc_inq_grp_parent(ncid, &grpid);
   }
   if (status != NC_ENOGRP)

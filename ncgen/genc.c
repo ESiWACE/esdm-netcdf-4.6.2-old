@@ -45,9 +45,9 @@ void genc_netcdf(void) {
   int igrp, ityp, ngrps, ntyps;
 #  endif
 
-  ndims  = listlength(dimdefs);
-  nvars  = listlength(vardefs);
-  natts  = listlength(attdefs);
+  ndims = listlength(dimdefs);
+  nvars = listlength(vardefs);
+  natts = listlength(attdefs);
   ngatts = listlength(gattdefs);
 #  ifdef USE_NETCDF4
   ngrps = listlength(grpdefs);
@@ -92,8 +92,8 @@ void genc_netcdf(void) {
   /* Construct the chunking constants*/
   if (!usingclassic) {
     for (ivar = 0; ivar < nvars; ivar++) {
-      Bytebuffer *tmp      = bbNew();
-      Symbol *var          = (Symbol *)listget(vardefs, ivar);
+      Bytebuffer *tmp = bbNew();
+      Symbol *var = (Symbol *)listget(vardefs, ivar);
       Specialdata *special = var->var.special;
       if (special->flags & _CHUNKSIZES_FLAG) {
         int i;
@@ -342,9 +342,9 @@ void genc_netcdf(void) {
     codeline("");
     codelined(1, "/* define variables */");
     for (ivar = 0; ivar < nvars; ivar++) {
-      Symbol *vsym     = (Symbol *)listget(vardefs, ivar);
+      Symbol *vsym = (Symbol *)listget(vardefs, ivar);
       Symbol *basetype = vsym->typ.basetype;
-      Dimset *dimset   = &vsym->typ.dimset;
+      Dimset *dimset = &vsym->typ.dimset;
       codeline("");
       if (dimset->ndims > 0) {
         for (idim = 0; idim < dimset->ndims; idim++) {
@@ -448,7 +448,7 @@ genc_definespecialattributes(Symbol *vsym) {
   Specialdata *special = vsym->var.special;
   if (usingclassic) return;
   if (special->flags & _STORAGE_FLAG) {
-    int storage    = special->_Storage;
+    int storage = special->_Storage;
     size_t *chunks = special->_ChunkSizes;
     bbprintf0(stmt,
     "    stat = nc_def_var_chunking(%s, %s, %s, ",
@@ -668,7 +668,7 @@ groupncid(Symbol *sym) {
     const char *tmp1;
     if (sym == NULL) return groupncid(rootgroup);
     ASSERT(sym->objectclass == NC_GRP);
-    tmp1   = cname(sym);
+    tmp1 = cname(sym);
     grptmp = poolalloc(strlen(tmp1) + strlen("_grp") + 1);
     strcpy(grptmp, tmp1);
     strcat(grptmp, "_grp");
@@ -687,7 +687,7 @@ typencid(Symbol *tsym) {
   const char *tmp1;
   if (tsym->subclass == NC_PRIM)
     return nctype(tsym->typ.typecode);
-  tmp1   = ctypename(tsym);
+  tmp1 = ctypename(tsym);
   typtmp = poolalloc(strlen(tmp1) + strlen("_typ") + 1);
   strcpy(typtmp, tmp1);
   strcat(typtmp, "_typ");
@@ -700,7 +700,7 @@ static const char *
 varncid(Symbol *vsym) {
   const char *tmp1;
   char *vartmp;
-  tmp1   = cname(vsym);
+  tmp1 = cname(vsym);
   vartmp = poolalloc(strlen(tmp1) + strlen("_id") + 1);
   strcpy(vartmp, tmp1);
   strcat(vartmp, "_id");
@@ -713,7 +713,7 @@ static const char *
 dimncid(Symbol *dsym) {
   const char *tmp1;
   char *dimtmp;
-  tmp1   = cname(dsym);
+  tmp1 = cname(dsym);
   dimtmp = poolalloc(strlen(tmp1) + strlen("_dim") + 1);
   strcpy(dimtmp, tmp1);
   strcat(dimtmp, "_dim");
@@ -747,7 +747,7 @@ definectype(Symbol *tsym) {
       break;
     case NC_ENUM:
       for (i = 0; i < listlength(tsym->subnodes); i++) {
-        Symbol *econst           = (Symbol *)listget(tsym->subnodes, i);
+        Symbol *econst = (Symbol *)listget(tsym->subnodes, i);
         Bytebuffer *econststring = bbNew();
         ASSERT(econst->subclass == NC_ECONST);
         c_generator->constant(c_generator, tsym, econst->typ.econst, econststring);
@@ -844,7 +844,7 @@ genc_deftype(Symbol *tsym) {
       codedump(stmt);
       codelined(1, "check_err(stat,__LINE__,__FILE__);");
       for (i = 0; i < listlength(tsym->subnodes); i++) {
-        Symbol *econst           = (Symbol *)listget(tsym->subnodes, i);
+        Symbol *econst = (Symbol *)listget(tsym->subnodes, i);
         Bytebuffer *econststring = bbNew();
         ASSERT(econst->subclass == NC_ECONST);
         c_generator->constant(c_generator, tsym, econst->typ.econst, econststring);
@@ -952,7 +952,7 @@ genc_defineattr(Symbol *asym) {
   /* we need to capture vlen strings for dumping */
   Bytebuffer *save = bbNew(); /* capture so we can dump
                                    vlens first */
-  List *oldstate   = NULL;
+  List *oldstate = NULL;
   generator_getstate(c_generator, (void *)&oldstate);
   listfree(oldstate);
   generator_reset(c_generator, (void *)listnew());
@@ -1100,8 +1100,8 @@ static void
 genc_writeattr(Generator *generator, Symbol *asym, Bytebuffer *code,
 int rank, size_t *start, size_t *count) {
   Symbol *basetype = asym->typ.basetype;
-  int typecode     = basetype->typ.typecode;
-  size_t len       = asym->data->length; /* default assumption */
+  int typecode = basetype->typ.typecode;
+  size_t len = asym->data->length; /* default assumption */
 
   /* define a block to avoid name clashes*/
   codeline("");

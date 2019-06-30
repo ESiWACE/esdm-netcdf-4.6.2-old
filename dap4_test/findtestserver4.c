@@ -31,17 +31,17 @@ usage() {
 
 
 int main(int argc, char **argv) {
-  char *url           = NULL;
+  char *url = NULL;
   const char *servlet = NULL;
-  const char *proto   = NULL;
-  char *serverlist    = NULL;
-  int isdap4          = 0; /* 1 => dap4 */
+  const char *proto = NULL;
+  char *serverlist = NULL;
+  int isdap4 = 0; /* 1 => dap4 */
 
   argc--;
   argv++;
   if (argc < 2)
     usage();
-  proto   = strdup(argv[0]);
+  proto = strdup(argv[0]);
   servlet = strdup(argv[1]);
   if (argc >= 3)
     serverlist = strdup(argv[2]);

@@ -39,7 +39,7 @@ int dcelex(YYSTYPE *lvalp, DCEparsestate *state) {
   int c;
   int len;
   char *p = NULL;
-  token   = 0;
+  token = 0;
   ncbytesclear(lexstate->yytext);
   ncbytesnull(lexstate->yytext);
   p = lexstate->next;
@@ -119,7 +119,7 @@ int dcelex(YYSTYPE *lvalp, DCEparsestate *state) {
 		   we have to back up to that dot */
         char *dotpoint = strchr(yytext, '.');
         if (dotpoint != NULL) {
-          p         = dotpoint;
+          p = dotpoint;
           *dotpoint = '\0';
         }
         token = SCAN_WORD;
@@ -140,11 +140,11 @@ int dcelex(YYSTYPE *lvalp, DCEparsestate *state) {
     }
   }
   lexstate->next = p;
-  len            = ncbyteslength(lexstate->yytext);
+  len = ncbyteslength(lexstate->yytext);
   if (len > MAX_TOKEN_LENGTH) len = MAX_TOKEN_LENGTH;
   strncpy(lexstate->lasttokentext, ncbytescontents(lexstate->yytext), len);
   lexstate->lasttokentext[len] = '\0';
-  lexstate->lasttoken          = token;
+  lexstate->lasttoken = token;
   if (dcedebug) dumptoken(lexstate);
 
   /*Put return value onto Bison stack*/
@@ -208,8 +208,8 @@ void dcelexinit(char *input, DCElexstate **lexstatep) {
 #else
   lexstate->input = strdup(input);
 #endif
-  lexstate->next    = lexstate->input;
-  lexstate->yytext  = ncbytesnew();
+  lexstate->next = lexstate->input;
+  lexstate->yytext = ncbytesnew();
   lexstate->reclaim = nclistnew();
 }
 

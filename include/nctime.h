@@ -43,26 +43,26 @@ typedef struct bounds_node bounds_node_t;
 
 typedef enum CdTimeUnit {
   CdBadTimeUnit = 0,
-  CdMinute      = 1,
-  CdHour        = 2,
-  CdDay         = 3,
-  CdWeek        = 4, /* Always = 7 days */
-  CdMonth       = 5,
-  CdSeason      = 6, /* Always = 3 months */
-  CdYear        = 7,
-  CdSecond      = 8
+  CdMinute = 1,
+  CdHour = 2,
+  CdDay = 3,
+  CdWeek = 4, /* Always = 7 days */
+  CdMonth = 5,
+  CdSeason = 6, /* Always = 3 months */
+  CdYear = 7,
+  CdSecond = 8
 } CdTimeUnit;
 
 typedef enum cdUnitTime {
   cdBadUnit = CdBadTimeUnit,
-  cdMinute  = CdMinute,
-  cdHour    = CdHour,
-  cdDay     = CdDay,
-  cdWeek    = CdWeek, /* Always = 7 days */
-  cdMonth   = CdMonth,
-  cdSeason  = CdSeason, /* Always = 3 months */
-  cdYear    = CdYear,
-  cdSecond  = CdSecond,
+  cdMinute = CdMinute,
+  cdHour = CdHour,
+  cdDay = CdDay,
+  cdWeek = CdWeek, /* Always = 7 days */
+  cdMonth = CdMonth,
+  cdSeason = CdSeason, /* Always = 3 months */
+  cdYear = CdYear,
+  cdSecond = CdSecond,
   cdFraction /* Fractional part of absolute time */
 } cdUnitTime;
 
@@ -78,16 +78,16 @@ typedef enum cdUnitTime {
 #define CdJulianType 0x10000
 
 typedef enum CdTimeType {
-  CdChron       = (CdChronCal | CdBase1970 | CdHasLeap | Cd365), /* 4369 */
-  CdJulianCal   = (CdChronCal | CdBase1970 | CdHasLeap | Cd365 | CdJulianType),
+  CdChron = (CdChronCal | CdBase1970 | CdHasLeap | Cd365), /* 4369 */
+  CdJulianCal = (CdChronCal | CdBase1970 | CdHasLeap | Cd365 | CdJulianType),
   CdChronNoLeap = (CdChronCal | CdBase1970 | CdNoLeap | Cd365), /* 4113 */
-  CdChron360    = (CdChronCal | CdBase1970 | CdNoLeap | Cd360), /*   17 */
-  CdRel         = (CdChronCal | CdBaseRel | CdHasLeap | Cd365), /* 4353 */
-  CdRelNoLeap   = (CdChronCal | CdBaseRel | CdNoLeap | Cd365),  /* 4097 */
-  CdClim        = (CdClimCal | CdBaseRel | CdNoLeap | Cd365),   /* 4096 */
-  CdClimLeap    = (CdClimCal | CdBaseRel | CdHasLeap | Cd365),
-  CdClim360     = (CdClimCal | CdBaseRel | CdNoLeap | Cd365),
-  CdChron366    = (CdChronCal | CdBase1970 | CdNoLeap | Cd366)
+  CdChron360 = (CdChronCal | CdBase1970 | CdNoLeap | Cd360),    /*   17 */
+  CdRel = (CdChronCal | CdBaseRel | CdHasLeap | Cd365),         /* 4353 */
+  CdRelNoLeap = (CdChronCal | CdBaseRel | CdNoLeap | Cd365),    /* 4097 */
+  CdClim = (CdClimCal | CdBaseRel | CdNoLeap | Cd365),          /* 4096 */
+  CdClimLeap = (CdClimCal | CdBaseRel | CdHasLeap | Cd365),
+  CdClim360 = (CdClimCal | CdBaseRel | CdNoLeap | Cd365),
+  CdChron366 = (CdChronCal | CdBase1970 | CdNoLeap | Cd366)
 } CdTimeType;
 
 typedef struct {
@@ -111,14 +111,14 @@ typedef struct {
 
 typedef enum cdCalenType {
   cdStandard = (cdStandardCal | cdHasLeap | cd365Days),
-  cdJulian   = (cdStandardCal | cdHasLeap | cd365Days | cdJulianCal),
-  cdNoLeap   = (cdStandardCal | cdHasNoLeap | cd365Days),
-  cd360      = (cdStandardCal | cdHasNoLeap | cd360Days),
-  cd366      = (cdStandardCal | cdHasNoLeap | cd366Days),
-  cdClim     = (cdClimCal | cdHasNoLeap | cd365Days),
+  cdJulian = (cdStandardCal | cdHasLeap | cd365Days | cdJulianCal),
+  cdNoLeap = (cdStandardCal | cdHasNoLeap | cd365Days),
+  cd360 = (cdStandardCal | cdHasNoLeap | cd360Days),
+  cd366 = (cdStandardCal | cdHasNoLeap | cd366Days),
+  cdClim = (cdClimCal | cdHasNoLeap | cd365Days),
   cdClimLeap = (cdClimCal | cdHasLeap | cd365Days),
-  cdClim360  = (cdClimCal | cdHasNoLeap | cd360Days),
-  cdMixed    = (cdStandardCal | cdHasLeap | cd365Days | cdMixedCal)
+  cdClim360 = (cdClimCal | cdHasNoLeap | cd360Days),
+  cdMixed = (cdStandardCal | cdHasLeap | cd365Days | cdMixedCal)
 } cdCalenType;
 
 /* Component time */

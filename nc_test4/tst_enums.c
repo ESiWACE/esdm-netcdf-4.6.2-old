@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
     /* Can't use the same name twice! */
     char member_name[NUM_MEMBERS][NC_MAX_NAME + 1] = {"Mene1", "Mene2",
     "Tekel", "Upharsin"};
-    int member_value[NUM_MEMBERS]                  = {0, 99, 81232, 12};
+    int member_value[NUM_MEMBERS] = {0, 99, 81232, 12};
 
     /* Create a file. */
     if (nc_create(FILE_NAME, NC_NETCDF4, &ncid)) ERR;
@@ -100,8 +100,8 @@ int main(int argc, char **argv) {
     char brady_name[NUM_BRADYS][NC_MAX_NAME + 1] = {"Mike", "Carol", "Greg", "Marsha",
     "Peter", "Jan", "Bobby", "Whats-her-face",
     "Alice"};
-    unsigned char brady_value[NUM_BRADYS]        = {8, 7, 6, 5, 4, 3, 2, 1, 0};
-    unsigned char data[BRADY_DIM_LEN]            = {0, 4, 8};
+    unsigned char brady_value[NUM_BRADYS] = {8, 7, 6, 5, 4, 3, 2, 1, 0};
+    unsigned char data[BRADY_DIM_LEN] = {0, 4, 8};
     unsigned char value_in;
 
     /* Create a file. */
@@ -170,18 +170,18 @@ int main(int argc, char **argv) {
     unsigned char att_value_in;
 
     enum clouds { /* a C enumeration */
-      CLEAR         = 0,
-      CUMULONIMBUS  = 1,
-      STRATUS       = 2,
+      CLEAR = 0,
+      CUMULONIMBUS = 1,
+      STRATUS = 2,
       STRATOCUMULUS = 3,
-      CUMULUS       = 4,
-      ALTOSTRATUS   = 5,
-      NIMBOSTRATUS  = 6,
-      ALTOCUMULUS   = 7,
-      CIRROSTRATUS  = 8,
-      CIRROCUMULUS  = 9,
-      CIRRUS        = 10,
-      MISSING       = 255
+      CUMULUS = 4,
+      ALTOSTRATUS = 5,
+      NIMBOSTRATUS = 6,
+      ALTOCUMULUS = 7,
+      CIRROSTRATUS = 8,
+      CIRROCUMULUS = 9,
+      CIRRUS = 10,
+      MISSING = 255
     };
 
     struct {
@@ -301,9 +301,9 @@ int main(int argc, char **argv) {
     "bails of old nanny goats' tails", "barrels of stones",
     "dogs", "hogs", "barrels of porter",
     "sides of old blind horses hides"};
-    unsigned long long field_value[NUM_ENUM_FIELDS]   = {1000000, 2000000, 3000000, 4000000,
+    unsigned long long field_value[NUM_ENUM_FIELDS] = {1000000, 2000000, 3000000, 4000000,
     5000000, 6000000, 7000000, 8000000};
-    unsigned long long data                           = 1000000, data_in;
+    unsigned long long data = 1000000, data_in;
 
     /* Create a netcdf-4 file. */
     /*nc_set_log_level(3);*/

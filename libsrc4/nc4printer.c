@@ -65,11 +65,11 @@ struct NCID {
   } group; /*sort == GROUP*/
 };
 
-#define MAKEID(Node, Sort, Parent, Id)            \
-  NCID *Node   = (NCID *)calloc(1, sizeof(NCID)); \
-  Node->sort   = Sort;                            \
-  Node->parent = Parent;                          \
-  Node->id     = Id;                              \
+#define MAKEID(Node, Sort, Parent, Id)          \
+  NCID *Node = (NCID *)calloc(1, sizeof(NCID)); \
+  Node->sort = Sort;                            \
+  Node->parent = Parent;                        \
+  Node->id = Id;                                \
   track(out, Node);
 
 union NUMVALUE {
@@ -132,12 +132,12 @@ int NC4print(NCbytes *buf, int ncid) {
   if (buf == NULL) return NC_EINVAL;
   out = (NC4printer *)calloc(1, sizeof(NC4printer));
   if (out == NULL) return NC_ENOMEM;
-  out->out      = buf;
-  out->tmp1     = ncbytesnew();
-  out->tmp2     = ncbytesnew();
+  out->out = buf;
+  out->tmp1 = ncbytesnew();
+  out->tmp2 = ncbytesnew();
   out->allnodes = nclistnew();
-  out->types    = nclistnew();
-  out->dims     = nclistnew();
+  out->types = nclistnew();
+  out->dims = nclistnew();
 
   MAKEID(root, GROUP, NULL, ncid);
   root->group.isroot = 1;
@@ -203,7 +203,7 @@ freeNC4Printer(NC4printer *out) {
 static int
 printNode(NC4printer *out, NCID *node, int depth) {
   int ret = NC_NOERR;
-  int i   = 0;
+  int i = 0;
   char name[NC_MAX_NAME + 1];
   int ndims, nvars, natts, nunlim, ntypes, ngroups;
   int n;
@@ -250,7 +250,7 @@ printNode(NC4printer *out, NCID *node, int depth) {
           if ((ret = nc_inq_user_type(node->id, ids[i], name, &size, &base, NULL, &kind))) FAIL;
           MAKEID(eid, USERTYPE, node, ids[i]);
           SETNAME(eid, name);
-          eid->size          = size;
+          eid->size = size;
           eid->usertype.kind = kind;
           if (base > 0) eid->base = findType(out, base);
           record(out, eid);
@@ -265,7 +265,7 @@ printNode(NC4printer *out, NCID *node, int depth) {
           if ((ret = nc_inq_var(node->id, ids[i], name, &base, &ndims, NULL, NULL))) FAIL;
           MAKEID(vid, VAR, node, ids[i]);
           SETNAME(vid, name);
-          vid->base     = findType(out, base);
+          vid->base = findType(out, base);
           vid->var.rank = ndims;
           printNode(out, vid, depth);
           CAT("\n");
@@ -348,7 +348,7 @@ printNode(NC4printer *out, NCID *node, int depth) {
             if ((ret = nc_inq_compound_field(GROUPOF(node), node->id, i, name, NULL, &base, NULL, NULL))) FAIL;
             MAKEID(id, FIELD, node->parent, node->id);
             SETNAME(id, name);
-            id->base      = findType(out, base);
+            id->base = findType(out, base);
             id->field.fid = i;
             printNode(out, id, depth);
             CAT("\n");
@@ -459,7 +459,7 @@ printXMLAttributeString(NC4printer *out, char *name, char *s) {
 static int
 printAttribute(NC4printer *out, NCID *attr, int depth) {
   int ret = NC_NOERR;
-  int i   = 0;
+  int i = 0;
   void *values;
 
   INDENT(depth);
@@ -729,7 +729,7 @@ buildAtomicTypes(NC4printer *out, NCID *root) {
     getAtomicTypeName(tid, name);
     MAKEID(type, ATOMTYPE, root, tid);
     SETNAME(type, name);
-    type->size          = size;
+    type->size = size;
     type->usertype.kind = tid;
     record(out, type);
   }
@@ -759,13 +759,13 @@ printOpaque(NCbytes *out, const unsigned char *s, size_t len, int leadx) {
   int i;
   char digit;
   if (s == NULL) {
-    s   = (unsigned char *)"";
+    s = (unsigned char *)"";
     len = 1;
   }
   if (leadx) ncbytescat(out, "0x");
   for (i = 0; i < len; i++) {
     unsigned int c = s[i];
-    digit          = hexchars[(c >> 4) & 0xF];
+    digit = hexchars[(c >> 4) & 0xF];
     ncbytesappend(out, digit);
     digit = hexchars[c & 0xF];
     ncbytesappend(out, digit);
@@ -783,11 +783,11 @@ static int
 readAttributeValues(NCID *attr, void **valuesp) {
   int ret;
   void *values = NULL;
-  NCID *var    = attr->parent;
-  NCID *base   = attr->base;
+  NCID *var = attr->parent;
+  NCID *base = attr->base;
   size_t len;
 
-  len    = base->size * attr->size;
+  len = base->size * attr->size;
   values = malloc(len);
   if (values == NULL) return NC_ENOMEM;
   if ((ret = nc_get_att(GROUPOF(var), var->id, attr->name, values))) FAIL;

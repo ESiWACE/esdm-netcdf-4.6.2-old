@@ -84,10 +84,10 @@ int main(int argc, char **argv) {
   char *filename = "tst_diskless.nc";
 
   /* Set defaults */
-  persist    = 0;
+  persist = 0;
   usenetcdf4 = 0;
-  mmap       = 0;
-  diskless   = 0;
+  mmap = 0;
+  diskless = 0;
 
   for (i = 1; i < argc; i++) {
     if (strcmp(argv[i], "netcdf4") == 0)
@@ -129,7 +129,7 @@ int main(int argc, char **argv) {
     char name_in[NC_MAX_NAME + 1];
     nc_type type_in;
     float float_data = 3.14, float_data_in;
-    int int_data     = 42, int_data_in;
+    int int_data = 42, int_data_in;
     short short_data = 2, short_data_in;
 
     removefile(persist, filename);
@@ -177,7 +177,7 @@ int main(int argc, char **argv) {
   if (!usenetcdf4 && persist) {
     int ncid, varid0, varid1, varid2;
     float float_data = 3.14, float_data_in;
-    int int_data     = 42, int_data_in;
+    int int_data = 42, int_data_in;
     short short_data = 2, short_data_in;
 
     printf("*** testing diskless open of previously created file...");
@@ -299,7 +299,7 @@ int main(int argc, char **argv) {
     char name_in[NC_MAX_NAME + 1];
     nc_type type_in;
     float float_data = 3.14, float_data_in;
-    int int_data     = 42, int_data_in;
+    int int_data = 42, int_data_in;
     short short_data = 2, short_data_in;
 
     removefile(persist, filename);

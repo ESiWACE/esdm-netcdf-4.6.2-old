@@ -88,7 +88,7 @@ static void
 changeaccess(int rdonly) {
   const char *p3 = FILE3DP; /* Keep Visual Studio happy */
   const char *p4 = FILE4DP;
-  int mode       = (rdonly ? RDONLYMODE : RDWRMODE);
+  int mode = (rdonly ? RDONLYMODE : RDWRMODE);
   (void)CHMOD(p3, mode);
   (void)CHMOD(p4, mode);
 }

@@ -106,7 +106,7 @@ int main(int argc, char **argv) {
   char name_in[NC_MAX_NAME + 1];
   size_t len;
   size_t cs[NDIMS3] = {0, 0, 0};
-  int cache         = MEGABYTE;
+  int cache = MEGABYTE;
   int ndims, dimid[NDIMS3];
   float hor_data[LAT_LEN * LON_LEN];
   int read_1_us, avg_read_us;

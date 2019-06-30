@@ -109,7 +109,7 @@ buildbaseline(void) {
 
 /**************************************************/
 int main(int argc, char **argv) {
-  int stat        = 0;
+  int stat = 0;
   unsigned int id = 0;
   size_t i, nparams = 0;
   unsigned int *params = NULL;
@@ -169,16 +169,16 @@ int main(int argc, char **argv) {
 static void
 byteswap8(unsigned char *mem) {
   unsigned char c;
-  c      = mem[0];
+  c = mem[0];
   mem[0] = mem[7];
   mem[7] = c;
-  c      = mem[1];
+  c = mem[1];
   mem[1] = mem[6];
   mem[6] = c;
-  c      = mem[2];
+  c = mem[2];
   mem[2] = mem[5];
   mem[5] = c;
-  c      = mem[3];
+  c = mem[3];
   mem[3] = mem[4];
   mem[4] = c;
 }

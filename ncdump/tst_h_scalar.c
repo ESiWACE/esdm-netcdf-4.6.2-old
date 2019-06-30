@@ -54,7 +54,7 @@ int add_attrs(hid_t objid) {
 
   /* Create attribute with VL string data type on object */
   if ((attid = H5Acreate2(objid, VSTR_ATT3_NAME, vlstr_typeid, scalar_spaceid, H5P_DEFAULT, H5P_DEFAULT)) < 0) ERR_GOTO;
-  vlstr  = malloc(10);
+  vlstr = malloc(10);
   *vlstr = '\0';
   if (H5Awrite(attid, vlstr_typeid, &vlstr) < 0) ERR_GOTO;
   if (H5Aclose(attid) < 0) ERR_GOTO;
@@ -198,7 +198,7 @@ int main() {
     if (nc_def_var(ncid, VSTR_VAR3_NAME, NC_STRING, 0, NULL, &varid)) ERR;
 
     /* Write to the variable */
-    vlstr  = malloc(10);
+    vlstr = malloc(10);
     *vlstr = '\0';
     if (nc_put_var(ncid, varid, &vlstr)) ERR;
 

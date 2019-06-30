@@ -100,8 +100,8 @@ static void *nvmalloc(off_t size) {
 #    define A_INIT(lhs, type, ndims, rhs)                    \
       {                                                      \
         if ((off_t)ndims >= 0) {                             \
-          const long *lp  = rhs;                             \
-          type *tp        = lhs;                             \
+          const long *lp = rhs;                              \
+          type *tp = lhs;                                    \
           type *const end = lhs + ndims;                     \
           while (tp < end) {                                 \
             *tp++ = (type)*lp++;                             \
@@ -133,9 +133,9 @@ typedef signed char schar; /**< Signed character type. */
  */
 static int
 numrecvars(int ncid, int *nrecvarsp, int *recvarids) {
-  int status   = NC_NOERR;
-  int nvars    = 0;
-  int ndims    = 0;
+  int status = NC_NOERR;
+  int nvars = 0;
+  int ndims = 0;
   int nrecvars = 0;
   int varid;
   int recdimid;
@@ -193,7 +193,7 @@ ncrecsize(int ncid, int varid, size_t *recsizep) {
   int size;
 
   *recsizep = 0;
-  status    = nc_inq_unlimdim(ncid, &recdimid);
+  status = nc_inq_unlimdim(ncid, &recdimid);
   if (status != NC_NOERR)
     return status;
   status = nc_inq_vartype(ncid, varid, &type);
@@ -287,7 +287,7 @@ size_t *nrecvarsp,
 int *recvarids,
 size_t *recsizes) {
   int status = NC_NOERR;
-  int nvars  = 0;
+  int nvars = 0;
   int recdimid;
   int varid;
   int rvarids[MAX_NC_VARS];
@@ -374,7 +374,7 @@ void *const *datap) {
         return status;
 
       edges[0] = 1; /* only 1 record's worth */
-      status   = nc_put_vara(ncid, rvarids[varid], start, edges, datap[varid]);
+      status = nc_put_vara(ncid, rvarids[varid], start, edges, datap[varid]);
       if (status != NC_NOERR)
         return status;
     }
@@ -432,7 +432,7 @@ void **datap) {
       if (status != NC_NOERR)
         return status;
       edges[0] = 1; /* only 1 record's worth */
-      status   = nc_get_vara(ncid, rvarids[varid], start, edges, datap[varid]);
+      status = nc_get_vara(ncid, rvarids[varid], start, edges, datap[varid]);
       if (status != NC_NOERR)
         return status;
     }
@@ -801,7 +801,7 @@ const char *name,
 nc_type datatype,
 int ndims,
 const int *dim) {
-  int varid        = -1;
+  int varid = -1;
   const int status = nc_def_var(ncid, name, datatype, ndims, dim, &varid);
   if (status != NC_NOERR) {
     nc_advise("ncvardef", status, "ncid %d", ncid);
@@ -825,7 +825,7 @@ written with the V3 API. See V3 function nc_inq_varid().
 int ncvarid(
 int ncid,
 const char *name) {
-  int varid        = -1;
+  int varid = -1;
   const int status = nc_inq_varid(ncid, name, &varid);
   if (status != NC_NOERR) {
     nc_advise("ncvarid", status, "ncid %d", ncid);
@@ -1157,7 +1157,7 @@ const void *value) {
       ret = nc_inq_vartype(ncid, varid, &type);
       if (ret) return ret;
       el_size = nctypelen(type);
-      imp     = (ptrdiff_t *)malloc(ndims * sizeof(ptrdiff_t));
+      imp = (ptrdiff_t *)malloc(ndims * sizeof(ptrdiff_t));
       for (i = 0; i < ndims; i++)
         imp[i] = map[i] / el_size;
     }
@@ -1227,7 +1227,7 @@ void *value) {
       ret = nc_inq_vartype(ncid, varid, &type);
       if (ret) return ret;
       el_size = nctypelen(type);
-      imp     = (ptrdiff_t *)malloc(ndims * sizeof(ptrdiff_t));
+      imp = (ptrdiff_t *)malloc(ndims * sizeof(ptrdiff_t));
       for (i = 0; i < ndims; i++)
         imp[i] = map[i] / el_size;
     }
@@ -1503,7 +1503,7 @@ written with the V3 API. See V3 function nc_set_fill().
 int ncsetfill(
 int ncid,
 int fillmode) {
-  int oldmode      = -1;
+  int oldmode = -1;
   const int status = nc_set_fill(ncid, fillmode, &oldmode);
   if (status != NC_NOERR) {
     nc_advise("ncsetfill", status, "ncid %d", ncid);

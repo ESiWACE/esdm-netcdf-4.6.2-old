@@ -280,11 +280,11 @@ int nc_copy_var(int ncid_in, int varid_in, int ncid_out) {
   int ndims, dimids_in[NC_MAX_VAR_DIMS], dimids_out[NC_MAX_VAR_DIMS], natts, real_ndims;
   int varid_out;
   int a, d;
-  void *data    = NULL;
+  void *data = NULL;
   size_t *count = NULL, *start = NULL;
-  size_t reclen  = 1;
+  size_t reclen = 1;
   size_t *dimlen = NULL;
-  int retval     = NC_NOERR;
+  int retval = NC_NOERR;
   size_t type_size;
   int src_format, dest_format;
   char type_name[NC_MAX_NAME + 1];

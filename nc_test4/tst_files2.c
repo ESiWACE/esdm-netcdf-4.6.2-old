@@ -75,7 +75,7 @@ void get_mem_used2(int *mem_used) {
 
 void get_mem_used3(int *mem_used) {
   void *vp;
-  vp        = sbrk(0);
+  vp = sbrk(0);
   *mem_used = ((char *)vp - (char *)last_sbrk) / 1024;
 }
 
@@ -185,10 +185,10 @@ int main(int argc, char **argv) {
            "open_time(us/file)\tclose_time(us/file)\tcreate_time(us/file)\n");
     for (t = 0; t < NUM_TRIES; t++) {
       strcpy(mode_name[t], "netcdf4");
-      mode[t]       = NC_NETCDF4;
+      mode[t] = NC_NETCDF4;
       cache_size[t] = 16000000;
-      num_vars[t]   = 10;
-      ndims[t]      = 4;
+      num_vars[t] = 10;
+      ndims[t] = 4;
       for (d = 0; d < ndims[t]; d++)
         dim_len[t][d] = dim_4d[d];
 

@@ -37,7 +37,7 @@
 static int
 test_big_var(const char *testfile) {
   int ncid, varid, dimids[NUMDIMS];
-  int cflag    = NC_CLOBBER;
+  int cflag = NC_CLOBBER;
   nc_type type = NC_BYTE;
   size_t index[NUMDIMS];
   signed char nval = 99;

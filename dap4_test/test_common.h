@@ -18,13 +18,13 @@ typedef int TDMR;
 #define TDMR_META 2
 #define TDMR_DATA 4
 
-static NCbytes *input     = NULL;
-static NCbytes *output    = NULL;
+static NCbytes *input = NULL;
+static NCbytes *output = NULL;
 static NCD4meta *metadata = NULL;
-static char *infile       = NULL;
-static char *outfile      = NULL;
-static int ncid           = 0;
-static int translatenc4   = 0;
+static char *infile = NULL;
+static char *outfile = NULL;
+static int ncid = 0;
+static int translatenc4 = 0;
 
 static int
 readfile(const char *filename, NCbytes *content) {
@@ -60,17 +60,17 @@ setup(int tdmr, int argc, char **argv) {
   int ret = NC_NOERR;
   argc--;
   argv++;
-  int expected  = 0;
+  int expected = 0;
   NCD4mode mode = 0;
 
   switch (tdmr) {
     case TDMR_PARSE:
       expected = 1;
-      mode     = NCD4_DMR;
+      mode = NCD4_DMR;
       break;
     case TDMR_META:
       expected = 2;
-      mode     = NCD4_DMR;
+      mode = NCD4_DMR;
       break;
     case TDMR_DATA:
       fprintf(stderr, "setup is not used for t_dmrdata\n");
@@ -82,10 +82,10 @@ setup(int tdmr, int argc, char **argv) {
     fprintf(stderr, "too few arguments\n");
     exit(1);
   }
-  infile  = argv[0];
+  infile = argv[0];
   outfile = NULL;
-  input   = ncbytesnew();
-  output  = ncbytesnew();
+  input = ncbytesnew();
+  output = ncbytesnew();
   if ((ret = readfile(infile, input))) fail(ret);
   {
     const char *trans = getenv("translatenc4");
@@ -106,7 +106,7 @@ setup(int tdmr, int argc, char **argv) {
     NCD4INFO *controller = (NCD4INFO *)calloc(1, sizeof(NCD4INFO));
     if (controller == NULL)
       fail(NC_ENOMEM);
-    metadata->controller             = controller;
+    metadata->controller = controller;
     controller->controls.translation = NCD4_TRANSNC4;
     if (translatenc4)
       controller->controls.translation = NCD4_TRANSNC4;
@@ -116,8 +116,8 @@ setup(int tdmr, int argc, char **argv) {
     fail(ret);
 #ifdef DEBUG
   {
-    int swap  = (metadata->serial.hostbigendian != metadata->serial.remotebigendian);
-    void *d   = metadata->serial.dap;
+    int swap = (metadata->serial.hostbigendian != metadata->serial.remotebigendian);
+    void *d = metadata->serial.dap;
     size_t sz = metadata->serial.dapsize;
     fprintf(stderr, "====================\n");
     fprintf(stderr, "%s\n", metadata->serial.dmr);

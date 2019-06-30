@@ -55,7 +55,7 @@ projectionlist(DCEparsestate *state, Object list0, Object decl) {
 Object
 projection(DCEparsestate *state, Object varorfcn) {
   DCEprojection *p = (DCEprojection *)dcecreate(CES_PROJECT);
-  CEsort tag       = *(CEsort *)varorfcn;
+  CEsort tag = *(CEsort *)varorfcn;
   if (tag == CES_FCN)
     p->fcn = varorfcn;
   else
@@ -85,13 +85,13 @@ Object
 segment(DCEparsestate *state, Object name, Object slices0) {
   int i;
   DCEsegment *segment = (DCEsegment *)dcecreate(CES_SEGMENT);
-  NClist *slices      = (NClist *)slices0;
-  segment->name       = strdup((char *)name);
+  NClist *slices = (NClist *)slices0;
+  segment->name = strdup((char *)name);
   if (slices != NULL && nclistlength(slices) > 0) {
-    segment->rank          = nclistlength(slices);
+    segment->rank = nclistlength(slices);
     segment->slicesdefined = 1; /* but not declsizes */
     for (i = 0; i < nclistlength(slices); i++) {
-      DCEslice *slice    = (DCEslice *)nclistget(slices, i);
+      DCEslice *slice = (DCEslice *)nclistget(slices, i);
       segment->slices[i] = *slice;
       free(slice);
     }
@@ -113,7 +113,7 @@ rangelist(DCEparsestate *state, Object list0, Object decl) {
 
 Object
 range(DCEparsestate *state, Object sfirst, Object sstride, Object slast) {
-  DCEslice *slice     = (DCEslice *)dcecreate(CES_SLICE);
+  DCEslice *slice = (DCEslice *)dcecreate(CES_SLICE);
   unsigned long first = 0, stride = 0, last = 0;
 
   /* Note: that incoming arguments are strings; we must convert to size_t;
@@ -135,11 +135,11 @@ range(DCEparsestate *state, Object sfirst, Object sstride, Object slast) {
     dceerror(state, "Illegal index for range stride");
   if (last < first)
     dceerror(state, "Illegal index for range last index");
-  slice->first  = first;
+  slice->first = first;
   slice->stride = (stride == 0 ? 1 : stride);
-  slice->last   = last;
+  slice->last = last;
   slice->length = (slice->last - slice->first) + 1;
-  slice->count  = slice->length / slice->stride;
+  slice->count = slice->length / slice->stride;
 #ifdef DEBUG
   fprintf(stderr, "	ce.slice: %s\n",
   dumpslice(slice));
@@ -167,8 +167,8 @@ Object
 sel_clause(DCEparsestate *state, int selcase,
 Object lhs, Object relop0, Object values) {
   DCEselection *sel = (DCEselection *)dcecreate(CES_SELECT);
-  sel->operator     =(CEsort) relop0;
-  sel->lhs          = (DCEvalue *)lhs;
+  sel->operator=(CEsort) relop0;
+  sel->lhs = (DCEvalue *)lhs;
   if (selcase == 2) { /*singleton value*/
     sel->rhs = nclistnew();
     nclistpush(sel->rhs, (void *)values);
@@ -186,7 +186,7 @@ Object
 array_indices(DCEparsestate *state, Object list0, Object indexno) {
   DCEslice *slice;
   long long start = -1;
-  NClist *list    = (NClist *)list0;
+  NClist *list = (NClist *)list0;
   if (list == NULL) list = nclistnew();
   if (sscanf((char *)indexno, "%lld", &start) != 1)
     start = -1;
@@ -194,12 +194,12 @@ array_indices(DCEparsestate *state, Object list0, Object indexno) {
     dceerror(state, "Illegal array index");
     start = 1;
   }
-  slice         = (DCEslice *)dcecreate(CES_SLICE);
-  slice->first  = start;
+  slice = (DCEslice *)dcecreate(CES_SLICE);
+  slice->first = start;
   slice->stride = 1;
   slice->length = 1;
-  slice->last   = start;
-  slice->count  = 1;
+  slice->last = start;
+  slice->count = 1;
   nclistpush(list, (void *)slice);
   return list;
 }
@@ -207,12 +207,12 @@ array_indices(DCEparsestate *state, Object list0, Object indexno) {
 Object
 indexer(DCEparsestate *state, Object name, Object indices) {
   int i;
-  NClist *list    = (NClist *)indices;
+  NClist *list = (NClist *)indices;
   DCEsegment *seg = (DCEsegment *)dcecreate(CES_SEGMENT);
-  seg->name       = strdup((char *)name);
+  seg->name = strdup((char *)name);
   for (i = 0; i < nclistlength(list); i++) {
     DCEslice *slice = (DCEslice *)nclistget(list, i);
-    seg->slices[i]  = *slice;
+    seg->slices[i] = *slice;
     free(slice);
   }
   nclistfree(indices);
@@ -222,8 +222,8 @@ indexer(DCEparsestate *state, Object name, Object indices) {
 Object
 function(DCEparsestate *state, Object fcnname, Object args) {
   DCEfcn *fcn = (DCEfcn *)dcecreate(CES_FCN);
-  fcn->name   = nulldup((char *)fcnname);
-  fcn->args   = args;
+  fcn->name = nulldup((char *)fcnname);
+  fcn->args = args;
   return fcn;
 }
 
@@ -241,7 +241,7 @@ value_list(DCEparsestate *state, Object list0, Object decl) {
 Object
 value(DCEparsestate *state, Object val) {
   DCEvalue *ncvalue = (DCEvalue *)dcecreate(CES_VALUE);
-  CEsort tag        = *(CEsort *)val;
+  CEsort tag = *(CEsort *)val;
   switch (tag) {
     case CES_VAR: ncvalue->var = (DCEvar *)val; break;
     case CES_FCN: ncvalue->fcn = (DCEfcn *)val; break;
@@ -254,7 +254,7 @@ value(DCEparsestate *state, Object val) {
 
 Object
 var(DCEparsestate *state, Object indexpath) {
-  DCEvar *v   = (DCEvar *)dcecreate(CES_VAR);
+  DCEvar *v = (DCEvar *)dcecreate(CES_VAR);
   v->segments = (NClist *)indexpath;
   return v;
 }
@@ -262,12 +262,12 @@ var(DCEparsestate *state, Object indexpath) {
 Object
 constant(DCEparsestate *state, Object val, int tag) {
   DCEconstant *con = (DCEconstant *)dcecreate(CES_CONST);
-  char *text       = (char *)val;
-  char *endpoint   = NULL;
+  char *text = (char *)val;
+  char *endpoint = NULL;
   switch (tag) {
     case SCAN_STRINGCONST:
       con->discrim = CES_STR;
-      con->text    = nulldup(text);
+      con->text = nulldup(text);
       break;
     case SCAN_NUMBERCONST:
       con->intvalue = strtoll(text, &endpoint, 10);
@@ -323,7 +323,7 @@ ce_parse_init(char *input, DCEconstraint *constraint) {
     dceerror(state, "ce_parse_init: no input buffer");
   } else {
     state->errorbuf[0] = '\0';
-    state->errorcode   = 0;
+    state->errorcode = 0;
     dcelexinit(input, &state->lexstate);
     state->constraint = constraint;
   }

@@ -44,7 +44,7 @@ extern int dcedebug;
 #ifndef YYTOKENTYPE
 #  define YYTOKENTYPE
 enum yytokentype {
-  SCAN_WORD        = 258,
+  SCAN_WORD = 258,
   SCAN_STRINGCONST = 259,
   SCAN_NUMBERCONST = 260
 };

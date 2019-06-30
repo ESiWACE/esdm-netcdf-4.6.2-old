@@ -53,7 +53,7 @@ int add_to_NCList(NC *ncp) {
   if (new_id == 0) return NC_ENOMEM; /* no more slots */
   nc_filelist[new_id] = ncp;
   numfiles++;
-  new_id        = (new_id << ID_SHIFT);
+  new_id = (new_id << ID_SHIFT);
   ncp->ext_ncid = new_id;
   return NC_NOERR;
 }
@@ -77,7 +77,7 @@ void del_from_NCList(NC *ncp) {
 }
 
 NC *find_in_NCList(int ext_ncid) {
-  NC *f             = NULL;
+  NC *f = NULL;
   unsigned int ncid = ((unsigned int)ext_ncid) >> ID_SHIFT;
   if (numfiles > 0 && nc_filelist != NULL && ncid < NCFILELISTLENGTH)
     f = nc_filelist[ncid];

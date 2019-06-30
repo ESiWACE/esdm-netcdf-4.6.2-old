@@ -29,7 +29,7 @@ j_charconstant(Generator *generator, Symbol *sym, Bytebuffer *codebuf, ...) {
 static int
 j_constant(Generator *generator, Symbol *sym, NCConstant *con, Bytebuffer *buf, ...) {
   Bytebuffer *codetmp = bbNew();
-  char *special       = NULL;
+  char *special = NULL;
 
   switch (con->nctype) {
     case NC_CHAR:
@@ -79,7 +79,7 @@ j_constant(Generator *generator, Symbol *sym, NCConstant *con, Bytebuffer *buf, 
     case NC_STRING: { /* handle separately */
       char *escaped = escapify(con->value.stringv.stringv,
       '"', con->value.stringv.len);
-      special       = poolalloc(1 + 2 + strlen(escaped));
+      special = poolalloc(1 + 2 + strlen(escaped));
       strcpy(special, "\"");
       strcat(special, escaped);
       strcat(special, "\"");

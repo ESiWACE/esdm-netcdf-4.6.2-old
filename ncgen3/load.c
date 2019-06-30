@@ -60,11 +60,11 @@ static void
 gen_load_c(
 void *rec_start) {
   int idim, ival;
-  char *val_string   = NULL;
-  char *charvalp     = NULL;
-  short *shortvalp   = NULL;
-  int *intvalp       = NULL;
-  float *floatvalp   = NULL;
+  char *val_string = NULL;
+  char *charvalp = NULL;
+  short *shortvalp = NULL;
+  int *intvalp = NULL;
+  float *floatvalp = NULL;
   double *doublevalp = NULL;
   char stmnt[C_MAX_STMNT];
   size_t stmnt_len;
@@ -242,7 +242,7 @@ void *rec_start) {
 
     switch (vars[varnum].type) {
       case NC_CHAR:
-        val_string                         = cstrstr((char *)rec_start, var_len);
+        val_string = cstrstr((char *)rec_start, var_len);
         val_string[strlen(val_string) - 1] = '\0';
         sprintf(s2, "'%s'", &val_string[1]);
         free(val_string);

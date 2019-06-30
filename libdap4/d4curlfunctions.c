@@ -48,9 +48,9 @@ Set a specific curl flag; primary wrapper for curl_easy_setopt
 */
 static int
 set_curlopt(NCD4INFO *state, int flag, void *value) {
-  int ret        = NC_NOERR;
+  int ret = NC_NOERR;
   CURLcode cstat = CURLE_OK;
-  cstat          = curl_easy_setopt(state->curl->curl, flag, value);
+  cstat = curl_easy_setopt(state->curl->curl, flag, value);
   if (cstat != CURLE_OK)
     ret = NC_ECURL;
   return THROW(ret);
@@ -307,7 +307,7 @@ void NCD4_curl_protocols(NCD4INFO *state) {
 */
 ncerror
 NCD4_get_rcproperties(NCD4INFO *state) {
-  ncerror err  = NC_NOERR;
+  ncerror err = NC_NOERR;
   char *option = NULL;
 #ifdef HAVE_CURLOPT_BUFFERSIZE
   option = NC_rclookup(D4BUFFERSIZE, state->uri->uri);
@@ -329,13 +329,13 @@ NCD4_get_rcproperties(NCD4INFO *state) {
     if (strcasecmp(option, "on") == 0) {
       state->curl->keepalive.active = 1;
     } else {
-      unsigned long idle     = 0;
+      unsigned long idle = 0;
       unsigned long interval = 0;
       if (sscanf(option, "%lu/%lu", &idle, &interval) != 2)
         fprintf(stderr, "Illegal KEEPALIVE VALUE: %s\n", option);
-      state->curl->keepalive.idle     = idle;
+      state->curl->keepalive.idle = idle;
       state->curl->keepalive.interval = interval;
-      state->curl->keepalive.active   = 1;
+      state->curl->keepalive.active = 1;
     }
   }
 #endif

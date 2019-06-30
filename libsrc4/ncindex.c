@@ -164,7 +164,7 @@ also recompute their hashkey.
 int ncindexrebuild(NCindex *index) {
 #ifndef NCNOHASH
   size_t i;
-  size_t size       = nclistlength(index->list);
+  size_t size = nclistlength(index->list);
   NC_OBJ **contents = (NC_OBJ **)nclistextract(index->list);
   /* Reset the index map and list*/
   nclistfree(index->list);
@@ -197,8 +197,8 @@ int ncindexfree(NCindex *index) {
 NCindex *
 ncindexnew(size_t size0) {
   NCindex *index = NULL;
-  size_t size    = (size0 == 0 ? DFALTTABLESIZE : size0);
-  index          = calloc(1, sizeof(NCindex));
+  size_t size = (size0 == 0 ? DFALTTABLESIZE : size0);
+  index = calloc(1, sizeof(NCindex));
   if (index == NULL) return NULL;
   index->list = nclistnew();
   if (index->list == NULL) {
@@ -273,9 +273,9 @@ next2:
 
   /* Verify that map entry points to same-named entry in vector */
   for (m = 0; m < lm->map->alloc; m++) {
-    NC_hentry *e    = &lm->map->table[m];
-    char **object   = NULL;
-    char *oname     = NULL;
+    NC_hentry *e = &lm->map->table[m];
+    char **object = NULL;
+    char *oname = NULL;
     uintptr_t udata = (uintptr_t)e->data;
     if ((e->flags & 1) == 0) continue;
     object = nclistget(l, (size_t)udata);

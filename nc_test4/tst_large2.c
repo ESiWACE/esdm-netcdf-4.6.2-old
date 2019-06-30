@@ -34,7 +34,7 @@ int main(int argc, char **argv) {
     size_t count[NDIMS] = {1, LAT_LEN, LON_LEN};
     char file_name[NC_MAX_NAME * 2 + 1];
     float *data;
-    int this_format[NUM_FORMATS]                   = {NC_64BIT_OFFSET, NC_NETCDF4};
+    int this_format[NUM_FORMATS] = {NC_64BIT_OFFSET, NC_NETCDF4};
     char format_name[NUM_FORMATS][NC_MAX_NAME + 1] = {"64-bit offset", "netCDF-4"};
     int i, j, f;
 

@@ -26,50 +26,50 @@ typedef struct D4blob {
 /**************************************************/
 
 /* signature: void swapinline16(void* ip) */
-#define swapinline16(ip)                    \
-  {                                         \
-    union {                                 \
-      char b[2];                            \
-      unsigned short i;                     \
-    } u;                                    \
-    char *src               = (char *)(ip); \
-    u.b[0]                  = src[1];       \
-    u.b[1]                  = src[0];       \
-    *((unsigned short *)ip) = u.i;          \
+#define swapinline16(ip)           \
+  {                                \
+    union {                        \
+      char b[2];                   \
+      unsigned short i;            \
+    } u;                           \
+    char *src = (char *)(ip);      \
+    u.b[0] = src[1];               \
+    u.b[1] = src[0];               \
+    *((unsigned short *)ip) = u.i; \
   }
 
 /* signature: void swapinline32(void* ip) */
-#define swapinline32(ip)                  \
-  {                                       \
-    union {                               \
-      char b[4];                          \
-      unsigned int i;                     \
-    } u;                                  \
-    char *src             = (char *)(ip); \
-    u.b[0]                = src[3];       \
-    u.b[1]                = src[2];       \
-    u.b[2]                = src[1];       \
-    u.b[3]                = src[0];       \
-    *((unsigned int *)ip) = u.i;          \
+#define swapinline32(ip)         \
+  {                              \
+    union {                      \
+      char b[4];                 \
+      unsigned int i;            \
+    } u;                         \
+    char *src = (char *)(ip);    \
+    u.b[0] = src[3];             \
+    u.b[1] = src[2];             \
+    u.b[2] = src[1];             \
+    u.b[3] = src[0];             \
+    *((unsigned int *)ip) = u.i; \
   }
 
 /* signature: void swapinline64(void* ip) */
-#define swapinline64(ip)                        \
-  {                                             \
-    union {                                     \
-      char b[8];                                \
-      unsigned long long i;                     \
-    } u;                                        \
-    char *src                   = (char *)(ip); \
-    u.b[0]                      = src[7];       \
-    u.b[1]                      = src[6];       \
-    u.b[2]                      = src[5];       \
-    u.b[3]                      = src[4];       \
-    u.b[4]                      = src[3];       \
-    u.b[5]                      = src[2];       \
-    u.b[6]                      = src[1];       \
-    u.b[7]                      = src[0];       \
-    *((unsigned long long *)ip) = u.i;          \
+#define swapinline64(ip)               \
+  {                                    \
+    union {                            \
+      char b[8];                       \
+      unsigned long long i;            \
+    } u;                               \
+    char *src = (char *)(ip);          \
+    u.b[0] = src[7];                   \
+    u.b[1] = src[6];                   \
+    u.b[2] = src[5];                   \
+    u.b[3] = src[4];                   \
+    u.b[4] = src[3];                   \
+    u.b[5] = src[2];                   \
+    u.b[6] = src[1];                   \
+    u.b[7] = src[0];                   \
+    *((unsigned long long *)ip) = u.i; \
   }
 
 /***************************************************/

@@ -1103,11 +1103,11 @@ void driver3() {
         *(b + j) = 0;
 
       /* these should all be equal */
-      ref      = hashlittle(b, len, (uint32_t)1);
+      ref = hashlittle(b, len, (uint32_t)1);
       *(b + i) = (uint8_t)~0;
       *(b - 1) = (uint8_t)~0;
-      x        = hashlittle(b, len, (uint32_t)1);
-      y        = hashlittle(b, len, (uint32_t)1);
+      x = hashlittle(b, len, (uint32_t)1);
+      y = hashlittle(b, len, (uint32_t)1);
       if ((ref != x) || (ref != y)) {
         printf("alignment error: %.8x %.8x %.8x %d %d\n", ref, x, y,
         h, i);

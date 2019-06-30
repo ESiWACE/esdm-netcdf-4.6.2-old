@@ -58,9 +58,9 @@ struct cdfvar *ivar;
 
   test->vars[test->nvars].name = (char *)emalloc(strlen(ivar->name) + 1);
   (void)strcpy(test->vars[test->nvars].name, ivar->name);
-  test->vars[test->nvars].type  = ivar->type;
+  test->vars[test->nvars].type = ivar->type;
   test->vars[test->nvars].ndims = ivar->ndims;
-  test->vars[test->nvars].dims  = (int *)emalloc(sizeof(int) * ivar->ndims);
+  test->vars[test->nvars].dims = (int *)emalloc(sizeof(int) * ivar->ndims);
   for (i = 0; i < ivar->ndims; i++)
     test->vars[test->nvars].dims[i] = ivar->dims[i];
   test->vars[test->nvars].natts = 0;
@@ -86,18 +86,18 @@ struct cdfatt *iatt;
   for (ia = 0; ia < test->natts; ia++) {
     if (test->atts[ia].var == varid && strcmp(test->atts[ia].name, iatt->name) == 0) {
       test->atts[ia].type = iatt->type;
-      test->atts[ia].len  = iatt->len;
-      test->atts[ia].val  = iatt->val;
+      test->atts[ia].len = iatt->len;
+      test->atts[ia].val = iatt->val;
       return;
     }
   }
   /* otherwise, add new attribute to list */
-  test->atts[test->natts].var  = varid;
+  test->atts[test->natts].var = varid;
   test->atts[test->natts].name = (char *)emalloc(strlen(iatt->name) + 1);
   (void)strcpy(test->atts[test->natts].name, iatt->name);
   test->atts[test->natts].type = iatt->type;
-  test->atts[test->natts].len  = iatt->len;
-  test->atts[test->natts].val  = iatt->val;
+  test->atts[test->natts].len = iatt->len;
+  test->atts[test->natts].val = iatt->val;
   test->natts++;
   if (varid == NC_GLOBAL)
     test->ngatts++;
@@ -110,9 +110,9 @@ void
 add_reset(test) /* reset in-memory netcdf test to empty */
 struct netcdf *test;
 {
-  test->ndims  = 0;
-  test->nvars  = 0;
-  test->natts  = 0;
+  test->ndims = 0;
+  test->nvars = 0;
+  test->natts = 0;
   test->ngatts = 0;
   test->xdimid = -1; /* no unlimited dimension */
 }
@@ -131,11 +131,11 @@ struct cdfatt *iatt;
     if (test->atts[ia].var == varid && strcmp(test->atts[ia].name, iatt->name) == 0) {
       free(test->atts[ia].name);
       for (ib = ia + 1; ib < test->natts; ib++) { /* move down */
-        test->atts[ib - 1].var  = test->atts[ib].var;
+        test->atts[ib - 1].var = test->atts[ib].var;
         test->atts[ib - 1].name = test->atts[ib].name;
         test->atts[ib - 1].type = test->atts[ib].type;
-        test->atts[ib - 1].len  = test->atts[ib].len;
-        test->atts[ib - 1].val  = test->atts[ib].val;
+        test->atts[ib - 1].len = test->atts[ib].len;
+        test->atts[ib - 1].val = test->atts[ib].val;
       }
       test->natts--;
       if (varid == NC_GLOBAL)

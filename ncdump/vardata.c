@@ -214,9 +214,9 @@ const ncatt_t *ap, /* attribute */
 const void *vals   /* pointer to block of values */
 ) {
   size_t iel;
-  size_t len       = ap->len; /* number of values to print */
+  size_t len = ap->len; /* number of values to print */
   const char *valp = (const char *)vals;
-  safebuf_t *sb    = sbuf_new();
+  safebuf_t *sb = sbuf_new();
 
   for (iel = 0; iel < len - 1; iel++) {
     print_any_att_val(sb, ap, (void *)valp);
@@ -418,13 +418,13 @@ size_t edg[],      /* edges of hypercube */
 void *vals,        /* allocated buffer for ncols values in a row */
 int marks_pending  /* number of pending closing "}" record markers */
 ) {
-  int rank     = vp->ndims;
+  int rank = vp->ndims;
   size_t ncols = rank > 0 ? vdims[rank - 1] : 1; /* number of values in a row */
-  int d0       = 0;
-  size_t inc   = 1;
+  int d0 = 0;
+  size_t inc = 1;
   int i;
   bool_t mark_record = (level > 0 && is_unlim_dim(ncid, vp->dims[level]));
-  safebuf_t *sb      = sbuf_new();
+  safebuf_t *sb = sbuf_new();
   if (rank > 0)
     d0 = vdims[level];
   for (i = level + 1; i < rank; i++) {
@@ -525,7 +525,7 @@ int varid          /* variable id */
   size_t ncols;
   int vrank = vp->ndims;
 
-  int level         = 0;
+  int level = 0;
   int marks_pending = 0;
 
   cor = (size_t *)emalloc((1 + vrank) * sizeof(size_t));
@@ -558,7 +558,7 @@ int varid          /* variable id */
   if (vrank == 0) {
     ncols = 1;
   } else {
-    ncols          = vdims[vrank - 1]; /* size of "row" along last dimension */
+    ncols = vdims[vrank - 1]; /* size of "row" along last dimension */
     edg[vrank - 1] = ncols;
     for (id = 0; id < vrank; id++)
       add[id] = 0;
@@ -674,7 +674,7 @@ bool_t lastrow,    /* true if this is the last row for this
 const void *vals   /* pointer to block of values */
 ) {
   long iel;
-  safebuf_t *sb    = sbuf_new();
+  safebuf_t *sb = sbuf_new();
   const char *valp = (const char *)vals;
 
   for (iel = 0; iel < len - 1; iel++) {
@@ -727,7 +727,7 @@ int varid          /* variable id */
   if (vrank < 1) {
     ncols = 1;
   } else {
-    ncols          = vdims[vrank - 1]; /* size of "row" along last dimension */
+    ncols = vdims[vrank - 1]; /* size of "row" along last dimension */
     edg[vrank - 1] = vdims[vrank - 1];
     for (id = 0; id < vrank; id++)
       add[id] = 0;
@@ -735,7 +735,7 @@ int varid          /* variable id */
       add[vrank - 2] = 1;
   }
   nrows = nels / ncols; /* number of "rows" */
-  vals  = emalloc(ncols * vp->tinfo->size);
+  vals = emalloc(ncols * vp->tinfo->size);
 
   for (ir = 0; ir < nrows; ir++) {
     size_t corsav = 0;

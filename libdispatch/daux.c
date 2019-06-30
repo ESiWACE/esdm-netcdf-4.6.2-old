@@ -94,7 +94,7 @@ Should work for any netcdf format.
 
 EXTERNL int
 ncaux_reclaim_data(int ncid, int xtype, void *memory, size_t count) {
-  int stat        = NC_NOERR;
+  int stat = NC_NOERR;
   size_t typesize = 0;
   size_t i;
   Position offset;
@@ -201,8 +201,8 @@ reclaim_vlen(int ncid, int xtype, int basetype, Position *offset) {
   if (vl->p != NULL) {
     Position voffset;
     unsigned int alignment = ncaux_type_alignment(basetype, ncid);
-    voffset.memory         = vl->p;
-    voffset.offset         = 0;
+    voffset.memory = vl->p;
+    voffset.offset = 0;
     for (i = 0; i < vl->len; i++) {
       voffset.offset = read_align(voffset.offset, alignment);
       if ((stat = reclaim_datar(ncid, basetype, basesize, &voffset))) goto done;
@@ -247,7 +247,7 @@ reclaim_compound(int ncid, int xtype, size_t cmpdsize, size_t nfields, Position 
     fieldalignment = ncaux_type_alignment(fieldtype, ncid);
     if ((stat = nc_inq_type(ncid, fieldtype, NULL, &fieldsize))) goto done;
     if (ndims == 0) {
-      ndims       = 1;
+      ndims = 1;
       dimsizes[0] = 1;
     } /* fake the scalar case */
     /* Align to this field */
@@ -281,7 +281,7 @@ Author: D. Heimbigner 10/7/2008
 EXTERNL int
 ncaux_begin_compound(int ncid, const char *name, int alignmode, void **tagp) {
 #ifdef USE_NETCDF4
-  int status              = NC_NOERR;
+  int status = NC_NOERR;
   struct NCAUX_CMPD *cmpd = NULL;
 
   if (tagp) *tagp = NULL;
@@ -291,10 +291,10 @@ ncaux_begin_compound(int ncid, const char *name, int alignmode, void **tagp) {
     status = NC_ENOMEM;
     goto fail;
   }
-  cmpd->ncid    = ncid;
-  cmpd->mode    = alignmode;
+  cmpd->ncid = ncid;
+  cmpd->mode = alignmode;
   cmpd->nfields = 0;
-  cmpd->name    = strdup(name);
+  cmpd->name = strdup(name);
   if (cmpd->name == NULL) {
     status = NC_ENOMEM;
     goto fail;
@@ -341,10 +341,10 @@ ncaux_add_field(void *tag, const char *name, nc_type field_type,
 int ndims, const int *dimsizes) {
 #ifdef USE_NETCDF4
   int i;
-  int status                    = NC_NOERR;
-  struct NCAUX_CMPD *cmpd       = (struct NCAUX_CMPD *)tag;
+  int status = NC_NOERR;
+  struct NCAUX_CMPD *cmpd = (struct NCAUX_CMPD *)tag;
   struct NCAUX_FIELD *newfields = NULL;
-  struct NCAUX_FIELD *field     = NULL;
+  struct NCAUX_FIELD *field = NULL;
 
   if (cmpd == NULL) goto done;
   if (ndims < 0) {
@@ -366,9 +366,9 @@ int ndims, const int *dimsizes) {
     status = NC_ENOMEM;
     goto done;
   }
-  cmpd->fields     = newfields;
-  field            = &cmpd->fields[cmpd->nfields + 1];
-  field->name      = strdup(name);
+  cmpd->fields = newfields;
+  field = &cmpd->fields[cmpd->nfields + 1];
+  field->name = strdup(name);
   field->fieldtype = field_type;
   if (field->name == NULL) {
     status = NC_ENOMEM;
@@ -391,7 +391,7 @@ EXTERNL int
 ncaux_end_compound(void *tag, nc_type *idp) {
 #ifdef USE_NETCDF4
   int i;
-  int status              = NC_NOERR;
+  int status = NC_NOERR;
   struct NCAUX_CMPD *cmpd = (struct NCAUX_CMPD *)tag;
 
   if (cmpd == NULL) {
@@ -454,7 +454,7 @@ ncaux_type_alignment(int xtype, int ncid) {
 #ifdef USE_NETCDF4
   else { /* Presumably a user type */
     int klass = NC_NAT;
-    int stat  = nc_inq_user_type(ncid, xtype, NULL, NULL, NULL, NULL, &klass);
+    int stat = nc_inq_user_type(ncid, xtype, NULL, NULL, NULL, NULL, &klass);
     if (stat) goto done;
     switch (klass) {
       case NC_VLEN: return NC_class_alignment(klass);
@@ -477,7 +477,7 @@ done:
 /* Find first primitive field of a possibly nested sequence of compounds */
 static nc_type
 findfirstfield(int ncid, nc_type xtype) {
-  int status        = NC_NOERR;
+  int status = NC_NOERR;
   nc_type fieldtype = xtype;
   if (xtype <= NC_MAX_ATOMIC_TYPE) goto done;
 
@@ -508,14 +508,14 @@ dimproduct(size_t ndims, int *dimsizes) {
 static int
 computefieldinfo(struct NCAUX_CMPD *cmpd) {
   int i;
-  int status    = NC_NOERR;
+  int status = NC_NOERR;
   size_t offset = 0;
   size_t totaldimsize;
 
   /* Assign the sizes for the fields */
   for (i = 0; i < cmpd->nfields; i++) {
     struct NCAUX_FIELD *field = &cmpd->fields[i];
-    status                    = nc_inq_type(cmpd->ncid, field->fieldtype, NULL, &field->size);
+    status = nc_inq_type(cmpd->ncid, field->fieldtype, NULL, &field->size);
     if (status != NC_NOERR) goto done;
     totaldimsize = dimproduct(field->ndims, field->dimsizes);
     field->size *= totaldimsize;
@@ -523,8 +523,8 @@ computefieldinfo(struct NCAUX_CMPD *cmpd) {
 
   for (offset = 0, i = 0; i < cmpd->nfields; i++) {
     struct NCAUX_FIELD *field = &cmpd->fields[i];
-    int alignment             = 0;
-    nc_type firsttype         = findfirstfield(cmpd->ncid, field->fieldtype);
+    int alignment = 0;
+    nc_type firsttype = findfirstfield(cmpd->ncid, field->fieldtype);
 
     /* only support 'c' alignment for now*/
     switch (field->fieldtype) {
@@ -546,7 +546,7 @@ computefieldinfo(struct NCAUX_CMPD *cmpd) {
     field->offset = offset;
     offset += field->size;
   }
-  cmpd->size      = offset;
+  cmpd->size = offset;
   cmpd->alignment = cmpd->fields[0].alignment;
 
 done:

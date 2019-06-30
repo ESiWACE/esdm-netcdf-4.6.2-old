@@ -330,7 +330,7 @@ typedmemorydump(char *memory, size_t len, int fromxdr) {
   fprintf(stdout, "%s", line);
 
   count = (len / sizeof(int));
-  rem   = (len % sizeof(int));
+  rem = (len % sizeof(int));
 
   for (pmem = memory, i = 0; i < count; i++, pmem += 4) {
     memset(mem, 0, 8);
@@ -365,14 +365,14 @@ simplememorydump(char *memory, size_t len, int fromxdr) {
   fprintf(stdout, "%s\n", line);
 
   count = (len / sizeof(int));
-  rem   = (len % sizeof(int));
+  rem = (len % sizeof(int));
   if (rem != 0)
     fprintf(stderr, "ocdump: |mem|%%4 != 0\n");
   imemory = (int *)memory;
 
   for (i = 0; i < count; i++) {
     unsigned int vx = (unsigned int)imemory[i];
-    unsigned int v  = vx;
+    unsigned int v = vx;
     if (!xxdr_network_order) swapinline32(&v);
     line[0] = '\0';
     sprintf(tmp, "%6d", i);
@@ -452,7 +452,7 @@ ocreadfile(FILE *file, off_t datastart, char **memp, size_t *lenp) {
   }
   if (memp) {
     *memp = mem;
-    mem   = NULL;
+    mem = NULL;
   }
   if (lenp) *lenp = len;
 
@@ -522,7 +522,7 @@ Depth Offset   Index Flags Size Type      Name
 [001] 00000000 0000  FS    0000 Structure person
 */
 static const int tabstops[] = {0, 6, 15, 21, 27, 32, 42};
-static const char *header   = "Depth Offset   Index Flags Size Type     Name\n";
+static const char *header = "Depth Offset   Index Flags Size Type     Name\n";
 
 void ocdumpdatatree(OCstate *state, OCdata *data, NCbytes *buffer, int depth) {
   size_t i, rank;
@@ -539,7 +539,7 @@ void ocdumpdatatree(OCstate *state, OCdata *data, NCbytes *buffer, int depth) {
 
   /* get info about the pattern */
   pattern = data->pattern;
-  rank    = pattern->array.rank;
+  rank = pattern->array.rank;
 
   /* get total dimension size */
   if (rank > 0)
@@ -625,7 +625,7 @@ void ocdumpdatapath(OCstate *state, OCdata *data, NCbytes *buffer) {
   /* Path is in reverse order */
   for (i = i - 1; i >= 0; i--) {
     pathdata = path[i];
-    pattern  = pathdata->pattern;
+    pattern = pathdata->pattern;
     ncbytescat(buffer, "/");
     ncbytescat(buffer, pattern->name);
     /* Check the mode of the next step in path */

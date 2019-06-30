@@ -187,7 +187,7 @@ extern FILE *ncgin, *ncgout;
     /* Undo effects of setting up ncgtext. */                                               \
     int yyless_macro_arg = (n);                                                             \
     YY_LESS_LINENO(yyless_macro_arg);                                                       \
-    *yy_cp                                = (yy_hold_char);                                 \
+    *yy_cp = (yy_hold_char);                                                                \
     YY_RESTORE_YY_MORE_OFFSET(yy_c_buf_p) = yy_cp = yy_bp + yyless_macro_arg - YY_MORE_ADJ; \
     YY_DO_BEFORE_ACTION; /* set up ncgtext again */                                         \
   } while (0)
@@ -263,8 +263,8 @@ struct yy_buffer_state {
 #endif /* !YY_STRUCT_YY_BUFFER_STATE */
 
 /* Stack of input buffers. */
-static size_t yy_buffer_stack_top       = 0; /**< index of top of stack. */
-static size_t yy_buffer_stack_max       = 0; /**< capacity of stack. */
+static size_t yy_buffer_stack_top = 0;       /**< index of top of stack. */
+static size_t yy_buffer_stack_max = 0;       /**< capacity of stack. */
 static YY_BUFFER_STATE *yy_buffer_stack = 0; /**< Stack as an array. */
 
 /* We provide macros for accessing buffer states in case in the
@@ -289,8 +289,8 @@ int ncgleng;
 
 /* Points to current character in buffer. */
 static char *yy_c_buf_p = (char *)0;
-static int yy_init      = 0; /* whether we need to initialize */
-static int yy_start     = 0; /* start state number */
+static int yy_init = 0;  /* whether we need to initialize */
+static int yy_start = 0; /* start state number */
 
 /* Flag which is used to allow ncgwrap()'s to do buffer switches
  * instead of setting up a fresh ncgin.  A bit of a hack ...
@@ -364,12 +364,12 @@ static void yy_fatal_error(yyconst char msg[]);
 /* Done after the current pattern has been matched and before the
  * corresponding action - sets up ncgtext.
  */
-#define YY_DO_BEFORE_ACTION                 \
-  (yytext_ptr)   = yy_bp;                   \
-  ncgleng        = (size_t)(yy_cp - yy_bp); \
-  (yy_hold_char) = *yy_cp;                  \
-  *yy_cp         = '\0';                    \
-  (yy_c_buf_p)   = yy_cp;
+#define YY_DO_BEFORE_ACTION          \
+  (yytext_ptr) = yy_bp;              \
+  ncgleng = (size_t)(yy_cp - yy_bp); \
+  (yy_hold_char) = *yy_cp;           \
+  *yy_cp = '\0';                     \
+  (yy_c_buf_p) = yy_cp;
 
 #define YY_NUM_RULES 30
 #define YY_END_OF_BUFFER 31
@@ -1112,7 +1112,7 @@ YY_DECL {
       register YY_CHAR yy_c = yy_ec[YY_SC_TO_UI(*yy_cp)];
       if (yy_accept[yy_current_state]) {
         (yy_last_accepting_state) = yy_current_state;
-        (yy_last_accepting_cpos)  = yy_cp;
+        (yy_last_accepting_cpos) = yy_cp;
       }
       while (yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state) {
         yy_current_state = (int)yy_def[yy_current_state];
@@ -1126,9 +1126,9 @@ YY_DECL {
   yy_find_action:
     yy_act = yy_accept[yy_current_state];
     if (yy_act == 0) { /* have to back up */
-      yy_cp            = (yy_last_accepting_cpos);
+      yy_cp = (yy_last_accepting_cpos);
       yy_current_state = (yy_last_accepting_state);
-      yy_act           = yy_accept[yy_current_state];
+      yy_act = yy_accept[yy_current_state];
     }
 
     YY_DO_BEFORE_ACTION;
@@ -1138,8 +1138,8 @@ YY_DECL {
     switch (yy_act) { /* beginning of action switch */
       case 0:         /* must back up */
         /* undo the effects of YY_DO_BEFORE_ACTION */
-        *yy_cp           = (yy_hold_char);
-        yy_cp            = (yy_last_accepting_cpos);
+        *yy_cp = (yy_hold_char);
+        yy_cp = (yy_last_accepting_cpos);
         yy_current_state = (yy_last_accepting_state);
         goto yy_find_action;
 
@@ -1357,7 +1357,7 @@ YY_DECL {
 #line 216 "ncgen.l"
         {
           char *ptr;
-          errno      = 0;
+          errno = 0;
           double_val = strtod((char *)ncgtext, &ptr);
           if (errno != 0 && double_val == 0.0) {
             sprintf(errstr, "bad numerical constant: %s", (char *)ncgtext);
@@ -1377,7 +1377,7 @@ YY_DECL {
         {
           char *ptr;
           long long_val;
-          errno    = 0;
+          errno = 0;
           long_val = strtol((char *)ncgtext, &ptr, 0);
           if (errno != 0) {
             sprintf(errstr, "bad long constant: %s", (char *)ncgtext);
@@ -1479,8 +1479,8 @@ YY_DECL {
 			 * this is the first action (other than possibly a
 			 * back-up) that will match for the new input source.
 			 */
-          (yy_n_chars)                               = YY_CURRENT_BUFFER_LVALUE->yy_n_chars;
-          YY_CURRENT_BUFFER_LVALUE->yy_input_file    = ncgin;
+          (yy_n_chars) = YY_CURRENT_BUFFER_LVALUE->yy_n_chars;
+          YY_CURRENT_BUFFER_LVALUE->yy_input_file = ncgin;
           YY_CURRENT_BUFFER_LVALUE->yy_buffer_status = YY_BUFFER_NORMAL;
         }
 
@@ -1513,7 +1513,7 @@ YY_DECL {
 
           if (yy_next_state) {
             /* Consume the NUL. */
-            yy_cp            = ++(yy_c_buf_p);
+            yy_cp = ++(yy_c_buf_p);
             yy_current_state = yy_next_state;
             goto yy_match;
           }
@@ -1588,7 +1588,7 @@ YY_DECL {
  *	EOB_ACT_END_OF_FILE - end of file
  */
 static int yy_get_next_buffer(void) {
-  register char *dest   = YY_CURRENT_BUFFER_LVALUE->yy_ch_buf;
+  register char *dest = YY_CURRENT_BUFFER_LVALUE->yy_ch_buf;
   register char *source = (yytext_ptr);
   register int number_to_move, i;
   int ret_val;
@@ -1678,7 +1678,7 @@ static int yy_get_next_buffer(void) {
     }
 
     else {
-      ret_val                                    = EOB_ACT_LAST_MATCH;
+      ret_val = EOB_ACT_LAST_MATCH;
       YY_CURRENT_BUFFER_LVALUE->yy_buffer_status = YY_BUFFER_EOF_PENDING;
     }
   }
@@ -1688,14 +1688,14 @@ static int yy_get_next_buffer(void) {
 
   if ((yy_size_t)((yy_n_chars) + number_to_move) > YY_CURRENT_BUFFER_LVALUE->yy_buf_size) {
     /* Extend the array by 50%, plus the number we really need. */
-    yy_size_t new_size                  = (yy_n_chars) + number_to_move + ((yy_n_chars) >> 1);
+    yy_size_t new_size = (yy_n_chars) + number_to_move + ((yy_n_chars) >> 1);
     YY_CURRENT_BUFFER_LVALUE->yy_ch_buf = (char *)ncgrealloc((void *)YY_CURRENT_BUFFER_LVALUE->yy_ch_buf, new_size);
     if (!YY_CURRENT_BUFFER_LVALUE->yy_ch_buf)
       YY_FATAL_ERROR("out of dynamic memory in yy_get_next_buffer()");
   }
 
   (yy_n_chars) += number_to_move;
-  YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[(yy_n_chars)]     = YY_END_OF_BUFFER_CHAR;
+  YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[(yy_n_chars)] = YY_END_OF_BUFFER_CHAR;
   YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[(yy_n_chars) + 1] = YY_END_OF_BUFFER_CHAR;
 
   (yytext_ptr) = &YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[0];
@@ -1715,7 +1715,7 @@ static yy_state_type yy_get_previous_state(void) {
     register YY_CHAR yy_c = (*yy_cp ? yy_ec[YY_SC_TO_UI(*yy_cp)] : 1);
     if (yy_accept[yy_current_state]) {
       (yy_last_accepting_state) = yy_current_state;
-      (yy_last_accepting_cpos)  = yy_cp;
+      (yy_last_accepting_cpos) = yy_cp;
     }
     while (yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state) {
       yy_current_state = (int)yy_def[yy_current_state];
@@ -1740,7 +1740,7 @@ static yy_state_type yy_try_NUL_trans(yy_state_type yy_current_state) {
   register YY_CHAR yy_c = 1;
   if (yy_accept[yy_current_state]) {
     (yy_last_accepting_state) = yy_current_state;
-    (yy_last_accepting_cpos)  = yy_cp;
+    (yy_last_accepting_cpos) = yy_cp;
   }
   while (yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state) {
     yy_current_state = (int)yy_def[yy_current_state];
@@ -1748,7 +1748,7 @@ static yy_state_type yy_try_NUL_trans(yy_state_type yy_current_state) {
       yy_c = yy_meta[(unsigned int)yy_c];
   }
   yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int)yy_c];
-  yy_is_jam        = (yy_current_state == 235);
+  yy_is_jam = (yy_current_state == 235);
 
   return yy_is_jam ? 0 : yy_current_state;
 }
@@ -1764,8 +1764,8 @@ static void yyunput(int c, register char *yy_bp) {
   if (yy_cp < YY_CURRENT_BUFFER_LVALUE->yy_ch_buf + 2) { /* need to shift things up to make room */
     /* +2 for EOB chars. */
     register int number_to_move = (yy_n_chars) + 2;
-    register char *dest         = &YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[YY_CURRENT_BUFFER_LVALUE->yy_buf_size + 2];
-    register char *source       = &YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[number_to_move];
+    register char *dest = &YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[YY_CURRENT_BUFFER_LVALUE->yy_buf_size + 2];
+    register char *source = &YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[number_to_move];
 
     while (source > YY_CURRENT_BUFFER_LVALUE->yy_ch_buf)
       *--dest = *--source;
@@ -1780,9 +1780,9 @@ static void yyunput(int c, register char *yy_bp) {
 
   *--yy_cp = (char)c;
 
-  (yytext_ptr)   = yy_bp;
+  (yytext_ptr) = yy_bp;
   (yy_hold_char) = *yy_cp;
-  (yy_c_buf_p)   = yy_cp;
+  (yy_c_buf_p) = yy_cp;
 }
 
 #ifndef YY_NO_INPUT
@@ -1847,8 +1847,8 @@ static int input(void)
     }
   }
 
-  c              = *(unsigned char *)(yy_c_buf_p); /* cast for 8-bit char's */
-  *(yy_c_buf_p)  = '\0';                           /* preserve ncgtext */
+  c = *(unsigned char *)(yy_c_buf_p); /* cast for 8-bit char's */
+  *(yy_c_buf_p) = '\0';               /* preserve ncgtext */
   (yy_hold_char) = *++(yy_c_buf_p);
 
   return c;
@@ -1886,7 +1886,7 @@ void ncg_switch_to_buffer(YY_BUFFER_STATE new_buffer) {
 
   if (YY_CURRENT_BUFFER) {
     /* Flush out information for old buffer. */
-    *(yy_c_buf_p)                        = (yy_hold_char);
+    *(yy_c_buf_p) = (yy_hold_char);
     YY_CURRENT_BUFFER_LVALUE->yy_buf_pos = (yy_c_buf_p);
     YY_CURRENT_BUFFER_LVALUE->yy_n_chars = (yy_n_chars);
   }
@@ -1905,8 +1905,8 @@ void ncg_switch_to_buffer(YY_BUFFER_STATE new_buffer) {
 static void ncg_load_buffer_state(void) {
   (yy_n_chars) = YY_CURRENT_BUFFER_LVALUE->yy_n_chars;
   (yytext_ptr) = (yy_c_buf_p) = YY_CURRENT_BUFFER_LVALUE->yy_buf_pos;
-  ncgin                       = YY_CURRENT_BUFFER_LVALUE->yy_input_file;
-  (yy_hold_char)              = *(yy_c_buf_p);
+  ncgin = YY_CURRENT_BUFFER_LVALUE->yy_input_file;
+  (yy_hold_char) = *(yy_c_buf_p);
 }
 
 /** Allocate and initialize an input buffer state.
@@ -1970,7 +1970,7 @@ static void ncg_init_buffer(YY_BUFFER_STATE b, FILE *file)
 
   ncg_flush_buffer(b);
 
-  b->yy_input_file  = file;
+  b->yy_input_file = file;
   b->yy_fill_buffer = 1;
 
   /* If b is the current buffer, then ncg_init_buffer was _probably_
@@ -2006,7 +2006,7 @@ void ncg_flush_buffer(YY_BUFFER_STATE b) {
 
   b->yy_buf_pos = &b->yy_ch_buf[0];
 
-  b->yy_at_bol        = 1;
+  b->yy_at_bol = 1;
   b->yy_buffer_status = YY_BUFFER_NEW;
 
   if (b == YY_CURRENT_BUFFER)
@@ -2028,7 +2028,7 @@ void ncgpush_buffer_state(YY_BUFFER_STATE new_buffer) {
   /* This block is copied from ncg_switch_to_buffer. */
   if (YY_CURRENT_BUFFER) {
     /* Flush out information for old buffer. */
-    *(yy_c_buf_p)                        = (yy_hold_char);
+    *(yy_c_buf_p) = (yy_hold_char);
     YY_CURRENT_BUFFER_LVALUE->yy_buf_pos = (yy_c_buf_p);
     YY_CURRENT_BUFFER_LVALUE->yy_n_chars = (yy_n_chars);
   }
@@ -2073,7 +2073,7 @@ static void ncgensure_buffer_stack(void) {
 		 * scanner will even need a stack. We use 2 instead of 1 to avoid an
 		 * immediate realloc on the next call.
          */
-    num_to_alloc      = 1;
+    num_to_alloc = 1;
     (yy_buffer_stack) = (struct yy_buffer_state **)ncgalloc(num_to_alloc * sizeof(struct yy_buffer_state *));
     if (!(yy_buffer_stack))
       YY_FATAL_ERROR("out of dynamic memory in ncgensure_buffer_stack()");
@@ -2089,7 +2089,7 @@ static void ncgensure_buffer_stack(void) {
     /* Increase the buffer to prepare for a possible push. */
     int grow_size = 8 /* arbitrary grow size */;
 
-    num_to_alloc      = (yy_buffer_stack_max) + grow_size;
+    num_to_alloc = (yy_buffer_stack_max) + grow_size;
     (yy_buffer_stack) = (struct yy_buffer_state **)ncgrealloc((yy_buffer_stack),
     num_to_alloc * sizeof(struct yy_buffer_state *));
     if (!(yy_buffer_stack))
@@ -2120,13 +2120,13 @@ YY_BUFFER_STATE ncg_scan_buffer(char *base, yy_size_t size) {
 
   b->yy_buf_size = size - 2; /* "- 2" to take care of EOB's */
   b->yy_buf_pos = b->yy_ch_buf = base;
-  b->yy_is_our_buffer          = 0;
-  b->yy_input_file             = 0;
-  b->yy_n_chars                = b->yy_buf_size;
-  b->yy_is_interactive         = 0;
-  b->yy_at_bol                 = 1;
-  b->yy_fill_buffer            = 0;
-  b->yy_buffer_status          = YY_BUFFER_NEW;
+  b->yy_is_our_buffer = 0;
+  b->yy_input_file = 0;
+  b->yy_n_chars = b->yy_buf_size;
+  b->yy_is_interactive = 0;
+  b->yy_at_bol = 1;
+  b->yy_fill_buffer = 0;
+  b->yy_buffer_status = YY_BUFFER_NEW;
 
   ncg_switch_to_buffer(b);
 
@@ -2159,7 +2159,7 @@ YY_BUFFER_STATE ncg_scan_bytes(yyconst char *yybytes, int _yybytes_len) {
   int i;
 
   /* Get memory for full buffer, including space for trailing EOB's. */
-  n   = _yybytes_len + 2;
+  n = _yybytes_len + 2;
   buf = (char *)ncgalloc(n);
   if (!buf)
     YY_FATAL_ERROR("out of dynamic memory in ncg_scan_bytes()");
@@ -2193,16 +2193,16 @@ static void yy_fatal_error(yyconst char *msg) {
 /* Redefine yyless() so it works in section 3 code. */
 
 #undef yyless
-#define yyless(n)                                  \
-  do {                                             \
-    /* Undo effects of setting up ncgtext. */      \
-    int yyless_macro_arg = (n);                    \
-    YY_LESS_LINENO(yyless_macro_arg);              \
-    ncgtext[ncgleng] = (yy_hold_char);             \
-    (yy_c_buf_p)     = ncgtext + yyless_macro_arg; \
-    (yy_hold_char)   = *(yy_c_buf_p);              \
-    *(yy_c_buf_p)    = '\0';                       \
-    ncgleng          = yyless_macro_arg;           \
+#define yyless(n)                              \
+  do {                                         \
+    /* Undo effects of setting up ncgtext. */  \
+    int yyless_macro_arg = (n);                \
+    YY_LESS_LINENO(yyless_macro_arg);          \
+    ncgtext[ncgleng] = (yy_hold_char);         \
+    (yy_c_buf_p) = ncgtext + yyless_macro_arg; \
+    (yy_hold_char) = *(yy_c_buf_p);            \
+    *(yy_c_buf_p) = '\0';                      \
+    ncgleng = yyless_macro_arg;                \
   } while (0)
 
 /* Accessor  methods (get/set functions) to struct members. */
@@ -2278,19 +2278,19 @@ static int yy_init_globals(void) {
      * This function is called from ncglex_destroy(), so don't allocate here.
      */
 
-  (yy_buffer_stack)     = 0;
+  (yy_buffer_stack) = 0;
   (yy_buffer_stack_top) = 0;
   (yy_buffer_stack_max) = 0;
-  (yy_c_buf_p)          = (char *)0;
-  (yy_init)             = 0;
-  (yy_start)            = 0;
+  (yy_c_buf_p) = (char *)0;
+  (yy_init) = 0;
+  (yy_start) = 0;
 
 /* Defined in main.c */
 #ifdef YY_STDINIT
-  ncgin  = stdin;
+  ncgin = stdin;
   ncgout = stdout;
 #else
-  ncgin  = (FILE *)0;
+  ncgin = (FILE *)0;
   ncgout = (FILE *)0;
 #endif
 

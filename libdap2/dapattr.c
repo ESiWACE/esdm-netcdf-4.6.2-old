@@ -25,9 +25,9 @@ int dapmerge(NCDAPCOMMON *nccomm, CDFnode *ddsroot, OCddsnode dasroot) {
   OCerror ocstat = OC_NOERR;
   NClist *allnodes;
   OClink conn;
-  char *ocname  = NULL;
+  char *ocname = NULL;
   char **values = NULL;
-  conn          = nccomm->oc.conn;
+  conn = nccomm->oc.conn;
 
   if (ddsroot == NULL || dasroot == NULL)
     return NC_NOERR;
@@ -38,7 +38,7 @@ int dapmerge(NCDAPCOMMON *nccomm, CDFnode *ddsroot, OCddsnode dasroot) {
   /* Create attributes on CDFnodes */
   allnodes = ddsroot->tree->nodes;
   for (i = 0; i < nclistlength(allnodes); i++) {
-    CDFnode *node    = (CDFnode *)nclistget(allnodes, i);
+    CDFnode *node = (CDFnode *)nclistget(allnodes, i);
     OCddsnode ocnode = node->ocnode;
     size_t attrcount;
     OCtype ocetype;
@@ -137,12 +137,12 @@ static NCerror
 buildattribute(char *name, nc_type ptype,
 size_t nvalues, char **values, NCattribute **attp) {
   int i;
-  NCerror ncstat   = NC_NOERR;
+  NCerror ncstat = NC_NOERR;
   NCattribute *att = NULL;
 
   att = (NCattribute *)calloc(1, sizeof(NCattribute));
   MEMCHECK(att, NC_ENOMEM);
-  att->name  = nulldup(name);
+  att->name = nulldup(name);
   att->etype = ptype;
 
   att->values = nclistnew();

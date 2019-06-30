@@ -115,17 +115,17 @@ int main(int argc, char **argv) { /* create tst_classic_fills.nc */
     if (nc_put_var1_string(ncid, varid_in, &index, data_out)) ERR;
 
     /* Get all the data from the variable. */
-    index   = 0;
+    index = 0;
     data_in = NULL;
     if (nc_get_var1_string(ncid, varid_in, &index, &data_in)) ERR;
     if (strcmp(data_in, missing_val[0])) ERR;
     free(data_in);
-    index   = 1;
+    index = 1;
     data_in = NULL;
     if (nc_get_var1_string(ncid, varid_in, &index, &data_in)) ERR;
     if (strcmp(data_in, missing_val[0])) ERR;
     free(data_in);
-    index   = DATA_START;
+    index = DATA_START;
     data_in = NULL;
     if (nc_get_var1_string(ncid, varid_in, &index, &data_in)) ERR;
     if (strcmp(data_in, data_out[0])) ERR;
@@ -147,18 +147,18 @@ int main(int argc, char **argv) { /* create tst_classic_fills.nc */
  *      of retrieving the fill-value. -QAK
  */
 #ifdef NOT_YET
-    index   = 0;
+    index = 0;
     data_in = NULL;
     if (nc_get_var1_string(ncid, varid_in, &index, &data_in)) ERR;
     if (strcmp(data_in, missing_val[0])) ERR;
     free(data_in);
-    index   = 1;
+    index = 1;
     data_in = NULL;
     if (nc_get_var1_string(ncid, varid_in, &index, &data_in)) ERR;
     if (strcmp(data_in, missing_val[0])) ERR;
     free(data_in);
 #endif /* NOT_YET */
-    index   = DATA_START;
+    index = DATA_START;
     data_in = NULL;
     if (nc_get_var1_string(ncid, varid_in, &index, &data_in)) ERR;
     if (strcmp(data_in, data_out[0])) ERR;

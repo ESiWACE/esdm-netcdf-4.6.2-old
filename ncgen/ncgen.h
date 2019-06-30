@@ -104,10 +104,10 @@ extern struct Specialtoken {
 /* Define an enumeration of supported languages */
 typedef enum Language {
   L_UNDEFINED = 0,
-  L_BINARY    = 1,
-  L_C         = 2,
-  L_F77       = 3,
-  L_JAVA      = 4
+  L_BINARY = 1,
+  L_C = 2,
+  L_F77 = 3,
+  L_JAVA = 4
 } Language;
 
 struct Kvalues {

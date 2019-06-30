@@ -103,18 +103,18 @@ nc_type dsttype0) {
   CDFnode *cdfvar = NULL; /* cdf node mapping to var*/
   NClist *varnodes;
   nc_type dsttype;
-  Getvara *varainfo             = NULL;
-  CDFnode *xtarget              = NULL; /* target in DATADDS */
-  CDFnode *target               = NULL; /* target in constrained DDS */
+  Getvara *varainfo = NULL;
+  CDFnode *xtarget = NULL; /* target in DATADDS */
+  CDFnode *target = NULL;  /* target in constrained DDS */
   DCEprojection *varaprojection = NULL;
-  NCcachenode *cachenode        = NULL;
+  NCcachenode *cachenode = NULL;
   size_t localcount[NC_MAX_VAR_DIMS];
   NClist *ncdimsall;
   size_t ncrank;
-  NClist *vars                   = NULL;
+  NClist *vars = NULL;
   DCEconstraint *fetchconstraint = NULL;
   DCEprojection *fetchprojection = NULL;
-  DCEprojection *walkprojection  = NULL;
+  DCEprojection *walkprojection = NULL;
   int state;
 #define FETCHWHOLE 1 /* fetch whole data set */
 #define FETCHVAR 2   /* fetch whole variable */
@@ -157,7 +157,7 @@ nc_type dsttype0) {
 
   /* Get the dimension info */
   ncdimsall = cdfvar->array.dimsetall;
-  ncrank    = nclistlength(ncdimsall);
+  ncrank = nclistlength(ncdimsall);
 
 #ifdef DEBUG
   {
@@ -179,7 +179,7 @@ nc_type dsttype0) {
   if (countp == NULL) {
     /* Accumulate the dimension sizes */
     for (i = 0; i < ncrank; i++) {
-      CDFnode *dim  = (CDFnode *)nclistget(ncdimsall, i);
+      CDFnode *dim = (CDFnode *)nclistget(ncdimsall, i);
       localcount[i] = dim->dim.declsize;
     }
     countp = localcount;
@@ -217,8 +217,8 @@ nc_type dsttype0) {
           fprintf(stderr, "[%lu:%lu]", (unsigned long)startp[i], (unsigned long)((startp[i] + countp[i]) - 1));
         else {
           unsigned long iend = (stridep[i] * countp[i]);
-          iend               = (iend + startp[i]);
-          iend               = (iend - 1);
+          iend = (iend + startp[i]);
+          iend = (iend - 1);
           fprintf(stderr, "[%lu:%lu:%lu]",
           (unsigned long)startp[i], (unsigned long)stridep[i], iend);
         }
@@ -264,7 +264,7 @@ nc_type dsttype0) {
   }
 
   fetchprojection = NULL;
-  walkprojection  = NULL;
+  walkprojection = NULL;
 
   /* Create walkprojection as the merge of the url projections
        and the vara projection; may change in FETCHPART case below*/
@@ -312,11 +312,11 @@ nc_type dsttype0) {
       fetchconstraint = (DCEconstraint *)dcecreate(CES_CONSTRAINT);
       /* Use no projections or selections */
       fetchconstraint->projections = nclistnew();
-      fetchconstraint->selections  = nclistnew();
+      fetchconstraint->selections = nclistnew();
 #ifdef DEBUG
       fprintf(stderr, "getvarx: FETCHWHOLE: fetchconstraint: %s\n", dumpconstraint(fetchconstraint));
 #endif
-      ncstat          = buildcachenode(dapcomm, fetchconstraint, vars, &cachenode, 0);
+      ncstat = buildcachenode(dapcomm, fetchconstraint, vars, &cachenode, 0);
       fetchconstraint = NULL; /*buildcachenode34 takes control of fetchconstraint.*/
       if (ncstat != NC_NOERR) {
         THROWCHK(ncstat);
@@ -361,7 +361,7 @@ nc_type dsttype0) {
       /* buildcachenode3 will create a new cachenode and
            will also fetch the corresponding datadds.
         */
-      ncstat          = buildcachenode(dapcomm, fetchconstraint, vars, &cachenode, 0);
+      ncstat = buildcachenode(dapcomm, fetchconstraint, vars, &cachenode, 0);
       fetchconstraint = NULL; /*buildcachenode34 takes control of fetchconstraint.*/
       if (ncstat != NC_NOERR) {
         THROWCHK(ncstat);
@@ -427,13 +427,13 @@ nc_type dsttype0) {
   if (ncstat) goto fail;
 
   /* Fix up varainfo to use the cache */
-  varainfo->cache          = cachenode;
-  cachenode                = NULL;
+  varainfo->cache = cachenode;
+  cachenode = NULL;
   varainfo->varaprojection = walkprojection;
-  walkprojection           = NULL;
+  walkprojection = NULL;
 
   /* Get the var correlate from the datadds */
-  target  = varainfo->target;
+  target = varainfo->target;
   xtarget = target->attachment;
   if (xtarget == NULL) {
     THROWCHK(ncstat = NC_ENODATA);
@@ -442,8 +442,8 @@ nc_type dsttype0) {
 
   /* Switch to datadds tree space*/
   varainfo->target = xtarget;
-  save             = (DCEnode *)varaprojection;
-  ncstat           = moveto(dapcomm, varainfo, varainfo->cache->datadds, data);
+  save = (DCEnode *)varaprojection;
+  ncstat = moveto(dapcomm, varainfo, varainfo->cache->datadds, data);
   if (ncstat != NC_NOERR) {
     THROWCHK(ncstat);
     goto fail;
@@ -466,7 +466,7 @@ removepseudodims(DCEprojection *proj) {
   fprintf(stderr, "removesequencedims.before: %s\n", dumpprojection(proj));
 #endif
   for (i = 0; i < nclistlength(proj->var->segments); i++) {
-    DCEsegment *seg  = (DCEsegment *)nclistget(proj->var->segments, i);
+    DCEsegment *seg = (DCEsegment *)nclistget(proj->var->segments, i);
     CDFnode *cdfnode = (CDFnode *)seg->annotation;
     if (cdfnode->array.seqdim != NULL)
       seg->rank = 0;
@@ -483,7 +483,7 @@ static NCerror
 moveto(NCDAPCOMMON *nccomm, Getvara *xgetvar, CDFnode *xrootnode, void *memory) {
   OCerror ocstat = OC_NOERR;
   NCerror ncstat = NC_NOERR;
-  OClink conn    = nccomm->oc.conn;
+  OClink conn = nccomm->oc.conn;
   OCdatanode xrootcontent;
   OCddsnode ocroot;
   NClist *path = nclistnew();
@@ -520,15 +520,15 @@ Getvara *xgetvar,
 size_t dimindex, /* dimindex is position in xgetvar->slices*/
 struct NCMEMORY *memory,
 NClist *segments) {
-  OCerror ocstat          = OC_NOERR;
-  NCerror ncstat          = NC_NOERR;
-  OClink conn             = nccomm->oc.conn;
-  CDFnode *xnode          = (CDFnode *)nclistget(path, depth);
-  OCdatanode reccontent   = NULL;
-  OCdatanode dimcontent   = NULL;
+  OCerror ocstat = OC_NOERR;
+  NCerror ncstat = NC_NOERR;
+  OClink conn = nccomm->oc.conn;
+  CDFnode *xnode = (CDFnode *)nclistget(path, depth);
+  OCdatanode reccontent = NULL;
+  OCdatanode dimcontent = NULL;
   OCdatanode fieldcontent = NULL;
-  Dapodometer *odom       = NULL;
-  int hasstringdim        = 0;
+  Dapodometer *odom = NULL;
+  int hasstringdim = 0;
   DCEsegment *segment;
   OCDT mode;
 
@@ -616,7 +616,7 @@ NClist *segments) {
         odom = dapodom_fromsegment(segment, 0, 1);
         while (dapodom_more(odom)) {
           size_t recordindex = dapodom_count(odom);
-          ocstat             = oc_data_ithrecord(conn, currentcontent,
+          ocstat = oc_data_ithrecord(conn, currentcontent,
           recordindex, &reccontent);
           if (ocstat != OC_NOERR) {
             if (ocstat == OC_EINDEX)
@@ -675,10 +675,10 @@ NClist *segments) {
   OCerror ocstat = OC_NOERR;
   NCerror ncstat = NC_NOERR;
   size_t fieldindex, gridindex;
-  OClink conn             = nccomm->oc.conn;
-  CDFnode *xnode          = (CDFnode *)nclistget(path, depth);
-  OCdatanode reccontent   = NULL;
-  OCdatanode dimcontent   = NULL;
+  OClink conn = nccomm->oc.conn;
+  CDFnode *xnode = (CDFnode *)nclistget(path, depth);
+  OCdatanode reccontent = NULL;
+  OCdatanode dimcontent = NULL;
   OCdatanode fieldcontent = NULL;
   CDFnode *xnext;
   int newdepth;
@@ -709,9 +709,9 @@ NClist *segments) {
     */
   if (xnext->nc_virtual) {
     CDFnode *xgrid = xnext;
-    xnext          = (CDFnode *)nclistget(path, depth + 2); /* real node */
-    gridindex      = fieldindex;
-    fieldindex     = findfield(xgrid, xnext);
+    xnext = (CDFnode *)nclistget(path, depth + 2); /* real node */
+    gridindex = fieldindex;
+    fieldindex = findfield(xgrid, xnext);
     fieldindex += gridindex;
     newdepth = depth + 2;
   } else {
@@ -781,8 +781,8 @@ conversionrequired(nc_type t1, nc_type t2) {
   /* Avoid too many cases by making t1 < t2 */
   if (t1 > t2) {
     int tmp = t1;
-    t1      = t2;
-    t2      = tmp;
+    t1 = t2;
+    t2 = tmp;
   }
 #undef CASE
 #define CASE(t1, t2) ((t1) << 5 | (t2))
@@ -875,7 +875,7 @@ struct NCMEMORY *memory) {
 
     if (!requireconversion && safeindex == 0) { /* can read whole thing */
       size_t internlen;
-      count     = dcesegmentsize(segment, 0, rank0); /* how many to read */
+      count = dcesegmentsize(segment, 0, rank0); /* how many to read */
       internlen = interntypesize * count;
       /* Read the whole variable directly into memory.*/
       ocstat = oc_data_readn(conn, currentcontent, NC_coord_zero, count, internlen, memory->next);
@@ -888,8 +888,8 @@ struct NCMEMORY *memory) {
     } else if (!requireconversion && safeindex > 0 && safeindex < rank0) {
       size_t internlen;
       /* We need to build an odometer for the unsafe prefix of the slices */
-      odom      = dapodom_fromsegment(segment, 0, safeindex);
-      count     = dcesegmentsize(segment, safeindex, rank0); /* read in count chunks */
+      odom = dapodom_fromsegment(segment, 0, safeindex);
+      count = dcesegmentsize(segment, safeindex, rank0); /* read in count chunks */
       internlen = interntypesize * count;
       while (dapodom_more(odom)) {
         ocstat = oc_data_readn(conn, currentcontent, odom->index, count, internlen, memory->next);
@@ -951,9 +951,9 @@ struct NCMEMORY *memory) {
       dapodom_free(odom);
     } else { /* Read straight to memory */
       size_t internlen;
-      count     = dcesegmentsize(segment, 0, rank0); /* how many to read */
+      count = dcesegmentsize(segment, 0, rank0); /* how many to read */
       internlen = interntypesize * count;
-      ocstat    = oc_data_readn(conn, currentcontent, NC_coord_zero, count, internlen, memory->next);
+      ocstat = oc_data_readn(conn, currentcontent, NC_coord_zero, count, internlen, memory->next);
       if (ocstat != OC_NOERR) {
         THROWCHK(ocstat);
         goto done;
@@ -1020,7 +1020,7 @@ struct NCMEMORY *memory) {
   OCerror ocstat = OC_NOERR;
   int i;
   size_t rank0;
-  NClist *strings   = NULL;
+  NClist *strings = NULL;
   Dapodometer *odom = NULL;
 
   ASSERT(xnode->etype == NC_STRING || xnode->etype == NC_URL);
@@ -1033,7 +1033,7 @@ struct NCMEMORY *memory) {
 
   if (rank0 == 0) { /*=> scalar*/
     char *value = NULL;
-    ocstat      = oc_data_readscalar(conn, currentcontent, sizeof(value), &value);
+    ocstat = oc_data_readscalar(conn, currentcontent, sizeof(value), &value);
     if (ocstat != OC_NOERR) goto done;
     nclistpush(strings, (void *)value);
   } else {
@@ -1041,7 +1041,7 @@ struct NCMEMORY *memory) {
     odom = dapodom_fromsegment(segment, 0, rank0);
     while (dapodom_more(odom)) {
       char *value = NULL;
-      ocstat      = oc_data_readn(conn, currentcontent, odom->index, 1, sizeof(value), &value);
+      ocstat = oc_data_readn(conn, currentcontent, odom->index, 1, sizeof(value), &value);
       if (ocstat != OC_NOERR)
         goto done;
       nclistpush(strings, (void *)value);
@@ -1074,8 +1074,8 @@ makegetvar(NCDAPCOMMON *nccomm, CDFnode *var, void *data, nc_type dsttype, Getva
     getvar = (Getvara *)calloc(1, sizeof(Getvara));
     MEMCHECK(getvar, NC_ENOMEM);
 
-    getvar->target  = var;
-    getvar->memory  = data;
+    getvar->target = var;
+    getvar->memory = data;
     getvar->dsttype = dsttype;
 
     *getvarp = getvar;
@@ -1101,15 +1101,15 @@ void unattach(CDFnode *root) {
 
 static void
 setattach(CDFnode *target, CDFnode *pattern) {
-  target->attachment  = pattern;
+  target->attachment = pattern;
   pattern->attachment = target;
   /* Transfer important information */
-  target->externaltype    = pattern->externaltype;
+  target->externaltype = pattern->externaltype;
   target->maxstringlength = pattern->maxstringlength;
-  target->sequencelimit   = pattern->sequencelimit;
-  target->ncid            = pattern->ncid;
+  target->sequencelimit = pattern->sequencelimit;
+  target->ncid = pattern->ncid;
   /* also transfer libncdap4 info */
-  target->typeid   = pattern->typeid;
+  target->typeid = pattern->typeid;
   target->typesize = pattern->typesize;
 }
 
@@ -1145,7 +1145,7 @@ attachr(CDFnode *xnode, NClist *patternpath, int depth) {
     goto done;
   }
 
-  lastnode        = (depth == (plen - 1));
+  lastnode = (depth == (plen - 1));
   patternpathnode = (CDFnode *)nclistget(patternpath, depth);
   ASSERT((simplenodematch(xnode, patternpathnode)));
   setattach(xnode, patternpathnode);
@@ -1187,9 +1187,9 @@ done:
 
 NCerror
 attach(CDFnode *xroot, CDFnode *pattern) {
-  NCerror ncstat      = NC_NOERR;
+  NCerror ncstat = NC_NOERR;
   NClist *patternpath = nclistnew();
-  CDFnode *ddsroot    = pattern->root;
+  CDFnode *ddsroot = pattern->root;
 
   if (xroot->attachment) unattach(xroot);
   if (ddsroot != NULL && ddsroot->attachment) unattach(ddsroot);
@@ -1223,7 +1223,7 @@ attachsubsetr(CDFnode *target, CDFnode *pattern) {
   fieldindex = 0;
   for (fieldindex = 0, i = 0; i < nclistlength(pattern->subnodes) && fieldindex < nclistlength(target->subnodes); i++) {
     CDFnode *patternsubnode = (CDFnode *)nclistget(pattern->subnodes, i);
-    CDFnode *targetsubnode  = (CDFnode *)nclistget(target->subnodes, fieldindex);
+    CDFnode *targetsubnode = (CDFnode *)nclistget(target->subnodes, fieldindex);
     if (nodematch(targetsubnode, patternsubnode)) {
 #ifdef DEBUG2
       fprintf(stderr, "attachsubsetr: match: %s :: %s\n", targetsubnode->ocname, patternsubnode->ocname);
@@ -1368,7 +1368,7 @@ nc_type dsttype0) {
   nelems = 1; /* also Compute the number of elements being retrieved */
   for (i = 0; i < ncrank; i++) {
     CDFnode *dim = (CDFnode *)nclistget(ncdims, i);
-    dimsizes[i]  = dim->dim.declsize;
+    dimsizes[i] = dim->dim.declsize;
     nelems *= edges[i];
   }
 
@@ -1418,9 +1418,9 @@ nc_type dsttype0) {
 
   /* Walk the local copy */
   for (i = 0; i < nelems; i++) {
-    size_t voffset   = dapodom_varmcount(odom, map, dimsizes);
+    size_t voffset = dapodom_varmcount(odom, map, dimsizes);
     void *dataoffset = (void *)(((char *)data) + (externsize * voffset));
-    char *localpos   = (localcopy + externsize * i);
+    char *localpos = (localcopy + externsize * i);
     /* extract the indexset'th value from local copy */
     memcpy(dataoffset, (void *)localpos, externsize);
     /*
@@ -1435,7 +1435,7 @@ fprintf(stderr,"new: %lu -> %lu  %f\n",
   odom = dapodom_new(ncrank, start, edges, stride, NULL);
   while (dapodom_more(odom)) {
     size_t *indexset = odom->index;
-    size_t voffset   = dapodom_varmcount(odom, map, dimsizes);
+    size_t voffset = dapodom_varmcount(odom, map, dimsizes);
     char internalmem[128];
     char externalmem[128];
     void *dataoffset = (void *)(((char *)data) + (externsize * voffset));

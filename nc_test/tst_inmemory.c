@@ -151,12 +151,12 @@ removefile(const char *path) {
 
 static int
 readfile(const char *path, NC_memio *memio) {
-  int status      = NC_NOERR;
-  FILE *f         = NULL;
+  int status = NC_NOERR;
+  FILE *f = NULL;
   size_t filesize = 0;
-  size_t count    = 0;
-  char *memory    = NULL;
-  char *p         = NULL;
+  size_t count = 0;
+  char *memory = NULL;
+  char *p = NULL;
 
   /* Open the file for reading */
 #ifdef _MSC_VER
@@ -183,7 +183,7 @@ readfile(const char *path, NC_memio *memio) {
   /* move pointer back to beginning of file */
   rewind(f);
   count = filesize;
-  p     = memory;
+  p = memory;
   while (count > 0) {
     size_t actual;
     actual = fread(p, 1, count, f);
@@ -195,7 +195,7 @@ readfile(const char *path, NC_memio *memio) {
     p += actual;
   }
   if (memio) {
-    memio->size   = (size_t)filesize;
+    memio->size = (size_t)filesize;
     memio->memory = memory;
   }
 done:
@@ -208,10 +208,10 @@ done:
 
 static int
 writefile(const char *path, NC_memio *memio) {
-  int status   = NC_NOERR;
-  FILE *f      = NULL;
+  int status = NC_NOERR;
+  FILE *f = NULL;
   size_t count = 0;
-  char *p      = NULL;
+  char *p = NULL;
 
   /* Open the file for writing */
 #ifdef _MSC_VER
@@ -224,7 +224,7 @@ writefile(const char *path, NC_memio *memio) {
     goto done;
   }
   count = memio->size;
-  p     = memio->memory;
+  p = memio->memory;
   while (count > 0) {
     size_t actual;
     actual = fwrite(p, 1, count, f);
@@ -271,7 +271,7 @@ define_metadata(int ncid) {
   short short_data[DIM1_LEN];
   size_t start[1] = {0};
   size_t count[1] = {DIM1_LEN};
-  int dimprod     = (UNLIM_LEN * DIM1_LEN);
+  int dimprod = (UNLIM_LEN * DIM1_LEN);
   int i;
   float float_data;
   int nightdata[UNLIM_LEN * DIM1_LEN];
@@ -463,8 +463,8 @@ test_open(const char *path, NC_memio *filedata, int mode) {
   int xmode = mode; /* modified mode */
 
   finaldata.memory = NULL;
-  finaldata.size   = 0;
-  finaldata.flags  = 0;
+  finaldata.size = 0;
+  finaldata.flags = 0;
 
   fprintf(stderr, "\n\t***Test open 1: nc_open_mem(): read-only\n");
   CHECK(duplicatememory(filedata, &duplicate, 0));
@@ -531,8 +531,8 @@ test_create(const char *path, int mode) {
   int xmode = mode;
 
   finaldata.memory = NULL;
-  finaldata.size   = 0;
-  finaldata.flags  = 0;
+  finaldata.size = 0;
+  finaldata.flags = 0;
 
   fprintf(stderr, "\n\t***Test create 1: nc_create_memio(): no initialsize\n");
   CHECK(nc_create_mem(path, xmode, 0, &ncid))
@@ -585,7 +585,7 @@ test_misc(const char *path, int mode, NC_memio *filedata) {
 /* Test various edge conditions to ensure they fail correctly */
 static int
 test_xfail(const char *path, int mode, NC_memio *filedata) {
-  int stat           = NC_NOERR;
+  int stat = NC_NOERR;
   NC_memio duplicate = {0, NULL, 0};
   int ncid;
   int xmode = mode; /* modified mode */

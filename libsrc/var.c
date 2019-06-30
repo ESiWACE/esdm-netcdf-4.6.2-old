@@ -82,7 +82,7 @@ size_t ndims) {
   if (varp == NULL)
     return NULL;
   (void)memset(varp, 0, sz);
-  varp->name  = strp;
+  varp->name = strp;
   varp->ndims = ndims;
 
   if (ndims != 0) {
@@ -93,22 +93,22 @@ size_t ndims) {
 	   * We use the M_RNDUP() macro to get the proper alignment.
 	   */
     varp->dimids = (int *)((char *)varp + M_RNDUP(sizeof(NC_var)));
-    varp->shape  = (size_t *)((char *)varp->dimids + o1);
+    varp->shape = (size_t *)((char *)varp->dimids + o1);
     varp->dsizes = (off_t *)((char *)varp->shape + o2);
 #else  /*!MALLOCHACK*/
     varp->dimids = (int *)malloc(o1);
-    varp->shape  = (size_t *)malloc(o2);
+    varp->shape = (size_t *)malloc(o2);
     varp->dsizes = (off_t *)malloc(o3);
 #endif /*!MALLOCHACK*/
   } else {
     varp->dimids = NULL;
-    varp->shape  = NULL;
+    varp->shape = NULL;
     varp->dsizes = NULL;
   }
 
 
-  varp->xsz   = 0;
-  varp->len   = 0;
+  varp->xsz = 0;
+  varp->len = 0;
   varp->begin = 0;
 
   return varp;
@@ -123,7 +123,7 @@ static NC_var *
 new_NC_var(const char *uname, nc_type type,
 size_t ndims, const int *dimids) {
   NC_string *strp = NULL;
-  NC_var *varp    = NULL;
+  NC_var *varp = NULL;
   int stat;
   char *name;
 
@@ -170,8 +170,8 @@ dup_NC_var(const NC_var *rvarp) {
   rvarp->ndims * sizeof(size_t));
   (void)memcpy(varp->dsizes, rvarp->dsizes,
   rvarp->ndims * sizeof(off_t));
-  varp->xsz   = rvarp->xsz;
-  varp->len   = rvarp->len;
+  varp->xsz = rvarp->xsz;
+  varp->len = rvarp->len;
   varp->begin = rvarp->begin;
 
   return varp;
@@ -194,7 +194,7 @@ void free_NC_vararrayV0(NC_vararray *ncap) {
   assert(ncap->value != NULL);
 
   {
-    NC_var **vpp             = ncap->value;
+    NC_var **vpp = ncap->value;
     NC_var *const *const end = &vpp[ncap->nelems];
     for (/*NADA*/; vpp < end; vpp++) {
       free_NC_var(*vpp);
@@ -224,7 +224,7 @@ void free_NC_vararrayV(NC_vararray *ncap) {
   free_NC_vararrayV0(ncap);
 
   free(ncap->value);
-  ncap->value  = NULL;
+  ncap->value = NULL;
   ncap->nalloc = 0;
 }
 
@@ -237,7 +237,7 @@ int dup_NC_vararrayV(NC_vararray *ncap, const NC_vararray *ref) {
 
   if (ref->nelems != 0) {
     const size_t sz = ref->nelems * sizeof(NC_var *);
-    ncap->value     = (NC_var **)malloc(sz);
+    ncap->value = (NC_var **)malloc(sz);
     if (ncap->value == NULL)
       return NC_ENOMEM;
     (void)memset(ncap->value, 0, sz);
@@ -246,8 +246,8 @@ int dup_NC_vararrayV(NC_vararray *ncap, const NC_vararray *ref) {
 
   ncap->nelems = 0;
   {
-    NC_var **vpp             = ncap->value;
-    const NC_var **drpp      = (const NC_var **)ref->value;
+    NC_var **vpp = ncap->value;
+    const NC_var **drpp = (const NC_var **)ref->value;
     NC_var *const *const end = &vpp[ref->nelems];
     for (/*NADA*/; vpp < end; drpp++, vpp++, ncap->nelems++) {
       *vpp = dup_NC_var(*drpp);
@@ -285,7 +285,7 @@ incr_NC_vararray(NC_vararray *ncap, NC_var *newelemp) {
     vp = (NC_var **)malloc(NC_ARRAY_GROWBY * sizeof(NC_var *));
     if (vp == NULL)
       return NC_ENOMEM;
-    ncap->value  = vp;
+    ncap->value = vp;
     ncap->nalloc = NC_ARRAY_GROWBY;
 
     ncap->hashmap = NC_hashmapnew(0);
@@ -419,7 +419,7 @@ int NC_var_shape(NC_var *varp, const NC_dimarray *dims) {
       return NC_EBADDIM;
 
     dimp = elem_NC_dimarray(dims, (size_t)*ip);
-    *op  = dimp->size;
+    *op = dimp->size;
     if (*op == NC_UNLIMITED && ip != varp->dimids)
       return NC_EUNLIMPOS;
   }
@@ -429,7 +429,7 @@ int NC_var_shape(NC_var *varp, const NC_dimarray *dims) {
 	 */
   /* ndims is > 0 here */
   for (shp = varp->shape + varp->ndims - 1,
-      dsp  = varp->dsizes + varp->ndims - 1;
+      dsp = varp->dsizes + varp->ndims - 1;
        shp >= varp->shape;
        shp--, dsp--) {
     /*if(!(shp == varp->shape && IS_RECVAR(varp)))*/
@@ -702,7 +702,7 @@ int NC3_rename_var(int ncid, int varid, const char *unewname) {
   if (status != NC_NOERR)
     goto done; /* invalid varid */
 
-  old    = varp->name;
+  old = varp->name;
   status = nc_utf8_normalize((const unsigned char *)unewname, (unsigned char **)&newname);
   if (status != NC_NOERR)
     goto done;
@@ -716,7 +716,7 @@ int NC3_rename_var(int ncid, int varid, const char *unewname) {
       goto done;
     }
     varp->name = newStr;
-    intdata    = (uintptr_t)varid;
+    intdata = (uintptr_t)varid;
     NC_hashmapadd(ncp->vars.hashmap, intdata, varp->name->cp, strlen(varp->name->cp));
     free_NC_string(old);
     goto done;

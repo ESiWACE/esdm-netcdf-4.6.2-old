@@ -35,16 +35,16 @@ int create_file() {
   int nn_dim;
 
   /* dimension lengths */
-  size_t ii_len  = 4;
-  size_t jj_len  = 3;
-  size_t kk_len  = 3;
-  size_t i1_len  = 5;
-  size_t i2_len  = 3;
-  size_t i3_len  = 7;
+  size_t ii_len = 4;
+  size_t jj_len = 3;
+  size_t kk_len = 3;
+  size_t i1_len = 5;
+  size_t i2_len = 3;
+  size_t i3_len = 7;
   size_t rec_len = NC_UNLIMITED;
-  size_t ll_len  = 3;
-  size_t mm_len  = 1;
-  size_t nn_len  = 1;
+  size_t ll_len = 3;
+  size_t mm_len = 1;
+  size_t nn_len = 1;
 
   /* variable ids */
   int aa_id;
@@ -99,31 +99,31 @@ int create_file() {
   /* define variables */
 
   aa_dims[0] = ii_dim;
-  stat       = nc_def_var(ncid, "aa", NC_INT, RANK_aa, aa_dims, &aa_id);
+  stat = nc_def_var(ncid, "aa", NC_INT, RANK_aa, aa_dims, &aa_id);
   check_err(stat, __LINE__, __FILE__);
 
   bb_dims[0] = kk_dim;
   bb_dims[1] = jj_dim;
-  stat       = nc_def_var(ncid, "bb", NC_INT, RANK_bb, bb_dims, &bb_id);
+  stat = nc_def_var(ncid, "bb", NC_INT, RANK_bb, bb_dims, &bb_id);
   check_err(stat, __LINE__, __FILE__);
 
   cc_dims[0] = rec_dim;
-  stat       = nc_def_var(ncid, "cc", NC_INT, RANK_cc, cc_dims, &cc_id);
+  stat = nc_def_var(ncid, "cc", NC_INT, RANK_cc, cc_dims, &cc_id);
   check_err(stat, __LINE__, __FILE__);
 
   cd_dims[0] = rec_dim;
   cd_dims[1] = i2_dim;
-  stat       = nc_def_var(ncid, "cd", NC_SHORT, RANK_cd, cd_dims, &cd_id);
+  stat = nc_def_var(ncid, "cd", NC_SHORT, RANK_cd, cd_dims, &cd_id);
   check_err(stat, __LINE__, __FILE__);
 
   ce_dims[0] = rec_dim;
   ce_dims[1] = i2_dim;
   ce_dims[2] = i3_dim;
-  stat       = nc_def_var(ncid, "ce", NC_FLOAT, RANK_ce, ce_dims, &ce_id);
+  stat = nc_def_var(ncid, "ce", NC_FLOAT, RANK_ce, ce_dims, &ce_id);
   check_err(stat, __LINE__, __FILE__);
 
   dd_dims[0] = ll_dim;
-  stat       = nc_def_var(ncid, "dd", NC_SHORT, RANK_dd, dd_dims, &dd_id);
+  stat = nc_def_var(ncid, "dd", NC_SHORT, RANK_dd, dd_dims, &dd_id);
   check_err(stat, __LINE__, __FILE__);
 
   /* assign global attributes */
@@ -140,7 +140,7 @@ int create_file() {
   }
   { /* valid_range */
     static const float bb_valid_range_att[2] = {0, 100};
-    stat                                     = nc_put_att_float(ncid, bb_id, "valid_range", NC_FLOAT, 2, bb_valid_range_att);
+    stat = nc_put_att_float(ncid, bb_id, "valid_range", NC_FLOAT, 2, bb_valid_range_att);
     check_err(stat, __LINE__, __FILE__);
   }
   { /* units */
@@ -157,7 +157,7 @@ int create_file() {
   }
   { /* fill_value */
     static const short dd_fill_value_att[1] = {-999};
-    stat                                    = nc_put_att_short(ncid, dd_id, "fill_value", NC_SHORT, 1, dd_fill_value_att);
+    stat = nc_put_att_short(ncid, dd_id, "fill_value", NC_SHORT, 1, dd_fill_value_att);
     check_err(stat, __LINE__, __FILE__);
   }
 
@@ -168,26 +168,26 @@ int create_file() {
 
   /* assign variable data */
   {
-    int aa_data[4]        = {-2147483647, -2147483647, -2147483647, -2147483647};
+    int aa_data[4] = {-2147483647, -2147483647, -2147483647, -2147483647};
     size_t aa_startset[1] = {0};
     size_t aa_countset[1] = {4};
-    stat                  = nc_put_vara(ncid, aa_id, aa_startset, aa_countset, aa_data);
+    stat = nc_put_vara(ncid, aa_id, aa_startset, aa_countset, aa_data);
     check_err(stat, __LINE__, __FILE__);
   }
 
   {
-    int bb_data[9]        = {-2147483647, -2147483647, -2147483647, -2147483647, -2147483647, -2147483647, -2147483647, -2147483647, -2147483647};
+    int bb_data[9] = {-2147483647, -2147483647, -2147483647, -2147483647, -2147483647, -2147483647, -2147483647, -2147483647, -2147483647};
     size_t bb_startset[2] = {0, 0};
     size_t bb_countset[2] = {3, 3};
-    stat                  = nc_put_vara(ncid, bb_id, bb_startset, bb_countset, bb_data);
+    stat = nc_put_vara(ncid, bb_id, bb_startset, bb_countset, bb_data);
     check_err(stat, __LINE__, __FILE__);
   }
 
   {
-    short dd_data[3]      = {1, 2, -32767};
+    short dd_data[3] = {1, 2, -32767};
     size_t dd_startset[1] = {0};
     size_t dd_countset[1] = {3};
-    stat                  = nc_put_vara(ncid, dd_id, dd_startset, dd_countset, dd_data);
+    stat = nc_put_vara(ncid, dd_id, dd_startset, dd_countset, dd_data);
     check_err(stat, __LINE__, __FILE__);
   }
 

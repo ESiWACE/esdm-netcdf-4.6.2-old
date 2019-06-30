@@ -27,7 +27,7 @@ static int istoplevel(OCnode *node);
 
 /* Sequence tag constant */
 static const char StartOfSequence = '\x5A';
-static const char EndOfSequence   = '\xA5';
+static const char EndOfSequence = '\xA5';
 
 /*
 Provide an option that makes a single pass over 
@@ -73,9 +73,9 @@ static OCerror
 occompile1(OCstate *state, OCnode *xnode, XXDR *xxdrs, OCdata **datap) {
   OCerror ocstat = OC_NOERR;
   size_t i;
-  OCdata *data     = NULL;
+  OCdata *data = NULL;
   size_t nelements = 0;
-  NClist *records  = NULL;
+  NClist *records = NULL;
 
   /* Allocate instance for this node */
   data = newocdata(xnode);
@@ -128,7 +128,7 @@ occompile1(OCstate *state, OCnode *xnode, XXDR *xxdrs, OCdata **datap) {
           data->ninstances++;
           /* Capture the back link */
           instance->container = data;
-          instance->index     = i;
+          instance->index = i;
           /* capture the current instance position */
           instance->xdroffset = xxdr_getpos(xxdrs);
           /* Now compile the fields of this instance */
@@ -157,11 +157,11 @@ occompile1(OCstate *state, OCnode *xnode, XXDR *xxdrs, OCdata **datap) {
         if (tmp[0] == StartOfSequence) {
           /* Allocate a record instance */
           OCdata *record = NULL;
-          ocstat         = occompilerecord(state, xnode, xxdrs, &record);
+          ocstat = occompilerecord(state, xnode, xxdrs, &record);
           if (ocstat != OC_NOERR || !record) goto fail;
           /* Capture the back link */
           record->container = data;
-          record->index     = nelements;
+          record->index = nelements;
           nclistpush(records, (void *)record);
           record = NULL;
         } else if (tmp[0] == EndOfSequence) {
@@ -175,7 +175,7 @@ occompile1(OCstate *state, OCnode *xnode, XXDR *xxdrs, OCdata **datap) {
       OCASSERT(nelements == nclistlength(records));
       /* extract the content */
       data->ninstances = nelements;
-      data->instances  = (OCdata **)nclistdup(records);
+      data->instances = (OCdata **)nclistdup(records);
       MEMGOTO(data, ocstat, fail);
       nclistfree(records);
       records = NULL;
@@ -195,7 +195,7 @@ occompile1(OCstate *state, OCnode *xnode, XXDR *xxdrs, OCdata **datap) {
   /*ok:*/
   if (datap) {
     *datap = data;
-    data   = NULL;
+    data = NULL;
   }
 
   if (data != NULL)
@@ -233,7 +233,7 @@ occompilerecord(OCstate *state, OCnode *xnode, XXDR *xxdrs, OCdata **recordp) {
   if (ocstat == OC_NOERR) {
     if (recordp) {
       *recordp = record;
-      record   = NULL;
+      record = NULL;
     }
     if (record != NULL)
       ocdata_free(state, record);
@@ -258,7 +258,7 @@ occompilefields(OCstate *state, OCdata *data, XXDR *xxdrs, int istoplevel) {
     OCnode *fieldnode;
     OCdata *fieldinstance;
     fieldnode = (OCnode *)nclistget(xnode->subnodes, i);
-    ocstat    = occompile1(state, fieldnode, xxdrs, &fieldinstance);
+    ocstat = occompile1(state, fieldnode, xxdrs, &fieldinstance);
     if (ocstat != OC_NOERR)
       goto fail;
     fset(fieldinstance->datamode, OCDT_FIELD);
@@ -266,15 +266,15 @@ occompilefields(OCstate *state, OCdata *data, XXDR *xxdrs, int istoplevel) {
     data->ninstances++;
     /* Capture the back link */
     fieldinstance->container = data;
-    fieldinstance->index     = i;
+    fieldinstance->index = i;
   }
 
   /* If top-level, then link the OCnode to the OCdata directly */
   if (istoplevel) {
     for (i = 0; i < nelements; i++) {
-      OCnode *fieldnode     = (OCnode *)nclistget(xnode->subnodes, i);
+      OCnode *fieldnode = (OCnode *)nclistget(xnode->subnodes, i);
       OCdata *fieldinstance = data->instances[i];
-      fieldnode->data       = fieldinstance;
+      fieldnode->data = fieldinstance;
     }
   }
 
@@ -297,7 +297,7 @@ occompileatomic(OCstate *state, OCdata *data, XXDR *xxdrs) {
   off_t nelements, xdrsize;
   unsigned int xxdrcount;
   OCnode *xnode = data->pattern;
-  int scalar    = (xnode->array.rank == 0);
+  int scalar = (xnode->array.rank == 0);
 
   OCASSERT((xnode->octype == OC_Atomic));
 
@@ -329,9 +329,9 @@ occompileatomic(OCstate *state, OCdata *data, XXDR *xxdrs) {
     xxdrcount = 1;
   }
 
-  data->xdroffset  = xxdr_getpos(xxdrs);
+  data->xdroffset = xxdr_getpos(xxdrs);
   data->ninstances = xxdrcount;
-  data->xdrsize    = ocxdrsize(xnode->etype, scalar);
+  data->xdrsize = ocxdrsize(xnode->etype, scalar);
 
   switch (xnode->etype) {
     /* Do the fixed sized, non-packed cases */
@@ -363,7 +363,7 @@ occompileatomic(OCstate *state, OCdata *data, XXDR *xxdrs) {
     case OC_URL:
       /* Start by allocating a set of pointers for each string */
       data->nstrings = xxdrcount;
-      data->strings  = (off_t *)malloc(sizeof(off_t) * data->nstrings);
+      data->strings = (off_t *)malloc(sizeof(off_t) * data->nstrings);
       /* We need to walk each string, get size, then skip */
       for (i = 0; i < data->nstrings; i++) {
         unsigned int len;
@@ -392,7 +392,7 @@ occompileatomic(OCstate *state, OCdata *data, XXDR *xxdrs) {
 fail:
   if (data->strings != NULL)
     free(data->strings);
-  data->strings    = NULL;
+  data->strings = NULL;
   data->ninstances = 0;
   return OCTHROW(ocstat);
 }
@@ -416,9 +416,9 @@ static OCdata *
 newocdata(OCnode *pattern) {
   OCdata *data = (OCdata *)calloc(1, sizeof(OCdata));
   MEMCHECK(data, NULL);
-  data->header.magic   = OCMAGIC;
+  data->header.magic = OCMAGIC;
   data->header.occlass = OC_Data;
-  data->pattern        = pattern;
+  data->pattern = pattern;
   return data;
 }
 

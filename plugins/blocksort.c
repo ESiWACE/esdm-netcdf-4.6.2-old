@@ -38,7 +38,7 @@ Int32 hi) {
 
   if (hi - lo > 3) {
     for (i = hi - 4; i >= lo; i--) {
-      tmp    = fmap[i];
+      tmp = fmap[i];
       ec_tmp = eclass[tmp];
       for (j = i + 4; j <= hi && ec_tmp > eclass[fmap[j]]; j += 4)
         fmap[j - 4] = fmap[j];
@@ -47,7 +47,7 @@ Int32 hi) {
   }
 
   for (i = hi - 1; i >= lo; i--) {
-    tmp    = fmap[i];
+    tmp = fmap[i];
     ec_tmp = eclass[tmp];
     for (j = i + 1; j <= hi && ec_tmp > eclass[fmap[j]]; j++)
       fmap[j - 1] = fmap[j];
@@ -57,18 +57,18 @@ Int32 hi) {
 
 
 /*---------------------------------------------*/
-#define fswap(zz1, zz2)  \
-  {                      \
-    Int32 zztmp = zz1;   \
-    zz1         = zz2;   \
-    zz2         = zztmp; \
+#define fswap(zz1, zz2) \
+  {                     \
+    Int32 zztmp = zz1;  \
+    zz1 = zz2;          \
+    zz2 = zztmp;        \
   }
 
 #define fvswap(zzp1, zzp2, zzn)      \
   {                                  \
     Int32 yyp1 = (zzp1);             \
     Int32 yyp2 = (zzp2);             \
-    Int32 yyn  = (zzn);              \
+    Int32 yyn = (zzn);               \
     while (yyn > 0) {                \
       fswap(fmap[yyp1], fmap[yyp2]); \
       yyp1++;                        \
@@ -129,7 +129,7 @@ Int32 hiSt) {
          7621 and 32768 is taken from Sedgewick's algorithms
          book, chapter 35.
       */
-    r  = ((r * 7621) + 1) % 32768;
+    r = ((r * 7621) + 1) % 32768;
     r3 = r % 3;
     if (r3 == 0)
       med = eclass[fmap[lo]];
@@ -251,8 +251,8 @@ Int32 verb) {
     ftab[i] += ftab[i - 1];
 
   for (i = 0; i < nblock; i++) {
-    j       = eclass8[i];
-    k       = ftab[j] - 1;
+    j = eclass8[i];
+    k = ftab[j] - 1;
     ftab[j] = k;
     fmap[k] = i;
   }
@@ -290,7 +290,7 @@ Int32 verb) {
     }
 
     nNotDone = 0;
-    r        = -1;
+    r = -1;
     while (1) {
       /*-- find the next non-singleton bucket --*/
       k = r + 1;
@@ -583,7 +583,7 @@ Int32 *budget) {
       while (mainGtU(
       ptr[j - h] + d, v + d, block, quadrant, nblock, budget)) {
         ptr[j] = ptr[j - h];
-        j      = j - h;
+        j = j - h;
         if (j <= (lo + h - 1)) break;
       }
       ptr[j] = v;
@@ -596,7 +596,7 @@ Int32 *budget) {
       while (mainGtU(
       ptr[j - h] + d, v + d, block, quadrant, nblock, budget)) {
         ptr[j] = ptr[j - h];
-        j      = j - h;
+        j = j - h;
         if (j <= (lo + h - 1)) break;
       }
       ptr[j] = v;
@@ -609,7 +609,7 @@ Int32 *budget) {
       while (mainGtU(
       ptr[j - h] + d, v + d, block, quadrant, nblock, budget)) {
         ptr[j] = ptr[j - h];
-        j      = j - h;
+        j = j - h;
         if (j <= (lo + h - 1)) break;
       }
       ptr[j] = v;
@@ -630,18 +630,18 @@ Int32 *budget) {
    Sedgewick and Jon L. Bentley.
 --*/
 
-#define mswap(zz1, zz2)  \
-  {                      \
-    Int32 zztmp = zz1;   \
-    zz1         = zz2;   \
-    zz2         = zztmp; \
+#define mswap(zz1, zz2) \
+  {                     \
+    Int32 zztmp = zz1;  \
+    zz1 = zz2;          \
+    zz2 = zztmp;        \
   }
 
 #define mvswap(zzp1, zzp2, zzn)    \
   {                                \
     Int32 yyp1 = (zzp1);           \
     Int32 yyp2 = (zzp2);           \
-    Int32 yyn  = (zzn);            \
+    Int32 yyn = (zzn);             \
     while (yyn > 0) {              \
       mswap(ptr[yyp1], ptr[yyp2]); \
       yyp1++;                      \
@@ -670,7 +670,7 @@ static __inline__ UChar mmed3(UChar a, UChar b, UChar c) {
   {                       \
     stackLo[sp] = lz;     \
     stackHi[sp] = hz;     \
-    stackD[sp]  = dz;     \
+    stackD[sp] = dz;      \
     sp++;                 \
   }
 
@@ -688,15 +688,15 @@ static __inline__ UChar mmed3(UChar a, UChar b, UChar c) {
 #define mnextswap(az, bz)    \
   {                          \
     Int32 tz;                \
-    tz         = nextLo[az]; \
+    tz = nextLo[az];         \
     nextLo[az] = nextLo[bz]; \
     nextLo[bz] = tz;         \
-    tz         = nextHi[az]; \
+    tz = nextHi[az];         \
     nextHi[az] = nextHi[bz]; \
     nextHi[bz] = tz;         \
-    tz         = nextD[az];  \
-    nextD[az]  = nextD[bz];  \
-    nextD[bz]  = tz;         \
+    tz = nextD[az];          \
+    nextD[az] = nextD[bz];   \
+    nextD[bz] = tz;          \
   }
 
 
@@ -792,13 +792,13 @@ Int32 *budget) {
 
     nextLo[0] = lo;
     nextHi[0] = n;
-    nextD[0]  = d;
+    nextD[0] = d;
     nextLo[1] = m;
     nextHi[1] = hi;
-    nextD[1]  = d;
+    nextD[1] = d;
     nextLo[2] = n + 1;
     nextHi[2] = m - 1;
-    nextD[2]  = d + 1;
+    nextD[2] = d + 1;
 
     if (mnextsize(0) < mnextsize(1)) mnextswap(0, 1);
     if (mnextsize(1) < mnextsize(2)) mnextswap(1, 2);
@@ -869,27 +869,27 @@ Int32 *budget) {
   i = nblock - 1;
   for (; i >= 3; i -= 4) {
     quadrant[i] = 0;
-    j           = (j >> 8) | (((UInt16)block[i]) << 8);
+    j = (j >> 8) | (((UInt16)block[i]) << 8);
     ftab[j]++;
     quadrant[i - 1] = 0;
-    j               = (j >> 8) | (((UInt16)block[i - 1]) << 8);
+    j = (j >> 8) | (((UInt16)block[i - 1]) << 8);
     ftab[j]++;
     quadrant[i - 2] = 0;
-    j               = (j >> 8) | (((UInt16)block[i - 2]) << 8);
+    j = (j >> 8) | (((UInt16)block[i - 2]) << 8);
     ftab[j]++;
     quadrant[i - 3] = 0;
-    j               = (j >> 8) | (((UInt16)block[i - 3]) << 8);
+    j = (j >> 8) | (((UInt16)block[i - 3]) << 8);
     ftab[j]++;
   }
   for (; i >= 0; i--) {
     quadrant[i] = 0;
-    j           = (j >> 8) | (((UInt16)block[i]) << 8);
+    j = (j >> 8) | (((UInt16)block[i]) << 8);
     ftab[j]++;
   }
 
   /*-- (emphasises close relationship of block & quadrant) --*/
   for (i = 0; i < BZ_N_OVERSHOOT; i++) {
-    block[nblock + i]    = block[i];
+    block[nblock + i] = block[i];
     quadrant[nblock + i] = 0;
   }
 
@@ -902,28 +902,28 @@ Int32 *budget) {
   s = block[0] << 8;
   i = nblock - 1;
   for (; i >= 3; i -= 4) {
-    s       = (s >> 8) | (block[i] << 8);
-    j       = ftab[s] - 1;
+    s = (s >> 8) | (block[i] << 8);
+    j = ftab[s] - 1;
     ftab[s] = j;
-    ptr[j]  = i;
-    s       = (s >> 8) | (block[i - 1] << 8);
-    j       = ftab[s] - 1;
+    ptr[j] = i;
+    s = (s >> 8) | (block[i - 1] << 8);
+    j = ftab[s] - 1;
     ftab[s] = j;
-    ptr[j]  = i - 1;
-    s       = (s >> 8) | (block[i - 2] << 8);
-    j       = ftab[s] - 1;
+    ptr[j] = i - 1;
+    s = (s >> 8) | (block[i - 2] << 8);
+    j = ftab[s] - 1;
     ftab[s] = j;
-    ptr[j]  = i - 2;
-    s       = (s >> 8) | (block[i - 3] << 8);
-    j       = ftab[s] - 1;
+    ptr[j] = i - 2;
+    s = (s >> 8) | (block[i - 3] << 8);
+    j = ftab[s] - 1;
     ftab[s] = j;
-    ptr[j]  = i - 3;
+    ptr[j] = i - 3;
   }
   for (; i >= 0; i--) {
-    s       = (s >> 8) | (block[i] << 8);
-    j       = ftab[s] - 1;
+    s = (s >> 8) | (block[i] << 8);
+    j = ftab[s] - 1;
     ftab[s] = j;
-    ptr[j]  = i;
+    ptr[j] = i;
   }
 
   /*--
@@ -932,7 +932,7 @@ Int32 *budget) {
       big bucket.
    --*/
   for (i = 0; i <= 255; i++) {
-    bigDone[i]      = False;
+    bigDone[i] = False;
     runningOrder[i] = i;
   }
 
@@ -946,10 +946,10 @@ Int32 *budget) {
       h = h / 3;
       for (i = h; i <= 255; i++) {
         vv = runningOrder[i];
-        j  = i;
+        j = i;
         while (BIGFREQ(runningOrder[j - h]) > BIGFREQ(vv)) {
           runningOrder[j] = runningOrder[j - h];
-          j               = j - h;
+          j = j - h;
           if (j <= (h - 1)) goto zero;
         }
       zero:
@@ -1015,7 +1015,7 @@ Int32 *budget) {
     {
       for (j = 0; j <= 255; j++) {
         copyStart[j] = ftab[(j << 8) + ss] & CLEARMASK;
-        copyEnd[j]   = (ftab[(j << 8) + ss + 1] & CLEARMASK) - 1;
+        copyEnd[j] = (ftab[(j << 8) + ss + 1] & CLEARMASK) - 1;
       }
       for (j = ftab[ss << 8] & CLEARMASK; j < copyStart[ss]; j++) {
         k = ptr[j] - 1;
@@ -1088,15 +1088,15 @@ Int32 *budget) {
 
     if (i < 255) {
       Int32 bbStart = ftab[ss << 8] & CLEARMASK;
-      Int32 bbSize  = (ftab[(ss + 1) << 8] & CLEARMASK) - bbStart;
-      Int32 shifts  = 0;
+      Int32 bbSize = (ftab[(ss + 1) << 8] & CLEARMASK) - bbStart;
+      Int32 shifts = 0;
 
       while ((bbSize >> shifts) > 65534)
         shifts++;
 
       for (j = bbSize - 1; j >= 0; j--) {
-        Int32 a2update     = ptr[bbStart + j];
-        UInt16 qVal        = (UInt16)(j >> shifts);
+        Int32 a2update = ptr[bbStart + j];
+        UInt16 qVal = (UInt16)(j >> shifts);
         quadrant[a2update] = qVal;
         if (a2update < BZ_N_OVERSHOOT)
           quadrant[a2update + nblock] = qVal;
@@ -1129,12 +1129,12 @@ Int32 *budget) {
       arr1 [0 .. nblock-1] holds sorted order
 */
 void BZ2_blockSort(EState *s) {
-  UInt32 *ptr  = s->ptr;
+  UInt32 *ptr = s->ptr;
   UChar *block = s->block;
   UInt32 *ftab = s->ftab;
   Int32 nblock = s->nblock;
-  Int32 verb   = s->verbosity;
-  Int32 wfact  = s->workFactor;
+  Int32 verb = s->verbosity;
+  Int32 wfact = s->workFactor;
   UInt16 *quadrant;
   Int32 budget;
   Int32 budgetInit;
@@ -1162,7 +1162,7 @@ void BZ2_blockSort(EState *s) {
     if (wfact < 1) wfact = 1;
     if (wfact > 100) wfact = 100;
     budgetInit = nblock * ((wfact - 1) / 3);
-    budget     = budgetInit;
+    budget = budgetInit;
 
     mainSort(ptr, block, quadrant, ftab, nblock, verb, &budget);
     if (verb >= 3)

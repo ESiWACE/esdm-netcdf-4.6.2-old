@@ -30,7 +30,7 @@ int
 test_nccreate(path)
 const char *path; /* name of netCDF file to create */
 {
-  int nerrs           = 0;
+  int nerrs = 0;
   static char pname[] = "test_nccreate";
   int ncid;
 
@@ -96,12 +96,12 @@ int
 test_ncopen(path)
 const char *path; /* name of writable netcdf file to open */
 {
-  int nerrs           = 0;
+  int nerrs = 0;
   static char pname[] = "test_ncopen";
   int ncid0, ncid1;
-  static char title_val[]    = "test netcdf";
-  static char xpath[]        = "tooth-fairy.nc"; /* must not exist */
-  static struct cdfatt title =                   /* attribute */
+  static char title_val[] = "test netcdf";
+  static char xpath[] = "tooth-fairy.nc"; /* must not exist */
+  static struct cdfatt title =            /* attribute */
   {NC_GLOBAL, "title", NC_CHAR, LEN_OF(title_val), (void *)title_val};
   FILE *temp;
   char dummy_data[DATA_LEN];
@@ -241,7 +241,7 @@ int
 test_ncredef(path)
 const char *path; /* name of writable netcdf file to open */
 {
-  int nerrs           = 0;
+  int nerrs = 0;
   static char pname[] = "test_ncredef";
   int ncid;                 /* netcdf id */
   int ii_dim;               /* dimension id */
@@ -250,7 +250,7 @@ const char *path; /* name of writable netcdf file to open */
   int aa_id;                /* variable id */
   static struct cdfvar aa = /* variable */
   {"aa", NC_LONG, 1, ___, 0};
-  static char units_val[]       = "furlongs";
+  static char units_val[] = "furlongs";
   static struct cdfatt aa_units = /* attribute */
   {___, "units", NC_CHAR, LEN_OF(units_val), (void *)units_val};
 
@@ -275,7 +275,7 @@ const char *path; /* name of writable netcdf file to open */
   add_dim(&test, &ii); /* keep in-memory netcdf in sync */
 
   /* dimension added OK, add a variable */
-  aa.dims    = (int *)emalloc(sizeof(int) * aa.ndims);
+  aa.dims = (int *)emalloc(sizeof(int) * aa.ndims);
   aa.dims[0] = ii_dim;
   if ((aa_id = ncvardef(ncid, aa.name, aa.type,
        aa.ndims, aa.dims))
@@ -337,7 +337,7 @@ int
 test_ncendef(path)
 const char *path; /* name of writable netcdf file to open */
 {
-  int nerrs           = 0;
+  int nerrs = 0;
   static char pname[] = "test_ncendef";
   int ncid;                 /* netcdf id */
   int jj_dim, kk_dim;       /* dimension ids */
@@ -348,8 +348,8 @@ const char *path; /* name of writable netcdf file to open */
   {"jj", 3};
   static struct cdfvar bb = /* variable */
   {"bb", NC_LONG, 2, ___, 0};
-  static float bb_rangev[2]     = {0., 100.}; /* attribute vector */
-  static struct cdfatt bb_range =             /* attribute */
+  static float bb_rangev[2] = {0., 100.}; /* attribute vector */
+  static struct cdfatt bb_range =         /* attribute */
   {___, "valid_range", NC_FLOAT, LEN_OF(bb_rangev), (void *)bb_rangev};
 
   (void)fprintf(stderr, "*** Testing %s ...\t\t", &pname[5]);
@@ -374,7 +374,7 @@ const char *path; /* name of writable netcdf file to open */
   add_dim(&test, &kk); /* keep in-memory netcdf in sync */
 
   /* dimensions added OK, add a variable */
-  bb.dims    = (int *)emalloc(sizeof(int) * bb.ndims);
+  bb.dims = (int *)emalloc(sizeof(int) * bb.ndims);
   bb.dims[0] = kk_dim;
   bb.dims[1] = jj_dim;
   if ((bb_id = ncvardef(ncid, bb.name, bb.type,
@@ -438,7 +438,7 @@ int
 test_ncclose(path)
 const char *path; /* name of writable netcdf file to open */
 {
-  int nerrs           = 0;
+  int nerrs = 0;
   static char pname[] = "test_ncclose";
   int ncid; /* netcdf id */
 
@@ -493,7 +493,7 @@ int
 test_ncinquire(path)
 const char *path; /* name of writable netcdf file to open */
 {
-  int nerrs           = 0;
+  int nerrs = 0;
   static char pname[] = "test_ncinquire";
   int ncid;                  /* netcdf id */
   int ndims;                 /* number of dimensions */
@@ -513,8 +513,8 @@ const char *path; /* name of writable netcdf file to open */
   {"cd", NC_SHORT, 2, ___, 0},
   {"ce", NC_FLOAT, 3, ___, 0}};
   int iv;
-  int nv                        = LEN_OF(cc); /* number of record variables */
-  static char units_val[]       = "moles";
+  int nv = LEN_OF(cc); /* number of record variables */
+  static char units_val[] = "moles";
   static struct cdfatt cc_units = /* attribute */
   {___, "units", NC_CHAR, LEN_OF(units_val), (void *)units_val};
 
@@ -578,7 +578,7 @@ const char *path; /* name of writable netcdf file to open */
 
   /* add some record variables */
   for (iv = 0; iv < nv; iv++) {
-    cc[iv].dims    = (int *)emalloc(sizeof(int) * cc[iv].ndims);
+    cc[iv].dims = (int *)emalloc(sizeof(int) * cc[iv].ndims);
     cc[iv].dims[0] = rec_dim; /* first dimension unlimited */
     for (id = 1; id < cc[iv].ndims; id++)
       cc[iv].dims[id] = dimids[id];
@@ -665,7 +665,7 @@ int
 test_ncsync(path)
 const char *path; /* name of writable netcdf file to open */
 {
-  int nerrs           = 0;
+  int nerrs = 0;
   static char pname[] = "test_ncsync";
   int ncid0, ncid1;         /* netcdf ids */
   int ll_dim;               /* dimension id */
@@ -674,7 +674,7 @@ const char *path; /* name of writable netcdf file to open */
   int dd_id;                /* variable id */
   static struct cdfvar dd = /* variable */
   {"dd", NC_SHORT, 1, ___, 0};
-  static short dd_fill_valv[]      = {-999};
+  static short dd_fill_valv[] = {-999};
   static struct cdfatt dd_fill_val = /* attribute */
   {___, "fill_value", NC_SHORT, LEN_OF(dd_fill_valv), (void *)dd_fill_valv};
 
@@ -699,7 +699,7 @@ const char *path; /* name of writable netcdf file to open */
   }
   add_dim(&test, &ll);
 
-  dd.dims    = (int *)emalloc(sizeof(int) * dd.ndims);
+  dd.dims = (int *)emalloc(sizeof(int) * dd.ndims);
   dd.dims[0] = ll_dim;
   if ((dd_id = ncvardef(ncid0, dd.name, dd.type, dd.ndims, dd.dims)) == -1) {
     error("%s: ncvardef failed", pname);
@@ -809,10 +809,10 @@ int
 test_ncabort(path)
 const char *path; /* name of writable netcdf file to open */
 {
-  int nerrs                = 0;
-  static char pname[]      = "test_ncabort";
-  static char fpath[]      = "ufo.nc";
-  static short attv[]      = {3};
+  int nerrs = 0;
+  static char pname[] = "test_ncabort";
+  static char fpath[] = "ufo.nc";
+  static short attv[] = {3};
   static struct cdfatt att = /* attribute */
   {___, "temp", NC_SHORT, LEN_OF(attv), (void *)attv};
   int ncid; /* netcdf id */

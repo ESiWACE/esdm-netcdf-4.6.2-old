@@ -290,7 +290,7 @@ void *const vp, off_t *posp) {
   /* 	return errno; */
   /* } */
   nextent = extent;
-  nvp     = vp;
+  nvp = vp;
   while ((partial = write(nciop->fd, nvp, nextent)) != -1) {
     if (partial == nextent)
       break;
@@ -507,8 +507,8 @@ void **const vpp) {
   int status = NC_NOERR;
 
   const off_t blkoffset = _RNDDOWN(offset, (off_t)pxp->blksz);
-  off_t diff            = (size_t)(offset - blkoffset);
-  off_t blkextent       = _RNDUP(diff + extent, pxp->blksz);
+  off_t diff = (size_t)(offset - blkoffset);
+  off_t blkextent = _RNDUP(diff + extent, pxp->blksz);
 
   assert(extent != 0);
   assert(extent < X_INT_MAX); /* sanity check */
@@ -600,7 +600,7 @@ void **const vpp) {
     {
       /* page in upper */
       void *const middle = (void *)((char *)pxp->bf_base + pxp->blksz);
-      status             = px_pgin(nciop,
+      status = px_pgin(nciop,
       pxp->bf_offset + (off_t)pxp->blksz,
       pxp->blksz,
       middle,
@@ -618,7 +618,7 @@ void **const vpp) {
   if (blkoffset == pxp->bf_offset - (off_t)pxp->blksz) {
     /* wants the page below */
     void *const middle = (void *)((char *)pxp->bf_base + pxp->blksz);
-    size_t upper_cnt   = 0;
+    size_t upper_cnt = 0;
     if (pxp->bf_cnt > pxp->blksz) {
       /* data in upper half */
       assert(pxp->bf_extent == 2 * pxp->blksz);
@@ -633,7 +633,7 @@ void **const vpp) {
         if (status != NC_NOERR)
           return status;
       }
-      pxp->bf_cnt    = pxp->blksz;
+      pxp->bf_cnt = pxp->blksz;
       pxp->bf_extent = pxp->blksz;
     }
     if (pxp->bf_cnt > 0) {
@@ -653,7 +653,7 @@ void **const vpp) {
     pxp->bf_offset = blkoffset;
     if (upper_cnt != 0) {
       pxp->bf_extent = 2 * pxp->blksz;
-      pxp->bf_cnt    = pxp->blksz + upper_cnt;
+      pxp->bf_cnt = pxp->blksz + upper_cnt;
     } else {
       pxp->bf_extent = pxp->blksz;
     }
@@ -733,7 +733,7 @@ void **const vpp) {
   if (pxp->slave != NULL) {
     if (pxp->slave->bf_base != NULL) {
       free(pxp->slave->bf_base);
-      pxp->slave->bf_base   = NULL;
+      pxp->slave->bf_base = NULL;
       pxp->slave->bf_extent = 0;
       pxp->slave->bf_offset = OFF_NONE;
     }
@@ -749,7 +749,7 @@ static int
 px_double_buffer(ncio *const nciop, off_t to, off_t from,
 size_t nbytes, int rflags) {
   ncio_px *const pxp = (ncio_px *)nciop->pvt;
-  int status         = NC_NOERR;
+  int status = NC_NOERR;
   void *src;
   void *dest;
 
@@ -771,19 +771,19 @@ size_t nbytes, int rflags) {
     /* pos done below */
     pxp->slave->bf_offset = pxp->bf_offset;
     pxp->slave->bf_extent = pxp->bf_extent;
-    pxp->slave->bf_cnt    = pxp->bf_cnt;
-    pxp->slave->bf_base   = malloc(2 * pxp->blksz);
+    pxp->slave->bf_cnt = pxp->bf_cnt;
+    pxp->slave->bf_base = malloc(2 * pxp->blksz);
     if (pxp->slave->bf_base == NULL)
       return ENOMEM;
     (void)memcpy(pxp->slave->bf_base, pxp->bf_base,
     pxp->bf_extent);
-    pxp->slave->bf_rflags   = 0;
+    pxp->slave->bf_rflags = 0;
     pxp->slave->bf_refcount = 0;
-    pxp->slave->slave       = NULL;
+    pxp->slave->slave = NULL;
   }
 
   pxp->slave->pos = pxp->pos;
-  status          = px_get(nciop, pxp->slave, from, nbytes, 0,
+  status = px_get(nciop, pxp->slave, from, nbytes, 0,
   &src);
   if (status != NC_NOERR)
     return status;
@@ -818,7 +818,7 @@ static int
 ncio_px_move(ncio *const nciop, off_t to, off_t from,
 size_t nbytes, int rflags) {
   ncio_px *const pxp = (ncio_px *)nciop->pvt;
-  int status         = NC_NOERR;
+  int status = NC_NOERR;
   off_t lower;
   off_t upper;
   char *base;
@@ -842,7 +842,7 @@ size_t nbytes, int rflags) {
     lower = to;
     upper = from;
   }
-  diff   = (size_t)(upper - lower);
+  diff = (size_t)(upper - lower);
   extent = diff + nbytes;
 
 #if INSTRUMENT
@@ -914,7 +914,7 @@ size_t nbytes, int rflags) {
 static int
 ncio_px_sync(ncio *const nciop) {
   ncio_px *const pxp = (ncio_px *)nciop->pvt;
-  int status         = NC_NOERR;
+  int status = NC_NOERR;
   if (fIsSet(pxp->bf_rflags, RGN_MODIFIED)) {
     assert(pxp->bf_refcount <= 0);
     status = px_pgout(nciop, pxp->bf_offset,
@@ -929,7 +929,7 @@ ncio_px_sync(ncio *const nciop) {
 	     * that the next ncio_px_get() will actually read data.
 	     */
     pxp->bf_offset = OFF_NONE;
-    pxp->bf_cnt    = 0;
+    pxp->bf_cnt = 0;
   }
   return status;
 }
@@ -946,7 +946,7 @@ ncio_px_freepvt(void *const pvt) {
   if (pxp->slave != NULL) {
     if (pxp->slave->bf_base != NULL) {
       free(pxp->slave->bf_base);
-      pxp->slave->bf_base   = NULL;
+      pxp->slave->bf_base = NULL;
       pxp->slave->bf_extent = 0;
       pxp->slave->bf_offset = OFF_NONE;
     }
@@ -956,7 +956,7 @@ ncio_px_freepvt(void *const pvt) {
 
   if (pxp->bf_base != NULL) {
     free(pxp->bf_base);
-    pxp->bf_base   = NULL;
+    pxp->bf_base = NULL;
     pxp->bf_extent = 0;
     pxp->bf_offset = OFF_NONE;
   }
@@ -1001,7 +1001,7 @@ ncio_px_init2(ncio *const nciop, size_t *sizehintp, int isNew) {
   pxp->bf_cnt = 0;
   if (isNew) {
     /* save a read */
-    pxp->pos       = 0;
+    pxp->pos = 0;
     pxp->bf_offset = 0;
     pxp->bf_extent = bufsz;
     (void)memset(pxp->bf_base, 0, pxp->bf_extent);
@@ -1020,22 +1020,22 @@ static void
 ncio_px_init(ncio *const nciop) {
   ncio_px *const pxp = (ncio_px *)nciop->pvt;
 
-  *((ncio_relfunc **)&nciop->rel)               = ncio_px_rel;        /* cast away const */
-  *((ncio_getfunc **)&nciop->get)               = ncio_px_get;        /* cast away const */
-  *((ncio_movefunc **)&nciop->move)             = ncio_px_move;       /* cast away const */
-  *((ncio_syncfunc **)&nciop->sync)             = ncio_px_sync;       /* cast away const */
-  *((ncio_filesizefunc **)&nciop->filesize)     = ncio_px_filesize;   /* cast away const */
+  *((ncio_relfunc **)&nciop->rel) = ncio_px_rel;                      /* cast away const */
+  *((ncio_getfunc **)&nciop->get) = ncio_px_get;                      /* cast away const */
+  *((ncio_movefunc **)&nciop->move) = ncio_px_move;                   /* cast away const */
+  *((ncio_syncfunc **)&nciop->sync) = ncio_px_sync;                   /* cast away const */
+  *((ncio_filesizefunc **)&nciop->filesize) = ncio_px_filesize;       /* cast away const */
   *((ncio_pad_lengthfunc **)&nciop->pad_length) = ncio_px_pad_length; /* cast away const */
-  *((ncio_closefunc **)&nciop->close)           = ncio_px_close;      /* cast away const */
+  *((ncio_closefunc **)&nciop->close) = ncio_px_close;                /* cast away const */
 
-  pxp->blksz       = 0;
-  pxp->pos         = -1;
-  pxp->bf_offset   = OFF_NONE;
-  pxp->bf_extent   = 0;
-  pxp->bf_rflags   = 0;
+  pxp->blksz = 0;
+  pxp->pos = -1;
+  pxp->bf_offset = OFF_NONE;
+  pxp->bf_extent = 0;
+  pxp->bf_rflags = 0;
   pxp->bf_refcount = 0;
-  pxp->bf_base     = NULL;
-  pxp->slave       = NULL;
+  pxp->bf_base = NULL;
+  pxp->slave = NULL;
 }
 
 /* Begin spx */
@@ -1073,7 +1073,7 @@ typedef struct ncio_spx {
 static int
 ncio_spx_rel(ncio *const nciop, off_t offset, int rflags) {
   ncio_spx *const pxp = (ncio_spx *)nciop->pvt;
-  int status          = NC_NOERR;
+  int status = NC_NOERR;
 
   assert(pxp->bf_offset <= offset);
   assert(pxp->bf_cnt != 0);
@@ -1093,7 +1093,7 @@ ncio_spx_rel(ncio *const nciop, off_t offset, int rflags) {
     /* if error, invalidate buffer anyway */
   }
   pxp->bf_offset = OFF_NONE;
-  pxp->bf_cnt    = 0;
+  pxp->bf_cnt = 0;
   return status;
 }
 
@@ -1120,7 +1120,7 @@ off_t offset, size_t extent,
 int rflags,
 void **const vpp) {
   ncio_spx *const pxp = (ncio_spx *)nciop->pvt;
-  int status          = NC_NOERR;
+  int status = NC_NOERR;
 #ifdef X_ALIGN
   size_t rem;
 #endif
@@ -1153,7 +1153,7 @@ void **const vpp) {
   if (pxp->bf_extent < extent) {
     if (pxp->bf_base != NULL) {
       free(pxp->bf_base);
-      pxp->bf_base   = NULL;
+      pxp->bf_base = NULL;
       pxp->bf_extent = 0;
     }
     assert(pxp->bf_extent == 0);
@@ -1273,7 +1273,7 @@ fprintf(stderr, "strategy %ld at %ld to %ld\n",
 static int
 ncio_spx_move(ncio *const nciop, off_t to, off_t from,
 size_t nbytes, int rflags) {
-  int status  = NC_NOERR;
+  int status = NC_NOERR;
   off_t lower = from;
   off_t upper = to;
   char *base;
@@ -1295,7 +1295,7 @@ size_t nbytes, int rflags) {
     upper = from;
   }
 
-  diff   = (size_t)(upper - lower);
+  diff = (size_t)(upper - lower);
   extent = diff + nbytes;
 
   status = ncio_spx_get(nciop, lower, extent, RGN_WRITE | rflags,
@@ -1332,10 +1332,10 @@ ncio_spx_freepvt(void *const pvt) {
 
   if (pxp->bf_base != NULL) {
     free(pxp->bf_base);
-    pxp->bf_base   = NULL;
+    pxp->bf_base = NULL;
     pxp->bf_offset = OFF_NONE;
     pxp->bf_extent = 0;
-    pxp->bf_cnt    = 0;
+    pxp->bf_cnt = 0;
   }
 }
 
@@ -1377,20 +1377,20 @@ static void
 ncio_spx_init(ncio *const nciop) {
   ncio_spx *const pxp = (ncio_spx *)nciop->pvt;
 
-  *((ncio_relfunc **)&nciop->rel)   = ncio_spx_rel;  /* cast away const */
-  *((ncio_getfunc **)&nciop->get)   = ncio_spx_get;  /* cast away const */
+  *((ncio_relfunc **)&nciop->rel) = ncio_spx_rel;    /* cast away const */
+  *((ncio_getfunc **)&nciop->get) = ncio_spx_get;    /* cast away const */
   *((ncio_movefunc **)&nciop->move) = ncio_spx_move; /* cast away const */
   *((ncio_syncfunc **)&nciop->sync) = ncio_spx_sync; /* cast away const */
   /* shared with _px_ */
-  *((ncio_filesizefunc **)&nciop->filesize)     = ncio_px_filesize;   /* cast away const */
+  *((ncio_filesizefunc **)&nciop->filesize) = ncio_px_filesize;       /* cast away const */
   *((ncio_pad_lengthfunc **)&nciop->pad_length) = ncio_px_pad_length; /* cast away const */
-  *((ncio_closefunc **)&nciop->close)           = ncio_spx_close;     /* cast away const */
+  *((ncio_closefunc **)&nciop->close) = ncio_spx_close;               /* cast away const */
 
-  pxp->pos       = -1;
+  pxp->pos = -1;
   pxp->bf_offset = OFF_NONE;
   pxp->bf_extent = 0;
-  pxp->bf_cnt    = 0;
-  pxp->bf_base   = NULL;
+  pxp->bf_cnt = 0;
+  pxp->bf_base = NULL;
 }
 
 
@@ -1444,7 +1444,7 @@ ncio_px_new(const char *path, int ioflags) {
   if (nciop == NULL)
     return NULL;
 
-  nciop->ioflags       = ioflags;
+  nciop->ioflags = ioflags;
   *((int *)&nciop->fd) = -1; /* cast away const */
 
   nciop->path = (char *)((char *)nciop + sz_ncio);
@@ -1634,7 +1634,7 @@ void *parameters,
 ncio **nciopp, void **const igetvpp) {
   ncio *nciop;
   int oflags = fIsSet(ioflags, NC_WRITE) ? O_RDWR : O_RDONLY;
-  int fd     = -1;
+  int fd = -1;
   int status = 0;
 
   if (path == NULL || *path == 0)

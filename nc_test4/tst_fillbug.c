@@ -22,7 +22,7 @@ int main() {
   int ncid, dimids[RANK_P], time_id, p_id;
   int ndims, dimids_in[RANK_P];
 
-  double data[1]  = {3.14159};
+  double data[1] = {3.14159};
   size_t start[1] = {0}, count[1] = {1};
   static float P_data[LEN];
   size_t cor[RANK_P] = {0, 1, 0};
@@ -57,7 +57,7 @@ int main() {
     * than 1 value) to be created. */
   {
     static const float p_FillValue_atts[] = {NC_FILL_FLOAT, -99};
-    int p_FillValue_att                   = -99;
+    int p_FillValue_att = -99;
     /* This should returns error, too many attribute vals */
     if (nc_put_att_float(ncid, p_id, "_FillValue", NC_FLOAT, 2, p_FillValue_atts) != NC_EINVAL) ERR;
     /* This also should return error, wrong type */

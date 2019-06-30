@@ -52,8 +52,8 @@ static NC_dim *
 new_NC_dim(const char *uname, size_t size) {
   NC_string *strp;
   NC_dim *dimp = NULL;
-  int stat     = NC_NOERR;
-  char *name   = NULL;
+  int stat = NC_NOERR;
+  char *name = NULL;
 
   stat = nc_utf8_normalize((const unsigned char *)uname, (unsigned char **)&name);
   if (stat != NC_NOERR)
@@ -97,7 +97,7 @@ int find_NC_Udim(const NC_dimarray *ncap, NC_dim **dimpp) {
     return -1;
 
   {
-    int dimid    = 0;
+    int dimid = 0;
     NC_dim **loc = ncap->value;
 
     for (; (size_t)dimid < ncap->nelems
@@ -123,7 +123,7 @@ int find_NC_Udim(const NC_dimarray *ncap, NC_dim **dimpp) {
  */
 static int
 NC_finddim(const NC_dimarray *ncap, const char *uname, NC_dim **dimpp) {
-  int dimid  = -1;
+  int dimid = -1;
   char *name = NULL;
   uintptr_t data;
 
@@ -160,7 +160,7 @@ void free_NC_dimarrayV0(NC_dimarray *ncap) {
   assert(ncap->value != NULL);
 
   {
-    NC_dim **dpp             = ncap->value;
+    NC_dim **dpp = ncap->value;
     NC_dim *const *const end = &dpp[ncap->nelems];
     for (/*NADA*/; dpp < end; dpp++) {
       free_NC_dim(*dpp);
@@ -190,7 +190,7 @@ void free_NC_dimarrayV(NC_dimarray *ncap) {
   free_NC_dimarrayV0(ncap);
 
   free(ncap->value);
-  ncap->value  = NULL;
+  ncap->value = NULL;
   ncap->nalloc = 0;
 }
 
@@ -203,7 +203,7 @@ int dup_NC_dimarrayV(NC_dimarray *ncap, const NC_dimarray *ref) {
 
   if (ref->nelems != 0) {
     const size_t sz = ref->nelems * sizeof(NC_dim *);
-    ncap->value     = (NC_dim **)malloc(sz);
+    ncap->value = (NC_dim **)malloc(sz);
     if (ncap->value == NULL)
       return NC_ENOMEM;
     (void)memset(ncap->value, 0, sz);
@@ -212,8 +212,8 @@ int dup_NC_dimarrayV(NC_dimarray *ncap, const NC_dimarray *ref) {
 
   ncap->nelems = 0;
   {
-    NC_dim **dpp             = ncap->value;
-    const NC_dim **drpp      = (const NC_dim **)ref->value;
+    NC_dim **dpp = ncap->value;
+    const NC_dim **drpp = (const NC_dim **)ref->value;
     NC_dim *const *const end = &dpp[ref->nelems];
     for (/*NADA*/; dpp < end; drpp++, dpp++, ncap->nelems++) {
       *dpp = dup_NC_dim(*drpp);
@@ -251,8 +251,8 @@ incr_NC_dimarray(NC_dimarray *ncap, NC_dim *newelemp) {
     vp = (NC_dim **)malloc(NC_ARRAY_GROWBY * sizeof(NC_dim *));
     if (vp == NULL)
       return NC_ENOMEM;
-    ncap->value   = vp;
-    ncap->nalloc  = NC_ARRAY_GROWBY;
+    ncap->value = vp;
+    ncap->nalloc = NC_ARRAY_GROWBY;
     ncap->hashmap = NC_hashmapnew(0);
   } else if (ncap->nelems + 1 > ncap->nalloc) {
     vp = (NC_dim **)realloc(ncap->value,
@@ -401,7 +401,7 @@ int NC3_rename_dim(int ncid, int dimid, const char *unewname) {
   NC3_INFO *ncp;
   int existid;
   NC_dim *dimp;
-  char *newname  = NULL; /* normalized */
+  char *newname = NULL; /* normalized */
   NC_string *old = NULL;
   uintptr_t intdata;
 
@@ -432,7 +432,7 @@ int NC3_rename_dim(int ncid, int dimid, const char *unewname) {
     goto done;
   }
 
-  old    = dimp->name;
+  old = dimp->name;
   status = nc_utf8_normalize((const unsigned char *)unewname, (unsigned char **)&newname);
   if (status != NC_NOERR)
     goto done;

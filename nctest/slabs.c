@@ -111,8 +111,8 @@ long val;                  /* value to compare with */
 int
 test_slabs(cdfid) int cdfid; /* handle of netcdf open and in data mode */
 {
-  int nerrs                        = 0;
-  static char pname[]              = "test_slabs";
+  int nerrs = 0;
+  static char pname[] = "test_slabs";
   static struct cdfdim dims[NDIMS] = {
   {"w", WSIZE},
   {"x", XSIZE},
@@ -201,7 +201,7 @@ test_slabs(cdfid) int cdfid; /* handle of netcdf open and in data mode */
 
     for (idim = 0; idim < NDIMS; idim++) {
       corner[idim] = 0;
-      edge[idim]   = dims[idim].size;
+      edge[idim] = dims[idim].size;
     }
 
     /* ncvarput the whole variable */
@@ -219,8 +219,8 @@ test_slabs(cdfid) int cdfid; /* handle of netcdf open and in data mode */
     /* get an interior point */
     for (idim = 0; idim < NDIMS; idim++) {
       corner[idim] = dims[idim].size / 2;
-      edge[idim]   = 1;
-      point[idim]  = corner[idim];
+      edge[idim] = 1;
+      point[idim] = corner[idim];
     }
     if (ncvarget(cdfid, varid[iv], corner, edge, (void *)v) == -1) {
       error("%s: ncvarget of one point failed", pname);
@@ -236,11 +236,11 @@ test_slabs(cdfid) int cdfid; /* handle of netcdf open and in data mode */
     for (idim = 0; idim < NDIMS; idim++) {
       for (jdim = 0; jdim < NDIMS; jdim++) {
         corner[jdim] = dims[jdim].size / 2;
-        edge[jdim]   = 1;
-        point[jdim]  = corner[jdim];
+        edge[jdim] = 1;
+        point[jdim] = corner[jdim];
       }
       corner[idim] = 1; /* get vector along dimension idim */
-      edge[idim]   = dims[idim].size - 2;
+      edge[idim] = dims[idim].size - 2;
       if (ncvarget(cdfid, varid[iv], corner, edge, (void *)v) == -1) {
         error("%s: ncvarget of vector failed", pname);
         nerrs++;
@@ -260,13 +260,13 @@ test_slabs(cdfid) int cdfid; /* handle of netcdf open and in data mode */
       for (jdim = idim + 1; jdim < NDIMS; jdim++) {
         for (kdim = 0; kdim < NDIMS; kdim++) { /* reset corners and edges */
           corner[kdim] = dims[kdim].size / 2;
-          edge[kdim]   = 1;
-          point[kdim]  = corner[kdim];
+          edge[kdim] = 1;
+          point[kdim] = corner[kdim];
         }
         corner[idim] = 1; /* interior plane along dimensions idim jdim */
         corner[jdim] = 1;
-        edge[idim]   = dims[idim].size - 2;
-        edge[jdim]   = dims[jdim].size - 2;
+        edge[idim] = dims[idim].size - 2;
+        edge[jdim] = dims[jdim].size - 2;
         if (ncvarget(cdfid, varid[iv], corner, edge, (void *)v) == -1) {
           error("%s: ncvarget of plane failed", pname);
           nerrs++;
@@ -297,15 +297,15 @@ test_slabs(cdfid) int cdfid; /* handle of netcdf open and in data mode */
         for (kdim = jdim + 1; kdim < NDIMS; kdim++) {
           for (ldim = 0; ldim < NDIMS; ldim++) { /* reset corners, edges */
             corner[ldim] = dims[ldim].size / 2;
-            edge[ldim]   = 1;
-            point[ldim]  = corner[ldim];
+            edge[ldim] = 1;
+            point[ldim] = corner[ldim];
           }
           corner[idim] = 1; /* intr. cube along idim jdim kdim */
           corner[jdim] = 1;
           corner[kdim] = 1;
-          edge[idim]   = dims[idim].size - 2;
-          edge[jdim]   = dims[jdim].size - 2;
-          edge[kdim]   = dims[kdim].size - 2;
+          edge[idim] = dims[idim].size - 2;
+          edge[jdim] = dims[jdim].size - 2;
+          edge[kdim] = dims[kdim].size - 2;
           if (ncvarget(cdfid, varid[iv], corner, edge, (void *)v) == -1) {
             error("%s: ncvarget of cube failed", pname);
             nerrs++;

@@ -34,7 +34,7 @@ int NCD4_swapdata(NCD4meta *compiler, NClist *topvars) {
 
   offset = compiler->serial.dap;
   for (i = 0; i < nclistlength(topvars); i++) {
-    NCD4node *var             = (NCD4node *)nclistget(topvars, i);
+    NCD4node *var = (NCD4node *)nclistget(topvars, i);
     var->data.dap4data.memory = offset;
     switch (var->subsort) {
       default:
@@ -69,8 +69,8 @@ walkAtomicVar(NCD4meta *compiler, NCD4node *topvar, NCD4node *var, void **offset
   d4size_t dimproduct;
   NCD4node *basetype;
 
-  basetype   = (var->sort == NCD4_TYPE ? var : var->basetype);
-  subsort    = basetype->subsort;
+  basetype = (var->sort == NCD4_TYPE ? var : var->basetype);
+  subsort = basetype->subsort;
   dimproduct = (var->sort == NCD4_TYPE ? 1 : NCD4_dimproduct(var));
 
   offset = *offsetp;
@@ -78,7 +78,7 @@ walkAtomicVar(NCD4meta *compiler, NCD4node *topvar, NCD4node *var, void **offset
     subsort = var->basetype->basetype->subsort;
   /* Only need to swap multi-byte integers and floats */
   if (subsort != NC_STRING) {
-    int typesize       = NCD4_typesize(subsort);
+    int typesize = NCD4_typesize(subsort);
     d4size_t totalsize = typesize * dimproduct;
     if (typesize == 1) {
       offset = INCR(offset, totalsize);
@@ -141,7 +141,7 @@ walkStructArray(NCD4meta *compiler, NCD4node *topvar, NCD4node *var, void **offs
   void *offset;
   d4size_t i;
   d4size_t dimproduct = NCD4_dimproduct(var);
-  NCD4node *basetype  = var->basetype;
+  NCD4node *basetype = var->basetype;
 
   offset = *offsetp;
   for (i = 0; i < dimproduct; i++) {
@@ -161,7 +161,7 @@ walkStruct(NCD4meta *compiler, NCD4node *topvar, NCD4node *structtype, void **of
 
   offset = *offsetp;
   for (i = 0; i < nclistlength(structtype->vars); i++) {
-    NCD4node *field     = (NCD4node *)nclistget(structtype->vars, i);
+    NCD4node *field = (NCD4node *)nclistget(structtype->vars, i);
     NCD4node *fieldbase = field->basetype;
     switch (fieldbase->subsort) {
       default:
@@ -194,7 +194,7 @@ walkSeqArray(NCD4meta *compiler, NCD4node *topvar, NCD4node *var, void **offsetp
 
   assert(var->sort == NCD4_VAR);
   dimproduct = NCD4_dimproduct(var);
-  seqtype    = var->basetype;
+  seqtype = var->basetype;
 
   offset = *offsetp;
   for (i = 0; i < dimproduct; i++) {

@@ -243,58 +243,58 @@ extern int ncgdebug;
 #    define YYTOKENTYPE
 enum yytokentype {
   NC_UNLIMITED_K = 258,
-  CHAR_K         = 259,
-  BYTE_K         = 260,
-  SHORT_K        = 261,
-  INT_K          = 262,
-  FLOAT_K        = 263,
-  DOUBLE_K       = 264,
-  UBYTE_K        = 265,
-  USHORT_K       = 266,
-  UINT_K         = 267,
-  INT64_K        = 268,
-  UINT64_K       = 269,
-  STRING_K       = 270,
-  IDENT          = 271,
-  TERMSTRING     = 272,
-  CHAR_CONST     = 273,
-  BYTE_CONST     = 274,
-  SHORT_CONST    = 275,
-  INT_CONST      = 276,
-  INT64_CONST    = 277,
-  UBYTE_CONST    = 278,
-  USHORT_CONST   = 279,
-  UINT_CONST     = 280,
-  UINT64_CONST   = 281,
-  FLOAT_CONST    = 282,
-  DOUBLE_CONST   = 283,
-  DIMENSIONS     = 284,
-  VARIABLES      = 285,
-  NETCDF         = 286,
-  DATA           = 287,
-  TYPES          = 288,
-  COMPOUND       = 289,
-  ENUM           = 290,
-  OPAQUE_        = 291,
-  OPAQUESTRING   = 292,
-  GROUP          = 293,
-  PATH           = 294,
-  FILLMARKER     = 295,
-  NIL            = 296,
-  _FILLVALUE     = 297,
-  _FORMAT        = 298,
-  _STORAGE       = 299,
-  _CHUNKSIZES    = 300,
-  _DEFLATELEVEL  = 301,
-  _SHUFFLE       = 302,
-  _ENDIANNESS    = 303,
-  _NOFILL        = 304,
-  _FLETCHER32    = 305,
-  _NCPROPS       = 306,
-  _ISNETCDF4     = 307,
-  _SUPERBLOCK    = 308,
-  _FILTER        = 309,
-  DATASETID      = 310
+  CHAR_K = 259,
+  BYTE_K = 260,
+  SHORT_K = 261,
+  INT_K = 262,
+  FLOAT_K = 263,
+  DOUBLE_K = 264,
+  UBYTE_K = 265,
+  USHORT_K = 266,
+  UINT_K = 267,
+  INT64_K = 268,
+  UINT64_K = 269,
+  STRING_K = 270,
+  IDENT = 271,
+  TERMSTRING = 272,
+  CHAR_CONST = 273,
+  BYTE_CONST = 274,
+  SHORT_CONST = 275,
+  INT_CONST = 276,
+  INT64_CONST = 277,
+  UBYTE_CONST = 278,
+  USHORT_CONST = 279,
+  UINT_CONST = 280,
+  UINT64_CONST = 281,
+  FLOAT_CONST = 282,
+  DOUBLE_CONST = 283,
+  DIMENSIONS = 284,
+  VARIABLES = 285,
+  NETCDF = 286,
+  DATA = 287,
+  TYPES = 288,
+  COMPOUND = 289,
+  ENUM = 290,
+  OPAQUE_ = 291,
+  OPAQUESTRING = 292,
+  GROUP = 293,
+  PATH = 294,
+  FILLMARKER = 295,
+  NIL = 296,
+  _FILLVALUE = 297,
+  _FORMAT = 298,
+  _STORAGE = 299,
+  _CHUNKSIZES = 300,
+  _DEFLATELEVEL = 301,
+  _SHUFFLE = 302,
+  _ENDIANNESS = 303,
+  _NOFILL = 304,
+  _FLETCHER32 = 305,
+  _NCPROPS = 306,
+  _ISNETCDF4 = 307,
+  _SUPERBLOCK = 308,
+  _FILTER = 309,
+  DATASETID = 310
 };
 #  endif
 
@@ -540,7 +540,7 @@ union yyalloc {
     do {                                                               \
       YYSIZE_T yynewbytes;                                             \
       YYCOPY(&yyptr->Stack_alloc, Stack, yysize);                      \
-      Stack      = &yyptr->Stack_alloc;                                \
+      Stack = &yyptr->Stack_alloc;                                     \
       yynewbytes = yystacksize * sizeof(*Stack) + YYSTACK_GAP_MAXIMUM; \
       yyptr += yynewbytes / sizeof(*yyptr);                            \
     } while (0)
@@ -1059,7 +1059,7 @@ yy_stack_print(yytype_int16 *yybottom, yytype_int16 *yytop) {
 static void
 yy_reduce_print(yytype_int16 *yyssp, YYSTYPE *yyvsp, int yyrule) {
   unsigned long int yylno = yyrline[yyrule];
-  int yynrhs              = yyr2[yyrule];
+  int yynrhs = yyr2[yyrule];
   int yyi;
   YYFPRINTF(stderr, "Reducing stack by rule %d (line %lu):\n",
   yyrule - 1, yylno);
@@ -1132,7 +1132,7 @@ yystrlen(const char *yystr) {
    YYDEST.  */
 static char *
 yystpcpy(char *yydest, const char *yysrc) {
-  char *yyd       = yydest;
+  char *yyd = yydest;
   const char *yys = yysrc;
 
   while ((*yyd++ = *yys++) != '\0')
@@ -1154,7 +1154,7 @@ yystpcpy(char *yydest, const char *yysrc) {
 static YYSIZE_T
 yytnamerr(char *yyres, const char *yystr) {
   if (*yystr == '"') {
-    YYSIZE_T yyn    = 0;
+    YYSIZE_T yyn = 0;
     char const *yyp = yystr;
 
     for (;;)
@@ -1200,7 +1200,7 @@ static int
 yysyntax_error(YYSIZE_T *yymsg_alloc, char **yymsg,
 yytype_int16 *yyssp, int yytoken) {
   YYSIZE_T yysize0 = yytnamerr(YY_NULLPTR, yytname[yytoken]);
-  YYSIZE_T yysize  = yysize0;
+  YYSIZE_T yysize = yysize0;
   enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
   /* Internationalized format string. */
   const char *yyformat = YY_NULLPTR;
@@ -1234,7 +1234,7 @@ yytype_int16 *yyssp, int yytoken) {
        accepted due to an error action in a later state.
   */
   if (yytoken != YYEMPTY) {
-    int yyn          = yypact[*yyssp];
+    int yyn = yypact[*yyssp];
     yyarg[yycount++] = yytname[yytoken];
     if (!yypact_value_is_default(yyn)) {
       /* Start YYX at -YYN if negative to avoid negative indexes in
@@ -1243,7 +1243,7 @@ yytype_int16 *yyssp, int yytoken) {
       int yyxbegin = yyn < 0 ? -yyn : 0;
       /* Stay within bounds of both yycheck and yytname.  */
       int yychecklim = YYLAST - yyn + 1;
-      int yyxend     = yychecklim < YYNTOKENS ? yychecklim : YYNTOKENS;
+      int yyxend = yychecklim < YYNTOKENS ? yychecklim : YYNTOKENS;
       int yyx;
 
       for (yyx = yyxbegin; yyx < yyxend; ++yyx)
@@ -1251,7 +1251,7 @@ yytype_int16 *yyssp, int yytoken) {
             && !yytable_value_is_error(yytable[yyx + yyn])) {
           if (yycount == YYERROR_VERBOSE_ARGS_MAXIMUM) {
             yycount = 1;
-            yysize  = yysize0;
+            yysize = yysize0;
             break;
           }
           yyarg[yycount++] = yytname[yyx];
@@ -1300,7 +1300,7 @@ yytype_int16 *yyssp, int yytoken) {
      produced a string with the wrong number of "%s"s.  */
   {
     char *yyp = *yymsg;
-    int yyi   = 0;
+    int yyi = 0;
     while ((*yyp = *yyformat) != '\0')
       if (*yyp == '%' && yyformat[1] == 's' && yyi < yycount) {
         yyp += yytnamerr(yyp, yyarg[yyi++]);
@@ -1379,7 +1379,7 @@ int yyparse(void) {
 #if YYERROR_VERBOSE
   /* Buffer for error messages, and its allocated size.  */
   char yymsgbuf[128];
-  char *yymsg          = yymsgbuf;
+  char *yymsg = yymsgbuf;
   YYSIZE_T yymsg_alloc = sizeof yymsgbuf;
 #endif
 
@@ -1391,14 +1391,14 @@ int yyparse(void) {
 
   yyssp = yyss = yyssa;
   yyvsp = yyvs = yyvsa;
-  yystacksize  = YYINITDEPTH;
+  yystacksize = YYINITDEPTH;
 
   YYDPRINTF((stderr, "Starting parse\n"));
 
-  yystate     = 0;
+  yystate = 0;
   yyerrstatus = 0;
-  yynerrs     = 0;
-  yychar      = YYEMPTY; /* Cause a token to be read.  */
+  yynerrs = 0;
+  yychar = YYEMPTY; /* Cause a token to be read.  */
   goto yysetstate;
 
   /*------------------------------------------------------------.
@@ -1421,7 +1421,7 @@ yysetstate:
       /* Give user a chance to reallocate the stack.  Use copies of
            these so that the &'s don't force the real ones into
            memory.  */
-      YYSTYPE *yyvs1      = yyvs;
+      YYSTYPE *yyvs1 = yyvs;
       yytype_int16 *yyss1 = yyss;
 
       /* Each stack pointer address is followed by the size of the
@@ -1448,7 +1448,7 @@ yysetstate:
       yystacksize = YYMAXDEPTH;
 
     {
-      yytype_int16 *yyss1  = yyss;
+      yytype_int16 *yyss1 = yyss;
       union yyalloc *yyptr = (union yyalloc *)YYSTACK_ALLOC(YYSTACK_BYTES(yystacksize));
       if (!yyptr)
         goto yyexhaustedlab;
@@ -1651,14 +1651,14 @@ yyreduce:
     {
       int i;
       addtogroup((yyvsp[-3].sym)); /* sets prefix*/
-      (yyvsp[-3].sym)->objectclass   = NC_TYPE;
-      (yyvsp[-3].sym)->subclass      = NC_ENUM;
-      (yyvsp[-3].sym)->typ.basetype  = (yyvsp[-5].sym);
-      (yyvsp[-3].sym)->typ.size      = (yyvsp[-5].sym)->typ.size;
+      (yyvsp[-3].sym)->objectclass = NC_TYPE;
+      (yyvsp[-3].sym)->subclass = NC_ENUM;
+      (yyvsp[-3].sym)->typ.basetype = (yyvsp[-5].sym);
+      (yyvsp[-3].sym)->typ.size = (yyvsp[-5].sym)->typ.size;
       (yyvsp[-3].sym)->typ.alignment = (yyvsp[-5].sym)->typ.alignment;
-      stackbase                      = (yyvsp[-1].mark);
-      stacklen                       = listlength(stack);
-      (yyvsp[-3].sym)->subnodes      = listnew();
+      stackbase = (yyvsp[-1].mark);
+      stacklen = listlength(stack);
+      (yyvsp[-3].sym)->subnodes = listnew();
       /* Variety of field fixups*/
       /* 1. add in the enum values*/
       /* 2. make this type be their container*/
@@ -1669,7 +1669,7 @@ yyreduce:
         assert(eid->subclass == NC_ECONST);
         addtogroup(eid);
         listpush((yyvsp[-3].sym)->subnodes, (void *)eid);
-        eid->container    = (yyvsp[-3].sym);
+        eid->container = (yyvsp[-3].sym);
         eid->typ.basetype = (yyvsp[-3].sym)->typ.basetype;
       }
       listsetlength(stack, stackbase); /* remove stack nodes*/
@@ -1693,7 +1693,7 @@ yyreduce:
       (yyval.mark) = (yyvsp[-2].mark);
       /* check for duplicates*/
       stackbase = (yyvsp[-2].mark);
-      stacklen  = listlength(stack);
+      stacklen = listlength(stack);
       for (i = stackbase; i < stacklen; i++) {
         Symbol *elem = (Symbol *)listget(stack, i);
         if (strcmp((yyvsp[0].sym)->name, elem->name) == 0)
@@ -1709,9 +1709,9 @@ yyreduce:
 #line 350 "ncgen.y" /* yacc.c:1646  */
     {
       (yyvsp[-2].sym)->objectclass = NC_TYPE;
-      (yyvsp[-2].sym)->subclass    = NC_ECONST;
-      (yyvsp[-2].sym)->typ.econst  = (yyvsp[0].constant);
-      (yyval.sym)                  = (yyvsp[-2].sym);
+      (yyvsp[-2].sym)->subclass = NC_ECONST;
+      (yyvsp[-2].sym)->typ.econst = (yyvsp[0].constant);
+      (yyval.sym) = (yyvsp[-2].sym);
     }
 #line 1771 "ncgeny.c" /* yacc.c:1646  */
     break;
@@ -1721,10 +1721,10 @@ yyreduce:
     {
       vercheck(NC_OPAQUE);
       addtogroup((yyvsp[0].sym)); /*sets prefix*/
-      (yyvsp[0].sym)->objectclass   = NC_TYPE;
-      (yyvsp[0].sym)->subclass      = NC_OPAQUE;
-      (yyvsp[0].sym)->typ.typecode  = NC_OPAQUE;
-      (yyvsp[0].sym)->typ.size      = int32_val;
+      (yyvsp[0].sym)->objectclass = NC_TYPE;
+      (yyvsp[0].sym)->subclass = NC_OPAQUE;
+      (yyvsp[0].sym)->typ.typecode = NC_OPAQUE;
+      (yyvsp[0].sym)->typ.size = int32_val;
       (yyvsp[0].sym)->typ.alignment = ncaux_class_alignment(NC_OPAQUE);
     }
 #line 1785 "ncgeny.c" /* yacc.c:1646  */
@@ -1736,11 +1736,11 @@ yyreduce:
       Symbol *basetype = (yyvsp[-4].sym);
       vercheck(NC_VLEN);
       addtogroup((yyvsp[0].sym)); /*sets prefix*/
-      (yyvsp[0].sym)->objectclass   = NC_TYPE;
-      (yyvsp[0].sym)->subclass      = NC_VLEN;
-      (yyvsp[0].sym)->typ.basetype  = basetype;
-      (yyvsp[0].sym)->typ.typecode  = NC_VLEN;
-      (yyvsp[0].sym)->typ.size      = VLENSIZE;
+      (yyvsp[0].sym)->objectclass = NC_TYPE;
+      (yyvsp[0].sym)->subclass = NC_VLEN;
+      (yyvsp[0].sym)->typ.basetype = basetype;
+      (yyvsp[0].sym)->typ.typecode = NC_VLEN;
+      (yyvsp[0].sym)->typ.size = VLENSIZE;
       (yyvsp[0].sym)->typ.alignment = ncaux_class_alignment(NC_VLEN);
     }
 #line 1801 "ncgeny.c" /* yacc.c:1646  */
@@ -1754,7 +1754,7 @@ yyreduce:
       addtogroup((yyvsp[-3].sym));
       /* check for duplicate field names*/
       stackbase = (yyvsp[-1].mark);
-      stacklen  = listlength(stack);
+      stacklen = listlength(stack);
       for (i = stackbase; i < stacklen; i++) {
         Symbol *elem1 = (Symbol *)listget(stack, i);
         for (j = i + 1; j < stacklen; j++) {
@@ -1764,14 +1764,14 @@ yyreduce:
           }
         }
       }
-      (yyvsp[-3].sym)->objectclass  = NC_TYPE;
-      (yyvsp[-3].sym)->subclass     = NC_COMPOUND;
+      (yyvsp[-3].sym)->objectclass = NC_TYPE;
+      (yyvsp[-3].sym)->subclass = NC_COMPOUND;
       (yyvsp[-3].sym)->typ.basetype = NULL;
       (yyvsp[-3].sym)->typ.typecode = NC_COMPOUND;
-      (yyvsp[-3].sym)->subnodes     = listnew();
+      (yyvsp[-3].sym)->subnodes = listnew();
       /* Add in the fields*/
       for (i = stackbase; i < stacklen; i++) {
-        Symbol *fsym    = (Symbol *)listget(stack, i);
+        Symbol *fsym = (Symbol *)listget(stack, i);
         fsym->container = (yyvsp[-3].sym);
         listpush((yyvsp[-3].sym)->subnodes, (void *)fsym);
       }
@@ -1801,11 +1801,11 @@ yyreduce:
     {
       int i;
       (yyval.mark) = (yyvsp[0].mark);
-      stackbase    = (yyvsp[0].mark);
-      stacklen     = listlength(stack);
+      stackbase = (yyvsp[0].mark);
+      stacklen = listlength(stack);
       /* process each field in the fieldlist*/
       for (i = stackbase; i < stacklen; i++) {
-        Symbol *f       = (Symbol *)listget(stack, i);
+        Symbol *f = (Symbol *)listget(stack, i);
         f->typ.basetype = (yyvsp[-1].sym);
       }
     }
@@ -1957,7 +1957,7 @@ yyreduce:
     case 57:
 #line 474 "ncgen.y" /* yacc.c:1646  */
     {
-      (yyvsp[-2].sym)->dim.declsize    = NC_UNLIMITED;
+      (yyvsp[-2].sym)->dim.declsize = NC_UNLIMITED;
       (yyvsp[-2].sym)->dim.isunlimited = 1;
 #ifdef GENDEBUG1
       fprintf(stderr, "dimension: %s = UNLIMITED\n", (yyvsp[-2].sym)->name);
@@ -2013,10 +2013,10 @@ yyreduce:
     {
       int i;
       stackbase = (yyvsp[0].mark);
-      stacklen  = listlength(stack);
+      stacklen = listlength(stack);
       /* process each variable in the varlist*/
       for (i = stackbase; i < stacklen; i++) {
-        Symbol *sym      = (Symbol *)listget(stack, i);
+        Symbol *sym = (Symbol *)listget(stack, i);
         sym->objectclass = NC_VAR;
         if (dupobjectcheck(NC_VAR, sym)) {
           yyerror("Duplicate variable declaration for %s",
@@ -2059,25 +2059,25 @@ yyreduce:
       int i;
       Dimset dimset;
       Symbol *var = (yyvsp[-1].sym); /* for debugging */
-      stacklen    = listlength(stack);
-      stackbase   = (yyvsp[0].mark);
-      count       = stacklen - stackbase;
+      stacklen = listlength(stack);
+      stackbase = (yyvsp[0].mark);
+      count = stacklen - stackbase;
       if (count >= NC_MAX_VAR_DIMS) {
         yyerror("%s has too many dimensions", (yyvsp[-1].sym)->name);
-        count    = NC_MAX_VAR_DIMS - 1;
+        count = NC_MAX_VAR_DIMS - 1;
         stacklen = stackbase + count;
       }
       dimset.ndims = count;
       /* extract the actual dimensions*/
       if (dimset.ndims > 0) {
         for (i = 0; i < count; i++) {
-          Symbol *dsym      = (Symbol *)listget(stack, stackbase + i);
+          Symbol *dsym = (Symbol *)listget(stack, stackbase + i);
           dimset.dimsyms[i] = dsym;
         }
         var->typ.dimset = dimset;
       }
       var->typ.basetype = NULL; /* not yet known*/
-      var->objectclass  = NC_VAR;
+      var->objectclass = NC_VAR;
       listsetlength(stack, stackbase); /* remove stack nodes*/
       (yyval.sym) = var;
     }
@@ -2121,7 +2121,7 @@ yyreduce:
     case 74:
 #line 578 "ncgen.y" /* yacc.c:1646  */
     {
-      Symbol *dimsym      = (yyvsp[0].sym);
+      Symbol *dimsym = (yyvsp[0].sym);
       dimsym->objectclass = NC_DIM;
       /* Find the actual dimension*/
       dimsym = locate(dimsym);
@@ -2158,25 +2158,25 @@ yyreduce:
       int i;
       Dimset dimset;
       stackbase = (yyvsp[0].mark);
-      stacklen  = listlength(stack);
-      count     = stacklen - stackbase;
+      stacklen = listlength(stack);
+      count = stacklen - stackbase;
       if (count >= NC_MAX_VAR_DIMS) {
         yyerror("%s has too many dimensions", (yyvsp[-1].sym)->name);
-        count    = NC_MAX_VAR_DIMS - 1;
+        count = NC_MAX_VAR_DIMS - 1;
         stacklen = stackbase + count;
       }
       dimset.ndims = count;
       if (count > 0) {
         /* extract the actual dimensions*/
         for (i = 0; i < count; i++) {
-          Symbol *dsym      = (Symbol *)listget(stack, stackbase + i);
+          Symbol *dsym = (Symbol *)listget(stack, stackbase + i);
           dimset.dimsyms[i] = dsym;
         }
         (yyvsp[-1].sym)->typ.dimset = dimset;
       }
       (yyvsp[-1].sym)->typ.basetype = NULL; /* not yet known*/
-      (yyvsp[-1].sym)->objectclass  = NC_TYPE;
-      (yyvsp[-1].sym)->subclass     = NC_FIELD;
+      (yyvsp[-1].sym)->objectclass = NC_TYPE;
+      (yyvsp[-1].sym)->subclass = NC_FIELD;
       listsetlength(stack, stackbase); /* remove stack nodes*/
       (yyval.sym) = (yyvsp[-1].sym);
     }
@@ -2223,10 +2223,10 @@ yyreduce:
 	         Can only occur in type definitions*/
       char anon[32];
       sprintf(anon, "const%u", uint32_val);
-      (yyval.sym)                 = install(anon);
-      (yyval.sym)->objectclass    = NC_DIM;
+      (yyval.sym) = install(anon);
+      (yyval.sym)->objectclass = NC_DIM;
       (yyval.sym)->dim.isconstant = 1;
-      (yyval.sym)->dim.declsize   = uint32_val;
+      (yyval.sym)->dim.declsize = uint32_val;
     }
 #line 2215 "ncgeny.c" /* yacc.c:1646  */
     break;
@@ -2241,10 +2241,10 @@ yyreduce:
         YYABORT;
       }
       sprintf(anon, "const%d", int32_val);
-      (yyval.sym)                 = install(anon);
-      (yyval.sym)->objectclass    = NC_DIM;
+      (yyval.sym) = install(anon);
+      (yyval.sym)->objectclass = NC_DIM;
       (yyval.sym)->dim.isconstant = 1;
-      (yyval.sym)->dim.declsize   = int32_val;
+      (yyval.sym)->dim.declsize = int32_val;
     }
 #line 2233 "ncgeny.c" /* yacc.c:1646  */
     break;
@@ -2282,10 +2282,10 @@ yyreduce:
       Symbol *sym;
       /* disambiguate*/
       tvsym->objectclass = NC_VAR;
-      sym                = locate(tvsym);
+      sym = locate(tvsym);
       if (sym == NULL) {
         tvsym->objectclass = NC_TYPE;
-        sym                = locate(tvsym);
+        sym = locate(tvsym);
         if (tvsym == NULL) {
           derror("Undefined or forward referenced name: %s", (yyvsp[0].sym)->name);
           YYABORT;
@@ -2375,7 +2375,7 @@ yyreduce:
     case 95:
 #line 739 "ncgen.y" /* yacc.c:1646  */
     {
-      Symbol *sym  = (yyvsp[-4].sym);
+      Symbol *sym = (yyvsp[-4].sym);
       Symbol *asym = (yyvsp[-2].sym);
       if (sym->objectclass == NC_VAR) {
         (yyval.sym) = makeattribute(asym, sym, NULL, (yyvsp[0].datalist), ATTRVAR);
@@ -2480,8 +2480,8 @@ yyreduce:
     case 107:
 #line 775 "ncgen.y" /* yacc.c:1646  */
     {
-      (yyval.sym)                 = (yyvsp[0].sym);
-      (yyvsp[0].sym)->ref.is_ref  = 1;
+      (yyval.sym) = (yyvsp[0].sym);
+      (yyvsp[0].sym)->ref.is_ref = 1;
       (yyvsp[0].sym)->is_prefixed = 0;
       setpathcurrent((yyvsp[0].sym));
     }
@@ -2491,8 +2491,8 @@ yyreduce:
     case 108:
 #line 782 "ncgen.y" /* yacc.c:1646  */
     {
-      (yyval.sym)                 = (yyvsp[0].sym);
-      (yyvsp[0].sym)->ref.is_ref  = 1;
+      (yyval.sym) = (yyvsp[0].sym);
+      (yyvsp[0].sym)->ref.is_ref = 1;
       (yyvsp[0].sym)->is_prefixed = 1;
       /* path is set in ncgen.l*/
     }
@@ -2893,12 +2893,12 @@ yyerrlab:
           YYSTACK_FREE(yymsg);
         yymsg = (char *)YYSTACK_ALLOC(yymsg_alloc);
         if (!yymsg) {
-          yymsg                 = yymsgbuf;
-          yymsg_alloc           = sizeof yymsgbuf;
+          yymsg = yymsgbuf;
+          yymsg_alloc = sizeof yymsgbuf;
           yysyntax_error_status = 2;
         } else {
           yysyntax_error_status = YYSYNTAX_ERROR;
-          yymsgp                = yymsg;
+          yymsgp = yymsg;
         }
       }
       yyerror(yymsgp);
@@ -3078,21 +3078,21 @@ ncgwrap(void) /* returns 1 on EOF if no more input */
 /* Really should init our data within this file */
 void parse_init(void) {
   int i;
-  opaqueid   = 0;
-  arrayuid   = 0;
-  symlist    = listnew();
-  stack      = listnew();
+  opaqueid = 0;
+  arrayuid = 0;
+  symlist = listnew();
+  stack = listnew();
   groupstack = listnew();
-  consttype  = NC_NAT;
-  grpdefs    = listnew();
-  dimdefs    = listnew();
-  attdefs    = listnew();
-  gattdefs   = listnew();
-  xattdefs   = listnew();
-  typdefs    = listnew();
-  vardefs    = listnew();
-  condefs    = listnew();
-  tmp        = listnew();
+  consttype = NC_NAT;
+  grpdefs = listnew();
+  dimdefs = listnew();
+  attdefs = listnew();
+  gattdefs = listnew();
+  xattdefs = listnew();
+  typdefs = listnew();
+  vardefs = listnew();
+  condefs = listnew();
+  tmp = listnew();
   /* Create the primitive types */
   for (i = NC_NAT + 1; i <= NC_STRING; i++) {
     primsymbols[i] = makeprimitivetype(i);
@@ -3102,17 +3102,17 @@ void parse_init(void) {
 
 static Symbol *
 makeprimitivetype(nc_type nctype) {
-  Symbol *sym        = install(primtypenames[nctype]);
-  sym->objectclass   = NC_TYPE;
-  sym->subclass      = NC_PRIM;
-  sym->nc_id         = nctype;
-  sym->typ.typecode  = nctype;
-  sym->typ.size      = ncsize(nctype);
-  sym->typ.nelems    = 1;
+  Symbol *sym = install(primtypenames[nctype]);
+  sym->objectclass = NC_TYPE;
+  sym->subclass = NC_PRIM;
+  sym->nc_id = nctype;
+  sym->typ.typecode = nctype;
+  sym->typ.size = ncsize(nctype);
+  sym->typ.nelems = 1;
   sym->typ.alignment = ncaux_class_alignment(nctype);
   /* Make the basetype circular so we can always ask for it */
   sym->typ.basetype = sym;
-  sym->prefix       = listnew();
+  sym->prefix = listnew();
   return sym;
 }
 
@@ -3121,10 +3121,10 @@ makeprimitivetype(nc_type nctype) {
 Symbol *
 install(const char *sname) {
   Symbol *sp;
-  sp            = (Symbol *)ecalloc(sizeof(struct Symbol));
-  sp->name      = nulldup(sname);
-  sp->lineno    = lineno;
-  sp->location  = currentgroup();
+  sp = (Symbol *)ecalloc(sizeof(struct Symbol));
+  sp->name = nulldup(sname);
+  sp->lineno = lineno;
+  sp->location = currentgroup();
   sp->container = currentgroup();
   listpush(symlist, sp);
   return sp;
@@ -3138,12 +3138,12 @@ currentgroup(void) {
 
 static Symbol *
 createrootgroup(const char *dataset) {
-  Symbol *gsym      = install(dataset);
+  Symbol *gsym = install(dataset);
   gsym->objectclass = NC_GRP;
-  gsym->container   = NULL;
-  gsym->subnodes    = listnew();
+  gsym->container = NULL;
+  gsym->subnodes = listnew();
   gsym->grp.is_root = 1;
-  gsym->prefix      = listnew();
+  gsym->prefix = listnew();
   listpush(grpdefs, (void *)gsym);
   rootgroup = gsym;
   return gsym;
@@ -3167,10 +3167,10 @@ creategroup(Symbol *gsym) {
 static NCConstant *
 makeconstdata(nc_type nctype) {
   NCConstant *con = nullconst();
-  consttype       = nctype;
-  con->nctype     = nctype;
-  con->lineno     = lineno;
-  con->filled     = 0;
+  consttype = nctype;
+  con->nctype = nctype;
+  con->lineno = lineno;
+  con->filled = 0;
   switch (nctype) {
     case NC_CHAR: con->value.charv = char_val; break;
     case NC_BYTE: con->value.int8v = byte_val; break;
@@ -3184,8 +3184,8 @@ makeconstdata(nc_type nctype) {
       break;
     case NC_STRING: { /* convert to a set of chars*/
       size_t len;
-      len                        = bbLength(lextext);
-      con->value.stringv.len     = len;
+      len = bbLength(lextext);
+      con->value.stringv.len = len;
       con->value.stringv.stringv = bbExtract(lextext);
     } break;
 
@@ -3201,11 +3201,11 @@ makeconstdata(nc_type nctype) {
       char *s;
       int len;
       len = bbLength(lextext);
-      s   = (char *)ecalloc(len + 1);
+      s = (char *)ecalloc(len + 1);
       strncpy(s, bbContents(lextext), len);
-      s[len]                     = '\0';
+      s[len] = '\0';
       con->value.opaquev.stringv = s;
-      con->value.opaquev.len     = len;
+      con->value.opaquev.len = len;
     } break;
 
     case NC_NIL:
@@ -3219,7 +3219,7 @@ makeconstdata(nc_type nctype) {
       yyerror("Data constant: unexpected NC type: %s",
       nctypename(nctype));
       con->value.stringv.stringv = NULL;
-      con->value.stringv.len     = 0;
+      con->value.stringv.len = 0;
   }
   return con;
 }
@@ -3229,19 +3229,19 @@ makeenumconstref(Symbol *refsym) {
   NCConstant *con = nullconst();
 
   markcdf4("Enum type");
-  consttype           = NC_ENUM;
-  con->nctype         = NC_ECONST;
-  con->lineno         = lineno;
-  con->filled         = 0;
+  consttype = NC_ENUM;
+  con->nctype = NC_ECONST;
+  con->lineno = lineno;
+  con->filled = 0;
   refsym->objectclass = NC_TYPE;
-  refsym->subclass    = NC_ECONST;
-  con->value.enumv    = refsym;
+  refsym->subclass = NC_ECONST;
+  con->value.enumv = refsym;
   return con;
 }
 
 static void
 addtogroup(Symbol *sym) {
-  Symbol *grp    = currentgroup();
+  Symbol *grp = currentgroup();
   sym->container = grp;
   listpush(grp->subnodes, (void *)sym);
   setpathcurrent(sym);
@@ -3266,7 +3266,7 @@ dupobjectcheck(nc_class objectclass, Symbol *pattern) {
 static void
 setpathcurrent(Symbol *sym) {
   sym->is_prefixed = 0;
-  sym->prefix      = prefixdup(groupstack);
+  sym->prefix = prefixdup(groupstack);
 }
 
 /* Convert an nc_type code to the corresponding Symbol*/
@@ -3302,13 +3302,13 @@ fail:
 */
 static Symbol *
 makespecial(int tag, Symbol *vsym, Symbol *tsym, void *data, int isconst) {
-  Symbol *attr    = NULL;
-  Datalist *list  = NULL;
+  Symbol *attr = NULL;
+  Datalist *list = NULL;
   NCConstant *con = NULL;
   NCConstant *tmp = NULL;
-  int tf          = 0;
-  char *sdata     = NULL;
-  int idata       = -1;
+  int tf = 0;
+  char *sdata = NULL;
+  int idata = -1;
 
   if ((GLOBAL_SPECIAL & tag) != 0) {
     if (vsym != NULL) {
@@ -3335,7 +3335,7 @@ makespecial(int tag, Symbol *vsym, Symbol *tsym, void *data, int isconst) {
     case _SHUFFLE_FLAG:
     case _ISNETCDF4_FLAG:
     case _NOFILL_FLAG:
-      tmp         = nullconst();
+      tmp = nullconst();
       tmp->nctype = (con->nctype == NC_STRING ? NC_STRING : NC_INT);
       convert1(con, tmp);
       tf = truefalse(tmp, tag);
@@ -3346,20 +3346,20 @@ makespecial(int tag, Symbol *vsym, Symbol *tsym, void *data, int isconst) {
     case _NCPROPS_FLAG:
     case _ENDIAN_FLAG:
     case _FILTER_FLAG:
-      tmp         = nullconst();
+      tmp = nullconst();
       tmp->nctype = NC_STRING;
       convert1(con, tmp);
       if (tmp->nctype == NC_STRING) {
-        sdata                      = tmp->value.stringv.stringv;
+        sdata = tmp->value.stringv.stringv;
         tmp->value.stringv.stringv = NULL;
-        tmp->value.stringv.len     = 0;
+        tmp->value.stringv.len = 0;
       } else
         derror("%s: illegal value", specialname(tag));
       reclaimconstant(tmp);
       break;
     case _SUPERBLOCK_FLAG:
     case _DEFLATE_FLAG:
-      tmp         = nullconst();
+      tmp = nullconst();
       tmp->nctype = NC_INT;
       convert1(con, tmp);
       if (tmp->nctype == NC_INT)
@@ -3383,9 +3383,9 @@ makespecial(int tag, Symbol *vsym, Symbol *tsym, void *data, int isconst) {
     for (kvalue = legalkinds; kvalue->name; kvalue++) {
       if (sdata) {
         if (strcmp(sdata, kvalue->name) == 0) {
-          globalspecials._Format     = kvalue->k_flag;
+          globalspecials._Format = kvalue->k_flag;
           /*Main.*/ format_attribute = 1;
-          found                      = 1;
+          found = 1;
           break;
         }
       }
@@ -3399,7 +3399,7 @@ makespecial(int tag, Symbol *vsym, Symbol *tsym, void *data, int isconst) {
       globalspecials._Superblock = idata;
     else if (tag == _NCPROPS_FLAG) {
       globalspecials._NCProperties = sdata;
-      sdata                        = NULL;
+      sdata = NULL;
     }
   } else {
     Specialdata *special;
@@ -3417,7 +3417,7 @@ makespecial(int tag, Symbol *vsym, Symbol *tsym, void *data, int isconst) {
         vsym->name);
       if (isconst) {
         list = const2list(con);
-        con  = NULL;
+        con = NULL;
       }
       /* check that the attribute value contains no fill values*/
       if (containsfills(list)) {
@@ -3479,11 +3479,11 @@ makespecial(int tag, Symbol *vsym, Symbol *tsym, void *data, int isconst) {
           break;
         case _CHUNKSIZES_FLAG: {
           int i;
-          list                 = (isconst ? const2list(con) : list);
-          special->nchunks     = list->length;
+          list = (isconst ? const2list(con) : list);
+          special->nchunks = list->length;
           special->_ChunkSizes = (size_t *)ecalloc(sizeof(size_t) * special->nchunks);
           for (i = 0; i < special->nchunks; i++) {
-            tmp         = nullconst();
+            tmp = nullconst();
             tmp->nctype = NC_INT;
             convert1(list->data[i], tmp);
             if (tmp->nctype == NC_INT) {
@@ -3529,16 +3529,16 @@ Datalist *data,
 Attrkind kind) /* global var or unknown*/
 {
   asym->objectclass = NC_ATT;
-  asym->data        = data;
+  asym->data = data;
   switch (kind) {
     case ATTRVAR:
-      asym->att.var      = vsym;
+      asym->att.var = vsym;
       asym->typ.basetype = tsym;
       listpush(attdefs, (void *)asym);
       addtogroup(asym);
       break;
     case ATTRGLOBAL:
-      asym->att.var      = NULL; /* NULL => NC_GLOBAL*/
+      asym->att.var = NULL; /* NULL => NC_GLOBAL*/
       asym->typ.basetype = tsym;
       listpush(gattdefs, (void *)asym);
       addtogroup(asym);
@@ -3648,9 +3648,9 @@ evaluate(Symbol *fcn, Datalist *arglist) {
   result->lineno = fcn->lineno;
 
   if (strcasecmp(fcn->name, "time") == 0) {
-    char *timekind        = NULL;
-    char *timevalue       = NULL;
-    result->nctype        = NC_DOUBLE;
+    char *timekind = NULL;
+    char *timevalue = NULL;
+    result->nctype = NC_DOUBLE;
     result->value.doublev = 0;
     /* int time([string],string) */
     switch (arglist->length) {
@@ -3672,7 +3672,7 @@ evaluate(Symbol *fcn, Datalist *arglist) {
         goto done;
     }
     if (arglist->length == 2) {
-      timekind  = arglist->data[0]->value.stringv.stringv;
+      timekind = arglist->data[0]->value.stringv.stringv;
       timevalue = arglist->data[1]->value.stringv.stringv;
     } else
       timevalue = arglist->data[0]->value.stringv.stringv;
@@ -3682,10 +3682,10 @@ evaluate(Symbol *fcn, Datalist *arglist) {
       cdCalenType timetype = cdStandard;
       cdChar2Comp(timetype, timevalue, &comptime);
       /* convert comptime to cdTime */
-      cdtime.year     = comptime.year;
-      cdtime.month    = comptime.month;
-      cdtime.day      = comptime.day;
-      cdtime.hour     = comptime.hour;
+      cdtime.year = comptime.year;
+      cdtime.month = comptime.month;
+      cdtime.day = comptime.day;
+      cdtime.hour = comptime.hour;
       cdtime.baseYear = 1970;
       cdtime.timeType = CdChron;
       /* convert to double value */

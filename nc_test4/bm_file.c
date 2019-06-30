@@ -128,7 +128,7 @@ size_t *last_count, size_t *start, size_t *count) {
     while (*start_inc * slow_count < dimlen[0])
       (*start_inc)++;
     *slice_len = *start_inc;
-    start[0]   = *start_inc * my_rank;
+    start[0] = *start_inc * my_rank;
     if (start[0] > dimlen[0]) {
       fprintf(stderr, "slow_count too large for this many processors, "
                       "start_inc=%d, slow_count=%d, p=%d, my_rank=%d start[0]=%ld\n",
@@ -246,7 +246,7 @@ int slow_count, int verbose, int num_vo, VAR_OPTS_T *vo, int use_scs) {
   int nvars, ndims, dimids[NC_MAX_VAR_DIMS], natts, real_ndims;
   int nvars2, ndims2, dimids2[NC_MAX_VAR_DIMS], natts2;
   size_t *count = NULL, *start = NULL;
-  int slice_len  = 1;
+  int slice_len = 1;
   size_t *dimlen = NULL, type_size = 0;
   size_t last_count;
   int start_inc;
@@ -589,11 +589,11 @@ int convert_unlim) {
     nc_type xtype;
     int ndims, dimids[NC_MAX_VAR_DIMS], natts, real_ndims;
     int d;
-    void *data    = NULL;
+    void *data = NULL;
     size_t *count = NULL, *start = NULL;
-    int slice_len  = 1;
+    int slice_len = 1;
     size_t *dimlen = NULL;
-    int ret        = NC_NOERR;
+    int ret = NC_NOERR;
     size_t type_size;
     char type_name[NC_MAX_NAME + 1];
     int start_inc;
@@ -771,8 +771,8 @@ int main(int argc, char **argv) {
   char *str1, *str2, *token, *subtoken;
   char *saveptr1, *saveptr2;
   int i, ndims, o1;
-  int cmode        = 0;
-  int mpiio        = 0;
+  int cmode = 0;
+  int mpiio = 0;
   int meta_read_us = 0, meta_write_us = 0, data_read_us = 0, data_write_us = 0;
   int meta_read2_us = 0, data_read2_us = 0;
   int tmeta_read_us = 0, tmeta_write_us = 0, tdata_read_us = 0, tdata_write_us = 0;
@@ -783,7 +783,7 @@ int main(int argc, char **argv) {
   int ret;
   float read_rate, write_rate, reread_rate;
   int slow_count = 10, use_scs = 0;
-  int endianness      = 0;
+  int endianness = 0;
   long long num_bytes = 0;
   int p = 1, my_rank = 0;
   int v, d;
@@ -1010,9 +1010,9 @@ int main(int argc, char **argv) {
     return NC_EPARINIT;
 #endif
   } else {
-    tmeta_read_us  = meta_read_us;
+    tmeta_read_us = meta_read_us;
     tmeta_write_us = meta_write_us;
-    tdata_read_us  = data_read_us;
+    tdata_read_us = data_read_us;
     tdata_write_us = data_write_us;
     tmeta_read2_us = meta_read2_us;
     tdata_read2_us = data_read2_us;
@@ -1021,8 +1021,8 @@ int main(int argc, char **argv) {
   if (verbose)
     printf("num_bytes=%lld tdata_read_us=%d\n", num_bytes, tdata_read_us);
 
-  read_rate   = (float)num_bytes / ((float)tdata_read_us / p);
-  write_rate  = (float)num_bytes / ((float)tdata_write_us / p);
+  read_rate = (float)num_bytes / ((float)tdata_read_us / p);
+  write_rate = (float)num_bytes / ((float)tdata_write_us / p);
   reread_rate = (float)num_bytes / ((float)tdata_read2_us / p);
   if (verbose)
     printf("%d: read rate %g, write rate %g, reread_rate %g\n", my_rank, read_rate,

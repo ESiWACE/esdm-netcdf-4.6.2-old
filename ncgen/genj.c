@@ -42,9 +42,9 @@ void genjava_netcdf(void) {
   int ndims, nvars, natts, ngatts;
   const char *filename = rootgroup->file.filename;
 
-  ndims  = listlength(dimdefs);
-  nvars  = listlength(vardefs);
-  natts  = listlength(attdefs);
+  ndims = listlength(dimdefs);
+  nvars = listlength(vardefs);
+  natts = listlength(attdefs);
   ngatts = listlength(gattdefs);
 
   /* Construct the main class */
@@ -130,9 +130,9 @@ void genjava_netcdf(void) {
     codeline("");
     codelined(1, "/* define variables */");
     for (ivar = 0; ivar < nvars; ivar++) {
-      Symbol *vsym     = (Symbol *)listget(vardefs, ivar);
+      Symbol *vsym = (Symbol *)listget(vardefs, ivar);
       Symbol *basetype = vsym->typ.basetype;
-      Dimset *dimset   = &vsym->typ.dimset;
+      Dimset *dimset = &vsym->typ.dimset;
       codeline("");
       bbprintf0(stmt, "%sArrayList %s_dimlist = new ArrayList();\n",
       indented(1), jname(vsym));
@@ -413,7 +413,7 @@ static void
 genj_writevar(Generator *generator, Symbol *vsym, Bytebuffer *code,
 int rank, size_t *start, size_t *count) {
   Dimset *dimset = &vsym->typ.dimset;
-  int typecode   = vsym->typ.basetype->typ.typecode;
+  int typecode = vsym->typ.basetype->typ.typecode;
   int i;
 
   codeline("");

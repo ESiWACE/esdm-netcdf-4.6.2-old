@@ -38,7 +38,7 @@ static const char *checkseps = "+,:;";
 int NCD4_open(const char *path, int mode,
 int basepe, size_t *chunksizehintp,
 void *mpidata, NC_Dispatch *dispatch, NC *nc) {
-  int ret          = NC_NOERR;
+  int ret = NC_NOERR;
   NCD4INFO *d4info = NULL;
   const char *value;
   NCD4meta *meta;
@@ -56,8 +56,8 @@ void *mpidata, NC_Dispatch *dispatch, NC *nc) {
     goto done;
   }
 
-  nc->dispatchdata   = d4info;
-  nc->int_ncid       = nc__pseudofd(); /* create a unique id */
+  nc->dispatchdata = d4info;
+  nc->int_ncid = nc__pseudofd(); /* create a unique id */
   d4info->controller = (NC *)nc;
 
   /* Parse url and params */
@@ -105,9 +105,9 @@ void *mpidata, NC_Dispatch *dispatch, NC *nc) {
 	   Since diskless is enabled, create file in-memory.
 	*/
     {
-      int new     = NC_NETCDF4;
-      int old     = 0;
-      int ncid    = 0;
+      int new = NC_NETCDF4;
+      int old = 0;
+      int ncid = 0;
       int ncflags = NC_NETCDF4 | NC_CLOBBER;
       ncflags |= NC_DISKLESS;
       if (FLAGSET(d4info->controls.debugflags, NCF_DEBUG_COPY)) {
@@ -140,7 +140,7 @@ void *mpidata, NC_Dispatch *dispatch, NC *nc) {
 
   /* Setup a curl connection */
   {
-    CURL *curl   = NULL; /* curl handle*/
+    CURL *curl = NULL; /* curl handle*/
     d4info->curl = (NCD4curl *)calloc(1, sizeof(NCD4curl));
     if (d4info->curl == NULL) {
       ret = NC_ENOMEM;
@@ -170,7 +170,7 @@ void *mpidata, NC_Dispatch *dispatch, NC *nc) {
 
   /* if the url goes astray to a random web page, then try to just dump it */
   {
-    char *response     = ncbytescontents(d4info->curl->packet);
+    char *response = ncbytescontents(d4info->curl->packet);
     size_t responselen = ncbyteslength(d4info->curl->packet);
 
     /* Apply some heuristics to see what we have.
@@ -201,9 +201,9 @@ void *mpidata, NC_Dispatch *dispatch, NC *nc) {
     ret = NC_ENOMEM;
     goto done;
   }
-  meta             = d4info->substrate.metadata;
+  meta = d4info->substrate.metadata;
   meta->controller = d4info;
-  meta->ncid       = getnc4id(nc); /* Transfer netcdf ncid */
+  meta->ncid = getnc4id(nc); /* Transfer netcdf ncid */
 
   /* process meta control parameters */
   applyclientmetacontrols(meta);
@@ -257,7 +257,7 @@ int NCD4_close(int ncid, void *ignore) {
 
   ret = NC_check_id(ncid, (NC **)&nc);
   if (ret != NC_NOERR) goto done;
-  d4info      = (NCD4INFO *)nc->dispatchdata;
+  d4info = (NCD4INFO *)nc->dispatchdata;
   substrateid = makenc4id(nc, ncid);
 
   /* We call abort rather than close to avoid trying to write anything,
@@ -372,7 +372,7 @@ set_curl_properties(NCD4INFO *d4info) {
 
   if (d4info->auth.curlflags.cookiejar == NULL) {
     /* If no cookie file was defined, define a default */
-    char *path    = NULL;
+    char *path = NULL;
     char *newpath = NULL;
     int len;
     errno = 0;
@@ -390,15 +390,15 @@ set_curl_properties(NCD4INFO *d4info) {
       fprintf(stderr, "Cannot create cookie file\n");
       goto fail;
     }
-    d4info->auth.curlflags.cookiejar        = newpath;
+    d4info->auth.curlflags.cookiejar = newpath;
     d4info->auth.curlflags.cookiejarcreated = 1;
-    errno                                   = 0;
+    errno = 0;
   }
   assert(d4info->auth.curlflags.cookiejar != NULL);
 
   /* Make sure the cookie jar exists and can be read and written */
   {
-    FILE *f     = NULL;
+    FILE *f = NULL;
     char *fname = d4info->auth.curlflags.cookiejar;
     /* See if the file exists already */
     f = fopen(fname, "r");
@@ -461,7 +461,7 @@ void NCD4_applyclientparamcontrols(NCD4INFO *info) {
     strncpy(info->controls.substratename, value, NC_MAX_NAME);
 
   info->controls.opaquesize = DFALTOPAQUESIZE;
-  value                     = getparam(info, "opaquesize");
+  value = getparam(info, "opaquesize");
   if (value != NULL) {
     long long len = 0;
     if (sscanf(value, "%lld", &len) != 1 || len == 0)
@@ -481,7 +481,7 @@ void NCD4_applyclientparamcontrols(NCD4INFO *info) {
 
 static void
 applyclientmetacontrols(NCD4meta *meta) {
-  NCD4INFO *info    = meta->controller;
+  NCD4INFO *info = meta->controller;
   const char *value = getparam(info, "checksummode");
   if (value != NULL) {
     if (strcmp(value, "ignore") == 0)

@@ -54,7 +54,7 @@ int NCD4_processdata(NCD4meta *meta) {
   int ret = NC_NOERR;
   int i;
   NClist *toplevel = NULL;
-  NCD4node *root   = meta->root;
+  NCD4node *root = meta->root;
   void *offset;
 
   /* Recursively walk the tree in prefix order 
@@ -85,9 +85,9 @@ int NCD4_processdata(NCD4meta *meta) {
   /* Compute the checksums of the top variables */
   if (meta->localchecksumming) {
     for (i = 0; i < nclistlength(toplevel); i++) {
-      unsigned int csum       = 0;
-      NCD4node *var           = (NCD4node *)nclistget(toplevel, i);
-      csum                    = CRC32(csum, var->data.dap4data.memory, var->data.dap4data.size);
+      unsigned int csum = 0;
+      NCD4node *var = (NCD4node *)nclistget(toplevel, i);
+      csum = CRC32(csum, var->data.dap4data.memory, var->data.dap4data.size);
       var->data.localchecksum = csum;
     }
   }
@@ -121,9 +121,9 @@ Assumes that NCD4_processdata has been called.
 */
 
 int NCD4_fillinstance(NCD4meta *meta, NCD4node *type, void **offsetp, void **dstp, NClist *blobs) {
-  int ret          = NC_NOERR;
-  void *offset     = *offsetp;
-  void *dst        = *dstp;
+  int ret = NC_NOERR;
+  void *offset = *offsetp;
+  void *dst = *dstp;
   d4size_t memsize = type->meta.memsize;
   d4size_t dapsize = type->meta.dapsize;
 
@@ -162,7 +162,7 @@ int NCD4_fillinstance(NCD4meta *meta, NCD4node *type, void **offsetp, void **dst
         ret = NC_EINVAL;
         FAIL(ret, "fillinstance");
     }
-  *dstp    = dst;
+  *dstp = dst;
   *offsetp = offset; /* return just past this object in dap data */
 done:
   return THROW(ret);
@@ -172,7 +172,7 @@ static int
 fillstruct(NCD4meta *meta, NCD4node *type, void **offsetp, void **dstp, NClist *blobs) {
   int i, ret = NC_NOERR;
   void *offset = *offsetp;
-  void *dst    = *dstp;
+  void *dst = *dstp;
 
 #ifdef CLEARSTRUCT
   /* Avoid random data within aligned structs */
@@ -183,12 +183,12 @@ fillstruct(NCD4meta *meta, NCD4node *type, void **offsetp, void **dstp, NClist *
   for (i = 0; i < nclistlength(type->vars); i++) {
     NCD4node *field = nclistget(type->vars, i);
     NCD4node *ftype = field->basetype;
-    void *fdst      = INCR(dst, field->meta.offset);
+    void *fdst = INCR(dst, field->meta.offset);
     if ((ret = NCD4_fillinstance(meta, ftype, &offset, &fdst, blobs)))
       FAIL(ret, "fillstruct");
   }
-  dst      = INCR(dst, type->meta.memsize);
-  *dstp    = dst;
+  dst = INCR(dst, type->meta.memsize);
+  *dstp = dst;
   *offsetp = offset;
 done:
   return THROW(ret);
@@ -205,8 +205,8 @@ fillseq(NCD4meta *meta, NCD4node *type, void **offsetp, void **dstp, NClist *blo
 
   offset = *offsetp;
 
-  dst        = (nc_vlen_t *)*dstp;
-  vlentype   = type->basetype;
+  dst = (nc_vlen_t *)*dstp;
+  vlentype = type->basetype;
   recordsize = vlentype->meta.memsize;
 
   /* Get record count (remember, it is already properly swapped) */
@@ -226,7 +226,7 @@ fillseq(NCD4meta *meta, NCD4node *type, void **offsetp, void **dstp, NClist *blo
       FAIL(ret, "fillseq");
   }
   dst++;
-  *dstp    = dst;
+  *dstp = dst;
   *offsetp = offset;
 done:
   return THROW(ret);
@@ -240,7 +240,7 @@ fillstring(NCD4meta *meta, void **offsetp, void **dstp, NClist *blobs) {
   int ret = NC_NOERR;
   d4size_t count;
   void *offset = *offsetp;
-  char **dst   = *dstp;
+  char **dst = *dstp;
   char *q;
 
   /* Get string count (remember, it is already properly swapped) */
@@ -256,8 +256,8 @@ fillstring(NCD4meta *meta, void **offsetp, void **dstp, NClist *blobs) {
   /* Write the pointer to the string */
   *dst = q;
   dst++;
-  *dstp    = dst;
-  offset   = INCR(offset, count);
+  *dstp = dst;
+  offset = INCR(offset, count);
   *offsetp = offset;
 #if 0
     nclistpush(blobs,q);
@@ -274,14 +274,14 @@ fillopfixed(NCD4meta *meta, d4size_t opaquesize, void **offsetp, void **dstp) {
   d4size_t count, actual;
   int delta;
   void *offset = *offsetp;
-  void *dst    = *dstp;
+  void *dst = *dstp;
 
   /* Get opaque count */
   count = GETCOUNTER(offset);
   SKIPCOUNTER(offset);
   /* verify that it is the correct size */
   actual = count;
-  delta  = actual - opaquesize;
+  delta = actual - opaquesize;
   if (delta != 0) {
 #ifdef FIXEDOPAQUE
     nclog(NCLOGWARN, "opaque changed from %lu to %lu", actual, opaquesize);
@@ -293,9 +293,9 @@ fillopfixed(NCD4meta *meta, d4size_t opaquesize, void **offsetp, void **dstp) {
   }
   /* move */
   memcpy(dst, offset, count);
-  dst      = INCR(dst, count);
-  *dstp    = dst;
-  offset   = INCR(offset, count);
+  dst = INCR(dst, count);
+  *dstp = dst;
+  offset = INCR(offset, count);
   *offsetp = offset;
 #ifndef FIXEDOPAQUE
 done:
@@ -314,7 +314,7 @@ fillopvar(NCD4meta *meta, NCD4node *type, void **offsetp, void **dstp, NClist *b
   d4size_t count;
   nc_vlen_t *vlen;
   void *offset = *offsetp;
-  void *dst    = *dstp;
+  void *dst = *dstp;
   char *q;
 
   /* alias dst format */
@@ -327,13 +327,13 @@ fillopvar(NCD4meta *meta, NCD4node *type, void **offsetp, void **dstp, NClist *b
   q = (char *)d4alloc(count);
   if (q == NULL) FAIL(NC_ENOMEM, "out of space");
   memcpy(q, offset, count);
-  vlen->p   = q;
+  vlen->p = q;
   vlen->len = (size_t)count;
-  q         = NULL; /*nclistpush(blobs,q);*/
-  dst       = INCR(dst, sizeof(nc_vlen_t));
-  *dstp     = dst;
-  offset    = INCR(offset, count);
-  *offsetp  = offset;
+  q = NULL; /*nclistpush(blobs,q);*/
+  dst = INCR(dst, sizeof(nc_vlen_t));
+  *dstp = dst;
+  offset = INCR(offset, count);
+  *offsetp = offset;
 done:
   return THROW(ret);
 }

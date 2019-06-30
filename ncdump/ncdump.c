@@ -680,7 +680,7 @@ size_t attvalslen /* size of attvals buffer, assumed
       case NC_BYTE:
       case NC_SHORT:
       case NC_INT:
-        ii  = vals[iel];
+        ii = vals[iel];
         res = snprintf(gps, PRIM_LEN, "%d", ii);
         assert(res < PRIM_LEN);
         (void)strlcat(attvals, gps, attvalslen);
@@ -689,7 +689,7 @@ size_t attvalslen /* size of attvals buffer, assumed
       case NC_UBYTE:
       case NC_USHORT:
       case NC_UINT:
-        ui  = vals[iel];
+        ui = vals[iel];
         res = snprintf(gps, PRIM_LEN, "%u", ui);
         assert(res < PRIM_LEN);
         (void)strlcat(attvals, gps, attvalslen);
@@ -704,13 +704,13 @@ size_t attvalslen /* size of attvals buffer, assumed
         break;
       case NC_UINT64:
         ui64 = vals[iel];
-        res  = snprintf(gps, PRIM_LEN, "%llu", ui64);
+        res = snprintf(gps, PRIM_LEN, "%llu", ui64);
         assert(res < PRIM_LEN);
         (void)strlcat(attvals, gps, attvalslen);
         (void)strlcat(attvals, iel < len - 1 ? " " : "", attvalslen);
         break;
       case NC_FLOAT:
-        ff  = vals[iel];
+        ff = vals[iel];
         res = snprintf(gps, PRIM_LEN, float_attx_fmt, ff);
         assert(res < PRIM_LEN);
         tztrim(gps); /* trim trailing 0's after '.' */
@@ -718,7 +718,7 @@ size_t attvalslen /* size of attvals buffer, assumed
         (void)strlcat(attvals, iel < len - 1 ? " " : "", attvalslen);
         break;
       case NC_DOUBLE:
-        dd  = vals[iel];
+        dd = vals[iel];
         res = snprintf(gps, PRIM_LEN, double_att_fmt, dd);
         assert(res < PRIM_LEN);
         tztrim(gps); /* trim trailing 0's after '.' */
@@ -847,7 +847,7 @@ int ia) {
         pr_any_att_vals(&att, data);
         break;
       case NC_OPAQUE: {
-        char *sout        = emalloc(2 * type_size + strlen("0X") + 1);
+        char *sout = emalloc(2 * type_size + strlen("0X") + 1);
         unsigned char *cp = data;
         for (i = 0; i < att.len; i++) {
           (void)ncopaque_val_as_hex(type_size, sout, cp);
@@ -1125,7 +1125,7 @@ int ncid,
 int varid,
 int ia) {
   ncatt_t att; /* attribute */
-  char *attvals  = NULL;
+  char *attvals = NULL;
   int attvalslen = 0;
 
   NC_CHECK(nc_inq_attname(ncid, varid, ia, att.name));
@@ -1143,8 +1143,8 @@ int ia) {
 
   switch (att.type) {
     case NC_CHAR:
-      attvals          = (char *)emalloc(att.len + 1);
-      attvalslen       = att.len;
+      attvals = (char *)emalloc(att.len + 1);
+      attvalslen = att.len;
       attvals[att.len] = '\0';
       NC_CHECK(nc_get_att_text(ncid, varid, att.name, attvals));
       break;
@@ -1152,7 +1152,7 @@ int ia) {
     case NC_STRING:
       /* TODO: this only prints first string value, need to handle
 	   multiple strings? */
-      attvals          = (char *)emalloc(att.len + 1);
+      attvals = (char *)emalloc(att.len + 1);
       attvals[att.len] = '\0';
       NC_CHECK(nc_get_att_text(ncid, varid, att.name, attvals));
       break;
@@ -1170,7 +1170,7 @@ int ia) {
       att.vals = (double *)emalloc((att.len + 1) * sizeof(double));
       NC_CHECK(nc_get_att_double(ncid, varid, att.name, att.vals));
       attvalslen = PRIM_LEN * att.len; /* max chars for each value and blank separator */
-      attvals    = (char *)emalloc(attvalslen + 1);
+      attvals = (char *)emalloc(attvalslen + 1);
       pr_att_valsx(att.type, att.len, att.vals, attvals, attvalslen);
       free(att.vals);
       break;
@@ -1216,7 +1216,7 @@ pr_shape(ncvar_t *varp, ncdim_t *dims) {
   for (id = 0; id < varp->ndims; id++) {
     shapelen += strlen(dims[varp->dims[id]].name) + 1;
   }
-  shape    = (char *)emalloc(shapelen + 1);
+  shape = (char *)emalloc(shapelen + 1);
   shape[0] = '\0';
   for (id = 0; id < varp->ndims; id++) {
     /* TODO: XML-ish escapes for special chars in dim names */
@@ -1259,8 +1259,8 @@ print_enum_type(int ncid, nc_type typeid) {
   get_type_name(ncid, base_nc_type, base_type_name);
   indent_out();
   esc_btn = escaped_name(base_type_name);
-  esc_tn  = escaped_name(type_name);
-  res     = snprintf(safe_buf, SAFE_BUF_LEN, "%s enum %s {", esc_btn, esc_tn);
+  esc_tn = escaped_name(type_name);
+  res = snprintf(safe_buf, SAFE_BUF_LEN, "%s enum %s {", esc_btn, esc_tn);
   assert(res < SAFE_BUF_LEN);
   free(esc_btn);
   free(esc_tn);
@@ -1301,7 +1301,7 @@ print_enum_type(int ncid, nc_type typeid) {
         break;
     }
     esc_mn = escaped_name(memname);
-    res    = snprintf(safe_buf, SAFE_BUF_LEN, "%s = %lld%s", esc_mn,
+    res = snprintf(safe_buf, SAFE_BUF_LEN, "%s = %lld%s", esc_mn,
     memval, delim);
     assert(res < SAFE_BUF_LEN);
     free(esc_mn);
@@ -1406,7 +1406,7 @@ get_fill_info(int ncid, int varid, ncvar_t *vp) {
 
   /* get _FillValue attribute */
   nc_status = nc_inq_att(ncid, varid, _FillValue, &att.type, &att.len);
-  fillvalp  = ecalloc(vp->tinfo->size + 1);
+  fillvalp = ecalloc(vp->tinfo->size + 1);
   if (nc_status == NC_NOERR && att.type == vp->type && att.len == 1) {
     NC_CHECK(nc_get_att(ncid, varid, _FillValue, fillvalp));
   } else {
@@ -1462,7 +1462,7 @@ get_fill_info(int ncid, int varid, ncvar_t *vp) {
         s = malloc(len + 1);
 #  endif
         memcpy(s, NC_FILL_STRING, len);
-        s[len]               = '\0';
+        s[len] = '\0';
         *((char **)fillvalp) = s;
       } break;
 #endif         /* USE_NETCDF4 */
@@ -1581,7 +1581,7 @@ do_ncdump_rec(int ncid, const char *path) {
 
   /* For each dimension defined in this group, get and print out info. */
   for (d_grp = 0; d_grp < ndims_grp; d_grp++) {
-    int dimid        = dimids_grp[d_grp];
+    int dimid = dimids_grp[d_grp];
     int is_unlimited = 0;
     int uld;
     int stat;
@@ -1697,7 +1697,7 @@ do_ncdump_rec(int ncid, const char *path) {
         /* Now, starting with current group, walk the parent chain
                 upward looking for the target dim_id */
         target_dimid = var.dims[id];
-        locid        = ncid;
+        locid = ncid;
         while (target_dimid != dimid_test) { /*not in locid, try ancestors*/
           int parent_id;
           NC_CHECK(nc_inq_grp_parent(locid, &parent_id));
@@ -1790,7 +1790,7 @@ do_ncdump_rec(int ncid, const char *path) {
         free(vdims);
         vdims = 0;
       }
-      vdims   = (size_t *)emalloc((var.ndims + 1) * SIZEOF_SIZE_T);
+      vdims = (size_t *)emalloc((var.ndims + 1) * SIZEOF_SIZE_T);
       no_data = 0;
       for (id = 0; id < var.ndims; id++) {
         size_t len;
@@ -1814,7 +1814,7 @@ do_ncdump_rec(int ncid, const char *path) {
       }
       get_timeinfo(ncid, varid, &var); /* sets has_timeval, timeinfo mmbrs */
       /* printf format used to print each value */
-      var.fmt   = get_fmt(ncid, varid, var.type);
+      var.fmt = get_fmt(ncid, varid, var.type);
       var.locid = ncid;
       set_tostring_func(&var);
       if (vardata(&var, vdims, ncid, varid) == -1) {
@@ -2016,8 +2016,8 @@ do_ncdumpx(int ncid, const char *path) {
  */
 static void
 set_sigdigs(const char *optarg) {
-  char *ptr1     = 0;
-  char *ptr2     = 0;
+  char *ptr1 = 0;
+  char *ptr2 = 0;
   int flt_digits = FLT_DIGITS; /* default floating-point digits */
   int dbl_digits = DBL_DIGITS; /* default double-precision digits */
 
@@ -2046,13 +2046,13 @@ set_sigdigs(const char *optarg) {
  */
 static void
 set_precision(const char *optarg) {
-  char *ptr1     = 0;
-  char *ptr2     = 0;
+  char *ptr1 = 0;
+  char *ptr2 = 0;
   int flt_digits = FLT_DIGITS; /* default floating-point digits */
   int dbl_digits = DBL_DIGITS; /* default double-precision digits */
 
   if (optarg != 0 && (int)strlen(optarg) > 0 && optarg[0] != ',') {
-    flt_digits                = (int)strtol(optarg, &ptr1, 10);
+    flt_digits = (int)strtol(optarg, &ptr1, 10);
     float_precision_specified = 1;
   }
 
@@ -2061,7 +2061,7 @@ set_precision(const char *optarg) {
     flt_digits);
   }
   if (ptr1 && *ptr1 == ',') {
-    dbl_digits                 = (int)strtol(ptr1 + 1, &ptr2, 10);
+    dbl_digits = (int)strtol(ptr1 + 1, &ptr2, 10);
     double_precision_specified = 1;
     if (ptr2 == ptr1 + 1 || dbl_digits < 1 || dbl_digits > 20) {
       error("unreasonable value for double significant digits: %d",
@@ -2077,11 +2077,11 @@ set_precision(const char *optarg) {
 /* replace path string with same string prefixed by
  * DAP_CLIENT_NCDUMP_DIRECTIVE */
 static void adapt_url_for_cache(char **pathp) {
-  char prefix[]  = DAP_CLIENT_CACHE_DIRECTIVE;
-  char *path     = *pathp;
+  char prefix[] = DAP_CLIENT_CACHE_DIRECTIVE;
+  char *path = *pathp;
   char *tmp_path = strdup(path);
-  path           = (char *)emalloc(strlen(prefix) + strlen(tmp_path) + 1);
-  path[0]        = '\0';
+  path = (char *)emalloc(strlen(prefix) + strlen(tmp_path) + 1);
+  path[0] = '\0';
   strncat(path, prefix, strlen(prefix));
   strncat(path, tmp_path, strlen(tmp_path));
   if (tmp_path) free(tmp_path);
@@ -2095,13 +2095,13 @@ int main(int argc, char *argv[]) {
   int ncstat = NC_NOERR;
   int c;
   int i;
-  int max_len              = 80; /* default maximum line length */
-  int nameopt              = 0;
-  bool_t xml_out           = false; /* if true, output NcML instead of CDL */
-  bool_t kind_out          = false; /* if true, just output kind of netCDF file */
+  int max_len = 80; /* default maximum line length */
+  int nameopt = 0;
+  bool_t xml_out = false;           /* if true, output NcML instead of CDL */
+  bool_t kind_out = false;          /* if true, just output kind of netCDF file */
   bool_t kind_out_extended = false; /* output inq_format vs inq_format_extended */
-  int Xp_flag              = 0;     /* indicate that -Xp flag was set */
-  char *path               = NULL;
+  int Xp_flag = 0;                  /* indicate that -Xp flag was set */
+  char *path = NULL;
   char errmsg[4096];
 
   errmsg[0] = '\0';
@@ -2113,7 +2113,7 @@ int main(int argc, char *argv[]) {
 #ifdef HAVE_LOCALE_H
   setlocale(LC_ALL, "C"); /* CDL may be ambiguous with other locales */
 #endif                    /* HAVE_LOCALE_H */
-  opterr   = 1;
+  opterr = 1;
   progname = argv[0];
   set_formats(FLT_DIGITS, DBL_DIGITS); /* default for float, double data */
 
@@ -2137,7 +2137,7 @@ int main(int argc, char *argv[]) {
 				 * file name
 				 */
         formatting_specs.name = optarg;
-        nameopt               = 1;
+        nameopt = 1;
         break;
       case 'b': /* brief comments in data section */
         formatting_specs.brief_data_cmnts = true;
@@ -2199,11 +2199,11 @@ int main(int argc, char *argv[]) {
         kind_out_extended = true;
         break;
       case 't': /* human-readable strings for date-time values */
-        formatting_specs.string_times  = true;
+        formatting_specs.string_times = true;
         formatting_specs.iso_separator = false;
         break;
       case 'i': /* human-readable strings for data-time values with 'T' separator */
-        formatting_specs.string_times  = true;
+        formatting_specs.string_times = true;
         formatting_specs.iso_separator = true;
         break;
       case 's': /* output special (virtual) attributes for

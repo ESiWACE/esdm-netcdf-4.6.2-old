@@ -98,8 +98,8 @@ chkgot(nc_type type, union getret got, double check) {
 static const char *fname = FNAME;
 
 
-static size_t num_dims               = NUM_DIMS;
-static size_t sizes[]                = {NC_UNLIMITED, SIZE_1, SIZE_2};
+static size_t num_dims = NUM_DIMS;
+static size_t sizes[] = {NC_UNLIMITED, SIZE_1, SIZE_2};
 static const char *const dim_names[] = {"record", "ixx", "iyy"};
 
 static void
@@ -259,7 +259,7 @@ check_fill_seq(int id) {
   /*float val;*/
 
   sizes[0] = NUM_RECS;
-  cc       = vindices;
+  cc = vindices;
   while (cc < &vindices[num_dims])
     *cc++ = 0;
 
@@ -308,16 +308,16 @@ static size_t indices[][3] = {
 {0, 0, 0},
 };
 
-static const char chs[]                     = {'A', 'B', ((char)0xff)};
-static const size_t s_start[]               = {0, 1};
-static const size_t s_edges[]               = {NUM_RECS, SIZE_1 - 1};
+static const char chs[] = {'A', 'B', ((char)0xff)};
+static const size_t s_start[] = {0, 1};
+static const size_t s_edges[] = {NUM_RECS, SIZE_1 - 1};
 static char sentence[NUM_RECS * SIZE_1 - 1] = "The red death had long devastated the country.";
-static short shs[]                          = {97, 99};
-static int birthday                         = 82555;
+static short shs[] = {97, 99};
+static int birthday = 82555;
 #define M_E 2.7182818284590452354
-static float e      = (float)M_E;
+static float e = (float)M_E;
 static double pinot = 3.25;
-static double zed   = 0.0;
+static double zed = 0.0;
 
 
 /*ARGSUSED*/
@@ -343,7 +343,7 @@ int main(int argc, char *argv[]) {
   ret = nc_create_par(fname, cmode, MPI_COMM_WORLD, MPI_INFO_NULL, &id);
 #else
   const size_t initialsz = 8192;
-  size_t chunksz         = 8192;
+  size_t chunksz = 8192;
 
   ret = nc__create(fname, cmode, initialsz, &chunksz, &id);
   if (ret != NC_NOERR) {
@@ -379,7 +379,7 @@ int main(int argc, char *argv[]) {
   createtestvars(id, testvars, NUM_TESTVARS);
 
   {
-    int ifill    = -1;
+    int ifill = -1;
     double dfill = -9999;
     assert(nc_put_att_int(id, Long_id,
            _FillValue, NC_INT, 1, &ifill)

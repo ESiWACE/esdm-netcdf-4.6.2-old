@@ -97,13 +97,13 @@ int main() {
    */
   printf("** Checking test files.\n");
   {
-    ncid           = 0;
+    ncid = 0;
     le_float_varid = 0;
     be_float_varid = 0;
-    le_int_varid   = 0;
-    be_int_varid   = 0;
-    le_dbl_varid   = 0;
-    be_dbl_varid   = 0;
+    le_int_varid = 0;
+    be_int_varid = 0;
+    le_dbl_varid = 0;
+    be_dbl_varid = 0;
 
     printf("*** %s\n", FILE_NAME_NC);
     if ((retval = nc_open(FILE_NAME_NC, NC_NETCDF4 | NC_NOWRITE, &ncid)))

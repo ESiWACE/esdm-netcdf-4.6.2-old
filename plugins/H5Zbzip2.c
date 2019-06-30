@@ -85,7 +85,7 @@ size_t *buf_size, void **buf) {
 
     /* Prepare the output buffer. */
     outbuflen = nbytes * 3 + 1; /* average bzip2 compression ratio is 3:1 */
-    outbuf    = H5allocate_memory(outbuflen, 0);
+    outbuf = H5allocate_memory(outbuflen, 0);
     if (outbuf == NULL) {
       fprintf(stderr, "memory allocation failed for bzip2 decompression\n");
       goto cleanupAndFail;
@@ -93,8 +93,8 @@ size_t *buf_size, void **buf) {
 
     /* Use standard malloc()/free() for internal memory handling. */
     stream.bzalloc = NULL;
-    stream.bzfree  = NULL;
-    stream.opaque  = NULL;
+    stream.bzfree = NULL;
+    stream.opaque = NULL;
 
     /* Start decompression. */
     ret = BZ2_bzDecompressInit(&stream, 0, 0);
@@ -104,10 +104,10 @@ size_t *buf_size, void **buf) {
     }
 
     /* Feed data to the decompression process and get decompressed data. */
-    stream.next_out  = outbuf;
+    stream.next_out = outbuf;
     stream.avail_out = outbuflen;
-    stream.next_in   = *buf;
-    stream.avail_in  = nbytes;
+    stream.next_in = *buf;
+    stream.avail_in = nbytes;
     do {
       ret = BZ2_bzDecompress(&stream);
       if (ret < 0) {
@@ -118,21 +118,21 @@ size_t *buf_size, void **buf) {
       if (ret != BZ_STREAM_END && stream.avail_out == 0) {
         /* Grow the output buffer. */
         newbuflen = outbuflen * 2;
-        newbuf    = realloc(outbuf, newbuflen);
+        newbuf = realloc(outbuf, newbuflen);
         if (newbuf == NULL) {
           fprintf(stderr, "memory allocation failed for bzip2 decompression\n");
           goto cleanupAndFail;
         }
-        stream.next_out  = newbuf + outbuflen; /* half the new buffer behind */
-        stream.avail_out = outbuflen;          /* half the new buffer ahead */
-        outbuf           = newbuf;
-        outbuflen        = newbuflen;
+        stream.next_out = newbuf + outbuflen; /* half the new buffer behind */
+        stream.avail_out = outbuflen;         /* half the new buffer ahead */
+        outbuf = newbuf;
+        outbuflen = newbuflen;
       }
     } while (ret != BZ_STREAM_END);
 
     /* End compression. */
     outdatalen = stream.total_out_lo32;
-    ret        = BZ2_bzDecompressEnd(&stream);
+    ret = BZ2_bzDecompressEnd(&stream);
     if (ret != BZ_OK) {
       fprintf(stderr, "bzip2 compression end failed with error %d\n", ret);
       goto cleanupAndFail;
@@ -161,15 +161,15 @@ size_t *buf_size, void **buf) {
 
     /* Prepare the output buffer. */
     outbuflen = nbytes + nbytes / 100 + 600; /* worst case (bzip2 docs) */
-    outbuf    = H5allocate_memory(outbuflen, 0);
+    outbuf = H5allocate_memory(outbuflen, 0);
     if (outbuf == NULL) {
       fprintf(stderr, "memory allocation failed for bzip2 compression\n");
       goto cleanupAndFail;
     }
 
     /* Compress data. */
-    odatalen   = outbuflen;
-    ret        = BZ2_bzBuffToBuffCompress(outbuf, &odatalen, *buf, nbytes,
+    odatalen = outbuflen;
+    ret = BZ2_bzBuffToBuffCompress(outbuf, &odatalen, *buf, nbytes,
     blockSize100k, 0, 0);
     outdatalen = odatalen;
     if (ret != BZ_OK) {
@@ -180,7 +180,7 @@ size_t *buf_size, void **buf) {
 
   /* Always replace the input buffer with the output buffer. */
   H5free_memory(*buf);
-  *buf      = outbuf;
+  *buf = outbuf;
   *buf_size = outbuflen;
   return outdatalen;
 

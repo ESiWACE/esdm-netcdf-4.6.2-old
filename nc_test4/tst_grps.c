@@ -1201,8 +1201,8 @@ int main(int argc, char **argv) {
     struct s2 data2;
 
     /* Create some phony data. */
-    data.i1  = 5;
-    data.i2  = 10;
+    data.i1 = 5;
+    data.i2 = 10;
     data2.i3 = 50;
     data2.f1 = 100.0;
 

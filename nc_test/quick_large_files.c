@@ -34,7 +34,7 @@
 
 int main(int argc, char **argv) {
   int ncid, spockid, kirkid, dimids[NUMDIMS], recdimid, scottyid;
-  int int_val_in, int_val_out          = 99;
+  int int_val_in, int_val_out = 99;
   double double_val_in, double_val_out = 1.79769313486230e+308; /* from ncx.h */
   size_t index[2] = {QTR_CLASSIC_MAX - 1, 0};
   char file_name[NC_MAX_NAME + 1];

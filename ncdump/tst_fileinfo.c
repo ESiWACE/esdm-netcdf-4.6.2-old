@@ -70,7 +70,7 @@ int main(int argc, char **argv) {
     /* Add attributes to root group */
     {
       hid_t scalar_spaceid = -1;
-      hid_t attid          = -1;
+      hid_t attid = -1;
 
       /* Create scalar dataspace */
       if ((scalar_spaceid = H5Screate(H5S_SCALAR)) < 0) ERR;
@@ -90,7 +90,7 @@ int main(int argc, char **argv) {
 
   {
     int root, grpid, varid, stat, natts, id;
-    int data          = 17;
+    int data = 17;
     const char *sdata = "text";
     char ncprops[8192];
     size_t len;
@@ -133,7 +133,7 @@ int main(int argc, char **argv) {
     if (strlen(ncprops) != len) ERR;
 
     /* Attempt to get attribute metadata piecemeal; some will fail */
-    id   = -1;
+    id = -1;
     stat = nc_inq_attid(root, NC_GLOBAL, NCPROPS, &id);
     if (stat == NC_NOERR) ERR;
     stat = nc_inq_attname(root, NC_GLOBAL, id, name);
