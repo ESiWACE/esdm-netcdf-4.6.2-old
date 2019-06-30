@@ -6,9 +6,9 @@
 #ifndef _NCD4DISPATCH_H
 #define _NCD4DISPATCH_H
 
-#include <stddef.h> /* size_t, ptrdiff_t */
-#include "netcdf.h"
 #include "ncdispatch.h"
+#include "netcdf.h"
+#include <stddef.h> /* size_t, ptrdiff_t */
 
 #if defined(__cplusplus)
 extern "C" {
@@ -16,29 +16,29 @@ extern "C" {
 
 extern int
 NCD4_open(const char *path, int mode,
-         int basepe, size_t *chunksizehintp,
-         void *mpidata, struct NC_Dispatch *dispatch, NC *ncp);
+int basepe, size_t *chunksizehintp,
+void *mpidata, struct NC_Dispatch *dispatch, NC *ncp);
 
 extern int
-NCD4_close(int ncid,void*);
+NCD4_close(int ncid, void *);
 
 extern int
 NCD4_abort(int ncid);
 
 extern int
-NCD4_inq_dim(int ncid, int dimid, char* name, size_t* lenp);
+NCD4_inq_dim(int ncid, int dimid, char *name, size_t *lenp);
 
 extern int
 NCD4_get_vara(int ncid, int varid,
-	    const size_t *start, const size_t *edges,
-            void *value,
-	    nc_type memtype);
+const size_t *start, const size_t *edges,
+void *value,
+nc_type memtype);
 
 extern int
 NCD4_get_vars(int ncid, int varid,
-	    const size_t *start, const size_t *edges, const ptrdiff_t* strides,
-            void *value,
-	    nc_type memtype);
+const size_t *start, const size_t *edges, const ptrdiff_t *strides,
+void *value,
+nc_type memtype);
 
 extern int NCD4_initialize(void);
 

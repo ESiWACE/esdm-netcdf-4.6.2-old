@@ -9,15 +9,15 @@
 /* Names of special performance-related virtual attributes for
  * netCDF-4, displayed with "ncdump -s".  ncdump and ncgen need to
  * know these, as they are used in CDL. */
-#define NC_ATT_FORMAT      "_Format"
-#define NC_ATT_CHECKSUM    "_Fletcher32"
-#define NC_ATT_CHUNKING    "_ChunkSizes"
-#define NC_ATT_ENDIANNESS  "_Endianness"
-#define NC_ATT_DEFLATE     "_DeflateLevel"
-#define NC_ATT_SHUFFLE     "_Shuffle"
-#define NC_ATT_STORAGE     "_Storage"
-#define NC_ATT_NOFILL      "_NoFill"
-#define NC_ATT_NETCDF4     "_NetCDF4"
-#define NC_ATT_FILTER      "_Filter"
+#define NC_ATT_FORMAT "_Format"
+#define NC_ATT_CHECKSUM "_Fletcher32"
+#define NC_ATT_CHUNKING "_ChunkSizes"
+#define NC_ATT_ENDIANNESS "_Endianness"
+#define NC_ATT_DEFLATE "_DeflateLevel"
+#define NC_ATT_SHUFFLE "_Shuffle"
+#define NC_ATT_STORAGE "_Storage"
+#define NC_ATT_NOFILL "_NoFill"
+#define NC_ATT_NETCDF4 "_NetCDF4"
+#define NC_ATT_FILTER "_Filter"
 
-#endif	/*_CDL_H_ */
+#endif /*_CDL_H_ */

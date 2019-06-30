@@ -79,14 +79,12 @@ foo.nc:
 \returns ::NC_ERANGE range error when converting data.
 \author Glenn Davis, Ed Hartnett, Dennis Heimbigner
 */
-int
-nc_inq_att(int ncid, int varid, const char *name, nc_type *xtypep, 
-	   size_t *lenp)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   return ncp->dispatch->inq_att(ncid, varid, name, xtypep, lenp);
+int nc_inq_att(int ncid, int varid, const char *name, nc_type *xtypep,
+size_t *lenp) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->inq_att(ncid, varid, name, xtypep, lenp);
 }
 
 /**
@@ -157,13 +155,11 @@ the order that the attributes were written to the file.
 \returns ::NC_ENOMEM out of memory.
 \author Glenn Davis, Ed Hartnett, Dennis Heimbigner
 */
-int
-nc_inq_attid(int ncid, int varid, const char *name, int *idp)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   return ncp->dispatch->inq_attid(ncid, varid, name, idp);
+int nc_inq_attid(int ncid, int varid, const char *name, int *idp) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->inq_attid(ncid, varid, name, idp);
 }
 
 /**
@@ -249,13 +245,11 @@ tst_att_ordering(int cmode)
 \returns ::NC_ERANGE range error when converting data.
 \author Glenn Davis, Ed Hartnett, Dennis Heimbigner
 */
-int
-nc_inq_attname(int ncid, int varid, int attnum, char *name)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   return ncp->dispatch->inq_attname(ncid, varid, attnum, name);
+int nc_inq_attname(int ncid, int varid, int attnum, char *name) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->inq_attname(ncid, varid, attnum, name);
 }
 
 /**
@@ -296,14 +290,12 @@ check_4D_example(char *file_name, int expected_format)
 \returns ::NC_EBADGRPID bad group ID.
 \author Glenn Davis, Ed Hartnett, Dennis Heimbigner
 */
-int
-nc_inq_natts(int ncid, int *nattsp)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   if(nattsp == NULL) return NC_NOERR;
-   return ncp->dispatch->inq(ncid, NULL, NULL, nattsp, NULL);
+int nc_inq_natts(int ncid, int *nattsp) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  if (nattsp == NULL) return NC_NOERR;
+  return ncp->dispatch->inq(ncid, NULL, NULL, nattsp, NULL);
 }
 
 /**
@@ -354,13 +346,11 @@ NC_INT.
 \returns ::NC_ERANGE range error when converting data.
 \author Glenn Davis, Ed Hartnett, Dennis Heimbigner
 */
-int
-nc_inq_atttype(int ncid, int varid, const char *name, nc_type *xtypep)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   return ncp->dispatch->inq_att(ncid, varid, name, xtypep, NULL);
+int nc_inq_atttype(int ncid, int varid, const char *name, nc_type *xtypep) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->inq_att(ncid, varid, name, xtypep, NULL);
 }
 
 /**
@@ -421,13 +411,11 @@ check_attrs(int ncid, int obj)
 \returns ::NC_ERANGE range error when converting data.
 \author Glenn Davis, Ed Hartnett, Dennis Heimbigner
 */
-int
-nc_inq_attlen(int ncid, int varid, const char *name, size_t *lenp)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   return ncp->dispatch->inq_att(ncid, varid, name, NULL, lenp);
+int nc_inq_attlen(int ncid, int varid, const char *name, size_t *lenp) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->inq_att(ncid, varid, name, NULL, lenp);
 }
 
-/*! \} */  /* End of named group ...*/
+/*! \} */ /* End of named group ...*/

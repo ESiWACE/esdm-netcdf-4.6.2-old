@@ -3,217 +3,217 @@
  *   See netcdf/COPYRIGHT file for copying and redistribution conditions.
  *********************************************************************/
 
-#include "d4includes.h"
 #include "d4curlfunctions.h"
+#include "d4includes.h"
 
 #define MAX_REDIRECTS 20L
 
 /* Mnemonic */
-#define OPTARG void*
+#define OPTARG void *
 
 /* Condition on libcurl version */
 /* Set up an alias as needed */
 #ifndef HAVE_CURLOPT_KEYPASSWD
-#define CURLOPT_KEYPASSWD CURLOPT_SSLKEYPASSWD
+#  define CURLOPT_KEYPASSWD CURLOPT_SSLKEYPASSWD
 #endif
 
 #define D4BUFFERSIZE "HTTP.READ.BUFFERSIZE"
 #define D4KEEPALIVE "HTTP.KEEPALIVE"
 
 #ifdef HAVE_CURLOPT_BUFFERSIZE
-#ifndef CURL_MAX_READ_SIZE
-#define CURL_MAX_READ_SIZE  (512*1024)
-#endif
+#  ifndef CURL_MAX_READ_SIZE
+#    define CURL_MAX_READ_SIZE (512 * 1024)
+#  endif
 #endif
 
-#define CHECK(state,flag,value) {if(check(state,flag,(void*)value) != NC_NOERR) {goto done;}}
+#define CHECK(state, flag, value)                        \
+  {                                                      \
+    if (check(state, flag, (void *)value) != NC_NOERR) { \
+      goto done;                                         \
+    }                                                    \
+  }
 
 /* forward */
-static int set_curlflag(NCD4INFO*, int flag);
-static int set_curlopt(NCD4INFO*, int flag, void* value);
+static int set_curlflag(NCD4INFO *, int flag);
+static int set_curlopt(NCD4INFO *, int flag, void *value);
 
 static int
-check(NCD4INFO* info, int flag, void* value)
-{
-    int ret = set_curlopt(info,flag,value);
-    return THROW(ret);
+check(NCD4INFO *info, int flag, void *value) {
+  int ret = set_curlopt(info, flag, value);
+  return THROW(ret);
 }
 
 /*
 Set a specific curl flag; primary wrapper for curl_easy_setopt
 */
 static int
-set_curlopt(NCD4INFO* state, int flag, void* value)
-{
-    int ret = NC_NOERR;
-    CURLcode cstat = CURLE_OK;
-    cstat = curl_easy_setopt(state->curl->curl,flag,value);
-    if(cstat != CURLE_OK)
-	ret = NC_ECURL;
-    return THROW(ret);
+set_curlopt(NCD4INFO *state, int flag, void *value) {
+  int ret        = NC_NOERR;
+  CURLcode cstat = CURLE_OK;
+  cstat          = curl_easy_setopt(state->curl->curl, flag, value);
+  if (cstat != CURLE_OK)
+    ret = NC_ECURL;
+  return THROW(ret);
 }
 
 /*
 Update a specific flag from state
 */
 static int
-set_curlflag(NCD4INFO* state, int flag)
-{
-    int ret = NC_NOERR;
-    switch (flag) {
+set_curlflag(NCD4INFO *state, int flag) {
+  int ret = NC_NOERR;
+  switch (flag) {
     case CURLOPT_USERPWD: /* Do both user and pwd */
-        if(state->auth.creds.user != NULL
-           && state->auth.creds.pwd != NULL) {
-	    CHECK(state, CURLOPT_USERNAME, state->auth.creds.user);
-	    CHECK(state, CURLOPT_PASSWORD, state->auth.creds.pwd);
-            CHECK(state, CURLOPT_HTTPAUTH, (OPTARG)CURLAUTH_ANY);
-	}
-	break;
-    case CURLOPT_COOKIEJAR: case CURLOPT_COOKIEFILE:
-        if(state->auth.curlflags.cookiejar) {
-	    /* Assume we will read and write cookies to same place */
-	    CHECK(state, CURLOPT_COOKIEJAR, state->auth.curlflags.cookiejar);
-	    CHECK(state, CURLOPT_COOKIEFILE, state->auth.curlflags.cookiejar);
-        }
-	break;
-    case CURLOPT_NETRC: case CURLOPT_NETRC_FILE:
-	if(state->auth.curlflags.netrc) {
-	    CHECK(state, CURLOPT_NETRC, (OPTARG)CURL_NETRC_REQUIRED);
-	    CHECK(state, CURLOPT_NETRC_FILE, state->auth.curlflags.netrc);
-        }
-	break;
+      if (state->auth.creds.user != NULL
+          && state->auth.creds.pwd != NULL) {
+        CHECK(state, CURLOPT_USERNAME, state->auth.creds.user);
+        CHECK(state, CURLOPT_PASSWORD, state->auth.creds.pwd);
+        CHECK(state, CURLOPT_HTTPAUTH, (OPTARG)CURLAUTH_ANY);
+      }
+      break;
+    case CURLOPT_COOKIEJAR:
+    case CURLOPT_COOKIEFILE:
+      if (state->auth.curlflags.cookiejar) {
+        /* Assume we will read and write cookies to same place */
+        CHECK(state, CURLOPT_COOKIEJAR, state->auth.curlflags.cookiejar);
+        CHECK(state, CURLOPT_COOKIEFILE, state->auth.curlflags.cookiejar);
+      }
+      break;
+    case CURLOPT_NETRC:
+    case CURLOPT_NETRC_FILE:
+      if (state->auth.curlflags.netrc) {
+        CHECK(state, CURLOPT_NETRC, (OPTARG)CURL_NETRC_REQUIRED);
+        CHECK(state, CURLOPT_NETRC_FILE, state->auth.curlflags.netrc);
+      }
+      break;
     case CURLOPT_VERBOSE:
-	if(state->auth.curlflags.verbose)
-	    CHECK(state, CURLOPT_VERBOSE, (OPTARG)1L);
-	break;
+      if (state->auth.curlflags.verbose)
+        CHECK(state, CURLOPT_VERBOSE, (OPTARG)1L);
+      break;
     case CURLOPT_TIMEOUT:
-	if(state->auth.curlflags.timeout)
-	    CHECK(state, CURLOPT_TIMEOUT, (OPTARG)((long)state->auth.curlflags.timeout));
-	break;
+      if (state->auth.curlflags.timeout)
+        CHECK(state, CURLOPT_TIMEOUT, (OPTARG)((long)state->auth.curlflags.timeout));
+      break;
     case CURLOPT_USERAGENT:
-        if(state->auth.curlflags.useragent)
-	    CHECK(state, CURLOPT_USERAGENT, state->auth.curlflags.useragent);
-	break;
+      if (state->auth.curlflags.useragent)
+        CHECK(state, CURLOPT_USERAGENT, state->auth.curlflags.useragent);
+      break;
     case CURLOPT_FOLLOWLOCATION:
-        CHECK(state, CURLOPT_FOLLOWLOCATION, (OPTARG)1L);
-	break;
+      CHECK(state, CURLOPT_FOLLOWLOCATION, (OPTARG)1L);
+      break;
     case CURLOPT_MAXREDIRS:
-	CHECK(state, CURLOPT_MAXREDIRS, (OPTARG)MAX_REDIRECTS);
-	break;
+      CHECK(state, CURLOPT_MAXREDIRS, (OPTARG)MAX_REDIRECTS);
+      break;
     case CURLOPT_ERRORBUFFER:
-	CHECK(state, CURLOPT_ERRORBUFFER, state->curl->errdata.errorbuf);
-	break;
+      CHECK(state, CURLOPT_ERRORBUFFER, state->curl->errdata.errorbuf);
+      break;
     case CURLOPT_ENCODING:
 #ifdef CURLOPT_ENCODING
-	if(state->auth.curlflags.compress) {
-	    CHECK(state, CURLOPT_ENCODING,"deflate, gzip");
-        }
+      if (state->auth.curlflags.compress) {
+        CHECK(state, CURLOPT_ENCODING, "deflate, gzip");
+      }
 #endif
-	break;
+      break;
     case CURLOPT_PROXY:
-	if(state->auth.proxy.host != NULL) {
-	    CHECK(state, CURLOPT_PROXY, state->auth.proxy.host);
-	    CHECK(state, CURLOPT_PROXYPORT, (OPTARG)(long)state->auth.proxy.port);
-	    if(state->auth.proxy.user != NULL
-	       && state->auth.proxy.pwd != NULL) {
-                CHECK(state, CURLOPT_PROXYUSERNAME, state->auth.proxy.user);
-                CHECK(state, CURLOPT_PROXYPASSWORD, state->auth.proxy.pwd);
+      if (state->auth.proxy.host != NULL) {
+        CHECK(state, CURLOPT_PROXY, state->auth.proxy.host);
+        CHECK(state, CURLOPT_PROXYPORT, (OPTARG)(long)state->auth.proxy.port);
+        if (state->auth.proxy.user != NULL
+            && state->auth.proxy.pwd != NULL) {
+          CHECK(state, CURLOPT_PROXYUSERNAME, state->auth.proxy.user);
+          CHECK(state, CURLOPT_PROXYPASSWORD, state->auth.proxy.pwd);
 #ifdef CURLOPT_PROXYAUTH
-	        CHECK(state, CURLOPT_PROXYAUTH, (long)CURLAUTH_ANY);
+          CHECK(state, CURLOPT_PROXYAUTH, (long)CURLAUTH_ANY);
 #endif
-	    }
-	}
-	break;
+        }
+      }
+      break;
     case CURLOPT_USE_SSL:
-    case CURLOPT_SSLCERT: case CURLOPT_SSLKEY:
-    case CURLOPT_SSL_VERIFYPEER: case CURLOPT_SSL_VERIFYHOST:
-    {
-        struct ssl* ssl = &state->auth.ssl;
-        CHECK(state, CURLOPT_SSL_VERIFYPEER, (OPTARG)(ssl->verifypeer?1L:0L));
-        CHECK(state, CURLOPT_SSL_VERIFYHOST, (OPTARG)(ssl->verifyhost?1L:0L));
-        if(ssl->certificate)
-            CHECK(state, CURLOPT_SSLCERT, ssl->certificate);
-        if(ssl->key)
-            CHECK(state, CURLOPT_SSLKEY, ssl->key);
-        if(ssl->keypasswd)
-            /* libcurl prior to 7.16.4 used 'CURLOPT_SSLKEYPASSWD' */
-            CHECK(state, CURLOPT_KEYPASSWD, ssl->keypasswd);
-        if(ssl->cainfo)
-            CHECK(state, CURLOPT_CAINFO, ssl->cainfo);
-        if(ssl->capath)
-            CHECK(state, CURLOPT_CAPATH, ssl->capath);
-    }
-    break;
+    case CURLOPT_SSLCERT:
+    case CURLOPT_SSLKEY:
+    case CURLOPT_SSL_VERIFYPEER:
+    case CURLOPT_SSL_VERIFYHOST: {
+      struct ssl *ssl = &state->auth.ssl;
+      CHECK(state, CURLOPT_SSL_VERIFYPEER, (OPTARG)(ssl->verifypeer ? 1L : 0L));
+      CHECK(state, CURLOPT_SSL_VERIFYHOST, (OPTARG)(ssl->verifyhost ? 1L : 0L));
+      if (ssl->certificate)
+        CHECK(state, CURLOPT_SSLCERT, ssl->certificate);
+      if (ssl->key)
+        CHECK(state, CURLOPT_SSLKEY, ssl->key);
+      if (ssl->keypasswd)
+        /* libcurl prior to 7.16.4 used 'CURLOPT_SSLKEYPASSWD' */
+        CHECK(state, CURLOPT_KEYPASSWD, ssl->keypasswd);
+      if (ssl->cainfo)
+        CHECK(state, CURLOPT_CAINFO, ssl->cainfo);
+      if (ssl->capath)
+        CHECK(state, CURLOPT_CAPATH, ssl->capath);
+    } break;
 
 #ifdef HAVE_CURLOPT_BUFFERSIZE
     case CURLOPT_BUFFERSIZE:
-	CHECK(state, CURLOPT_BUFFERSIZE, (OPTARG)state->curl->buffersize);
-	break;
+      CHECK(state, CURLOPT_BUFFERSIZE, (OPTARG)state->curl->buffersize);
+      break;
 #endif
 
 #ifdef HAVE_CURLOPT_KEEPALIVE
     case CURLOPT_TCP_KEEPALIVE:
-	if(state->curl->keepalive.active != 0)
-	    CHECK(state, CURLOPT_TCP_KEEPALIVE, (OPTARG)1L);
-	if(state->curl->keepalive.idle > 0)
-	    CHECK(state, CURLOPT_TCP_KEEPIDLE, (OPTARG)state->curl->keepalive.idle);
-	if(state->curl->keepalive.interval > 0)
-	    CHECK(state, CURLOPT_TCP_KEEPINTVL, (OPTARG)state->curl->keepalive.interval);
-	break;
+      if (state->curl->keepalive.active != 0)
+        CHECK(state, CURLOPT_TCP_KEEPALIVE, (OPTARG)1L);
+      if (state->curl->keepalive.idle > 0)
+        CHECK(state, CURLOPT_TCP_KEEPIDLE, (OPTARG)state->curl->keepalive.idle);
+      if (state->curl->keepalive.interval > 0)
+        CHECK(state, CURLOPT_TCP_KEEPINTVL, (OPTARG)state->curl->keepalive.interval);
+      break;
 #endif
 
     default:
-        nclog(NCLOGWARN,"Attempt to update unexpected curl flag: %d",flag);
-	break;
-    }
+      nclog(NCLOGWARN, "Attempt to update unexpected curl flag: %d", flag);
+      break;
+  }
 done:
-    return THROW(ret);
+  return THROW(ret);
 }
 
 /* Set various general curl flags per fetch  */
-int
-NCD4_set_flags_perfetch(NCD4INFO* state)
-{
-    int ret = NC_NOERR;
-    /* currently none */
-    return THROW(ret);
+int NCD4_set_flags_perfetch(NCD4INFO *state) {
+  int ret = NC_NOERR;
+  /* currently none */
+  return THROW(ret);
 }
 
 /* Set various general curl flags per link */
 
-int
-NCD4_set_flags_perlink(NCD4INFO* state)
-{
-    int ret = NC_NOERR;
-    /* Following are always set */
-    if(ret == NC_NOERR) ret = set_curlflag(state,CURLOPT_ENCODING);
-    if(ret == NC_NOERR) ret = set_curlflag(state,CURLOPT_NETRC);
-    if(ret == NC_NOERR) ret = set_curlflag(state,CURLOPT_VERBOSE);
-    if(ret == NC_NOERR) ret = set_curlflag(state,CURLOPT_TIMEOUT);
-    if(ret == NC_NOERR) ret = set_curlflag(state,CURLOPT_USERAGENT);
-    if(ret == NC_NOERR) ret = set_curlflag(state,CURLOPT_COOKIEJAR);
-    if(ret == NC_NOERR) ret = set_curlflag(state,CURLOPT_USERPWD);
-    if(ret == NC_NOERR) ret = set_curlflag(state,CURLOPT_PROXY);
-    if(ret == NC_NOERR) ret = set_curlflag(state,CURLOPT_USE_SSL);
-    if(ret == NC_NOERR) ret = set_curlflag(state, CURLOPT_FOLLOWLOCATION);
-    if(ret == NC_NOERR) ret = set_curlflag(state, CURLOPT_MAXREDIRS);
-    if(ret == NC_NOERR) ret = set_curlflag(state, CURLOPT_ERRORBUFFER);
+int NCD4_set_flags_perlink(NCD4INFO *state) {
+  int ret = NC_NOERR;
+  /* Following are always set */
+  if (ret == NC_NOERR) ret = set_curlflag(state, CURLOPT_ENCODING);
+  if (ret == NC_NOERR) ret = set_curlflag(state, CURLOPT_NETRC);
+  if (ret == NC_NOERR) ret = set_curlflag(state, CURLOPT_VERBOSE);
+  if (ret == NC_NOERR) ret = set_curlflag(state, CURLOPT_TIMEOUT);
+  if (ret == NC_NOERR) ret = set_curlflag(state, CURLOPT_USERAGENT);
+  if (ret == NC_NOERR) ret = set_curlflag(state, CURLOPT_COOKIEJAR);
+  if (ret == NC_NOERR) ret = set_curlflag(state, CURLOPT_USERPWD);
+  if (ret == NC_NOERR) ret = set_curlflag(state, CURLOPT_PROXY);
+  if (ret == NC_NOERR) ret = set_curlflag(state, CURLOPT_USE_SSL);
+  if (ret == NC_NOERR) ret = set_curlflag(state, CURLOPT_FOLLOWLOCATION);
+  if (ret == NC_NOERR) ret = set_curlflag(state, CURLOPT_MAXREDIRS);
+  if (ret == NC_NOERR) ret = set_curlflag(state, CURLOPT_ERRORBUFFER);
 
     /* Optional */
 #ifdef HAVE_CURLOPT_BUFFERSIZE
-    if(ret == NC_NOERR && state->curl->buffersize > 0)
-        ret = set_curlflag(state, CURLOPT_BUFFERSIZE);
+  if (ret == NC_NOERR && state->curl->buffersize > 0)
+    ret = set_curlflag(state, CURLOPT_BUFFERSIZE);
 #endif
 #ifdef HAVE_CURLOPT_KEEPALIVE
-    if(ret == NC_NOERR && state->curl->keepalive.active != 0)
-        ret = set_curlflag(state, CURLOPT_TCP_KEEPALIVE);
+  if (ret == NC_NOERR && state->curl->keepalive.active != 0)
+    ret = set_curlflag(state, CURLOPT_TCP_KEEPALIVE);
 #endif
-	
+
 #if 0
     /* Set the CURL. options */
     if(ret == NC_NOERR) ret = set_curl_options(state);
 #endif
-    return THROW(ret);
+  return THROW(ret);
 }
 
 #if 0
@@ -277,12 +277,10 @@ cvt(char* value, enum CURLFLAGTYPE type)
 }
 #endif
 
-void
-NCD4_curl_debug(NCD4INFO* state)
-{
-    state->auth.curlflags.verbose = 1;
-    set_curlflag(state,CURLOPT_VERBOSE);
-    set_curlflag(state,CURLOPT_ERRORBUFFER);
+void NCD4_curl_debug(NCD4INFO *state) {
+  state->auth.curlflags.verbose = 1;
+  set_curlflag(state, CURLOPT_VERBOSE);
+  set_curlflag(state, CURLOPT_ERRORBUFFER);
 }
 
 /* Misc. */
@@ -290,17 +288,17 @@ NCD4_curl_debug(NCD4INFO* state)
 /* Determine if this version of curl supports
        "file://..." &/or "https://..." urls.
 */
-void
-NCD4_curl_protocols(NCD4INFO* state)
-{
-    const char* const* proto; /*weird*/
-    curl_version_info_data* curldata;
-    curldata = curl_version_info(CURLVERSION_NOW);
-    for(proto=curldata->protocols;*proto;proto++) {
-        if(strcmp("http",*proto)==0) {state->auth.curlflags.proto_https=1;}
+void NCD4_curl_protocols(NCD4INFO *state) {
+  const char *const *proto; /*weird*/
+  curl_version_info_data *curldata;
+  curldata = curl_version_info(CURLVERSION_NOW);
+  for (proto = curldata->protocols; *proto; proto++) {
+    if (strcmp("http", *proto) == 0) {
+      state->auth.curlflags.proto_https = 1;
     }
-#ifdef D4DEBUG	
-    nclog(NCLOGNOTE,"Curl https:// support = %d",state->auth.curlflags.proto_https);
+  }
+#ifdef D4DEBUG
+  nclog(NCLOGNOTE, "Curl https:// support = %d", state->auth.curlflags.proto_https);
 #endif
 }
 
@@ -308,41 +306,40 @@ NCD4_curl_protocols(NCD4INFO* state)
     Extract state values from .rc file
 */
 ncerror
-NCD4_get_rcproperties(NCD4INFO* state)
-{
-    ncerror err = NC_NOERR;
-    char* option = NULL;
+NCD4_get_rcproperties(NCD4INFO *state) {
+  ncerror err  = NC_NOERR;
+  char *option = NULL;
 #ifdef HAVE_CURLOPT_BUFFERSIZE
-    option = NC_rclookup(D4BUFFERSIZE,state->uri->uri);
-    if(option != NULL && strlen(option) != 0) {
-	long bufsize;
-	if(strcasecmp(option,"max")==0) 
-	    bufsize = CURL_MAX_READ_SIZE;
-	else if(sscanf(option,"%ld",&bufsize) != 1 || bufsize <= 0)
-	    fprintf(stderr,"Illegal %s size\n",D4BUFFERSIZE);
-        state->curl->buffersize = bufsize;
-    }
+  option = NC_rclookup(D4BUFFERSIZE, state->uri->uri);
+  if (option != NULL && strlen(option) != 0) {
+    long bufsize;
+    if (strcasecmp(option, "max") == 0)
+      bufsize = CURL_MAX_READ_SIZE;
+    else if (sscanf(option, "%ld", &bufsize) != 1 || bufsize <= 0)
+      fprintf(stderr, "Illegal %s size\n", D4BUFFERSIZE);
+    state->curl->buffersize = bufsize;
+  }
 #endif
 #ifdef HAVE_CURLOPT_KEEPALIVE
-    option = NC_rclookup(D4KEEPALIVE,state->uri->uri);
-    if(option != NULL && strlen(option) != 0) {
-	/* The keepalive value is of the form 0 or n/m,
+  option = NC_rclookup(D4KEEPALIVE, state->uri->uri);
+  if (option != NULL && strlen(option) != 0) {
+    /* The keepalive value is of the form 0 or n/m,
            where n is the idle time and m is the interval time;
            setting either to zero will prevent that field being set.*/
-	if(strcasecmp(option,"on")==0) {
-	    state->curl->keepalive.active = 1;
-	} else {
-	    unsigned long idle=0;
-	    unsigned long interval=0;
-	    if(sscanf(option,"%lu/%lu",&idle,&interval) != 2)
-	        fprintf(stderr,"Illegal KEEPALIVE VALUE: %s\n",option);
-	    state->curl->keepalive.idle = idle;
-	    state->curl->keepalive.interval = interval;
-	    state->curl->keepalive.active = 1;
-	}
+    if (strcasecmp(option, "on") == 0) {
+      state->curl->keepalive.active = 1;
+    } else {
+      unsigned long idle     = 0;
+      unsigned long interval = 0;
+      if (sscanf(option, "%lu/%lu", &idle, &interval) != 2)
+        fprintf(stderr, "Illegal KEEPALIVE VALUE: %s\n", option);
+      state->curl->keepalive.idle     = idle;
+      state->curl->keepalive.interval = interval;
+      state->curl->keepalive.active   = 1;
     }
+  }
 #endif
-    return err;
+  return err;
 }
 
 #if 0
@@ -433,18 +430,15 @@ done:
 }
 #endif
 
-void
-NCD4_curl_printerror(NCD4INFO* state)
-{
-    fprintf(stderr,"curl error details: %s\n",state->curl->errdata.errorbuf);
+void NCD4_curl_printerror(NCD4INFO *state) {
+  fprintf(stderr, "curl error details: %s\n", state->curl->errdata.errorbuf);
 }
 
 CURLcode
-NCD4_reportcurlerror(CURLcode cstat)
-{
-    if(cstat != CURLE_OK) {
-        fprintf(stderr,"CURL Error: %s\n",curl_easy_strerror(cstat));
-    }
-    fflush(stderr);
-    return cstat;
+NCD4_reportcurlerror(CURLcode cstat) {
+  if (cstat != CURLE_OK) {
+    fprintf(stderr, "CURL Error: %s\n", curl_easy_strerror(cstat));
+  }
+  fflush(stderr);
+  return cstat;
 }

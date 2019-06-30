@@ -79,22 +79,20 @@ VLEN attribute, then uses nc_get_att() to read it.
 
 \author Glenn Davis, Ed Hartnett, Dennis Heimbigner
 */
-int
-nc_get_att(int ncid, int varid, const char *name, void *value)
-{
-   NC* ncp;
-   int stat = NC_NOERR;
-   nc_type xtype;
+int nc_get_att(int ncid, int varid, const char *name, void *value) {
+  NC *ncp;
+  int stat = NC_NOERR;
+  nc_type xtype;
 
-   if ((stat = NC_check_id(ncid, &ncp)))
-      return stat;
+  if ((stat = NC_check_id(ncid, &ncp)))
+    return stat;
 
-   /* Need to get the type */
-   if ((stat = nc_inq_atttype(ncid, varid, name, &xtype)))
-      return stat;
+  /* Need to get the type */
+  if ((stat = nc_inq_atttype(ncid, varid, name, &xtype)))
+    return stat;
 
-   TRACE(nc_get_att);
-   return ncp->dispatch->get_att(ncid, varid, name, value, xtype);
+  TRACE(nc_get_att);
+  return ncp->dispatch->get_att(ncid, varid, name, value, xtype);
 }
 /*! \} */
 
@@ -183,134 +181,108 @@ the length of the attributes.
 */
 /*! \{ */
 
-int
-nc_get_att_text(int ncid, int varid, const char *name, char *value)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   TRACE(nc_get_att_text);
-   return ncp->dispatch->get_att(ncid, varid, name, (void *)value, NC_CHAR);
+int nc_get_att_text(int ncid, int varid, const char *name, char *value) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  TRACE(nc_get_att_text);
+  return ncp->dispatch->get_att(ncid, varid, name, (void *)value, NC_CHAR);
 }
 
-int
-nc_get_att_schar(int ncid, int varid, const char *name, signed char *value)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   TRACE(nc_get_att_schar);
-   return ncp->dispatch->get_att(ncid, varid, name, (void *)value, NC_BYTE);
+int nc_get_att_schar(int ncid, int varid, const char *name, signed char *value) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  TRACE(nc_get_att_schar);
+  return ncp->dispatch->get_att(ncid, varid, name, (void *)value, NC_BYTE);
 }
 
-int
-nc_get_att_uchar(int ncid, int varid, const char *name, unsigned char *value)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   TRACE(nc_get_att_uchar);
-   return ncp->dispatch->get_att(ncid, varid, name, (void *)value, NC_UBYTE);
+int nc_get_att_uchar(int ncid, int varid, const char *name, unsigned char *value) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  TRACE(nc_get_att_uchar);
+  return ncp->dispatch->get_att(ncid, varid, name, (void *)value, NC_UBYTE);
 }
 
-int
-nc_get_att_short(int ncid, int varid, const char *name, short *value)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   TRACE(nc_get_att_short);
-   return ncp->dispatch->get_att(ncid, varid, name, (void *)value, NC_SHORT);
+int nc_get_att_short(int ncid, int varid, const char *name, short *value) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  TRACE(nc_get_att_short);
+  return ncp->dispatch->get_att(ncid, varid, name, (void *)value, NC_SHORT);
 }
 
-int
-nc_get_att_int(int ncid, int varid, const char *name, int *value)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   TRACE(nc_get_att_int);
-   return ncp->dispatch->get_att(ncid, varid, name, (void *)value, NC_INT);
+int nc_get_att_int(int ncid, int varid, const char *name, int *value) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  TRACE(nc_get_att_int);
+  return ncp->dispatch->get_att(ncid, varid, name, (void *)value, NC_INT);
 }
 
-int
-nc_get_att_long(int ncid, int varid, const char *name, long *value)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   TRACE(nc_get_att_long);
-   return ncp->dispatch->get_att(ncid, varid, name, (void *)value, longtype);
+int nc_get_att_long(int ncid, int varid, const char *name, long *value) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  TRACE(nc_get_att_long);
+  return ncp->dispatch->get_att(ncid, varid, name, (void *)value, longtype);
 }
 
-int
-nc_get_att_float(int ncid, int varid, const char *name, float *value)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   TRACE(nc_get_att_float);
-   return ncp->dispatch->get_att(ncid, varid, name, (void *)value, NC_FLOAT);
+int nc_get_att_float(int ncid, int varid, const char *name, float *value) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  TRACE(nc_get_att_float);
+  return ncp->dispatch->get_att(ncid, varid, name, (void *)value, NC_FLOAT);
 }
 
-int
-nc_get_att_double(int ncid, int varid, const char *name, double *value)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   TRACE(nc_get_att_double);
-   return ncp->dispatch->get_att(ncid, varid, name, (void *)value, NC_DOUBLE);
+int nc_get_att_double(int ncid, int varid, const char *name, double *value) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  TRACE(nc_get_att_double);
+  return ncp->dispatch->get_att(ncid, varid, name, (void *)value, NC_DOUBLE);
 }
 
-int
-nc_get_att_ubyte(int ncid, int varid, const char *name, unsigned char *value)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   TRACE(nc_get_att_ubyte);
-   return ncp->dispatch->get_att(ncid, varid, name, (void *)value, NC_UBYTE);
+int nc_get_att_ubyte(int ncid, int varid, const char *name, unsigned char *value) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  TRACE(nc_get_att_ubyte);
+  return ncp->dispatch->get_att(ncid, varid, name, (void *)value, NC_UBYTE);
 }
 
-int
-nc_get_att_ushort(int ncid, int varid, const char *name, unsigned short *value)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   TRACE(nc_get_att_ushort);
-   return ncp->dispatch->get_att(ncid, varid, name, (void *)value, NC_USHORT);
+int nc_get_att_ushort(int ncid, int varid, const char *name, unsigned short *value) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  TRACE(nc_get_att_ushort);
+  return ncp->dispatch->get_att(ncid, varid, name, (void *)value, NC_USHORT);
 }
 
-int
-nc_get_att_uint(int ncid, int varid, const char *name, unsigned int *value)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   TRACE(nc_get_att_uint);
-   return ncp->dispatch->get_att(ncid, varid, name, (void *)value, NC_UINT);
+int nc_get_att_uint(int ncid, int varid, const char *name, unsigned int *value) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  TRACE(nc_get_att_uint);
+  return ncp->dispatch->get_att(ncid, varid, name, (void *)value, NC_UINT);
 }
 
-int
-nc_get_att_longlong(int ncid, int varid, const char *name, long long *value)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   TRACE(nc_get_att_longlong);
-   return ncp->dispatch->get_att(ncid, varid, name, (void *)value, NC_INT64);
+int nc_get_att_longlong(int ncid, int varid, const char *name, long long *value) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  TRACE(nc_get_att_longlong);
+  return ncp->dispatch->get_att(ncid, varid, name, (void *)value, NC_INT64);
 }
 
-int
-nc_get_att_ulonglong(int ncid, int varid, const char *name, unsigned long long *value)
-{
-   NC *ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   TRACE(nc_get_att_ulonglong);
-   return ncp->dispatch->get_att(ncid, varid, name, (void *)value, NC_UINT64);
+int nc_get_att_ulonglong(int ncid, int varid, const char *name, unsigned long long *value) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  TRACE(nc_get_att_ulonglong);
+  return ncp->dispatch->get_att(ncid, varid, name, (void *)value, NC_UINT64);
 }
 /*! \} */
 
@@ -358,8 +330,8 @@ the attribute.
 \section nc_get_att_string_example Example
 
 \code{.c}
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include <netcdf.h>
@@ -404,13 +376,11 @@ int main(int argc, char ** argv) {
 \author Glenn Davis, Ed Hartnett, Dennis Heimbigner
 */
 
-int
-nc_get_att_string(int ncid, int varid, const char *name, char **value)
-{
-    NC *ncp;
-    int stat = NC_check_id(ncid, &ncp);
-    if(stat != NC_NOERR) return stat;
-    TRACE(nc_get_att_string);
-    return ncp->dispatch->get_att(ncid,varid,name,(void*)value, NC_STRING);
+int nc_get_att_string(int ncid, int varid, const char *name, char **value) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  TRACE(nc_get_att_string);
+  return ncp->dispatch->get_att(ncid, varid, name, (void *)value, NC_STRING);
 }
 /*! \} */

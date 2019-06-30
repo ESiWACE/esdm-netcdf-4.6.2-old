@@ -12,25 +12,25 @@
 
 #include "config.h"
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
 #include <assert.h>
-#include <ctype.h>	/* for isprint() */
+#include <ctype.h> /* for isprint() */
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #ifdef HAVE_UNISTD_H
-#include <unistd.h>
+#  include <unistd.h>
 #endif
 
 #ifdef __SunOS
-#include <strings.h>
+#  include <strings.h>
 #endif
 
 #ifdef __hpux
-#include <locale.h>
+#  include <locale.h>
 #endif
 
-#include "list.h"
 #include "bytebuffer.h"
+#include "list.h"
 #include "nctime.h"
 
 /* Local Configuration flags*/
@@ -39,15 +39,15 @@
 #define ENABLE_F77
 #define ENABLE_JAVA
 
-#include "netcdf.h"
 #include "data.h"
-#include "ncgen.h"
-#include "genlib.h"
-#include "util.h"
 #include "debug.h"
+#include "genlib.h"
 #include "nc.h"
+#include "ncgen.h"
+#include "netcdf.h"
+#include "util.h"
 #ifdef USE_NETCDF4
-#include "nc4internal.h"
+#  include "nc4internal.h"
 #endif
 
 extern int specialconstants;
@@ -56,6 +56,9 @@ extern int specialconstants;
 #undef CHARBUG
 
 #undef nullfree
-#define nullfree(x) {if((x)) free(x);}
+#define nullfree(x)   \
+  {                   \
+    if ((x)) free(x); \
+  }
 
 #endif /* NCGEN_INCLUDES_H */

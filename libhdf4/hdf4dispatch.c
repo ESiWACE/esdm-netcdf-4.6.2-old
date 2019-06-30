@@ -7,10 +7,10 @@
  * @author Ed Hartnett
  */
 
-#include "config.h"
-#include <stdlib.h>
 #include "hdf4dispatch.h"
+#include "config.h"
 #include "nc4dispatch.h"
+#include <stdlib.h>
 
 /* This is the dispatch object that holds pointers to all the
  * functions that make up the HDF4 dispatch interface. */
@@ -101,10 +101,9 @@ NC_NOTNC4_def_var_chunking,
 NC_NOTNC4_def_var_endian,
 NC_NOTNC4_def_var_filter,
 NC_NOTNC4_set_var_chunk_cache,
-NC_NOTNC4_get_var_chunk_cache
-};
+NC_NOTNC4_get_var_chunk_cache};
 
-NC_Dispatch* HDF4_dispatch_table = NULL;
+NC_Dispatch *HDF4_dispatch_table = NULL;
 
 /**
  * @internal Initialize HDF4 dispatch layer.
@@ -112,11 +111,9 @@ NC_Dispatch* HDF4_dispatch_table = NULL;
  * @return ::NC_NOERR No error.
  * @author Ed Hartnett
  */
-int
-NC_HDF4_initialize(void)
-{
-    HDF4_dispatch_table = &HDF4_dispatcher;
-    return NC_NOERR;
+int NC_HDF4_initialize(void) {
+  HDF4_dispatch_table = &HDF4_dispatcher;
+  return NC_NOERR;
 }
 
 /**
@@ -125,8 +122,6 @@ NC_HDF4_initialize(void)
  * @return ::NC_NOERR No error.
  * @author Ed Hartnett
  */
-int
-NC_HDF4_finalize(void)
-{
-    return NC_NOERR;
+int NC_HDF4_finalize(void) {
+  return NC_NOERR;
 }

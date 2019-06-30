@@ -4,18 +4,18 @@
  */
 
 #include "config.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
 #include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #ifdef HAVE_FCNTL_H
-#include <fcntl.h>
+#  include <fcntl.h>
 #endif
 #ifdef HAVE_UNISTD_H
-#include <unistd.h>
+#  include <unistd.h>
 #endif
 #ifdef _MSC_VER
-#include <io.h>
+#  include <io.h>
 #endif
 
 #include "ncexternl.h"
@@ -41,128 +41,129 @@ All other cases are passed thru unchanged
 
 
 /* Define legal windows drive letters */
-static const char* windrive = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+static const char *windrive = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 static const size_t cdlen = 10; /* strlen("/cygdrive/") */
 
 static int pathdebug = -1;
 
-static char* makeabsolute(const char* relpath);
+static char *makeabsolute(const char *relpath);
 
 EXTERNL
-char* /* caller frees */
-NCpathcvt(const char* path)
-{
-    char* outpath = NULL; 
-    char* p;
-    char* q;
-    size_t pathlen;
+char * /* caller frees */
+NCpathcvt(const char *path) {
+  char *outpath = NULL;
+  char *p;
+  char *q;
+  size_t pathlen;
 
-    if(path == NULL) goto done; /* defensive driving */
+  if (path == NULL) goto done; /* defensive driving */
 
-    /* Check for path debug env vars */
-    if(pathdebug < 0) {
-	const char* s = getenv("NCPATHDEBUG");
-        pathdebug = (s == NULL ? 0 : 1);
-    }
+  /* Check for path debug env vars */
+  if (pathdebug < 0) {
+    const char *s = getenv("NCPATHDEBUG");
+    pathdebug     = (s == NULL ? 0 : 1);
+  }
 
-    pathlen = strlen(path);
+  pathlen = strlen(path);
 
-    /* 1. look for MSYS path /D/... */
-    if(pathlen >= 2
-	&& (path[0] == '/' || path[0] == '\\')
-	&& strchr(windrive,path[1]) != NULL
-	&& (path[2] == '/' || path[2] == '\\' || path[2] == '\0')) {
-	/* Assume this is a mingw path */
-	outpath = (char*)malloc(pathlen+3); /* conservative */
-	if(outpath == NULL) goto done;
-	q = outpath;
-	*q++ = path[1];
-	*q++ = ':';
-	strncpy(q,&path[2],pathlen);
-	if(strlen(outpath) == 2)
-	    strcat(outpath,"/");
-	goto slashtrans;
-    }
+  /* 1. look for MSYS path /D/... */
+  if (pathlen >= 2
+      && (path[0] == '/' || path[0] == '\\')
+      && strchr(windrive, path[1]) != NULL
+      && (path[2] == '/' || path[2] == '\\' || path[2] == '\0')) {
+    /* Assume this is a mingw path */
+    outpath = (char *)malloc(pathlen + 3); /* conservative */
+    if (outpath == NULL) goto done;
+    q    = outpath;
+    *q++ = path[1];
+    *q++ = ':';
+    strncpy(q, &path[2], pathlen);
+    if (strlen(outpath) == 2)
+      strcat(outpath, "/");
+    goto slashtrans;
+  }
 
-    /* 2. Look for leading /cygdrive/D where D is a single-char drive letter */
-    if(pathlen >= (cdlen+1)
-	&& memcmp(path,"/cygdrive/",cdlen)==0
-	&& strchr(windrive,path[cdlen]) != NULL
-	&& (path[cdlen+1] == '/'
-	    || path[cdlen+1] == '\\'
-	    || path[cdlen+1] == '\0')) {
-	/* Assume this is a cygwin path */
-	outpath = (char*)malloc(pathlen+1); /* conservative */
-	if(outpath == NULL) goto done;
-	outpath[0] = path[cdlen]; /* drive letter */
-	outpath[1] = ':';
-	strcpy(&outpath[2],&path[cdlen+1]);
-	if(strlen(outpath) == 2)
-	    strcat(outpath,"/");
-	goto slashtrans;
-    }
+  /* 2. Look for leading /cygdrive/D where D is a single-char drive letter */
+  if (pathlen >= (cdlen + 1)
+      && memcmp(path, "/cygdrive/", cdlen) == 0
+      && strchr(windrive, path[cdlen]) != NULL
+      && (path[cdlen + 1] == '/'
+          || path[cdlen + 1] == '\\'
+          || path[cdlen + 1] == '\0')) {
+    /* Assume this is a cygwin path */
+    outpath = (char *)malloc(pathlen + 1); /* conservative */
+    if (outpath == NULL) goto done;
+    outpath[0] = path[cdlen]; /* drive letter */
+    outpath[1] = ':';
+    strcpy(&outpath[2], &path[cdlen + 1]);
+    if (strlen(outpath) == 2)
+      strcat(outpath, "/");
+    goto slashtrans;
+  }
 
-    /* 3. Look for leading D: where D is a single-char drive letter */
-    if(pathlen >= 2
-	&& strchr(windrive,path[0]) != NULL
-	&& path[1] == ':'
-	&& (path[2] == '\0' || path[2] == '/'  || path[2] == '\\')) {
-	outpath = strdup(path);
-	goto slashtrans;
-    }
-
-    /* 4. Look for relative path */
-    if(pathlen > 1 && path[0] == '.') {
-	outpath = makeabsolute(path);
-	goto slashtrans;
-    }
-
-    /* Other: just pass thru */
+  /* 3. Look for leading D: where D is a single-char drive letter */
+  if (pathlen >= 2
+      && strchr(windrive, path[0]) != NULL
+      && path[1] == ':'
+      && (path[2] == '\0' || path[2] == '/' || path[2] == '\\')) {
     outpath = strdup(path);
-    goto done;
+    goto slashtrans;
+  }
+
+  /* 4. Look for relative path */
+  if (pathlen > 1 && path[0] == '.') {
+    outpath = makeabsolute(path);
+    goto slashtrans;
+  }
+
+  /* Other: just pass thru */
+  outpath = strdup(path);
+  goto done;
 
 slashtrans:
-      /* In order to help debugging, and if not using MSC_VER or MINGW,
+  /* In order to help debugging, and if not using MSC_VER or MINGW,
 	 convert back slashes to forward, else convert forward to back
       */
-    p = outpath;
-    /* In all #1 or #2 cases, translate '/' -> '\\' */
-    for(;*p;p++) {
-	if(*p == '/') {*p = '\\';}
+  p = outpath;
+  /* In all #1 or #2 cases, translate '/' -> '\\' */
+  for (; *p; p++) {
+    if (*p == '/') {
+      *p = '\\';
     }
+  }
 #ifdef PATHFORMAT
-#ifndef _MSC_VER
-	p = outpath;
-        /* Convert '\' back to '/' */
-        for(;*p;p++) {
-            if(*p == '\\') {*p = '/';}
-	}
+#  ifndef _MSC_VER
+  p = outpath;
+  /* Convert '\' back to '/' */
+  for (; *p; p++) {
+    if (*p == '\\') {
+      *p = '/';
     }
-#endif /*!_MSC_VER*/
-#endif /*PATHFORMAT*/
+  }
+}
+#  endif /*!_MSC_VER*/
+#endif   /*PATHFORMAT*/
 
-done:
-    if(pathdebug) {
-        fprintf(stderr,"XXXX: inpath=|%s| outpath=|%s|\n",
-            path?path:"NULL",outpath?outpath:"NULL");
-        fflush(stderr);
-    }
-    return outpath;
+done: if (pathdebug) {
+  fprintf(stderr, "XXXX: inpath=|%s| outpath=|%s|\n",
+  path ? path : "NULL", outpath ? outpath : "NULL");
+  fflush(stderr);
+}
+return outpath;
 }
 
-static char*
-makeabsolute(const char* relpath)
-{
-    char* path = NULL;
+static char *
+makeabsolute(const char *relpath) {
+  char *path = NULL;
 #ifdef _MSC_VER
-    path = _fullpath(NULL,relpath,8192);
+  path = _fullpath(NULL, relpath, 8192);
 #else
-    path = realpath(relpath, NULL);
+  path = realpath(relpath, NULL);
 #endif
-    if(path == NULL)
-	path = strdup(relpath);
-    return path;    
+  if (path == NULL)
+    path = strdup(relpath);
+  return path;
 }
 
 #ifdef WINPATH
@@ -172,34 +173,29 @@ Provide wrappers for open and fopen.
 */
 
 EXTERNL
-FILE*
-NCfopen(const char* path, const char* flags)
-{
-    FILE* f = NULL;
-    char* cvtname = NCpathcvt(path);
-    if(cvtname == NULL) return NULL;
-    f = fopen(cvtname,flags);
-    free(cvtname);    
-    return f;
+FILE *
+NCfopen(const char *path, const char *flags) {
+  FILE *f       = NULL;
+  char *cvtname = NCpathcvt(path);
+  if (cvtname == NULL) return NULL;
+  f = fopen(cvtname, flags);
+  free(cvtname);
+  return f;
 }
 
 EXTERNL
-int
-NCopen3(const char* path, int flags, int mode)
-{
-    int fd = -1;
-    char* cvtname = NCpathcvt(path);
-    if(cvtname == NULL) return -1;
-    fd = open(cvtname,flags,mode);
-    free(cvtname);    
-    return fd;
+int NCopen3(const char *path, int flags, int mode) {
+  int fd        = -1;
+  char *cvtname = NCpathcvt(path);
+  if (cvtname == NULL) return -1;
+  fd = open(cvtname, flags, mode);
+  free(cvtname);
+  return fd;
 }
 
 EXTERNL
-int
-NCopen2(const char *path, int flags)
-{
-    return NCopen3(path,flags,0);
+int NCopen2(const char *path, int flags) {
+  return NCopen3(path, flags, 0);
 }
 
 /*
@@ -208,31 +204,27 @@ Provide wrappers for other file system functions
 
 /* Return access applied to path+mode */
 EXTERNL
-int
-NCaccess(const char* path, int mode)
-{
-    int status = 0;
-    char* cvtname = NCpathcvt(path);
-    if(cvtname == NULL) return -1;
-#ifdef _MSC_VER
-    status = _access(cvtname,mode);
-#else
-    status = access(cvtname,mode);
-#endif
-    free(cvtname);    
-    return status;
+int NCaccess(const char *path, int mode) {
+  int status    = 0;
+  char *cvtname = NCpathcvt(path);
+  if (cvtname == NULL) return -1;
+#  ifdef _MSC_VER
+  status = _access(cvtname, mode);
+#  else
+  status = access(cvtname, mode);
+#  endif
+  free(cvtname);
+  return status;
 }
 
 EXTERNL
-int
-NCremove(const char* path)
-{
-    int status = 0;
-    char* cvtname = NCpathcvt(path);
-    if(cvtname == NULL) return ENOENT;
-    status = remove(cvtname);
-    free(cvtname);    
-    return status;
+int NCremove(const char *path) {
+  int status    = 0;
+  char *cvtname = NCpathcvt(path);
+  if (cvtname == NULL) return ENOENT;
+  status = remove(cvtname);
+  free(cvtname);
+  return status;
 }
 
 #endif /*WINPATH*/

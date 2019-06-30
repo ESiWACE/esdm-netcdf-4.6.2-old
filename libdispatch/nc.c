@@ -4,15 +4,15 @@
  */
 
 #include "config.h"
+#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
 #if defined(LOCKNUMREC) /* && _CRAYMPP */
-#  include <mpp/shmem.h>
 #  include <intrinsics.h>
+#  include <mpp/shmem.h>
 #endif
 #ifdef HAVE_UNISTD_H
-#include <unistd.h>
+#  include <unistd.h>
 #endif
 
 #include "nc.h"
@@ -29,49 +29,43 @@ static int default_create_format = NC_FORMAT_CLASSIC;
 #define VER_64BIT_OFFSET 2
 #define VER_HDF5 3
 
-int
-NC_check_id(int ncid, NC** ncpp)
-{
-    NC* nc = find_in_NCList(ncid);
-    if(nc == NULL) return NC_EBADID;
-    if(ncpp) *ncpp = nc;
-    return NC_NOERR;
+int NC_check_id(int ncid, NC **ncpp) {
+  NC *nc = find_in_NCList(ncid);
+  if (nc == NULL) return NC_EBADID;
+  if (ncpp) *ncpp = nc;
+  return NC_NOERR;
 }
 
-void
-free_NC(NC *ncp)
-{
-    if(ncp == NULL)
-	return;
-    if(ncp->path)
-	free(ncp->path);
+void free_NC(NC *ncp) {
+  if (ncp == NULL)
+    return;
+  if (ncp->path)
+    free(ncp->path);
     /* We assume caller has already cleaned up ncp->dispatchdata */
 #if _CRAYMPP && defined(LOCKNUMREC)
-    shfree(ncp);
+  shfree(ncp);
 #else
-    free(ncp);
+  free(ncp);
 #endif /* _CRAYMPP && LOCKNUMREC */
 }
 
-int
-new_NC(NC_Dispatch* dispatcher, const char* path, int mode, int model, NC** ncpp)
-{
-    NC *ncp = (NC*)calloc(1,sizeof(NC));
-    if(ncp == NULL) return NC_ENOMEM;
-    ncp->dispatch = dispatcher;
-    ncp->path = nulldup(path);
-    ncp->mode = mode;
-    ncp->model = model;
-    if(ncp->path == NULL) { /* fail */
-        free_NC(ncp);
-	return NC_ENOMEM;
-    }
-    if(ncpp) {
-      *ncpp = ncp;
-    } else {
-      free_NC(ncp);
-    }
-    return NC_NOERR;
+int new_NC(NC_Dispatch *dispatcher, const char *path, int mode, int model, NC **ncpp) {
+  NC *ncp = (NC *)calloc(1, sizeof(NC));
+  if (ncp == NULL) return NC_ENOMEM;
+  ncp->dispatch = dispatcher;
+  ncp->path     = nulldup(path);
+  ncp->mode     = mode;
+  ncp->model    = model;
+  if (ncp->path == NULL) { /* fail */
+    free_NC(ncp);
+    return NC_ENOMEM;
+  }
+  if (ncpp) {
+    *ncpp = ncp;
+  } else {
+    free_NC(ncp);
+  }
+  return NC_NOERR;
 }
 
 /* This function sets a default create flag that will be logically
@@ -79,36 +73,29 @@ new_NC(NC_Dispatch* dispatcher, const char* path, int mode, int model, NC** ncpp
    calls to nc_create.
    Valid default create flags are NC_64BIT_OFFSET, NC_CLOBBER,
    NC_LOCK, NC_SHARE. */
-int
-nc_set_default_format(int format, int *old_formatp)
-{
-    /* Return existing format if desired. */
-    if (old_formatp)
-      *old_formatp = default_create_format;
+int nc_set_default_format(int format, int *old_formatp) {
+  /* Return existing format if desired. */
+  if (old_formatp)
+    *old_formatp = default_create_format;
 
     /* Make sure only valid format is set. */
 #ifndef ENABLE_CDF5
-    if (format == NC_FORMAT_CDF5)
-        return NC_ENOTBUILT;
+  if (format == NC_FORMAT_CDF5)
+    return NC_ENOTBUILT;
 #endif
 #ifdef USE_NETCDF4
-    if (format != NC_FORMAT_CLASSIC && format != NC_FORMAT_64BIT_OFFSET &&
-        format != NC_FORMAT_NETCDF4 && format != NC_FORMAT_NETCDF4_CLASSIC &&
-	format != NC_FORMAT_CDF5)
-        return NC_EINVAL;
+  if (format != NC_FORMAT_CLASSIC && format != NC_FORMAT_64BIT_OFFSET && format != NC_FORMAT_NETCDF4 && format != NC_FORMAT_NETCDF4_CLASSIC && format != NC_FORMAT_CDF5)
+    return NC_EINVAL;
 #else
-    if (format == NC_FORMAT_NETCDF4 || format == NC_FORMAT_NETCDF4_CLASSIC)
-        return NC_ENOTBUILT;
-    if (format != NC_FORMAT_CLASSIC && format != NC_FORMAT_64BIT_OFFSET &&
-        format != NC_FORMAT_CDF5)
-        return NC_EINVAL;
+  if (format == NC_FORMAT_NETCDF4 || format == NC_FORMAT_NETCDF4_CLASSIC)
+    return NC_ENOTBUILT;
+  if (format != NC_FORMAT_CLASSIC && format != NC_FORMAT_64BIT_OFFSET && format != NC_FORMAT_CDF5)
+    return NC_EINVAL;
 #endif
-    default_create_format = format;
-    return NC_NOERR;
+  default_create_format = format;
+  return NC_NOERR;
 }
 
-int
-nc_get_default_format(void)
-{
-    return default_create_format;
+int nc_get_default_format(void) {
+  return default_create_format;
 }

@@ -1,12 +1,9 @@
 #!/bin/bash
 
-
-B=./benchtool
-
-$B -f=esdm://longtest -w
-$B -f=esdm://longtest -r
+./benchtool -f=esdm://longtest -w -r
 
 echo "Cleanup"
 rm -rf _metadummy _esdm
 
 echo "[OK]"
+

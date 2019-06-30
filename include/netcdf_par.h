@@ -27,12 +27,12 @@ extern "C" {
 /* Create a file and enable parallel I/O. */
 extern int
 nc_create_par(const char *path, int cmode, MPI_Comm comm, MPI_Info info,
-	      int *ncidp);
+int *ncidp);
 
 /* Open a file and enable parallel I/O. */
 extern int
 nc_open_par(const char *path, int mode, MPI_Comm comm, MPI_Info info,
-	    int *ncidp);
+int *ncidp);
 
 /* Change a variable from independent (the default) to collective
  * access. */
@@ -41,10 +41,10 @@ nc_var_par_access(int ncid, int varid, int par_access);
 
 extern int
 nc_create_par_fortran(const char *path, int cmode, int comm,
-		      int info, int *ncidp);
+int info, int *ncidp);
 extern int
 nc_open_par_fortran(const char *path, int mode, int comm,
-		    int info, int *ncidp);
+int info, int *ncidp);
 
 #if defined(__cplusplus)
 }

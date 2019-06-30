@@ -4,129 +4,129 @@
  *   $Id: tests.h 2785 2014-10-26 05:21:20Z wkliao $
  *********************************************************************/
 
-#include <config.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 #include <assert.h>
-#include <limits.h>
+#include <config.h>
 #include <float.h>
+#include <limits.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #define NO_NETCDF_2 1
 #include "netcdf.h"
 #ifdef USE_PARALLEL
-#include "netcdf_par.h"
+#  include "netcdf_par.h"
 #endif
 #include "error.h"
 
 #if defined(_CRAY) && !defined(_CRAYIEEE) && !defined(__crayx1)
-#define CRAYFLOAT 1 /* CRAY Floating point */
-#elif defined(_SX) && defined(_FLOAT2)	/* NEC SUPER-UX in CRAY mode */
-#define CRAYFLOAT 1 /* CRAY Floating point */
+#  define CRAYFLOAT 1                  /* CRAY Floating point */
+#elif defined(_SX) && defined(_FLOAT2) /* NEC SUPER-UX in CRAY mode */
+#  define CRAYFLOAT 1                  /* CRAY Floating point */
 #endif
 
-    /* Limits of external types (based on those in ncx.h) */
+/* Limits of external types (based on those in ncx.h) */
 
 /* Note: In CDF format specification, NC_CHAR is for text characters, which
  * is considered an 8-bit unsigned integer. Since it is for printable text
  * characters, its values should range from 0 (X_CHAR_MIN) to 255 (X_CHAR_MAX).
  */
-#define X_CHAR_MIN      0
-#define X_CHAR_MAX      255
+#define X_CHAR_MIN 0
+#define X_CHAR_MAX 255
 
-#define X_BYTE_MIN	(-128)
-#define X_BYTE_MAX	127
-#define X_SHORT_MIN	(-32768)
-#define X_SHORT_MAX	32767
-#define X_INT_MIN	(-2147483647-1)
-#define X_INT_MAX	2147483647
+#define X_BYTE_MIN (-128)
+#define X_BYTE_MAX 127
+#define X_SHORT_MIN (-32768)
+#define X_SHORT_MAX 32767
+#define X_INT_MIN (-2147483647 - 1)
+#define X_INT_MAX 2147483647
 #if defined(FLT_MAX_EXP) && FLT_MAX_EXP < 128
 /* FLT_MAX < X_FLOAT_MAX */
-#define X_FLOAT_MAX	FLT_MAX
+#  define X_FLOAT_MAX FLT_MAX
 #else
-#ifdef WIN32 /* Windows, of course, has to be a *little* different. */
-#define X_FLOAT_MAX	3.402823466e+38f
-#else
-#define X_FLOAT_MAX	3.40282347e+38f
-#endif /* WIN32 */
+#  ifdef WIN32 /* Windows, of course, has to be a *little* different. */
+#    define X_FLOAT_MAX 3.402823466e+38f
+#  else
+#    define X_FLOAT_MAX 3.40282347e+38f
+#  endif /* WIN32 */
 #endif
-#define X_FLOAT_MIN	(-X_FLOAT_MAX)
+#define X_FLOAT_MIN (-X_FLOAT_MAX)
 #if CRAYFLOAT
 /* ldexp(1. - ldexp(.5 , -46), 1024) */
-#define X_DOUBLE_MAX    1.79769313486230e+308
+#  define X_DOUBLE_MAX 1.79769313486230e+308
 #else
 /* scalb(1. - scalb(.5 , -52), 1024) */
-#define X_DOUBLE_MAX	1.7976931348623157e+308
+#  define X_DOUBLE_MAX 1.7976931348623157e+308
 #endif
-#define X_DOUBLE_MIN	(-X_DOUBLE_MAX)
+#define X_DOUBLE_MIN (-X_DOUBLE_MAX)
 
-#define X_SCHAR_MAX     SCHAR_MAX
-#define X_SCHAR_MIN     SCHAR_MIN
-#define X_UCHAR_MAX     UCHAR_MAX
-#define X_UCHAR_MIN     0
-#define X_UBYTE_MAX     X_UCHAR_MAX
-#define X_UBYTE_MIN     X_UCHAR_MIN
-#define X_USHORT_MAX    USHRT_MAX
-#define X_USHORT_MIN    0
-#define X_UINT_MAX      UINT_MAX
-#define X_UINT_MIN      0
+#define X_SCHAR_MAX SCHAR_MAX
+#define X_SCHAR_MIN SCHAR_MIN
+#define X_UCHAR_MAX UCHAR_MAX
+#define X_UCHAR_MIN 0
+#define X_UBYTE_MAX X_UCHAR_MAX
+#define X_UBYTE_MIN X_UCHAR_MIN
+#define X_USHORT_MAX USHRT_MAX
+#define X_USHORT_MIN 0
+#define X_UINT_MAX UINT_MAX
+#define X_UINT_MIN 0
 
 #ifndef LLONG_MAX
-#define LLONG_MAX  0x7fffffffffffffffLL
+#  define LLONG_MAX 0x7fffffffffffffffLL
 #endif
 #ifndef LLONG_MIN
-#define LLONG_MIN (-0x7fffffffffffffffLL-1)
+#  define LLONG_MIN (-0x7fffffffffffffffLL - 1)
 #endif
 #ifndef ULLONG_MAX
-#define ULLONG_MAX  0xffffffffffffffffULL
+#  define ULLONG_MAX 0xffffffffffffffffULL
 #endif
 
 #ifndef X_INT64_MAX
-#define X_INT64_MAX    LLONG_MAX
+#  define X_INT64_MAX LLONG_MAX
 #endif
 #ifndef X_INT64_MIN
-#define X_INT64_MIN    LLONG_MIN
+#  define X_INT64_MIN LLONG_MIN
 #endif
 #ifndef X_UINT64_MAX
-#define X_UINT64_MAX  ULLONG_MAX
+#  define X_UINT64_MAX ULLONG_MAX
 #endif
 #ifndef X_UINT64_MIN
-#define X_UINT64_MIN  ULLONG_MIN
+#  define X_UINT64_MIN ULLONG_MIN
 #endif
 
 
 #if _SX /* NEC SUPER UX */
-#if _INT64
-#undef  INT_MAX /* workaround cpp bug */
-#define INT_MAX  X_INT_MAX
-#undef  INT_MIN /* workaround cpp bug */
-#define INT_MIN  X_INT_MIN
-#undef  LONG_MAX /* workaround cpp bug */
-#define LONG_MAX  X_INT_MAX
-#undef  LONG_MIN /* workaround cpp bug */
-#define LONG_MIN  X_INT_MIN
-#elif _LONG64
-#undef  LONG_MAX /* workaround cpp bug */
-#define LONG_MAX  4294967295L
-#undef  LONG_MIN /* workaround cpp bug */
-#define LONG_MIN -4294967295L
-#endif
+#  if _INT64
+#    undef INT_MAX /* workaround cpp bug */
+#    define INT_MAX X_INT_MAX
+#    undef INT_MIN /* workaround cpp bug */
+#    define INT_MIN X_INT_MIN
+#    undef LONG_MAX /* workaround cpp bug */
+#    define LONG_MAX X_INT_MAX
+#    undef LONG_MIN /* workaround cpp bug */
+#    define LONG_MIN X_INT_MIN
+#  elif _LONG64
+#    undef LONG_MAX /* workaround cpp bug */
+#    define LONG_MAX 4294967295L
+#    undef LONG_MIN /* workaround cpp bug */
+#    define LONG_MIN -4294967295L
+#  endif
 #endif /* _SX */
 
 
 #ifndef MAX
-#define MAX(a,b) ((a) > (b) ? (a) : (b))
+#  define MAX(a, b) ((a) > (b) ? (a) : (b))
 #endif /* MAX */
 
 #ifndef MIN
-#define MIN(a,b) ((a) < (b) ? (a) : (b))
+#  define MIN(a, b) ((a) < (b) ? (a) : (b))
 #endif /* MIN */
 
 #ifndef ABS
-#define ABS(x)  ((x) < 0 ? -(x) : (x))
+#  define ABS(x) ((x) < 0 ? -(x) : (x))
 #endif /* ABS */
 
 
-    /* Parameters of test data */
+/* Parameters of test data */
 
 #define NTYPES 11
 #define NDIMS 5
@@ -139,12 +139,12 @@
 #define MAX_DIM_LEN 4
 #define MAX_NATTS 3
 
-extern int numGatts;  /* number of global attributes */
-extern int numVars;   /* number of variables */
-extern int numTypes;  /* number of netCDF data types to test */
+extern int numGatts; /* number of global attributes */
+extern int numVars;  /* number of variables */
+extern int numTypes; /* number of netCDF data types to test */
 
 
-    /* Limits of internal types */
+/* Limits of internal types */
 
 #define text_min SCHAR_MIN
 #define uchar_min 0
@@ -179,17 +179,16 @@ extern int numTypes;  /* number of netCDF data types to test */
 #define ulonglong_max uint64_max
 
 
+/* Examples of invalid argument values */
 
-    /* Examples of invalid argument values */
-
-#define BAD_ID -1               /* invalid netCDF ID */
-#define BAD_DIMID -1            /* invalid dim ID */
-#define BAD_VARID -2            /* invalid var ID */
-#define BAD_ATTNUM -1           /* invalid att number */
-#define BAD_TYPE (nc_type) 0    /* invalid data type */
-#define BAD_FILLMODE -1         /* invalid fill mode */
-#define BAD_NAME "a/b"		/* invalid name */
-#define BAD_DEFAULT_FORMAT 12   /* invalid default format */
+#define BAD_ID -1             /* invalid netCDF ID */
+#define BAD_DIMID -1          /* invalid dim ID */
+#define BAD_VARID -2          /* invalid var ID */
+#define BAD_ATTNUM -1         /* invalid att number */
+#define BAD_TYPE (nc_type)0   /* invalid data type */
+#define BAD_FILLMODE -1       /* invalid fill mode */
+#define BAD_NAME "a/b"        /* invalid name */
+#define BAD_DEFAULT_FORMAT 12 /* invalid default format */
 
 #define LEN_OF(array) ((sizeof array) / (sizeof array[0]))
 
@@ -198,49 +197,49 @@ extern "C" {
 #endif
 
 
-    /* Non-standard internal types */
+/* Non-standard internal types */
 
 #ifdef HAVE_SYS_TYPES_H
-# include <sys/types.h>
+#  include <sys/types.h>
 #endif
 
 typedef char text;
 typedef signed char schar;
 
 #ifndef HAVE_USHORT
-typedef unsigned short int  ushort;
+typedef unsigned short int ushort;
 #endif
 
 #ifndef HAVE_UINT
-typedef unsigned       int  uint;
+typedef unsigned int uint;
 #endif
 
 #ifndef HAVE_INT64
-typedef          long long  int64;
+typedef long long int64;
 #endif
 
 #ifndef HAVE_UINT64
-typedef unsigned long long  uint64;
+typedef unsigned long long uint64;
 #endif
 
 
-    /* Global variables - filenames */
+/* Global variables - filenames */
 
-extern char testfile[];		/* netCDF read-only test data */
-extern char scratch[];		/* netCDF test file for writing */
+extern char testfile[]; /* netCDF read-only test data */
+extern char scratch[];  /* netCDF test file for writing */
 
-    /* Global variables - command-line arguments */
+/* Global variables - command-line arguments */
 
-extern int  read_only;		/* if 1, don't try to change files */
-extern int  verbose;		/* if 1, print details of tests */
-extern int  nfails;		/* number of failures in specific test */
-extern int  max_nmpt;		/* max. number of messages per test */
+extern int read_only; /* if 1, don't try to change files */
+extern int verbose;   /* if 1, print details of tests */
+extern int nfails;    /* number of failures in specific test */
+extern int max_nmpt;  /* max. number of messages per test */
 
-    /* Global variables - test data */
+/* Global variables - test data */
 
 extern char dim_name[NDIMS][3];
 extern size_t dim_len[NDIMS];
-extern char var_name[NVARS][2+MAX_RANK];
+extern char var_name[NVARS][2 + MAX_RANK];
 extern nc_type var_type[NVARS];
 extern int var_rank[NVARS];
 extern int var_dimid[NVARS][MAX_RANK];
@@ -255,14 +254,14 @@ extern size_t att_len[NVARS][MAX_NATTS];
 extern size_t gatt_len[NGATTS];
 
 
-    /* Macros for accessing attribute test data */
-    /* varid is -1 for NC_GLOBAL so can do global atts in same loop */
+/* Macros for accessing attribute test data */
+/* varid is -1 for NC_GLOBAL so can do global atts in same loop */
 
-#define VARID(varid)      (varid < 0 ? NC_GLOBAL : varid)
-#define NATTS(varid)      (varid < 0 ? numGatts : var_natts[varid])
-#define ATT_NAME(varid,j) (varid < 0 ? gatt_name[j] : att_name[varid][j])
-#define ATT_TYPE(varid,j) (varid < 0 ? gatt_type[j] : att_type[varid][j])
-#define ATT_LEN(varid,j)  (varid < 0 ? gatt_len[j] : att_len[varid][j])
+#define VARID(varid) (varid < 0 ? NC_GLOBAL : varid)
+#define NATTS(varid) (varid < 0 ? numGatts : var_natts[varid])
+#define ATT_NAME(varid, j) (varid < 0 ? gatt_name[j] : att_name[varid][j])
+#define ATT_TYPE(varid, j) (varid < 0 ? gatt_type[j] : att_type[varid][j])
+#define ATT_LEN(varid, j) (varid < 0 ? gatt_len[j] : att_len[varid][j])
 
 extern const char *s_nc_type(nc_type);
 
@@ -490,21 +489,21 @@ int inRange(const double value, const nc_type datatype);
  * internal types
  */
 typedef enum {
-	NCT_UNSPECIFIED = 0,
-	NCT_UCHAR =	1,	/* unsigned char */
-	NCT_TEXT =	16,	/* char */
+  NCT_UNSPECIFIED = 0,
+  NCT_UCHAR       = 1,  /* unsigned char */
+  NCT_TEXT        = 16, /* char */
 #define NCT_CHAR NCT_TEXT
-	NCT_SCHAR =	17,	/* signed char */
-	NCT_SHORT =	18,	/* short */
-	NCT_INT =	20,	/* int */
-	NCT_LONG =	22,	/* long */
-	NCT_FLOAT =	36,	/* float */
-	NCT_DOUBLE =	40,	/* double */
-        NCT_USHORT =    41,
-        NCT_UINT =      42,
-        NCT_INT64 =     43,
+  NCT_SCHAR  = 17, /* signed char */
+  NCT_SHORT  = 18, /* short */
+  NCT_INT    = 20, /* int */
+  NCT_LONG   = 22, /* long */
+  NCT_FLOAT  = 36, /* float */
+  NCT_DOUBLE = 40, /* double */
+  NCT_USHORT = 41,
+  NCT_UINT   = 42,
+  NCT_INT64  = 43,
 #define NCT_LONGLONG NCT_INT64
-        NCT_UINT64 =    44
+  NCT_UINT64 = 44
 #define NCT_ULONGLONG NCT_UINT64
 } nct_itype;
 
@@ -516,33 +515,32 @@ int equal2(const double x, const double y, nc_type extType);
 
 int int_vec_eq(const int *v1, const int *v2, const int n);
 
-size_t roll( size_t n );
+size_t roll(size_t n);
 
-int
-toMixedBase(
-    size_t number,        /* number to be converted to mixed base */
-    int    length,
-    const size_t base[],  /* dimensioned [length], base[0] ignored */
-    size_t result[]);     /* dimensioned [length] */
+int toMixedBase(
+size_t number, /* number to be converted to mixed base */
+int length,
+const size_t base[], /* dimensioned [length], base[0] ignored */
+size_t result[]);    /* dimensioned [length] */
 
 size_t
 fromMixedBase(
-    int    length,
-    size_t number[],      /* dimensioned [length] */
-    size_t base[]);       /* dimensioned [length], base[0] ignored */
+int length,
+size_t number[], /* dimensioned [length] */
+size_t base[]);  /* dimensioned [length], base[0] ignored */
 
-int nc2dbl ( const nc_type datatype, const void *p, double *result);
+int nc2dbl(const nc_type datatype, const void *p, double *result);
 
-int dbl2nc ( const double d, const nc_type datatype, void *p);
+int dbl2nc(const double d, const nc_type datatype, void *p);
 
-double hash( const nc_type type, const int rank, const size_t *index );
+double hash(const nc_type type, const int rank, const size_t *index);
 
 double hash4(
-    const int cdf_format,
-    const nc_type type,
-    const int rank,
-    const size_t *index,
-    const nct_itype itype);
+const int cdf_format,
+const nc_type type,
+const int rank,
+const size_t *index,
+const nct_itype itype);
 
 void init_gvars(void);
 
@@ -556,11 +554,11 @@ void put_vars(int ncid);
 
 void write_file(char *filename);
 
-void check_dims(int  ncid);
+void check_dims(int ncid);
 
-void check_vars(int  ncid);
+void check_vars(int ncid);
 
-void check_atts(int  ncid);
+void check_atts(int ncid);
 
 void check_file(char *filename);
 
@@ -570,7 +568,7 @@ int file__create(const char *filename, int cmode, size_t initialsz, size_t *bufr
 
 int file_open(const char *filename, int omode, int *ncid);
 
-char* nc_err_code_name(int err);
+char *nc_err_code_name(int err);
 
 #ifdef __cplusplus
 }

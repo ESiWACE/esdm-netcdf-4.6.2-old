@@ -46,15 +46,13 @@ is still in initial define mode.
 */
 
 
-int
-nc_put_att_string(int ncid, int varid, const char *name,
-		  size_t len, const char** value)
-{
-    NC* ncp;
-    int stat = NC_check_id(ncid, &ncp);
-    if(stat != NC_NOERR) return stat;
-    return ncp->dispatch->put_att(ncid, varid, name, NC_STRING,
-				  len, (void*)value, NC_STRING);
+int nc_put_att_string(int ncid, int varid, const char *name,
+size_t len, const char **value) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->put_att(ncid, varid, name, NC_STRING,
+  len, (void *)value, NC_STRING);
 }
 
 /*!
@@ -137,13 +135,12 @@ netCDF dataset named foo.nc:
 
 
 int nc_put_att_text(int ncid, int varid, const char *name,
-		size_t len, const char *value)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   return ncp->dispatch->put_att(ncid, varid, name, NC_CHAR, len,
-				 (void *)value, NC_CHAR);
+size_t len, const char *value) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->put_att(ncid, varid, name, NC_CHAR, len,
+  (void *)value, NC_CHAR);
 }
 
 /*! \} */
@@ -227,147 +224,121 @@ netCDF dataset named foo.nc:
 \endcode
 */
 /*! \{*/
-int
-nc_put_att(int ncid, int varid, const char *name, nc_type xtype,
-	   size_t len, const void *value)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   return ncp->dispatch->put_att(ncid, varid, name, xtype, len,
-				 value, xtype);
+int nc_put_att(int ncid, int varid, const char *name, nc_type xtype,
+size_t len, const void *value) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->put_att(ncid, varid, name, xtype, len,
+  value, xtype);
 }
 
-int
-nc_put_att_schar(int ncid, int varid, const char *name,
-		 nc_type xtype, size_t len, const signed char *value)
-{
-   NC *ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   return ncp->dispatch->put_att(ncid, varid, name, xtype, len,
-				 (void *)value, NC_BYTE);
+int nc_put_att_schar(int ncid, int varid, const char *name,
+nc_type xtype, size_t len, const signed char *value) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->put_att(ncid, varid, name, xtype, len,
+  (void *)value, NC_BYTE);
 }
 
-int
-nc_put_att_uchar(int ncid, int varid, const char *name,
-		 nc_type xtype, size_t len, const unsigned char *value)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   return ncp->dispatch->put_att(ncid, varid, name, xtype, len,
-				 (void *)value, NC_UBYTE);
+int nc_put_att_uchar(int ncid, int varid, const char *name,
+nc_type xtype, size_t len, const unsigned char *value) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->put_att(ncid, varid, name, xtype, len,
+  (void *)value, NC_UBYTE);
 }
 
-int
-nc_put_att_short(int ncid, int varid, const char *name,
-		 nc_type xtype, size_t len, const short *value)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   return ncp->dispatch->put_att(ncid, varid, name, xtype, len,
-				 (void *)value, NC_SHORT);
+int nc_put_att_short(int ncid, int varid, const char *name,
+nc_type xtype, size_t len, const short *value) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->put_att(ncid, varid, name, xtype, len,
+  (void *)value, NC_SHORT);
 }
 
-int
-nc_put_att_int(int ncid, int varid, const char *name,
-	       nc_type xtype, size_t len, const int *value)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   return ncp->dispatch->put_att(ncid, varid, name, xtype, len,
-				 (void *)value, NC_INT);
+int nc_put_att_int(int ncid, int varid, const char *name,
+nc_type xtype, size_t len, const int *value) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->put_att(ncid, varid, name, xtype, len,
+  (void *)value, NC_INT);
 }
 
-int
-nc_put_att_long(int ncid, int varid, const char *name,
-		nc_type xtype, size_t len, const long *value)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   return ncp->dispatch->put_att(ncid, varid, name, xtype, len,
-				 (void *)value, longtype);
+int nc_put_att_long(int ncid, int varid, const char *name,
+nc_type xtype, size_t len, const long *value) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->put_att(ncid, varid, name, xtype, len,
+  (void *)value, longtype);
 }
 
-int
-nc_put_att_float(int ncid, int varid, const char *name,
-		 nc_type xtype, size_t len, const float *value)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   return ncp->dispatch->put_att(ncid, varid, name, xtype, len,
-				 (void *)value, NC_FLOAT);
+int nc_put_att_float(int ncid, int varid, const char *name,
+nc_type xtype, size_t len, const float *value) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->put_att(ncid, varid, name, xtype, len,
+  (void *)value, NC_FLOAT);
 }
 
-int
-nc_put_att_double(int ncid, int varid, const char *name,
-		  nc_type xtype, size_t len, const double *value)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   return ncp->dispatch->put_att(ncid, varid, name, xtype, len,
-				 (void *)value, NC_DOUBLE);
+int nc_put_att_double(int ncid, int varid, const char *name,
+nc_type xtype, size_t len, const double *value) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->put_att(ncid, varid, name, xtype, len,
+  (void *)value, NC_DOUBLE);
 }
 
-int
-nc_put_att_ubyte(int ncid, int varid, const char *name,
-		 nc_type xtype, size_t len, const unsigned char *value)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   return ncp->dispatch->put_att(ncid, varid, name, xtype, len,
-				 (void *)value, NC_UBYTE);
+int nc_put_att_ubyte(int ncid, int varid, const char *name,
+nc_type xtype, size_t len, const unsigned char *value) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->put_att(ncid, varid, name, xtype, len,
+  (void *)value, NC_UBYTE);
 }
 
-int
-nc_put_att_ushort(int ncid, int varid, const char *name,
-		  nc_type xtype, size_t len, const unsigned short *value)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   return ncp->dispatch->put_att(ncid, varid, name, xtype, len,
-				 (void *)value, NC_USHORT);
+int nc_put_att_ushort(int ncid, int varid, const char *name,
+nc_type xtype, size_t len, const unsigned short *value) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->put_att(ncid, varid, name, xtype, len,
+  (void *)value, NC_USHORT);
 }
 
-int
-nc_put_att_uint(int ncid, int varid, const char *name,
-		nc_type xtype, size_t len, const unsigned int *value)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   return ncp->dispatch->put_att(ncid, varid, name, xtype, len,
-				 (void *)value, NC_UINT);
+int nc_put_att_uint(int ncid, int varid, const char *name,
+nc_type xtype, size_t len, const unsigned int *value) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->put_att(ncid, varid, name, xtype, len,
+  (void *)value, NC_UINT);
 }
 
-int
-nc_put_att_longlong(int ncid, int varid, const char *name,
-		    nc_type xtype, size_t len,
-		    const long long *value)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   return ncp->dispatch->put_att(ncid, varid, name, xtype, len,
-				 (void *)value, NC_INT64);
+int nc_put_att_longlong(int ncid, int varid, const char *name,
+nc_type xtype, size_t len,
+const long long *value) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->put_att(ncid, varid, name, xtype, len,
+  (void *)value, NC_INT64);
 }
 
-int
-nc_put_att_ulonglong(int ncid, int varid, const char *name,
-		     nc_type xtype, size_t len,
-		     const unsigned long long *value)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   return ncp->dispatch->put_att(ncid, varid, name, xtype, len,
-				 (void *)value, NC_UINT64);
+int nc_put_att_ulonglong(int ncid, int varid, const char *name,
+nc_type xtype, size_t len,
+const unsigned long long *value) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->put_att(ncid, varid, name, xtype, len,
+  (void *)value, NC_UINT64);
 }

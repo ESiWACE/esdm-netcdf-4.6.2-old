@@ -37,11 +37,9 @@ the basetype is a complex object such as another vlen or compound.
 
 \returns ::NC_NOERR No error.
 */
-int
-nc_free_vlen(nc_vlen_t *vl)
-{
-   free(vl->p);
-   return NC_NOERR;
+int nc_free_vlen(nc_vlen_t *vl) {
+  free(vl->p);
+  return NC_NOERR;
 }
 
 /** 
@@ -67,18 +65,16 @@ the basetype is a complex object such as another vlen or compound.
 \param vlens pointer to the vlen object.
 
 \returns ::NC_NOERR No error.
-*/ 
-int
-nc_free_vlens(size_t len, nc_vlen_t vlens[])
-{
-   int ret;
-   size_t i;
+*/
+int nc_free_vlens(size_t len, nc_vlen_t vlens[]) {
+  int ret;
+  size_t i;
 
-   for(i = 0; i < len; i++) 
-      if ((ret = nc_free_vlen(&vlens[i])))
-	 return ret;
+  for (i = 0; i < len; i++)
+    if ((ret = nc_free_vlen(&vlens[i])))
+      return ret;
 
-   return NC_NOERR;
+  return NC_NOERR;
 }
 
 /** 
@@ -106,13 +102,11 @@ VLEN type will be set here.
 \returns ::NC_EPERM Attempt to write to a read-only file.
 \returns ::NC_ENOTINDEFINE Not in define mode. 
  */
-int
-nc_def_vlen(int ncid, const char *name, nc_type base_typeid, nc_type *xtypep)
-{
-    NC* ncp;
-    int stat = NC_check_id(ncid,&ncp);
-    if(stat != NC_NOERR) return stat;
-    return ncp->dispatch->def_vlen(ncid,name,base_typeid,xtypep);
+int nc_def_vlen(int ncid, const char *name, nc_type base_typeid, nc_type *xtypep) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->def_vlen(ncid, name, base_typeid, xtypep);
 }
 
 /** \ingroup user_types
@@ -134,16 +128,14 @@ ignored_if_null.
 \returns ::NC_ENOTNC4 Not an netCDF-4 file, or classic model enabled.
 \returns ::NC_EHDFERR An error was reported by the HDF5 layer.
  */
-int
-nc_inq_vlen(int ncid, nc_type xtype, char *name, size_t *datum_sizep, nc_type *base_nc_typep)
-{
-    int class = 0;
-    int stat = nc_inq_user_type(ncid,xtype,name,datum_sizep,base_nc_typep,NULL,&class);
-    if(stat != NC_NOERR) return stat;
-    if(class != NC_VLEN) stat = NC_EBADTYPE;
-    return stat;
+int nc_inq_vlen(int ncid, nc_type xtype, char *name, size_t *datum_sizep, nc_type *base_nc_typep) {
+  int class = 0;
+  int stat  = nc_inq_user_type(ncid, xtype, name, datum_sizep, base_nc_typep, NULL, &class);
+  if (stat != NC_NOERR) return stat;
+  if (class != NC_VLEN) stat = NC_EBADTYPE;
+  return stat;
 }
-/*! \} */  /* End of named group ...*/
+/*! \} */ /* End of named group ...*/
 
 /** \internal
 \ingroup user_types
@@ -164,13 +156,11 @@ Fortran APIs.
 \returns ::NC_EHDFERR An error was reported by the HDF5 layer.
 \returns ::NC_EPERM Attempt to write to a read-only file.
  */
-int
-nc_put_vlen_element(int ncid, int typeid1, void *vlen_element, size_t len, const void *data)
-{
-    NC* ncp;
-    int stat = NC_check_id(ncid,&ncp);
-    if(stat != NC_NOERR) return stat;
-    return ncp->dispatch->put_vlen_element(ncid,typeid1,vlen_element,len,data);
+int nc_put_vlen_element(int ncid, int typeid1, void *vlen_element, size_t len, const void *data) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->put_vlen_element(ncid, typeid1, vlen_element, len, data);
 }
 
 /** 
@@ -192,13 +182,11 @@ Fortran APIs.
 \returns ::NC_ENOTNC4 Not an netCDF-4 file, or classic model enabled.
 \returns ::NC_EHDFERR An error was reported by the HDF5 layer.
  */
-int
-nc_get_vlen_element(int ncid, int typeid1, const void *vlen_element, 
-		    size_t *len, void *data)
-{
-    NC *ncp;
-    int stat = NC_check_id(ncid,&ncp);
-    if(stat != NC_NOERR) return stat;
-    return ncp->dispatch->get_vlen_element(ncid, typeid1, vlen_element, 
-					   len, data);
+int nc_get_vlen_element(int ncid, int typeid1, const void *vlen_element,
+size_t *len, void *data) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->get_vlen_element(ncid, typeid1, vlen_element,
+  len, data);
 }

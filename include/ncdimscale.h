@@ -10,10 +10,9 @@
 
 #include <hdf5.h>
 
-typedef struct hdf5_objid 
-{
-   unsigned long fileno[2]; /* file number */
-   haddr_t objno[2]; /* object number */
-} HDF5_OBJID_T; 
+typedef struct hdf5_objid {
+  unsigned long fileno[2]; /* file number */
+  haddr_t objno[2];        /* object number */
+} HDF5_OBJID_T;
 
 #endif

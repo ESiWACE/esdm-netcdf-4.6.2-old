@@ -7,43 +7,42 @@
 #include <stdio.h>
 
 #ifndef NO_STDARG
-#include <stdarg.h>
+#  include <stdarg.h>
 #else
-#include <varargs.h>
+#  include <varargs.h>
 #endif
 
-#include <netcdf.h>
 #include "error.h"
-static int	error_count = 0;
+#include <netcdf.h>
+static int error_count = 0;
 
 /*
  * Use for logging error conditions.
  */
 #ifndef NO_STDARG
-void
-error(const char *fmt, ...)
+void error(const char *fmt, ...)
 #else
 /*VARARGS1*/
 void
 error(fmt, va_alist)
-     const char *fmt ;
-     va_dcl
+const char *fmt;
+va_dcl
 #endif
 {
-    va_list args ;
+  va_list args;
 
-    (void) fprintf(stderr,"*** ");
+  (void)fprintf(stderr, "*** ");
 
 #ifndef NO_STDARG
-    va_start(args, fmt) ;
+  va_start(args, fmt);
 #else
-    va_start(args) ;
+  va_start(args);
 #endif
-    (void) vfprintf(stderr,fmt,args) ;
-    va_end(args) ;
+  (void)vfprintf(stderr, fmt, args);
+  va_end(args);
 
-    (void) fprintf(stderr, "\n") ;
-    error_count++;
+  (void)fprintf(stderr, "\n");
+  error_count++;
 }
 
 
@@ -51,12 +50,10 @@ error(fmt, va_alist)
  * Turn off netCDF library handling of errors.  Caller must check all error
  * returns after calling this, until on_errs() is called.
  */
-void
-off_errs()
-{
-    extern int ncopts;		/* error options */
-    ncopts &= ~NC_FATAL;	/* make errors nonfatal */
-    ncopts &= ~NC_VERBOSE;	/* turn off error messages */
+void off_errs() {
+  extern int ncopts;     /* error options */
+  ncopts &= ~NC_FATAL;   /* make errors nonfatal */
+  ncopts &= ~NC_VERBOSE; /* turn off error messages */
 }
 
 
@@ -64,10 +61,8 @@ off_errs()
  * Let netCDF library handle subsequent errors.  Callers don't need to check
  * error returns after this.  (This is the initial default.)
  */
-void
-on_errs()
-{
-    extern int ncopts;		/* error options */
-    ncopts |= NC_FATAL;		/* make errors fatal */
-    ncopts |= NC_VERBOSE;	/* library prints error messages */
+void on_errs() {
+  extern int ncopts;    /* error options */
+  ncopts |= NC_FATAL;   /* make errors fatal */
+  ncopts |= NC_VERBOSE; /* library prints error messages */
 }

@@ -13,23 +13,23 @@
 #include "config.h"
 #include <stdlib.h>
 #ifdef HAVE_SYS_RESOURCE_H
-#include <sys/resource.h>
+#  include <sys/resource.h>
 #endif
 #ifdef HAVE_SYS_TYPES_H
-#include <sys/types.h>
+#  include <sys/types.h>
 #endif
 #ifdef HAVE_SYS_STAT_H
-#include <sys/stat.h>
+#  include <sys/stat.h>
 #endif
 
 #ifdef HAVE_UNISTD_H
-#include <unistd.h> /* lseek() */
+#  include <unistd.h> /* lseek() */
 #endif
 
-#include "ncdispatch.h"
-#include "netcdf_mem.h"
-#include "ncwinpath.h"
 #include "fbits.h"
+#include "ncdispatch.h"
+#include "ncwinpath.h"
+#include "netcdf_mem.h"
 
 /* If Defined, then use only stdio for all magic number io;
    otherwise use stdio or mpio as required.
@@ -41,23 +41,23 @@ Sort info for open/read/close of
 file when searching for magic numbers
 */
 struct MagicFile {
-    const char* path;
-    long long filelen;
-    int use_parallel;
-    int inmemory;
-    int diskless;
-    void* parameters; /* !NULL if inmemory && !diskless */
-    FILE* fp;
+  const char *path;
+  long long filelen;
+  int use_parallel;
+  int inmemory;
+  int diskless;
+  void *parameters; /* !NULL if inmemory && !diskless */
+  FILE *fp;
 #ifdef USE_PARALLEL
-    MPI_File fh;
+  MPI_File fh;
 #endif
 };
 
-static int openmagic(struct MagicFile* file);
-static int readmagic(struct MagicFile* file, long pos, char* magic);
-static int closemagic(struct MagicFile* file);
+static int openmagic(struct MagicFile *file);
+static int readmagic(struct MagicFile *file, long pos, char *magic);
+static int closemagic(struct MagicFile *file);
 #ifdef DEBUG
-static void printmagic(const char* tag, char* magic,struct MagicFile*);
+static void printmagic(const char *tag, char *magic, struct MagicFile *);
 #endif
 
 extern int NC_initialized; /**< True when dispatch table is initialized. */
@@ -68,9 +68,9 @@ static char HDF5_SIGNATURE[MAGIC_NUMBER_LEN] = "\211HDF\r\n\032\n";
 
 #ifdef USE_NETCDF4
 /* User-defined formats. */
-NC_Dispatch *UDF0_dispatch_table = NULL;
+NC_Dispatch *UDF0_dispatch_table                    = NULL;
 char UDF0_magic_number[NC_MAX_MAGIC_NUMBER_LEN + 1] = "";
-NC_Dispatch *UDF1_dispatch_table = NULL;
+NC_Dispatch *UDF1_dispatch_table                    = NULL;
 char UDF1_magic_number[NC_MAX_MAGIC_NUMBER_LEN + 1] = "";
 #endif /* USE_NETCDF4 */
 
@@ -124,34 +124,31 @@ of the interfaces for these operations.
  * @author Ed Hartnett
  * @ingroup datasets
  */
-int
-nc_def_user_format(int mode_flag, NC_Dispatch *dispatch_table, char *magic_number)
-{
-   /* Check inputs. */
-   if (mode_flag != NC_UDF0 && mode_flag != NC_UDF1)
-      return NC_EINVAL;
-   if (!dispatch_table)
-      return NC_EINVAL;
-   if (magic_number && strlen(magic_number) > NC_MAX_MAGIC_NUMBER_LEN)
-      return NC_EINVAL;
+int nc_def_user_format(int mode_flag, NC_Dispatch *dispatch_table, char *magic_number) {
+  /* Check inputs. */
+  if (mode_flag != NC_UDF0 && mode_flag != NC_UDF1)
+    return NC_EINVAL;
+  if (!dispatch_table)
+    return NC_EINVAL;
+  if (magic_number && strlen(magic_number) > NC_MAX_MAGIC_NUMBER_LEN)
+    return NC_EINVAL;
 
-   /* Retain a pointer to the dispatch_table and a copy of the magic
+  /* Retain a pointer to the dispatch_table and a copy of the magic
     * number, if one was provided. */
-   switch(mode_flag)
-   {
-   case NC_UDF0:
+  switch (mode_flag) {
+    case NC_UDF0:
       UDF0_dispatch_table = dispatch_table;
       if (magic_number)
-         strncpy(UDF0_magic_number, magic_number, NC_MAX_MAGIC_NUMBER_LEN);
+        strncpy(UDF0_magic_number, magic_number, NC_MAX_MAGIC_NUMBER_LEN);
       break;
-   case NC_UDF1:
+    case NC_UDF1:
       UDF1_dispatch_table = dispatch_table;
       if (magic_number)
-         strncpy(UDF1_magic_number, magic_number, NC_MAX_MAGIC_NUMBER_LEN);
+        strncpy(UDF1_magic_number, magic_number, NC_MAX_MAGIC_NUMBER_LEN);
       break;
-   }
+  }
 
-   return NC_NOERR;
+  return NC_NOERR;
 }
 
 /**
@@ -170,30 +167,27 @@ nc_def_user_format(int mode_flag, NC_Dispatch *dispatch_table, char *magic_numbe
  * @author Ed Hartnett
  * @ingroup datasets
  */
-int
-nc_inq_user_format(int mode_flag, NC_Dispatch **dispatch_table, char *magic_number)
-{
-   /* Check inputs. */
-   if (mode_flag != NC_UDF0 && mode_flag != NC_UDF1)
-      return NC_EINVAL;
+int nc_inq_user_format(int mode_flag, NC_Dispatch **dispatch_table, char *magic_number) {
+  /* Check inputs. */
+  if (mode_flag != NC_UDF0 && mode_flag != NC_UDF1)
+    return NC_EINVAL;
 
-   switch(mode_flag)
-   {
-   case NC_UDF0:
+  switch (mode_flag) {
+    case NC_UDF0:
       if (dispatch_table)
-         *dispatch_table = UDF0_dispatch_table;
+        *dispatch_table = UDF0_dispatch_table;
       if (magic_number)
-         strncpy(magic_number, UDF0_magic_number, NC_MAX_MAGIC_NUMBER_LEN);
+        strncpy(magic_number, UDF0_magic_number, NC_MAX_MAGIC_NUMBER_LEN);
       break;
-   case NC_UDF1:
+    case NC_UDF1:
       if (dispatch_table)
-         *dispatch_table = UDF1_dispatch_table;
+        *dispatch_table = UDF1_dispatch_table;
       if (magic_number)
-         strncpy(magic_number, UDF1_magic_number, NC_MAX_MAGIC_NUMBER_LEN);
+        strncpy(magic_number, UDF1_magic_number, NC_MAX_MAGIC_NUMBER_LEN);
       break;
-   }
+  }
 
-   return NC_NOERR;
+  return NC_NOERR;
 }
 #endif /* USE_NETCDF4 */
 
@@ -212,64 +206,59 @@ nc_inq_user_format(int mode_flag, NC_Dispatch **dispatch_table, char *magic_numb
 
 */
 static int
-NC_interpret_magic_number(char* magic, int* model, int* version)
-{
-    int status = NC_NOERR;
-    /* Look at the magic number */
-    *model = 0;
-    *version = 0;
+NC_interpret_magic_number(char *magic, int *model, int *version) {
+  int status = NC_NOERR;
+  /* Look at the magic number */
+  *model   = 0;
+  *version = 0;
 #ifdef USE_NETCDF4
-    if (strlen(UDF0_magic_number) && !strncmp(UDF0_magic_number, magic,
-                                              strlen(UDF0_magic_number)))
-    {
-	*model = NC_FORMATX_UDF0;
-	*version = 6; /* redundant */
-	goto done;
-    }
-    if (strlen(UDF1_magic_number) && !strncmp(UDF1_magic_number, magic,
-                                              strlen(UDF1_magic_number)))
-    {
-	*model = NC_FORMATX_UDF1;
-	*version = 7; /* redundant */
-	goto done;
-    }
+  if (strlen(UDF0_magic_number) && !strncmp(UDF0_magic_number, magic, strlen(UDF0_magic_number))) {
+    *model   = NC_FORMATX_UDF0;
+    *version = 6; /* redundant */
+    goto done;
+  }
+  if (strlen(UDF1_magic_number) && !strncmp(UDF1_magic_number, magic, strlen(UDF1_magic_number))) {
+    *model   = NC_FORMATX_UDF1;
+    *version = 7; /* redundant */
+    goto done;
+  }
 #endif /* USE_NETCDF4 */
 
-    /* Use the complete magic number string for HDF5 */
-    if(memcmp(magic,HDF5_SIGNATURE,sizeof(HDF5_SIGNATURE))==0) {
-	*model = NC_FORMATX_NC4;
-	*version = 5; /* redundant */
-	goto done;
+  /* Use the complete magic number string for HDF5 */
+  if (memcmp(magic, HDF5_SIGNATURE, sizeof(HDF5_SIGNATURE)) == 0) {
+    *model   = NC_FORMATX_NC4;
+    *version = 5; /* redundant */
+    goto done;
+  }
+  if (magic[0] == '\016' && magic[1] == '\003'
+      && magic[2] == '\023' && magic[3] == '\001') {
+    *model   = NC_FORMATX_NC_HDF4;
+    *version = 4; /* redundant */
+    goto done;
+  }
+  if (magic[0] == 'C' && magic[1] == 'D' && magic[2] == 'F') {
+    if (magic[3] == '\001') {
+      *version = 1; /* netcdf classic version 1 */
+      *model   = NC_FORMATX_NC3;
+      goto done;
     }
-    if(magic[0] == '\016' && magic[1] == '\003'
-              && magic[2] == '\023' && magic[3] == '\001') {
-	*model = NC_FORMATX_NC_HDF4;
-	*version = 4; /* redundant */
-	goto done;
+    if (magic[3] == '\002') {
+      *version = 2; /* netcdf classic version 2 */
+      *model   = NC_FORMATX_NC3;
+      goto done;
     }
-    if(magic[0] == 'C' && magic[1] == 'D' && magic[2] == 'F') {
-        if(magic[3] == '\001') {
-            *version = 1; /* netcdf classic version 1 */
-	    *model = NC_FORMATX_NC3;
-	    goto done;
-	}
-        if(magic[3] == '\002') {
-            *version = 2; /* netcdf classic version 2 */
-	    *model = NC_FORMATX_NC3;
-	    goto done;
-        }
-        if(magic[3] == '\005') {
-          *version = 5; /* cdf5 file */
-	  *model = NC_FORMATX_NC3;
-	  goto done;
-	}
-     }
-     /* No match  */
-     status = NC_ENOTNC;
-     goto done;
+    if (magic[3] == '\005') {
+      *version = 5; /* cdf5 file */
+      *model   = NC_FORMATX_NC3;
+      goto done;
+    }
+  }
+  /* No match  */
+  status = NC_ENOTNC;
+  goto done;
 
 done:
-     return status;
+  return status;
 }
 
 /**
@@ -289,72 +278,91 @@ done:
 */
 static int
 NC_check_file_type(const char *path, int flags, int use_parallel,
-		   void *parameters, int* model, int* version)
-{
-    char magic[MAGIC_NUMBER_LEN];
-    int status = NC_NOERR;
-    int diskless = ((flags & NC_DISKLESS) == NC_DISKLESS);
-    int inmemory = ((flags & NC_INMEMORY) == NC_INMEMORY);
-    int mmap = ((flags & NC_MMAP) == NC_MMAP);
+void *parameters, int *model, int *version) {
+  char magic[MAGIC_NUMBER_LEN];
+  int status   = NC_NOERR;
+  int diskless = ((flags & NC_DISKLESS) == NC_DISKLESS);
+  int inmemory = ((flags & NC_INMEMORY) == NC_INMEMORY);
+  int mmap     = ((flags & NC_MMAP) == NC_MMAP);
 
-    struct MagicFile file;
+  struct MagicFile file;
 
-   *model = 0;
-   *version = 0;
+  *model   = 0;
+  *version = 0;
 
-    /* NC_INMEMORY and NC_DISKLESS and NC_MMAP are all mutually exclusive */
-    if(diskless && inmemory) {status = NC_EDISKLESS; goto done;}
-    if(diskless && mmap) {status = NC_EDISKLESS; goto done;}
-    if(inmemory && mmap) {status = NC_EINMEMORY; goto done;}
+  /* NC_INMEMORY and NC_DISKLESS and NC_MMAP are all mutually exclusive */
+  if (diskless && inmemory) {
+    status = NC_EDISKLESS;
+    goto done;
+  }
+  if (diskless && mmap) {
+    status = NC_EDISKLESS;
+    goto done;
+  }
+  if (inmemory && mmap) {
+    status = NC_EINMEMORY;
+    goto done;
+  }
 
-    /* mmap is not allowed for netcdf-4 */
-    if(mmap && (flags & NC_NETCDF4)) {status = NC_EINVAL; goto done;}
+  /* mmap is not allowed for netcdf-4 */
+  if (mmap && (flags & NC_NETCDF4)) {
+    status = NC_EINVAL;
+    goto done;
+  }
 
-    memset((void*)&file,0,sizeof(file));
-    file.path = path; /* do not free */
-    file.parameters = parameters;
-    file.inmemory = inmemory;
-    file.diskless = diskless;
-    file.use_parallel = use_parallel;
+  memset((void *)&file, 0, sizeof(file));
+  file.path         = path; /* do not free */
+  file.parameters   = parameters;
+  file.inmemory     = inmemory;
+  file.diskless     = diskless;
+  file.use_parallel = use_parallel;
 
-    status = openmagic(&file);
-    if(status != NC_NOERR) {goto done;}
-    /* Verify we have a large enough file */
-    if(file.filelen < MAGIC_NUMBER_LEN)
-	{status = NC_ENOTNC; goto done;}
-    if((status = readmagic(&file,0L,magic)) != NC_NOERR) {
-	status = NC_ENOTNC;
-	*model = 0;
-	*version = 0;
-	goto done;
-    }
-    /* Look at the magic number */
-    if(NC_interpret_magic_number(magic,model,version) == NC_NOERR
-       && *model != 0) {
-        if (*model == NC_FORMATX_NC3 && use_parallel)
-            /* this is called from nc_open_par() and file is classic */
-            *model = NC_FORMATX_PNETCDF;
-        goto done; /* found something */
-    }
+  status = openmagic(&file);
+  if (status != NC_NOERR) {
+    goto done;
+  }
+  /* Verify we have a large enough file */
+  if (file.filelen < MAGIC_NUMBER_LEN) {
+    status = NC_ENOTNC;
+    goto done;
+  }
+  if ((status = readmagic(&file, 0L, magic)) != NC_NOERR) {
+    status   = NC_ENOTNC;
+    *model   = 0;
+    *version = 0;
+    goto done;
+  }
+  /* Look at the magic number */
+  if (NC_interpret_magic_number(magic, model, version) == NC_NOERR
+      && *model != 0) {
+    if (*model == NC_FORMATX_NC3 && use_parallel)
+      /* this is called from nc_open_par() and file is classic */
+      *model = NC_FORMATX_PNETCDF;
+    goto done; /* found something */
+  }
 
-    /* Remaining case is to search forward at starting at 512
+  /* Remaining case is to search forward at starting at 512
        and doubling to see if we have HDF5 magic number */
-    {
-	long pos = 512L;
-        for(;;) {
-	    if((pos+MAGIC_NUMBER_LEN) > file.filelen)
-		{status = NC_ENOTNC; goto done;}
-            if((status = readmagic(&file,pos,magic)) != NC_NOERR)
-	        {status = NC_ENOTNC; goto done; }
-            NC_interpret_magic_number(magic,model,version);
-            if(*model == NC_FORMATX_NC4) break;
-	    /* double and try again */
-	    pos = 2*pos;
-        }
+  {
+    long pos = 512L;
+    for (;;) {
+      if ((pos + MAGIC_NUMBER_LEN) > file.filelen) {
+        status = NC_ENOTNC;
+        goto done;
+      }
+      if ((status = readmagic(&file, pos, magic)) != NC_NOERR) {
+        status = NC_ENOTNC;
+        goto done;
+      }
+      NC_interpret_magic_number(magic, model, version);
+      if (*model == NC_FORMATX_NC4) break;
+      /* double and try again */
+      pos = 2 * pos;
     }
+  }
 done:
-    closemagic(&file);
-    return status;
+  closemagic(&file);
+  return status;
 }
 
 /**  \ingroup datasets
@@ -550,10 +558,8 @@ in a file named diskless.nc when nc_close() is called.
 A variant of nc_create(), nc__create() (note the double underscore) allows
 users to specify two tuning parameters for the file that it is
 creating.  */
-int
-nc_create(const char *path, int cmode, int *ncidp)
-{
-   return nc__create(path,cmode,NC_SIZEHINT_DEFAULT,NULL,ncidp);
+int nc_create(const char *path, int cmode, int *ncidp) {
+  return nc__create(path, cmode, NC_SIZEHINT_DEFAULT, NULL, ncidp);
 }
 
 /**
@@ -622,12 +628,10 @@ nc_create(const char *path, int cmode, int *ncidp)
  * @ingroup datasets
  * @author Glenn Davis
 */
-int
-nc__create(const char *path, int cmode, size_t initialsz,
-	   size_t *chunksizehintp, int *ncidp)
-{
-   return NC_create(path, cmode, initialsz, 0,
-		    chunksizehintp, 0, NULL, ncidp);
+int nc__create(const char *path, int cmode, size_t initialsz,
+size_t *chunksizehintp, int *ncidp) {
+  return NC_create(path, cmode, initialsz, 0,
+  chunksizehintp, 0, NULL, ncidp);
 }
 
 /** \ingroup datasets
@@ -668,12 +672,10 @@ named foo.nc. The initial size is set to 4096.
 @endcode
 */
 
-int
-nc_create_mem(const char* path, int mode, size_t initialsize, int* ncidp)
-{
-    if(mode & NC_MMAP) return NC_EINVAL;
-    mode |= NC_INMEMORY; /* Specifically, do not set NC_DISKLESS */
-    return NC_create(path, mode, initialsize, 0, NULL, 0, NULL, ncidp);
+int nc_create_mem(const char *path, int mode, size_t initialsize, int *ncidp) {
+  if (mode & NC_MMAP) return NC_EINVAL;
+  mode |= NC_INMEMORY; /* Specifically, do not set NC_DISKLESS */
+  return NC_create(path, mode, initialsize, 0, NULL, 0, NULL, ncidp);
 }
 
 /**
@@ -695,12 +697,10 @@ nc_create_mem(const char* path, int mode, size_t initialsize, int* ncidp)
  * @return ::NC_NOERR No error.
  * @author Glenn Davis
  */
-int
-nc__create_mp(const char *path, int cmode, size_t initialsz,
-	      int basepe, size_t *chunksizehintp, int *ncidp)
-{
-   return NC_create(path, cmode, initialsz, basepe,
-		    chunksizehintp, 0, NULL, ncidp);
+int nc__create_mp(const char *path, int cmode, size_t initialsz,
+int basepe, size_t *chunksizehintp, int *ncidp) {
+  return NC_create(path, cmode, initialsz, basepe,
+  chunksizehintp, 0, NULL, ncidp);
 }
 
 /**
@@ -816,10 +816,8 @@ nc__create_mp(const char *path, int cmode, size_t initialsz,
  * @ingroup datasets
  * @author Glenn Davis, Ed Hartnett, Dennis Heimbigner
 */
-int
-nc_open(const char *path, int omode, int *ncidp)
-{
-   return NC_open(path, omode, 0, NULL, 0, NULL, ncidp);
+int nc_open(const char *path, int omode, int *ncidp) {
+  return NC_open(path, omode, 0, NULL, 0, NULL, ncidp);
 }
 
 /** \ingroup datasets
@@ -873,14 +871,12 @@ is not a persistent property of the netcdf dataset.
 files only.)
 
 */
-int
-nc__open(const char *path, int omode,
-	 size_t *chunksizehintp, int *ncidp)
-{
-   /* this API is for non-parallel access.
+int nc__open(const char *path, int omode,
+size_t *chunksizehintp, int *ncidp) {
+  /* this API is for non-parallel access.
     * Note nc_open_par() also calls NC_open().
     */
-   return NC_open(path, omode, 0, chunksizehintp, 0, NULL, ncidp);
+  return NC_open(path, omode, 0, chunksizehintp, 0, NULL, ncidp);
 }
 
 /** \ingroup datasets
@@ -928,21 +924,19 @@ status = nc_open_mem("foo.nc", 0, size, memory, &ncid);
 if (status != NC_NOERR) handle_error(status);
 @endcode
 */
-int
-nc_open_mem(const char* path, int omode, size_t size, void* memory, int* ncidp)
-{
-    NC_memio meminfo;
+int nc_open_mem(const char *path, int omode, size_t size, void *memory, int *ncidp) {
+  NC_memio meminfo;
 
-    /* Sanity checks */
-    if(memory == NULL || size < MAGIC_NUMBER_LEN || path == NULL)
- 	return NC_EINVAL;
-    if(omode & (NC_WRITE|NC_MMAP))
-	return NC_EINVAL;
-    omode |= (NC_INMEMORY); /* Note: NC_INMEMORY and NC_DISKLESS are mutually exclusive*/
-    meminfo.size = size;
-    meminfo.memory = memory;
-    meminfo.flags = NC_MEMIO_LOCKED;
-    return NC_open(path, omode, 0, NULL, 0, &meminfo, ncidp);
+  /* Sanity checks */
+  if (memory == NULL || size < MAGIC_NUMBER_LEN || path == NULL)
+    return NC_EINVAL;
+  if (omode & (NC_WRITE | NC_MMAP))
+    return NC_EINVAL;
+  omode |= (NC_INMEMORY); /* Note: NC_INMEMORY and NC_DISKLESS are mutually exclusive*/
+  meminfo.size   = size;
+  meminfo.memory = memory;
+  meminfo.flags  = NC_MEMIO_LOCKED;
+  return NC_open(path, omode, 0, NULL, 0, &meminfo, ncidp);
 }
 
 /** \ingroup datasets
@@ -993,19 +987,17 @@ status = nc_open_memio("foo.nc", 0, &params, &ncid);
 if (status != NC_NOERR) handle_error(status);
 @endcode
 */
-int
-nc_open_memio(const char* path, int omode, NC_memio* params, int* ncidp)
-{
-    /* Sanity checks */
-    if(path == NULL || params == NULL)
- 	return NC_EINVAL;
-    if(params->memory == NULL || params->size < MAGIC_NUMBER_LEN)
- 	return NC_EINVAL;
+int nc_open_memio(const char *path, int omode, NC_memio *params, int *ncidp) {
+  /* Sanity checks */
+  if (path == NULL || params == NULL)
+    return NC_EINVAL;
+  if (params->memory == NULL || params->size < MAGIC_NUMBER_LEN)
+    return NC_EINVAL;
 
-    if(omode & NC_MMAP)
-	return NC_EINVAL;
-    omode |= (NC_INMEMORY);
-    return NC_open(path, omode, 0, NULL, 0, params, ncidp);
+  if (omode & NC_MMAP)
+    return NC_EINVAL;
+  omode |= (NC_INMEMORY);
+  return NC_open(path, omode, 0, NULL, 0, params, ncidp);
 }
 
 /**
@@ -1026,11 +1018,9 @@ nc_open_memio(const char* path, int omode, NC_memio* params, int* ncidp)
  * @return ::NC_NOERR
  * @author Glenn Davis
  */
-int
-nc__open_mp(const char *path, int omode, int basepe,
-	    size_t *chunksizehintp, int *ncidp)
-{
-   return NC_open(path, omode, basepe, chunksizehintp, 0, NULL, ncidp);
+int nc__open_mp(const char *path, int omode, int basepe,
+size_t *chunksizehintp, int *ncidp) {
+  return NC_open(path, omode, basepe, chunksizehintp, 0, NULL, ncidp);
 }
 
 /** \ingroup datasets
@@ -1050,21 +1040,19 @@ be allocated. Ignored if NULL.
 
 \returns ::NC_EBADID Invalid ncid passed.
 */
-int
-nc_inq_path(int ncid, size_t *pathlen, char *path)
-{
-   NC* ncp;
-   int stat = NC_NOERR;
-   if ((stat = NC_check_id(ncid, &ncp)))
-      return stat;
-   if(ncp->path == NULL) {
-	if(pathlen) *pathlen = 0;
-	if(path) path[0] = '\0';
-   } else {
-       if (pathlen) *pathlen = strlen(ncp->path);
-       if (path) strcpy(path, ncp->path);
-   }
-   return stat;
+int nc_inq_path(int ncid, size_t *pathlen, char *path) {
+  NC *ncp;
+  int stat = NC_NOERR;
+  if ((stat = NC_check_id(ncid, &ncp)))
+    return stat;
+  if (ncp->path == NULL) {
+    if (pathlen) *pathlen = 0;
+    if (path) path[0] = '\0';
+  } else {
+    if (pathlen) *pathlen = strlen(ncp->path);
+    if (path) strcpy(path, ncp->path);
+  }
+  return stat;
 }
 
 /** \ingroup datasets
@@ -1115,13 +1103,11 @@ status = nc_redef(ncid);
 if (status != NC_NOERR) handle_error(status);
 \endcode
  */
-int
-nc_redef(int ncid)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   return ncp->dispatch->redef(ncid);
+int nc_redef(int ncid) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->redef(ncid);
 }
 
 /** \ingroup datasets
@@ -1179,14 +1165,12 @@ netCDF dataset named foo.nc and put it into data mode:
      if (status != NC_NOERR) handle_error(status);
 \endcode
  */
-int
-nc_enddef(int ncid)
-{
-   int status = NC_NOERR;
-   NC *ncp;
-   status = NC_check_id(ncid, &ncp);
-   if(status != NC_NOERR) return status;
-   return ncp->dispatch->_enddef(ncid,0,1,0,1);
+int nc_enddef(int ncid) {
+  int status = NC_NOERR;
+  NC *ncp;
+  status = NC_check_id(ncid, &ncp);
+  if (status != NC_NOERR) return status;
+  return ncp->dispatch->_enddef(ncid, 0, 1, 0, 1);
 }
 
 /** \ingroup datasets
@@ -1270,14 +1254,12 @@ variables).
 \returns ::NC_EBADID Invalid ncid passed.
 
  */
-int
-nc__enddef(int ncid, size_t h_minfree, size_t v_align, size_t v_minfree,
-	   size_t r_align)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   return ncp->dispatch->_enddef(ncid,h_minfree,v_align,v_minfree,r_align);
+int nc__enddef(int ncid, size_t h_minfree, size_t v_align, size_t v_minfree,
+size_t r_align) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->_enddef(ncid, h_minfree, v_align, v_minfree, r_align);
 }
 
 /** \ingroup datasets
@@ -1347,13 +1329,11 @@ nc_create().
 
 \returns ::NC_EBADID Invalid ncid passed.
  */
-int
-nc_sync(int ncid)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   return ncp->dispatch->sync(ncid);
+int nc_sync(int ncid) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->sync(ncid);
 }
 
 /** \ingroup datasets
@@ -1399,23 +1379,21 @@ dataset named foo.nc:
 \endcode
 
  */
-int
-nc_abort(int ncid)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
+int nc_abort(int ncid) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
 
 #ifdef USE_REFCOUNT
-   /* What to do if refcount > 0? */
-   /* currently, forcibly abort */
-   ncp->refcount = 0;
+  /* What to do if refcount > 0? */
+  /* currently, forcibly abort */
+  ncp->refcount = 0;
 #endif
 
-   stat = ncp->dispatch->abort(ncid);
-   del_from_NCList(ncp);
-   free_NC(ncp);
-   return stat;
+  stat = ncp->dispatch->abort(ncid);
+  del_from_NCList(ncp);
+  free_NC(ncp);
+  return stat;
 }
 
 /** \ingroup datasets
@@ -1458,27 +1436,24 @@ netCDF dataset named foo.nc and release its netCDF ID:
 \endcode
 
  */
-int
-nc_close(int ncid)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
+int nc_close(int ncid) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
 
 #ifdef USE_REFCOUNT
-   ncp->refcount--;
-   if(ncp->refcount <= 0)
+  ncp->refcount--;
+  if (ncp->refcount <= 0)
 #endif
-   {
-       stat = ncp->dispatch->close(ncid,NULL);
-       /* Remove from the nc list */
-       if (!stat)
-       {
-	   del_from_NCList(ncp);
-	   free_NC(ncp);
-       }
-   }
-   return stat;
+  {
+    stat = ncp->dispatch->close(ncid, NULL);
+    /* Remove from the nc list */
+    if (!stat) {
+      del_from_NCList(ncp);
+      free_NC(ncp);
+    }
+  }
+  return stat;
 }
 
 /** \ingroup datasets
@@ -1523,27 +1498,24 @@ and release its netCDF ID:
 \endcode
 
  */
-int
-nc_close_memio(int ncid, NC_memio* memio)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
+int nc_close_memio(int ncid, NC_memio *memio) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
 
 #ifdef USE_REFCOUNT
-   ncp->refcount--;
-   if(ncp->refcount <= 0)
+  ncp->refcount--;
+  if (ncp->refcount <= 0)
 #endif
-   {
-       stat = ncp->dispatch->close(ncid,memio);
-       /* Remove from the nc list */
-       if (!stat)
-       {
-	   del_from_NCList(ncp);
-	   free_NC(ncp);
-       }
-   }
-   return stat;
+  {
+    stat = ncp->dispatch->close(ncid, memio);
+    /* Remove from the nc list */
+    if (!stat) {
+      del_from_NCList(ncp);
+      free_NC(ncp);
+    }
+  }
+  return stat;
 }
 
 /** \ingroup datasets
@@ -1644,13 +1616,11 @@ writes of a netCDF dataset named foo.nc:
         ...    write data with no prefilling
 \endcode
  */
-int
-nc_set_fill(int ncid, int fillmode, int *old_modep)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   return ncp->dispatch->set_fill(ncid,fillmode,old_modep);
+int nc_set_fill(int ncid, int fillmode, int *old_modep) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->set_fill(ncid, fillmode, old_modep);
 }
 
 /**
@@ -1667,13 +1637,11 @@ nc_set_fill(int ncid, int fillmode, int *old_modep)
  * @return ::NC_EBADID Invalid ncid passed.
  * @author Glenn Davis
  */
-int
-nc_inq_base_pe(int ncid, int *pe)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   return ncp->dispatch->inq_base_pe(ncid,pe);
+int nc_inq_base_pe(int ncid, int *pe) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->inq_base_pe(ncid, pe);
 }
 
 /**
@@ -1690,13 +1658,11 @@ nc_inq_base_pe(int ncid, int *pe)
  * @return ::NC_EBADID Invalid ncid passed.
  * @author Glenn Davis
  */
-int
-nc_set_base_pe(int ncid, int pe)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   return ncp->dispatch->set_base_pe(ncid,pe);
+int nc_set_base_pe(int ncid, int pe) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->set_base_pe(ncid, pe);
 }
 
 /** \ingroup datasets
@@ -1717,13 +1683,11 @@ NC_FORMAT_NETCDF4_CLASSIC.
 \returns ::NC_EBADID Invalid ncid passed.
 
  */
-int
-nc_inq_format(int ncid, int *formatp)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   return ncp->dispatch->inq_format(ncid,formatp);
+int nc_inq_format(int ncid, int *formatp) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->inq_format(ncid, formatp);
 }
 
 /** \ingroup datasets
@@ -1752,13 +1716,11 @@ currently defined set.
 \returns ::NC_EBADID Invalid ncid passed.
 
  */
-int
-nc_inq_format_extended(int ncid, int *formatp, int *modep)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   return ncp->dispatch->inq_format_extended(ncid,formatp,modep);
+int nc_inq_format_extended(int ncid, int *formatp, int *modep) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->inq_format_extended(ncid, formatp, modep);
 }
 
 /**\ingroup datasets
@@ -1805,13 +1767,11 @@ named foo.nc:
      if (status != NC_NOERR) handle_error(status);
 \endcode
  */
-int
-nc_inq(int ncid, int *ndimsp, int *nvarsp, int *nattsp, int *unlimdimidp)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   return ncp->dispatch->inq(ncid,ndimsp,nvarsp,nattsp,unlimdimidp);
+int nc_inq(int ncid, int *ndimsp, int *nvarsp, int *nattsp, int *unlimdimidp) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->inq(ncid, ndimsp, nvarsp, nattsp, unlimdimidp);
 }
 
 /**
@@ -1824,13 +1784,11 @@ nc_inq(int ncid, int *ndimsp, int *nvarsp, int *nattsp, int *unlimdimidp)
  * @return ::NC_EBADID Bad ncid.
  * @author Glenn Davis, Ed Hartnett, Dennis Heimbigner
  */
-int
-nc_inq_nvars(int ncid, int *nvarsp)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   return ncp->dispatch->inq(ncid, NULL, nvarsp, NULL, NULL);
+int nc_inq_nvars(int ncid, int *nvarsp) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->inq(ncid, NULL, nvarsp, NULL, NULL);
 }
 
 /**\ingroup datasets
@@ -1898,28 +1856,26 @@ possible inquiry functions on an enum type.
            if (nc_close(ncid)) ERR;
 \endcode
  */
-int
-nc_inq_type(int ncid, nc_type xtype, char *name, size_t *size)
-{
-   NC* ncp;
-   int stat;
+int nc_inq_type(int ncid, nc_type xtype, char *name, size_t *size) {
+  NC *ncp;
+  int stat;
 
-   /* Do a quick triage on xtype */
-   if(xtype <= NC_NAT) return NC_EBADTYPE;
-   /* For compatibility, we need to allow inq about
+  /* Do a quick triage on xtype */
+  if (xtype <= NC_NAT) return NC_EBADTYPE;
+  /* For compatibility, we need to allow inq about
       atomic types, even if ncid is ill-defined */
-   if(xtype <= ATOMICTYPEMAX4) {
-      if(name) strncpy(name,NC_atomictypename(xtype),NC_MAX_NAME);
-      if(size) *size = NC_atomictypelen(xtype);
-      return NC_NOERR;
-   }
-   /* Apparently asking about a user defined type, so we need
+  if (xtype <= ATOMICTYPEMAX4) {
+    if (name) strncpy(name, NC_atomictypename(xtype), NC_MAX_NAME);
+    if (size) *size = NC_atomictypelen(xtype);
+    return NC_NOERR;
+  }
+  /* Apparently asking about a user defined type, so we need
       a valid ncid */
-   stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) /* bad ncid */
-      return NC_EBADTYPE;
-   /* have good ncid */
-   return ncp->dispatch->inq_type(ncid,xtype,name,size);
+  stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) /* bad ncid */
+    return NC_EBADTYPE;
+  /* have good ncid */
+  return ncp->dispatch->inq_type(ncid, xtype, name, size);
 }
 
 /**
@@ -1939,45 +1895,43 @@ flag before calling the dispatch layer nc_create functions.
 \author Ed Hartnett
 */
 static int
-check_create_mode(int mode)
-{
-    int mode_format;
-    int mmap = 0;
-    int inmemory = 0;
-    int diskless = 0;
+check_create_mode(int mode) {
+  int mode_format;
+  int mmap     = 0;
+  int inmemory = 0;
+  int diskless = 0;
 
-    /* This is a clever check to see if more than one format bit is
+  /* This is a clever check to see if more than one format bit is
      * set. */
-    mode_format = (mode & NC_NETCDF4) | (mode & NC_64BIT_OFFSET) |
-       (mode & NC_CDF5) | (mode & NC_ESDM);
-    if (mode_format && (mode_format & (mode_format - 1)))
-       return NC_EINVAL;
+  mode_format = (mode & NC_NETCDF4) | (mode & NC_64BIT_OFFSET) | (mode & NC_CDF5) | (mode & NC_ESDM);
+  if (mode_format && (mode_format & (mode_format - 1)))
+    return NC_EINVAL;
 
-    mmap = ((mode & NC_MMAP) == NC_MMAP);
-    inmemory = ((mode & NC_INMEMORY) == NC_INMEMORY);
-    diskless = ((mode & NC_DISKLESS) == NC_DISKLESS);
+  mmap     = ((mode & NC_MMAP) == NC_MMAP);
+  inmemory = ((mode & NC_INMEMORY) == NC_INMEMORY);
+  diskless = ((mode & NC_DISKLESS) == NC_DISKLESS);
 
-    /* NC_INMEMORY and NC_DISKLESS and NC_MMAP are all mutually exclusive */
-    if(diskless && inmemory) return NC_EDISKLESS;
-    if(diskless && mmap) return NC_EDISKLESS;
-    if(inmemory && mmap) return NC_EINMEMORY;
+  /* NC_INMEMORY and NC_DISKLESS and NC_MMAP are all mutually exclusive */
+  if (diskless && inmemory) return NC_EDISKLESS;
+  if (diskless && mmap) return NC_EDISKLESS;
+  if (inmemory && mmap) return NC_EINMEMORY;
 
-    /* mmap is not allowed for netcdf-4 */
-    if(mmap && (mode & NC_NETCDF4)) return NC_EINVAL;
+  /* mmap is not allowed for netcdf-4 */
+  if (mmap && (mode & NC_NETCDF4)) return NC_EINVAL;
 
-    /* Can't use both parallel and diskless|inmemory|mmap. */
-    if (mode & NC_MPIIO && mode & (NC_DISKLESS|NC_INMEMORY|NC_MMAP))
-	return NC_EINVAL;
+  /* Can't use both parallel and diskless|inmemory|mmap. */
+  if (mode & NC_MPIIO && mode & (NC_DISKLESS | NC_INMEMORY | NC_MMAP))
+    return NC_EINVAL;
 
 #ifndef USE_NETCDF4
-   /* If the user asks for a netCDF-4 file, and the library was built
+  /* If the user asks for a netCDF-4 file, and the library was built
     * without netCDF-4, then return an error.*/
-   if (mode & NC_NETCDF4)
-       return NC_ENOTBUILT;
+  if (mode & NC_NETCDF4)
+    return NC_ENOTBUILT;
 #endif /* USE_NETCDF4 undefined */
 
-   /* Well I guess there is some sanity in the world after all. */
-   return NC_NOERR;
+  /* Well I guess there is some sanity in the world after all. */
+  return NC_NOERR;
 }
 
 /**
@@ -2007,181 +1961,178 @@ check_create_mode(int mode)
  * @ingroup dispatch
  * @author Dennis Heimbigner, Ed Hartnett, Ward Fisher
 */
-int
-NC_create(const char *path0, int cmode, size_t initialsz,
-	  int basepe, size_t *chunksizehintp, int useparallel,
-	  void* parameters, int *ncidp)
-{
-   int stat = NC_NOERR;
-   NC* ncp = NULL;
-   NC_Dispatch* dispatcher = NULL;
-   /* Need three pieces of information for now */
-   int model = NC_FORMATX_UNDEFINED; /* one of the NC_FORMATX values */
-   int isurl = 0;   /* dap or cdmremote or neither */
-   char* path = NULL;
+int NC_create(const char *path0, int cmode, size_t initialsz,
+int basepe, size_t *chunksizehintp, int useparallel,
+void *parameters, int *ncidp) {
+  int stat                = NC_NOERR;
+  NC *ncp                 = NULL;
+  NC_Dispatch *dispatcher = NULL;
+  /* Need three pieces of information for now */
+  int model  = NC_FORMATX_UNDEFINED; /* one of the NC_FORMATX values */
+  int isurl  = 0;                    /* dap or cdmremote or neither */
+  char *path = NULL;
 
-   TRACE(nc_create);
-   if(path0 == NULL)
-	return NC_EINVAL;
+  TRACE(nc_create);
+  if (path0 == NULL)
+    return NC_EINVAL;
 
-   /* Check mode flag for sanity. */
-   if ((stat = check_create_mode(cmode)))
-      return stat;
+  /* Check mode flag for sanity. */
+  if ((stat = check_create_mode(cmode)))
+    return stat;
 
-   /* Initialize the library. The available dispatch tables
+  /* Initialize the library. The available dispatch tables
     * will depend on how netCDF was built
     * (with/without netCDF-4, DAP, CDMREMOTE). */
-   if(!NC_initialized)
-   {
-      if ((stat = nc_initialize()))
-	 return stat;
-   }
+  if (!NC_initialized) {
+    if ((stat = nc_initialize()))
+      return stat;
+  }
 
 #ifdef WINPATH
-   /* Need to do path conversion */
-   path = NCpathcvt(path0);
+  /* Need to do path conversion */
+  path = NCpathcvt(path0);
 #else
-   path = nulldup(path0);
+  path = nulldup(path0);
 #endif
 
 #ifdef USE_REFCOUNT
-   /* If this path is already open, then fail */
-   ncp = find_in_NCList_by_name(path);
-   if(ncp != NULL) {
-	nullfree(path);
-	return NC_ENFILE;
-   }
+  /* If this path is already open, then fail */
+  ncp = find_in_NCList_by_name(path);
+  if (ncp != NULL) {
+    nullfree(path);
+    return NC_ENFILE;
+  }
 #endif
 
-    {
-	char* newpath = NULL;
-        model = NC_urlmodel(path,cmode,&newpath);
-        isurl = (model != 0);
-        if(isurl) {
-	    nullfree(path);
-	    path = newpath;
-	}
+  {
+    char *newpath = NULL;
+    model         = NC_urlmodel(path, cmode, &newpath);
+    isurl         = (model != 0);
+    if (isurl) {
+      nullfree(path);
+      path = newpath;
     }
+  }
 
-    /* determine the model */
+  /* determine the model */
 #ifdef USE_NETCDF4
-    if (model == NC_FORMATX_UNDEFINED && (cmode & NC_NETCDF4))
-        model = NC_FORMATX_NC4;
+  if (model == NC_FORMATX_UNDEFINED && (cmode & NC_NETCDF4))
+    model = NC_FORMATX_NC4;
 #else
-    if (model == NC_FORMATX_UNDEFINED && (cmode & NC_NETCDF4))
-        return NC_ENOTBUILT;
+  if (model == NC_FORMATX_UNDEFINED && (cmode & NC_NETCDF4))
+    return NC_ENOTBUILT;
 #endif
 #ifdef USE_PNETCDF
-    if (model == NC_FORMATX_UNDEFINED && useparallel)
-        /* PnetCDF is used for parallel io on CDF-1, CDF-2, and CDF-5 */
-        model = NC_FORMATX_PNETCDF;
+  if (model == NC_FORMATX_UNDEFINED && useparallel)
+    /* PnetCDF is used for parallel io on CDF-1, CDF-2, and CDF-5 */
+    model = NC_FORMATX_PNETCDF;
 #else
-    if (model == NC_FORMATX_UNDEFINED && useparallel)
-        return NC_ENOTBUILT;
+  if (model == NC_FORMATX_UNDEFINED && useparallel)
+    return NC_ENOTBUILT;
 #endif
 #ifdef USE_ESDM
-    if (model == NC_FORMATX_UNDEFINED && (cmode & NC_ESDM))
-        model = NC_FORMATX_ESDM;
+  if (model == NC_FORMATX_UNDEFINED && (cmode & NC_ESDM))
+    model = NC_FORMATX_ESDM;
 #else
-    if (model == NC_FORMATX_UNDEFINED && (cmode & NC_ESDM))
-        return NC_ENOTBUILT;
+  if (model == NC_FORMATX_UNDEFINED && (cmode & NC_ESDM))
+    return NC_ENOTBUILT;
 #endif
 
-    /* Check default format (not formatx) */
-    if (!fIsSet(cmode, NC_64BIT_OFFSET)  && !fIsSet(cmode, NC_64BIT_DATA) &&
-        !fIsSet(cmode, NC_CLASSIC_MODEL) && !fIsSet(cmode, NC_NETCDF4)) {
-        /* if no file format flag is set in cmode, use default */
-        int format = nc_get_default_format();
-        switch (format) {
+  /* Check default format (not formatx) */
+  if (!fIsSet(cmode, NC_64BIT_OFFSET) && !fIsSet(cmode, NC_64BIT_DATA) && !fIsSet(cmode, NC_CLASSIC_MODEL) && !fIsSet(cmode, NC_NETCDF4)) {
+    /* if no file format flag is set in cmode, use default */
+    int format = nc_get_default_format();
+    switch (format) {
 #ifdef USE_ESDM:
-            case NC_FORMATX_ESDM:
-              cmode |= NC_ESDM;
-              if (model == NC_FORMATX_UNDEFINED) model = NC_FORMATX_ESDM;
-              break;
+      case NC_FORMATX_ESDM:
+        cmode |= NC_ESDM;
+        if (model == NC_FORMATX_UNDEFINED) model = NC_FORMATX_ESDM;
+        break;
 #endif
 #ifdef USE_NETCDF4
-            case NC_FORMAT_NETCDF4:
-                 cmode |= NC_NETCDF4;
-                 if (model == NC_FORMATX_UNDEFINED) model = NC_FORMATX_NC4;
-                 break;
-            case NC_FORMAT_NETCDF4_CLASSIC:
-                 cmode |= NC_NETCDF4 | NC_CLASSIC_MODEL;
-                 if (model == NC_FORMATX_UNDEFINED) model = NC_FORMATX_NC4;
-                 break;
+      case NC_FORMAT_NETCDF4:
+        cmode |= NC_NETCDF4;
+        if (model == NC_FORMATX_UNDEFINED) model = NC_FORMATX_NC4;
+        break;
+      case NC_FORMAT_NETCDF4_CLASSIC:
+        cmode |= NC_NETCDF4 | NC_CLASSIC_MODEL;
+        if (model == NC_FORMATX_UNDEFINED) model = NC_FORMATX_NC4;
+        break;
 #endif
-            case NC_FORMAT_CDF5:
-                 cmode |= NC_64BIT_DATA;
-                 break;
-            case NC_FORMAT_64BIT_OFFSET:
-                 cmode |= NC_64BIT_OFFSET;
-                 break;
-            case NC_FORMAT_CLASSIC: break;
-            default: break;
-        }
+      case NC_FORMAT_CDF5:
+        cmode |= NC_64BIT_DATA;
+        break;
+      case NC_FORMAT_64BIT_OFFSET:
+        cmode |= NC_64BIT_OFFSET;
+        break;
+      case NC_FORMAT_CLASSIC: break;
+      default: break;
     }
+  }
 
-    /* default model */
-    if (model == NC_FORMATX_UNDEFINED) {
-        if (useparallel)
-            model = NC_FORMATX_PNETCDF;
-        else
-            model = NC_FORMATX_NC3;
-    }
+  /* default model */
+  if (model == NC_FORMATX_UNDEFINED) {
+    if (useparallel)
+      model = NC_FORMATX_PNETCDF;
+    else
+      model = NC_FORMATX_NC3;
+  }
 
 #ifndef ENABLE_CDF5
-    if (model == NC_FORMATX_NC3 && (cmode & NC_64BIT_DATA))
-        return NC_ENOTBUILT;
+  if (model == NC_FORMATX_NC3 && (cmode & NC_64BIT_DATA))
+    return NC_ENOTBUILT;
 #endif
 
-    /* Figure out what dispatcher to use */
-    if (model == NC_FORMATX_ESDM)
-    #ifndef USE_ESDM
-          return NC_ENOTBUILT;
-    #else
-          dispatcher = esdm_dispatch_table;
-    #endif
-    else if (model == NC_FORMATX_NC4)
+  /* Figure out what dispatcher to use */
+  if (model == NC_FORMATX_ESDM)
+#ifndef USE_ESDM
+    return NC_ENOTBUILT;
+#else
+    dispatcher = esdm_dispatch_table;
+#endif
+  else if (model == NC_FORMATX_NC4)
 #ifdef USE_NETCDF4
-        dispatcher = NC4_dispatch_table;
+    dispatcher = NC4_dispatch_table;
 #else
-        return NC_ENOTBUILT;
+    return NC_ENOTBUILT;
 #endif
-    else if (model == NC_FORMATX_PNETCDF)
+  else if (model == NC_FORMATX_PNETCDF)
 #ifdef USE_PNETCDF
-        dispatcher = NCP_dispatch_table;
+    dispatcher = NCP_dispatch_table;
 #else
-        return NC_ENOTBUILT;
+    return NC_ENOTBUILT;
 #endif
-    else if (model == NC_FORMATX_NC3)
-        dispatcher = NC3_dispatch_table;
-    else {
-        nullfree(path);
-        return NC_ENOTNC;
-    }
+  else if (model == NC_FORMATX_NC3)
+    dispatcher = NC3_dispatch_table;
+  else {
+    nullfree(path);
+    return NC_ENOTNC;
+  }
 
-   /* Create the NC* instance and insert its dispatcher */
-   stat = new_NC(dispatcher,path,cmode,model,&ncp);
-   nullfree(path); path = NULL; /* no longer needed */
+  /* Create the NC* instance and insert its dispatcher */
+  stat = new_NC(dispatcher, path, cmode, model, &ncp);
+  nullfree(path);
+  path = NULL; /* no longer needed */
 
-   if(stat) return stat;
+  if (stat) return stat;
 
-   /* Add to list of known open files and define ext_ncid */
-   add_to_NCList(ncp);
+  /* Add to list of known open files and define ext_ncid */
+  add_to_NCList(ncp);
 
 #ifdef USE_REFCOUNT
-   /* bump the refcount */
-   ncp->refcount++;
+  /* bump the refcount */
+  ncp->refcount++;
 #endif
 
-   /* Assume create will fill in remaining ncp fields */
-   if ((stat = dispatcher->create(ncp->path, cmode, initialsz, basepe, chunksizehintp,
-				  parameters, dispatcher, ncp))) {
-	del_from_NCList(ncp); /* oh well */
-	free_NC(ncp);
-     } else {
-       if(ncidp)*ncidp = ncp->ext_ncid;
-     }
-   return stat;
+  /* Assume create will fill in remaining ncp fields */
+  if ((stat = dispatcher->create(ncp->path, cmode, initialsz, basepe, chunksizehintp,
+       parameters, dispatcher, ncp))) {
+    del_from_NCList(ncp); /* oh well */
+    free_NC(ncp);
+  } else {
+    if (ncidp) *ncidp = ncp->ext_ncid;
+  }
+  return stat;
 }
 
 /**
@@ -2207,195 +2158,194 @@ NC_create(const char *path0, int cmode, size_t initialsz,
  * @ingroup dispatch
  * @author Dennis Heimbigner
 */
-int
-NC_open(const char *path0, int omode, int basepe, size_t *chunksizehintp,
-        int useparallel, void* parameters, int *ncidp)
-{
-   int stat = NC_NOERR;
-   NC* ncp = NULL;
-   NC_Dispatch* dispatcher = NULL;
-   int inmemory = 0;
-   int diskless = 0;
-   int mmap = 0;
-   /* Need pieces of information for now to decide model*/
-   int model = 0;
-   int isurl = 0;
-   int version = 0;
-   char* path = NULL;
+int NC_open(const char *path0, int omode, int basepe, size_t *chunksizehintp,
+int useparallel, void *parameters, int *ncidp) {
+  int stat                = NC_NOERR;
+  NC *ncp                 = NULL;
+  NC_Dispatch *dispatcher = NULL;
+  int inmemory            = 0;
+  int diskless            = 0;
+  int mmap                = 0;
+  /* Need pieces of information for now to decide model*/
+  int model   = 0;
+  int isurl   = 0;
+  int version = 0;
+  char *path  = NULL;
 
-   TRACE(nc_open);
-   if(!NC_initialized) {
-      stat = nc_initialize();
-      if(stat) return stat;
-   }
+  TRACE(nc_open);
+  if (!NC_initialized) {
+    stat = nc_initialize();
+    if (stat) return stat;
+  }
 
-   /* Fix the inmemory related flags */
-   mmap = ((omode & NC_MMAP) == NC_MMAP);
-   diskless = ((omode & NC_DISKLESS) == NC_DISKLESS);
-   inmemory = ((omode & NC_INMEMORY) == NC_INMEMORY);
+  /* Fix the inmemory related flags */
+  mmap     = ((omode & NC_MMAP) == NC_MMAP);
+  diskless = ((omode & NC_DISKLESS) == NC_DISKLESS);
+  inmemory = ((omode & NC_INMEMORY) == NC_INMEMORY);
 
-   if(mmap && inmemory) /* cannot have both */
-	return NC_EINMEMORY;
-   if(mmap && diskless) /* cannot have both */
-	return NC_EDISKLESS;
+  if (mmap && inmemory) /* cannot have both */
+    return NC_EINMEMORY;
+  if (mmap && diskless) /* cannot have both */
+    return NC_EDISKLESS;
 
-   /* Attempt to do file path conversion: note that this will do
+    /* Attempt to do file path conversion: note that this will do
       nothing if path is a 'file:...' url, so it will need to be
       repeated in protocol code: libdap2 and libdap4
     */
 
 #ifdef WINPATH
-   path = NCpathcvt(path0);
+  path = NCpathcvt(path0);
 #else
-   path = nulldup(path0);
+  path = nulldup(path0);
 #endif
 
 #ifdef USE_REFCOUNT
-   /* If this path is already open, then bump the refcount and return it */
-   ncp = find_in_NCList_by_name(path);
-   if(ncp != NULL) {
-	nullfree(path);
-	ncp->refcount++;
-	if(ncidp) *ncidp = ncp->ext_ncid;
-	return NC_NOERR;
-   }
+  /* If this path is already open, then bump the refcount and return it */
+  ncp = find_in_NCList_by_name(path);
+  if (ncp != NULL) {
+    nullfree(path);
+    ncp->refcount++;
+    if (ncidp) *ncidp = ncp->ext_ncid;
+    return NC_NOERR;
+  }
 #endif
 
-   if(!inmemory) {
-	char* newpath = NULL;
-        model = NC_urlmodel(path,omode,&newpath);
-        isurl = (model != 0);
-	if(isurl) {
-	    nullfree(path);
-	    path = newpath;
-	} else
-	    nullfree(newpath);
-    }
+  if (!inmemory) {
+    char *newpath = NULL;
+    model         = NC_urlmodel(path, omode, &newpath);
+    isurl         = (model != 0);
+    if (isurl) {
+      nullfree(path);
+      path = newpath;
+    } else
+      nullfree(newpath);
+  }
 
 #ifdef USE_NETCDF4
-   /* Check for use of user-defined format 0. */
-   if (omode & NC_UDF0)
-   {
-      if (!UDF0_dispatch_table)
-         return NC_EINVAL;
-      model = NC_FORMATX_UDF0;
-      dispatcher = UDF0_dispatch_table;
-   }
+  /* Check for use of user-defined format 0. */
+  if (omode & NC_UDF0) {
+    if (!UDF0_dispatch_table)
+      return NC_EINVAL;
+    model      = NC_FORMATX_UDF0;
+    dispatcher = UDF0_dispatch_table;
+  }
 
-   /* Check for use of user-defined format 1. */
-   if (omode & NC_UDF1)
-   {
-      if (!UDF1_dispatch_table)
-         return NC_EINVAL;
-      model = NC_FORMATX_UDF1;
-      dispatcher = UDF1_dispatch_table;
-   }
+  /* Check for use of user-defined format 1. */
+  if (omode & NC_UDF1) {
+    if (!UDF1_dispatch_table)
+      return NC_EINVAL;
+    model      = NC_FORMATX_UDF1;
+    dispatcher = UDF1_dispatch_table;
+  }
 #endif /* USE_NETCDF4 */
 
-    if(model == 0) {
-	version = 0;
-	/* Try to find dataset type */
-	int flags = omode;
-	stat = NC_check_file_type(path,flags,useparallel,parameters,&model,&version);
-        if(stat == NC_NOERR) {
-	    if(model == 0) {
-		nullfree(path);
-		return NC_ENOTNC;
-	    }
-	} else {
-	    /* presumably not a netcdf file */
-	    nullfree(path);
-	    return stat;
-	}
+  if (model == 0) {
+    version = 0;
+    /* Try to find dataset type */
+    int flags = omode;
+    stat      = NC_check_file_type(path, flags, useparallel, parameters, &model, &version);
+    if (stat == NC_NOERR) {
+      if (model == 0) {
+        nullfree(path);
+        return NC_ENOTNC;
+      }
+    } else {
+      /* presumably not a netcdf file */
+      nullfree(path);
+      return stat;
     }
+  }
 
-   if(model == 0) {
-	fprintf(stderr,"Model == 0\n");
-	return NC_ENOTNC;
-   }
+  if (model == 0) {
+    fprintf(stderr, "Model == 0\n");
+    return NC_ENOTNC;
+  }
 
-   /* Suppress unsupported formats */
-   {
-	int hdf5built = 0;
-	int hdf4built = 0;
-	int cdf5built = 0;
+  /* Suppress unsupported formats */
+  {
+    int hdf5built = 0;
+    int hdf4built = 0;
+    int cdf5built = 0;
 #ifdef USE_NETCDF4
-	hdf5built = 1;
-  #ifdef USEHDF4
-        hdf4built = 1;
-  #endif
+    hdf5built = 1;
+#  ifdef USEHDF4
+    hdf4built = 1;
+#  endif
 #endif
 #ifdef ENABLE_CDF5
-       cdf5built = 1;
+    cdf5built = 1;
 #endif
-       if(!hdf5built && model == NC_FORMATX_NC4) {
-         free(path);
-         return NC_ENOTBUILT;
-       }
-       if(!hdf4built && model == NC_FORMATX_NC4 && version == 4) {
-         free(path);
-         return NC_ENOTBUILT;
-       }
-       if(!cdf5built && model == NC_FORMATX_NC3 && version == 5) {
-         free(path);
-         return NC_ENOTBUILT;
-       }
-   }
+    if (!hdf5built && model == NC_FORMATX_NC4) {
+      free(path);
+      return NC_ENOTBUILT;
+    }
+    if (!hdf4built && model == NC_FORMATX_NC4 && version == 4) {
+      free(path);
+      return NC_ENOTBUILT;
+    }
+    if (!cdf5built && model == NC_FORMATX_NC3 && version == 5) {
+      free(path);
+      return NC_ENOTBUILT;
+    }
+  }
 
-   /* Force flag consistency */
-   if(model == NC_FORMATX_NC4 || model == NC_FORMATX_NC_HDF4 || model == NC_FORMATX_DAP4 ||
-      model == NC_FORMATX_UDF0 || model == NC_FORMATX_UDF1)
-      omode |= NC_NETCDF4;
-   else if(model == NC_FORMATX_DAP2) {
-      omode &= ~NC_NETCDF4;
-      omode &= ~NC_64BIT_OFFSET;
-   } else if(model == NC_FORMATX_NC3) {
-      omode &= ~NC_NETCDF4; /* must be netcdf-3 (CDF-1, CDF-2, CDF-5) */
-      if(version == 2) omode |= NC_64BIT_OFFSET;
-      else if(version == 5) omode |= NC_64BIT_DATA;
-   } else if(model == NC_FORMATX_PNETCDF) {
-      omode &= ~NC_NETCDF4; /* must be netcdf-3 (CDF-1, CDF-2, CDF-5) */
-      if(version == 2) omode |= NC_64BIT_OFFSET;
-      else if(version == 5) omode |= NC_64BIT_DATA;
-   }else if(model == NC_FORMATX_ESDM){
-     omode &= ~NC_ESDM;
-   }
+  /* Force flag consistency */
+  if (model == NC_FORMATX_NC4 || model == NC_FORMATX_NC_HDF4 || model == NC_FORMATX_DAP4 || model == NC_FORMATX_UDF0 || model == NC_FORMATX_UDF1)
+    omode |= NC_NETCDF4;
+  else if (model == NC_FORMATX_DAP2) {
+    omode &= ~NC_NETCDF4;
+    omode &= ~NC_64BIT_OFFSET;
+  } else if (model == NC_FORMATX_NC3) {
+    omode &= ~NC_NETCDF4; /* must be netcdf-3 (CDF-1, CDF-2, CDF-5) */
+    if (version == 2)
+      omode |= NC_64BIT_OFFSET;
+    else if (version == 5)
+      omode |= NC_64BIT_DATA;
+  } else if (model == NC_FORMATX_PNETCDF) {
+    omode &= ~NC_NETCDF4; /* must be netcdf-3 (CDF-1, CDF-2, CDF-5) */
+    if (version == 2)
+      omode |= NC_64BIT_OFFSET;
+    else if (version == 5)
+      omode |= NC_64BIT_DATA;
+  } else if (model == NC_FORMATX_ESDM) {
+    omode &= ~NC_ESDM;
+  }
 
-   /* Figure out what dispatcher to use */
-   if (!dispatcher) {
-      switch (model) {
+  /* Figure out what dispatcher to use */
+  if (!dispatcher) {
+    switch (model) {
 #if defined(ENABLE_DAP)
       case NC_FORMATX_DAP2:
-         dispatcher = NCD2_dispatch_table;
-         break;
+        dispatcher = NCD2_dispatch_table;
+        break;
 #endif
 #if defined(ENABLE_DAP4)
       case NC_FORMATX_DAP4:
-         dispatcher = NCD4_dispatch_table;
-         break;
+        dispatcher = NCD4_dispatch_table;
+        break;
 #endif
-#if  defined(USE_PNETCDF)
+#if defined(USE_PNETCDF)
       case NC_FORMATX_PNETCDF:
-         dispatcher = NCP_dispatch_table;
-         break;
+        dispatcher = NCP_dispatch_table;
+        break;
 #endif
 #if defined(USE_NETCDF4)
       case NC_FORMATX_NC4:
-         dispatcher = NC4_dispatch_table;
-         break;
+        dispatcher = NC4_dispatch_table;
+        break;
 #endif
 #if defined(USE_HDF4)
       case NC_FORMATX_NC_HDF4:
-         dispatcher = HDF4_dispatch_table;
-         break;
+        dispatcher = HDF4_dispatch_table;
+        break;
 #endif
 #ifdef USE_NETCDF4
       case NC_FORMATX_UDF0:
-         dispatcher = UDF0_dispatch_table;
-         break;
+        dispatcher = UDF0_dispatch_table;
+        break;
       case NC_FORMATX_UDF1:
-         dispatcher = UDF1_dispatch_table;
-         break;
+        dispatcher = UDF1_dispatch_table;
+        break;
 #endif /* USE_NETCDF4 */
 #ifdef USE_ESDM
       case NC_FORMATX_ESDM:
@@ -2403,43 +2353,44 @@ NC_open(const char *path0, int omode, int basepe, size_t *chunksizehintp,
         break;
 #endif
       case NC_FORMATX_NC3:
-         dispatcher = NC3_dispatch_table;
-         break;
+        dispatcher = NC3_dispatch_table;
+        break;
       default:
-         nullfree(path);
-         return NC_ENOTNC;
-      }
-   }
+        nullfree(path);
+        return NC_ENOTNC;
+    }
+  }
 
-   /* If we can't figure out what dispatch table to use, give up. */
-   if (!dispatcher) {
-       nullfree(path);
-       return NC_ENOTNC;
-   }
+  /* If we can't figure out what dispatch table to use, give up. */
+  if (!dispatcher) {
+    nullfree(path);
+    return NC_ENOTNC;
+  }
 
-   /* Create the NC* instance and insert its dispatcher */
-   stat = new_NC(dispatcher,path,omode,model,&ncp);
-   nullfree(path); path = NULL; /* no longer need path */
-   if(stat) return stat;
+  /* Create the NC* instance and insert its dispatcher */
+  stat = new_NC(dispatcher, path, omode, model, &ncp);
+  nullfree(path);
+  path = NULL; /* no longer need path */
+  if (stat) return stat;
 
-   /* Add to list of known open files */
-   add_to_NCList(ncp);
+  /* Add to list of known open files */
+  add_to_NCList(ncp);
 
 #ifdef USE_REFCOUNT
-   /* bump the refcount */
-   ncp->refcount++;
+  /* bump the refcount */
+  ncp->refcount++;
 #endif
 
-   /* Assume open will fill in remaining ncp fields */
-   stat = dispatcher->open(ncp->path, omode, basepe, chunksizehintp,
-			   parameters, dispatcher, ncp);
-   if(stat == NC_NOERR) {
-     if(ncidp) *ncidp = ncp->ext_ncid;
-   } else {
-	del_from_NCList(ncp);
-	free_NC(ncp);
-   }
-   return stat;
+  /* Assume open will fill in remaining ncp fields */
+  stat = dispatcher->open(ncp->path, omode, basepe, chunksizehintp,
+  parameters, dispatcher, ncp);
+  if (stat == NC_NOERR) {
+    if (ncidp) *ncidp = ncp->ext_ncid;
+  } else {
+    del_from_NCList(ncp);
+    free_NC(ncp);
+  }
+  return stat;
 }
 
 /*Provide an internal function for generating pseudo file descriptors
@@ -2456,23 +2407,21 @@ static int pseudofd = 0;
  * @return pseudo file number
  * @author Dennis Heimbigner
 */
-int
-nc__pseudofd(void)
-{
-    if(pseudofd == 0)  {
-        int maxfd = 32767; /* default */
+int nc__pseudofd(void) {
+  if (pseudofd == 0) {
+    int maxfd = 32767; /* default */
 #ifdef HAVE_GETRLIMIT
-        struct rlimit rl;
-        if(getrlimit(RLIMIT_NOFILE,&rl) == 0) {
-	    if(rl.rlim_max != RLIM_INFINITY)
-	        maxfd = (int)rl.rlim_max;
-	    if(rl.rlim_cur != RLIM_INFINITY)
-	        maxfd = (int)rl.rlim_cur;
-	}
-	pseudofd = maxfd+1;
-#endif
+    struct rlimit rl;
+    if (getrlimit(RLIMIT_NOFILE, &rl) == 0) {
+      if (rl.rlim_max != RLIM_INFINITY)
+        maxfd = (int)rl.rlim_max;
+      if (rl.rlim_cur != RLIM_INFINITY)
+        maxfd = (int)rl.rlim_cur;
     }
-    return pseudofd++;
+    pseudofd = maxfd + 1;
+#endif
+  }
+  return pseudofd++;
 }
 
 /**
@@ -2481,123 +2430,141 @@ nc__pseudofd(void)
 Provide open, read and close for use when searching for magic numbers
 */
 static int
-openmagic(struct MagicFile* file)
-{
-    int status = NC_NOERR;
-    assert((file->inmemory) ? file->parameters != NULL : 1);
-    if(file->inmemory) {
-	/* Get its length */
-	NC_memio* meminfo = (NC_memio*)file->parameters;
-	file->filelen = (long long)meminfo->size;
-	goto done;
-    }
+openmagic(struct MagicFile *file) {
+  int status = NC_NOERR;
+  assert((file->inmemory) ? file->parameters != NULL : 1);
+  if (file->inmemory) {
+    /* Get its length */
+    NC_memio *meminfo = (NC_memio *)file->parameters;
+    file->filelen     = (long long)meminfo->size;
+    goto done;
+  }
 #ifdef USE_PARALLEL
-    if (file->use_parallel) {
-	int retval;
-	MPI_Offset size;
-        assert(file->parameters);
-	if((retval = MPI_File_open(((NC_MPI_INFO*)file->parameters)->comm,
-                                   (char*)file->path,MPI_MODE_RDONLY,
-                                   ((NC_MPI_INFO*)file->parameters)->info,
-                                   &file->fh)) != MPI_SUCCESS) {
-#ifdef MPI_ERR_NO_SUCH_FILE
-            int errorclass;
-            MPI_Error_class(retval, &errorclass);
-            if (errorclass == MPI_ERR_NO_SUCH_FILE)
-#ifdef NC_ENOENT
-                status = NC_ENOENT;
-#else
-                status = errno;
-#endif
-            else
-#endif
-            status = NC_EPARINIT;
-            goto done;
-        }
-	/* Get its length */
-	if((retval=MPI_File_get_size(file->fh, &size)) != MPI_SUCCESS)
-	    {status = NC_EPARINIT; goto done;}
-	file->filelen = (long long)size;
-	goto done;
+  if (file->use_parallel) {
+    int retval;
+    MPI_Offset size;
+    assert(file->parameters);
+    if ((retval = MPI_File_open(((NC_MPI_INFO *)file->parameters)->comm,
+         (char *)file->path, MPI_MODE_RDONLY,
+         ((NC_MPI_INFO *)file->parameters)->info,
+         &file->fh))
+        != MPI_SUCCESS) {
+#  ifdef MPI_ERR_NO_SUCH_FILE
+      int errorclass;
+      MPI_Error_class(retval, &errorclass);
+      if (errorclass == MPI_ERR_NO_SUCH_FILE)
+#    ifdef NC_ENOENT
+        status = NC_ENOENT;
+#    else
+        status = errno;
+#    endif
+      else
+#  endif
+        status = NC_EPARINIT;
+      goto done;
     }
+    /* Get its length */
+    if ((retval = MPI_File_get_size(file->fh, &size)) != MPI_SUCCESS) {
+      status = NC_EPARINIT;
+      goto done;
+    }
+    file->filelen = (long long)size;
+    goto done;
+  }
 #endif /* USE_PARALLEL */
-    {
-        if(file->path == NULL || strlen(file->path)==0)
-	    {status = NC_EINVAL; goto done;}
-#ifdef _MSC_VER
-        file->fp = fopen(file->path, "rb");
-#else
-        file->fp = fopen(file->path, "r");
-#endif
-	if(file->fp == NULL)
-	    {status = errno; goto done;}
-	/* Get its length */
-	{
-	int fd = fileno(file->fp);
-#ifdef _MSC_VER
-	__int64 len64 = _filelengthi64(fd);
-	if(len64 < 0)
-            {status = errno; goto done;}
-	file->filelen = (long long)len64;
-#else
-	off_t size;
-	size = lseek(fd, 0, SEEK_END);
-	if(size == -1)
-	    {status = errno; goto done;}
-	file->filelen = (long long)size;
-#endif
-	rewind(file->fp);
-	}
-	goto done;
+  {
+    if (file->path == NULL || strlen(file->path) == 0) {
+      status = NC_EINVAL;
+      goto done;
     }
+#ifdef _MSC_VER
+    file->fp = fopen(file->path, "rb");
+#else
+    file->fp = fopen(file->path, "r");
+#endif
+    if (file->fp == NULL) {
+      status = errno;
+      goto done;
+    }
+    /* Get its length */
+    {
+      int fd = fileno(file->fp);
+#ifdef _MSC_VER
+      __int64 len64 = _filelengthi64(fd);
+      if (len64 < 0) {
+        status = errno;
+        goto done;
+      }
+      file->filelen = (long long)len64;
+#else
+      off_t size;
+      size = lseek(fd, 0, SEEK_END);
+      if (size == -1) {
+        status = errno;
+        goto done;
+      }
+      file->filelen = (long long)size;
+#endif
+      rewind(file->fp);
+    }
+    goto done;
+  }
 
 done:
-    return status;
+  return status;
 }
 
 static int
-readmagic(struct MagicFile* file, long pos, char* magic)
-{
-    int status = NC_NOERR;
-    memset(magic,0,MAGIC_NUMBER_LEN);
-    if(file->inmemory) {
-	char* mempos;
-	NC_memio* meminfo = (NC_memio*)file->parameters;
-	if((pos + MAGIC_NUMBER_LEN) > meminfo->size)
-	    {status = NC_EINMEMORY; goto done;}
-	mempos = ((char*)meminfo->memory) + pos;
-	memcpy((void*)magic,mempos,MAGIC_NUMBER_LEN);
+readmagic(struct MagicFile *file, long pos, char *magic) {
+  int status = NC_NOERR;
+  memset(magic, 0, MAGIC_NUMBER_LEN);
+  if (file->inmemory) {
+    char *mempos;
+    NC_memio *meminfo = (NC_memio *)file->parameters;
+    if ((pos + MAGIC_NUMBER_LEN) > meminfo->size) {
+      status = NC_EINMEMORY;
+      goto done;
+    }
+    mempos = ((char *)meminfo->memory) + pos;
+    memcpy((void *)magic, mempos, MAGIC_NUMBER_LEN);
 #ifdef DEBUG
-	printmagic("XXX: readmagic",magic,file);
+    printmagic("XXX: readmagic", magic, file);
 #endif
-	goto done;
-    }
+    goto done;
+  }
 #ifdef USE_PARALLEL
-    if (file->use_parallel) {
-	MPI_Status mstatus;
-	int retval;
-	if((retval = MPI_File_read_at_all(file->fh, pos, magic,
-                     MAGIC_NUMBER_LEN, MPI_CHAR, &mstatus)) != MPI_SUCCESS)
-	    {status = NC_EPARINIT; goto done;}
-	goto done;
+  if (file->use_parallel) {
+    MPI_Status mstatus;
+    int retval;
+    if ((retval = MPI_File_read_at_all(file->fh, pos, magic,
+         MAGIC_NUMBER_LEN, MPI_CHAR, &mstatus))
+        != MPI_SUCCESS) {
+      status = NC_EPARINIT;
+      goto done;
     }
+    goto done;
+  }
 #endif /* USE_PARALLEL */
-    {
-	int count;
-	int i = fseek(file->fp,pos,SEEK_SET);
-	if(i < 0)
-	    {status = errno; goto done;}
-	for(i=0;i<MAGIC_NUMBER_LEN;) {/* make sure to read proper # of bytes */
-	    count=fread(&magic[i],1,(size_t)(MAGIC_NUMBER_LEN-i),file->fp);
-	    if(count == 0 || ferror(file->fp))
-		{status = errno; goto done;}
-	    i += count;
-	}
-	goto done;
+  {
+    int count;
+    int i = fseek(file->fp, pos, SEEK_SET);
+    if (i < 0) {
+      status = errno;
+      goto done;
     }
+    for (i = 0; i < MAGIC_NUMBER_LEN;) { /* make sure to read proper # of bytes */
+      count = fread(&magic[i], 1, (size_t)(MAGIC_NUMBER_LEN - i), file->fp);
+      if (count == 0 || ferror(file->fp)) {
+        status = errno;
+        goto done;
+      }
+      i += count;
+    }
+    goto done;
+  }
 done:
-    if(file && file->fp) clearerr(file->fp);
-    return status;
+  if (file && file->fp) clearerr(file->fp);
+  return status;
 }
 
 /**
@@ -2610,45 +2577,45 @@ done:
  * @author Dennis Heimbigner
  */
 static int
-closemagic(struct MagicFile* file)
-{
-    int status = NC_NOERR;
-    if(file->inmemory) goto done; /* noop*/
+closemagic(struct MagicFile *file) {
+  int status = NC_NOERR;
+  if (file->inmemory) goto done; /* noop*/
 #ifdef USE_PARALLEL
-    if (file->use_parallel) {
-	int retval;
-	if((retval = MPI_File_close(&file->fh)) != MPI_SUCCESS)
-		{status = NC_EPARINIT; goto done;}
-	goto done;
+  if (file->use_parallel) {
+    int retval;
+    if ((retval = MPI_File_close(&file->fh)) != MPI_SUCCESS) {
+      status = NC_EPARINIT;
+      goto done;
     }
+    goto done;
+  }
 #endif
-    {
-	if(file->fp) fclose(file->fp);
-	goto done;
-    }
+  {
+    if (file->fp) fclose(file->fp);
+    goto done;
+  }
 done:
-    return status;
+  return status;
 }
 
 #ifdef DEBUG
 static void
-printmagic(const char* tag, char* magic, struct MagicFile* f)
-{
-    int i;
-    fprintf(stderr,"%s: inmem=%d ispar=%d magic=",tag,f->inmemory,f->use_parallel);
-    for(i=0;i<MAGIC_NUMBER_LEN;i++) {
-        unsigned int c = (unsigned int)magic[i];
-	c = c & 0x000000FF;
-	if(c == '\n')
-	    fprintf(stderr," 0x%0x/'\\n'",c);
-	else if(c == '\r')
-	    fprintf(stderr," 0x%0x/'\\r'",c);
-	else if(c < ' ')
-	    fprintf(stderr," 0x%0x/'?'",c);
-	else
-	    fprintf(stderr," 0x%0x/'%c'",c,c);
-    }
-    fprintf(stderr,"\n");
-    fflush(stderr);
+printmagic(const char *tag, char *magic, struct MagicFile *f) {
+  int i;
+  fprintf(stderr, "%s: inmem=%d ispar=%d magic=", tag, f->inmemory, f->use_parallel);
+  for (i = 0; i < MAGIC_NUMBER_LEN; i++) {
+    unsigned int c = (unsigned int)magic[i];
+    c              = c & 0x000000FF;
+    if (c == '\n')
+      fprintf(stderr, " 0x%0x/'\\n'", c);
+    else if (c == '\r')
+      fprintf(stderr, " 0x%0x/'\\r'", c);
+    else if (c < ' ')
+      fprintf(stderr, " 0x%0x/'?'", c);
+    else
+      fprintf(stderr, " 0x%0x/'%c'", c, c);
+  }
+  fprintf(stderr, "\n");
+  fflush(stderr);
 }
 #endif

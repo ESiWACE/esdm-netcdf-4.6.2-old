@@ -3,71 +3,67 @@
  *   See netcdf/COPYRIGHT file for copying and redistribution conditions.
  *********************************************************************/
 
-#include "dapincludes.h"
 #include "dapodom.h"
+#include "dapincludes.h"
 
 /**********************************************/
 /* Define methods for a dimension dapodometer*/
 
 /* Build an odometer covering slices startslice upto, but not including, stopslice */
-Dapodometer*
-dapodom_fromsegment(DCEsegment* segment, size_t startindex, size_t stopindex)
-{
-    int i;
-    Dapodometer* odom;
+Dapodometer *
+dapodom_fromsegment(DCEsegment *segment, size_t startindex, size_t stopindex) {
+  int i;
+  Dapodometer *odom;
 
-    assert(stopindex > startindex);
-    assert((stopindex - startindex) <= NC_MAX_VAR_DIMS);
-    odom = (Dapodometer*)calloc(1,sizeof(Dapodometer));
-    MEMCHECK(odom,NULL);
-    odom->rank = (stopindex - startindex);
-    for(i=0;i<odom->rank;i++) {
-	odom->start[i] = segment->slices[i+startindex].first;
-	odom->stride[i] = segment->slices[i+startindex].stride;
-	odom->stop[i] = (segment->slices[i+startindex].last + 1);
-	/* should the above line be instead?
+  assert(stopindex > startindex);
+  assert((stopindex - startindex) <= NC_MAX_VAR_DIMS);
+  odom = (Dapodometer *)calloc(1, sizeof(Dapodometer));
+  MEMCHECK(odom, NULL);
+  odom->rank = (stopindex - startindex);
+  for (i = 0; i < odom->rank; i++) {
+    odom->start[i]  = segment->slices[i + startindex].first;
+    odom->stride[i] = segment->slices[i + startindex].stride;
+    odom->stop[i]   = (segment->slices[i + startindex].last + 1);
+    /* should the above line be instead?
  	odom->stop[i] = odom->start[i] + (odom->count[i]*odom->stride[i]);
 	*/
 #if 0
 	odom->count[i] = segment->slices[i+startindex].count;
 #endif
-	odom->declsize[i] = segment->slices[i+startindex].declsize;
-	odom->index[i] = odom->start[i];
-    }    
-    return odom;
+    odom->declsize[i] = segment->slices[i + startindex].declsize;
+    odom->index[i]    = odom->start[i];
+  }
+  return odom;
 }
 
-Dapodometer*
+Dapodometer *
 dapodom_new(size_t rank,
-	    const size_t* start, const size_t* count,
-	    const ptrdiff_t* stride, const size_t* size)
-{
-    int i;
-    Dapodometer* odom = (Dapodometer*)calloc(1,sizeof(Dapodometer));
-    MEMCHECK(odom,NULL);
-    odom->rank = rank;
-    assert(odom->rank <= NC_MAX_VAR_DIMS);
-    for(i=0;i<odom->rank;i++) {
-	size_t istart,icount,istop,ideclsize;
-	ptrdiff_t istride;
-	istart = (start != NULL ? start[i] : 0);
-	icount = (count != NULL ? count[i] : (size != NULL ? size[i] : 1));
-	istride = (size_t)(stride != NULL ? stride[i] : 1);
-	istop = istart + icount*istride;
-	ideclsize = (size != NULL ? size[i]: (istop - istart));
-	odom->start[i] = istart;
-	odom->stop[i] = istop;
-	odom->stride[i] = istride;
-	odom->declsize[i] = ideclsize;
-	odom->index[i] = odom->start[i];
-    }    
-    return odom;
+const size_t *start, const size_t *count,
+const ptrdiff_t *stride, const size_t *size) {
+  int i;
+  Dapodometer *odom = (Dapodometer *)calloc(1, sizeof(Dapodometer));
+  MEMCHECK(odom, NULL);
+  odom->rank = rank;
+  assert(odom->rank <= NC_MAX_VAR_DIMS);
+  for (i = 0; i < odom->rank; i++) {
+    size_t istart, icount, istop, ideclsize;
+    ptrdiff_t istride;
+    istart            = (start != NULL ? start[i] : 0);
+    icount            = (count != NULL ? count[i] : (size != NULL ? size[i] : 1));
+    istride           = (size_t)(stride != NULL ? stride[i] : 1);
+    istop             = istart + icount * istride;
+    ideclsize         = (size != NULL ? size[i] : (istop - istart));
+    odom->start[i]    = istart;
+    odom->stop[i]     = istop;
+    odom->stride[i]   = istride;
+    odom->declsize[i] = ideclsize;
+    odom->index[i]    = odom->start[i];
+  }
+  return odom;
 }
 
-void
-dapodom_free(Dapodometer* odom)
-{
-    if(odom) free(odom);
+void dapodom_free(Dapodometer *odom) {
+  if (odom) free(odom);
 }
 
 #if 0
@@ -92,54 +88,47 @@ dapodom_print(Dapodometer* odom)
 }
 #endif
 
-int
-dapodom_more(Dapodometer* odom)
-{
-    return (odom->index[0] < odom->stop[0]);
+int dapodom_more(Dapodometer *odom) {
+  return (odom->index[0] < odom->stop[0]);
 }
 
 /* Convert current dapodometer settings to a single integer count*/
-off_t
-dapodom_count(Dapodometer* odom)
-{
-    int i;
-    off_t offset = 0;
-    for(i=0;i<odom->rank;i++) {
-	offset *= odom->declsize[i];
-	offset += odom->index[i];
-    } 
-    return offset;
+off_t dapodom_count(Dapodometer *odom) {
+  int i;
+  off_t offset = 0;
+  for (i = 0; i < odom->rank; i++) {
+    offset *= odom->declsize[i];
+    offset += odom->index[i];
+  }
+  return offset;
 }
 
-int
-dapodom_next(Dapodometer* odom)
-{
-    int i; /* do not make unsigned */
-    if(odom->rank == 0) return 0; 
-    for(i=odom->rank-1;i>=0;i--) {
-        odom->index[i] += odom->stride[i];
-        if(odom->index[i] < odom->stop[i]) break;
-	if(i == 0) return 0; /* leave the 0th entry if it overflows*/
-	odom->index[i] = odom->start[i]; /* reset this position*/
-    }
-    return 1;
+int dapodom_next(Dapodometer *odom) {
+  int i; /* do not make unsigned */
+  if (odom->rank == 0) return 0;
+  for (i = odom->rank - 1; i >= 0; i--) {
+    odom->index[i] += odom->stride[i];
+    if (odom->index[i] < odom->stop[i]) break;
+    if (i == 0) return 0;            /* leave the 0th entry if it overflows*/
+    odom->index[i] = odom->start[i]; /* reset this position*/
+  }
+  return 1;
 }
 
 /**************************************************/
 size_t
-dapodom_varmcount(Dapodometer* odom, const ptrdiff_t* steps, const size_t* declsizes)
-{
-    int i;
-    size_t offset = 0;
-    for(i=0;i<odom->rank;i++) {
-	size_t tmp;
-	tmp = odom->index[i];
-	tmp = tmp - odom->start[i];
-	tmp = tmp / odom->stride[i];
-	tmp = tmp * steps[i];
-	offset += tmp;
-    } 
-    return offset;
+dapodom_varmcount(Dapodometer *odom, const ptrdiff_t *steps, const size_t *declsizes) {
+  int i;
+  size_t offset = 0;
+  for (i = 0; i < odom->rank; i++) {
+    size_t tmp;
+    tmp = odom->index[i];
+    tmp = tmp - odom->start[i];
+    tmp = tmp / odom->stride[i];
+    tmp = tmp * steps[i];
+    offset += tmp;
+  }
+  return offset;
 }
 
 /*

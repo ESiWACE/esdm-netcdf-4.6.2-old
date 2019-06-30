@@ -39,13 +39,11 @@ will be placed there.
 \returns ::NC_EPERM Attempt to write to a read-only file.
 \returns ::NC_ENOTINDEFINE Not in define mode. 
  */
-int
-nc_def_enum(int ncid, nc_type base_typeid, const char *name, nc_type *typeidp)
-{
-    NC* ncp;
-    int stat = NC_check_id(ncid,&ncp);
-    if(stat != NC_NOERR) return stat;
-    return ncp->dispatch->def_enum(ncid,base_typeid,name,typeidp);
+int nc_def_enum(int ncid, nc_type base_typeid, const char *name, nc_type *typeidp) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->def_enum(ncid, base_typeid, name, typeidp);
 }
 
 /** \ingroup user_types
@@ -67,15 +65,13 @@ Insert a named member into a enum type.
 \returns ::NC_EPERM Attempt to write to a read-only file.
 \returns ::NC_ENOTINDEFINE Not in define mode. 
  */
-int
-nc_insert_enum(int ncid, nc_type xtype, const char *name, 
-	       const void *value)
-{
-    NC *ncp;
-    int stat = NC_check_id(ncid, &ncp);
-    if(stat != NC_NOERR) return stat;
-    return ncp->dispatch->insert_enum(ncid, xtype, name,
-				      value);
+int nc_insert_enum(int ncid, nc_type xtype, const char *name,
+const void *value) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->insert_enum(ncid, xtype, name,
+  value);
 }
 
 /** \ingroup user_types
@@ -103,16 +99,14 @@ defined for this enum type. \ref ignored_if_null.
 \returns ::NC_ENOTNC4 Not an netCDF-4 file, or classic model enabled.
 \returns ::NC_EHDFERR An error was reported by the HDF5 layer.
  */
-int
-nc_inq_enum(int ncid, nc_type xtype, char *name, nc_type *base_nc_typep, 
-	    size_t *base_sizep, size_t *num_membersp)
-{
-    int class = 0;
-    int stat = nc_inq_user_type(ncid, xtype, name, base_sizep, 
-				base_nc_typep, num_membersp, &class);
-    if(stat != NC_NOERR) return stat;
-    if(class != NC_ENUM) stat = NC_EBADTYPE;
-    return stat;
+int nc_inq_enum(int ncid, nc_type xtype, char *name, nc_type *base_nc_typep,
+size_t *base_sizep, size_t *num_membersp) {
+  int class = 0;
+  int stat  = nc_inq_user_type(ncid, xtype, name, base_sizep,
+  base_nc_typep, num_membersp, &class);
+  if (stat != NC_NOERR) return stat;
+  if (class != NC_ENUM) stat = NC_EBADTYPE;
+  return stat;
 }
 
 /** \ingroup user_types
@@ -136,14 +130,12 @@ ignored_if_null.
 \returns ::NC_ENOTNC4 Not an netCDF-4 file, or classic model enabled.
 \returns ::NC_EHDFERR An error was reported by the HDF5 layer.
  */
-int
-nc_inq_enum_member(int ncid, nc_type xtype, int idx, char *name, 
-		   void *value)
-{
-    NC *ncp;
-    int stat = NC_check_id(ncid, &ncp);
-    if(stat != NC_NOERR) return stat;
-    return ncp->dispatch->inq_enum_member(ncid, xtype, idx, name, value);
+int nc_inq_enum_member(int ncid, nc_type xtype, int idx, char *name,
+void *value) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->inq_enum_member(ncid, xtype, idx, name, value);
 }
 
 /** \ingroup user_types
@@ -164,13 +156,11 @@ be copied here. \ref ignored_if_null.
 \returns ::NC_ENOTNC4 Not an netCDF-4 file, or classic model enabled.
 \returns ::NC_EHDFERR An error was reported by the HDF5 layer.
  */
-int
-nc_inq_enum_ident(int ncid, nc_type xtype, long long value, 
-		  char *identifier)
-{
-    NC* ncp;
-    int stat = NC_check_id(ncid,&ncp);
-    if(stat != NC_NOERR) return stat;
-    return ncp->dispatch->inq_enum_ident(ncid,xtype,value,identifier);
+int nc_inq_enum_ident(int ncid, nc_type xtype, long long value,
+char *identifier) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->inq_enum_ident(ncid, xtype, value, identifier);
 }
-/*! \} */  /* End of named group ...*/
+/*! \} */ /* End of named group ...*/

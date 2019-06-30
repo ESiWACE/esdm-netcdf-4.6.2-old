@@ -11,7 +11,7 @@
 #define NCCONFIGURE_H 1
 
 #ifdef HAVE_STDLIB_H
-#include <stdlib.h>
+#  include <stdlib.h>
 #endif
 
 /*
@@ -23,7 +23,7 @@ defined and missing types defined.
 */
 
 #ifndef HAVE_STRDUP
-extern char* strdup(const char*);
+extern char *strdup(const char *);
 #endif
 
 /*
@@ -34,38 +34,44 @@ typedef long ssize_t;
 */
 /* handle null arguments */
 #ifndef nulldup
-#ifdef HAVE_STRDUP
-#define nulldup(s) ((s)==NULL?NULL:strdup(s))
-#else
-char *nulldup(const char* s);
-#endif
+#  ifdef HAVE_STRDUP
+#    define nulldup(s) ((s) == NULL ? NULL : strdup(s))
+#  else
+char *nulldup(const char *s);
+#  endif
 #endif
 
 #ifdef _MSC_VER
-#ifndef HAVE_SSIZE_T
-#include <basetsd.h>
+#  ifndef HAVE_SSIZE_T
+#    include <basetsd.h>
 typedef SSIZE_T ssize_t;
-#define HAVE_SSIZE_T 1
-#endif
+#    define HAVE_SSIZE_T 1
+#  endif
 #endif
 
 #ifndef HAVE_STRLCAT
-#ifdef _MSC_VER
+#  ifdef _MSC_VER
 /* Windows strlcat_s is equivalent to strlcat, but different arg order */
-#define strlcat(d,s,n) strcat_s((d),(n),(s))
-#else
-extern size_t strlcat(char* dst, const char* src, size_t dsize);
-#endif
+#    define strlcat(d, s, n) strcat_s((d), (n), (s))
+#  else
+extern size_t strlcat(char *dst, const char *src, size_t dsize);
+#  endif
 #endif
 
 #ifndef nulldup
-#define nulldup(s) ((s)==NULL?NULL:strdup(s))
+#  define nulldup(s) ((s) == NULL ? NULL : strdup(s))
 #endif
 #ifndef nulllen
-#define nulllen(s) ((s)==NULL?0:strlen(s))
+#  define nulllen(s) ((s) == NULL ? 0 : strlen(s))
 #endif
 #ifndef nullfree
-#define nullfree(s) {if((s)!=NULL) {free(s);} else {}}
+#  define nullfree(s)    \
+    {                    \
+      if ((s) != NULL) { \
+        free(s);         \
+      } else {           \
+      }                  \
+    }
 #endif
 
 #ifndef HAVE_UCHAR

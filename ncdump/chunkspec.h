@@ -30,7 +30,7 @@ dimchunkspec_omit(void);
 
 extern bool_t varchunkspec_omit(int grpid, int varid);
 
-extern size_t* varchunkspec_chunksizes(int grpid, int varid);
+extern size_t *varchunkspec_chunksizes(int grpid, int varid);
 
 extern size_t varchunkspec_ndims(int grpid, int varid);
 
@@ -39,4 +39,4 @@ extern bool_t varchunkspec_exists(int grpid, int varid);
 extern void chunkspecinit(void);
 
 
-#endif	/* _CHUNKSPEC_H_  */
+#endif /* _CHUNKSPEC_H_  */

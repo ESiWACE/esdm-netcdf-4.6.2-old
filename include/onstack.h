@@ -20,11 +20,11 @@
  */
 
 #ifdef _WIN32
-#ifdef HAVE_MALLOC_H
-#undef HAVE_ALLOCA
-#define HAVE_ALLOCA 1
-#include <malloc.h>
-#endif
+#  ifdef HAVE_MALLOC_H
+#    undef HAVE_ALLOCA
+#    define HAVE_ALLOCA 1
+#    include <malloc.h>
+#  endif
 #endif
 
 #ifdef HAVE_ALLOCA
@@ -32,52 +32,52 @@
  * Implementation based on alloca()
  */
 
-#if defined(__GNUC__)
-# if !defined(alloca)
-# define alloca __builtin_alloca
-# endif
-#else
-# ifdef HAVE_ALLOCA_H
-#  include <alloca.h>
-# elif defined(_AIX)
-#  pragma alloca
-# endif /* HAVE_ALLOCA_H */
-#endif /* __GNUC__ */
+#  if defined(__GNUC__)
+#    if !defined(alloca)
+#      define alloca __builtin_alloca
+#    endif
+#  else
+#    ifdef HAVE_ALLOCA_H
+#      include <alloca.h>
+#    elif defined(_AIX)
+#      pragma alloca
+#    endif /* HAVE_ALLOCA_H */
+#  endif   /* __GNUC__ */
 
-# if !defined(ALLOCA_ARG_T)
-# define ALLOCA_ARG_T int /* the usual type of the alloca argument */
-# endif
+#  if !defined(ALLOCA_ARG_T)
+#    define ALLOCA_ARG_T int /* the usual type of the alloca argument */
+#  endif
 
-# define ALLOC_ONSTACK(name, type, nelems) \
-	type *const name = (type *) alloca((ALLOCA_ARG_T)((nelems) * sizeof(type)))
+#  define ALLOC_ONSTACK(name, type, nelems) \
+    type *const name = (type *)alloca((ALLOCA_ARG_T)((nelems) * sizeof(type)))
 
-# define FREE_ONSTACK(name)
+#  define FREE_ONSTACK(name)
 
 #elif defined(_CRAYC) && !defined(__crayx1) && !__cplusplus && __STDC__ > 1
 /*
  * Cray C allows sizing of arrays with non-constant values.
  */
 
-# define ALLOC_ONSTACK(name, type, nelems) \
-	type name[nelems]
+#  define ALLOC_ONSTACK(name, type, nelems) \
+    type name[nelems]
 
-# define FREE_ONSTACK(name)
+#  define FREE_ONSTACK(name)
 
 #elif defined(_WIN32) || defined(_WIN64)
-#include <malloc.h>
-#undef ALLOCA_ARG_T
-# define ALLOCA_ARG_T size_t
+#  include <malloc.h>
+#  undef ALLOCA_ARG_T
+#  define ALLOCA_ARG_T size_t
 
 #else
 /*
  * Default implementation. When all else fails, use malloc/free.
  */
 
-# define ALLOC_ONSTACK(name, type, nelems) \
-	type *const name = (type *) malloc((nelems) * sizeof(type))
+#  define ALLOC_ONSTACK(name, type, nelems) \
+    type *const name = (type *)malloc((nelems) * sizeof(type))
 
-# define FREE_ONSTACK(name) \
-	free(name)
+#  define FREE_ONSTACK(name) \
+    free(name)
 
 #endif
 

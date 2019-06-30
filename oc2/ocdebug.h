@@ -5,13 +5,13 @@
 #define OCOCDBG_H
 
 #ifndef OCDEBUG
-#undef OCDEBUG
+#  undef OCDEBUG
 #endif
 
 #include "config.h"
 
 #ifdef HAVE_STDARG_H
-#include <stdarg.h>
+#  include <stdarg.h>
 #endif
 
 #include <curl/curl.h>
@@ -29,26 +29,37 @@
 #undef OCCATCHERROR
 
 #define OCPANIC(msg) assert(ocpanic(msg))
-#define OCPANIC1(msg,arg) assert(ocpanic(msg,arg))
-#define OCPANIC2(msg,arg1,arg2) assert(ocpanic(msg,arg1,arg2))
+#define OCPANIC1(msg, arg) assert(ocpanic(msg, arg))
+#define OCPANIC2(msg, arg1, arg2) assert(ocpanic(msg, arg1, arg2))
 
 /* Make it possible to catch assertion failures by breakpointing ocpanic*/
-#define OCASSERT(expr) if(!(expr)) {OCPANIC((#expr));} else {}
+#define OCASSERT(expr) \
+  if (!(expr)) {       \
+    OCPANIC((#expr));  \
+  } else {             \
+  }
 
 /* Need some syntactic trickery to make these macros work*/
 #ifdef OCDEBUG
-#define OCDBG(msg) {oclog(OCLOGDBG,msg);}
-#define OCDBG1(msg,arg) {oclog(OCLOGDBG,msg,arg);}
-#define OCDBG2(msg,arg1,arg2) {oclog(OCLOGDBG,msg,arg1,arg2);}
-#define OCDBGTEXT(text) {oclogtext(OCLOGNOTE,text);} else {}
-#define OCDBGCODE(code) {code;}
+#  define OCDBG(msg) \
+    { oclog(OCLOGDBG, msg); }
+#  define OCDBG1(msg, arg) \
+    { oclog(OCLOGDBG, msg, arg); }
+#  define OCDBG2(msg, arg1, arg2) \
+    { oclog(OCLOGDBG, msg, arg1, arg2); }
+#  define OCDBGTEXT(text)           \
+    { oclogtext(OCLOGNOTE, text); } \
+    else {                          \
+    }
+#  define OCDBGCODE(code) \
+    { code; }
 
 #else
-#define OCDBG(msg)
-#define OCDBG1(msg,arg)
-#define OCDBG2(msg,arg1,arg2)
-#define OCDBGTEXT(text)
-#define OCDBGCODE(code)
+#  define OCDBG(msg)
+#  define OCDBG1(msg, arg)
+#  define OCDBG2(msg, arg1, arg2)
+#  define OCDBGTEXT(text)
+#  define OCDBGCODE(code)
 #endif
 
 
@@ -63,7 +74,7 @@ EXTERNL int cedebug;
 
 /*extern char* dent2(int n);*/
 /*/extern char* dent(int n);*/
-extern int ocpanic(const char* fmt, ...);
+extern int ocpanic(const char *fmt, ...);
 
 extern int xdrerror(void);
 
@@ -74,30 +85,43 @@ is exhausted.  It also guarantees that the
 memory has been zero'd.
 */
 
-extern void* occalloc(size_t size, size_t nelems);
-extern void* ocmalloc(size_t size);
-extern void  ocfree(void*);
+extern void *occalloc(size_t size, size_t nelems);
+extern void *ocmalloc(size_t size);
+extern void ocfree(void *);
 
-#define MEMCHECK(var,throw) {if((var)==NULL) return (throw);}
-#define MEMFAIL(var) MEMCHECK(var,OCCATCH(OC_ENOMEM))
-#define MEMGOTO(var,stat,label) {if((var)==NULL) {stat=OC_ENOMEM;goto label;}}
+#define MEMCHECK(var, throw)           \
+  {                                    \
+    if ((var) == NULL) return (throw); \
+  }
+#define MEMFAIL(var) MEMCHECK(var, OCCATCH(OC_ENOMEM))
+#define MEMGOTO(var, stat, label) \
+  {                               \
+    if ((var) == NULL) {          \
+      stat = OC_ENOMEM;           \
+      goto label;                 \
+    }                             \
+  }
 
 #ifdef OCCATCHERROR
 extern OCerror ocbreakpoint(OCerror err);
 extern OCerror occatch(OCerror err);
-extern CURLcode ocreportcurlerror(struct OCstate* state, CURLcode cstat);
+extern CURLcode ocreportcurlerror(struct OCstate *state, CURLcode cstat);
 /* Place breakpoint on ocbreakpoint to catch errors close to where they occur*/
-#define OCCATCH(e) occatch(e)
-#define OCCATCHCHK(e) (void)occatch(e)
-#define OCGOTO(label) {ocbreakpoint(-1); goto label;}
-#define OCCURLERR(s,e) ocreportcurlerror(s,e)
-#define CURLERR(e) ocreportcurlerror(NULL,e)
+#  define OCCATCH(e) occatch(e)
+#  define OCCATCHCHK(e) (void)occatch(e)
+#  define OCGOTO(label) \
+    {                   \
+      ocbreakpoint(-1); \
+      goto label;       \
+    }
+#  define OCCURLERR(s, e) ocreportcurlerror(s, e)
+#  define CURLERR(e) ocreportcurlerror(NULL, e)
 #else
-#define OCCATCH(e) (e)
-#define OCCATCHCHK(e)
-#define OCGOTO(label) goto label
-#define OCCURLERR(s,e) (e)
-#define CURLERR(e) (e)
+#  define OCCATCH(e) (e)
+#  define OCCATCHCHK(e)
+#  define OCGOTO(label) goto label
+#  define OCCURLERR(s, e) (e)
+#  define CURLERR(e) (e)
 #endif
 #define OCTHROW(e) OCCATCH(e)
 #define OCTHROWCHK(e) OCCATCHCHK(e)

@@ -117,14 +117,12 @@ dataset named foo.nc:
 \returns ::NC_ENOMEM Out of memory.
 \author Glenn Davis, Ed Hartnett, Dennis Heimbigner
  */
-int
-nc_rename_att(int ncid, int varid, const char *name, const char *newname)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   TRACE(nc_rename_att);
-   return ncp->dispatch->rename_att(ncid, varid, name, newname);
+int nc_rename_att(int ncid, int varid, const char *name, const char *newname) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  TRACE(nc_rename_att);
+  return ncp->dispatch->rename_att(ncid, varid, name, newname);
 }
 
 /*!
@@ -179,16 +177,14 @@ Units for a variable rh in an existing netCDF dataset named foo.nc:
 \returns ::NC_EATTMETA Failure at HDF5 layer.
 \author Glenn Davis, Ed Hartnett, Dennis Heimbigner
  */
-int
-nc_del_att(int ncid, int varid, const char *name)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   TRACE(nc_del_att);
-   stat = ncp->dispatch->del_att(ncid, varid, name);
-   return stat;
+int nc_del_att(int ncid, int varid, const char *name) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  TRACE(nc_del_att);
+  stat = ncp->dispatch->del_att(ncid, varid, name);
+  return stat;
 }
-/*! \} */  /* End of named group ...*/
+/*! \} */ /* End of named group ...*/
 
 /*! \} */ /* End of defgroup. */

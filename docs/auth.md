@@ -211,7 +211,7 @@ for information about using .netrc.
 
 ## Password Escaping {#auth_userpwdescape}
 
-With current password rules, it is is not unlikely that the password
+With current password rules, it is not unlikely that the password
 will contain characters that need to be escaped. Similarly, the user
 may contain characters such as '@' that need to be escaped. To support this,
 it is assumed that all occurrences of `user:password` use URL (i.e. %%XX)

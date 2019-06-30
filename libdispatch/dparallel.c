@@ -95,28 +95,27 @@ parallel I/O.
 \ingroup datasets
 */
 int nc_create_par(const char *path, int cmode, MPI_Comm comm,
-                  MPI_Info info, int *ncidp)
-{
+MPI_Info info, int *ncidp) {
 #ifndef USE_PARALLEL
-    return NC_ENOPAR;
+  return NC_ENOPAR;
 #else
-    NC_MPI_INFO data;
+  NC_MPI_INFO data;
 
-#ifndef USE_PNETCDF
-    /* PnetCDF is disabled but user wants to create classic file in parallel */
-    if (!(cmode & NC_NETCDF4))
-        return NC_ENOTBUILT;
-#endif
+#  ifndef USE_PNETCDF
+  /* PnetCDF is disabled but user wants to create classic file in parallel */
+  if (!(cmode & NC_NETCDF4))
+    return NC_ENOTBUILT;
+#  endif
 
-#ifndef USE_NETCDF4
-   /* NETCDF4 is disabled but user wants to create NETCDF4 file in parallel */
-    if (cmode & NC_NETCDF4)
-        return NC_ENOTBUILT;
-#endif
+#  ifndef USE_NETCDF4
+  /* NETCDF4 is disabled but user wants to create NETCDF4 file in parallel */
+  if (cmode & NC_NETCDF4)
+    return NC_ENOTBUILT;
+#  endif
 
-    data.comm = comm;
-    data.info = info;
-    return NC_create(path, cmode, 0, 0, NULL, 1, &data, ncidp);
+  data.comm = comm;
+  data.info = info;
+  return NC_create(path, cmode, 0, 0, NULL, 1, &data, ncidp);
 #endif /* USE_PARALLEL */
 }
 
@@ -192,19 +191,17 @@ Here is an example using nc_open_par() from examples/C/parallel_vara.c.
 \author Ed Hartnett, Dennis Heimbigner
 \ingroup datasets
 */
-int
-nc_open_par(const char *path, int omode, MPI_Comm comm,
-            MPI_Info info, int *ncidp)
-{
+int nc_open_par(const char *path, int omode, MPI_Comm comm,
+MPI_Info info, int *ncidp) {
 #ifndef USE_PARALLEL
-    return NC_ENOPAR;
+  return NC_ENOPAR;
 #else
-    NC_MPI_INFO mpi_data;
+  NC_MPI_INFO mpi_data;
 
-    mpi_data.comm = comm;
-    mpi_data.info = info;
+  mpi_data.comm = comm;
+  mpi_data.info = info;
 
-    return NC_open(path, omode, 0, NULL, 1, &mpi_data, ncidp);
+  return NC_open(path, omode, 0, NULL, 1, &mpi_data, ncidp);
 #endif /* USE_PARALLEL */
 }
 
@@ -240,30 +237,28 @@ files only.)
 \ingroup datasets
 \internal
 */
-int
-nc_open_par_fortran(const char *path, int omode, int comm,
-                    int info, int *ncidp)
-{
+int nc_open_par_fortran(const char *path, int omode, int comm,
+int info, int *ncidp) {
 #ifndef USE_PARALLEL
-    return NC_ENOPAR;
+  return NC_ENOPAR;
 #else
-    MPI_Comm comm_c;
-    MPI_Info info_c;
+  MPI_Comm comm_c;
+  MPI_Info info_c;
 
-    /* Convert fortran comm and info to C comm and info, if there is a
+  /* Convert fortran comm and info to C comm and info, if there is a
      * function to do so. Otherwise just pass them. */
-#ifdef HAVE_MPI_COMM_F2C
-    comm_c = MPI_Comm_f2c(comm);
-#else
-    comm_c = (MPI_Comm)comm;
-#endif
-#ifdef HAVE_MPI_INFO_F2C
-    info_c = MPI_Info_f2c(info);
-#else
-    info_c = (MPI_Info)info;
-#endif
+#  ifdef HAVE_MPI_COMM_F2C
+  comm_c = MPI_Comm_f2c(comm);
+#  else
+  comm_c = (MPI_Comm)comm;
+#  endif
+#  ifdef HAVE_MPI_INFO_F2C
+  info_c = MPI_Info_f2c(info);
+#  else
+  info_c = (MPI_Info)info;
+#  endif
 
-    return nc_open_par(path, omode, comm_c, info_c, ncidp);
+  return nc_open_par(path, omode, comm_c, info_c, ncidp);
 #endif
 }
 
@@ -340,19 +335,17 @@ parallel access of a variable and then writes to it.
 \author Ed Hartnett, Dennis Heimbigner
 \ingroup datasets
  */
-int
-nc_var_par_access(int ncid, int varid, int par_access)
-{
+int nc_var_par_access(int ncid, int varid, int par_access) {
 #ifndef USE_PARALLEL
-    return NC_ENOPAR;
+  return NC_ENOPAR;
 #else
-    int stat = NC_NOERR;
-    NC* ncp;
+  int stat = NC_NOERR;
+  NC *ncp;
 
-    if ((stat = NC_check_id(ncid, &ncp)))
-       return stat;
+  if ((stat = NC_check_id(ncid, &ncp)))
+    return stat;
 
-    return ncp->dispatch->var_par_access(ncid,varid,par_access);
+  return ncp->dispatch->var_par_access(ncid, varid, par_access);
 #endif
 }
 
@@ -394,29 +387,27 @@ HDF5 file. (netCDF-4 files only).
 \ingroup datasets
 \internal
 */
-int
-nc_create_par_fortran(const char *path, int cmode, int comm,
-                      int info, int *ncidp)
-{
+int nc_create_par_fortran(const char *path, int cmode, int comm,
+int info, int *ncidp) {
 #ifndef USE_PARALLEL
-    return NC_ENOPAR;
+  return NC_ENOPAR;
 #else
-    MPI_Comm comm_c;
-    MPI_Info info_c;
+  MPI_Comm comm_c;
+  MPI_Info info_c;
 
-    /* Convert fortran comm and info to C comm and info, if there is a
+  /* Convert fortran comm and info to C comm and info, if there is a
      * function to do so. Otherwise just pass them. */
-#ifdef HAVE_MPI_COMM_F2C
-    comm_c = MPI_Comm_f2c(comm);
-#else
-    comm_c = (MPI_Comm)comm;
-#endif
-#ifdef HAVE_MPI_INFO_F2C
-    info_c = MPI_Info_f2c(info);
-#else
-    info_c = (MPI_Info)info;
-#endif
+#  ifdef HAVE_MPI_COMM_F2C
+  comm_c = MPI_Comm_f2c(comm);
+#  else
+  comm_c = (MPI_Comm)comm;
+#  endif
+#  ifdef HAVE_MPI_INFO_F2C
+  info_c = MPI_Info_f2c(info);
+#  else
+  info_c = (MPI_Info)info;
+#  endif
 
-    return nc_create_par(path, cmode, comm_c, info_c, ncidp);
+  return nc_create_par(path, cmode, comm_c, info_c, ncidp);
 #endif
 }

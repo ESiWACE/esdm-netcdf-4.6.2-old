@@ -9,44 +9,52 @@
 /* invoke netcdf calls (or generate C or Fortran code) to create netcdf
  * from in-memory structure.
 */
-void
-define_netcdf(void)
-{
-
-    /* Execute exactly one of these */
+void define_netcdf(void) {
+  /* Execute exactly one of these */
 #ifdef ENABLE_C
-    if (l_flag == L_C) genc_netcdf(); else /* create C code to create netcdf */
+  if (l_flag == L_C)
+    genc_netcdf();
+  else /* create C code to create netcdf */
 #endif
 #ifdef ENABLE_F77
-    if (l_flag == L_F77) genf77_netcdf(); else /* create Fortran code */
+  if (l_flag == L_F77)
+    genf77_netcdf();
+  else /* create Fortran code */
 #endif
 #ifdef ENABLE_JAVA
-    if(l_flag == L_JAVA) genjava_netcdf(); else
+  if (l_flag == L_JAVA)
+    genjava_netcdf();
+  else
 #endif
 /* Binary is the default */
 #ifdef ENABLE_BINARY
     genbin_netcdf(); /* create netcdf */
 #else
-    derror("No language specified");
+  derror("No language specified");
 #endif
-    close_netcdf();
-    cleanup();
+  close_netcdf();
+  cleanup();
 }
 
-void
-close_netcdf(void)
-{
+void close_netcdf(void) {
 #ifdef ENABLE_C
-    if (l_flag == L_C) genc_close(); else /* create C code to close netcdf */
+  if (l_flag == L_C)
+    genc_close();
+  else /* create C code to close netcdf */
 #endif
 #ifdef ENABLE_F77
-    if (l_flag == L_F77) genf77_close(); else
+  if (l_flag == L_F77)
+    genf77_close();
+  else
 #endif
 #ifdef ENABLE_JAVA
-    if (l_flag == L_JAVA) genjava_close(); else
+  if (l_flag == L_JAVA)
+    genjava_close();
+  else
 #endif
 #ifdef ENABLE_BINARY
-    if (l_flag == L_BINARY) genbin_close();
+  if (l_flag == L_BINARY)
+    genbin_close();
 #endif
 }
 
@@ -56,43 +64,41 @@ the fully qualified name of the symbol.
 Symbol must be top level
 Caller must free.
 */
-void
-topfqn(Symbol* sym)
-{
+void topfqn(Symbol *sym) {
 #ifdef USE_NETCDF4
-    char* fqn;
-    char* fqnname;
-    char* parentfqn;
-    Symbol* parent;
+  char *fqn;
+  char *fqnname;
+  char *parentfqn;
+  Symbol *parent;
 #endif
 
-    if(sym->fqn != NULL)
-	return; /* already defined */
+  if (sym->fqn != NULL)
+    return; /* already defined */
 
 #ifdef USE_NETCDF4
-    if(!usingclassic) {
-        parent = sym->container;
-        /* Recursively compute parent fqn */
-        if(parent == NULL) { /* implies this is the rootgroup */
-            assert(sym->grp.is_root);
-            sym->fqn = estrdup("");
-            return;
-        } else if(parent->fqn == NULL) {
-            topfqn(parent);
-        }
-        parentfqn = parent->fqn;
-
-        fqnname = fqnescape(sym->name);
-        fqn = (char*)ecalloc(strlen(fqnname) + strlen(parentfqn) + 1 + 1);
-        strcpy(fqn,parentfqn);
-        strcat(fqn,"/");
-        strcat(fqn,fqnname);
-        sym->fqn = fqn;
-    } else
-#endif /*USE_NETCDF4*/
-    {
-	sym->fqn = strdup(sym->name);
+  if (!usingclassic) {
+    parent = sym->container;
+    /* Recursively compute parent fqn */
+    if (parent == NULL) { /* implies this is the rootgroup */
+      assert(sym->grp.is_root);
+      sym->fqn = estrdup("");
+      return;
+    } else if (parent->fqn == NULL) {
+      topfqn(parent);
     }
+    parentfqn = parent->fqn;
+
+    fqnname = fqnescape(sym->name);
+    fqn     = (char *)ecalloc(strlen(fqnname) + strlen(parentfqn) + 1 + 1);
+    strcpy(fqn, parentfqn);
+    strcat(fqn, "/");
+    strcat(fqn, fqnname);
+    sym->fqn = fqn;
+  } else
+#endif /*USE_NETCDF4*/
+  {
+    sym->fqn = strdup(sym->name);
+  }
 }
 
 /**
@@ -101,28 +107,26 @@ the fully qualified name of a nested symbol
 (i.e. field or econst).
 Caller must free.
 */
-void
-nestedfqn(Symbol* sym)
-{
-    char* fqn;
-    char* fqnname;
-    Symbol* parent;
+void nestedfqn(Symbol *sym) {
+  char *fqn;
+  char *fqnname;
+  Symbol *parent;
 
-    if(sym->fqn != NULL)
-	return; /* already defined */
+  if (sym->fqn != NULL)
+    return; /* already defined */
 
-    /* Parent must be a type */
-    parent = sym->container;
-    assert (parent->objectclass == NC_TYPE);
+  /* Parent must be a type */
+  parent = sym->container;
+  assert(parent->objectclass == NC_TYPE);
 
-    assert(parent->fqn != NULL);
+  assert(parent->fqn != NULL);
 
-    fqnname = fqnescape(sym->name);
-    fqn = (char*)ecalloc(strlen(fqnname) + strlen(parent->fqn) + 1 + 1);
-    strcpy(fqn,parent->fqn);
-    strcat(fqn,".");
-    strcat(fqn,fqnname);
-    sym->fqn = fqn;
+  fqnname = fqnescape(sym->name);
+  fqn     = (char *)ecalloc(strlen(fqnname) + strlen(parent->fqn) + 1 + 1);
+  strcpy(fqn, parent->fqn);
+  strcat(fqn, ".");
+  strcat(fqn, fqnname);
+  sym->fqn = fqn;
 }
 
 /**
@@ -130,31 +134,29 @@ Return a string representing
 the fully qualified name of an attribute.
 Caller must free.
 */
-void
-attfqn(Symbol* sym)
-{
-    char* fqn;
-    char* fqnname;
-    char* parentfqn;
-    Symbol* parent;
+void attfqn(Symbol *sym) {
+  char *fqn;
+  char *fqnname;
+  char *parentfqn;
+  Symbol *parent;
 
-    if(sym->fqn != NULL)
-	return; /* already defined */
+  if (sym->fqn != NULL)
+    return; /* already defined */
 
-    assert (sym->objectclass == NC_ATT);
+  assert(sym->objectclass == NC_ATT);
 
-    parent = sym->container;
-    if(parent == NULL)
-	parentfqn = "";
-    else
-	parentfqn = parent->fqn;
+  parent = sym->container;
+  if (parent == NULL)
+    parentfqn = "";
+  else
+    parentfqn = parent->fqn;
 
-    fqnname = fqnescape(sym->name);
-    fqn = (char*)ecalloc(strlen(fqnname) + strlen(parentfqn) + 1 + 1);
-    strcpy(fqn,parentfqn);
-    strcat(fqn,"_");
-    strcat(fqn,fqnname);
-    sym->fqn = fqn;
+  fqnname = fqnescape(sym->name);
+  fqn     = (char *)ecalloc(strlen(fqnname) + strlen(parentfqn) + 1 + 1);
+  strcpy(fqn, parentfqn);
+  strcat(fqn, "_");
+  strcat(fqn, fqnname);
+  sym->fqn = fqn;
 }
 
 #if 0

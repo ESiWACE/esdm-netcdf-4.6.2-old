@@ -22,60 +22,62 @@
 #include <H5Fpublic.h>
 #include <H5LTpublic.h>
 
-#include "netcdf.h"
 #include "nc4internal.h"
+#include "netcdf.h"
 
 #undef DEBUG
 
 #ifndef HDrealloc
-    #define HDrealloc(M,Z)    realloc(M,Z)
+#  define HDrealloc(M, Z) realloc(M, Z)
 #endif /* HDrealloc */
 
-int
-NC4_open_image_file(NC_FILE_INFO_T* h5)
-{
-    int stat = NC_NOERR;
-    hid_t hdfid;
+int NC4_open_image_file(NC_FILE_INFO_T *h5) {
+  int stat = NC_NOERR;
+  hid_t hdfid;
 
-    /* check arguments */
-    if(h5->mem.memio.memory == NULL || h5->mem.memio.size == 0)
-	{stat = NC_EINVAL; goto done;}
+  /* check arguments */
+  if (h5->mem.memio.memory == NULL || h5->mem.memio.size == 0) {
+    stat = NC_EINVAL;
+    goto done;
+  }
 
-    /* Figure out the image flags */
-    h5->mem.imageflags = 0;
-    if(h5->mem.locked) {
-	h5->mem.imageflags |= (H5LT_FILE_IMAGE_DONT_COPY | H5LT_FILE_IMAGE_DONT_RELEASE);
-    }
-    if(!h5->no_write)
-	h5->mem.imageflags |= H5LT_FILE_IMAGE_OPEN_RW;
+  /* Figure out the image flags */
+  h5->mem.imageflags = 0;
+  if (h5->mem.locked) {
+    h5->mem.imageflags |= (H5LT_FILE_IMAGE_DONT_COPY | H5LT_FILE_IMAGE_DONT_RELEASE);
+  }
+  if (!h5->no_write)
+    h5->mem.imageflags |= H5LT_FILE_IMAGE_OPEN_RW;
 
-    /* Create the file but using our version of H5LTopen_file_image */
-    hdfid = NC4_image_init(h5);
-    if(hdfid < 0)
-	{stat = NC_EHDFERR; goto done;}
+  /* Create the file but using our version of H5LTopen_file_image */
+  hdfid = NC4_image_init(h5);
+  if (hdfid < 0) {
+    stat = NC_EHDFERR;
+    goto done;
+  }
 
-    /* Remember HDF5 file identifier. */
-    ((NC_HDF5_FILE_INFO_T *)h5->format_file_info)->hdfid = hdfid;
+  /* Remember HDF5 file identifier. */
+  ((NC_HDF5_FILE_INFO_T *)h5->format_file_info)->hdfid = hdfid;
 
 done:
-    return stat;
+  return stat;
 }
 
-int
-NC4_create_image_file(NC_FILE_INFO_T* h5, size_t initialsz)
-{
-    int stat = NC_NOERR;
-    hid_t hdfid;
+int NC4_create_image_file(NC_FILE_INFO_T *h5, size_t initialsz) {
+  int stat = NC_NOERR;
+  hid_t hdfid;
 
-    /* Create the file but using our version of H5LTopen_file_image */
-    h5->mem.created = 1;
-    h5->mem.initialsize = initialsz;
-    h5->mem.imageflags |= H5LT_FILE_IMAGE_OPEN_RW;
-    hdfid = NC4_image_init(h5);
-    if(hdfid < 0)
-	{stat = NC_EHDFERR; goto done;}
-    /* Remember HDF5 file identifier. */
-    ((NC_HDF5_FILE_INFO_T *)h5->format_file_info)->hdfid = hdfid;
+  /* Create the file but using our version of H5LTopen_file_image */
+  h5->mem.created     = 1;
+  h5->mem.initialsize = initialsz;
+  h5->mem.imageflags |= H5LT_FILE_IMAGE_OPEN_RW;
+  hdfid = NC4_image_init(h5);
+  if (hdfid < 0) {
+    stat = NC_EHDFERR;
+    goto done;
+  }
+  /* Remember HDF5 file identifier. */
+  ((NC_HDF5_FILE_INFO_T *)h5->format_file_info)->hdfid = hdfid;
 done:
-    return stat;
+  return stat;
 }

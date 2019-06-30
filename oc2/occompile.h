@@ -4,6 +4,6 @@
 #ifndef OCCOMPILE_H
 #define OCCOMPILE_H
 
-extern OCerror occompile(OCstate* state, OCnode* xroot);
+extern OCerror occompile(OCstate *state, OCnode *xroot);
 
 #endif /*OCCOMPILE_H*/

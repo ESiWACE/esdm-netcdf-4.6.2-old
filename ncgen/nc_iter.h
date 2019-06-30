@@ -17,18 +17,18 @@ extern "C" {
  * The opaque structure to hold per-variable state of iteration
  */
 typedef struct {
-    int first;	     /* false after associated next function invoked */
-    int right_dim;   /* rightmost dimension for start of variable pieces */
-    size_t rows;     /* how many subpiece rows in bufsiz */
-    size_t numrows;  /* how many row pieces in right_dim dimension */
-    size_t cur;	     /* current "row" in loop over row pieces */
-    size_t leftover; /* how many rows left over after partitioning
+  int first;       /* false after associated next function invoked */
+  int right_dim;   /* rightmost dimension for start of variable pieces */
+  size_t rows;     /* how many subpiece rows in bufsiz */
+  size_t numrows;  /* how many row pieces in right_dim dimension */
+  size_t cur;      /* current "row" in loop over row pieces */
+  size_t leftover; /* how many rows left over after partitioning
 		      * bufsiz into subpiece blocks */
-    int more;	     /* whether there is more data still to get */
-    size_t to_get;   /* number of values to get on this access */
-    int rank;	     /* number of dimensions */
-    size_t inc;	     /* increment for right_dim element of start vector */
-    size_t dimsizes[NC_MAX_VAR_DIMS];
+  int more;        /* whether there is more data still to get */
+  size_t to_get;   /* number of values to get on this access */
+  int rank;        /* number of dimensions */
+  size_t inc;      /* increment for right_dim element of start vector */
+  size_t dimsizes[NC_MAX_VAR_DIMS];
 } nciter_t;
 
 /*
@@ -37,7 +37,7 @@ typedef struct {
 
 /* Get iterator for a variable. */
 extern int
-nc_get_iter(Symbol*, size_t bufsize, nciter_t *iterp);
+nc_get_iter(Symbol *, size_t bufsize, nciter_t *iterp);
 
 /* Iterate over blocks of variable values, using start and count
  * vectors.  Returns number of values to access (product of counts),

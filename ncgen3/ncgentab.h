@@ -31,10 +31,10 @@
    version 2.2 of Bison.  */
 
 #ifndef YY_NCG_NCGEN_TAB_H_INCLUDED
-# define YY_NCG_NCGEN_TAB_H_INCLUDED
+#define YY_NCG_NCGEN_TAB_H_INCLUDED
 /* Enabling traces.  */
 #ifndef YYDEBUG
-# define YYDEBUG 0
+#  define YYDEBUG 0
 #endif
 #if YYDEBUG
 extern int ncgdebug;
@@ -42,55 +42,55 @@ extern int ncgdebug;
 
 /* Tokens.  */
 #ifndef YYTOKENTYPE
-# define YYTOKENTYPE
-   /* Put the tokens into the symbol table, so that GDB and other debuggers
+#  define YYTOKENTYPE
+/* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
-   enum yytokentype {
-     NC_UNLIMITED_K = 258,
-     BYTE_K = 259,
-     CHAR_K = 260,
-     SHORT_K = 261,
-     INT_K = 262,
-     FLOAT_K = 263,
-     DOUBLE_K = 264,
-     IDENT = 265,
-     TERMSTRING = 266,
-     BYTE_CONST = 267,
-     CHAR_CONST = 268,
-     SHORT_CONST = 269,
-     INT_CONST = 270,
-     FLOAT_CONST = 271,
-     DOUBLE_CONST = 272,
-     DIMENSIONS = 273,
-     VARIABLES = 274,
-     NETCDF = 275,
-     DATA = 276,
-     FILLVALUE = 277
-   };
+enum yytokentype {
+  NC_UNLIMITED_K = 258,
+  BYTE_K         = 259,
+  CHAR_K         = 260,
+  SHORT_K        = 261,
+  INT_K          = 262,
+  FLOAT_K        = 263,
+  DOUBLE_K       = 264,
+  IDENT          = 265,
+  TERMSTRING     = 266,
+  BYTE_CONST     = 267,
+  CHAR_CONST     = 268,
+  SHORT_CONST    = 269,
+  INT_CONST      = 270,
+  FLOAT_CONST    = 271,
+  DOUBLE_CONST   = 272,
+  DIMENSIONS     = 273,
+  VARIABLES      = 274,
+  NETCDF         = 275,
+  DATA           = 276,
+  FILLVALUE      = 277
+};
 #endif
 
 
-#if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
+#if !defined YYSTYPE && !defined YYSTYPE_IS_DECLARED
 typedef int YYSTYPE;
-# define YYSTYPE_IS_TRIVIAL 1
-# define yystype YYSTYPE /* obsolescent; will be withdrawn */
-# define YYSTYPE_IS_DECLARED 1
+#  define YYSTYPE_IS_TRIVIAL 1
+#  define yystype YYSTYPE /* obsolescent; will be withdrawn */
+#  define YYSTYPE_IS_DECLARED 1
 #endif
 
 extern YYSTYPE ncglval;
 
 #ifdef YYPARSE_PARAM
-#if defined __STDC__ || defined __cplusplus
-int ncgparse (void *YYPARSE_PARAM);
-#else
-int ncgparse ();
-#endif
+#  if defined __STDC__ || defined __cplusplus
+int ncgparse(void *YYPARSE_PARAM);
+#  else
+int ncgparse();
+#  endif
 #else /* ! YYPARSE_PARAM */
-#if defined __STDC__ || defined __cplusplus
-int ncgparse (void);
-#else
-int ncgparse ();
-#endif
+#  if defined __STDC__ || defined __cplusplus
+int ncgparse(void);
+#  else
+int ncgparse();
+#  endif
 #endif /* ! YYPARSE_PARAM */
 
 #endif /* !YY_NCG_NCGEN_TAB_H_INCLUDED  */

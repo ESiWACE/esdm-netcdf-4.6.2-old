@@ -33,11 +33,11 @@ e.g. crc64 or such.  Needs some thought.
 */
 
 typedef struct NC_hentry {
-    int flags;
-    uintptr_t data;
-    unsigned int hashkey; /* Hash id */
-    size_t keysize;
-    char* key; /* copy of the key string; kept as unsigned char */
+  int flags;
+  uintptr_t data;
+  unsigned int hashkey; /* Hash id */
+  size_t keysize;
+  char *key; /* copy of the key string; kept as unsigned char */
 } NC_hentry;
 
 /*
@@ -45,9 +45,9 @@ The hashmap object must give us the hash table (table),
 the |table| size, and the # of defined entries in the table
 */
 typedef struct NC_hashmap {
-  size_t alloc; /* allocated # of entries */
+  size_t alloc;  /* allocated # of entries */
   size_t active; /* # of active entries */
-  NC_hentry* table;
+  NC_hentry *table;
 } NC_hashmap;
 
 /* defined in nchashmap.c */
@@ -59,35 +59,34 @@ There are two "kinds" of functions:
 */
 
 /** Creates a new hashmap near the given size. */
-extern NC_hashmap* NC_hashmapnew(size_t startsize);
+extern NC_hashmap *NC_hashmapnew(size_t startsize);
 
 /** Inserts a new element into the hashmap; takes key+size */
 /* key points to size bytes to convert to hash key */
-extern int NC_hashmapadd(NC_hashmap*, uintptr_t data, const char* key, size_t keysize);
+extern int NC_hashmapadd(NC_hashmap *, uintptr_t data, const char *key, size_t keysize);
 
 /** Removes the storage for the element of the key; takes key+size.
     Return 1 if found, 0 otherwise; returns the data in datap if !null
 */
-extern int NC_hashmapremove(NC_hashmap*, const char* key, size_t keysize, uintptr_t* datap);
+extern int NC_hashmapremove(NC_hashmap *, const char *key, size_t keysize, uintptr_t *datap);
 
 /** Returns the data for the key; takes key+size.
     Return 1 if found, 0 otherwise; returns the data in datap if !null
 */
-extern int NC_hashmapget(NC_hashmap*, const char* key, size_t keysize, uintptr_t* datap);
+extern int NC_hashmapget(NC_hashmap *, const char *key, size_t keysize, uintptr_t *datap);
 
 /** Change the data for the specified key; takes hashkey.
     Return 1 if found, 0 otherwise
 */
-extern int NC_hashmapsetdata(NC_hashmap*, const char* key, size_t keylen, uintptr_t newdata);
+extern int NC_hashmapsetdata(NC_hashmap *, const char *key, size_t keylen, uintptr_t newdata);
 
 /** Returns the number of saved elements. */
-extern size_t NC_hashmapcount(NC_hashmap*);
+extern size_t NC_hashmapcount(NC_hashmap *);
 
 /** Reclaims the hashmap structure. */
-extern int NC_hashmapfree(NC_hashmap*);
+extern int NC_hashmapfree(NC_hashmap *);
 
 /* Return the hash key for specified key; takes key+size*/
-extern unsigned int NC_hashmapkey(const char* key, size_t size);
+extern unsigned int NC_hashmapkey(const char *key, size_t size);
 
 #endif /*NCHASHMAP_H*/
-

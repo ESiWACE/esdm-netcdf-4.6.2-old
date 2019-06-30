@@ -12,11 +12,11 @@
 #define _HDF5INTERNAL_
 
 #include "config.h"
-#include <hdf5.h>
-#include <hdf5_hl.h>
+#include "nc4dispatch.h"
 #include "nc4internal.h"
 #include "ncdimscale.h"
-#include "nc4dispatch.h"
+#include <hdf5.h>
+#include <hdf5_hl.h>
 
 #define NC_MAX_HDF5_NAME (NC_MAX_NAME + 10)
 
@@ -51,28 +51,24 @@
 #define HDF5_DIMSCALE_NAME_ATT_NAME "NAME"
 
 /** Strut to hold HDF5-specific info for the file. */
-typedef struct  NC_HDF5_FILE_INFO
-{
-   hid_t hdfid;
+typedef struct NC_HDF5_FILE_INFO {
+  hid_t hdfid;
 } NC_HDF5_FILE_INFO_T;
 
 /* This is a struct to handle the dim metadata. */
-typedef struct NC_HDF5_DIM_INFO
-{
-   hid_t hdf_dimscaleid;        /* Non-zero if a DIM_WITHOUT_VARIABLE dataset is in use (no coord var). */
-   HDF5_OBJID_T hdf5_objid;
+typedef struct NC_HDF5_DIM_INFO {
+  hid_t hdf_dimscaleid; /* Non-zero if a DIM_WITHOUT_VARIABLE dataset is in use (no coord var). */
+  HDF5_OBJID_T hdf5_objid;
 } NC_HDF5_DIM_INFO_T;
 
 /** Strut to hold HDF5-specific info for attributes. */
-typedef struct  NC_HDF5_ATT_INFO
-{
-   hid_t native_hdf_typeid;     /* Native HDF5 data type for attribute's data */
+typedef struct NC_HDF5_ATT_INFO {
+  hid_t native_hdf_typeid; /* Native HDF5 data type for attribute's data */
 } NC_HDF5_ATT_INFO_T;
 
 /* Struct to hold HDF5-specific info for a group. */
-typedef struct NC_HDF5_GRP_INFO
-{
-   hid_t hdf_grpid;
+typedef struct NC_HDF5_GRP_INFO {
+  hid_t hdf_grpid;
 } NC_HDF5_GRP_INFO_T;
 
 /* These functions do HDF5 things. */
@@ -82,12 +78,12 @@ void reportopenobjects(int log, hid_t);
 int nc4_rec_grp_HDF5_del(NC_GRP_INFO_T *grp);
 
 /* Used by NC4_set_provenance */
-int nc4_put_att(NC_GRP_INFO_T* grp, int varid, const char *name, nc_type file_type,
-            size_t len, const void *data, nc_type mem_type, int force);
+int nc4_put_att(NC_GRP_INFO_T *grp, int varid, const char *name, nc_type file_type,
+size_t len, const void *data, nc_type mem_type, int force);
 
 /* In-memory functions */
-extern hid_t NC4_image_init(NC_FILE_INFO_T* h5);
-extern void NC4_image_finalize(void*);
+extern hid_t NC4_image_init(NC_FILE_INFO_T *h5);
+extern void NC4_image_finalize(void *);
 
 /* These functions are internal to the libhdf5 directory. */
 int nc4_detect_preserve_dimids(NC_GRP_INFO_T *grp, nc_bool_t *bad_coord_orderp);

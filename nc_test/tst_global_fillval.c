@@ -15,23 +15,20 @@
    */
 
 #include "config.h"
-#include <nc_tests.h>
 #include "err_macros.h"
+#include <nc_tests.h>
 
 #define FILE_NAME "tst_global_fillval.nc"
 
 
-int
-main(int argc, char **argv)
-{
-    printf("*** testing proper elatefill return...");
-    {
-
-	int n = 0;
+int main(int argc, char **argv) {
+  printf("*** testing proper elatefill return...");
+  {
+    int n = 0;
     int i;
     int num_formats = 2;
-    int *formats = NULL;
-	/* Determine how many formats are in use. */
+    int *formats    = NULL;
+    /* Determine how many formats are in use. */
 
 #ifdef USE_NETCDF4
     num_formats += 2;
@@ -41,32 +38,29 @@ main(int argc, char **argv)
     num_formats++;
 #endif
 
-    formats = malloc(sizeof(int)*num_formats);
+    formats = malloc(sizeof(int) * num_formats);
 
 
-	formats[n++] = 0;
-	formats[n++] = NC_64BIT_OFFSET;
+    formats[n++] = 0;
+    formats[n++] = NC_64BIT_OFFSET;
 #ifdef ENABLE_CDF5
-	formats[n++] = NC_64BIT_DATA;
+    formats[n++] = NC_64BIT_DATA;
 #endif
 #ifdef USE_NETCDF4
-	formats[n++] = NC_NETCDF4;
-	formats[n++] = NC_CLASSIC_MODEL | NC_NETCDF4;
+    formats[n++] = NC_NETCDF4;
+    formats[n++] = NC_CLASSIC_MODEL | NC_NETCDF4;
 #endif
 
-	for (i = 0; i < num_formats; i++)
-	{
-
+    for (i = 0; i < num_formats; i++) {
       int ncid, cmode, fillv = 9;
       cmode = NC_CLOBBER | formats[i];
       if (nc_create(FILE_NAME, cmode, &ncid)) ERR;
       if (nc_put_att_int(ncid, NC_GLOBAL, "_FillValue", NC_INT, 1, &fillv)) ERR;
       if (nc_close(ncid)) ERR;
-
-	}
-    free(formats);
     }
+    free(formats);
+  }
 
-    SUMMARIZE_ERR;
-    FINAL_RESULTS;
+  SUMMARIZE_ERR;
+  FINAL_RESULTS;
 }

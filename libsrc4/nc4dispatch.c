@@ -4,11 +4,11 @@
  *   $Header: /upc/share/CVS/netcdf-3/libsrc4/nc4dispatch.c,v 1.5 2010/05/27 02:19:37 dmh Exp $
  *********************************************************************/
 
-#include "config.h"
-#include <stdlib.h>
-#include "nc4internal.h"
 #include "nc4dispatch.h"
+#include "config.h"
 #include "nc.h"
+#include "nc4internal.h"
+#include <stdlib.h>
 
 /* If user-defined formats are in use, we need to declare their
  * dispatch tables. */
@@ -118,7 +118,7 @@ NC4_get_var_chunk_cache,
 
 };
 
-NC_Dispatch* NC4_dispatch_table = NULL; /* moved here from ddispatch.c */
+NC_Dispatch *NC4_dispatch_table = NULL; /* moved here from ddispatch.c */
 
 /**
  * @internal Initialize netCDF-4. If user-defined format(s) have been
@@ -127,40 +127,38 @@ NC_Dispatch* NC4_dispatch_table = NULL; /* moved here from ddispatch.c */
  * @return ::NC_NOERR No error.
  * @author Dennis Heimbigner
  */
-int
-NC4_initialize(void)
-{
-   int ret = NC_NOERR;
-   
-   NC4_dispatch_table = &NC4_dispatcher;
+int NC4_initialize(void) {
+  int ret = NC_NOERR;
 
-   /* This needs some kind of conditional on if libhdf5 is enabled */
-   if(!nc4_hdf5_initialized)
-      nc4_hdf5_initialize();
+  NC4_dispatch_table = &NC4_dispatcher;
+
+  /* This needs some kind of conditional on if libhdf5 is enabled */
+  if (!nc4_hdf5_initialized)
+    nc4_hdf5_initialize();
 
 #ifdef USE_UDF0
-   /* If user-defined format 0 was specified during configure, set up
+  /* If user-defined format 0 was specified during configure, set up
     * it's dispatch table. */
-   if ((ret = nc_def_user_format(NC_UDF0, UDF0_DISPATCH_FUNC, NULL)))
-      return ret;
+  if ((ret = nc_def_user_format(NC_UDF0, UDF0_DISPATCH_FUNC, NULL)))
+    return ret;
 #endif /* USE_UDF0 */
-    
+
 #ifdef USE_UDF1
-   /* If user-defined format 0 was specified during configure, set up
+  /* If user-defined format 0 was specified during configure, set up
     * it's dispatch table. */
-   if ((ret = nc_def_user_format(NC_UDF1F, &UDF1_DISPATCH_FUNC, NULL)))
-      return ret;
+  if ((ret = nc_def_user_format(NC_UDF1F, &UDF1_DISPATCH_FUNC, NULL)))
+    return ret;
 #endif /* USE_UDF0 */
-    
+
 #ifdef LOGGING
-   if(getenv(NCLOGLEVELENV) != NULL) {
-   char* slevel = getenv(NCLOGLEVELENV);
-   long level = atol(slevel);
-   if(level >= 0)
+  if (getenv(NCLOGLEVELENV) != NULL) {
+    char *slevel = getenv(NCLOGLEVELENV);
+    long level   = atol(slevel);
+    if (level >= 0)
       nc_set_log_level((int)level);
-}
+  }
 #endif
-   return ret;
+  return ret;
 }
 
 /**
@@ -169,9 +167,7 @@ NC4_initialize(void)
  * @return ::NC_NOERR No error.
  * @author Dennis Heimbigner
  */
-int
-NC4_finalize(void)
-{
-    nc4_hdf5_finalize();
-    return NC_NOERR;
+int NC4_finalize(void) {
+  nc4_hdf5_finalize();
+  return NC_NOERR;
 }

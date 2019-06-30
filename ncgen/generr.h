@@ -13,16 +13,16 @@
 extern int error_count;
 
 #if 0
-#define vastart(argv,fmt) va_start(argv,fmt)
-#define vaend(argv,fmt) va_end(argv)
+#  define vastart(argv, fmt) va_start(argv, fmt)
+#  define vaend(argv, fmt) va_end(argv)
 #endif
 
 extern void vderror(const char *fmt, va_list argv);
 extern void vdwarn(const char *fmt, va_list argv);
 extern void derror(const char *fmt, ...);
-extern int panic(const char* fmt, ...);
-extern void nprintf(char* buffer, size_t size, const char *fmt, ...);
-extern  void semerror(const int, const char *fmt, ...);
-extern  void semwarn(const int, const char *fmt, ...);
+extern int panic(const char *fmt, ...);
+extern void nprintf(char *buffer, size_t size, const char *fmt, ...);
+extern void semerror(const int, const char *fmt, ...);
+extern void semwarn(const int, const char *fmt, ...);
 
 #endif /*GENERR_H*/

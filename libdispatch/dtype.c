@@ -65,14 +65,12 @@ will occur if either of the types have not been committed to the file
 
 \author Dennis Heimbigner, Ward Fisher, Ed Hartnett
  */
-int
-nc_inq_type_equal(int ncid1, nc_type typeid1, int ncid2,
-		  nc_type typeid2, int *equal)
-{
-    NC* ncp1;
-    int stat = NC_check_id(ncid1,&ncp1);
-    if(stat != NC_NOERR) return stat;
-    return ncp1->dispatch->inq_type_equal(ncid1,typeid1,ncid2,typeid2,equal);
+int nc_inq_type_equal(int ncid1, nc_type typeid1, int ncid2,
+nc_type typeid2, int *equal) {
+  NC *ncp1;
+  int stat = NC_check_id(ncid1, &ncp1);
+  if (stat != NC_NOERR) return stat;
+  return ncp1->dispatch->inq_type_equal(ncid1, typeid1, ncid2, typeid2, equal);
 }
 
 /** \name Learning about User-Defined Types
@@ -98,13 +96,11 @@ found.
 \returns ::NC_EHDFERR An error was reported by the HDF5 layer.
 \author Ed Hartnett, Dennis Heimbigner
  */
-int
-nc_inq_typeid(int ncid, const char *name, nc_type *typeidp)
-{
-    NC* ncp;
-    int stat = NC_check_id(ncid,&ncp);
-    if(stat != NC_NOERR) return stat;
-    return ncp->dispatch->inq_typeid(ncid,name,typeidp);
+int nc_inq_typeid(int ncid, const char *name, nc_type *typeidp) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->inq_typeid(ncid, name, typeidp);
 }
 
 /** \ingroup user_types
@@ -142,16 +138,14 @@ compound types. \ref ignored_if_null.
 \returns ::NC_EHDFERR An error was reported by the HDF5 layer.
 \author Ed Hartnett, Dennis Heimbigner
  */
-int
-nc_inq_user_type(int ncid, nc_type xtype, char *name, size_t *size,
-		 nc_type *base_nc_typep, size_t *nfieldsp, int *classp)
-{
-    NC *ncp;
-    int stat = NC_check_id(ncid,&ncp);
-    if(stat != NC_NOERR) return stat;
-    return ncp->dispatch->inq_user_type(ncid, xtype, name, size,
-					base_nc_typep, nfieldsp, classp);
+int nc_inq_user_type(int ncid, nc_type xtype, char *name, size_t *size,
+nc_type *base_nc_typep, size_t *nfieldsp, int *classp) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->inq_user_type(ncid, xtype, name, size,
+  base_nc_typep, nfieldsp, classp);
 }
-/*! \} */  /* End of named group ...*/
+/*! \} */ /* End of named group ...*/
 
 /** \} */

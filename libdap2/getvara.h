@@ -16,9 +16,9 @@ and the per-retrieval maximum size
 #define GIGBYTE 0x40000000
 
 /* The cache limit is in terms of bytes */
-#define DFALTCACHELIMIT (100*MEGBYTE)
+#define DFALTCACHELIMIT (100 * MEGBYTE)
 /* The fetch limit is in terms of bytes */
-#define DFALTFETCHLIMIT (100*KILOBYTE)
+#define DFALTFETCHLIMIT (100 * KILOBYTE)
 
 /* WARNING: The small limit is in terms of the # of vector elements */
 #define DFALTSMALLLIMIT (4096)
@@ -27,13 +27,13 @@ and the per-retrieval maximum size
 #define DFALTCACHECOUNT (100)
 
 typedef struct Getvara {
-    void* memory; /* where result is put*/
-    struct NCcachenode* cache;
-    struct DCEprojection* varaprojection;
-    /* associated nc variable*/
-    nc_type dsttype;
-    CDFnode* target;
-    int wholevariable;
+  void *memory; /* where result is put*/
+  struct NCcachenode *cache;
+  struct DCEprojection *varaprojection;
+  /* associated nc variable*/
+  nc_type dsttype;
+  CDFnode *target;
+  int wholevariable;
 } Getvara;
 
 #endif /*GETVARA_H*/

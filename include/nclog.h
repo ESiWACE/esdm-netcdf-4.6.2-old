@@ -7,8 +7,8 @@
 #ifndef NCLOG_H
 #define NCLOG_H
 
-#include <stdarg.h>
 #include "ncexternl.h"
+#include <stdarg.h>
 
 #define NCENVFLAG "NCLOGFILE"
 
@@ -24,17 +24,17 @@ extern "C" {
 
 EXTERNL void ncloginit(void);
 EXTERNL int ncsetlogging(int tf);
-EXTERNL int nclogopen(const char* file);
+EXTERNL int nclogopen(const char *file);
 EXTERNL void nclogclose(void);
 
 /* The tag value is an arbitrary integer */
-EXTERNL void nclog(int tag, const char* fmt, ...);
-EXTERNL void ncvlog(int tag, const char* fmt, va_list ap);
-EXTERNL void nclogtext(int tag, const char* text);
-EXTERNL void nclogtextn(int tag, const char* text, size_t count);
+EXTERNL void nclog(int tag, const char *fmt, ...);
+EXTERNL void ncvlog(int tag, const char *fmt, va_list ap);
+EXTERNL void nclogtext(int tag, const char *text);
+EXTERNL void nclogtextn(int tag, const char *text, size_t count);
 
 /* Provide printable names for tags */
-EXTERNL void nclogsettags(char** tagset, char* dfalt);
+EXTERNL void nclogsettags(char **tagset, char *dfalt);
 
 #if defined(_CPLUSPLUS_) || defined(__CPLUSPLUS__)
 }

@@ -488,7 +488,7 @@ MACRO(SHARE)
 for synchronous dataset updates for classic format files
 (default is to buffer accesses),
 .sp
-When a netCDF dataset is created, is is opened
+When a netCDF dataset is created, is opened
 MACRO(WRITE).
 The new netCDF dataset is in <<define>> mode.
 MACRO(64BIT_OFFSET).

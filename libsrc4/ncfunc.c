@@ -14,8 +14,8 @@
  * @author Ed Hartnett, Dennis Heimbigner
 */
 
-#include "nc4internal.h"
 #include "nc4dispatch.h"
+#include "nc4internal.h"
 
 /**
  * @internal Get the format (i.e. NC_FORMAT_NETCDF4 pr
@@ -28,28 +28,26 @@
  * @return ::NC_EBADID Bad ncid.
  * @author Ed Hartnett
  */
-int
-NC4_inq_format(int ncid, int *formatp)
-{
-   NC_FILE_INFO_T *nc4_info;
-   int retval;
+int NC4_inq_format(int ncid, int *formatp) {
+  NC_FILE_INFO_T *nc4_info;
+  int retval;
 
-   LOG((2, "nc_inq_format: ncid 0x%x", ncid));
+  LOG((2, "nc_inq_format: ncid 0x%x", ncid));
 
-   if (!formatp)
-      return NC_NOERR;
+  if (!formatp)
+    return NC_NOERR;
 
-   /* Find the file metadata. */
-   if ((retval = nc4_find_nc_grp_h5(ncid, NULL, NULL, &nc4_info)))
-      return retval;
+  /* Find the file metadata. */
+  if ((retval = nc4_find_nc_grp_h5(ncid, NULL, NULL, &nc4_info)))
+    return retval;
 
-   /* Check if classic NC3 rules are in effect for this file. */
-   if (nc4_info->cmode & NC_CLASSIC_MODEL)
-      *formatp = NC_FORMAT_NETCDF4_CLASSIC;
-   else
-      *formatp = NC_FORMAT_NETCDF4;
+  /* Check if classic NC3 rules are in effect for this file. */
+  if (nc4_info->cmode & NC_CLASSIC_MODEL)
+    *formatp = NC_FORMAT_NETCDF4_CLASSIC;
+  else
+    *formatp = NC_FORMAT_NETCDF4;
 
-   return NC_NOERR;
+  return NC_NOERR;
 }
 
 /**
@@ -68,22 +66,20 @@ NC4_inq_format(int ncid, int *formatp)
  * @return ::NC_EBADID Bad ncid.
  * @author Dennis Heimbigner
  */
-int
-NC4_inq_format_extended(int ncid, int *formatp, int *modep)
-{
-   NC *nc;
-   int retval;
+int NC4_inq_format_extended(int ncid, int *formatp, int *modep) {
+  NC *nc;
+  int retval;
 
-   LOG((2, "%s: ncid 0x%x", __func__, ncid));
+  LOG((2, "%s: ncid 0x%x", __func__, ncid));
 
-   if ((retval = nc4_find_nc_grp_h5(ncid, &nc, NULL, NULL)))
-      return NC_EBADID;
+  if ((retval = nc4_find_nc_grp_h5(ncid, &nc, NULL, NULL)))
+    return NC_EBADID;
 
-   if(modep)
-      *modep = nc->mode|NC_NETCDF4;
+  if (modep)
+    *modep = nc->mode | NC_NETCDF4;
 
-   if (formatp) 
-      *formatp = NC_FORMATX_NC_HDF5;
+  if (formatp)
+    *formatp = NC_FORMATX_NC_HDF5;
 
-   return NC_NOERR;
+  return NC_NOERR;
 }

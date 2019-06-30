@@ -17,20 +17,20 @@ extern "C" {
  * The opaque structure to hold per-variable state of data iteration
  */
 typedef struct {
-    int first;	     /* false after first invocation of nc_next_iter() */
-    int right_dim;   /* rightmost dimension for start of variable pieces */
-    size_t rows;     /* how many subpiece rows in bufsiz */
-    size_t numrows;  /* how many row pieces in right_dim dimension */
-    size_t cur;	     /* current "row" in loop over row pieces */
-    size_t leftover; /* how many rows left over after partitioning
+  int first;       /* false after first invocation of nc_next_iter() */
+  int right_dim;   /* rightmost dimension for start of variable pieces */
+  size_t rows;     /* how many subpiece rows in bufsiz */
+  size_t numrows;  /* how many row pieces in right_dim dimension */
+  size_t cur;      /* current "row" in loop over row pieces */
+  size_t leftover; /* how many rows left over after partitioning
 		      * bufsiz into subpiece blocks */
-    int more;	     /* whether there is more data still to get */
-    size_t to_get;   /* number of values to get on this access */
-    int rank;	     /* number of dimensions */
-    size_t inc;	     /* increment for right_dim element of start vector */
-    int chunked;     /* 1 if chunked, 0 if contiguous */
-    size_t *dimsizes;
-    size_t *chunksizes; /* ignored if not chunked */
+  int more;        /* whether there is more data still to get */
+  size_t to_get;   /* number of values to get on this access */
+  int rank;        /* number of dimensions */
+  size_t inc;      /* increment for right_dim element of start vector */
+  int chunked;     /* 1 if chunked, 0 if contiguous */
+  size_t *dimsizes;
+  size_t *chunksizes; /* ignored if not chunked */
 } nciter_t;
 
 /*

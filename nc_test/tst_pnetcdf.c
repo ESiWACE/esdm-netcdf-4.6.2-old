@@ -8,145 +8,167 @@
    Author: Wei-keng Liao.
 */
 
-#include <nc_tests.h>
 #include "err_macros.h"
+#include <assert.h>
+#include <mpi.h>
+#include <nc_tests.h>
+#include <netcdf.h>
+#include <netcdf_par.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <mpi.h>
-#include <netcdf.h>
-#include <netcdf_par.h>
-#include <assert.h>
 
 #define NVARS 6
-#define NX    5
+#define NX 5
 #define FILENAME "tst_pnetcdf.nc"
 
-#define CHK_ERR(e) { \
-    if (e != NC_NOERR) { \
-        printf("Error at %s:%d : %s\n", __FILE__,__LINE__, nc_strerror(e)); \
-        goto fn_exit; \
-    } \
-}
+#define CHK_ERR(e)                                                         \
+  {                                                                        \
+    if (e != NC_NOERR) {                                                   \
+      printf("Error at %s:%d : %s\n", __FILE__, __LINE__, nc_strerror(e)); \
+      goto fn_exit;                                                        \
+    }                                                                      \
+  }
 
-#define EXP_ERR(e, exp) { \
-    if (e != exp) { \
-        printf("Error at %s:%d : expect "#exp" but got %d\n", __FILE__,__LINE__, e); \
-    } \
-}
+#define EXP_ERR(e, exp)                                                               \
+  {                                                                                   \
+    if (e != exp) {                                                                   \
+      printf("Error at %s:%d : expect " #exp " but got %d\n", __FILE__, __LINE__, e); \
+    }                                                                                 \
+  }
 
 
-int main(int argc, char* argv[])
-{
-    int i, j, rank, nprocs, ncid, cmode, varid[NVARS], dimid[2], *buf;
-    int st, nerrs=0;
-    char str[32];
-    size_t start[2], count[2];
-    MPI_Comm comm=MPI_COMM_SELF;
-    MPI_Info info=MPI_INFO_NULL;
+int main(int argc, char *argv[]) {
+  int i, j, rank, nprocs, ncid, cmode, varid[NVARS], dimid[2], *buf;
+  int st, nerrs = 0;
+  char str[32];
+  size_t start[2], count[2];
+  MPI_Comm comm = MPI_COMM_SELF;
+  MPI_Info info = MPI_INFO_NULL;
 
-    printf("\n*** Testing bug fix with changing PnetCDF variable offsets...");
+  printf("\n*** Testing bug fix with changing PnetCDF variable offsets...");
 
-    MPI_Init(&argc,&argv);
-    MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+  MPI_Init(&argc, &argv);
+  MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
+  MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-    if (nprocs > 1 && rank == 0)
-        printf("This test program is intended to run on ONE process\n");
-    if (rank > 0) goto fn_exit;
+  if (nprocs > 1 && rank == 0)
+    printf("This test program is intended to run on ONE process\n");
+  if (rank > 0) goto fn_exit;
 
     /* first, use PnetCDF to create a file with default header/variable alignment */
 #ifdef DISABLE_PNETCDF_ALIGNMENT
-    MPI_Info_create(&info);
-    MPI_Info_set(info, "nc_header_align_size", "1");
-    MPI_Info_set(info, "nc_var_align_size",    "1");
+  MPI_Info_create(&info);
+  MPI_Info_set(info, "nc_header_align_size", "1");
+  MPI_Info_set(info, "nc_var_align_size", "1");
 #endif
 
-    cmode = NC_CLOBBER;
-    st = nc_create_par(FILENAME, cmode, comm, info, &ncid);
+  cmode = NC_CLOBBER;
+  st    = nc_create_par(FILENAME, cmode, comm, info, &ncid);
 #ifdef USE_PNETCDF
-    CHK_ERR(st)
+  CHK_ERR(st)
 #else
-    EXP_ERR(st, NC_ENOTBUILT)
-    goto fn_exit;
+  EXP_ERR(st, NC_ENOTBUILT)
+  goto fn_exit;
 #endif
 
-    /* define dimension */
-    st = nc_def_dim(ncid, "Y", NC_UNLIMITED, &dimid[0]); CHK_ERR(st)
-    st = nc_def_dim(ncid, "X", NX,           &dimid[1]); CHK_ERR(st)
+  /* define dimension */
+  st = nc_def_dim(ncid, "Y", NC_UNLIMITED, &dimid[0]);
+  CHK_ERR(st)
+  st = nc_def_dim(ncid, "X", NX, &dimid[1]);
+  CHK_ERR(st)
 
-    /* Odd numbers are fixed variables, even numbers are record variables */
-    for (i=0; i<NVARS; i++) {
-        if (i%2) {
-            sprintf(str,"fixed_var_%d",i);
-            st = nc_def_var(ncid, str, NC_INT, 1, dimid+1, &varid[i]); CHK_ERR(st)
-        }
-        else {
-            sprintf(str,"record_var_%d",i);
-            st = nc_def_var(ncid, str, NC_INT, 2, dimid, &varid[i]); CHK_ERR(st)
-        }
+  /* Odd numbers are fixed variables, even numbers are record variables */
+  for (i = 0; i < NVARS; i++) {
+    if (i % 2) {
+      sprintf(str, "fixed_var_%d", i);
+      st = nc_def_var(ncid, str, NC_INT, 1, dimid + 1, &varid[i]);
+      CHK_ERR(st)
+    } else {
+      sprintf(str, "record_var_%d", i);
+      st = nc_def_var(ncid, str, NC_INT, 2, dimid, &varid[i]);
+      CHK_ERR(st)
     }
-    st = nc_enddef(ncid); CHK_ERR(st)
+  }
+  st = nc_enddef(ncid);
+  CHK_ERR(st)
 
-    /* Note NC_INDEPENDENT is the default */
-    st = nc_var_par_access(ncid, NC_GLOBAL, NC_INDEPENDENT); CHK_ERR(st)
+  /* Note NC_INDEPENDENT is the default */
+  st = nc_var_par_access(ncid, NC_GLOBAL, NC_INDEPENDENT);
+  CHK_ERR(st)
 
-    /* write all variables */
-    buf = (int*) malloc(NX * sizeof(int));
-    for (i=0; i<NVARS; i++) {
-        for (j=0; j<NX; j++) buf[j] = i*10 + j;
-        if (i%2) {
-            start[0] = 0; count[0] = NX;
-            st = nc_put_vara_int(ncid, varid[i], start, count, buf); CHK_ERR(st)
-        }
-        else {
-            start[0] = 0; start[1] = 0;
-            count[0] = 1; count[1] = NX;
-            st = nc_put_vara_int(ncid, varid[i], start, count, buf); CHK_ERR(st)
-        }
+  /* write all variables */
+  buf = (int *)malloc(NX * sizeof(int));
+  for (i = 0; i < NVARS; i++) {
+    for (j = 0; j < NX; j++)
+      buf[j] = i * 10 + j;
+    if (i % 2) {
+      start[0] = 0;
+      count[0] = NX;
+      st       = nc_put_vara_int(ncid, varid[i], start, count, buf);
+      CHK_ERR(st)
+    } else {
+      start[0] = 0;
+      start[1] = 0;
+      count[0] = 1;
+      count[1] = NX;
+      st       = nc_put_vara_int(ncid, varid[i], start, count, buf);
+      CHK_ERR(st)
     }
-    st = nc_close(ncid); CHK_ERR(st)
-    if (info != MPI_INFO_NULL) MPI_Info_free(&info);
+  }
+  st = nc_close(ncid);
+  CHK_ERR(st)
+  if (info != MPI_INFO_NULL) MPI_Info_free(&info);
 
-    /* re-open the file with netCDF (parallel) and enter define mode */
-    st = nc_open_par(FILENAME, NC_WRITE, comm, info, &ncid); CHK_ERR(st)
+  /* re-open the file with netCDF (parallel) and enter define mode */
+  st = nc_open_par(FILENAME, NC_WRITE, comm, info, &ncid);
+  CHK_ERR(st)
 
-    st = nc_redef(ncid); CHK_ERR(st)
+  st = nc_redef(ncid);
+  CHK_ERR(st)
 
-    /* add attributes to make header grow */
-    for (i=0; i<NVARS; i++) {
-        sprintf(str, "annotation_for_var_%d",i);
-        st = nc_put_att_text(ncid, varid[i], "text_attr", strlen(str), str); CHK_ERR(st)
+  /* add attributes to make header grow */
+  for (i = 0; i < NVARS; i++) {
+    sprintf(str, "annotation_for_var_%d", i);
+    st = nc_put_att_text(ncid, varid[i], "text_attr", strlen(str), str);
+    CHK_ERR(st)
+  }
+  st = nc_enddef(ncid);
+  CHK_ERR(st)
+
+  /* read variables and check their contents */
+  for (i = 0; i < NVARS; i++) {
+    for (j = 0; j < NX; j++)
+      buf[j] = -1;
+    if (i % 2) {
+      start[0] = 0;
+      count[0] = NX;
+      st       = nc_get_var_int(ncid, varid[i], buf);
+      CHK_ERR(st)
+      for (j = 0; j < NX; j++)
+        if (buf[j] != i * 10 + j)
+          printf("unexpected read value var i=%d buf[j=%d]=%d should be %d\n", i, j, buf[j], i * 10 + j);
+    } else {
+      start[0] = 0;
+      start[1] = 0;
+      count[0] = 1;
+      count[1] = NX;
+      st       = nc_get_vara_int(ncid, varid[i], start, count, buf);
+      CHK_ERR(st)
+      for (j = 0; j < NX; j++)
+        if (buf[j] != i * 10 + j)
+          printf("unexpected read value var i=%d buf[j=%d]=%d should be %d\n", i, j, buf[j], i * 10 + j);
     }
-    st = nc_enddef(ncid); CHK_ERR(st)
-
-    /* read variables and check their contents */
-    for (i=0; i<NVARS; i++) {
-        for (j=0; j<NX; j++) buf[j] = -1;
-        if (i%2) {
-            start[0] = 0; count[0] = NX;
-            st = nc_get_var_int(ncid, varid[i], buf); CHK_ERR(st)
-            for (j=0; j<NX; j++)
-                if (buf[j] != i*10 + j)
-                    printf("unexpected read value var i=%d buf[j=%d]=%d should be %d\n",i,j,buf[j],i*10+j);
-        }
-        else {
-            start[0] = 0; start[1] = 0;
-            count[0] = 1; count[1] = NX;
-            st = nc_get_vara_int(ncid, varid[i], start, count, buf); CHK_ERR(st)
-            for (j=0; j<NX; j++)
-                if (buf[j] != i*10+j)
-                    printf("unexpected read value var i=%d buf[j=%d]=%d should be %d\n",i,j,buf[j],i*10+j);
-        }
-    }
-    st = nc_close(ncid); CHK_ERR(st)
+  }
+  st = nc_close(ncid);
+  CHK_ERR(st)
 
 fn_exit:
-    MPI_Finalize();
-    err = nerrs;
-    SUMMARIZE_ERR;
-    FINAL_RESULTS;
-    return (nerrs > 0);
+  MPI_Finalize();
+  err = nerrs;
+  SUMMARIZE_ERR;
+  FINAL_RESULTS;
+  return (nerrs > 0);
 }
 
 /*

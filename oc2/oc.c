@@ -2,19 +2,19 @@
    See the COPYRIGHT file for more information. */
 
 #include "config.h"
-#include <stdlib.h>
 #include <assert.h>
+#include <stdlib.h>
 #include <string.h>
 
-#include "netcdf.h"
-#include "ocinternal.h"
-#include "ocdebug.h"
-#include "ocdump.h"
 #include "nclog.h"
 #include "ncrc.h"
-#include "occurlfunctions.h"
-#include "ochttp.h"
 #include "ncwinpath.h"
+#include "netcdf.h"
+#include "occurlfunctions.h"
+#include "ocdebug.h"
+#include "ocdump.h"
+#include "ochttp.h"
+#include "ocinternal.h"
 
 #undef TRACK
 
@@ -22,14 +22,17 @@
 
 /* Track legal ids */
 
-#define ocverify(o) ((o) != NULL && (((OCheader*)(o))->magic == OCMAGIC)?1:0)
+#define ocverify(o) ((o) != NULL && (((OCheader *)(o))->magic == OCMAGIC) ? 1 : 0)
 
-#define ocverifyclass(o,cl) ((o) != NULL && (((OCheader*)(o))->occlass == cl)?1:0)
+#define ocverifyclass(o, cl) ((o) != NULL && (((OCheader *)(o))->occlass == cl) ? 1 : 0)
 
-#define OCVERIFYX(k,x,r) if(!ocverify(x)||!ocverifyclass(x,k)) {return (r);}
-#define OCVERIFY(k,x) OCVERIFYX(k,x,OCTHROW(OC_EINVAL))
+#define OCVERIFYX(k, x, r)                    \
+  if (!ocverify(x) || !ocverifyclass(x, k)) { \
+    return (r);                               \
+  }
+#define OCVERIFY(k, x) OCVERIFYX(k, x, OCTHROW(OC_EINVAL))
 
-#define OCDEREF(T,s,x) (s)=(T)(x)
+#define OCDEREF(T, s, x) (s) = (T)(x)
 
 /**************************************************/
 /*!\file oc.c
@@ -52,18 +55,17 @@ object is to be returned.
 */
 
 OCerror
-oc_open(const char* url, OCobject* linkp)
-{
-	OCerror ocerr = OC_NOERR;
-    OCstate* state = NULL;
-    ocerr = ocopen(&state,url);
-    if(ocerr == OC_NOERR && linkp) {
-      *linkp = (OCobject)(state);
-    } else {
-      if(state) free(state);
-    }
+oc_open(const char *url, OCobject *linkp) {
+  OCerror ocerr  = OC_NOERR;
+  OCstate *state = NULL;
+  ocerr          = ocopen(&state, url);
+  if (ocerr == OC_NOERR && linkp) {
+    *linkp = (OCobject)(state);
+  } else {
+    if (state) free(state);
+  }
 
-    return OCTHROW(ocerr);
+  return OCTHROW(ocerr);
 }
 
 /*!
@@ -77,13 +79,12 @@ that link.
 */
 
 OCerror
-oc_close(OCobject link)
-{
-    OCstate* state;
-    OCVERIFY(OC_State,link);
-    OCDEREF(OCstate*,state,link);
-    occlose(state);
-    return OCTHROW(OC_NOERR);
+oc_close(OCobject link) {
+  OCstate *state;
+  OCVERIFY(OC_State, link);
+  OCDEREF(OCstate *, state, link);
+  occlose(state);
+  return OCTHROW(OC_NOERR);
 }
 
 /** @} */
@@ -114,20 +115,19 @@ the root node of the tree associated with the the request.
 */
 
 OCerror
-oc_fetch(OCobject link, const char* constraint,
-                 OCdxd dxdkind, OCflags flags, OCobject* rootp)
-{
-    OCstate* state;
-    OCerror ocerr = OC_NOERR;
-    OCnode* root;
-    OCVERIFY(OC_State,link);
-    OCDEREF(OCstate*,state,link);
+oc_fetch(OCobject link, const char *constraint,
+OCdxd dxdkind, OCflags flags, OCobject *rootp) {
+  OCstate *state;
+  OCerror ocerr = OC_NOERR;
+  OCnode *root;
+  OCVERIFY(OC_State, link);
+  OCDEREF(OCstate *, state, link);
 
-    ocerr = ocfetch(state,constraint,dxdkind,flags,&root);
-    if(ocerr) return OCTHROW(ocerr);
+  ocerr = ocfetch(state, constraint, dxdkind, flags, &root);
+  if (ocerr) return OCTHROW(ocerr);
 
-    if(rootp) *rootp = (OCobject)(root);
-    return OCTHROW(ocerr);
+  if (rootp) *rootp = (OCobject)(root);
+  return OCTHROW(ocerr);
 }
 
 
@@ -146,14 +146,13 @@ will be reclaimed as well.
 */
 
 OCerror
-oc_root_free(OCobject link, OCobject ddsroot)
-{
-    OCnode* root;
-    OCVERIFY(OC_Node,ddsroot);
-    OCDEREF(OCnode*,root,ddsroot);
+oc_root_free(OCobject link, OCobject ddsroot) {
+  OCnode *root;
+  OCVERIFY(OC_Node, ddsroot);
+  OCDEREF(OCnode *, root, ddsroot);
 
-    ocroot_free(root);
-    return OCTHROW(OC_NOERR);
+  ocroot_free(root);
+  return OCTHROW(OC_NOERR);
 }
 
 /*!
@@ -167,17 +166,16 @@ a DAS, DDS, or DATADDS request exactly as sent by the server.
 \retval OC_EINVAL  One of the arguments (link, etc.) was invalid.
 */
 
-const char*
-oc_tree_text(OCobject link, OCobject ddsroot)
-{
-    OCnode* root = NULL;
-    OCVERIFYX(OC_Node,ddsroot,NULL);
-    OCDEREF(OCnode*,root,ddsroot);
+const char *
+oc_tree_text(OCobject link, OCobject ddsroot) {
+  OCnode *root = NULL;
+  OCVERIFYX(OC_Node, ddsroot, NULL);
+  OCDEREF(OCnode *, root, ddsroot);
 
-    if(root == NULL) return NULL;
-    root = root->root;
-    if(root->tree == NULL) return NULL;
-    return root->tree->text;
+  if (root == NULL) return NULL;
+  root = root->root;
+  if (root->tree == NULL) return NULL;
+  return root->tree->text;
 }
 
 /**@}*/
@@ -217,33 +215,32 @@ of attributes associated with this object.
 
 OCerror
 oc_dds_properties(OCobject link,
- 	  OCobject ddsnode,
-	  char** namep,
-	  OCtype* octypep,
-	  OCtype* atomtypep, /* if objecttype == OC_Atomic */
-	  OCobject* containerp,
-	  size_t* rankp,
-	  size_t* nsubnodesp,
-	  size_t* nattrp)
-{
-    OCnode* node;
-    OCVERIFY(OC_Node,ddsnode);
-    OCDEREF(OCnode*,node,ddsnode);
+OCobject ddsnode,
+char **namep,
+OCtype *octypep,
+OCtype *atomtypep, /* if objecttype == OC_Atomic */
+OCobject *containerp,
+size_t *rankp,
+size_t *nsubnodesp,
+size_t *nattrp) {
+  OCnode *node;
+  OCVERIFY(OC_Node, ddsnode);
+  OCDEREF(OCnode *, node, ddsnode);
 
-    if(namep) *namep = nulldup(node->name);
-    if(octypep) *octypep = node->octype;
-    if(atomtypep) *atomtypep = node->etype;
-    if(rankp) *rankp = node->array.rank;
-    if(containerp) *containerp = (OCobject)node->container;
-    if(nsubnodesp) *nsubnodesp = nclistlength(node->subnodes);
-    if(nattrp) {
-        if(node->octype == OC_Attribute) {
-            *nattrp = nclistlength(node->att.values);
-        } else {
-            *nattrp = nclistlength(node->attributes);
-	}
+  if (namep) *namep = nulldup(node->name);
+  if (octypep) *octypep = node->octype;
+  if (atomtypep) *atomtypep = node->etype;
+  if (rankp) *rankp = node->array.rank;
+  if (containerp) *containerp = (OCobject)node->container;
+  if (nsubnodesp) *nsubnodesp = nclistlength(node->subnodes);
+  if (nattrp) {
+    if (node->octype == OC_Attribute) {
+      *nattrp = nclistlength(node->att.values);
+    } else {
+      *nattrp = nclistlength(node->attributes);
     }
-    return OCTHROW(OC_NOERR);
+  }
+  return OCTHROW(OC_NOERR);
 }
 
 /*!
@@ -259,18 +256,17 @@ when no longer needed.
 */
 
 OCerror
-oc_dds_name(OCobject link, OCobject ddsnode, char** namep)
-{
-    OCstate* state;
-    OCnode* node;
-    OCVERIFY(OC_State,link);
-    OCDEREF(OCstate*,state,link);
-    OCVERIFY(OC_Node,ddsnode);
-    OCDEREF(OCnode*,node,ddsnode);
+oc_dds_name(OCobject link, OCobject ddsnode, char **namep) {
+  OCstate *state;
+  OCnode *node;
+  OCVERIFY(OC_State, link);
+  OCDEREF(OCstate *, state, link);
+  OCVERIFY(OC_Node, ddsnode);
+  OCDEREF(OCnode *, node, ddsnode);
 
-    if(state == NULL || node == NULL) return OCTHROW(OCTHROW(OC_EINVAL));
-    if(namep) *namep = nulldup(node->name);
-    return OCTHROW(OC_NOERR);
+  if (state == NULL || node == NULL) return OCTHROW(OCTHROW(OC_EINVAL));
+  if (namep) *namep = nulldup(node->name);
+  return OCTHROW(OC_NOERR);
 }
 
 /*!
@@ -285,14 +281,13 @@ is stored.
 */
 
 OCerror
-oc_dds_nsubnodes(OCobject link, OCobject ddsnode, size_t* nsubnodesp)
-{
-    OCnode* node;
-    OCVERIFY(OC_Node,ddsnode);
-    OCDEREF(OCnode*,node,ddsnode);
+oc_dds_nsubnodes(OCobject link, OCobject ddsnode, size_t *nsubnodesp) {
+  OCnode *node;
+  OCVERIFY(OC_Node, ddsnode);
+  OCDEREF(OCnode *, node, ddsnode);
 
-    if(nsubnodesp) *nsubnodesp = nclistlength(node->subnodes);
-    return OCTHROW(OC_NOERR);
+  if (nsubnodesp) *nsubnodesp = nclistlength(node->subnodes);
+  return OCTHROW(OC_NOERR);
 }
 
 /*!
@@ -306,14 +301,13 @@ Specialized accessor function as an alternative to oc_dds_properties.
 */
 
 OCerror
-oc_dds_atomictype(OCobject link, OCobject ddsnode, OCtype* typep)
-{
-    OCnode* node;
-    OCVERIFY(OC_Node,ddsnode);
-    OCDEREF(OCnode*,node,ddsnode);
+oc_dds_atomictype(OCobject link, OCobject ddsnode, OCtype *typep) {
+  OCnode *node;
+  OCVERIFY(OC_Node, ddsnode);
+  OCDEREF(OCnode *, node, ddsnode);
 
-    if(typep) *typep = node->etype;
-    return OCTHROW(OC_NOERR);
+  if (typep) *typep = node->etype;
+  return OCTHROW(OC_NOERR);
 }
 
 /*!
@@ -327,14 +321,13 @@ Specialized accessor function as an alternative to oc_dds_properties.
 */
 
 OCerror
-oc_dds_class(OCobject link, OCobject ddsnode, OCtype* typep)
-{
-    OCnode* node;
-    OCVERIFY(OC_Node,ddsnode);
-    OCDEREF(OCnode*,node,ddsnode);
+oc_dds_class(OCobject link, OCobject ddsnode, OCtype *typep) {
+  OCnode *node;
+  OCVERIFY(OC_Node, ddsnode);
+  OCDEREF(OCnode *, node, ddsnode);
 
-    if(typep) *typep = node->octype;
-    return OCTHROW(OC_NOERR);
+  if (typep) *typep = node->octype;
+  return OCTHROW(OC_NOERR);
 }
 
 /*!
@@ -348,14 +341,13 @@ Specialized accessor function as an alternative to oc_dds_properties.
 */
 
 OCerror
-oc_dds_rank(OCobject link, OCobject ddsnode, size_t* rankp)
-{
-    OCnode* node;
-    OCVERIFY(OC_Node,ddsnode);
-    OCDEREF(OCnode*,node,ddsnode);
+oc_dds_rank(OCobject link, OCobject ddsnode, size_t *rankp) {
+  OCnode *node;
+  OCVERIFY(OC_Node, ddsnode);
+  OCDEREF(OCnode *, node, ddsnode);
 
-    if(rankp) *rankp = node->array.rank;
-    return OCTHROW(OC_NOERR);
+  if (rankp) *rankp = node->array.rank;
+  return OCTHROW(OC_NOERR);
 }
 
 /*!
@@ -369,20 +361,19 @@ Specialized accessor function as an alternative to oc_dds_properties.
 */
 
 OCerror
-oc_dds_attr_count(OCobject link, OCobject ddsnode, size_t* nattrp)
-{
-    OCnode* node;
-    OCVERIFY(OC_Node,ddsnode);
-    OCDEREF(OCnode*,node,ddsnode);
+oc_dds_attr_count(OCobject link, OCobject ddsnode, size_t *nattrp) {
+  OCnode *node;
+  OCVERIFY(OC_Node, ddsnode);
+  OCDEREF(OCnode *, node, ddsnode);
 
-    if(nattrp) {
-        if(node->octype == OC_Attribute) {
-            *nattrp = nclistlength(node->att.values);
-        } else {
-            *nattrp = nclistlength(node->attributes);
-	}
+  if (nattrp) {
+    if (node->octype == OC_Attribute) {
+      *nattrp = nclistlength(node->att.values);
+    } else {
+      *nattrp = nclistlength(node->attributes);
     }
-    return OCTHROW(OC_NOERR);
+  }
+  return OCTHROW(OC_NOERR);
 }
 
 /*!
@@ -397,14 +388,13 @@ the node is stored.
 */
 
 OCerror
-oc_dds_root(OCobject link, OCobject ddsnode, OCobject* rootp)
-{
-    OCnode* node;
-    OCVERIFY(OC_Node,ddsnode);
-    OCDEREF(OCnode*,node,ddsnode);
+oc_dds_root(OCobject link, OCobject ddsnode, OCobject *rootp) {
+  OCnode *node;
+  OCVERIFY(OC_Node, ddsnode);
+  OCDEREF(OCnode *, node, ddsnode);
 
-    if(rootp) *rootp = (OCobject)node->root;
-    return OCTHROW(OC_NOERR);
+  if (rootp) *rootp = (OCobject)node->root;
+  return OCTHROW(OC_NOERR);
 }
 
 /*!
@@ -419,14 +409,13 @@ container ddsnode is stored.
 */
 
 OCerror
-oc_dds_container(OCobject link, OCobject ddsnode, OCobject* containerp)
-{
-    OCnode* node;
-    OCVERIFY(OC_Node,ddsnode);
-    OCDEREF(OCnode*,node,ddsnode);
+oc_dds_container(OCobject link, OCobject ddsnode, OCobject *containerp) {
+  OCnode *node;
+  OCVERIFY(OC_Node, ddsnode);
+  OCDEREF(OCnode *, node, ddsnode);
 
-    if(containerp) *containerp = (OCobject)node->container;
-    return OCTHROW(OC_NOERR);
+  if (containerp) *containerp = (OCobject)node->container;
+  return OCTHROW(OC_NOERR);
 }
 
 /*!
@@ -445,22 +434,21 @@ of a node that itself is a container (Dataset, Structure, Sequence, or Grid)
 */
 
 OCerror
-oc_dds_ithfield(OCobject link, OCobject ddsnode, size_t index, OCobject* fieldnodep)
-{
-    OCnode* node;
-    OCnode* field;
-    OCVERIFY(OC_Node,ddsnode);
-    OCDEREF(OCnode*,node,ddsnode);
+oc_dds_ithfield(OCobject link, OCobject ddsnode, size_t index, OCobject *fieldnodep) {
+  OCnode *node;
+  OCnode *field;
+  OCVERIFY(OC_Node, ddsnode);
+  OCDEREF(OCnode *, node, ddsnode);
 
-    if(!ociscontainer(node->octype))
-	return OCTHROW(OC_EBADTYPE);
+  if (!ociscontainer(node->octype))
+    return OCTHROW(OC_EBADTYPE);
 
-    if(index >= nclistlength(node->subnodes))
-	return OCTHROW(OC_EINDEX);
+  if (index >= nclistlength(node->subnodes))
+    return OCTHROW(OC_EINDEX);
 
-    field = (OCnode*)nclistget(node->subnodes,index);
-    if(fieldnodep) *fieldnodep = (OCobject)field;
-    return OCTHROW(OC_NOERR);
+  field = (OCnode *)nclistget(node->subnodes, index);
+  if (fieldnodep) *fieldnodep = (OCobject)field;
+  return OCTHROW(OC_NOERR);
 }
 
 /*!
@@ -478,9 +466,8 @@ Alias for oc_dds_ithfield.
 */
 
 OCerror
-oc_dds_ithsubnode(OCobject link, OCobject ddsnode, size_t index, OCobject* fieldnodep)
-{
-    return OCTHROW(oc_dds_ithfield(link,ddsnode,index,fieldnodep));
+oc_dds_ithsubnode(OCobject link, OCobject ddsnode, size_t index, OCobject *fieldnodep) {
+  return OCTHROW(oc_dds_ithfield(link, ddsnode, index, fieldnodep));
 }
 
 /*!
@@ -496,9 +483,8 @@ Equivalent to oc_dds_ithfield(link,grid-container,0,arraynode).
 */
 
 OCerror
-oc_dds_gridarray(OCobject link, OCobject grid, OCobject* arraynodep)
-{
-    return OCTHROW(oc_dds_ithfield(link,grid,0,arraynodep));
+oc_dds_gridarray(OCobject link, OCobject grid, OCobject *arraynodep) {
+  return OCTHROW(oc_dds_ithfield(link, grid, 0, arraynodep));
 }
 
 /*!
@@ -517,9 +503,8 @@ Note the map index starts at zero.
 */
 
 OCerror
-oc_dds_gridmap(OCobject link, OCobject grid, size_t index, OCobject* mapnodep)
-{
-    return OCTHROW(oc_dds_ithfield(link,grid,index+1,mapnodep));
+oc_dds_gridmap(OCobject link, OCobject grid, size_t index, OCobject *mapnodep) {
+  return OCTHROW(oc_dds_ithfield(link, grid, index + 1, mapnodep));
 }
 
 
@@ -537,40 +522,39 @@ Obtain a dds node by name from a dds structure or dataset node.
 */
 
 OCerror
-oc_dds_fieldbyname(OCobject link, OCobject ddsnode, const char* name, OCobject* fieldp)
-{
-    OCerror err = OC_NOERR;
-    OCnode* node;
-    size_t count,i;
-    OCVERIFY(OC_Node,ddsnode);
-    OCDEREF(OCnode*,node,ddsnode);
+oc_dds_fieldbyname(OCobject link, OCobject ddsnode, const char *name, OCobject *fieldp) {
+  OCerror err = OC_NOERR;
+  OCnode *node;
+  size_t count, i;
+  OCVERIFY(OC_Node, ddsnode);
+  OCDEREF(OCnode *, node, ddsnode);
 
-    if(!ociscontainer(node->octype))
-	return OCTHROW(OC_EBADTYPE);
+  if (!ociscontainer(node->octype))
+    return OCTHROW(OC_EBADTYPE);
 
-    /* Search the fields to find a name match */
-    err = oc_dds_nsubnodes(link,ddsnode,&count);
-    if(err != OC_NOERR) return err;
-    for(i=0;i<count;i++) {
-	OCobject field;
-	char* fieldname = NULL;
-	int match = 1;
+  /* Search the fields to find a name match */
+  err = oc_dds_nsubnodes(link, ddsnode, &count);
+  if (err != OC_NOERR) return err;
+  for (i = 0; i < count; i++) {
+    OCobject field;
+    char *fieldname = NULL;
+    int match       = 1;
 
-        err = oc_dds_ithfield(link,ddsnode,i,&field);
-        if(err != OC_NOERR) return err;
-	/* Get the field's name */
-        err = oc_dds_name(link,field,&fieldname);
-        if(err != OC_NOERR) return err;
-	if(fieldname != NULL) {
-	    match = strcmp(name,fieldname);
-	    free(fieldname);
-	}
-	if(match == 0) {
-	    if(fieldp) *fieldp = field;
-	    return OCTHROW(OC_NOERR);
-	}
+    err = oc_dds_ithfield(link, ddsnode, i, &field);
+    if (err != OC_NOERR) return err;
+    /* Get the field's name */
+    err = oc_dds_name(link, field, &fieldname);
+    if (err != OC_NOERR) return err;
+    if (fieldname != NULL) {
+      match = strcmp(name, fieldname);
+      free(fieldname);
     }
-    return OCTHROW(OC_EINDEX); /* name was not found */
+    if (match == 0) {
+      if (fieldp) *fieldp = field;
+      return OCTHROW(OC_NOERR);
+    }
+  }
+  return OCTHROW(OC_EINDEX); /* name was not found */
 }
 
 /*!
@@ -587,22 +571,21 @@ are stored. The caller must allocate based on the rank of the node.
 */
 
 OCerror
-oc_dds_dimensions(OCobject link, OCobject ddsnode, OCobject* dims)
-{
-    OCnode* node;
-    size_t i;
+oc_dds_dimensions(OCobject link, OCobject ddsnode, OCobject *dims) {
+  OCnode *node;
+  size_t i;
 
-    OCVERIFY(OC_Node,ddsnode);
-    OCDEREF(OCnode*,node,ddsnode);
+  OCVERIFY(OC_Node, ddsnode);
+  OCDEREF(OCnode *, node, ddsnode);
 
-    if(node->array.rank == 0) return OCTHROW(OCTHROW(OC_ESCALAR));
-    if(dims != NULL) {
-        for(i=0;i<node->array.rank;i++) {
-            OCnode* dim = (OCnode*)nclistget(node->array.dimensions,i);
-	    dims[i] = (OCobject)dim;
-	}
+  if (node->array.rank == 0) return OCTHROW(OCTHROW(OC_ESCALAR));
+  if (dims != NULL) {
+    for (i = 0; i < node->array.rank; i++) {
+      OCnode *dim = (OCnode *)nclistget(node->array.dimensions, i);
+      dims[i]     = (OCobject)dim;
     }
-    return OCTHROW(OC_NOERR);
+  }
+  return OCTHROW(OC_NOERR);
 }
 
 /*!
@@ -620,18 +603,17 @@ associated with the node of interest.
 */
 
 OCerror
-oc_dds_ithdimension(OCobject link, OCobject ddsnode, size_t index, OCobject* dimidp)
-{
-    OCnode* node;
-    OCobject dimid = NULL;
-    OCVERIFY(OC_Node,ddsnode);
-    OCDEREF(OCnode*,node,ddsnode);
+oc_dds_ithdimension(OCobject link, OCobject ddsnode, size_t index, OCobject *dimidp) {
+  OCnode *node;
+  OCobject dimid = NULL;
+  OCVERIFY(OC_Node, ddsnode);
+  OCDEREF(OCnode *, node, ddsnode);
 
-    if(node->array.rank == 0) return OCTHROW(OCTHROW(OC_ESCALAR));
-    if(index >= node->array.rank) return OCTHROW(OCTHROW(OC_EINDEX));
-    dimid = (OCobject)nclistget(node->array.dimensions,index);
-    if(dimidp) *dimidp = dimid;
-    return OCTHROW(OC_NOERR);
+  if (node->array.rank == 0) return OCTHROW(OCTHROW(OC_ESCALAR));
+  if (index >= node->array.rank) return OCTHROW(OCTHROW(OC_EINDEX));
+  dimid = (OCobject)nclistget(node->array.dimensions, index);
+  if (dimidp) *dimidp = dimid;
+  return OCTHROW(OC_NOERR);
 }
 
 /*!
@@ -650,16 +632,15 @@ The caller must free the returned name.
 */
 
 OCerror
-oc_dimension_properties(OCobject link, OCobject ddsnode, size_t* sizep, char** namep)
-{
-    OCnode* dim;
-    OCVERIFY(OC_Node,ddsnode);
-    OCDEREF(OCnode*,dim,ddsnode);
+oc_dimension_properties(OCobject link, OCobject ddsnode, size_t *sizep, char **namep) {
+  OCnode *dim;
+  OCVERIFY(OC_Node, ddsnode);
+  OCDEREF(OCnode *, dim, ddsnode);
 
-    if(dim->octype != OC_Dimension) return OCTHROW(OCTHROW(OC_EBADTYPE));
-    if(sizep) *sizep = dim->dim.declsize;
-    if(namep) *namep = nulldup(dim->name);
-    return OCTHROW(OC_NOERR);
+  if (dim->octype != OC_Dimension) return OCTHROW(OCTHROW(OC_EBADTYPE));
+  if (sizep) *sizep = dim->dim.declsize;
+  if (namep) *namep = nulldup(dim->name);
+  return OCTHROW(OC_NOERR);
 }
 
 /*!
@@ -678,21 +659,20 @@ by the rank of the node and must be allocated and free'd by the caller.
 */
 
 OCerror
-oc_dds_dimensionsizes(OCobject link, OCobject ddsnode, size_t* dimsizes)
-{
-    OCnode* node;
-    OCVERIFY(OC_Node,ddsnode);
-    OCDEREF(OCnode*,node,ddsnode);
+oc_dds_dimensionsizes(OCobject link, OCobject ddsnode, size_t *dimsizes) {
+  OCnode *node;
+  OCVERIFY(OC_Node, ddsnode);
+  OCDEREF(OCnode *, node, ddsnode);
 
-    if(node->array.rank == 0) return OCTHROW(OCTHROW(OC_ESCALAR));
-    if(dimsizes != NULL) {
-	size_t i;
-        for(i=0;i<node->array.rank;i++) {
-            OCnode* dim = (OCnode*)nclistget(node->array.dimensions,i);
-	    dimsizes[i] = dim->dim.declsize;
-	}
+  if (node->array.rank == 0) return OCTHROW(OCTHROW(OC_ESCALAR));
+  if (dimsizes != NULL) {
+    size_t i;
+    for (i = 0; i < node->array.rank; i++) {
+      OCnode *dim = (OCnode *)nclistget(node->array.dimensions, i);
+      dimsizes[i] = dim->dim.declsize;
     }
-    return OCTHROW(OC_NOERR);
+  }
+  return OCTHROW(OC_NOERR);
 }
 
 /*!
@@ -724,29 +704,28 @@ are stored. It must be allocated and free'd by the caller.
 
 OCerror
 oc_dds_attr(OCobject link, OCobject ddsnode, size_t index,
-			   char** namep, OCtype* octypep,
-			   size_t* nvaluesp, char** strings)
-{
-    int i;
-    OCnode* node;
-    OCattribute* attr;
-    size_t nattrs;
-    OCVERIFY(OC_Node,ddsnode);
-    OCDEREF(OCnode*,node,ddsnode);
+char **namep, OCtype *octypep,
+size_t *nvaluesp, char **strings) {
+  int i;
+  OCnode *node;
+  OCattribute *attr;
+  size_t nattrs;
+  OCVERIFY(OC_Node, ddsnode);
+  OCDEREF(OCnode *, node, ddsnode);
 
-    nattrs = nclistlength(node->attributes);
-    if(index >= nattrs) return OCTHROW(OCTHROW(OC_EINDEX));
-    attr = (OCattribute*)nclistget(node->attributes,index);
-    if(namep) *namep = strdup(attr->name);
-    if(octypep) *octypep = attr->etype;
-    if(nvaluesp) *nvaluesp = attr->nvalues;
-    if(strings) {
-	if(attr->nvalues > 0) {
-	    for(i=0;i<attr->nvalues;i++)
-	        strings[i] = nulldup(attr->values[i]);
-	}
+  nattrs = nclistlength(node->attributes);
+  if (index >= nattrs) return OCTHROW(OCTHROW(OC_EINDEX));
+  attr = (OCattribute *)nclistget(node->attributes, index);
+  if (namep) *namep = strdup(attr->name);
+  if (octypep) *octypep = attr->etype;
+  if (nvaluesp) *nvaluesp = attr->nvalues;
+  if (strings) {
+    if (attr->nvalues > 0) {
+      for (i = 0; i < attr->nvalues; i++)
+        strings[i] = nulldup(attr->values[i]);
     }
-    return OCTHROW(OC_NOERR);
+  }
+  return OCTHROW(OC_NOERR);
 }
 
 /*!
@@ -757,11 +736,10 @@ BUT NOT THE VECTOR since that was allocated by the caller.
 \param[in] svec The node of interest.
 */
 
-void
-oc_reclaim_strings(size_t n, char** svec)
-{
-    int i;
-    for(i=0;i<n;i++) if(svec[i] != NULL) free(svec[i]);
+void oc_reclaim_strings(size_t n, char **svec) {
+  int i;
+  for (i = 0; i < n; i++)
+    if (svec[i] != NULL) free(svec[i]);
 }
 
 /*!
@@ -778,14 +756,13 @@ is stored.
 */
 
 OCerror
-oc_das_attr_count(OCobject link, OCobject dasnode, size_t* nvaluesp)
-{
-    OCnode* attr;
-    OCVERIFY(OC_Node,dasnode);
-    OCDEREF(OCnode*,attr,dasnode);
-    if(attr->octype != OC_Attribute) return OCTHROW(OCTHROW(OC_EBADTYPE));
-    if(nvaluesp) *nvaluesp = nclistlength(attr->att.values);
-    return OCTHROW(OC_NOERR);
+oc_das_attr_count(OCobject link, OCobject dasnode, size_t *nvaluesp) {
+  OCnode *attr;
+  OCVERIFY(OC_Node, dasnode);
+  OCDEREF(OCnode *, attr, dasnode);
+  if (attr->octype != OC_Attribute) return OCTHROW(OCTHROW(OC_EBADTYPE));
+  if (nvaluesp) *nvaluesp = nclistlength(attr->att.values);
+  return OCTHROW(OC_NOERR);
 }
 
 /*!
@@ -811,19 +788,18 @@ are stored. Caller must allocate and free.
 */
 
 OCerror
-oc_das_attr(OCobject link, OCobject dasnode, size_t index, OCtype* atomtypep, char** valuep)
-{
-    OCnode* attr;
-    size_t nvalues;
-    OCVERIFY(OC_Node,dasnode);
-    OCDEREF(OCnode*,attr,dasnode);
+oc_das_attr(OCobject link, OCobject dasnode, size_t index, OCtype *atomtypep, char **valuep) {
+  OCnode *attr;
+  size_t nvalues;
+  OCVERIFY(OC_Node, dasnode);
+  OCDEREF(OCnode *, attr, dasnode);
 
-    if(attr->octype != OC_Attribute) return OCTHROW(OCTHROW(OC_EBADTYPE));
-    nvalues = nclistlength(attr->att.values);
-    if(index >= nvalues) return OCTHROW(OCTHROW(OC_EINDEX));
-    if(atomtypep) *atomtypep = attr->etype;
-    if(valuep) *valuep = nulldup((char*)nclistget(attr->att.values,index));
-    return OCTHROW(OC_NOERR);
+  if (attr->octype != OC_Attribute) return OCTHROW(OCTHROW(OC_EBADTYPE));
+  nvalues = nclistlength(attr->att.values);
+  if (index >= nvalues) return OCTHROW(OCTHROW(OC_EINDEX));
+  if (atomtypep) *atomtypep = attr->etype;
+  if (valuep) *valuep = nulldup((char *)nclistget(attr->att.values, index));
+  return OCTHROW(OC_NOERR);
 }
 
 /**@}*/
@@ -849,19 +825,18 @@ from a specified DAS node.
 */
 
 OCerror
-oc_merge_das(OCobject link, OCobject dasroot, OCobject ddsroot)
-{
-    OCstate* state;
-    OCnode* das;
-    OCnode* dds;
-    OCVERIFY(OC_State,link);
-    OCDEREF(OCstate*,state,link);
-    OCVERIFY(OC_Node,dasroot);
-    OCDEREF(OCnode*,das,dasroot);
-    OCVERIFY(OC_Node,ddsroot);
-    OCDEREF(OCnode*,dds,ddsroot);
+oc_merge_das(OCobject link, OCobject dasroot, OCobject ddsroot) {
+  OCstate *state;
+  OCnode *das;
+  OCnode *dds;
+  OCVERIFY(OC_State, link);
+  OCDEREF(OCstate *, state, link);
+  OCVERIFY(OC_Node, dasroot);
+  OCDEREF(OCnode *, das, dasroot);
+  OCVERIFY(OC_Node, ddsroot);
+  OCDEREF(OCnode *, dds, ddsroot);
 
-    return OCTHROW(ocddsdasmerge(state,das,dds));
+  return OCTHROW(ocddsdasmerge(state, das, dds));
 }
 
 /**@}*/
@@ -885,23 +860,22 @@ This procedure, given the DDS tree root, gets the data tree root.
 */
 
 OCerror
-oc_dds_getdataroot(OCobject link, OCobject ddsroot, OCobject* datarootp)
-{
-    OCerror ocerr = OC_NOERR;
-    OCstate* state;
-    OCnode* root;
-    OCdata* droot;
-    OCVERIFY(OC_State,link);
-    OCDEREF(OCstate*,state,link);
-    OCVERIFY(OC_Node,ddsroot);
-    OCDEREF(OCnode*,root,ddsroot);
+oc_dds_getdataroot(OCobject link, OCobject ddsroot, OCobject *datarootp) {
+  OCerror ocerr = OC_NOERR;
+  OCstate *state;
+  OCnode *root;
+  OCdata *droot;
+  OCVERIFY(OC_State, link);
+  OCDEREF(OCstate *, state, link);
+  OCVERIFY(OC_Node, ddsroot);
+  OCDEREF(OCnode *, root, ddsroot);
 
-    if(datarootp == NULL)
-	return OCTHROW(OCTHROW(OC_EINVAL));
-    ocerr = ocdata_getroot(state,root,&droot);
-    if(ocerr == OC_NOERR && datarootp)
-	*datarootp = (OCobject)droot;
-    return OCTHROW(ocerr);
+  if (datarootp == NULL)
+    return OCTHROW(OCTHROW(OC_EINVAL));
+  ocerr = ocdata_getroot(state, root, &droot);
+  if (ocerr == OC_NOERR && datarootp)
+    *datarootp = (OCobject)droot;
+  return OCTHROW(ocerr);
 }
 
 /*!
@@ -920,22 +894,21 @@ of a data node instance that itself is a container instance.
 */
 
 OCerror
-oc_data_ithfield(OCobject link, OCobject datanode, size_t index, OCobject* fieldp)
-{
-    OCerror ocerr = OC_NOERR;
-    OCstate* state;
-    OCdata* data;
-    OCdata* field;
-    OCVERIFY(OC_State,link);
-    OCDEREF(OCstate*,state,link);
-    OCVERIFY(OC_Data,datanode);
-    OCDEREF(OCdata*,data,datanode);
+oc_data_ithfield(OCobject link, OCobject datanode, size_t index, OCobject *fieldp) {
+  OCerror ocerr = OC_NOERR;
+  OCstate *state;
+  OCdata *data;
+  OCdata *field;
+  OCVERIFY(OC_State, link);
+  OCDEREF(OCstate *, state, link);
+  OCVERIFY(OC_Data, datanode);
+  OCDEREF(OCdata *, data, datanode);
 
-    if(fieldp == NULL) return OCTHROW(OCTHROW(OC_EINVAL));
-    ocerr = ocdata_ithfield(state,data,index,&field);
-    if(ocerr == OC_NOERR)
-	*fieldp = (OCobject)field;
-    return OCTHROW(ocerr);
+  if (fieldp == NULL) return OCTHROW(OCTHROW(OC_EINVAL));
+  ocerr = ocdata_ithfield(state, data, index, &field);
+  if (ocerr == OC_NOERR)
+    *fieldp = (OCobject)field;
+  return OCTHROW(ocerr);
 }
 
 /*!
@@ -953,44 +926,43 @@ Obtain a data node by name from a container data node.
 */
 
 OCerror
-oc_data_fieldbyname(OCobject link, OCobject datanode, const char* name, OCobject* fieldp)
-{
-    OCerror err = OC_NOERR;
-    size_t count=0,i;
-    OCobject ddsnode;
-    OCVERIFY(OC_State,link);
-    OCVERIFY(OC_Data,datanode);
+oc_data_fieldbyname(OCobject link, OCobject datanode, const char *name, OCobject *fieldp) {
+  OCerror err  = OC_NOERR;
+  size_t count = 0, i;
+  OCobject ddsnode;
+  OCVERIFY(OC_State, link);
+  OCVERIFY(OC_Data, datanode);
 
-    /* Get the dds node for this datanode */
-    err = oc_data_ddsnode(link,datanode,&ddsnode);
-    if(err != OC_NOERR) return err;
+  /* Get the dds node for this datanode */
+  err = oc_data_ddsnode(link, datanode, &ddsnode);
+  if (err != OC_NOERR) return err;
 
-    /* Search the fields to find a name match */
-    err = oc_dds_nsubnodes(link,ddsnode,&count);
-    if(err != OC_NOERR) return err;
-    for(i=0;i<count;i++) {
-	int match;
-	OCobject field;
-	char* fieldname = NULL;
-        err = oc_dds_ithfield(link,ddsnode,i,&field);
-        if(err != OC_NOERR) return err;
-	/* Get the field's name */
-        err = oc_dds_name(link,field,&fieldname);
-        if(err != OC_NOERR) return err;
- 	if(!fieldname)
-	  return OCTHROW(OC_EINVAL);
+  /* Search the fields to find a name match */
+  err = oc_dds_nsubnodes(link, ddsnode, &count);
+  if (err != OC_NOERR) return err;
+  for (i = 0; i < count; i++) {
+    int match;
+    OCobject field;
+    char *fieldname = NULL;
+    err             = oc_dds_ithfield(link, ddsnode, i, &field);
+    if (err != OC_NOERR) return err;
+    /* Get the field's name */
+    err = oc_dds_name(link, field, &fieldname);
+    if (err != OC_NOERR) return err;
+    if (!fieldname)
+      return OCTHROW(OC_EINVAL);
 
-	match = strcmp(name,fieldname);
-	if(fieldname != NULL) free(fieldname);
-	if(match == 0) {
-	    /* Get the ith datasubnode */
-	    err = oc_data_ithfield(link,datanode,i,&field);
-            if(err != OC_NOERR) return err;
-	    if(fieldp) *fieldp = field;
-	    return OCTHROW(OC_NOERR);
-	}
+    match = strcmp(name, fieldname);
+    if (fieldname != NULL) free(fieldname);
+    if (match == 0) {
+      /* Get the ith datasubnode */
+      err = oc_data_ithfield(link, datanode, i, &field);
+      if (err != OC_NOERR) return err;
+      if (fieldp) *fieldp = field;
+      return OCTHROW(OC_NOERR);
     }
-    return OCTHROW(OC_EINDEX); /* name was not found */
+  }
+  return OCTHROW(OC_EINDEX); /* name was not found */
 }
 
 /*!
@@ -1007,9 +979,8 @@ Equivalent to oc_data_ithfield(link,grid,0,arraydata).
 */
 
 OCerror
-oc_data_gridarray(OCobject link, OCobject grid, OCobject* arraydatap)
-{
-    return OCTHROW(oc_data_ithfield(link,grid,0,arraydatap));
+oc_data_gridarray(OCobject link, OCobject grid, OCobject *arraydatap) {
+  return OCTHROW(oc_data_ithfield(link, grid, 0, arraydatap));
 }
 
 /*!
@@ -1028,9 +999,8 @@ Note that Map indices start at zero.
 */
 
 OCerror
-oc_data_gridmap(OCobject link, OCobject grid, size_t index, OCobject* mapdatap)
-{
-    return OCTHROW(oc_data_ithfield(link,grid,index+1,mapdatap));
+oc_data_gridmap(OCobject link, OCobject grid, size_t index, OCobject *mapdatap) {
+  return OCTHROW(oc_data_ithfield(link, grid, index + 1, mapdatap));
 }
 
 /*!
@@ -1048,22 +1018,21 @@ of a specified instance object.
 */
 
 OCerror
-oc_data_container(OCobject link,  OCobject datanode, OCobject* containerp)
-{
-    OCerror ocerr = OC_NOERR;
-    OCstate* state;
-    OCdata* data;
-    OCdata* container;
-    OCVERIFY(OC_State,link);
-    OCDEREF(OCstate*,state,link);
-    OCVERIFY(OC_Data,datanode);
-    OCDEREF(OCdata*,data,datanode);
+oc_data_container(OCobject link, OCobject datanode, OCobject *containerp) {
+  OCerror ocerr = OC_NOERR;
+  OCstate *state;
+  OCdata *data;
+  OCdata *container;
+  OCVERIFY(OC_State, link);
+  OCDEREF(OCstate *, state, link);
+  OCVERIFY(OC_Data, datanode);
+  OCDEREF(OCdata *, data, datanode);
 
-    if(containerp == NULL) return OCTHROW(OCTHROW(OC_EINVAL));
-    ocerr = ocdata_container(state,data,&container);
-    if(ocerr == OC_NOERR)
-	*containerp = (OCobject)container;
-    return OCTHROW(ocerr);
+  if (containerp == NULL) return OCTHROW(OCTHROW(OC_EINVAL));
+  ocerr = ocdata_container(state, data, &container);
+  if (ocerr == OC_NOERR)
+    *containerp = (OCobject)container;
+  return OCTHROW(ocerr);
 }
 
 /*!
@@ -1081,22 +1050,21 @@ This procedure, given any node in a data tree, get the root of that tree.
 */
 
 OCerror
-oc_data_root(OCobject link, OCobject datanode, OCobject* rootp)
-{
-    OCerror ocerr = OC_NOERR;
-    OCstate* state;
-    OCdata* data;
-    OCdata* root;
-    OCVERIFY(OC_State,link);
-    OCDEREF(OCstate*,state,link);
-    OCVERIFY(OC_Data,datanode);
-    OCDEREF(OCdata*,data,datanode);
+oc_data_root(OCobject link, OCobject datanode, OCobject *rootp) {
+  OCerror ocerr = OC_NOERR;
+  OCstate *state;
+  OCdata *data;
+  OCdata *root;
+  OCVERIFY(OC_State, link);
+  OCDEREF(OCstate *, state, link);
+  OCVERIFY(OC_Data, datanode);
+  OCDEREF(OCdata *, data, datanode);
 
-    if(rootp == NULL) return OCTHROW(OCTHROW(OC_EINVAL));
-    ocerr = ocdata_root(state,data,&root);
-    if(ocerr == OC_NOERR)
-	*rootp = (OCobject)root;
-    return OCTHROW(ocerr);
+  if (rootp == NULL) return OCTHROW(OCTHROW(OC_EINVAL));
+  ocerr = ocdata_root(state, data, &root);
+  if (ocerr == OC_NOERR)
+    *rootp = (OCobject)root;
+  return OCTHROW(ocerr);
 }
 
 /*!
@@ -1117,22 +1085,21 @@ or was a scalar.
 */
 
 OCerror
-oc_data_ithelement(OCobject link, OCobject datanode, size_t* indices, OCobject* elementp)
-{
-    OCerror ocerr = OC_NOERR;
-    OCstate* state;
-    OCdata* data;
-    OCdata* element;
-    OCVERIFY(OC_State,link);
-    OCDEREF(OCstate*,state,link);
-    OCVERIFY(OC_Data,datanode);
-    OCDEREF(OCdata*,data,datanode);
+oc_data_ithelement(OCobject link, OCobject datanode, size_t *indices, OCobject *elementp) {
+  OCerror ocerr = OC_NOERR;
+  OCstate *state;
+  OCdata *data;
+  OCdata *element;
+  OCVERIFY(OC_State, link);
+  OCDEREF(OCstate *, state, link);
+  OCVERIFY(OC_Data, datanode);
+  OCDEREF(OCdata *, data, datanode);
 
-    if(indices == NULL || elementp == NULL) return OCTHROW(OCTHROW(OC_EINVAL));
-    ocerr = ocdata_ithelement(state,data,indices,&element);
-    if(ocerr == OC_NOERR)
-	*elementp = (OCobject)element;
-    return OCTHROW(ocerr);
+  if (indices == NULL || elementp == NULL) return OCTHROW(OCTHROW(OC_EINVAL));
+  ocerr = ocdata_ithelement(state, data, indices, &element);
+  if (ocerr == OC_NOERR)
+    *elementp = (OCobject)element;
+  return OCTHROW(ocerr);
 }
 
 /*!
@@ -1151,22 +1118,21 @@ of the Sequence.
 \retval OC_EINVAL  One of the arguments (link, etc.) was invalid.
 */
 
-extern OCerror oc_data_ithrecord(OCobject link, OCobject datanode, size_t index, OCobject* recordp)
-{
-    OCerror ocerr = OC_NOERR;
-    OCstate* state;
-    OCdata* data;
-    OCdata* record;
-    OCVERIFY(OC_State,link);
-    OCDEREF(OCstate*,state,link);
-    OCVERIFY(OC_Data,datanode);
-    OCDEREF(OCdata*,data,datanode);
+extern OCerror oc_data_ithrecord(OCobject link, OCobject datanode, size_t index, OCobject *recordp) {
+  OCerror ocerr = OC_NOERR;
+  OCstate *state;
+  OCdata *data;
+  OCdata *record;
+  OCVERIFY(OC_State, link);
+  OCDEREF(OCstate *, state, link);
+  OCVERIFY(OC_Data, datanode);
+  OCDEREF(OCdata *, data, datanode);
 
-    if(recordp == NULL) return OCTHROW(OCTHROW(OC_EINVAL));
-    ocerr = ocdata_ithrecord(state,data,index,&record);
-    if(ocerr == OC_NOERR)
-	*recordp = (OCobject)record;
-    return OCTHROW(ocerr);
+  if (recordp == NULL) return OCTHROW(OCTHROW(OC_EINVAL));
+  ocerr = ocdata_ithrecord(state, data, index, &record);
+  if (ocerr == OC_NOERR)
+    *recordp = (OCobject)record;
+  return OCTHROW(ocerr);
 }
 
 /*!
@@ -1188,16 +1154,15 @@ or it was not a dimensioned instance of OC_Structure.
 */
 
 OCerror
-oc_data_position(OCobject link, OCobject datanode, size_t* indices)
-{
-    OCstate* state;
-    OCdata* data;
-    OCVERIFY(OC_State,link);
-    OCDEREF(OCstate*,state,link);
-    OCVERIFY(OC_Data,datanode);
-    OCDEREF(OCdata*,data,datanode);
-    if(indices == NULL) return OCTHROW(OCTHROW(OC_EINVAL));
-    return OCTHROW(ocdata_position(state,data,indices));
+oc_data_position(OCobject link, OCobject datanode, size_t *indices) {
+  OCstate *state;
+  OCdata *data;
+  OCVERIFY(OC_State, link);
+  OCDEREF(OCstate *, state, link);
+  OCVERIFY(OC_Data, datanode);
+  OCDEREF(OCdata *, data, datanode);
+  if (indices == NULL) return OCTHROW(OCTHROW(OC_EINVAL));
+  return OCTHROW(ocdata_position(state, data, indices));
 }
 
 /*!
@@ -1219,16 +1184,15 @@ or it was a record data instance.
 */
 
 OCerror
-oc_data_recordcount(OCobject link, OCobject datanode, size_t* countp)
-{
-    OCstate* state;
-    OCdata* data;
-    OCVERIFY(OC_State,link);
-    OCDEREF(OCstate*,state,link);
-    OCVERIFY(OC_Data,datanode);
-    OCDEREF(OCdata*,data,datanode);
-    if(countp == NULL) return OCTHROW(OCTHROW(OC_EINVAL));
-    return OCTHROW(ocdata_recordcount(state,data,countp));
+oc_data_recordcount(OCobject link, OCobject datanode, size_t *countp) {
+  OCstate *state;
+  OCdata *data;
+  OCVERIFY(OC_State, link);
+  OCDEREF(OCstate *, state, link);
+  OCVERIFY(OC_Data, datanode);
+  OCDEREF(OCdata *, data, datanode);
+  if (countp == NULL) return OCTHROW(OCTHROW(OC_EINVAL));
+  return OCTHROW(ocdata_recordcount(state, data, countp));
 }
 
 /*!
@@ -1244,17 +1208,18 @@ for this data instance.
 */
 
 OCerror
-oc_data_ddsnode(OCobject link, OCobject datanode, OCobject* nodep)
-{
-    OCerror ocerr = OC_NOERR;
-    OCdata* data;
-    OCVERIFY(OC_Data,datanode);
-    OCDEREF(OCdata*,data,datanode);
+oc_data_ddsnode(OCobject link, OCobject datanode, OCobject *nodep) {
+  OCerror ocerr = OC_NOERR;
+  OCdata *data;
+  OCVERIFY(OC_Data, datanode);
+  OCDEREF(OCdata *, data, datanode);
 
-    OCASSERT(data->pattern != NULL);
-    if(nodep == NULL) ocerr = OC_EINVAL;
-    else *nodep = (OCobject)data->pattern;
-    return OCTHROW(ocerr);
+  OCASSERT(data->pattern != NULL);
+  if (nodep == NULL)
+    ocerr = OC_EINVAL;
+  else
+    *nodep = (OCobject)data->pattern;
+  return OCTHROW(ocerr);
 }
 
 /*!
@@ -1272,17 +1237,18 @@ API procedures.
 */
 
 OCerror
-oc_data_octype(OCobject link, OCobject datanode, OCtype* typep)
-{
-    OCerror ocerr = OC_NOERR;
-    OCdata* data;
-    OCVERIFY(OC_Data,datanode);
-    OCDEREF(OCdata*,data,datanode);
+oc_data_octype(OCobject link, OCobject datanode, OCtype *typep) {
+  OCerror ocerr = OC_NOERR;
+  OCdata *data;
+  OCVERIFY(OC_Data, datanode);
+  OCDEREF(OCdata *, data, datanode);
 
-    OCASSERT(data->pattern != NULL);
-    if(typep == NULL) ocerr = OC_EINVAL;
-    else *typep = data->pattern->octype;
-    return OCTHROW(ocerr);
+  OCASSERT(data->pattern != NULL);
+  if (typep == NULL)
+    ocerr = OC_EINVAL;
+  else
+    *typep = data->pattern->octype;
+  return OCTHROW(ocerr);
 }
 
 /*!
@@ -1298,15 +1264,15 @@ a record in a Sequence).
 \retval zero(0) otherwise.
 */
 
-int
-oc_data_indexable(OCobject link, OCobject datanode)
-{
-    OCdata* data;
-    OCVERIFY(OC_Data,datanode);
-    OCDEREF(OCdata*,data,datanode);
+int oc_data_indexable(OCobject link, OCobject datanode) {
+  OCdata *data;
+  OCVERIFY(OC_Data, datanode);
+  OCDEREF(OCdata *, data, datanode);
 
-    return (fisset(data->datamode,OCDT_ARRAY)
-	    || fisset(data->datamode,OCDT_SEQUENCE)) ? 1 : 0;
+  return (fisset(data->datamode, OCDT_ARRAY)
+          || fisset(data->datamode, OCDT_SEQUENCE))
+         ? 1
+         : 0;
 }
 
 /*!
@@ -1322,15 +1288,15 @@ oc_data_position() will succeed when applied to this data instance.
 \retval zero(0) otherwise.
 */
 
-int
-oc_data_indexed(OCobject link, OCobject datanode)
-{
-    OCdata* data;
-    OCVERIFY(OC_Data,datanode);
-    OCDEREF(OCdata*,data,datanode);
+int oc_data_indexed(OCobject link, OCobject datanode) {
+  OCdata *data;
+  OCVERIFY(OC_Data, datanode);
+  OCDEREF(OCdata *, data, datanode);
 
-    return (fisset(data->datamode,OCDT_ELEMENT)
-	    || fisset(data->datamode,OCDT_RECORD)) ? 1 : 0;
+  return (fisset(data->datamode, OCDT_ELEMENT)
+          || fisset(data->datamode, OCDT_RECORD))
+         ? 1
+         : 0;
 }
 
 /**************************************************/
@@ -1368,28 +1334,27 @@ and the read request cannot be completed.
 
 OCerror
 oc_data_read(OCobject link, OCobject datanode,
-                 size_t* start, size_t* edges,
-	         size_t memsize, void* memory)
-{
-    OCdata* data;
-    OCnode* pattern;
-    size_t count, rank;
+size_t *start, size_t *edges,
+size_t memsize, void *memory) {
+  OCdata *data;
+  OCnode *pattern;
+  size_t count, rank;
 
-    OCVERIFY(OC_Data,datanode);
-    OCDEREF(OCdata*,data,datanode);
+  OCVERIFY(OC_Data, datanode);
+  OCDEREF(OCdata *, data, datanode);
 
-    if(start == NULL && edges == NULL) /* Assume it is a scalar read */
-        return OCTHROW(oc_data_readn(link,datanode,start,0,memsize,memory));
+  if (start == NULL && edges == NULL) /* Assume it is a scalar read */
+    return OCTHROW(oc_data_readn(link, datanode, start, 0, memsize, memory));
 
-    if(edges == NULL)
-	return OCTHROW(OCTHROW(OC_EINVALCOORDS));
+  if (edges == NULL)
+    return OCTHROW(OCTHROW(OC_EINVALCOORDS));
 
-    /* Convert edges to a count */
-    pattern = data->pattern;
-    rank = pattern->array.rank;
-    count = octotaldimsize(rank,edges);
+  /* Convert edges to a count */
+  pattern = data->pattern;
+  rank    = pattern->array.rank;
+  count   = octotaldimsize(rank, edges);
 
-    return OCTHROW(oc_data_readn(link,datanode,start,count,memsize,memory));
+  return OCTHROW(oc_data_readn(link, datanode, start, count, memsize, memory));
 }
 
 
@@ -1418,9 +1383,8 @@ and the read request cannot be completed.
 
 OCerror
 oc_data_readscalar(OCobject link, OCobject datanode,
-	         size_t memsize, void* memory)
-{
-    return OCTHROW(oc_data_readn(link,datanode,NULL,0,memsize,memory));
+size_t memsize, void *memory) {
+  return OCTHROW(oc_data_readn(link, datanode, NULL, 0, memsize, memory));
 }
 
 /*!
@@ -1452,43 +1416,41 @@ and the read request cannot be completed.
 
 OCerror
 oc_data_readn(OCobject link, OCobject datanode,
-                 size_t* start, size_t N,
-	         size_t memsize, void* memory)
-{
-    OCerror ocerr = OC_NOERR;
-    OCstate* state;
-    OCdata* data;
-    OCnode* pattern;
-    size_t rank,startpoint;
+size_t *start, size_t N,
+size_t memsize, void *memory) {
+  OCerror ocerr = OC_NOERR;
+  OCstate *state;
+  OCdata *data;
+  OCnode *pattern;
+  size_t rank, startpoint;
 
-    OCVERIFY(OC_State,link);
-    OCDEREF(OCstate*,state,link);
-    OCVERIFY(OC_Data,datanode);
-    OCDEREF(OCdata*,data,datanode);
+  OCVERIFY(OC_State, link);
+  OCDEREF(OCstate *, state, link);
+  OCVERIFY(OC_Data, datanode);
+  OCDEREF(OCdata *, data, datanode);
 
-    /* Do argument validation */
+  /* Do argument validation */
 
-    if(memory == NULL || memsize == 0)
-	return OCTHROW(OC_EINVAL);
+  if (memory == NULL || memsize == 0)
+    return OCTHROW(OC_EINVAL);
 
-    pattern = data->pattern;
-    rank = pattern->array.rank;
+  pattern = data->pattern;
+  rank    = pattern->array.rank;
 
-    if(rank == 0) {
-	startpoint = 0;
-	N = 1;
-    } else if(start == NULL) {
-        return OCTHROW(OCTHROW(OC_EINVALCOORDS));
-    } else {/* not scalar */
-	startpoint = ocarrayoffset(rank,pattern->array.sizes,start);
-    }
-    if(N > 0)
-        ocerr = ocdata_read(state,data,startpoint,N,memory,memsize);
-    if(ocerr == OC_EDATADDS)
-	ocdataddsmsg(state,pattern->tree);
-    return OCTHROW(OCTHROW(ocerr));
+  if (rank == 0) {
+    startpoint = 0;
+    N          = 1;
+  } else if (start == NULL) {
+    return OCTHROW(OCTHROW(OC_EINVALCOORDS));
+  } else { /* not scalar */
+    startpoint = ocarrayoffset(rank, pattern->array.sizes, start);
+  }
+  if (N > 0)
+    ocerr = ocdata_read(state, data, startpoint, N, memory, memsize);
+  if (ocerr == OC_EDATADDS)
+    ocdataddsmsg(state, pattern->tree);
+  return OCTHROW(OCTHROW(ocerr));
 }
-
 
 
 /*!
@@ -1523,19 +1485,18 @@ and the read request cannot be completed.
 
 OCerror
 oc_dds_read(OCobject link, OCobject ddsnode,
-                 size_t* start, size_t* edges,
-	         size_t memsize, void* memory)
-{
-    OCdata* data;
-    OCnode* dds;
+size_t *start, size_t *edges,
+size_t memsize, void *memory) {
+  OCdata *data;
+  OCnode *dds;
 
-    OCVERIFY(OC_Node,ddsnode);
-    OCDEREF(OCnode*,dds,ddsnode);
+  OCVERIFY(OC_Node, ddsnode);
+  OCDEREF(OCnode *, dds, ddsnode);
 
-    /* Get the data associated with this top-level node */
-    data = dds->data;
-    if(data == NULL) return OCTHROW(OC_EINVAL);
-    return OCTHROW(oc_data_read(link,data,start,edges,memsize,memory));
+  /* Get the data associated with this top-level node */
+  data = dds->data;
+  if (data == NULL) return OCTHROW(OC_EINVAL);
+  return OCTHROW(oc_data_read(link, data, start, edges, memsize, memory));
 }
 
 
@@ -1566,9 +1527,8 @@ and the read request cannot be completed.
 
 OCerror
 oc_dds_readscalar(OCobject link, OCobject ddsnode,
-	         size_t memsize, void* memory)
-{
-    return OCTHROW(oc_dds_readn(link,ddsnode,NULL,0,memsize,memory));
+size_t memsize, void *memory) {
+  return OCTHROW(oc_dds_readn(link, ddsnode, NULL, 0, memsize, memory));
 }
 
 /*!
@@ -1606,19 +1566,18 @@ and the read request cannot be completed.
 
 OCerror
 oc_dds_readn(OCobject link, OCobject ddsnode,
-                 size_t* start, size_t N,
-	         size_t memsize, void* memory)
-{
-    OCdata* data;
-    OCnode* dds;
+size_t *start, size_t N,
+size_t memsize, void *memory) {
+  OCdata *data;
+  OCnode *dds;
 
-    OCVERIFY(OC_Node,ddsnode);
-    OCDEREF(OCnode*,dds,ddsnode);
+  OCVERIFY(OC_Node, ddsnode);
+  OCDEREF(OCnode *, dds, ddsnode);
 
-    /* Get the data associated with this top-level node */
-    data = dds->data;
-    if(data == NULL) return OCTHROW(OC_EINVAL);
-    return OCTHROW(oc_data_readn(link,data,start,N,memsize,memory));
+  /* Get the data associated with this top-level node */
+  data = dds->data;
+  if (data == NULL) return OCTHROW(OC_EINVAL);
+  return OCTHROW(oc_data_readn(link, data, start, N, memsize, memory));
 }
 
 /**@}*/
@@ -1641,9 +1600,8 @@ Non-atomic types (e.g. OC_Structure) return zero.
 */
 
 size_t
-oc_typesize(OCtype etype)
-{
-    return octypesize(etype);
+oc_typesize(OCtype etype) {
+  return octypesize(etype);
 }
 
 /*!
@@ -1659,10 +1617,9 @@ The caller MUST NOT free the returned string.
 \return The name, as a string, of that OCtype value.
 */
 
-const char*
-oc_typetostring(OCtype octype)
-{
-    return octypetoddsstring(octype);
+const char *
+oc_typetostring(OCtype octype) {
+  return octypetoddsstring(octype);
 }
 
 /*!
@@ -1681,9 +1638,8 @@ value as a NULL terminated string.
 */
 
 OCerror
-oc_typeprint(OCtype etype, void* value, size_t bufsize, char* buffer)
-{
-    return OCTHROW(octypeprint(etype,value,bufsize,buffer));
+oc_typeprint(OCtype etype, void *value, size_t bufsize, char *buffer) {
+  return OCTHROW(octypeprint(etype, value, bufsize, buffer));
 }
 
 /**@}*/
@@ -1706,10 +1662,9 @@ to a given OCerror value.
 \return The error message
 */
 
-const char*
-oc_errstring(OCerror err)
-{
-    return ocerrstring(err);
+const char *
+oc_errstring(OCerror err) {
+  return ocerrstring(err);
 }
 
 
@@ -1741,13 +1696,12 @@ values are meaningless.
 */
 
 OCerror
-oc_svcerrordata(OCobject link, char** codep,
-                               char** msgp, long* httpp)
-{
-    OCstate* state;
-    OCVERIFY(OC_State,link);
-    OCDEREF(OCstate*,state,link);
-    return OCTHROW(ocsvcerrordata(state,codep,msgp,httpp));
+oc_svcerrordata(OCobject link, char **codep,
+char **msgp, long *httpp) {
+  OCstate *state;
+  OCVERIFY(OC_State, link);
+  OCDEREF(OCstate *, state, link);
+  return OCTHROW(ocsvcerrordata(state, codep, msgp, httpp));
 }
 
 /*!
@@ -1760,12 +1714,11 @@ fetch command.
 */
 
 OCerror
-oc_httpcode(OCobject link)
-{
-    OCstate* state;
-    OCVERIFY(OC_State,link);
-    OCDEREF(OCstate*,state,link);
-    return state->error.httpcode;
+oc_httpcode(OCobject link) {
+  OCstate *state;
+  OCVERIFY(OC_State, link);
+  OCDEREF(OCstate *, state, link);
+  return state->error.httpcode;
 }
 
 /**************************************************/
@@ -1786,47 +1739,42 @@ data chunk returned by the server.
 */
 
 OCerror
-oc_raw_xdrsize(OCobject link, OCobject ddsroot, off_t* xdrsizep)
-{
-    OCnode* root;
-    OCVERIFY(OC_Node,ddsroot);
-    OCDEREF(OCnode*,root,ddsroot);
+oc_raw_xdrsize(OCobject link, OCobject ddsroot, off_t *xdrsizep) {
+  OCnode *root;
+  OCVERIFY(OC_Node, ddsroot);
+  OCDEREF(OCnode *, root, ddsroot);
 
-    if(root->root == NULL || root->root->tree == NULL
-	|| root->root->tree->dxdclass != OCDATADDS)
-	    return OCTHROW(OCTHROW(OC_EINVAL));
-    if(xdrsizep) *xdrsizep = root->root->tree->data.datasize;
-    return OCTHROW(OC_NOERR);
+  if (root->root == NULL || root->root->tree == NULL
+      || root->root->tree->dxdclass != OCDATADDS)
+    return OCTHROW(OCTHROW(OC_EINVAL));
+  if (xdrsizep) *xdrsizep = root->root->tree->data.datasize;
+  return OCTHROW(OC_NOERR);
 }
 
 /* Resend a url as a head request to check the Last-Modified time */
 OCerror
-oc_update_lastmodified_data(OCobject link)
-{
-    OCstate* state;
-    OCVERIFY(OC_State,link);
-    OCDEREF(OCstate*,state,link);
-    return OCTHROW(ocupdatelastmodifieddata(state));
+oc_update_lastmodified_data(OCobject link) {
+  OCstate *state;
+  OCVERIFY(OC_State, link);
+  OCDEREF(OCstate *, state, link);
+  return OCTHROW(ocupdatelastmodifieddata(state));
 }
 
-long
-oc_get_lastmodified_data(OCobject link)
-{
-    OCstate* state;
-    OCVERIFY(OC_State,link);
-    OCDEREF(OCstate*,state,link);
-    return state->datalastmodified;
+long oc_get_lastmodified_data(OCobject link) {
+  OCstate *state;
+  OCVERIFY(OC_State, link);
+  OCDEREF(OCstate *, state, link);
+  return state->datalastmodified;
 }
 
 /* Given an arbitrary OCnode, return the connection of which it is a part */
 OCerror
-oc_get_connection(OCobject ddsnode, OCobject* linkp)
-{
-    OCnode* node;
-    OCVERIFY(OC_Node,ddsnode);
-    OCDEREF(OCnode*,node,ddsnode);
-    if(linkp) *linkp = node->root->tree->state;
-    return OCTHROW(OC_NOERR);
+oc_get_connection(OCobject ddsnode, OCobject *linkp) {
+  OCnode *node;
+  OCVERIFY(OC_Node, ddsnode);
+  OCDEREF(OCnode *, node, ddsnode);
+  if (linkp) *linkp = node->root->tree->state;
+  return OCTHROW(OC_NOERR);
 }
 
 
@@ -1841,23 +1789,20 @@ and using the DAP protocol.
 */
 
 OCerror
-oc_ping(const char* url)
-{
-    return OCTHROW(ocping(url));
+oc_ping(const char *url) {
+  return OCTHROW(ocping(url));
 }
 /**@}*/
 
 /**************************************************/
 
-int
-oc_dumpnode(OCobject link, OCobject ddsroot)
-{
-    OCnode* root;
-    OCerror ocerr = OC_NOERR;
-    OCVERIFY(OC_Node,ddsroot);
-    OCDEREF(OCnode*,root,ddsroot);
-    ocdumpnode(root);
-    return OCTHROW(ocerr);
+int oc_dumpnode(OCobject link, OCobject ddsroot) {
+  OCnode *root;
+  OCerror ocerr = OC_NOERR;
+  OCVERIFY(OC_Node, ddsroot);
+  OCDEREF(OCnode *, root, ddsroot);
+  ocdumpnode(root);
+  return OCTHROW(ocerr);
 }
 
 /**************************************************/
@@ -1868,94 +1813,87 @@ oc_dumpnode(OCobject link, OCobject ddsroot)
 
 
 OCerror
-oc_dds_dd(OCobject link, OCobject ddsroot, int level)
-{
-    OCstate* state;
-    OCnode* root;
-    OCVERIFY(OC_State,link);
-    OCDEREF(OCstate*,state,link);
-    OCVERIFY(OC_Node,ddsroot);
-    OCDEREF(OCnode*,root,ddsroot);
+oc_dds_dd(OCobject link, OCobject ddsroot, int level) {
+  OCstate *state;
+  OCnode *root;
+  OCVERIFY(OC_State, link);
+  OCDEREF(OCstate *, state, link);
+  OCVERIFY(OC_Node, ddsroot);
+  OCDEREF(OCnode *, root, ddsroot);
 
-    ocdd(state,root,1,level);
-    return OCTHROW(OC_NOERR);
+  ocdd(state, root, 1, level);
+  return OCTHROW(OC_NOERR);
 }
 
 OCerror
-oc_dds_ddnode(OCobject link, OCobject ddsroot)
-{
-    OCnode* root;
-    OCVERIFY(OC_Node,ddsroot);
-    OCDEREF(OCnode*,root,ddsroot);
+oc_dds_ddnode(OCobject link, OCobject ddsroot) {
+  OCnode *root;
+  OCVERIFY(OC_Node, ddsroot);
+  OCDEREF(OCnode *, root, ddsroot);
 
-    ocdumpnode(root);
-    return OCTHROW(OC_NOERR);
+  ocdumpnode(root);
+  return OCTHROW(OC_NOERR);
 }
 
 OCerror
-oc_data_ddpath(OCobject link, OCobject datanode, char** resultp)
-{
-    OCstate* state;
-    OCdata* data;
-    NCbytes* buffer;
+oc_data_ddpath(OCobject link, OCobject datanode, char **resultp) {
+  OCstate *state;
+  OCdata *data;
+  NCbytes *buffer;
 
-    OCVERIFY(OC_State,link);
-    OCDEREF(OCstate*,state,link);
-    OCVERIFY(OC_Data,datanode);
-    OCDEREF(OCdata*,data,datanode);
+  OCVERIFY(OC_State, link);
+  OCDEREF(OCstate *, state, link);
+  OCVERIFY(OC_Data, datanode);
+  OCDEREF(OCdata *, data, datanode);
 
-    buffer = ncbytesnew();
-    ocdumpdatapath(state,data,buffer);
-    if(resultp) *resultp = ncbytesdup(buffer);
-    ncbytesfree(buffer);
-    return OCTHROW(OC_NOERR);
+  buffer = ncbytesnew();
+  ocdumpdatapath(state, data, buffer);
+  if (resultp) *resultp = ncbytesdup(buffer);
+  ncbytesfree(buffer);
+  return OCTHROW(OC_NOERR);
 }
 
 OCerror
-oc_data_ddtree(OCobject link, OCobject ddsroot)
-{
-    OCstate* state;
-    OCdata* data;
-    NCbytes* buffer;
-    OCVERIFY(OC_State,link);
-    OCDEREF(OCstate*,state,link);
-    OCVERIFY(OC_Data,ddsroot);
-    OCDEREF(OCdata*,data,ddsroot);
+oc_data_ddtree(OCobject link, OCobject ddsroot) {
+  OCstate *state;
+  OCdata *data;
+  NCbytes *buffer;
+  OCVERIFY(OC_State, link);
+  OCDEREF(OCstate *, state, link);
+  OCVERIFY(OC_Data, ddsroot);
+  OCDEREF(OCdata *, data, ddsroot);
 
-    buffer = ncbytesnew();
-    ocdumpdatatree(state,data,buffer,0);
-    fprintf(stderr,"%s\n",ncbytescontents(buffer));
-    ncbytesfree(buffer);
-    return OCTHROW(OC_NOERR);
+  buffer = ncbytesnew();
+  ocdumpdatatree(state, data, buffer, 0);
+  fprintf(stderr, "%s\n", ncbytescontents(buffer));
+  ncbytesfree(buffer);
+  return OCTHROW(OC_NOERR);
 }
 
 OCerror
-oc_data_mode(OCobject link, OCobject datanode, OCDT* modep)
-{
-    OCdata* data;
-    OCVERIFY(OC_Data,datanode);
-    OCDEREF(OCdata*,data,datanode);
+oc_data_mode(OCobject link, OCobject datanode, OCDT *modep) {
+  OCdata *data;
+  OCVERIFY(OC_Data, datanode);
+  OCDEREF(OCdata *, data, datanode);
 
-    if(modep) *modep = data->datamode;
-    return OC_NOERR;
+  if (modep) *modep = data->datamode;
+  return OC_NOERR;
 }
 
 /* Free up a datanode that is no longer being used;
    Currently does nothing
 */
 OCerror
-oc_data_free(OCobject link, OCobject datanode)
-{
-    return OCTHROW(OC_NOERR);
+oc_data_free(OCobject link, OCobject datanode) {
+  return OCTHROW(OC_NOERR);
 }
 
 /* Free up a ddsnode that is no longer being used;
    Currently does nothing
 */
 OCerror
-oc_dds_free(OCobject link, OCobject dds0)
-{
-    return OCTHROW(OC_NOERR);
+oc_dds_free(OCobject link, OCobject dds0) {
+  return OCTHROW(OC_NOERR);
 }
 
 
@@ -2007,24 +1945,23 @@ Set the absolute path to use for the .netrc file
 */
 
 OCerror
-oc_set_netrc(OClink* link, const char* file)
-{
-    OCstate* state;
-    FILE* f;
-    OCVERIFY(OC_State,link);
-    OCDEREF(OCstate*,state,link);
+oc_set_netrc(OClink *link, const char *file) {
+  OCstate *state;
+  FILE *f;
+  OCVERIFY(OC_State, link);
+  OCDEREF(OCstate *, state, link);
 
 
-    if(file == NULL || strlen(file) == 0)
-	return OC_EINVAL;
-    nclog(OCLOGDBG,"OC: using netrc file: %s",file);
-    /* See if it exists and is readable; ignore if not */
-    f = NCfopen(file,"r");
-    if(f != NULL) { /* Log what rc file is being used */
-	nclog(NCLOGNOTE,"OC: netrc file found: %s",file);
-	fclose(f);
-    }
-    return OCTHROW(ocset_netrc(state,file));
+  if (file == NULL || strlen(file) == 0)
+    return OC_EINVAL;
+  nclog(OCLOGDBG, "OC: using netrc file: %s", file);
+  /* See if it exists and is readable; ignore if not */
+  f = NCfopen(file, "r");
+  if (f != NULL) { /* Log what rc file is being used */
+    nclog(NCLOGNOTE, "OC: netrc file found: %s", file);
+    fclose(f);
+  }
+  return OCTHROW(ocset_netrc(state, file));
 }
 
 /*!
@@ -2039,15 +1976,14 @@ Set the user agent field.
 */
 
 OCerror
-oc_set_useragent(OCobject link, const char* agent)
-{
-    OCstate* state;
-    OCVERIFY(OC_State,link);
-    OCDEREF(OCstate*,state,link);
+oc_set_useragent(OCobject link, const char *agent) {
+  OCstate *state;
+  OCVERIFY(OC_State, link);
+  OCDEREF(OCstate *, state, link);
 
-    if(agent == NULL || strlen(agent) == 0)
-	return OC_EINVAL;
-    return OCTHROW(ocset_useragent(state,agent));
+  if (agent == NULL || strlen(agent) == 0)
+    return OC_EINVAL;
+  return OCTHROW(ocset_useragent(state, agent));
 }
 
 /*!
@@ -2059,13 +1995,12 @@ Force the curl library to trace its actions.
 */
 
 OCerror
-oc_trace_curl(OCobject link)
-{
-    OCstate* state;
-    OCVERIFY(OC_State,link);
-    OCDEREF(OCstate*,state,link);
-    oc_curl_debug(state);
-    return OCTHROW(OC_NOERR);
+oc_trace_curl(OCobject link) {
+  OCstate *state;
+  OCVERIFY(OC_State, link);
+  OCDEREF(OCstate *, state, link);
+  oc_curl_debug(state);
+  return OCTHROW(OC_NOERR);
 }
 
 /**@}*/

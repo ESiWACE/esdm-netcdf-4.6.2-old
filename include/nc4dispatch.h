@@ -10,9 +10,9 @@
 #define _NC4DISPATCH_H
 
 #include "config.h"
-#include <stddef.h> /* size_t, ptrdiff_t */
-#include <errno.h>  /* netcdf functions sometimes return system errors */
 #include "ncdispatch.h"
+#include <errno.h>  /* netcdf functions sometimes return system errors */
+#include <stddef.h> /* size_t, ptrdiff_t */
 
 #if defined(__cplusplus)
 extern "C" {
@@ -22,20 +22,20 @@ extern "C" {
 
 EXTERNL int
 NC4_create(const char *path, int cmode,
-           size_t initialsz, int basepe, size_t *chunksizehintp,
-           void* parameters, NC_Dispatch*, NC*);
+size_t initialsz, int basepe, size_t *chunksizehintp,
+void *parameters, NC_Dispatch *, NC *);
 
 EXTERNL int
 NC4_open(const char *path, int mode,
-         int basepe, size_t *chunksizehintp,
-         void* parameters, NC_Dispatch*, NC*);
+int basepe, size_t *chunksizehintp,
+void *parameters, NC_Dispatch *, NC *);
 
 EXTERNL int
 NC4_redef(int ncid);
 
 EXTERNL int
 NC4__enddef(int ncid, size_t h_minfree, size_t v_align,
-	size_t v_minfree, size_t r_align);
+size_t v_minfree, size_t r_align);
 
 EXTERNL int
 NC4_sync(int ncid);
@@ -44,7 +44,7 @@ EXTERNL int
 NC4_abort(int ncid);
 
 EXTERNL int
-NC4_close(int ncid,void*);
+NC4_close(int ncid, void *);
 
 EXTERNL int
 NC4_set_fill(int ncid, int fillmode, int *old_modep);
@@ -89,7 +89,7 @@ NC4_rename_dim(int ncid, int dimid, const char *name);
 
 EXTERNL int
 NC4_inq_att(int ncid, int varid, const char *name,
-	    nc_type *xtypep, size_t *lenp);
+nc_type *xtypep, size_t *lenp);
 
 EXTERNL int
 NC4_inq_attid(int ncid, int varid, const char *name, int *idp);
@@ -101,7 +101,7 @@ EXTERNL int
 NC4_rename_att(int ncid, int varid, const char *name, const char *newname);
 
 EXTERNL int
-NC4_del_att(int ncid, int varid, const char*);
+NC4_del_att(int ncid, int varid, const char *);
 
 /* End _att */
 /* Begin {put,get}_att */
@@ -111,23 +111,22 @@ NC4_get_att(int ncid, int varid, const char *name, void *value, nc_type);
 
 EXTERNL int
 NC4_put_att(int ncid, int varid, const char *name, nc_type datatype,
-	   size_t len, const void *value, nc_type);
+size_t len, const void *value, nc_type);
 
 /* End {put,get}_att */
 /* Begin _var */
 
 EXTERNL int
 NC4_def_var(int ncid, const char *name,
-	 nc_type xtype, int ndims, const int *dimidsp, int *varidp);
+nc_type xtype, int ndims, const int *dimidsp, int *varidp);
 
 EXTERNL int
 NC4_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep,
-               int *ndimsp, int *dimidsp, int *nattsp,
-               int *shufflep, int *deflatep, int *deflate_levelp,
-               int *fletcher32p, int *contiguousp, size_t *chunksizesp,
-               int *no_fill, void *fill_valuep, int *endiannessp,
-	       unsigned int* idp, size_t* nparamsp, unsigned int* params
-	       );
+int *ndimsp, int *dimidsp, int *nattsp,
+int *shufflep, int *deflatep, int *deflate_levelp,
+int *fletcher32p, int *contiguousp, size_t *chunksizesp,
+int *no_fill, void *fill_valuep, int *endiannessp,
+unsigned int *idp, size_t *nparamsp, unsigned int *params);
 
 EXTERNL int
 NC4_inq_varid(int ncid, const char *name, int *varidp);
@@ -137,23 +136,23 @@ NC4_rename_var(int ncid, int varid, const char *name);
 
 EXTERNL int
 NC4_put_vara(int ncid, int varid,
-   	     const size_t *start, const size_t *count,
-             const void *value, nc_type);
+const size_t *start, const size_t *count,
+const void *value, nc_type);
 
 EXTERNL int
 NC4_get_vara(int ncid, int varid,
-	     const size_t *start, const size_t *count,
-             void *value, nc_type);
+const size_t *start, const size_t *count,
+void *value, nc_type);
 
 extern int
 NC4_put_vars(int ncid, int varid,
-   	     const size_t *start, const size_t *count, const ptrdiff_t* stride,
-             const void *value, nc_type);
+const size_t *start, const size_t *count, const ptrdiff_t *stride,
+const void *value, nc_type);
 
 extern int
 NC4_get_vars(int ncid, int varid,
-	     const size_t *start, const size_t *count, const ptrdiff_t* stride,
-             void *value, nc_type);
+const size_t *start, const size_t *count, const ptrdiff_t *stride,
+void *value, nc_type);
 
 /* End _var */
 
@@ -180,13 +179,13 @@ EXTERNL int
 NC4_inq_grp_full_ncid(int, const char *, int *);
 
 EXTERNL int
-NC4_inq_varids(int, int * nvars, int *);
+NC4_inq_varids(int, int *nvars, int *);
 
 EXTERNL int
-NC4_inq_dimids(int, int * ndims, int *, int);
+NC4_inq_dimids(int, int *ndims, int *, int);
 
 EXTERNL int
-NC4_inq_typeids(int, int * ntypes, int *);
+NC4_inq_typeids(int, int *ntypes, int *);
 
 EXTERNL int
 NC4_inq_type_equal(int, nc_type, int, nc_type, int *);
@@ -199,7 +198,7 @@ NC4_rename_grp(int, const char *);
 
 EXTERNL int
 NC4_inq_user_type(int, nc_type, char *, size_t *, nc_type *,
-		  size_t *, int *);
+size_t *, int *);
 
 EXTERNL int
 NC4_def_compound(int, size_t, const char *, nc_type *);
@@ -209,14 +208,14 @@ NC4_insert_compound(int, nc_type, const char *, size_t, nc_type);
 
 EXTERNL int
 NC4_insert_array_compound(int, nc_type, const char *, size_t,
-			  nc_type, int, const int *);
+nc_type, int, const int *);
 
 EXTERNL int
 NC4_inq_typeid(int, const char *, nc_type *);
 
 EXTERNL int
 NC4_inq_compound_field(int, nc_type, int, char *, size_t *,
-		       nc_type *, int *, int *);
+nc_type *, int *, int *);
 
 EXTERNL int
 NC4_inq_compound_fieldindex(int, nc_type, const char *, int *);
@@ -261,7 +260,7 @@ EXTERNL int
 NC4_def_var_endian(int, int, int);
 
 EXTERNL int
-NC4_def_var_filter(int, int, unsigned int, size_t, const unsigned int*);
+NC4_def_var_filter(int, int, unsigned int, size_t, const unsigned int *);
 
 EXTERNL int
 NC4_set_var_chunk_cache(int, int, size_t, size_t, float);

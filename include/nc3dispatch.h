@@ -35,10 +35,9 @@
 #ifndef _NC3DISPATCH_H
 #define _NC3DISPATCH_H
 
-#include <stddef.h> /* size_t, ptrdiff_t */
-#include "netcdf.h"
 #include "ncdispatch.h"
-
+#include "netcdf.h"
+#include <stddef.h> /* size_t, ptrdiff_t */
 
 
 #if defined(__cplusplus)
@@ -52,24 +51,24 @@ extern "C" {
 /* WARNING: this signature differs from external nc_create API*/
 extern int
 NC3_create(const char *path, int cmode,
-           size_t initialsz, int basepe, size_t *chunksizehintp,
-           void* mpidata, struct NC_Dispatch*, NC* ncp);
+size_t initialsz, int basepe, size_t *chunksizehintp,
+void *mpidata, struct NC_Dispatch *, NC *ncp);
 
 /* WARNING: this signature differs from external nc_open API*/
 extern int
 NC3_open(const char *path, int mode,
-         int basepe, size_t *chunksizehintp,
-         void* mpidata, NC_Dispatch*, NC* ncp);
+int basepe, size_t *chunksizehintp,
+void *mpidata, NC_Dispatch *, NC *ncp);
 
 extern int
-NC3_new_nc(NC**);
+NC3_new_nc(NC **);
 
 extern int
 NC3_redef(int ncid);
 
 extern int
 NC3__enddef(int ncid, size_t h_minfree, size_t v_align,
-	size_t v_minfree, size_t r_align);
+size_t v_minfree, size_t r_align);
 
 extern int
 NC3_sync(int ncid);
@@ -78,7 +77,7 @@ extern int
 NC3_abort(int ncid);
 
 extern int
-NC3_close(int ncid,void*);
+NC3_close(int ncid, void *);
 
 extern int
 NC3_set_fill(int ncid, int fillmode, int *old_modep);
@@ -123,7 +122,7 @@ NC3_rename_dim(int ncid, int dimid, const char *name);
 
 extern int
 NC3_inq_att(int ncid, int varid, const char *name,
-	 nc_type *xtypep, size_t *lenp);
+nc_type *xtypep, size_t *lenp);
 
 extern int
 NC3_inq_attid(int ncid, int varid, const char *name, int *idp);
@@ -135,7 +134,7 @@ extern int
 NC3_rename_att(int ncid, int varid, const char *name, const char *newname);
 
 extern int
-NC3_del_att(int ncid, int varid, const char*);
+NC3_del_att(int ncid, int varid, const char *);
 
 /* End _att */
 /* Begin {put,get}_att */
@@ -145,19 +144,19 @@ NC3_get_att(int ncid, int varid, const char *name, void *value, nc_type);
 
 extern int
 NC3_put_att(int ncid, int varid, const char *name, nc_type datatype,
-	   size_t len, const void *value, nc_type);
+size_t len, const void *value, nc_type);
 
 /* End {put,get}_att */
 /* Begin _var */
 
 extern int
 NC3_def_var(int ncid, const char *name,
-	 nc_type xtype, int ndims, const int *dimidsp, int *varidp);
+nc_type xtype, int ndims, const int *dimidsp, int *varidp);
 
 extern int
 NC3_inq_var(int ncid, int varid, char *name,
-	 nc_type *xtypep, int *ndimsp, int *dimidsp, int *nattsp,
-	 int *no_fill, void *fill_valuep);
+nc_type *xtypep, int *ndimsp, int *dimidsp, int *nattsp,
+int *no_fill, void *fill_valuep);
 
 extern int
 NC3_inq_varid(int ncid, const char *name, int *varidp);
@@ -166,17 +165,17 @@ extern int
 NC3_rename_var(int ncid, int varid, const char *name);
 
 extern int
-NC3_def_var_fill(int,int,int,const void*);
+NC3_def_var_fill(int, int, int, const void *);
 
 extern int
 NC3_put_vara(int ncid, int varid,
-   	     const size_t *start, const size_t *count,
-             const void *value, nc_type);
+const size_t *start, const size_t *count,
+const void *value, nc_type);
 
 extern int
 NC3_get_vara(int ncid, int varid,
-	     const size_t *start, const size_t *count,
-             void *value, nc_type);
+const size_t *start, const size_t *count,
+void *value, nc_type);
 
 /* End _var */
 

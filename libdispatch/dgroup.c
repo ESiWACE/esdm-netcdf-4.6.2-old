@@ -53,12 +53,11 @@ files in one program context is limited to 32767.
   @returns Error code or ::NC_NOERR or no error.
 
  */
-int nc_inq_ncid(int ncid, const char *name, int *grp_ncid)
-{
-    NC* ncp;
-    int stat = NC_check_id(ncid,&ncp);
-    if(stat != NC_NOERR) return stat;
-    return ncp->dispatch->inq_ncid(ncid,name,grp_ncid);
+int nc_inq_ncid(int ncid, const char *name, int *grp_ncid) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->inq_ncid(ncid, name, grp_ncid);
 }
 
 /*! Get a list of groups or subgroups from a file or groupID.
@@ -70,12 +69,11 @@ int nc_inq_ncid(int ncid, const char *name, int *grp_ncid)
   @returns Error code or ::NC_NOERR for no error.
 
  */
-int nc_inq_grps(int ncid, int *numgrps, int *ncids)
-{
-    NC* ncp;
-    int stat = NC_check_id(ncid,&ncp);
-    if(stat != NC_NOERR) return stat;
-    return ncp->dispatch->inq_grps(ncid,numgrps,ncids);
+int nc_inq_grps(int ncid, int *numgrps, int *ncids) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->inq_grps(ncid, numgrps, ncids);
 }
 
 /*! Get the name of a group given an ID.
@@ -85,12 +83,11 @@ int nc_inq_grps(int ncid, int *numgrps, int *ncids)
 
   @returns Error code or ::NC_NOERR for no error.
 */
-int nc_inq_grpname(int ncid, char *name)
-{
-    NC* ncp;
-    int stat = NC_check_id(ncid,&ncp);
-    if(stat != NC_NOERR) return stat;
-    return ncp->dispatch->inq_grpname(ncid,name);
+int nc_inq_grpname(int ncid, char *name) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->inq_grpname(ncid, name);
 }
 
 /*! Get the full path/groupname of a group/subgroup given an ID.
@@ -103,12 +100,11 @@ int nc_inq_grpname(int ncid, char *name)
 
 */
 
-int nc_inq_grpname_full(int ncid, size_t *lenp, char *full_name)
-{
-    NC* ncp;
-    int stat = NC_check_id(ncid,&ncp);
-    if(stat != NC_NOERR) return stat;
-    return ncp->dispatch->inq_grpname_full(ncid,lenp,full_name);
+int nc_inq_grpname_full(int ncid, size_t *lenp, char *full_name) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->inq_grpname_full(ncid, lenp, full_name);
 }
 
 /*! Get the length of a group name given an ID.
@@ -119,10 +115,9 @@ int nc_inq_grpname_full(int ncid, size_t *lenp, char *full_name)
   @returns Error code or ::NC_NOERR for no error.
 
 */
-int nc_inq_grpname_len(int ncid, size_t *lenp)
-{
-    int stat = nc_inq_grpname_full(ncid,lenp,NULL);
-    return stat;
+int nc_inq_grpname_len(int ncid, size_t *lenp) {
+  int stat = nc_inq_grpname_full(ncid, lenp, NULL);
+  return stat;
 }
 
 /*! Get the ID of the parent based on a group ID.
@@ -133,12 +128,11 @@ int nc_inq_grpname_len(int ncid, size_t *lenp)
   @returns Error code or ::NC_NOERR for no error.
 
  */
-int nc_inq_grp_parent(int ncid, int *parent_ncid)
-{
-    NC* ncp;
-    int stat = NC_check_id(ncid,&ncp);
-    if(stat != NC_NOERR) return stat;
-    return ncp->dispatch->inq_grp_parent(ncid,parent_ncid);
+int nc_inq_grp_parent(int ncid, int *parent_ncid) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->inq_grp_parent(ncid, parent_ncid);
 }
 
 /*! Get a group ncid given the group name.
@@ -152,9 +146,8 @@ int nc_inq_grp_parent(int ncid, int *parent_ncid)
 \note{This has same semantics as nc_inq_ncid}
 
 */
-int nc_inq_grp_ncid(int ncid, const char *grp_name, int *grp_ncid)
-{
-    return nc_inq_ncid(ncid,grp_name,grp_ncid);
+int nc_inq_grp_ncid(int ncid, const char *grp_name, int *grp_ncid) {
+  return nc_inq_ncid(ncid, grp_name, grp_ncid);
 }
 
 /*! Get the full ncid given a group name.
@@ -166,12 +159,11 @@ int nc_inq_grp_ncid(int ncid, const char *grp_name, int *grp_ncid)
   @returns Error code or ::NC_NOERR for no error.
 
  */
-int nc_inq_grp_full_ncid(int ncid, const char *full_name, int *grp_ncid)
-{
-    NC* ncp;
-    int stat = NC_check_id(ncid,&ncp);
-    if(stat != NC_NOERR) return stat;
-    return ncp->dispatch->inq_grp_full_ncid(ncid,full_name,grp_ncid);
+int nc_inq_grp_full_ncid(int ncid, const char *full_name, int *grp_ncid) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->inq_grp_full_ncid(ncid, full_name, grp_ncid);
 }
 
 
@@ -184,12 +176,11 @@ int nc_inq_grp_full_ncid(int ncid, const char *full_name, int *grp_ncid)
   @returns Error code or ::NC_NOERR for no error.
 
 */
-int nc_inq_varids(int ncid, int *nvars, int *varids)
-{
-    NC* ncp;
-    int stat = NC_check_id(ncid,&ncp);
-    if(stat != NC_NOERR) return stat;
-    return ncp->dispatch->inq_varids(ncid,nvars,varids);
+int nc_inq_varids(int ncid, int *nvars, int *varids) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->inq_varids(ncid, nvars, varids);
 }
 
 /*! Retrieve a list of dimension ids associated with a group.
@@ -202,12 +193,11 @@ int nc_inq_varids(int ncid, int *nvars, int *varids)
   @returns Error code or ::NC_NOERR for no error.
 
  */
-int nc_inq_dimids(int ncid, int *ndims, int *dimids, int include_parents)
-{
-    NC* ncp;
-    int stat = NC_check_id(ncid,&ncp);
-    if(stat != NC_NOERR) return stat;
-    return ncp->dispatch->inq_dimids(ncid,ndims,dimids,include_parents);
+int nc_inq_dimids(int ncid, int *ndims, int *dimids, int include_parents) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->inq_dimids(ncid, ndims, dimids, include_parents);
 }
 
 /*! Retrieve a list of types associated with a group
@@ -220,12 +210,11 @@ int nc_inq_dimids(int ncid, int *ndims, int *dimids, int include_parents)
 
 */
 
-int nc_inq_typeids(int ncid, int *ntypes, int *typeids)
-{
-    NC* ncp;
-    int stat = NC_check_id(ncid,&ncp);
-    if(stat != NC_NOERR) return stat;
-    return ncp->dispatch->inq_typeids(ncid,ntypes,typeids);
+int nc_inq_typeids(int ncid, int *ntypes, int *typeids) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->inq_typeids(ncid, ntypes, typeids);
 }
 
 /*! Define a new group.
@@ -265,12 +254,11 @@ int nc_inq_typeids(int ncid, int *ntypes, int *typeids)
   \endcode
 
 */
-int nc_def_grp(int parent_ncid, const char *name, int *new_ncid)
-{
-    NC* ncp;
-    int stat = NC_check_id(parent_ncid,&ncp);
-    if(stat != NC_NOERR) return stat;
-    return ncp->dispatch->def_grp(parent_ncid,name,new_ncid);
+int nc_def_grp(int parent_ncid, const char *name, int *new_ncid) {
+  NC *ncp;
+  int stat = NC_check_id(parent_ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->def_grp(parent_ncid, name, new_ncid);
 }
 
 /*! Rename a group.
@@ -281,12 +269,11 @@ int nc_def_grp(int parent_ncid, const char *name, int *new_ncid)
   @returns Error code or ::NC_NOERR for no error.
 
 */
-int nc_rename_grp(int grpid, const char *name)
-{
-    NC* ncp;
-    int stat = NC_check_id(grpid,&ncp);
-    if(stat != NC_NOERR) return stat;
-    return ncp->dispatch->rename_grp(grpid,name);
+int nc_rename_grp(int grpid, const char *name) {
+  NC *ncp;
+  int stat = NC_check_id(grpid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->rename_grp(grpid, name);
 }
 
 /*! Print the metadata for a file.
@@ -296,12 +283,11 @@ int nc_rename_grp(int grpid, const char *name)
   @returns Error code or ::NC_NOERR for no error.
 
  */
-int nc_show_metadata(int ncid)
-{
-    NC* ncp;
-    int stat = NC_check_id(ncid,&ncp);
-    if(stat != NC_NOERR) return stat;
-    return ncp->dispatch->show_metadata(ncid);
+int nc_show_metadata(int ncid) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->show_metadata(ncid);
 }
 
 /** \} */

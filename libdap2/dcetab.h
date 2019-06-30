@@ -31,10 +31,10 @@
    version 2.2 of Bison.  */
 
 #ifndef YY_DCE_DCE_TAB_H_INCLUDED
-# define YY_DCE_DCE_TAB_H_INCLUDED
+#define YY_DCE_DCE_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
-# define YYDEBUG 1
+#  define YYDEBUG 1
 #endif
 #if YYDEBUG
 extern int dcedebug;
@@ -42,24 +42,22 @@ extern int dcedebug;
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
-# define YYTOKENTYPE
-  enum yytokentype
-  {
-    SCAN_WORD = 258,
-    SCAN_STRINGCONST = 259,
-    SCAN_NUMBERCONST = 260
-  };
+#  define YYTOKENTYPE
+enum yytokentype {
+  SCAN_WORD        = 258,
+  SCAN_STRINGCONST = 259,
+  SCAN_NUMBERCONST = 260
+};
 #endif
 
 /* Value type.  */
-#if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
+#if !defined YYSTYPE && !defined YYSTYPE_IS_DECLARED
 typedef int YYSTYPE;
-# define YYSTYPE_IS_TRIVIAL 1
-# define YYSTYPE_IS_DECLARED 1
+#  define YYSTYPE_IS_TRIVIAL 1
+#  define YYSTYPE_IS_DECLARED 1
 #endif
 
 
-
-int dceparse (DCEparsestate* parsestate);
+int dceparse(DCEparsestate *parsestate);
 
 #endif /* !YY_DCE_DCE_TAB_H_INCLUDED  */

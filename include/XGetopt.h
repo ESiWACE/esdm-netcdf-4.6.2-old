@@ -16,16 +16,16 @@
 #ifndef XGETOPT_H
 #define XGETOPT_H
 
-#include <windows.h>
 #include <stdio.h>
 #include <tchar.h>
+#include <windows.h>
 
 #if defined(DLL_NETCDF)
-# if defined(DLL_EXPORT)
-#  define GTOPT_EXTRA __declspec(dllexport)
-# else
-#  define GTOPT_EXTRA __declspec(dllimport)
-# endif
+#  if defined(DLL_EXPORT)
+#    define GTOPT_EXTRA __declspec(dllexport)
+#  else
+#    define GTOPT_EXTRA __declspec(dllimport)
+#  endif
 
 GTOPT_EXTRA extern int optind, opterr;
 #else

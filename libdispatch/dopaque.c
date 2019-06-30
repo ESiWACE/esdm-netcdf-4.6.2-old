@@ -29,13 +29,11 @@ Create an opaque type. Provide a size and a name.
 \returns ::NC_EPERM Attempt to write to a read-only file.
 \returns ::NC_ENOTINDEFINE Not in define mode. 
  */
-int
-nc_def_opaque(int ncid, size_t size, const char *name, nc_type *xtypep)
-{
-    NC* ncp;
-    int stat = NC_check_id(ncid,&ncp);
-    if(stat != NC_NOERR) return stat;
-    return ncp->dispatch->def_opaque(ncid,size,name,xtypep);
+int nc_def_opaque(int ncid, size_t size, const char *name, nc_type *xtypep) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->def_opaque(ncid, size, name, xtypep);
 }
 
 /** \ingroup user_types
@@ -57,14 +55,12 @@ ignored_if_null.
 \returns ::NC_ENOTNC4 Not an netCDF-4 file, or classic model enabled.
 \returns ::NC_EHDFERR An error was reported by the HDF5 layer.
  */
-int
-nc_inq_opaque(int ncid, nc_type xtype, char *name, size_t *sizep)
-{
-    int class = 0;
-    int stat = nc_inq_user_type(ncid,xtype,name,sizep,NULL,NULL,&class);
-    if(stat != NC_NOERR) return stat;
-    if(class != NC_OPAQUE) stat = NC_EBADTYPE;
-    return stat;
+int nc_inq_opaque(int ncid, nc_type xtype, char *name, size_t *sizep) {
+  int class = 0;
+  int stat  = nc_inq_user_type(ncid, xtype, name, sizep, NULL, NULL, &class);
+  if (stat != NC_NOERR) return stat;
+  if (class != NC_OPAQUE) stat = NC_EBADTYPE;
+  return stat;
 }
 
-/*! \} */  /* End of named group ...*/
+/*! \} */ /* End of named group ...*/

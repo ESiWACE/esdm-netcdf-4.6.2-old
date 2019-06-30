@@ -9,34 +9,31 @@
 
 */
 
-#include <stdio.h> /* printf() */
 #include <config.h>
-#include <stdlib.h>
-#include <stdio.h>
 #include <netcdf.h>
+#include <stdio.h> /* printf() */
+#include <stdio.h>
+#include <stdlib.h>
 
 #if defined(NC_HAVE_META_H)
-#include <netcdf_meta.h>
+#  include <netcdf_meta.h>
 #endif
 
 int main(int argc, char **argv) {
-
   /* If netcdf_meta.h is damaged, this file will
      just flat-out fail to compile, also resulting
      in an error.
   */
 
 #ifndef NETCDF_META_H
-#ifndef NC_HAVE_META_H
+#  ifndef NC_HAVE_META_H
   printf("Error! NC_HAVE_META_H not defined. Check netcdf.h.\n");
-#else
+#  else
   printf("Error! NETCDF_META_H not defined. Check netcdf_meta.h.\n");
-#endif
+#  endif
   return -1;
 #else
   printf("Success! NETCDF_META_H defined.\n");
   return 0;
 #endif
-
-
 }

@@ -12,12 +12,12 @@ redistribution conditions. */
  * @author Ed Hartnett
 */
 
-#include "config.h"
-#include <stdarg.h>
-#include <stdlib.h>
-#include <stdio.h>
 #include "assert.h"
+#include "config.h"
 #include <hdf5.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 /* This contents of this file get skipped if LOGGING is not defined
  * during compile. */
@@ -36,39 +36,34 @@ extern int nc_log_level;
 
    This function is heavily based on the function in section 15.5 of
    the C FAQ. */
-void 
-nc_log(int severity, const char *fmt, ...)
-{
-   va_list argp;
-   int t;
+void nc_log(int severity, const char *fmt, ...) {
+  va_list argp;
+  int t;
 
-   /* If the severity is greater than the log level, we don' care to
+  /* If the severity is greater than the log level, we don' care to
       print this message. */
-   if (severity > nc_log_level)
-      return;
+  if (severity > nc_log_level)
+    return;
 
-   /* If the severity is zero, this is an error. Otherwise insert that
+  /* If the severity is zero, this is an error. Otherwise insert that
       many tabs before the message. */
-   if (!severity)
-      fprintf(stderr, "ERROR: ");
-   for (t=0; t<severity; t++)
-      fprintf(stderr, "\t");
+  if (!severity)
+    fprintf(stderr, "ERROR: ");
+  for (t = 0; t < severity; t++)
+    fprintf(stderr, "\t");
 
-   /* Print out the variable list of args with vprintf. */
-   va_start(argp, fmt);
-   vfprintf(stderr, fmt, argp);
-   va_end(argp);
-   
-   /* Put on a final linefeed. */
-   fprintf(stderr, "\n");
-   fflush(stderr);
+  /* Print out the variable list of args with vprintf. */
+  va_start(argp, fmt);
+  vfprintf(stderr, fmt, argp);
+  va_end(argp);
+
+  /* Put on a final linefeed. */
+  fprintf(stderr, "\n");
+  fflush(stderr);
 }
 
-void 
-nc_log_hdf5(void)
-{
-    H5Eprint(NULL);
+void nc_log_hdf5(void) {
+  H5Eprint(NULL);
 }
 
 #endif /* ifdef LOGGING */
-

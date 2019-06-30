@@ -18,10 +18,8 @@
  * @return ::NC_ENOTNC3 Not a netCDF classic format file.
  * @author Ed Hartnett
  */
-int
-NC_NOTNC3_set_base_pe(int ncid, int pe)
-{
-   return NC_ENOTNC3;
+int NC_NOTNC3_set_base_pe(int ncid, int pe) {
+  return NC_ENOTNC3;
 }
 
 /**
@@ -33,9 +31,6 @@ NC_NOTNC3_set_base_pe(int ncid, int pe)
  * @return ::NC_ENOTNC3 Not a netCDF classic format file.
  * @author Ed Hartnett
  */
-int
-NC_NOTNC3_inq_base_pe(int ncid, int *pe)
-{
-   return NC_ENOTNC3;
+int NC_NOTNC3_inq_base_pe(int ncid, int *pe) {
+  return NC_ENOTNC3;
 }
-

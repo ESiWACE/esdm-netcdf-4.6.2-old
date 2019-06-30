@@ -59,14 +59,12 @@ if (nc_put_var(ncid, varid, data)) ERR;
 if (nc_close(ncid)) ERR;
 \endcode
 */
-int
-nc_def_compound(int ncid, size_t size, const char *name, 
-		nc_type *typeidp)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid,&ncp);
-   if(stat != NC_NOERR) return stat;
-   return ncp->dispatch->def_compound(ncid,size,name,typeidp);
+int nc_def_compound(int ncid, size_t size, const char *name,
+nc_type *typeidp) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->def_compound(ncid, size, name, typeidp);
 }
 
 /** \ingroup user_types
@@ -95,15 +93,13 @@ for this field.
 \returns ::NC_EPERM Attempt to write to a read-only file.
 \returns ::NC_ENOTINDEFINE Not in define mode. 
 */
-int
-nc_insert_compound(int ncid, nc_type xtype, const char *name, 
-		   size_t offset, nc_type field_typeid)
-{
-   NC *ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   return ncp->dispatch->insert_compound(ncid, xtype, name,
-					 offset, field_typeid);
+int nc_insert_compound(int ncid, nc_type xtype, const char *name,
+size_t offset, nc_type field_typeid) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->insert_compound(ncid, xtype, name,
+  offset, field_typeid);
 }
 
 /** \ingroup user_types
@@ -137,15 +133,13 @@ for this field.
 \returns ::NC_EPERM Attempt to write to a read-only file.
 \returns ::NC_ENOTINDEFINE Not in define mode. 
 */
-int
-nc_insert_array_compound(int ncid, nc_type xtype, const char *name, 
-			 size_t offset, nc_type field_typeid, 
-			 int ndims, const int *dim_sizes)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid,&ncp);
-   if(stat != NC_NOERR) return stat;
-   return ncp->dispatch->insert_array_compound(ncid,xtype,name,offset,field_typeid,ndims,dim_sizes);
+int nc_insert_array_compound(int ncid, nc_type xtype, const char *name,
+size_t offset, nc_type field_typeid,
+int ndims, const int *dim_sizes) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->insert_array_compound(ncid, xtype, name, offset, field_typeid, ndims, dim_sizes);
 }
 
 /**  \ingroup user_types
@@ -171,15 +165,13 @@ placed here. \ref ignored_if_null.
 \returns ::NC_ENOTNC4 Not an netCDF-4 file, or classic model enabled.
 \returns ::NC_EHDFERR An error was reported by the HDF5 layer.
  */
-int
-nc_inq_compound(int ncid, nc_type xtype, char *name, 
-		size_t *sizep, size_t *nfieldsp)
-{
-   int class = 0;
-   int stat = nc_inq_user_type(ncid,xtype,name,sizep,NULL,nfieldsp,&class);
-   if(stat != NC_NOERR) return stat;
-   if(class != NC_COMPOUND) stat = NC_EBADTYPE;
-   return stat;
+int nc_inq_compound(int ncid, nc_type xtype, char *name,
+size_t *sizep, size_t *nfieldsp) {
+  int class = 0;
+  int stat  = nc_inq_user_type(ncid, xtype, name, sizep, NULL, nfieldsp, &class);
+  if (stat != NC_NOERR) return stat;
+  if (class != NC_COMPOUND) stat = NC_EBADTYPE;
+  return stat;
 }
 
 /**  \ingroup user_types
@@ -199,10 +191,8 @@ ignored_if_null.
 \returns ::NC_ENOTNC4 Not an netCDF-4 file, or classic model enabled.
 \returns ::NC_EHDFERR An error was reported by the HDF5 layer.
  */
-int
-nc_inq_compound_name(int ncid, nc_type xtype, char *name)
-{
-   return nc_inq_compound(ncid,xtype,name,NULL,NULL);
+int nc_inq_compound_name(int ncid, nc_type xtype, char *name) {
+  return nc_inq_compound(ncid, xtype, name, NULL, NULL);
 }
 
 /**  \ingroup user_types
@@ -222,10 +212,8 @@ ignored_if_null.
 \returns ::NC_ENOTNC4 Not an netCDF-4 file, or classic model enabled.
 \returns ::NC_EHDFERR An error was reported by the HDF5 layer.
  */
-int
-nc_inq_compound_size(int ncid, nc_type xtype, size_t *sizep)
-{
-   return nc_inq_compound(ncid,xtype,NULL,sizep,NULL);
+int nc_inq_compound_size(int ncid, nc_type xtype, size_t *sizep) {
+  return nc_inq_compound(ncid, xtype, NULL, sizep, NULL);
 }
 
 /**  \ingroup user_types
@@ -245,10 +233,8 @@ placed here. \ref ignored_if_null.
 \returns ::NC_ENOTNC4 Not an netCDF-4 file, or classic model enabled.
 \returns ::NC_EHDFERR An error was reported by the HDF5 layer.
  */
-int
-nc_inq_compound_nfields(int ncid, nc_type xtype, size_t *nfieldsp)
-{
-   return nc_inq_compound(ncid,xtype,NULL,NULL,nfieldsp);
+int nc_inq_compound_nfields(int ncid, nc_type xtype, size_t *nfieldsp) {
+  return nc_inq_compound(ncid, xtype, NULL, NULL, nfieldsp);
 }
 
 /**  \ingroup user_types
@@ -283,18 +269,16 @@ field. \ref ignored_if_null.
 \returns ::NC_ENOTNC4 Not an netCDF-4 file, or classic model enabled.
 \returns ::NC_EHDFERR An error was reported by the HDF5 layer.
  */
-int
-nc_inq_compound_field(int ncid, nc_type xtype, int fieldid, 
-		      char *name, size_t *offsetp, 
-		      nc_type *field_typeidp, int *ndimsp, 
-		      int *dim_sizesp)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid,&ncp);
-   if(stat != NC_NOERR) return stat;
-   return ncp->dispatch->inq_compound_field(ncid, xtype, fieldid,
-					    name, offsetp, field_typeidp,
-					    ndimsp, dim_sizesp);
+int nc_inq_compound_field(int ncid, nc_type xtype, int fieldid,
+char *name, size_t *offsetp,
+nc_type *field_typeidp, int *ndimsp,
+int *dim_sizesp) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->inq_compound_field(ncid, xtype, fieldid,
+  name, offsetp, field_typeidp,
+  ndimsp, dim_sizesp);
 }
 
 /**  \ingroup user_types
@@ -317,16 +301,14 @@ ignored_if_null.
 \returns ::NC_ENOTNC4 Not an netCDF-4 file, or classic model enabled.
 \returns ::NC_EHDFERR An error was reported by the HDF5 layer.
  */
-int
-nc_inq_compound_fieldname(int ncid, nc_type xtype, int fieldid, 
-			  char *name)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid,&ncp);
-   if(stat != NC_NOERR) return stat;
-   return ncp->dispatch->inq_compound_field(ncid, xtype, fieldid,
-					    name, NULL, NULL, NULL,
-					    NULL);
+int nc_inq_compound_fieldname(int ncid, nc_type xtype, int fieldid,
+char *name) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->inq_compound_field(ncid, xtype, fieldid,
+  name, NULL, NULL, NULL,
+  NULL);
 }
 
 /**  \ingroup user_types
@@ -349,14 +331,12 @@ ignored_if_null.
 \returns ::NC_ENOTNC4 Not an netCDF-4 file, or classic model enabled.
 \returns ::NC_EHDFERR An error was reported by the HDF5 layer.
  */
-int
-nc_inq_compound_fieldoffset(int ncid, nc_type xtype, int fieldid, 
-			    size_t *offsetp)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid,&ncp);
-   if(stat != NC_NOERR) return stat;
-   return ncp->dispatch->inq_compound_field(ncid,xtype,fieldid,NULL,offsetp,NULL,NULL,NULL);
+int nc_inq_compound_fieldoffset(int ncid, nc_type xtype, int fieldid,
+size_t *offsetp) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->inq_compound_field(ncid, xtype, fieldid, NULL, offsetp, NULL, NULL, NULL);
 }
 
 /**  \ingroup user_types
@@ -379,14 +359,12 @@ field. \ref ignored_if_null.
 \returns ::NC_ENOTNC4 Not an netCDF-4 file, or classic model enabled.
 \returns ::NC_EHDFERR An error was reported by the HDF5 layer.
  */
-int
-nc_inq_compound_fieldtype(int ncid, nc_type xtype, int fieldid, 
-			  nc_type *field_typeidp)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid,&ncp);
-   if(stat != NC_NOERR) return stat;
-   return ncp->dispatch->inq_compound_field(ncid,xtype,fieldid,NULL,NULL,field_typeidp,NULL,NULL);
+int nc_inq_compound_fieldtype(int ncid, nc_type xtype, int fieldid,
+nc_type *field_typeidp) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->inq_compound_field(ncid, xtype, fieldid, NULL, NULL, field_typeidp, NULL, NULL);
 }
 
 /**  \ingroup user_types
@@ -409,14 +387,12 @@ field. \ref ignored_if_null.
 \returns ::NC_ENOTNC4 Not an netCDF-4 file, or classic model enabled.
 \returns ::NC_EHDFERR An error was reported by the HDF5 layer.
  */
-int
-nc_inq_compound_fieldndims(int ncid, nc_type xtype, int fieldid, 
-			   int *ndimsp)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid,&ncp);
-   if(stat != NC_NOERR) return stat;
-   return ncp->dispatch->inq_compound_field(ncid,xtype,fieldid,NULL,NULL,NULL,ndimsp,NULL);
+int nc_inq_compound_fieldndims(int ncid, nc_type xtype, int fieldid,
+int *ndimsp) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->inq_compound_field(ncid, xtype, fieldid, NULL, NULL, NULL, ndimsp, NULL);
 }
 
 /**  \ingroup user_types
@@ -439,16 +415,14 @@ field. \ref ignored_if_null.
 \returns ::NC_ENOTNC4 Not an netCDF-4 file, or classic model enabled.
 \returns ::NC_EHDFERR An error was reported by the HDF5 layer.
  */
-int
-nc_inq_compound_fielddim_sizes(int ncid, nc_type xtype, int fieldid, 
-			       int *dim_sizesp)
-{
-   NC *ncp;
-   int stat = NC_check_id(ncid, &ncp);
-   if(stat != NC_NOERR) return stat;
-   return ncp->dispatch->inq_compound_field(ncid, xtype, fieldid,
-					    NULL, NULL, NULL, NULL,
-					    dim_sizesp);
+int nc_inq_compound_fielddim_sizes(int ncid, nc_type xtype, int fieldid,
+int *dim_sizesp) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->inq_compound_field(ncid, xtype, fieldid,
+  NULL, NULL, NULL, NULL,
+  dim_sizesp);
 }
 
 /**  \ingroup user_types
@@ -471,19 +445,11 @@ field. \ref ignored_if_null.
 \returns ::NC_ENOTNC4 Not an netCDF-4 file, or classic model enabled.
 \returns ::NC_EHDFERR An error was reported by the HDF5 layer.
  */
-int
-nc_inq_compound_fieldindex(int ncid, nc_type xtype, const char *name, 
-			   int *fieldidp)
-{
-   NC* ncp;
-   int stat = NC_check_id(ncid,&ncp);
-   if(stat != NC_NOERR) return stat;
-   return ncp->dispatch->inq_compound_fieldindex(ncid,xtype,name,fieldidp);
+int nc_inq_compound_fieldindex(int ncid, nc_type xtype, const char *name,
+int *fieldidp) {
+  NC *ncp;
+  int stat = NC_check_id(ncid, &ncp);
+  if (stat != NC_NOERR) return stat;
+  return ncp->dispatch->inq_compound_fieldindex(ncid, xtype, name, fieldidp);
 }
-/*! \} */  /* End of named group ...*/
-
-
-
-
-
-
+/*! \} */ /* End of named group ...*/

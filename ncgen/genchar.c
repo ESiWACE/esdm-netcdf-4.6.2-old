@@ -12,10 +12,10 @@
 /******************************************************/
 
 /*Forward*/
-static size_t gen_charconstant(NCConstant*, Bytebuffer*, int fillchar);
-static int getfillchar(Datalist* fillsrc);
-static void gen_leafchararray(Dimset*,int,Datalist*,Bytebuffer*, int);
-static NCConstant* makeconst(int lineno, int len, char* str);
+static size_t gen_charconstant(NCConstant *, Bytebuffer *, int fillchar);
+static int getfillchar(Datalist *fillsrc);
+static void gen_leafchararray(Dimset *, int, Datalist *, Bytebuffer *, int);
+static NCConstant *makeconst(int lineno, int len, char *str);
 
 /*
 Matching strings to char variables, attributes, and vlen
@@ -50,23 +50,21 @@ Two special cases:
     For this case, we simply concat all the elements.
 */
 
-void
-gen_chararray(Dimset* dimset, int dimindex, Datalist* data, Bytebuffer* charbuf, Datalist* fillsrc)
-{
-    int fillchar = getfillchar(fillsrc);
-    int rank = rankfor(dimset);
-    int firstunlim = findunlimited(dimset,0);
-    int nunlim = countunlimited(dimset);
-    int nc3unlim = (nunlim <= 1 && (firstunlim == 0 || firstunlim == rank)); /* netcdf-3 case of at most 1 unlim in 0th dimension */
+void gen_chararray(Dimset *dimset, int dimindex, Datalist *data, Bytebuffer *charbuf, Datalist *fillsrc) {
+  int fillchar   = getfillchar(fillsrc);
+  int rank       = rankfor(dimset);
+  int firstunlim = findunlimited(dimset, 0);
+  int nunlim     = countunlimited(dimset);
+  int nc3unlim   = (nunlim <= 1 && (firstunlim == 0 || firstunlim == rank)); /* netcdf-3 case of at most 1 unlim in 0th dimension */
 
-    /* Case: netcdf3 case */
-    if(nc3unlim) {
-	gen_leafchararray(dimset,0,data,charbuf,fillchar);
-	return;
-    }
+  /* Case: netcdf3 case */
+  if (nc3unlim) {
+    gen_leafchararray(dimset, 0, data, charbuf, fillchar);
+    return;
+  }
 
-    /* else generate should have done all the hard work */
-    gen_leafchararray(dimset,dimindex,data,charbuf,fillchar);
+  /* else generate should have done all the hard work */
+  gen_leafchararray(dimset, dimindex, data, charbuf, fillchar);
 }
 
 #if 0
@@ -122,80 +120,74 @@ gen_chararrayr(Dimset* dimset, int dimindex,
 }
 #endif
 
-void
-gen_charattr(Datalist* data, Bytebuffer* databuf)
-{
-    gen_charseq(data,databuf);
+void gen_charattr(Datalist *data, Bytebuffer *databuf) {
+  gen_charseq(data, databuf);
 }
 
-void
-gen_charseq(Datalist* data, Bytebuffer* databuf)
-{
-    int i;
-    NCConstant* c;
+void gen_charseq(Datalist *data, Bytebuffer *databuf) {
+  int i;
+  NCConstant *c;
 
-    ASSERT(bbLength(databuf) == 0);
+  ASSERT(bbLength(databuf) == 0);
 
-    for(i=0;i<data->length;i++) {
-        c = datalistith(data,i);
-        if(isstringable(c->nctype)) {
-            (void)gen_charconstant(c,databuf,NC_FILL_CHAR);
-        } else {
-            semerror(constline(c),
-                     "Encountered non-string and non-char constant in datalist");
-            return;
-        }
+  for (i = 0; i < data->length; i++) {
+    c = datalistith(data, i);
+    if (isstringable(c->nctype)) {
+      (void)gen_charconstant(c, databuf, NC_FILL_CHAR);
+    } else {
+      semerror(constline(c),
+      "Encountered non-string and non-char constant in datalist");
+      return;
     }
+  }
 }
 
 static size_t
-gen_charconstant(NCConstant* con, Bytebuffer* databuf, int fillchar)
-{
-    /* Following cases should be consistent with isstringable */
-    size_t constsize = 1;
-    switch (con->nctype) {
+gen_charconstant(NCConstant *con, Bytebuffer *databuf, int fillchar) {
+  /* Following cases should be consistent with isstringable */
+  size_t constsize = 1;
+  switch (con->nctype) {
     case NC_CHAR:
-        bbAppend(databuf,con->value.charv);
-        break;
+      bbAppend(databuf, con->value.charv);
+      break;
     case NC_BYTE:
-        bbAppend(databuf,con->value.int8v);
-        break;
+      bbAppend(databuf, con->value.int8v);
+      break;
     case NC_UBYTE:
-        bbAppend(databuf,con->value.uint8v);
-        break;
+      bbAppend(databuf, con->value.uint8v);
+      break;
     case NC_STRING:
-        constsize = con->value.stringv.len;
-	if(constsize > 0)
-            bbAppendn(databuf,con->value.stringv.stringv,
-                         con->value.stringv.len);
-        bbNull(databuf);
-        break;
+      constsize = con->value.stringv.len;
+      if (constsize > 0)
+        bbAppendn(databuf, con->value.stringv.stringv,
+        con->value.stringv.len);
+      bbNull(databuf);
+      break;
     case NC_FILL:
-        bbAppend(databuf,fillchar);
-        break;
+      bbAppend(databuf, fillchar);
+      break;
     default:
-        PANIC("unexpected constant type");
-    }
-    return constsize;
+      PANIC("unexpected constant type");
+  }
+  return constsize;
 }
 
 static int
-getfillchar(Datalist* fillsrc)
-{
-    /* Determine the fill char */
-    int fillchar = 0;
-    if(fillsrc != NULL && fillsrc->length > 0) {
-        NCConstant* ccon = fillsrc->data[0];
-        if(ccon->nctype == NC_CHAR) {
-            fillchar = ccon->value.charv;
-        } else if(ccon->nctype == NC_STRING) {      
-            if(ccon->value.stringv.len > 0) {
-                fillchar = ccon->value.stringv.stringv[0];
-            }
-        }
+getfillchar(Datalist *fillsrc) {
+  /* Determine the fill char */
+  int fillchar = 0;
+  if (fillsrc != NULL && fillsrc->length > 0) {
+    NCConstant *ccon = fillsrc->data[0];
+    if (ccon->nctype == NC_CHAR) {
+      fillchar = ccon->value.charv;
+    } else if (ccon->nctype == NC_STRING) {
+      if (ccon->value.stringv.len > 0) {
+        fillchar = ccon->value.stringv.stringv[0];
+      }
     }
-    if(fillchar == 0) fillchar = NC_FILL_CHAR; /* default */
-    return fillchar;
+  }
+  if (fillchar == 0) fillchar = NC_FILL_CHAR; /* default */
+  return fillchar;
 }
 
 /* I think there is a flaw in the ncgen manual
@@ -212,18 +204,17 @@ getfillchar(Datalist* fillsrc)
  */
 
 static void
-gen_leafchararray(Dimset* dimset, int dimindex, Datalist* data,
-                   Bytebuffer* charbuf, int fillchar)
-{
-    int i;
-    size_t expectedsize,xproduct,unitsize;
-    int rank = rankfor(dimset);
+gen_leafchararray(Dimset *dimset, int dimindex, Datalist *data,
+Bytebuffer *charbuf, int fillchar) {
+  int i;
+  size_t expectedsize, xproduct, unitsize;
+  int rank = rankfor(dimset);
 
-    ASSERT(bbLength(charbuf) == 0);
-    ASSERT((findlastunlimited(dimset) == rank
-            || findlastunlimited(dimset) == dimindex));
+  ASSERT(bbLength(charbuf) == 0);
+  ASSERT((findlastunlimited(dimset) == rank
+          || findlastunlimited(dimset) == dimindex));
 
-    /*
+  /*
     There are a number of special cases that must be
     considered, mostly driven by the need to keep consistent
     with ncgen3.  These cases are driven by the number of
@@ -240,126 +231,127 @@ gen_leafchararray(Dimset* dimset, int dimindex, Datalist* data,
     concatenated with any trailing or leading string (with double quotes).
     */
 
-    /* Rebuild the datalist to merge '0x' constants;
+  /* Rebuild the datalist to merge '0x' constants;
 	WARNING: this is tricky.
     */
-    {
-	int i,cccount = 0;
-	/* Do initial walk */
-	for(i=0;i<datalistlen(data);i++) {
-	    NCConstant* con = datalistith(data,i);
-	    if(consttype(con) == NC_CHAR || consttype(con) == NC_BYTE) {
-		cccount++;
-	    }
-	}
-	if(cccount > 1) {
-	    Bytebuffer* accum = bbNew();
-	    int len = 0; /* >0 implies doing accum */
-	    Datalist* newlist = builddatalist(datalistlen(data));
-	    int lineno = 0;
-            NCConstant* con;
-	    /* We are going to construct a single string constant for each
+  {
+    int i, cccount = 0;
+    /* Do initial walk */
+    for (i = 0; i < datalistlen(data); i++) {
+      NCConstant *con = datalistith(data, i);
+      if (consttype(con) == NC_CHAR || consttype(con) == NC_BYTE) {
+        cccount++;
+      }
+    }
+    if (cccount > 1) {
+      Bytebuffer *accum = bbNew();
+      int len           = 0; /* >0 implies doing accum */
+      Datalist *newlist = builddatalist(datalistlen(data));
+      int lineno        = 0;
+      NCConstant *con;
+      /* We are going to construct a single string constant for each
 	       contiguous sequence of single char values.
 	       Assume that the constants are all primitive types */
-	    for(i=0;i<datalistlen(data);i++) {
-	        con = datalistith(data,i);
-	        if(consttype(con) == NC_CHAR || consttype(con) == NC_BYTE) {
-		    if(len == 0) { /* Start an accumulation */
-			lineno = constline(con);
-			bbClear(accum);
-		    }
-		    bbAppend(accum,con->value.charv);
-		    len++;
-		    /* Discard this constant */
-		    reclaimconstant(con);
-		} else {
-		    if(len > 0) { /* End the accumulation */
-			bbNull(accum);
-			con = makeconst(lineno,len,bbContents(accum));
-			len = 0;
-			lineno = 0;
-		        dlappend(newlist,con);
-		    } else
-		        dlappend(newlist,con);
-		}
-	    }
-	    /* deal with any unclosed strings */
-	    if(len > 0) {
-		con = makeconst(lineno,len,bbContents(accum));
-		len = 0;
-		lineno = 0;
-	        dlappend(newlist,con);
-	    }
-	    bbFree(accum);
-	    /* Move the newlist sequence of constants into the old list */
-	    efree(data->data);
-	    data->data = newlist->data;
-	    data->length = newlist->length;
-    	    data->alloc = newlist->alloc;
-	    efree(newlist);
-	}
-    }
-
-    /* Compute crossproduct up to (but not including) the last dimension */
-    xproduct = crossproduct(dimset,dimindex,rank-1);
-
-    /* Start casing it out */
-    if(rank == 0) {
-        unitsize = 1;
-        expectedsize = (xproduct * unitsize);
-    } else if(rank == 1) {
-	unitsize = 1;
-        expectedsize = (xproduct * declsizefor(dimset,rank-1));
-    } else if(isunlimited(dimset,rank-1)) {/* last dimension is unlimited */
-        unitsize = 1;
-        expectedsize = (xproduct*declsizefor(dimset,rank-1));
-    } else { /* rank > 0 && last dim is not unlimited */
-	unitsize =  declsizefor(dimset,rank-1);
-        expectedsize = (xproduct * unitsize);
-    }
-
-    for(i=0;i<data->length;i++) {
-        NCConstant* c = datalistith(data,i);
-        ASSERT(!islistconst(c));
-        if(isstringable(c->nctype)) {
-            int j;
-            size_t constsize;
-            constsize = gen_charconstant(c,charbuf,fillchar);
-            if(constsize == 0 || constsize % unitsize > 0) {
-                size_t padsize = unitsize - (constsize % unitsize);
-                for(j=0;j<padsize;j++) bbAppend(charbuf,fillchar);
-            }
+      for (i = 0; i < datalistlen(data); i++) {
+        con = datalistith(data, i);
+        if (consttype(con) == NC_CHAR || consttype(con) == NC_BYTE) {
+          if (len == 0) { /* Start an accumulation */
+            lineno = constline(con);
+            bbClear(accum);
+          }
+          bbAppend(accum, con->value.charv);
+          len++;
+          /* Discard this constant */
+          reclaimconstant(con);
         } else {
-            semwarn(constline(c),"Encountered non-string and non-char constant in datalist; ignored");
+          if (len > 0) { /* End the accumulation */
+            bbNull(accum);
+            con    = makeconst(lineno, len, bbContents(accum));
+            len    = 0;
+            lineno = 0;
+            dlappend(newlist, con);
+          } else
+            dlappend(newlist, con);
         }
+      }
+      /* deal with any unclosed strings */
+      if (len > 0) {
+        con    = makeconst(lineno, len, bbContents(accum));
+        len    = 0;
+        lineno = 0;
+        dlappend(newlist, con);
+      }
+      bbFree(accum);
+      /* Move the newlist sequence of constants into the old list */
+      efree(data->data);
+      data->data   = newlist->data;
+      data->length = newlist->length;
+      data->alloc  = newlist->alloc;
+      efree(newlist);
     }
-    /* If |databuf| > expectedsize, complain: exception is zero length */
-    if(bbLength(charbuf) == 0 && expectedsize == 1) {
-        /* this is okay */
-    } else if(bbLength(charbuf) > expectedsize) {
-        semwarn(data->data[0]->lineno,"character data list too long; expected %d character constant, found %d: ",expectedsize,bbLength(charbuf));
+  }
+
+  /* Compute crossproduct up to (but not including) the last dimension */
+  xproduct = crossproduct(dimset, dimindex, rank - 1);
+
+  /* Start casing it out */
+  if (rank == 0) {
+    unitsize     = 1;
+    expectedsize = (xproduct * unitsize);
+  } else if (rank == 1) {
+    unitsize     = 1;
+    expectedsize = (xproduct * declsizefor(dimset, rank - 1));
+  } else if (isunlimited(dimset, rank - 1)) { /* last dimension is unlimited */
+    unitsize     = 1;
+    expectedsize = (xproduct * declsizefor(dimset, rank - 1));
+  } else { /* rank > 0 && last dim is not unlimited */
+    unitsize     = declsizefor(dimset, rank - 1);
+    expectedsize = (xproduct * unitsize);
+  }
+
+  for (i = 0; i < data->length; i++) {
+    NCConstant *c = datalistith(data, i);
+    ASSERT(!islistconst(c));
+    if (isstringable(c->nctype)) {
+      int j;
+      size_t constsize;
+      constsize = gen_charconstant(c, charbuf, fillchar);
+      if (constsize == 0 || constsize % unitsize > 0) {
+        size_t padsize = unitsize - (constsize % unitsize);
+        for (j = 0; j < padsize; j++)
+          bbAppend(charbuf, fillchar);
+      }
     } else {
-        size_t bufsize = bbLength(charbuf);
-        /* Pad to size dimproduct size */
-        if(bufsize % expectedsize > 0) {
-            size_t padsize = expectedsize - (bufsize % expectedsize);
-            for(i=0;i<padsize;i++) bbAppend(charbuf,fillchar);
-        }
+      semwarn(constline(c), "Encountered non-string and non-char constant in datalist; ignored");
     }
+  }
+  /* If |databuf| > expectedsize, complain: exception is zero length */
+  if (bbLength(charbuf) == 0 && expectedsize == 1) {
+    /* this is okay */
+  } else if (bbLength(charbuf) > expectedsize) {
+    semwarn(data->data[0]->lineno, "character data list too long; expected %d character constant, found %d: ", expectedsize, bbLength(charbuf));
+  } else {
+    size_t bufsize = bbLength(charbuf);
+    /* Pad to size dimproduct size */
+    if (bufsize % expectedsize > 0) {
+      size_t padsize = expectedsize - (bufsize % expectedsize);
+      for (i = 0; i < padsize; i++)
+        bbAppend(charbuf, fillchar);
+    }
+  }
 }
 
 /* Create a new string constant */
-static NCConstant*
-makeconst(int lineno, int len, char* str)
-{
-    NCConstant* con = nullconst();
-    con->nctype = NC_STRING;
-    con->lineno = lineno;
-    con->filled = 0;
-    con->value.stringv.len = len;
-    /* We cannot use strdup because str might have embedded nuls */
-    con->value.stringv.stringv = (char*)ecalloc(len+1);
-    memcpy((void*)con->value.stringv.stringv,(void*)str,len);
-    con->value.stringv.stringv[len] = '\0';
-    return con;
+static NCConstant *
+makeconst(int lineno, int len, char *str) {
+  NCConstant *con        = nullconst();
+  con->nctype            = NC_STRING;
+  con->lineno            = lineno;
+  con->filled            = 0;
+  con->value.stringv.len = len;
+  /* We cannot use strdup because str might have embedded nuls */
+  con->value.stringv.stringv = (char *)ecalloc(len + 1);
+  memcpy((void *)con->value.stringv.stringv, (void *)str, len);
+  con->value.stringv.stringv[len] = '\0';
+  return con;
 }

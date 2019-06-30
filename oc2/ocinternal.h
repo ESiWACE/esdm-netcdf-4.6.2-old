@@ -7,60 +7,63 @@
 #include "config.h"
 
 #ifdef _MSC_VER
-#include <malloc.h>
+#  include <malloc.h>
 #endif
 
 /* Required for getcwd, other functions. */
 #ifdef _MSC_VER
-#include <direct.h>
-#define getcwd _getcwd
+#  include <direct.h>
+#  define getcwd _getcwd
 #endif
 
 #ifdef _AIX
-#include <netinet/in.h>
+#  include <netinet/in.h>
 #endif
 
-#include <stdlib.h>
 #include <assert.h>
+#include <stdlib.h>
 #include <string.h>
 #ifdef HAVE_STRINGS_H
-#include <strings.h>
+#  include <strings.h>
 #endif
 #ifdef HAVE_STDARG_H
-#include <stdarg.h>
+#  include <stdarg.h>
 #endif
 #ifdef HAVE_UNISTD_H
-#include <unistd.h>
+#  include <unistd.h>
 #endif
 #ifdef HAVE_SYS_TYPES_H
-#include <sys/types.h>
+#  include <sys/types.h>
 #endif
 
 #define CURL_DISABLE_TYPECHECK 1
 #include <curl/curl.h>
 
-#include "netcdf.h"
 #include "ncauth.h"
-#include "nclist.h"
 #include "ncbytes.h"
+#include "nclist.h"
 #include "ncuri.h"
+#include "netcdf.h"
 
 #ifndef HAVE_STRNDUP
 /* Not all systems have strndup, so provide one*/
-#define strndup ocstrndup
+#  define strndup ocstrndup
 #endif
 
 #define OCCACHEPOS
 
 #ifndef HAVE_STRNDUP
 /* Not all systems have strndup, so provide one*/
-#define strndup ocstrndup
+#  define strndup ocstrndup
 #endif
 
 #define OCPATHMAX 8192
 
 #ifndef nullfree
-#define nullfree(x) {if((x)!=NULL) free(x);}
+#  define nullfree(x)           \
+    {                           \
+      if ((x) != NULL) free(x); \
+    }
 #endif
 
 /* Forwards */
@@ -70,10 +73,10 @@ typedef struct OCdata OCdata;
 struct OCTriplestore;
 
 /* Define the internal node classification values */
-#define OC_None  ((unsigned int)0)
+#define OC_None ((unsigned int)0)
 #define OC_State ((unsigned int)1)
-#define OC_Node  ((unsigned int)2)
-#define OC_Data  ((unsigned int)3)
+#define OC_Node ((unsigned int)2)
+#define OC_Data ((unsigned int)3)
 
 /* Define a magic number to mark externally visible oc objects */
 #define OCMAGIC ((unsigned int)0x0c0c0c0c) /*clever, huh*/
@@ -87,42 +90,42 @@ struct OCTriplestore;
 /* Define a struct that all oc objects must start with */
 /* OCheader must be defined here to make it available in other headers */
 typedef struct OCheader {
-    unsigned int magic;
-    unsigned int occlass;
+  unsigned int magic;
+  unsigned int occlass;
 } OCheader;
 
-#include "oc.h"
-#include "ocx.h"
-#include "ocnode.h"
-#include "ocdata.h"
-#include "occonstraints.h"
-#include "ocutil.h"
 #include "nclog.h"
-#include "xxdr.h"
-#include "ocdatatypes.h"
+#include "oc.h"
 #include "occompile.h"
+#include "occonstraints.h"
+#include "ocdata.h"
+#include "ocdatatypes.h"
+#include "ocnode.h"
+#include "ocutil.h"
+#include "ocx.h"
+#include "xxdr.h"
 
 #ifndef nulldup
-#define nulldup(s) (s==NULL?NULL:strdup(s))
+#  define nulldup(s) (s == NULL ? NULL : strdup(s))
 #endif
 
 /*
  * Macros for dealing with flag bits.
  */
-#define fset(t,f)       ((t) |= (f))
-#define fclr(t,f)       ((t) &= ~(f))
-#define fisset(t,f)     ((t) & (f))
+#define fset(t, f) ((t) |= (f))
+#define fclr(t, f) ((t) &= ~(f))
+#define fisset(t, f) ((t) & (f))
 
-#define nullstring(s) (s==NULL?"(null)":s)
+#define nullstring(s) (s == NULL ? "(null)" : s)
 #define PATHSEPARATOR "."
 
 #define OCCOOKIEDIR "occookies"
 
 /* Define infinity for memory size */
 #if SIZEOF_SIZE_T == 4
-#define OCINFINITY ((size_t)0xffffffff)
+#  define OCINFINITY ((size_t)0xffffffff)
 #else
-#define OCINFINITY ((size_t)0xffffffffffffffff)
+#  define OCINFINITY ((size_t)0xffffffffffffffff)
 #endif
 
 /* Extend the OCdxd type for internal use */
@@ -136,7 +139,7 @@ typedef struct OCheader {
 
 /* Default user agent string (will have version appended)*/
 #ifndef DFALTUSERAGENT
-#define DFALTUSERAGENT "oc"
+#  define DFALTUSERAGENT "oc"
 #endif
 
 #if 0
@@ -151,61 +154,60 @@ struct OCCURLFLAG {
 #endif
 
 struct OCTriplestore {
-    int ntriples;
-    struct OCTriple {
-        char host[MAXRCLINESIZE]; /* includes port if specified */
-        char key[MAXRCLINESIZE];
-        char value[MAXRCLINESIZE];
-   } triples[MAXRCLINES];
+  int ntriples;
+  struct OCTriple {
+    char host[MAXRCLINESIZE]; /* includes port if specified */
+    char key[MAXRCLINESIZE];
+    char value[MAXRCLINESIZE];
+  } triples[MAXRCLINES];
 };
 
 /*! Specifies the OCstate = non-opaque version of OClink */
 struct OCstate {
-    OCheader header; /* class=OC_State */
-    NClist* trees; /* list<OCNODE*> ; all root objects */
-    NCURI* uri; /* parsed base URI*/
-    NCbytes* packet; /* shared by all trees during construction */
-    struct OCerrdata {/* Hold info for an error return from server */
-	char* code;
-	char* message;
-	long  httpcode;
-	char  curlerrorbuf[CURL_ERROR_SIZE]; /* CURLOPT_ERRORBUFFER*/
-    } error;
-    CURL* curl; /* curl handle*/
-    char curlerror[CURL_ERROR_SIZE];
-    void* usercurldata;
-    NCauth auth; /* curl auth data */
-    long ddslastmodified;
-    long datalastmodified;
-    long curlbuffersize;
-    struct {
-	int active; /* Activate keepalive? */
-	long idle; /* KEEPIDLE value */
-	long interval; /* KEEPINTVL value */
-    } curlkeepalive; /* keepalive info */
+  OCheader header;   /* class=OC_State */
+  NClist *trees;     /* list<OCNODE*> ; all root objects */
+  NCURI *uri;        /* parsed base URI*/
+  NCbytes *packet;   /* shared by all trees during construction */
+  struct OCerrdata { /* Hold info for an error return from server */
+    char *code;
+    char *message;
+    long httpcode;
+    char curlerrorbuf[CURL_ERROR_SIZE]; /* CURLOPT_ERRORBUFFER*/
+  } error;
+  CURL *curl; /* curl handle*/
+  char curlerror[CURL_ERROR_SIZE];
+  void *usercurldata;
+  NCauth auth; /* curl auth data */
+  long ddslastmodified;
+  long datalastmodified;
+  long curlbuffersize;
+  struct {
+    int active;    /* Activate keepalive? */
+    long idle;     /* KEEPIDLE value */
+    long interval; /* KEEPINTVL value */
+  } curlkeepalive; /* keepalive info */
 };
 
 /*! OCtree holds extra state info about trees */
 
-typedef struct OCtree
-{
-    OCdxd  dxdclass;
-    char* constraint;
-    char* text;
-    struct OCnode* root; /* cross link */
-    struct OCstate* state; /* cross link */
-    NClist* nodes; /* all nodes in tree*/
-    /* when dxdclass == OCDATADDS */
-    struct {
-	char*   memory;   /* allocated memory if OC_ONDISK is not set */
-        char*   filename; /* If OC_ONDISK is set */
-        FILE*   file;
-        off_t   datasize; /* xdr size on disk or in memory */
-        off_t   bod;      /* offset of the beginning of packet data */
-        off_t   ddslen;   /* length of ddslen (assert(ddslen <= bod)) */
-        XXDR*   xdrs;		/* access either memory or file */
-        OCdata* data;
-    } data;
+typedef struct OCtree {
+  OCdxd dxdclass;
+  char *constraint;
+  char *text;
+  struct OCnode *root;   /* cross link */
+  struct OCstate *state; /* cross link */
+  NClist *nodes;         /* all nodes in tree*/
+  /* when dxdclass == OCDATADDS */
+  struct {
+    char *memory;   /* allocated memory if OC_ONDISK is not set */
+    char *filename; /* If OC_ONDISK is set */
+    FILE *file;
+    off_t datasize; /* xdr size on disk or in memory */
+    off_t bod;      /* offset of the beginning of packet data */
+    off_t ddslen;   /* length of ddslen (assert(ddslen <= bod)) */
+    XXDR *xdrs;     /* access either memory or file */
+    OCdata *data;
+  } data;
 } OCtree;
 
 /* (Almost) All shared procedure definitions are kept here
@@ -222,23 +224,23 @@ extern NClist* CEparse(OCstate*,char* input);
 extern int ocinitialized;
 
 
-extern OCerror ocopen(OCstate** statep, const char* url);
-extern void occlose(OCstate* state);
-extern OCerror ocfetch(OCstate*, const char*, OCdxd, OCflags, OCnode**);
+extern OCerror ocopen(OCstate **statep, const char *url);
+extern void occlose(OCstate *state);
+extern OCerror ocfetch(OCstate *, const char *, OCdxd, OCflags, OCnode **);
 extern int oc_network_order;
 extern int oc_invert_xdr_double;
 extern OCerror ocinternalinitialize(void);
 
-extern OCerror ocupdatelastmodifieddata(OCstate* state);
+extern OCerror ocupdatelastmodifieddata(OCstate *state);
 
-extern OCerror ocset_useragent(OCstate* state, const char* agent);
-extern OCerror ocset_netrc(OCstate* state, const char* path);
+extern OCerror ocset_useragent(OCstate *state, const char *agent);
+extern OCerror ocset_netrc(OCstate *state, const char *path);
 
 /* From ocrc.c */
-extern OCerror ocrc_load(); /* find, read, and compile */
-extern OCerror ocrc_process(OCstate* state); /* extract relevant triples */
-extern char* ocrc_lookup(char* key, char* url);
-extern struct OCTriple* ocrc_triple_iterate(char* key, char* url, struct OCTriple* prevp);
-extern int ocparseproxy(OCstate* state, char* v);
+extern OCerror ocrc_load();                  /* find, read, and compile */
+extern OCerror ocrc_process(OCstate *state); /* extract relevant triples */
+extern char *ocrc_lookup(char *key, char *url);
+extern struct OCTriple *ocrc_triple_iterate(char *key, char *url, struct OCTriple *prevp);
+extern int ocparseproxy(OCstate *state, char *v);
 
 #endif /*COMMON_H*/

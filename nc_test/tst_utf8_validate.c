@@ -3,12 +3,12 @@
  *  See the LICENSE file for more information.
  */
 
-#include <config.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include "netcdf.h"
 #include "ncutf8.h"
+#include "netcdf.h"
+#include <config.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 /*
 
 This test is taken from the UTF-8 decoder
@@ -73,12 +73,13 @@ your decoder, then please ignore the "|" column.
 
 
 struct Test {
-    int xfail;
-    const char* id;
-    const char* description;
-    const char* data;
+  int xfail;
+  const char *id;
+  const char *description;
+  const char *data;
 };
-#define NULLTEST {0,NULL,NULL,NULL}
+#define NULLTEST \
+  { 0, NULL, NULL, NULL }
 
 /* The following tests are in envv form */
 
@@ -88,37 +89,35 @@ struct Test {
 static const struct Test utf8ok[] = {
 {0, "1.1.1", "Greek word 'kosme'",
 "Îºá½¹ÏƒÎ¼Îµ"},
-NULLTEST
-};
+NULLTEST};
 
 static const struct Test utf8boundary[] = {
 
 /*2  Boundary condition test */
 /*2.1  First possible sequence of a certain length */
-{0,"2.1.1", "1 byte  (U-00000000)",        "\000"},
-{0,"2.1.2", "2 bytes (U-00000080)",        "Â€"},
-{0,"2.1.3", "3 bytes (U-00000800)",        "à €"},
-{0,"2.1.4", "4 bytes (U-00010000)",        "ð€€"},
-{1,"2.1.5", "5 bytes (U-00200000)",        "øˆ€€€"},
-{1,"2.1.6", "6 bytes (U-04000000)",        "ü„€€€€"},
+{0, "2.1.1", "1 byte  (U-00000000)", "\000"},
+{0, "2.1.2", "2 bytes (U-00000080)", "Â€"},
+{0, "2.1.3", "3 bytes (U-00000800)", "à €"},
+{0, "2.1.4", "4 bytes (U-00010000)", "ð€€"},
+{1, "2.1.5", "5 bytes (U-00200000)", "øˆ€€€"},
+{1, "2.1.6", "6 bytes (U-04000000)", "ü„€€€€"},
 
 /*2.2  Last possible sequence of a certain length*/
-{0,"2.2.1", "1 byte  (U-0000007F)",        ""},
-{0,"2.2.2", "2 bytes (U-000007FF)",        "ß¿"},
-{0,"2.2.3", "3 bytes (U-0000FFFF)",        "ï¿¿"}, /*See 5.3.2 */
-{1,"2.2.4", "4 bytes (U-001FFFFF)",        "÷¿¿¿"},
-{1,"2.2.5", "5 bytes (U-03FFFFFF)",        "û¿¿¿¿"},
-{1,"2.2.6", "6 bytes (U-7FFFFFFF)",        "ý¿¿¿¿¿"},
+{0, "2.2.1", "1 byte  (U-0000007F)", ""},
+{0, "2.2.2", "2 bytes (U-000007FF)", "ß¿"},
+{0, "2.2.3", "3 bytes (U-0000FFFF)", "ï¿¿"}, /*See 5.3.2 */
+{1, "2.2.4", "4 bytes (U-001FFFFF)", "÷¿¿¿"},
+{1, "2.2.5", "5 bytes (U-03FFFFFF)", "û¿¿¿¿"},
+{1, "2.2.6", "6 bytes (U-7FFFFFFF)", "ý¿¿¿¿¿"},
 
 /*2.3  Other boundary conditions*/
 
-{0,"2.3.1", "U-0000D7FF = ed 9f bf", "íŸ¿"},
-{0,"2.3.2", "U-0000E000 = ee 80 80", "î€€"},
-{0,"2.3.3", "U-0000FFFD = ef bf bd", "ï¿½"},
-{0,"2.3.4", "U-0010FFFF = f4 8f bf bf", "ô¿¿"},
-{1,"2.3.5", "U-00110000 = f4 90 80 80", "ô€€"},
-NULLTEST
-};
+{0, "2.3.1", "U-0000D7FF = ed 9f bf", "íŸ¿"},
+{0, "2.3.2", "U-0000E000 = ee 80 80", "î€€"},
+{0, "2.3.3", "U-0000FFFD = ef bf bd", "ï¿½"},
+{0, "2.3.4", "U-0010FFFF = f4 8f bf bf", "ô¿¿"},
+{1, "2.3.5", "U-00110000 = f4 90 80 80", "ô€€"},
+NULLTEST};
 
 static const struct Test utf8bad[] = {
 
@@ -128,83 +127,76 @@ static const struct Test utf8bad[] = {
        Each unexpected continuation byte should be separately signalled
        as a malformed sequence of its own.
 */
-{1,"3.1.1", "First continuation byte 0x80", "€"},
-{1,"3.1.2", "Last  continuation byte 0xbf", "¿"},
+{1, "3.1.1", "First continuation byte 0x80", "€"},
+{1, "3.1.2", "Last  continuation byte 0xbf", "¿"},
 
-{1,"3.1.3", "2 continuation bytes", "€¿"},
-{1,"3.1.4", "3 continuation bytes", "€¿€"},
-{1,"3.1.5", "4 continuation bytes", "€¿€¿"},
-{1,"3.1.6", "5 continuation bytes", "€¿€¿€"},
-{1,"3.1.7", "6 continuation bytes", "€¿€¿€¿"},
-{1,"3.1.8", "7 continuation bytes", "€¿€¿€¿€"},
-{1,"3.1.9", "Sequence of all 64 possible continuation bytes (0x80-0xbf)",
-   "€‚ƒ„…†‡ˆ‰Š‹ŒŽ‘’“”•–—˜™š›œžŸ ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿"
-},
+{1, "3.1.3", "2 continuation bytes", "€¿"},
+{1, "3.1.4", "3 continuation bytes", "€¿€"},
+{1, "3.1.5", "4 continuation bytes", "€¿€¿"},
+{1, "3.1.6", "5 continuation bytes", "€¿€¿€"},
+{1, "3.1.7", "6 continuation bytes", "€¿€¿€¿"},
+{1, "3.1.8", "7 continuation bytes", "€¿€¿€¿€"},
+{1, "3.1.9", "Sequence of all 64 possible continuation bytes (0x80-0xbf)",
+"€‚ƒ„…†‡ˆ‰Š‹ŒŽ‘’“”•–—˜™š›œžŸ ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿"},
 
 /*3.2  Lonely start characters*/
 
 /*3.2.1  All 32 first bytes of 2-byte sequences (0xc0-0xdf),
        each followed by a space character*/
 
-{1,"3.2.1", "All 32 first bytes of 2-byte sequences",
-"À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß "
-},
+{1, "3.2.1", "All 32 first bytes of 2-byte sequences",
+"À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß "},
 
 /*3.2.2  All 16 first bytes of 3-byte sequences (0xe0-0xef),
        each followed by a space character:*/
-{1,"3.2.2", "All 16 first bytes of 3-byte sequences",
-"à á â ã ä å æ ç è é ê ë ì í î ï "
-},
+{1, "3.2.2", "All 16 first bytes of 3-byte sequences",
+"à á â ã ä å æ ç è é ê ë ì í î ï "},
 
 /*3.2.3  All 8 first bytes of 4-byte sequences (0xf0-0xf7),
        each followed by a space character:*/
-{1,"3.2.3", "All 8 first bytes of 4-byte sequences",
-   "ð ñ ò ó ô õ ö ÷ "
-},
+{1, "3.2.3", "All 8 first bytes of 4-byte sequences",
+"ð ñ ò ó ô õ ö ÷ "},
 
 /*3.2.4  All 4 first bytes of 5-byte sequences (0xf8-0xfb),
        each followed by a space character:*/
-{1,"3.2.4", "All 4 first bytes of 5-byte sequences",
-   "ø ù ú û "
-},
+{1, "3.2.4", "All 4 first bytes of 5-byte sequences",
+"ø ù ú û "},
 
 /*3.2.5  All 2 first bytes of 6-byte sequences (0xfc-0xfd),
        each followed by a space character:*/
-{1,"3.2.5", "All 2 first bytes of 6-byte sequences",
-   "ü ý "
-},
+{1, "3.2.5", "All 2 first bytes of 6-byte sequences",
+"ü ý "},
 
 /*3.3  Sequences with last continuation byte missing
 All bytes of an incomplete sequence should be signalled as a single
 malformed sequence, i.e., you should see only a single replacement
 character in each of the next 10 tests. (Characters as in section 2)
 */
-{1,"3.3.1", "2-byte sequence with last byte missing (U+0000)",     "À"},
-{1,"3.3.2", "3-byte sequence with last byte missing (U+0000)",     "à€"},
-{1,"3.3.3", "4-byte sequence with last byte missing (U+0000)",     "ð€€"},
-{1,"3.3.4", "5-byte sequence with last byte missing (U+0000)",     "ø€€€"},
-{1,"3.3.5", "6-byte sequence with last byte missing (U+0000)",     "ü€€€€"},
-{1,"3.3.6", "2-byte sequence with last byte missing (U-000007FF)", "ß"},
-{1,"3.3.7", "3-byte sequence with last byte missing (U-0000FFFF)", "ï¿"},
-{1,"3.3.8", "4-byte sequence with last byte missing (U-001FFFFF)", "÷¿¿"},
-{1,"3.3.9", "5-byte sequence with last byte missing (U-03FFFFFF)", "û¿¿¿"},
-{1,"3.3.10", "6-byte sequence with last byte missing (U-7FFFFFFF)", "ý¿¿¿¿"},
+{1, "3.3.1", "2-byte sequence with last byte missing (U+0000)", "À"},
+{1, "3.3.2", "3-byte sequence with last byte missing (U+0000)", "à€"},
+{1, "3.3.3", "4-byte sequence with last byte missing (U+0000)", "ð€€"},
+{1, "3.3.4", "5-byte sequence with last byte missing (U+0000)", "ø€€€"},
+{1, "3.3.5", "6-byte sequence with last byte missing (U+0000)", "ü€€€€"},
+{1, "3.3.6", "2-byte sequence with last byte missing (U-000007FF)", "ß"},
+{1, "3.3.7", "3-byte sequence with last byte missing (U-0000FFFF)", "ï¿"},
+{1, "3.3.8", "4-byte sequence with last byte missing (U-001FFFFF)", "÷¿¿"},
+{1, "3.3.9", "5-byte sequence with last byte missing (U-03FFFFFF)", "û¿¿¿"},
+{1, "3.3.10", "6-byte sequence with last byte missing (U-7FFFFFFF)", "ý¿¿¿¿"},
 
 /*3.4 Concatenation of incomplete sequences
 All the 10 sequences of 3.3 concatenated; you should see 10 malformed
 sequences being signalled:
 */
 {1, "3.4.1", "All the 10 sequences of 3.3 concatenated",
-   "Àà€ð€€ø€€€ü€€€€ßï¿÷¿¿û¿¿¿ý¿¿¿¿"
-},
+"Àà€ð€€ø€€€ü€€€€ßï¿÷¿¿û¿¿¿ý¿¿¿¿"},
 
 /*3.5  Impossible bytes
 The following two bytes cannot appear in a correct UTF-8 string
 */
 
-{1,"3.5.1", "fe", "þ"},
-{1,"3.5.2", "ff", "ÿ"},
-{1,"3.5.3", "fe fe ff ff", "þþÿÿ"},
+{1, "3.5.1", "fe", "þ"},
+{1, "3.5.2", "ff", "ÿ"},
+{1, "3.5.3", "fe fe ff ff", "þþÿÿ"},
 
 /*
 4  Overlong sequences
@@ -237,11 +229,11 @@ a replacement character. If you see a slash below, you do not have a
 safe UTF-8 decoder!
 */
 
-{1,"4.1.1", "U+002F = c0 af             ", "À¯"},
-{1,"4.1.2", "U+002F = e0 80 af          ", "à€¯"},
-{1,"4.1.3", "U+002F = f0 80 80 af       ", "ð€€¯"},
-{1,"4.1.4", "U+002F = f8 80 80 80 af    ", "ø€€€¯"},
-{1,"4.1.5", "U+002F = fc 80 80 80 80 af ", "ü€€€€¯"},
+{1, "4.1.1", "U+002F = c0 af             ", "À¯"},
+{1, "4.1.2", "U+002F = e0 80 af          ", "à€¯"},
+{1, "4.1.3", "U+002F = f0 80 80 af       ", "ð€€¯"},
+{1, "4.1.4", "U+002F = f8 80 80 80 af    ", "ø€€€¯"},
+{1, "4.1.5", "U+002F = fc 80 80 80 80 af ", "ü€€€€¯"},
 
 /*4.2  Maximum overlong sequences
 
@@ -251,11 +243,11 @@ is a boundary test for safe UTF-8 decoders. All five characters should
 be rejected like malformed UTF-8 sequences.
 */
 
-{1,"4.2.1", "U-0000007F = c1 bf             ", "Á¿"},
-{1,"4.2.2", "U-000007FF = e0 9f bf          ", "àŸ¿"},
-{1,"4.2.3", "U-0000FFFF = f0 8f bf bf       ", "ð¿¿"},
-{1,"4.2.4", "U-001FFFFF = f8 87 bf bf bf    ", "ø‡¿¿¿"},
-{1,"4.2.5", "U-03FFFFFF = fc 83 bf bf bf bf ", "üƒ¿¿¿¿"},
+{1, "4.2.1", "U-0000007F = c1 bf             ", "Á¿"},
+{1, "4.2.2", "U-000007FF = e0 9f bf          ", "àŸ¿"},
+{1, "4.2.3", "U-0000FFFF = f0 8f bf bf       ", "ð¿¿"},
+{1, "4.2.4", "U-001FFFFF = f8 87 bf bf bf    ", "ø‡¿¿¿"},
+{1, "4.2.5", "U-03FFFFFF = fc 83 bf bf bf bf ", "üƒ¿¿¿¿"},
 
 /*
 4.3  Overlong representation of the NUL character
@@ -265,11 +257,11 @@ UTF-8 sequences and should not be treated like the ASCII NUL
 character.
 */
 
-{1,"4.3.1", "U+0000 = c0 80             ", "À€"},
-{1,"4.3.2", "U+0000 = e0 80 80          ", "à€€"},
-{1,"4.3.3", "U+0000 = f0 80 80 80       ", "ð€€€"},
-{1,"4.3.4", "U+0000 = f8 80 80 80 80    ", "ø€€€€"},
-{1,"4.3.5", "U+0000 = fc 80 80 80 80 80 ", "ü€€€€€"},
+{1, "4.3.1", "U+0000 = c0 80             ", "À€"},
+{1, "4.3.2", "U+0000 = e0 80 80          ", "à€€"},
+{1, "4.3.3", "U+0000 = f0 80 80 80       ", "ð€€€"},
+{1, "4.3.4", "U+0000 = f8 80 80 80 80    ", "ø€€€€"},
+{1, "4.3.5", "U+0000 = fc 80 80 80 80 80 ", "ü€€€€€"},
 
 /*
 5  Illegal code positions
@@ -281,26 +273,25 @@ comparable to overlong UTF-8 sequences.
 */
 /*5.1 Single UTF-16 surrogates*/
 
-{1,"5.1.1", "U+D800 = ed a0 80 ", "í €"},
-{1,"5.1.2", "U+DB7F = ed ad bf ", "í­¿"},
-{1,"5.1.3", "U+DB80 = ed ae 80 ", "í®€"},
-{1,"5.1.4", "U+DBFF = ed af bf ", "í¯¿"},
-{1,"5.1.5", "U+DC00 = ed b0 80 ", "í°€"},
-{1,"5.1.6", "U+DF80 = ed be 80 ", "í¾€"},
-{1,"5.1.7", "U+DFFF = ed bf bf ", "í¿¿"},
+{1, "5.1.1", "U+D800 = ed a0 80 ", "í €"},
+{1, "5.1.2", "U+DB7F = ed ad bf ", "í­¿"},
+{1, "5.1.3", "U+DB80 = ed ae 80 ", "í®€"},
+{1, "5.1.4", "U+DBFF = ed af bf ", "í¯¿"},
+{1, "5.1.5", "U+DC00 = ed b0 80 ", "í°€"},
+{1, "5.1.6", "U+DF80 = ed be 80 ", "í¾€"},
+{1, "5.1.7", "U+DFFF = ed bf bf ", "í¿¿"},
 
 /*5.2 Paired UTF-16 surrogates */
 
-{1,"5.2.1", "U+D800 U+DC00 = ed a0 80 ed b0 80 ", "í €í°€"},
-{1,"5.2.2", "U+D800 U+DFFF = ed a0 80 ed bf bf ", "í €í¿¿"},
-{1,"5.2.3", "U+DB7F U+DC00 = ed ad bf ed b0 80 ", "í­¿í°€"},
-{1,"5.2.4", "U+DB7F U+DFFF = ed ad bf ed bf bf ", "í­¿í¿¿"},
-{1,"5.2.5", "U+DB80 U+DC00 = ed ae 80 ed b0 80 ", "í®€í°€"},
-{1,"5.2.6", "U+DB80 U+DFFF = ed ae 80 ed bf bf ", "í®€í¿¿"},
-{1,"5.2.7", "U+DBFF U+DC00 = ed af bf ed b0 80 ", "í¯¿í°€"},
-{1,"5.2.8", "U+DBFF U+DFFF = ed af bf ed bf bf ", "í¯¿í¿¿"},
-NULLTEST
-};
+{1, "5.2.1", "U+D800 U+DC00 = ed a0 80 ed b0 80 ", "í €í°€"},
+{1, "5.2.2", "U+D800 U+DFFF = ed a0 80 ed bf bf ", "í €í¿¿"},
+{1, "5.2.3", "U+DB7F U+DC00 = ed ad bf ed b0 80 ", "í­¿í°€"},
+{1, "5.2.4", "U+DB7F U+DFFF = ed ad bf ed bf bf ", "í­¿í¿¿"},
+{1, "5.2.5", "U+DB80 U+DC00 = ed ae 80 ed b0 80 ", "í®€í°€"},
+{1, "5.2.6", "U+DB80 U+DFFF = ed ae 80 ed bf bf ", "í®€í¿¿"},
+{1, "5.2.7", "U+DBFF U+DC00 = ed af bf ed b0 80 ", "í¯¿í°€"},
+{1, "5.2.8", "U+DBFF U+DFFF = ed af bf ed bf bf ", "í¯¿í¿¿"},
+NULLTEST};
 
 /*5.3 Noncharacter code positions
 
@@ -326,75 +317,74 @@ Particularly problematic noncharacters in 16-bit applications:
 */
 
 static const struct Test utf8problematic[] = {
-{0,"5.3.1", "U+FFFE = ef bf be ", "ï¿¾"},
-{0,"5.3.2", "U+FFFF = ef bf bf ", "ï¿¿"},
-NULLTEST
-};
+{0, "5.3.1", "U+FFFE = ef bf be ", "ï¿¾"},
+{0, "5.3.2", "U+FFFF = ef bf bf ", "ï¿¿"},
+NULLTEST};
 
 /* Other (utf16) noncharacters: */
 static const struct Test utf8nonchars[] = {
-{0,"5.3.3", "U+FDD0 .. U+FDEF ",
-"ï·ï·‘ï·’ï·“ï·”ï·•ï·–ï·—ï·˜ï·™ï·šï·›ï·œï·ï·žï·Ÿï· ï·¡ï·¢ï·£ï·¤ï·¥ï·¦ï·§ï·¨ï·©ï·ªï·«ï·¬ï·­ï·®ï·¯"
-},
+{0, "5.3.3", "U+FDD0 .. U+FDEF ",
+"ï·ï·‘ï·’ï·“ï·”ï·•ï·–ï·—ï·˜ï·™ï·šï·›ï·œï·ï·žï·Ÿï· ï·¡ï·¢ï·£ï·¤ï·¥ï·¦ï·§ï·¨ï·©ï·ªï·«ï·¬ï·­ï·®ï·¯"},
 
 /* Do not understand this test; it passes, but should it? */
-{0,"5.3.4", "U+nFFFE U+nFFFF (for n = 1..10)",
-       "ðŸ¿¾ðŸ¿¿ð¯¿¾ð¯¿¿ð¿¿¾ð¿¿¿ñ¿¾ñ¿¿ñŸ¿¾ñŸ¿¿ñ¯¿¾ñ¯¿¿ñ¿¿¾ñ¿¿¿ò¿¾ò¿¿òŸ¿¾òŸ¿¿ò¯¿¾ò¯¿¿ò¿¿¾ò¿¿¿ó¿¾ó¿¿óŸ¿¾óŸ¿¿ó¯¿¾ó¯¿¿ó¿¿¾ó¿¿¿ô¿¾ô¿¿"
-},
-NULLTEST
-};
+{0, "5.3.4", "U+nFFFE U+nFFFF (for n = 1..10)",
+"ðŸ¿¾ðŸ¿¿ð¯¿¾ð¯¿¿ð¿¿¾ð¿¿¿ñ¿¾ñ¿¿ñŸ¿¾ñŸ¿¿ñ¯¿¾ñ¯¿¿ñ¿¿¾ñ¿¿¿ò¿¾ò¿¿òŸ¿¾òŸ¿¿ò¯¿¾ò¯¿¿ò¿¿¾ò¿¿¿ó¿¾ó¿¿óŸ¿¾óŸ¿¿ó¯¿¾ó¯¿¿ó¿¿¾ó¿¿¿ô¿¾ô¿¿"},
+NULLTEST};
 
-static char*
-trim(const char* s)
-{
-    int i;
-    size_t l = strlen(s);
-    char* t = strdup(s);
-    for(i=l-1;i >= 0; i--) {
-        if(t[i] != ' ') break;
-    }
-    t[i+1] = '\0';
-    return t;
+static char *
+trim(const char *s) {
+  int i;
+  size_t l = strlen(s);
+  char *t  = strdup(s);
+  for (i = l - 1; i >= 0; i--) {
+    if (t[i] != ' ') break;
+  }
+  t[i + 1] = '\0';
+  return t;
 }
 
 static int
-test(const struct Test* tests, const char* title)
-{
-    int status = NC_NOERR;
-    int failures = 0;
-    const struct Test* p;
+test(const struct Test *tests, const char *title) {
+  int status   = NC_NOERR;
+  int failures = 0;
+  const struct Test *p;
 
-    fprintf(stderr,"Testing %s...\n",title);
-    for(p=tests;p->id;p++) {
-	char* id;
-        char* description;
-        const char* pf;
-        id = trim(p->id);
-        description = trim(p->description);
-        status = nc_utf8_validate((const unsigned char*)p->data);
-        if(status == NC_NOERR && p->xfail) {pf = "Fail"; failures++;}
-        else if(status != NC_NOERR && p->xfail) pf = "Pass";
-        else if(status == NC_NOERR && !p->xfail) pf = "Pass";
-        else if(status != NC_NOERR && !p->xfail) {pf = "Fail"; failures++;}
-        fprintf(stderr,"%s: %s %s\n",pf,id,description);
-        fflush(stderr);
-	free(id);
-	free(description);
+  fprintf(stderr, "Testing %s...\n", title);
+  for (p = tests; p->id; p++) {
+    char *id;
+    char *description;
+    const char *pf;
+    id          = trim(p->id);
+    description = trim(p->description);
+    status      = nc_utf8_validate((const unsigned char *)p->data);
+    if (status == NC_NOERR && p->xfail) {
+      pf = "Fail";
+      failures++;
+    } else if (status != NC_NOERR && p->xfail)
+      pf = "Pass";
+    else if (status == NC_NOERR && !p->xfail)
+      pf = "Pass";
+    else if (status != NC_NOERR && !p->xfail) {
+      pf = "Fail";
+      failures++;
     }
-    return failures;
+    fprintf(stderr, "%s: %s %s\n", pf, id, description);
+    fflush(stderr);
+    free(id);
+    free(description);
+  }
+  return failures;
 }
 
-int
-main(int argc, char** argv)
-{
-    int failures = 0;
+int main(int argc, char **argv) {
+  int failures = 0;
 
-    printf("\n Testing UTF-8 sequences.\n");
-    failures += test(utf8ok,"Correct Sequences");
-    failures += test(utf8boundary,"Boundary Tests");
-    failures += test(utf8bad,"Invalid strings");
-    failures += test(utf8problematic,"Problematic strings");
-    failures += test(utf8nonchars,"Other non-characters");
-    fprintf(stderr,"No. of failures = %d\n",failures);
-    exit(failures == 0 ? 0 : 1);
+  printf("\n Testing UTF-8 sequences.\n");
+  failures += test(utf8ok, "Correct Sequences");
+  failures += test(utf8boundary, "Boundary Tests");
+  failures += test(utf8bad, "Invalid strings");
+  failures += test(utf8problematic, "Problematic strings");
+  failures += test(utf8nonchars, "Other non-characters");
+  fprintf(stderr, "No. of failures = %d\n", failures);
+  exit(failures == 0 ? 0 : 1);
 }

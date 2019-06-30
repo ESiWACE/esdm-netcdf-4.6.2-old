@@ -8,7 +8,7 @@
 #include "config.h"
 #include "netcdf.h"
 
-   /* There's an external ncid (ext_ncid) and an internal ncid
+/* There's an external ncid (ext_ncid) and an internal ncid
     * (int_ncid). The ext_ncid is the ncid returned to the user. If
     * the user has opened or created a netcdf-4 file, then the
     * ext_ncid is the same as the int_ncid. If he has opened or
@@ -21,15 +21,15 @@
 
 /* Common Shared Structure for all Dispatched Objects */
 typedef struct NC {
-	int ext_ncid;
-	int int_ncid;
-	struct NC_Dispatch* dispatch;
-	void* dispatchdata; /*per-'file' data; points to e.g. NC3_INFO data*/
-	char* path;
-	int   mode; /* as provided to nc_open/nc_create */
-        int   model; /* as determined by libdispatch/dfile.c */
+  int ext_ncid;
+  int int_ncid;
+  struct NC_Dispatch *dispatch;
+  void *dispatchdata; /*per-'file' data; points to e.g. NC3_INFO data*/
+  char *path;
+  int mode;  /* as provided to nc_open/nc_create */
+  int model; /* as determined by libdispatch/dfile.c */
 #ifdef USE_REFCOUNT
-	int   refcount; /* To enable multiple name-based opens */
+  int refcount; /* To enable multiple name-based opens */
 #endif
 } NC;
 
@@ -37,9 +37,9 @@ typedef struct NC {
  * Counted string for names and such
  */
 typedef struct {
-	/* all xdr'd */
-	size_t nchars;
-	char *cp;
+  /* all xdr'd */
+  size_t nchars;
+  char *cp;
 } NC_string;
 
 /* Define functions that are used across multiple dispatchers */
@@ -68,17 +68,17 @@ extern int nc__pseudofd(void);
 /* This function gets a current default create flag */
 extern int nc_get_default_format(void);
 
-extern int add_to_NCList(NC*);
-extern void del_from_NCList(NC*);/* does not free object */
-extern NC* find_in_NCList(int ext_ncid);
-extern NC* find_in_NCList_by_name(const char*);
-extern void free_NCList(void);/* reclaim whole list */
-extern int count_NCList(void); /* return # of entries in NClist */
-extern int iterate_NCList(int i,NC**); /* Walk from 0 ...; ERANGE return => stop */
+extern int add_to_NCList(NC *);
+extern void del_from_NCList(NC *); /* does not free object */
+extern NC *find_in_NCList(int ext_ncid);
+extern NC *find_in_NCList_by_name(const char *);
+extern void free_NCList(void);           /* reclaim whole list */
+extern int count_NCList(void);           /* return # of entries in NClist */
+extern int iterate_NCList(int i, NC **); /* Walk from 0 ...; ERANGE return => stop */
 
 /* Defined in nc.c */
-extern void free_NC(NC*);
-extern int new_NC(struct NC_Dispatch*, const char*, int, int, NC**);
+extern void free_NC(NC *);
+extern int new_NC(struct NC_Dispatch *, const char *, int, int, NC **);
 
 /* Defined in nc.c */
 extern int ncdebug;

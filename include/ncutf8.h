@@ -17,7 +17,7 @@
  * NC_ENOMEM -- out of memory
  * NC_EBADNAME-- not valid utf8
  */
-EXTERNL int nc_utf8_validate(const unsigned char * name);
+EXTERNL int nc_utf8_validate(const unsigned char *name);
 
 /*
  * Apply NFC normalization to a string.
@@ -30,7 +30,7 @@ EXTERNL int nc_utf8_validate(const unsigned char * name);
  * NC_ENOMEM -- out of memory
  * NC_EBADNAME -- other failure
  */
-EXTERNL int nc_utf8_normalize(const unsigned char* str, unsigned char** normalp);
+EXTERNL int nc_utf8_normalize(const unsigned char *str, unsigned char **normalp);
 
 /*
  * Convert a normalized utf8 string to utf16. This is approximate
@@ -43,6 +43,6 @@ EXTERNL int nc_utf8_normalize(const unsigned char* str, unsigned char** normalp)
  * NC_EBADNAME-- not valid utf16
  */
 
-EXTERNL int nc_utf8_to_utf16(const unsigned char* s8, unsigned short** utf16p, size_t* lenp);
+EXTERNL int nc_utf8_to_utf16(const unsigned char *s8, unsigned short **utf16p, size_t *lenp);
 
 #endif /*NCUTF8_H*/

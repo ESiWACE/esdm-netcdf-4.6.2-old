@@ -6,38 +6,30 @@
 /* $Id: ncx.m4 2601 2016-11-07 04:54:42Z wkliao $ */
 
 #ifdef __GNUC__
-#pragma GCC diagnostic ignored "-Wunused-parameter"
+#  pragma GCC diagnostic ignored "-Wunused-parameter"
 #endif
-
-
-
-
 
 
 #if HAVE_CONFIG_H
-#include <config.h>
+#  include <config.h>
 #endif
 
+#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <limits.h>
 
 
 #pragma GCC diagnostic ignored "-Wdeprecated"
-#include "ncx.h"
 #include "nc3dispatch.h"
-
-
-
+#include "ncx.h"
 
 
 #ifdef HAVE_INTTYPES_H
-#include <inttypes.h> /* uint16_t, uint32_t, uint64_t */
+#  include <inttypes.h> /* uint16_t, uint32_t, uint64_t */
 #elif defined(HAVE_STDINT_H)
-#include <stdint.h>   /* uint16_t, uint32_t, uint64_t */
+#  include <stdint.h> /* uint16_t, uint32_t, uint64_t */
 #endif
-
 
 
 /*
@@ -50,39 +42,39 @@
  */
 
 /* alias poorly named limits.h macros */
-#define  SHORT_MAX  SHRT_MAX
-#define  SHORT_MIN  SHRT_MIN
+#define SHORT_MAX SHRT_MAX
+#define SHORT_MIN SHRT_MIN
 #define USHORT_MAX USHRT_MAX
 #ifndef LLONG_MAX
-#   define LLONG_MAX	9223372036854775807LL
-#   define LLONG_MIN	(-LLONG_MAX - 1LL)
-#   define ULLONG_MAX	18446744073709551615ULL
+#  define LLONG_MAX 9223372036854775807LL
+#  define LLONG_MIN (-LLONG_MAX - 1LL)
+#  define ULLONG_MAX 18446744073709551615ULL
 #endif
 #ifndef LONG_LONG_MAX
-#define LONG_LONG_MAX LLONG_MAX
+#  define LONG_LONG_MAX LLONG_MAX
 #endif
 #ifndef LONGLONG_MAX
-#define LONGLONG_MAX LONG_LONG_MAX
+#  define LONGLONG_MAX LONG_LONG_MAX
 #endif
 #ifndef LONG_LONG_MIN
-#define LONG_LONG_MIN LLONG_MIN
+#  define LONG_LONG_MIN LLONG_MIN
 #endif
 #ifndef LONGLONG_MIN
-#define LONGLONG_MIN LONG_LONG_MIN
+#  define LONGLONG_MIN LONG_LONG_MIN
 #endif
 #ifndef ULONG_LONG_MAX
-#define ULONG_LONG_MAX ULLONG_MAX
+#  define ULONG_LONG_MAX ULLONG_MAX
 #endif
 #ifndef ULONGLONG_MAX
-#define ULONGLONG_MAX ULONG_LONG_MAX
+#  define ULONGLONG_MAX ULONG_LONG_MAX
 #endif
 #include <float.h>
 #ifndef FLT_MAX /* This POSIX macro missing on some systems */
-# ifndef NO_IEEE_FLOAT
-# define FLT_MAX 3.40282347e+38f
-# else
-# error "You will need to define FLT_MAX"
-# endif
+#  ifndef NO_IEEE_FLOAT
+#    define FLT_MAX 3.40282347e+38f
+#  else
+#    error "You will need to define FLT_MAX"
+#  endif
 #endif
 /* alias poorly named float.h macros */
 #define FLOAT_MAX FLT_MAX
@@ -93,69 +85,69 @@
 #define DOUBLE_MAX_EXP DBL_MAX_EXP
 #include <assert.h>
 #define UCHAR_MIN 0
-#define Min(a,b) ((a) < (b) ? (a) : (b))
-#define Max(a,b) ((a) > (b) ? (a) : (b))
+#define Min(a, b) ((a) < (b) ? (a) : (b))
+#define Max(a, b) ((a) > (b) ? (a) : (b))
 
 #ifndef SIZEOF_UCHAR
-#ifdef  SIZEOF_UNSIGNED_CHAR
-#define SIZEOF_UCHAR SIZEOF_UNSIGNED_CHAR
-#else
-#error "unknown SIZEOF_UCHAR"
-#endif
+#  ifdef SIZEOF_UNSIGNED_CHAR
+#    define SIZEOF_UCHAR SIZEOF_UNSIGNED_CHAR
+#  else
+#    error "unknown SIZEOF_UCHAR"
+#  endif
 #endif
 
 #ifndef SIZEOF_USHORT
-#ifdef  SIZEOF_UNSIGNED_SHORT_INT
-#define SIZEOF_USHORT SIZEOF_UNSIGNED_SHORT_INT
-#elif defined(SIZEOF_UNSIGNED_SHORT)
-#define SIZEOF_USHORT SIZEOF_UNSIGNED_SHORT
-#else
-#error "unknown SIZEOF_USHORT"
-#endif
+#  ifdef SIZEOF_UNSIGNED_SHORT_INT
+#    define SIZEOF_USHORT SIZEOF_UNSIGNED_SHORT_INT
+#  elif defined(SIZEOF_UNSIGNED_SHORT)
+#    define SIZEOF_USHORT SIZEOF_UNSIGNED_SHORT
+#  else
+#    error "unknown SIZEOF_USHORT"
+#  endif
 #endif
 
 #ifndef SIZEOF_UINT
-#ifdef  SIZEOF_UNSIGNED_INT
-#define SIZEOF_UINT SIZEOF_UNSIGNED_INT
-#else
-#error "unknown SIZEOF_UINT"
-#endif
+#  ifdef SIZEOF_UNSIGNED_INT
+#    define SIZEOF_UINT SIZEOF_UNSIGNED_INT
+#  else
+#    error "unknown SIZEOF_UINT"
+#  endif
 #endif
 
 #ifndef SIZEOF_LONGLONG
-#ifdef  SIZEOF_LONG_LONG
-#define SIZEOF_LONGLONG SIZEOF_LONG_LONG
-#else
-#error "unknown SIZEOF_LONGLONG"
-#endif
+#  ifdef SIZEOF_LONG_LONG
+#    define SIZEOF_LONGLONG SIZEOF_LONG_LONG
+#  else
+#    error "unknown SIZEOF_LONGLONG"
+#  endif
 #endif
 
 #ifndef SIZEOF_INT64
-#ifdef  SIZEOF_LONG_LONG
-#define SIZEOF_INT64 SIZEOF_LONG_LONG
-#elif defined(SIZEOF_LONGLONG)
-#define SIZEOF_INT64 SIZEOF_LONGLONG
-#else
-#error "unknown SIZEOF_INT64"
-#endif
+#  ifdef SIZEOF_LONG_LONG
+#    define SIZEOF_INT64 SIZEOF_LONG_LONG
+#  elif defined(SIZEOF_LONGLONG)
+#    define SIZEOF_INT64 SIZEOF_LONGLONG
+#  else
+#    error "unknown SIZEOF_INT64"
+#  endif
 #endif
 
 #ifndef SIZEOF_ULONGLONG
-#ifdef  SIZEOF_UNSIGNED_LONG_LONG
-#define SIZEOF_ULONGLONG SIZEOF_UNSIGNED_LONG_LONG
-#else
-#error "unknown SIZEOF_ULONGLONG"
-#endif
+#  ifdef SIZEOF_UNSIGNED_LONG_LONG
+#    define SIZEOF_ULONGLONG SIZEOF_UNSIGNED_LONG_LONG
+#  else
+#    error "unknown SIZEOF_ULONGLONG"
+#  endif
 #endif
 
 #ifndef SIZEOF_UINT64
-#ifdef  SIZEOF_UNSIGNED_LONG_LONG
-#define SIZEOF_UINT64 SIZEOF_UNSIGNED_LONG_LONG
-#elif defined(SIZEOF_ULONGLONG)
-#define SIZEOF_UINT64 SIZEOF_ULONGLONG
-#else
-#error "unknown SIZEOF_UINT64"
-#endif
+#  ifdef SIZEOF_UNSIGNED_LONG_LONG
+#    define SIZEOF_UINT64 SIZEOF_UNSIGNED_LONG_LONG
+#  elif defined(SIZEOF_ULONGLONG)
+#    define SIZEOF_UINT64 SIZEOF_ULONGLONG
+#  else
+#    error "unknown SIZEOF_UINT64"
+#  endif
 #endif
 
 /*
@@ -163,32 +155,32 @@
  * use the machine domain
  */
 #if defined(FLT_MAX_EXP) && FLT_MAX_EXP < 128 /* 128 is X_FLT_MAX_EXP */
-#undef X_FLOAT_MAX
-# define X_FLOAT_MAX FLT_MAX
-#undef X_FLOAT_MIN
-# define X_FLOAT_MIN (-X_FLOAT_MAX)
+#  undef X_FLOAT_MAX
+#  define X_FLOAT_MAX FLT_MAX
+#  undef X_FLOAT_MIN
+#  define X_FLOAT_MIN (-X_FLOAT_MAX)
 #endif
 
 #if defined(_SX) && _SX != 0 /* NEC SUPER UX */
-#define LOOPCNT 256    /* must be no longer than hardware vector length */
-#if _INT64
-#undef  INT_MAX /* workaround cpp bug */
-#define INT_MAX  X_INT_MAX
-#undef  INT_MIN /* workaround cpp bug */
-#define INT_MIN  X_INT_MIN
-#undef  LONG_MAX /* workaround cpp bug */
-#define LONG_MAX  X_INT_MAX
-#undef  LONG_MIN /* workaround cpp bug */
-#define LONG_MIN  X_INT_MIN
-#elif _LONG64
-#undef  LONG_MAX /* workaround cpp bug */
-#define LONG_MAX  4294967295L
-#undef  LONG_MIN /* workaround cpp bug */
-#define LONG_MIN -4294967295L
-#endif
-#if !_FLOAT0
-#error "FLOAT1 and FLOAT2 not supported"
-#endif
+#  define LOOPCNT 256        /* must be no longer than hardware vector length */
+#  if _INT64
+#    undef INT_MAX /* workaround cpp bug */
+#    define INT_MAX X_INT_MAX
+#    undef INT_MIN /* workaround cpp bug */
+#    define INT_MIN X_INT_MIN
+#    undef LONG_MAX /* workaround cpp bug */
+#    define LONG_MAX X_INT_MAX
+#    undef LONG_MIN /* workaround cpp bug */
+#    define LONG_MIN X_INT_MIN
+#  elif _LONG64
+#    undef LONG_MAX /* workaround cpp bug */
+#    define LONG_MAX 4294967295L
+#    undef LONG_MIN /* workaround cpp bug */
+#    define LONG_MIN -4294967295L
+#  endif
+#  if !_FLOAT0
+#    error "FLOAT1 and FLOAT2 not supported"
+#  endif
 #endif /* _SX */
 
 static const char nada[X_ALIGN] = {0, 0, 0, 0};
@@ -200,39 +192,27 @@ static const char nada[X_ALIGN] = {0, 0, 0, 0};
  * Optimize the swapn?b() and swap?b() routines aggressively.
  */
 
-#define SWAP2(a) ( (((a) & 0xff) << 8) | \
-                   (((a) >> 8) & 0xff) )
+#  define SWAP2(a) ((((a)&0xff) << 8) | (((a) >> 8) & 0xff))
 
-#define SWAP4(a) ( ((a) << 24) | \
-                  (((a) <<  8) & 0x00ff0000) | \
-                  (((a) >>  8) & 0x0000ff00) | \
-                  (((a) >> 24) & 0x000000ff) )
+#  define SWAP4(a) (((a) << 24) | (((a) << 8) & 0x00ff0000) | (((a) >> 8) & 0x0000ff00) | (((a) >> 24) & 0x000000ff))
 
-#define SWAP8(a) ( (((a) & 0x00000000000000FFULL) << 56) | \
-                   (((a) & 0x000000000000FF00ULL) << 40) | \
-                   (((a) & 0x0000000000FF0000ULL) << 24) | \
-                   (((a) & 0x00000000FF000000ULL) <<  8) | \
-                   (((a) & 0x000000FF00000000ULL) >>  8) | \
-                   (((a) & 0x0000FF0000000000ULL) >> 24) | \
-                   (((a) & 0x00FF000000000000ULL) >> 40) | \
-                   (((a) & 0xFF00000000000000ULL) >> 56) )
+#  define SWAP8(a) ((((a)&0x00000000000000FFULL) << 56) | (((a)&0x000000000000FF00ULL) << 40) | (((a)&0x0000000000FF0000ULL) << 24) | (((a)&0x00000000FF000000ULL) << 8) | (((a)&0x000000FF00000000ULL) >> 8) | (((a)&0x0000FF0000000000ULL) >> 24) | (((a)&0x00FF000000000000ULL) >> 40) | (((a)&0xFF00000000000000ULL) >> 56))
 
-#if defined(_MSC_VER) && _MSC_VER < 1900
-#define inline __inline
-#endif
+#  if defined(_MSC_VER) && _MSC_VER < 1900
+#    define inline __inline
+#  endif
 
 inline static void
-swapn2b(void *dst, const void *src, size_t nn)
-{
-    /* it is OK if dst == src */
-    int i;
-    uint16_t *op = (uint16_t*) dst;
-    uint16_t *ip = (uint16_t*) src;
-    for (i=0; i<nn; i++) {
-        op[i] = ip[i];
-        op[i] = (uint16_t)SWAP2(op[i]);
-    }
-#if 0
+swapn2b(void *dst, const void *src, size_t nn) {
+  /* it is OK if dst == src */
+  int i;
+  uint16_t *op = (uint16_t *)dst;
+  uint16_t *ip = (uint16_t *)src;
+  for (i = 0; i < nn; i++) {
+    op[i] = ip[i];
+    op[i] = (uint16_t)SWAP2(op[i]);
+  }
+#  if 0
 	char *op = dst;
 	const char *ip = src;
 
@@ -261,25 +241,24 @@ swapn2b(void *dst, const void *src, size_t nn)
 		*op++ = *(++ip);
 		*op++ = *(ip++ -1);
 	}
-#endif
+#  endif
 }
 
-# ifndef vax
+#  ifndef vax
 inline static void
-swap4b(void *dst, const void *src)
-{
-    /* copy over, make the below swap in-place */
-    uint32_t tmp = *(uint32_t*)src;
-    tmp = SWAP4(tmp);
-    memcpy(dst, &tmp, 4);
+swap4b(void *dst, const void *src) {
+  /* copy over, make the below swap in-place */
+  uint32_t tmp = *(uint32_t *)src;
+  tmp          = SWAP4(tmp);
+  memcpy(dst, &tmp, 4);
 
-    /* Codes below will cause "break strict-aliasing rules" in gcc
+  /* Codes below will cause "break strict-aliasing rules" in gcc
     uint32_t *op = (uint32_t*)dst;
     *op = *(uint32_t*)src;
     *op = SWAP4(*op);
     */
 
-    /* Below are copied from netCDF-4.
+  /* Below are copied from netCDF-4.
      * See https://bugtracking.unidata.ucar.edu/browse/NCF-338
      * Quote "One issue we are wrestling with is how compilers optimize this
      * code.  For some reason, we are actually needing to add an artificial
@@ -290,15 +269,15 @@ swap4b(void *dst, const void *src)
      *
      * However, the above in-place byte-swap does not appear affected by this.
      */
-#if 0
+#    if 0
     uint32_t *ip = (uint32_t*)src;
     uint32_t tempOut;  /* cannot use pointer when gcc O2 optimizer is used */
     tempOut = SWAP4(*ip);
 
     *(float *)dst = *(float *)(&tempOut);
-#endif
+#    endif
 
-    /* OLD implementation that results in four load and four store CPU
+  /* OLD implementation that results in four load and four store CPU
        instructions
     char *op = dst;
     const char *ip = src;
@@ -307,23 +286,21 @@ swap4b(void *dst, const void *src)
     op[2] = ip[1];
     op[3] = ip[0];
     */
-
 }
-# endif /* !vax */
+#  endif /* !vax */
 
 inline static void
-swapn4b(void *dst, const void *src, size_t nn)
-{
-    int i;
-    uint32_t *op = (uint32_t*) dst;
-    uint32_t *ip = (uint32_t*) src;
-    for (i=0; i<nn; i++) {
-        /* copy over, make the below swap in-place */
-        op[i] = ip[i];
-        op[i] = SWAP4(op[i]);
-    }
+swapn4b(void *dst, const void *src, size_t nn) {
+  int i;
+  uint32_t *op = (uint32_t *)dst;
+  uint32_t *ip = (uint32_t *)src;
+  for (i = 0; i < nn; i++) {
+    /* copy over, make the below swap in-place */
+    op[i] = ip[i];
+    op[i] = SWAP4(op[i]);
+  }
 
-#if 0
+#  if 0
 	char *op = dst;
 	const char *ip = src;
 
@@ -369,37 +346,36 @@ swapn4b(void *dst, const void *src, size_t nn)
 		op += 4;
 		ip += 4;
 	}
-#endif
+#  endif
 }
 
-# ifndef vax
+#  ifndef vax
 inline static void
-swap8b(void *dst, const void *src)
-{
-#ifdef FLOAT_WORDS_BIGENDIAN
-    /* copy over, make the below swap in-place */
-    *(uint64_t*)dst = *(uint64_t*)src;
+swap8b(void *dst, const void *src) {
+#    ifdef FLOAT_WORDS_BIGENDIAN
+  /* copy over, make the below swap in-place */
+  *(uint64_t *)dst = *(uint64_t *)src;
 
-    uint32_t *op = (uint32_t*)dst;
-    *op = SWAP4(*op);
-    op = (uint32_t*)((char*)dst+4);
-    *op = SWAP4(*op);
-#else
-    uint64_t tmp = *(uint64_t*)src;
-    tmp = SWAP8(tmp);
-    memcpy(dst, &tmp, 8);
+  uint32_t *op = (uint32_t *)dst;
+  *op          = SWAP4(*op);
+  op           = (uint32_t *)((char *)dst + 4);
+  *op          = SWAP4(*op);
+#    else
+  uint64_t tmp = *(uint64_t *)src;
+  tmp          = SWAP8(tmp);
+  memcpy(dst, &tmp, 8);
 
-    /* Codes below will cause "break strict-aliasing rules" in gcc
+  /* Codes below will cause "break strict-aliasing rules" in gcc
     uint64_t *op = (uint64_t*)dst;
     *op = *(uint64_t*)src;
     *op = SWAP8(*op);
     */
-#endif
+#    endif
 
-#if 0
+#    if 0
 	char *op = dst;
 	const char *ip = src;
-#  ifndef FLOAT_WORDS_BIGENDIAN
+#      ifndef FLOAT_WORDS_BIGENDIAN
 	op[0] = ip[7];
 	op[1] = ip[6];
 	op[2] = ip[5];
@@ -408,7 +384,7 @@ swap8b(void *dst, const void *src)
 	op[5] = ip[2];
 	op[6] = ip[1];
 	op[7] = ip[0];
-#  else
+#      else
 	op[0] = ip[3];
 	op[1] = ip[2];
 	op[2] = ip[1];
@@ -417,39 +393,38 @@ swap8b(void *dst, const void *src)
 	op[5] = ip[6];
 	op[6] = ip[5];
 	op[7] = ip[4];
-#endif
-#endif
+#      endif
+#    endif
 }
-# endif /* !vax */
+#  endif /* !vax */
 
-# ifndef vax
+#  ifndef vax
 inline static void
-swapn8b(void *dst, const void *src, size_t nn)
-{
-#ifdef FLOAT_WORDS_BIGENDIAN
-    int i;
-    uint64_t *dst_p = (uint64_t*) dst;
-    uint64_t *src_p = (uint64_t*) src;
-    for (i=0; i<nn; i++) {
-        /* copy over, make the below swap in-place */
-        dst_p[i] = src_p[i];
-        uint32_t *op = (uint32_t*)(&dst_p[i]);
-        *op = SWAP4(*op);
-        op = (uint32_t*)((char*)op+4);
-        *op = SWAP4(*op);
-    }
-#else
-    int i;
-    uint64_t *op = (uint64_t*) dst;
-    uint64_t *ip = (uint64_t*) src;
-    for (i=0; i<nn; i++) {
-        /* copy over, make the below swap in-place */
-        op[i] = ip[i];
-        op[i] = SWAP8(op[i]);
-    }
-#endif
+swapn8b(void *dst, const void *src, size_t nn) {
+#    ifdef FLOAT_WORDS_BIGENDIAN
+  int i;
+  uint64_t *dst_p = (uint64_t *)dst;
+  uint64_t *src_p = (uint64_t *)src;
+  for (i = 0; i < nn; i++) {
+    /* copy over, make the below swap in-place */
+    dst_p[i]     = src_p[i];
+    uint32_t *op = (uint32_t *)(&dst_p[i]);
+    *op          = SWAP4(*op);
+    op           = (uint32_t *)((char *)op + 4);
+    *op          = SWAP4(*op);
+  }
+#    else
+  int i;
+  uint64_t *op = (uint64_t *)dst;
+  uint64_t *ip = (uint64_t *)src;
+  for (i = 0; i < nn; i++) {
+    /* copy over, make the below swap in-place */
+    op[i] = ip[i];
+    op[i] = SWAP8(op[i]);
+  }
+#    endif
 
-#if 0
+#    if 0
 	char *op = dst;
 	const char *ip = src;
 
@@ -468,7 +443,7 @@ swapn8b(void *dst, const void *src, size_t nn)
  *		ip += 8;
  *	}
  */
-#  ifndef FLOAT_WORDS_BIGENDIAN
+#      ifndef FLOAT_WORDS_BIGENDIAN
 	while (nn > 1)
 	{
 		op[0] = ip[7];
@@ -504,7 +479,7 @@ swapn8b(void *dst, const void *src, size_t nn)
 		op += 8;
 		ip += 8;
 	}
-#  else
+#      else
 	while (nn-- > 0)
 	{
 		op[0] = ip[3];
@@ -518,24 +493,17 @@ swapn8b(void *dst, const void *src, size_t nn)
 		op += 8;
 		ip += 8;
 	}
-#endif
-#endif
+#      endif
+#    endif
 }
-# endif /* !vax */
+#  endif /* !vax */
 
 #endif /* LITTLE_ENDIAN */
-
-
-
-
 
 
 /*
  * Primitive numeric conversion functions.
  */
-
-
-
 
 
 /* x_schar */
@@ -548,564 +516,534 @@ swapn8b(void *dst, const void *src, size_t nn)
 
 #if SHORT_MAX == X_SHORT_MAX
 typedef short ix_short;
-#define SIZEOF_IX_SHORT SIZEOF_SHORT
-#define IX_SHORT_MAX SHORT_MAX
+#  define SIZEOF_IX_SHORT SIZEOF_SHORT
+#  define IX_SHORT_MAX SHORT_MAX
 #elif INT_MAX >= X_SHORT_MAX
 typedef int ix_short;
-#define SIZEOF_IX_SHORT SIZEOF_INT
-#define IX_SHORT_MAX INT_MAX
+#  define SIZEOF_IX_SHORT SIZEOF_INT
+#  define IX_SHORT_MAX INT_MAX
 #elif LONG_MAX >= X_SHORT_MAX
 typedef long ix_short;
-#define SIZEOF_IX_SHORT SIZEOF_LONG
-#define IX_SHORT_MAX LONG_MAX
+#  define SIZEOF_IX_SHORT SIZEOF_LONG
+#  define IX_SHORT_MAX LONG_MAX
 #elif LLONG_MAX >= X_SHORT_MAX
 typedef long long ix_short;
-#define SIZEOF_IX_SHORT SIZEOF_LONGLONG
-#define IX_SHORT_MAX LLONG_MAX
+#  define SIZEOF_IX_SHORT SIZEOF_LONGLONG
+#  define IX_SHORT_MAX LLONG_MAX
 #else
-#error "ix_short implementation"
+#  error "ix_short implementation"
 #endif
 
 static void
-get_ix_short(const void *xp, ix_short *ip)
-{
-	const uchar *cp = (const uchar *) xp;
-	*ip = (ix_short)(*cp++ << 8);
+get_ix_short(const void *xp, ix_short *ip) {
+  const uchar *cp = (const uchar *)xp;
+  *ip             = (ix_short)(*cp++ << 8);
 #if SIZEOF_IX_SHORT > X_SIZEOF_SHORT
-	if (*ip & 0x8000)
-	{
-		/* extern is negative */
-		*ip |= (~(0xffff)); /* N.B. Assumes "twos complement" */
-	}
+  if (*ip & 0x8000) {
+    /* extern is negative */
+    *ip |= (~(0xffff)); /* N.B. Assumes "twos complement" */
+  }
 #endif
-	*ip = (ix_short)(*ip | *cp);
+  *ip = (ix_short)(*ip | *cp);
 }
 
 static void
-put_ix_short(void *xp, const ix_short *ip)
-{
-	uchar *cp = (uchar *) xp;
-	*cp++ = (uchar)((*ip) >> 8);
-	*cp   = (uchar)((*ip) & 0xff);
+put_ix_short(void *xp, const ix_short *ip) {
+  uchar *cp = (uchar *)xp;
+  *cp++     = (uchar)((*ip) >> 8);
+  *cp       = (uchar)((*ip) & 0xff);
 }
 
 static int
-ncx_get_short_schar(const void *xp, schar *ip)
-{
-    int err=NC_NOERR;
-    ix_short xx = 0;
-    get_ix_short(xp, &xx);
+ncx_get_short_schar(const void *xp, schar *ip) {
+  int err     = NC_NOERR;
+  ix_short xx = 0;
+  get_ix_short(xp, &xx);
 
 #if IX_SHORT_MAX > SCHAR_MAX
-    if (xx > SCHAR_MAX || xx < SCHAR_MIN) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_BYTE;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
+  if (xx > SCHAR_MAX || xx < SCHAR_MIN) {
+#  ifdef ERANGE_FILL
+    *ip = NC_FILL_BYTE;
+    return NC_ERANGE;
+#  else
+    err = NC_ERANGE;
+#  endif
+  }
 #endif
 
 
-    *ip = (schar) xx;
-    return err;
+  *ip = (schar)xx;
+  return err;
 }
 
 static int
-ncx_get_short_short(const void *xp, short *ip)
-{
-    int err=NC_NOERR;
+ncx_get_short_short(const void *xp, short *ip) {
+  int err = NC_NOERR;
 #if SIZEOF_IX_SHORT == SIZEOF_SHORT && IX_SHORT_MAX == SHORT_MAX
-    get_ix_short(xp, (ix_short *)ip);
+  get_ix_short(xp, (ix_short *)ip);
 #else
-    ix_short xx = 0;
-    get_ix_short(xp, &xx);
+  ix_short xx = 0;
+  get_ix_short(xp, &xx);
 
-#if IX_SHORT_MAX > SHORT_MAX
-    if (xx > SHORT_MAX || xx < SHORT_MIN) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_SHORT;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
-#endif
+#  if IX_SHORT_MAX > SHORT_MAX
+  if (xx > SHORT_MAX || xx < SHORT_MIN) {
+#    ifdef ERANGE_FILL
+    *ip = NC_FILL_SHORT;
+    return NC_ERANGE;
+#    else
+    err = NC_ERANGE;
+#    endif
+  }
+#  endif
 
 
-    *ip = (short) xx;
+  *ip         = (short)xx;
 #endif
-    return err;
+  return err;
 }
 
 static int
-ncx_get_short_int(const void *xp, int *ip)
-{
-    int err=NC_NOERR;
+ncx_get_short_int(const void *xp, int *ip) {
+  int err = NC_NOERR;
 #if SIZEOF_IX_SHORT == SIZEOF_INT && IX_SHORT_MAX == INT_MAX
-    get_ix_short(xp, (ix_short *)ip);
+  get_ix_short(xp, (ix_short *)ip);
 #else
-    ix_short xx = 0;
-    get_ix_short(xp, &xx);
+  ix_short xx = 0;
+  get_ix_short(xp, &xx);
 
-#if IX_SHORT_MAX > INT_MAX
-    if (xx > INT_MAX || xx < INT_MIN) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_INT;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
-#endif
+#  if IX_SHORT_MAX > INT_MAX
+  if (xx > INT_MAX || xx < INT_MIN) {
+#    ifdef ERANGE_FILL
+    *ip = NC_FILL_INT;
+    return NC_ERANGE;
+#    else
+    err = NC_ERANGE;
+#    endif
+  }
+#  endif
 
 
-    *ip = (int) xx;
+  *ip         = (int)xx;
 #endif
-    return err;
+  return err;
 }
 
 static int
-ncx_get_short_long(const void *xp, long *ip)
-{
-    int err=NC_NOERR;
+ncx_get_short_long(const void *xp, long *ip) {
+  int err = NC_NOERR;
 #if SIZEOF_IX_SHORT == SIZEOF_LONG && IX_SHORT_MAX == LONG_MAX
-    get_ix_short(xp, (ix_short *)ip);
+  get_ix_short(xp, (ix_short *)ip);
 #else
-    ix_short xx = 0;
-    get_ix_short(xp, &xx);
+  ix_short xx = 0;
+  get_ix_short(xp, &xx);
 
-#if IX_SHORT_MAX > LONG_MAX
-    if (xx > LONG_MAX || xx < LONG_MIN) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_INT;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
-#endif
+#  if IX_SHORT_MAX > LONG_MAX
+  if (xx > LONG_MAX || xx < LONG_MIN) {
+#    ifdef ERANGE_FILL
+    *ip = NC_FILL_INT;
+    return NC_ERANGE;
+#    else
+    err = NC_ERANGE;
+#    endif
+  }
+#  endif
 
 
-    *ip = (long) xx;
+  *ip         = (long)xx;
 #endif
-    return err;
+  return err;
 }
 
 static int
-ncx_get_short_longlong(const void *xp, longlong *ip)
-{
-    int err=NC_NOERR;
+ncx_get_short_longlong(const void *xp, longlong *ip) {
+  int err = NC_NOERR;
 #if SIZEOF_IX_SHORT == SIZEOF_LONGLONG && IX_SHORT_MAX == LONGLONG_MAX
-    get_ix_short(xp, (ix_short *)ip);
+  get_ix_short(xp, (ix_short *)ip);
 #else
-    ix_short xx = 0;
-    get_ix_short(xp, &xx);
+  ix_short xx = 0;
+  get_ix_short(xp, &xx);
 
-#if IX_SHORT_MAX > LONGLONG_MAX
-    if (xx > LONGLONG_MAX || xx < LONGLONG_MIN) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_INT64;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
-#endif
+#  if IX_SHORT_MAX > LONGLONG_MAX
+  if (xx > LONGLONG_MAX || xx < LONGLONG_MIN) {
+#    ifdef ERANGE_FILL
+    *ip = NC_FILL_INT64;
+    return NC_ERANGE;
+#    else
+    err = NC_ERANGE;
+#    endif
+  }
+#  endif
 
 
-    *ip = (longlong) xx;
+  *ip = (longlong)xx;
 #endif
-    return err;
+  return err;
 }
 
 static int
-ncx_get_short_ushort(const void *xp, ushort *ip)
-{
-    int err=NC_NOERR;
-    ix_short xx = 0;
-    get_ix_short(xp, &xx);
+ncx_get_short_ushort(const void *xp, ushort *ip) {
+  int err     = NC_NOERR;
+  ix_short xx = 0;
+  get_ix_short(xp, &xx);
 
 #if IX_SHORT_MAX > USHORT_MAX
-    if (xx > USHORT_MAX) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_USHORT;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
+  if (xx > USHORT_MAX) {
+#  ifdef ERANGE_FILL
+    *ip = NC_FILL_USHORT;
+    return NC_ERANGE;
+#  else
+    err = NC_ERANGE;
+#  endif
+  }
 #endif
 
-    if (xx < 0) {
+  if (xx < 0) {
 #ifdef ERANGE_FILL
-        *ip = NC_FILL_USHORT;
-        return NC_ERANGE;
+    *ip = NC_FILL_USHORT;
+    return NC_ERANGE;
 #else
-        err = NC_ERANGE; /* because ip is unsigned */
+    err = NC_ERANGE; /* because ip is unsigned */
 #endif
-    }
-    *ip = (ushort) xx;
-    return err;
+  }
+  *ip = (ushort)xx;
+  return err;
 }
 
 static int
-ncx_get_short_uchar(const void *xp, uchar *ip)
-{
-    int err=NC_NOERR;
-    ix_short xx = 0;
-    get_ix_short(xp, &xx);
+ncx_get_short_uchar(const void *xp, uchar *ip) {
+  int err     = NC_NOERR;
+  ix_short xx = 0;
+  get_ix_short(xp, &xx);
 
 #if IX_SHORT_MAX > UCHAR_MAX
-    if (xx > UCHAR_MAX) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_UBYTE;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
+  if (xx > UCHAR_MAX) {
+#  ifdef ERANGE_FILL
+    *ip = NC_FILL_UBYTE;
+    return NC_ERANGE;
+#  else
+    err = NC_ERANGE;
+#  endif
+  }
 #endif
 
-    if (xx < 0) {
+  if (xx < 0) {
 #ifdef ERANGE_FILL
-        *ip = NC_FILL_UBYTE;
-        return NC_ERANGE;
+    *ip = NC_FILL_UBYTE;
+    return NC_ERANGE;
 #else
-        err = NC_ERANGE; /* because ip is unsigned */
+    err = NC_ERANGE; /* because ip is unsigned */
 #endif
-    }
-    *ip = (uchar) xx;
-    return err;
+  }
+  *ip = (uchar)xx;
+  return err;
 }
 
 static int
-ncx_get_short_uint(const void *xp, uint *ip)
-{
-    int err=NC_NOERR;
-    ix_short xx = 0;
-    get_ix_short(xp, &xx);
+ncx_get_short_uint(const void *xp, uint *ip) {
+  int err     = NC_NOERR;
+  ix_short xx = 0;
+  get_ix_short(xp, &xx);
 
 #if IX_SHORT_MAX > UINT_MAX
-    if (xx > UINT_MAX) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_UINT;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
+  if (xx > UINT_MAX) {
+#  ifdef ERANGE_FILL
+    *ip = NC_FILL_UINT;
+    return NC_ERANGE;
+#  else
+    err = NC_ERANGE;
+#  endif
+  }
 #endif
 
-    if (xx < 0) {
+  if (xx < 0) {
 #ifdef ERANGE_FILL
-        *ip = NC_FILL_UINT;
-        return NC_ERANGE;
+    *ip = NC_FILL_UINT;
+    return NC_ERANGE;
 #else
-        err = NC_ERANGE; /* because ip is unsigned */
+    err = NC_ERANGE; /* because ip is unsigned */
 #endif
-    }
-    *ip = (uint) xx;
-    return err;
+  }
+  *ip = (uint)xx;
+  return err;
 }
 
 static int
-ncx_get_short_ulonglong(const void *xp, ulonglong *ip)
-{
-    int err=NC_NOERR;
-    ix_short xx = 0;
-    get_ix_short(xp, &xx);
+ncx_get_short_ulonglong(const void *xp, ulonglong *ip) {
+  int err     = NC_NOERR;
+  ix_short xx = 0;
+  get_ix_short(xp, &xx);
 
 #if IX_SHORT_MAX > ULONGLONG_MAX
-    if (xx > ULONGLONG_MAX) {
+  if (xx > ULONGLONG_MAX) {
+#  ifdef ERANGE_FILL
+    *ip = NC_FILL_UINT64;
+    return NC_ERANGE;
+#  else
+    err = NC_ERANGE;
+#  endif
+  }
+#endif
+
+  if (xx < 0) {
 #ifdef ERANGE_FILL
-        *ip = NC_FILL_UINT64;
-        return NC_ERANGE;
+    *ip = NC_FILL_UINT64;
+    return NC_ERANGE;
 #else
-        err = NC_ERANGE;
+    err = NC_ERANGE; /* because ip is unsigned */
 #endif
-    }
-#endif
-
-    if (xx < 0) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_UINT64;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE; /* because ip is unsigned */
-#endif
-    }
-    *ip = (ulonglong) xx;
-    return err;
+  }
+  *ip = (ulonglong)xx;
+  return err;
 }
 
 static int
-ncx_get_short_float(const void *xp, float *ip)
-{
-	ix_short xx = 0;
-	get_ix_short(xp, &xx);
-	*ip = (float)xx;
-	return NC_NOERR;
+ncx_get_short_float(const void *xp, float *ip) {
+  ix_short xx = 0;
+  get_ix_short(xp, &xx);
+  *ip = (float)xx;
+  return NC_NOERR;
 }
 
 static int
-ncx_get_short_double(const void *xp, double *ip)
-{
-	ix_short xx = 0;
-	get_ix_short(xp, &xx);
-	*ip = (double)xx;
-	return NC_NOERR;
+ncx_get_short_double(const void *xp, double *ip) {
+  ix_short xx = 0;
+  get_ix_short(xp, &xx);
+  *ip = (double)xx;
+  return NC_NOERR;
 }
 
 
 static int
-ncx_put_short_schar(void *xp, const schar *ip, void *fillp)
-{
-	uchar *cp = (uchar *) xp;
-	if (*ip & 0x80)
-		*cp++ = 0xff;
-	else
-		*cp++ = 0;
-	*cp = (uchar)*ip;
-	return NC_NOERR;
+ncx_put_short_schar(void *xp, const schar *ip, void *fillp) {
+  uchar *cp = (uchar *)xp;
+  if (*ip & 0x80)
+    *cp++ = 0xff;
+  else
+    *cp++ = 0;
+  *cp = (uchar)*ip;
+  return NC_NOERR;
 }
 
 static int
-ncx_put_short_uchar(void *xp, const uchar *ip, void *fillp)
-{
-	uchar *cp = (uchar *) xp;
-	*cp++ = 0;
-	*cp = *ip;
-	return NC_NOERR;
+ncx_put_short_uchar(void *xp, const uchar *ip, void *fillp) {
+  uchar *cp = (uchar *)xp;
+  *cp++     = 0;
+  *cp       = *ip;
+  return NC_NOERR;
 }
 
 static int
-ncx_put_short_short(void *xp, const short *ip, void *fillp)
-{
-    int err=NC_NOERR;
+ncx_put_short_short(void *xp, const short *ip, void *fillp) {
+  int err = NC_NOERR;
 #if SIZEOF_IX_SHORT == SIZEOF_SHORT && IX_SHORT_MAX == SHORT_MAX
-    put_ix_short(xp, (const ix_short *)ip);
+  put_ix_short(xp, (const ix_short *)ip);
 #else
-    ix_short xx = NC_FILL_SHORT;
+  ix_short xx = NC_FILL_SHORT;
 
-#if IX_SHORT_MAX < SHORT_MAX
-    if (*ip > IX_SHORT_MAX || *ip < X_SHORT_MIN) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 2);
-#endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-        xx = (ix_short)*ip;
+#  if IX_SHORT_MAX < SHORT_MAX
+  if (*ip > IX_SHORT_MAX || *ip < X_SHORT_MIN) {
 
-    put_ix_short(xp, &xx);
+#    ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 2);
+#    endif
+    err = NC_ERANGE;
+  }
+#    ifdef ERANGE_FILL
+  else
+#    endif
+#  endif
+    xx = (ix_short)*ip;
+
+  put_ix_short(xp, &xx);
 #endif
-    return err;
+  return err;
 }
 
 static int
-ncx_put_short_int(void *xp, const int *ip, void *fillp)
-{
-    int err=NC_NOERR;
+ncx_put_short_int(void *xp, const int *ip, void *fillp) {
+  int err = NC_NOERR;
 #if SIZEOF_IX_SHORT == SIZEOF_INT && IX_SHORT_MAX == INT_MAX
-    put_ix_short(xp, (const ix_short *)ip);
+  put_ix_short(xp, (const ix_short *)ip);
 #else
-    ix_short xx = NC_FILL_SHORT;
+  ix_short xx = NC_FILL_SHORT;
 
-#if IX_SHORT_MAX < INT_MAX
-    if (*ip > IX_SHORT_MAX || *ip < X_SHORT_MIN) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 2);
-#endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-        xx = (ix_short)*ip;
+#  if IX_SHORT_MAX < INT_MAX
+  if (*ip > IX_SHORT_MAX || *ip < X_SHORT_MIN) {
 
-    put_ix_short(xp, &xx);
+#    ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 2);
+#    endif
+    err = NC_ERANGE;
+  }
+#    ifdef ERANGE_FILL
+  else
+#    endif
+#  endif
+    xx = (ix_short)*ip;
+
+  put_ix_short(xp, &xx);
 #endif
-    return err;
+  return err;
 }
 
 static int
-ncx_put_short_long(void *xp, const long *ip, void *fillp)
-{
-    int err=NC_NOERR;
+ncx_put_short_long(void *xp, const long *ip, void *fillp) {
+  int err = NC_NOERR;
 #if SIZEOF_IX_SHORT == SIZEOF_LONG && IX_SHORT_MAX == LONG_MAX
-    put_ix_short(xp, (const ix_short *)ip);
+  put_ix_short(xp, (const ix_short *)ip);
 #else
-    ix_short xx = NC_FILL_SHORT;
+  ix_short xx = NC_FILL_SHORT;
 
-#if IX_SHORT_MAX < LONG_MAX
-    if (*ip > IX_SHORT_MAX || *ip < X_SHORT_MIN) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 2);
-#endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-        xx = (ix_short)*ip;
+#  if IX_SHORT_MAX < LONG_MAX
+  if (*ip > IX_SHORT_MAX || *ip < X_SHORT_MIN) {
 
-    put_ix_short(xp, &xx);
+#    ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 2);
+#    endif
+    err = NC_ERANGE;
+  }
+#    ifdef ERANGE_FILL
+  else
+#    endif
+#  endif
+    xx = (ix_short)*ip;
+
+  put_ix_short(xp, &xx);
 #endif
-    return err;
+  return err;
 }
 
 static int
-ncx_put_short_longlong(void *xp, const longlong *ip, void *fillp)
-{
-    int err=NC_NOERR;
+ncx_put_short_longlong(void *xp, const longlong *ip, void *fillp) {
+  int err = NC_NOERR;
 #if SIZEOF_IX_SHORT == SIZEOF_LONGLONG && IX_SHORT_MAX == LONGLONG_MAX
-    put_ix_short(xp, (const ix_short *)ip);
+  put_ix_short(xp, (const ix_short *)ip);
 #else
-    ix_short xx = NC_FILL_SHORT;
+  ix_short xx = NC_FILL_SHORT;
 
-#if IX_SHORT_MAX < LONGLONG_MAX
-    if (*ip > IX_SHORT_MAX || *ip < X_SHORT_MIN) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 2);
-#endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-        xx = (ix_short)*ip;
+#  if IX_SHORT_MAX < LONGLONG_MAX
+  if (*ip > IX_SHORT_MAX || *ip < X_SHORT_MIN) {
 
-    put_ix_short(xp, &xx);
+#    ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 2);
+#    endif
+    err = NC_ERANGE;
+  }
+#    ifdef ERANGE_FILL
+  else
+#    endif
+#  endif
+    xx = (ix_short)*ip;
+
+  put_ix_short(xp, &xx);
 #endif
-    return err;
+  return err;
 }
 
 static int
-ncx_put_short_ushort(void *xp, const ushort *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_short xx = NC_FILL_SHORT;
+ncx_put_short_ushort(void *xp, const ushort *ip, void *fillp) {
+  int err     = NC_NOERR;
+  ix_short xx = NC_FILL_SHORT;
 
 #if IX_SHORT_MAX < USHORT_MAX
-    if (*ip > IX_SHORT_MAX) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 2);
+  if (*ip > IX_SHORT_MAX) {
+#  ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 2);
+#  endif
+    err = NC_ERANGE;
+  }
+#  ifdef ERANGE_FILL
+  else
+#  endif
 #endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-        xx = (ix_short)*ip;
+    xx = (ix_short)*ip;
 
-    put_ix_short(xp, &xx);
-    return err;
+  put_ix_short(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_short_uint(void *xp, const uint *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_short xx = NC_FILL_SHORT;
+ncx_put_short_uint(void *xp, const uint *ip, void *fillp) {
+  int err     = NC_NOERR;
+  ix_short xx = NC_FILL_SHORT;
 
 #if IX_SHORT_MAX < UINT_MAX
-    if (*ip > IX_SHORT_MAX) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 2);
+  if (*ip > IX_SHORT_MAX) {
+#  ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 2);
+#  endif
+    err = NC_ERANGE;
+  }
+#  ifdef ERANGE_FILL
+  else
+#  endif
 #endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-        xx = (ix_short)*ip;
+    xx = (ix_short)*ip;
 
-    put_ix_short(xp, &xx);
-    return err;
+  put_ix_short(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_short_ulonglong(void *xp, const ulonglong *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_short xx = NC_FILL_SHORT;
+ncx_put_short_ulonglong(void *xp, const ulonglong *ip, void *fillp) {
+  int err     = NC_NOERR;
+  ix_short xx = NC_FILL_SHORT;
 
 #if IX_SHORT_MAX < ULONGLONG_MAX
-    if (*ip > IX_SHORT_MAX) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 2);
+  if (*ip > IX_SHORT_MAX) {
+#  ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 2);
+#  endif
+    err = NC_ERANGE;
+  }
+#  ifdef ERANGE_FILL
+  else
+#  endif
 #endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-        xx = (ix_short)*ip;
+    xx = (ix_short)*ip;
 
-    put_ix_short(xp, &xx);
-    return err;
+  put_ix_short(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_short_float(void *xp, const float *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_short xx = NC_FILL_SHORT;
+ncx_put_short_float(void *xp, const float *ip, void *fillp) {
+  int err     = NC_NOERR;
+  ix_short xx = NC_FILL_SHORT;
 
-    if (*ip > (double)X_SHORT_MAX || *ip < (double)X_SHORT_MIN) {
-        
+  if (*ip > (double)X_SHORT_MAX || *ip < (double)X_SHORT_MIN) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 2);
+    if (fillp != NULL) memcpy(&xx, fillp, 2);
 #endif
-        err = NC_ERANGE;
-    }
+    err = NC_ERANGE;
+  }
 #ifdef ERANGE_FILL
-    else
+  else
 #endif
-        xx = (ix_short)*ip;
+    xx = (ix_short)*ip;
 
-    put_ix_short(xp, &xx);
-    return err;
+  put_ix_short(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_short_double(void *xp, const double *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_short xx = NC_FILL_SHORT;
+ncx_put_short_double(void *xp, const double *ip, void *fillp) {
+  int err     = NC_NOERR;
+  ix_short xx = NC_FILL_SHORT;
 
-    if (*ip > X_SHORT_MAX || *ip < X_SHORT_MIN) {
-        
+  if (*ip > X_SHORT_MAX || *ip < X_SHORT_MIN) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 2);
+    if (fillp != NULL) memcpy(&xx, fillp, 2);
 #endif
-        err = NC_ERANGE;
-    }
+    err = NC_ERANGE;
+  }
 #ifdef ERANGE_FILL
-    else
+  else
 #endif
-        xx = (ix_short)*ip;
+    xx = (ix_short)*ip;
 
-    put_ix_short(xp, &xx);
-    return err;
+  put_ix_short(xp, &xx);
+  return err;
 }
 
 
@@ -1113,587 +1051,556 @@ ncx_put_short_double(void *xp, const double *ip, void *fillp)
 
 #if USHORT_MAX == X_USHORT_MAX
 typedef unsigned short ix_ushort;
-#define SIZEOF_IX_USHORT SIZEOF_USHORT
-#define IX_USHORT_MAX USHORT_MAX
+#  define SIZEOF_IX_USHORT SIZEOF_USHORT
+#  define IX_USHORT_MAX USHORT_MAX
 #elif UINT_MAX >= X_USHORT_MAX
 typedef unsigned int ix_ushort;
-#define SIZEOF_IX_USHORT SIZEOF_UINT
-#define IX_USHORT_MAX UINT_MAX
+#  define SIZEOF_IX_USHORT SIZEOF_UINT
+#  define IX_USHORT_MAX UINT_MAX
 #elif ULONG_MAX >= X_USHORT_MAX
 typedef unsigned long ix_ushort;
-#define SIZEOF_IX_USHORT SIZEOF_ULONG
-#define IX_USHORT_MAX ULONG_MAX
+#  define SIZEOF_IX_USHORT SIZEOF_ULONG
+#  define IX_USHORT_MAX ULONG_MAX
 #elif ULLONG_MAX >= X_USHORT_MAX
 typedef unsigned long long ix_ushort;
-#define SIZEOF_IX_USHORT SIZEOF_ULONGLONG
-#define IX_USHORT_MAX ULLONG_MAX
+#  define SIZEOF_IX_USHORT SIZEOF_ULONGLONG
+#  define IX_USHORT_MAX ULLONG_MAX
 #else
-#error "ix_ushort implementation"
+#  error "ix_ushort implementation"
 #endif
 
 static void
-get_ix_ushort(const void *xp, ix_ushort *ip)
-{
-	const uchar *cp = (const uchar *) xp;
-	*ip = (ix_ushort)(*cp++ << 8);
+get_ix_ushort(const void *xp, ix_ushort *ip) {
+  const uchar *cp = (const uchar *)xp;
+  *ip             = (ix_ushort)(*cp++ << 8);
 #if SIZEOF_IX_SHORT > X_SIZEOF_SHORT
-	if (*ip & 0x8000)
-	{
-		/* extern is negative */
-		*ip |= (~(0xffff)); /* N.B. Assumes "twos complement" */
-	}
+  if (*ip & 0x8000) {
+    /* extern is negative */
+    *ip |= (~(0xffff)); /* N.B. Assumes "twos complement" */
+  }
 #endif
-	*ip = (ix_ushort)(*ip | *cp);
+  *ip = (ix_ushort)(*ip | *cp);
 }
 
 static void
-put_ix_ushort(void *xp, const ix_ushort *ip)
-{
-	uchar *cp = (uchar *) xp;
-	*cp++ = (uchar)((*ip) >> 8);
-	*cp   = (uchar)((*ip) & 0xff);
+put_ix_ushort(void *xp, const ix_ushort *ip) {
+  uchar *cp = (uchar *)xp;
+  *cp++     = (uchar)((*ip) >> 8);
+  *cp       = (uchar)((*ip) & 0xff);
 }
 
 static int
-ncx_get_ushort_schar(const void *xp, schar *ip)
-{
-    int err=NC_NOERR;
-    ix_ushort xx = 0;
-    get_ix_ushort(xp, &xx);
+ncx_get_ushort_schar(const void *xp, schar *ip) {
+  int err      = NC_NOERR;
+  ix_ushort xx = 0;
+  get_ix_ushort(xp, &xx);
 
 #if IX_USHORT_MAX > SCHAR_MAX
-    if (xx > SCHAR_MAX) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_BYTE;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
+  if (xx > SCHAR_MAX) {
+#  ifdef ERANGE_FILL
+    *ip = NC_FILL_BYTE;
+    return NC_ERANGE;
+#  else
+    err = NC_ERANGE;
+#  endif
+  }
 #endif
 
 
-    *ip = (schar) xx;
-    return err;
+  *ip = (schar)xx;
+  return err;
 }
 
 static int
-ncx_get_ushort_short(const void *xp, short *ip)
-{
-    int err=NC_NOERR;
-    ix_ushort xx = 0;
-    get_ix_ushort(xp, &xx);
+ncx_get_ushort_short(const void *xp, short *ip) {
+  int err      = NC_NOERR;
+  ix_ushort xx = 0;
+  get_ix_ushort(xp, &xx);
 
 #if IX_USHORT_MAX > SHORT_MAX
-    if (xx > SHORT_MAX) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_SHORT;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
+  if (xx > SHORT_MAX) {
+#  ifdef ERANGE_FILL
+    *ip = NC_FILL_SHORT;
+    return NC_ERANGE;
+#  else
+    err = NC_ERANGE;
+#  endif
+  }
 #endif
 
 
-    *ip = (short) xx;
-    return err;
+  *ip = (short)xx;
+  return err;
 }
 
 static int
-ncx_get_ushort_int(const void *xp, int *ip)
-{
-    int err=NC_NOERR;
-    ix_ushort xx = 0;
-    get_ix_ushort(xp, &xx);
+ncx_get_ushort_int(const void *xp, int *ip) {
+  int err      = NC_NOERR;
+  ix_ushort xx = 0;
+  get_ix_ushort(xp, &xx);
 
 #if IX_USHORT_MAX > INT_MAX
-    if (xx > INT_MAX) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_INT;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
+  if (xx > INT_MAX) {
+#  ifdef ERANGE_FILL
+    *ip = NC_FILL_INT;
+    return NC_ERANGE;
+#  else
+    err = NC_ERANGE;
+#  endif
+  }
 #endif
 
 
-    *ip = (int) xx;
-    return err;
+  *ip = (int)xx;
+  return err;
 }
 
 static int
-ncx_get_ushort_long(const void *xp, long *ip)
-{
-    int err=NC_NOERR;
-    ix_ushort xx = 0;
-    get_ix_ushort(xp, &xx);
+ncx_get_ushort_long(const void *xp, long *ip) {
+  int err      = NC_NOERR;
+  ix_ushort xx = 0;
+  get_ix_ushort(xp, &xx);
 
 #if IX_USHORT_MAX > LONG_MAX
-    if (xx > LONG_MAX) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_INT;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
+  if (xx > LONG_MAX) {
+#  ifdef ERANGE_FILL
+    *ip = NC_FILL_INT;
+    return NC_ERANGE;
+#  else
+    err = NC_ERANGE;
+#  endif
+  }
 #endif
 
 
-    *ip = (long) xx;
-    return err;
+  *ip = (long)xx;
+  return err;
 }
 
 static int
-ncx_get_ushort_longlong(const void *xp, longlong *ip)
-{
-    int err=NC_NOERR;
-    ix_ushort xx = 0;
-    get_ix_ushort(xp, &xx);
+ncx_get_ushort_longlong(const void *xp, longlong *ip) {
+  int err      = NC_NOERR;
+  ix_ushort xx = 0;
+  get_ix_ushort(xp, &xx);
 
 #if IX_USHORT_MAX > LONGLONG_MAX
-    if (xx > LONGLONG_MAX) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_INT64;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
+  if (xx > LONGLONG_MAX) {
+#  ifdef ERANGE_FILL
+    *ip = NC_FILL_INT64;
+    return NC_ERANGE;
+#  else
+    err = NC_ERANGE;
+#  endif
+  }
 #endif
 
 
-    *ip = (longlong) xx;
-    return err;
+  *ip = (longlong)xx;
+  return err;
 }
 
 static int
-ncx_get_ushort_ushort(const void *xp, ushort *ip)
-{
-    int err=NC_NOERR;
+ncx_get_ushort_ushort(const void *xp, ushort *ip) {
+  int err = NC_NOERR;
 #if SIZEOF_IX_USHORT == SIZEOF_USHORT && IX_USHORT_MAX == USHORT_MAX
-    get_ix_ushort(xp, (ix_ushort *)ip);
+  get_ix_ushort(xp, (ix_ushort *)ip);
 #else
-    ix_ushort xx = 0;
-    get_ix_ushort(xp, &xx);
+  ix_ushort xx = 0;
+  get_ix_ushort(xp, &xx);
 
-#if IX_USHORT_MAX > USHORT_MAX
-    if (xx > USHORT_MAX) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_USHORT;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
-#endif
+#  if IX_USHORT_MAX > USHORT_MAX
+  if (xx > USHORT_MAX) {
+#    ifdef ERANGE_FILL
+    *ip = NC_FILL_USHORT;
+    return NC_ERANGE;
+#    else
+    err = NC_ERANGE;
+#    endif
+  }
+#  endif
 
 
-    *ip = (ushort) xx;
+  *ip          = (ushort)xx;
 #endif
-    return err;
+  return err;
 }
 
 static int
-ncx_get_ushort_uchar(const void *xp, uchar *ip)
-{
-    int err=NC_NOERR;
+ncx_get_ushort_uchar(const void *xp, uchar *ip) {
+  int err = NC_NOERR;
 #if SIZEOF_IX_USHORT == SIZEOF_UCHAR && IX_USHORT_MAX == UCHAR_MAX
-    get_ix_ushort(xp, (ix_ushort *)ip);
+  get_ix_ushort(xp, (ix_ushort *)ip);
 #else
-    ix_ushort xx = 0;
-    get_ix_ushort(xp, &xx);
+  ix_ushort xx = 0;
+  get_ix_ushort(xp, &xx);
 
-#if IX_USHORT_MAX > UCHAR_MAX
-    if (xx > UCHAR_MAX) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_UBYTE;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
-#endif
+#  if IX_USHORT_MAX > UCHAR_MAX
+  if (xx > UCHAR_MAX) {
+#    ifdef ERANGE_FILL
+    *ip = NC_FILL_UBYTE;
+    return NC_ERANGE;
+#    else
+    err = NC_ERANGE;
+#    endif
+  }
+#  endif
 
 
-    *ip = (uchar) xx;
+  *ip          = (uchar)xx;
 #endif
-    return err;
+  return err;
 }
 
 static int
-ncx_get_ushort_uint(const void *xp, uint *ip)
-{
-    int err=NC_NOERR;
+ncx_get_ushort_uint(const void *xp, uint *ip) {
+  int err = NC_NOERR;
 #if SIZEOF_IX_USHORT == SIZEOF_UINT && IX_USHORT_MAX == UINT_MAX
-    get_ix_ushort(xp, (ix_ushort *)ip);
+  get_ix_ushort(xp, (ix_ushort *)ip);
 #else
-    ix_ushort xx = 0;
-    get_ix_ushort(xp, &xx);
+  ix_ushort xx = 0;
+  get_ix_ushort(xp, &xx);
 
-#if IX_USHORT_MAX > UINT_MAX
-    if (xx > UINT_MAX) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_UINT;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
-#endif
+#  if IX_USHORT_MAX > UINT_MAX
+  if (xx > UINT_MAX) {
+#    ifdef ERANGE_FILL
+    *ip = NC_FILL_UINT;
+    return NC_ERANGE;
+#    else
+    err = NC_ERANGE;
+#    endif
+  }
+#  endif
 
 
-    *ip = (uint) xx;
+  *ip          = (uint)xx;
 #endif
-    return err;
+  return err;
 }
 
 static int
-ncx_get_ushort_ulonglong(const void *xp, ulonglong *ip)
-{
-    int err=NC_NOERR;
+ncx_get_ushort_ulonglong(const void *xp, ulonglong *ip) {
+  int err = NC_NOERR;
 #if SIZEOF_IX_USHORT == SIZEOF_ULONGLONG && IX_USHORT_MAX == ULONGLONG_MAX
-    get_ix_ushort(xp, (ix_ushort *)ip);
+  get_ix_ushort(xp, (ix_ushort *)ip);
 #else
-    ix_ushort xx = 0;
-    get_ix_ushort(xp, &xx);
+  ix_ushort xx = 0;
+  get_ix_ushort(xp, &xx);
 
-#if IX_USHORT_MAX > ULONGLONG_MAX
-    if (xx > ULONGLONG_MAX) {
+#  if IX_USHORT_MAX > ULONGLONG_MAX
+  if (xx > ULONGLONG_MAX) {
+#    ifdef ERANGE_FILL
+    *ip = NC_FILL_UINT64;
+    return NC_ERANGE;
+#    else
+    err = NC_ERANGE;
+#    endif
+  }
+#  endif
+
+
+  *ip = (ulonglong)xx;
+#endif
+  return err;
+}
+
+static int
+ncx_get_ushort_float(const void *xp, float *ip) {
+  ix_ushort xx = 0;
+  get_ix_ushort(xp, &xx);
+  *ip = (float)xx;
+  return NC_NOERR;
+}
+
+static int
+ncx_get_ushort_double(const void *xp, double *ip) {
+  ix_ushort xx = 0;
+  get_ix_ushort(xp, &xx);
+  *ip = (double)xx;
+  return NC_NOERR;
+}
+
+
+static int
+ncx_put_ushort_schar(void *xp, const schar *ip, void *fillp) {
+  int err = NC_NOERR;
+  uchar *cp;
+  if (*ip < 0) {
 #ifdef ERANGE_FILL
-        *ip = NC_FILL_UINT64;
-        return NC_ERANGE;
+    if (fillp != NULL) memcpy(xp, fillp, 2);
+#  ifndef WORDS_BIGENDIAN
+    swapn2b(xp, xp, 1);
+#  endif
+    return NC_ERANGE;
 #else
-        err = NC_ERANGE;
+    err = NC_ERANGE;
 #endif
-    }
-#endif
+  }
 
+  cp = (uchar *)xp;
+  if (*ip & 0x80)
+    *cp++ = 0xff;
+  else
+    *cp++ = 0;
+  *cp = (uchar)*ip;
 
-    *ip = (ulonglong) xx;
-#endif
-    return err;
+  return err;
 }
 
 static int
-ncx_get_ushort_float(const void *xp, float *ip)
-{
-	ix_ushort xx = 0;
-	get_ix_ushort(xp, &xx);
-	*ip = (float)xx;
-	return NC_NOERR;
+ncx_put_ushort_uchar(void *xp, const uchar *ip, void *fillp) {
+  uchar *cp = (uchar *)xp;
+  *cp++     = 0;
+  *cp       = *ip;
+  return NC_NOERR;
 }
 
 static int
-ncx_get_ushort_double(const void *xp, double *ip)
-{
-	ix_ushort xx = 0;
-	get_ix_ushort(xp, &xx);
-	*ip = (double)xx;
-	return NC_NOERR;
-}
-
-
-static int
-ncx_put_ushort_schar(void *xp, const schar *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    uchar *cp;
-    if (*ip < 0) {
-#ifdef ERANGE_FILL
-        if (fillp != NULL) memcpy(xp, fillp, 2);
-#ifndef WORDS_BIGENDIAN
-        swapn2b(xp, xp, 1);
-#endif
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
-
-    cp = (uchar *) xp;
-    if (*ip & 0x80)
-        *cp++ = 0xff;
-    else
-        *cp++ = 0;
-    *cp = (uchar)*ip;
-
-    return err;
-}
-
-static int
-ncx_put_ushort_uchar(void *xp, const uchar *ip, void *fillp)
-{
-	uchar *cp = (uchar *) xp;
-	*cp++ = 0;
-	*cp = *ip;
-	return NC_NOERR;
-}
-
-static int
-ncx_put_ushort_short(void *xp, const short *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_ushort xx = NC_FILL_USHORT;
+ncx_put_ushort_short(void *xp, const short *ip, void *fillp) {
+  int err      = NC_NOERR;
+  ix_ushort xx = NC_FILL_USHORT;
 
 #if IX_USHORT_MAX < SHORT_MAX
-    if (*ip > IX_USHORT_MAX) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 2);
+  if (*ip > IX_USHORT_MAX) {
+#  ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 2);
+#  endif
+    err = NC_ERANGE;
+  }
+#  ifdef ERANGE_FILL
+  else
+#  endif
 #endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-    if (*ip < 0) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 2);
-#endif
-        err = NC_ERANGE; /* because xp is unsigned */
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-        xx = (ix_ushort)*ip;
+  if (*ip < 0) {
 
-    put_ix_ushort(xp, &xx);
-    return err;
+#ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 2);
+#endif
+    err = NC_ERANGE; /* because xp is unsigned */
+  }
+#ifdef ERANGE_FILL
+  else
+#endif
+    xx = (ix_ushort)*ip;
+
+  put_ix_ushort(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_ushort_int(void *xp, const int *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_ushort xx = NC_FILL_USHORT;
+ncx_put_ushort_int(void *xp, const int *ip, void *fillp) {
+  int err      = NC_NOERR;
+  ix_ushort xx = NC_FILL_USHORT;
 
 #if IX_USHORT_MAX < INT_MAX
-    if (*ip > IX_USHORT_MAX) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 2);
+  if (*ip > IX_USHORT_MAX) {
+#  ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 2);
+#  endif
+    err = NC_ERANGE;
+  }
+#  ifdef ERANGE_FILL
+  else
+#  endif
 #endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-    if (*ip < 0) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 2);
-#endif
-        err = NC_ERANGE; /* because xp is unsigned */
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-        xx = (ix_ushort)*ip;
+  if (*ip < 0) {
 
-    put_ix_ushort(xp, &xx);
-    return err;
+#ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 2);
+#endif
+    err = NC_ERANGE; /* because xp is unsigned */
+  }
+#ifdef ERANGE_FILL
+  else
+#endif
+    xx = (ix_ushort)*ip;
+
+  put_ix_ushort(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_ushort_long(void *xp, const long *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_ushort xx = NC_FILL_USHORT;
+ncx_put_ushort_long(void *xp, const long *ip, void *fillp) {
+  int err      = NC_NOERR;
+  ix_ushort xx = NC_FILL_USHORT;
 
 #if IX_USHORT_MAX < LONG_MAX
-    if (*ip > IX_USHORT_MAX) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 2);
+  if (*ip > IX_USHORT_MAX) {
+#  ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 2);
+#  endif
+    err = NC_ERANGE;
+  }
+#  ifdef ERANGE_FILL
+  else
+#  endif
 #endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-    if (*ip < 0) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 2);
-#endif
-        err = NC_ERANGE; /* because xp is unsigned */
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-        xx = (ix_ushort)*ip;
+  if (*ip < 0) {
 
-    put_ix_ushort(xp, &xx);
-    return err;
+#ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 2);
+#endif
+    err = NC_ERANGE; /* because xp is unsigned */
+  }
+#ifdef ERANGE_FILL
+  else
+#endif
+    xx = (ix_ushort)*ip;
+
+  put_ix_ushort(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_ushort_longlong(void *xp, const longlong *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_ushort xx = NC_FILL_USHORT;
+ncx_put_ushort_longlong(void *xp, const longlong *ip, void *fillp) {
+  int err      = NC_NOERR;
+  ix_ushort xx = NC_FILL_USHORT;
 
 #if IX_USHORT_MAX < LONGLONG_MAX
-    if (*ip > IX_USHORT_MAX) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 2);
+  if (*ip > IX_USHORT_MAX) {
+#  ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 2);
+#  endif
+    err = NC_ERANGE;
+  }
+#  ifdef ERANGE_FILL
+  else
+#  endif
 #endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-    if (*ip < 0) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 2);
-#endif
-        err = NC_ERANGE; /* because xp is unsigned */
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-        xx = (ix_ushort)*ip;
+  if (*ip < 0) {
 
-    put_ix_ushort(xp, &xx);
-    return err;
+#ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 2);
+#endif
+    err = NC_ERANGE; /* because xp is unsigned */
+  }
+#ifdef ERANGE_FILL
+  else
+#endif
+    xx = (ix_ushort)*ip;
+
+  put_ix_ushort(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_ushort_ushort(void *xp, const ushort *ip, void *fillp)
-{
-    int err=NC_NOERR;
+ncx_put_ushort_ushort(void *xp, const ushort *ip, void *fillp) {
+  int err = NC_NOERR;
 #if SIZEOF_IX_USHORT == SIZEOF_USHORT && IX_USHORT_MAX == USHORT_MAX
-    put_ix_ushort(xp, (const ix_ushort *)ip);
+  put_ix_ushort(xp, (const ix_ushort *)ip);
 #else
-    ix_ushort xx = NC_FILL_USHORT;
+  ix_ushort xx = NC_FILL_USHORT;
 
-#if IX_USHORT_MAX < USHORT_MAX
-    if (*ip > IX_USHORT_MAX) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 2);
-#endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-        xx = (ix_ushort)*ip;
+#  if IX_USHORT_MAX < USHORT_MAX
+  if (*ip > IX_USHORT_MAX) {
 
-    put_ix_ushort(xp, &xx);
+#    ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 2);
+#    endif
+    err = NC_ERANGE;
+  }
+#    ifdef ERANGE_FILL
+  else
+#    endif
+#  endif
+    xx = (ix_ushort)*ip;
+
+  put_ix_ushort(xp, &xx);
 #endif
-    return err;
+  return err;
 }
 
 static int
-ncx_put_ushort_uint(void *xp, const uint *ip, void *fillp)
-{
-    int err=NC_NOERR;
+ncx_put_ushort_uint(void *xp, const uint *ip, void *fillp) {
+  int err = NC_NOERR;
 #if SIZEOF_IX_USHORT == SIZEOF_UINT && IX_USHORT_MAX == UINT_MAX
-    put_ix_ushort(xp, (const ix_ushort *)ip);
+  put_ix_ushort(xp, (const ix_ushort *)ip);
 #else
-    ix_ushort xx = NC_FILL_USHORT;
+  ix_ushort xx = NC_FILL_USHORT;
 
-#if IX_USHORT_MAX < UINT_MAX
-    if (*ip > IX_USHORT_MAX) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 2);
-#endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-        xx = (ix_ushort)*ip;
+#  if IX_USHORT_MAX < UINT_MAX
+  if (*ip > IX_USHORT_MAX) {
 
-    put_ix_ushort(xp, &xx);
+#    ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 2);
+#    endif
+    err = NC_ERANGE;
+  }
+#    ifdef ERANGE_FILL
+  else
+#    endif
+#  endif
+    xx = (ix_ushort)*ip;
+
+  put_ix_ushort(xp, &xx);
 #endif
-    return err;
+  return err;
 }
 
 static int
-ncx_put_ushort_ulonglong(void *xp, const ulonglong *ip, void *fillp)
-{
-    int err=NC_NOERR;
+ncx_put_ushort_ulonglong(void *xp, const ulonglong *ip, void *fillp) {
+  int err = NC_NOERR;
 #if SIZEOF_IX_USHORT == SIZEOF_ULONGLONG && IX_USHORT_MAX == ULONGLONG_MAX
-    put_ix_ushort(xp, (const ix_ushort *)ip);
+  put_ix_ushort(xp, (const ix_ushort *)ip);
 #else
-    ix_ushort xx = NC_FILL_USHORT;
+  ix_ushort xx = NC_FILL_USHORT;
 
-#if IX_USHORT_MAX < ULONGLONG_MAX
-    if (*ip > IX_USHORT_MAX) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 2);
-#endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-        xx = (ix_ushort)*ip;
+#  if IX_USHORT_MAX < ULONGLONG_MAX
+  if (*ip > IX_USHORT_MAX) {
 
-    put_ix_ushort(xp, &xx);
+#    ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 2);
+#    endif
+    err = NC_ERANGE;
+  }
+#    ifdef ERANGE_FILL
+  else
+#    endif
+#  endif
+    xx = (ix_ushort)*ip;
+
+  put_ix_ushort(xp, &xx);
 #endif
-    return err;
+  return err;
 }
 
 static int
-ncx_put_ushort_float(void *xp, const float *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_ushort xx = NC_FILL_USHORT;
+ncx_put_ushort_float(void *xp, const float *ip, void *fillp) {
+  int err      = NC_NOERR;
+  ix_ushort xx = NC_FILL_USHORT;
 
-    if (*ip > (double)X_USHORT_MAX || *ip < 0) {
-        
+  if (*ip > (double)X_USHORT_MAX || *ip < 0) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 2);
+    if (fillp != NULL) memcpy(&xx, fillp, 2);
 #endif
-        err = NC_ERANGE;
-    }
+    err = NC_ERANGE;
+  }
 #ifdef ERANGE_FILL
-    else
+  else
 #endif
-        xx = (ix_ushort)*ip;
+    xx = (ix_ushort)*ip;
 
-    put_ix_ushort(xp, &xx);
-    return err;
+  put_ix_ushort(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_ushort_double(void *xp, const double *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_ushort xx = NC_FILL_USHORT;
+ncx_put_ushort_double(void *xp, const double *ip, void *fillp) {
+  int err      = NC_NOERR;
+  ix_ushort xx = NC_FILL_USHORT;
 
-    if (*ip > X_USHORT_MAX || *ip < 0) {
-        
+  if (*ip > X_USHORT_MAX || *ip < 0) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 2);
+    if (fillp != NULL) memcpy(&xx, fillp, 2);
 #endif
-        err = NC_ERANGE;
-    }
+    err = NC_ERANGE;
+  }
 #ifdef ERANGE_FILL
-    else
+  else
 #endif
-        xx = (ix_ushort)*ip;
+    xx = (ix_ushort)*ip;
 
-    put_ix_ushort(xp, &xx);
-    return err;
+  put_ix_ushort(xp, &xx);
+  return err;
 }
 
 
@@ -1701,1176 +1608,1111 @@ ncx_put_ushort_double(void *xp, const double *ip, void *fillp)
 
 #if SHORT_MAX == X_INT_MAX
 typedef short ix_int;
-#define SIZEOF_IX_INT SIZEOF_SHORT
-#define IX_INT_MAX SHORT_MAX
-#elif INT_MAX  >= X_INT_MAX
+#  define SIZEOF_IX_INT SIZEOF_SHORT
+#  define IX_INT_MAX SHORT_MAX
+#elif INT_MAX >= X_INT_MAX
 typedef int ix_int;
-#define SIZEOF_IX_INT SIZEOF_INT
-#define IX_INT_MAX INT_MAX
-#elif LONG_MAX  >= X_INT_MAX
+#  define SIZEOF_IX_INT SIZEOF_INT
+#  define IX_INT_MAX INT_MAX
+#elif LONG_MAX >= X_INT_MAX
 typedef long ix_int;
-#define SIZEOF_IX_INT SIZEOF_LONG
-#define IX_INT_MAX LONG_MAX
+#  define SIZEOF_IX_INT SIZEOF_LONG
+#  define IX_INT_MAX LONG_MAX
 #else
-#error "ix_int implementation"
+#  error "ix_int implementation"
 #endif
 
 
 static void
-get_ix_int(const void *xp, ix_int *ip)
-{
-	const uchar *cp = (const uchar *) xp;
+get_ix_int(const void *xp, ix_int *ip) {
+  const uchar *cp = (const uchar *)xp;
 
-#if INT_MAX  >= X_INT_MAX
-	*ip = (ix_int)((unsigned)(*cp++) << 24);
+#if INT_MAX >= X_INT_MAX
+  *ip = (ix_int)((unsigned)(*cp++) << 24);
 #else
-	*ip = *cp++ << 24;
+  *ip       = *cp++ << 24;
 #endif
 #if SIZEOF_IX_INT > X_SIZEOF_INT
-	if (*ip & 0x80000000)
-	{
-		/* extern is negative */
-		*ip |= (~(0xffffffff)); /* N.B. Assumes "twos complement" */
-	}
+  if (*ip & 0x80000000) {
+    /* extern is negative */
+    *ip |= (~(0xffffffff)); /* N.B. Assumes "twos complement" */
+  }
 #endif
-	*ip |= (*cp++ << 16);
-	*ip |= (*cp++ << 8);
-	*ip |= *cp;
+  *ip |= (*cp++ << 16);
+  *ip |= (*cp++ << 8);
+  *ip |= *cp;
 }
 
 static void
-put_ix_int(void *xp, const ix_int *ip)
-{
-	uchar *cp = (uchar *) xp;
+put_ix_int(void *xp, const ix_int *ip) {
+  uchar *cp = (uchar *)xp;
 
-	*cp++ = (uchar)( (*ip) >> 24);
-	*cp++ = (uchar)(((*ip) & 0x00ff0000) >> 16);
-	*cp++ = (uchar)(((*ip) & 0x0000ff00) >>  8);
-	*cp   = (uchar)( (*ip) & 0x000000ff);
+  *cp++ = (uchar)((*ip) >> 24);
+  *cp++ = (uchar)(((*ip) & 0x00ff0000) >> 16);
+  *cp++ = (uchar)(((*ip) & 0x0000ff00) >> 8);
+  *cp   = (uchar)((*ip) & 0x000000ff);
 }
 
 #if X_SIZEOF_INT != SIZEOF_INT
 static int
-ncx_get_int_int(const void *xp, int *ip)
-{
-    int err=NC_NOERR;
-#if SIZEOF_IX_INT == SIZEOF_INT && IX_INT_MAX == INT_MAX
-    get_ix_int(xp, (ix_int *)ip);
-#else
-    ix_int xx = 0;
-    get_ix_int(xp, &xx);
+ncx_get_int_int(const void *xp, int *ip) {
+  int err = NC_NOERR;
+#  if SIZEOF_IX_INT == SIZEOF_INT && IX_INT_MAX == INT_MAX
+  get_ix_int(xp, (ix_int *)ip);
+#  else
+  ix_int xx = 0;
+  get_ix_int(xp, &xx);
 
-#if IX_INT_MAX > INT_MAX
-    if (xx > INT_MAX || xx < INT_MIN) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_INT;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
-#endif
+#    if IX_INT_MAX > INT_MAX
+  if (xx > INT_MAX || xx < INT_MIN) {
+#      ifdef ERANGE_FILL
+    *ip = NC_FILL_INT;
+    return NC_ERANGE;
+#      else
+    err = NC_ERANGE;
+#      endif
+  }
+#    endif
 
 
-    *ip = (int) xx;
-#endif
-    return err;
+  *ip = (int)xx;
+#  endif
+  return err;
 }
 
 #endif
 static int
-ncx_get_int_schar(const void *xp, schar *ip)
-{
-    int err=NC_NOERR;
-    ix_int xx = 0;
-    get_ix_int(xp, &xx);
+ncx_get_int_schar(const void *xp, schar *ip) {
+  int err   = NC_NOERR;
+  ix_int xx = 0;
+  get_ix_int(xp, &xx);
 
 #if IX_INT_MAX > SCHAR_MAX
-    if (xx > SCHAR_MAX || xx < SCHAR_MIN) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_BYTE;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
+  if (xx > SCHAR_MAX || xx < SCHAR_MIN) {
+#  ifdef ERANGE_FILL
+    *ip = NC_FILL_BYTE;
+    return NC_ERANGE;
+#  else
+    err = NC_ERANGE;
+#  endif
+  }
 #endif
 
 
-    *ip = (schar) xx;
-    return err;
+  *ip = (schar)xx;
+  return err;
 }
 
 static int
-ncx_get_int_short(const void *xp, short *ip)
-{
-    int err=NC_NOERR;
+ncx_get_int_short(const void *xp, short *ip) {
+  int err = NC_NOERR;
 #if SIZEOF_IX_INT == SIZEOF_SHORT && IX_INT_MAX == SHORT_MAX
-    get_ix_int(xp, (ix_int *)ip);
+  get_ix_int(xp, (ix_int *)ip);
 #else
-    ix_int xx = 0;
-    get_ix_int(xp, &xx);
+  ix_int xx = 0;
+  get_ix_int(xp, &xx);
 
-#if IX_INT_MAX > SHORT_MAX
-    if (xx > SHORT_MAX || xx < SHORT_MIN) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_SHORT;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
-#endif
+#  if IX_INT_MAX > SHORT_MAX
+  if (xx > SHORT_MAX || xx < SHORT_MIN) {
+#    ifdef ERANGE_FILL
+    *ip = NC_FILL_SHORT;
+    return NC_ERANGE;
+#    else
+    err = NC_ERANGE;
+#    endif
+  }
+#  endif
 
 
-    *ip = (short) xx;
+  *ip       = (short)xx;
 #endif
-    return err;
+  return err;
 }
 
 static int
-ncx_get_int_long(const void *xp, long *ip)
-{
-    int err=NC_NOERR;
+ncx_get_int_long(const void *xp, long *ip) {
+  int err = NC_NOERR;
 #if SIZEOF_IX_INT == SIZEOF_LONG && IX_INT_MAX == LONG_MAX
-    get_ix_int(xp, (ix_int *)ip);
+  get_ix_int(xp, (ix_int *)ip);
 #else
-    ix_int xx = 0;
-    get_ix_int(xp, &xx);
+  ix_int xx = 0;
+  get_ix_int(xp, &xx);
 
-#if IX_INT_MAX > LONG_MAX
-    if (xx > LONG_MAX || xx < LONG_MIN) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_INT;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
-#endif
+#  if IX_INT_MAX > LONG_MAX
+  if (xx > LONG_MAX || xx < LONG_MIN) {
+#    ifdef ERANGE_FILL
+    *ip = NC_FILL_INT;
+    return NC_ERANGE;
+#    else
+    err = NC_ERANGE;
+#    endif
+  }
+#  endif
 
 
-    *ip = (long) xx;
+  *ip       = (long)xx;
 #endif
-    return err;
+  return err;
 }
 
 static int
-ncx_get_int_longlong(const void *xp, longlong *ip)
-{
-    int err=NC_NOERR;
+ncx_get_int_longlong(const void *xp, longlong *ip) {
+  int err = NC_NOERR;
 #if SIZEOF_IX_INT == SIZEOF_LONGLONG && IX_INT_MAX == LONGLONG_MAX
-    get_ix_int(xp, (ix_int *)ip);
+  get_ix_int(xp, (ix_int *)ip);
 #else
-    ix_int xx = 0;
-    get_ix_int(xp, &xx);
+  ix_int xx = 0;
+  get_ix_int(xp, &xx);
 
-#if IX_INT_MAX > LONGLONG_MAX
-    if (xx > LONGLONG_MAX || xx < LONGLONG_MIN) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_INT64;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
-#endif
+#  if IX_INT_MAX > LONGLONG_MAX
+  if (xx > LONGLONG_MAX || xx < LONGLONG_MIN) {
+#    ifdef ERANGE_FILL
+    *ip = NC_FILL_INT64;
+    return NC_ERANGE;
+#    else
+    err = NC_ERANGE;
+#    endif
+  }
+#  endif
 
 
-    *ip = (longlong) xx;
+  *ip = (longlong)xx;
 #endif
-    return err;
+  return err;
 }
 
 static int
-ncx_get_int_ushort(const void *xp, ushort *ip)
-{
-    int err=NC_NOERR;
-    ix_int xx = 0;
-    get_ix_int(xp, &xx);
+ncx_get_int_ushort(const void *xp, ushort *ip) {
+  int err   = NC_NOERR;
+  ix_int xx = 0;
+  get_ix_int(xp, &xx);
 
 #if IX_INT_MAX > USHORT_MAX
-    if (xx > USHORT_MAX) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_USHORT;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
+  if (xx > USHORT_MAX) {
+#  ifdef ERANGE_FILL
+    *ip = NC_FILL_USHORT;
+    return NC_ERANGE;
+#  else
+    err = NC_ERANGE;
+#  endif
+  }
 #endif
 
-    if (xx < 0) {
+  if (xx < 0) {
 #ifdef ERANGE_FILL
-        *ip = NC_FILL_USHORT;
-        return NC_ERANGE;
+    *ip = NC_FILL_USHORT;
+    return NC_ERANGE;
 #else
-        err = NC_ERANGE; /* because ip is unsigned */
+    err = NC_ERANGE; /* because ip is unsigned */
 #endif
-    }
-    *ip = (ushort) xx;
-    return err;
+  }
+  *ip = (ushort)xx;
+  return err;
 }
 
 static int
-ncx_get_int_uchar(const void *xp, uchar *ip)
-{
-    int err=NC_NOERR;
-    ix_int xx = 0;
-    get_ix_int(xp, &xx);
+ncx_get_int_uchar(const void *xp, uchar *ip) {
+  int err   = NC_NOERR;
+  ix_int xx = 0;
+  get_ix_int(xp, &xx);
 
 #if IX_INT_MAX > UCHAR_MAX
-    if (xx > UCHAR_MAX) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_UBYTE;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
+  if (xx > UCHAR_MAX) {
+#  ifdef ERANGE_FILL
+    *ip = NC_FILL_UBYTE;
+    return NC_ERANGE;
+#  else
+    err = NC_ERANGE;
+#  endif
+  }
 #endif
 
-    if (xx < 0) {
+  if (xx < 0) {
 #ifdef ERANGE_FILL
-        *ip = NC_FILL_UBYTE;
-        return NC_ERANGE;
+    *ip = NC_FILL_UBYTE;
+    return NC_ERANGE;
 #else
-        err = NC_ERANGE; /* because ip is unsigned */
+    err = NC_ERANGE; /* because ip is unsigned */
 #endif
-    }
-    *ip = (uchar) xx;
-    return err;
+  }
+  *ip = (uchar)xx;
+  return err;
 }
 
 static int
-ncx_get_int_uint(const void *xp, uint *ip)
-{
-    int err=NC_NOERR;
-    ix_int xx = 0;
-    get_ix_int(xp, &xx);
+ncx_get_int_uint(const void *xp, uint *ip) {
+  int err   = NC_NOERR;
+  ix_int xx = 0;
+  get_ix_int(xp, &xx);
 
 #if IX_INT_MAX > UINT_MAX
-    if (xx > UINT_MAX) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_UINT;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
+  if (xx > UINT_MAX) {
+#  ifdef ERANGE_FILL
+    *ip = NC_FILL_UINT;
+    return NC_ERANGE;
+#  else
+    err = NC_ERANGE;
+#  endif
+  }
 #endif
 
-    if (xx < 0) {
+  if (xx < 0) {
 #ifdef ERANGE_FILL
-        *ip = NC_FILL_UINT;
-        return NC_ERANGE;
+    *ip = NC_FILL_UINT;
+    return NC_ERANGE;
 #else
-        err = NC_ERANGE; /* because ip is unsigned */
+    err = NC_ERANGE; /* because ip is unsigned */
 #endif
-    }
-    *ip = (uint) xx;
-    return err;
+  }
+  *ip = (uint)xx;
+  return err;
 }
 
 static int
-ncx_get_int_ulonglong(const void *xp, ulonglong *ip)
-{
-    int err=NC_NOERR;
-    ix_int xx = 0;
-    get_ix_int(xp, &xx);
+ncx_get_int_ulonglong(const void *xp, ulonglong *ip) {
+  int err   = NC_NOERR;
+  ix_int xx = 0;
+  get_ix_int(xp, &xx);
 
 #if IX_INT_MAX > ULONGLONG_MAX
-    if (xx > ULONGLONG_MAX) {
+  if (xx > ULONGLONG_MAX) {
+#  ifdef ERANGE_FILL
+    *ip = NC_FILL_UINT64;
+    return NC_ERANGE;
+#  else
+    err = NC_ERANGE;
+#  endif
+  }
+#endif
+
+  if (xx < 0) {
 #ifdef ERANGE_FILL
-        *ip = NC_FILL_UINT64;
-        return NC_ERANGE;
+    *ip = NC_FILL_UINT64;
+    return NC_ERANGE;
 #else
-        err = NC_ERANGE;
+    err = NC_ERANGE; /* because ip is unsigned */
 #endif
-    }
-#endif
-
-    if (xx < 0) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_UINT64;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE; /* because ip is unsigned */
-#endif
-    }
-    *ip = (ulonglong) xx;
-    return err;
+  }
+  *ip = (ulonglong)xx;
+  return err;
 }
 
 static int
-ncx_get_int_float(const void *xp, float *ip)
-{
-	ix_int xx = 0;
-	get_ix_int(xp, &xx);
-	*ip = (float)xx;
-	return NC_NOERR;
+ncx_get_int_float(const void *xp, float *ip) {
+  ix_int xx = 0;
+  get_ix_int(xp, &xx);
+  *ip = (float)xx;
+  return NC_NOERR;
 }
 
 static int
-ncx_get_int_double(const void *xp, double *ip)
-{
-	ix_int xx = 0;
-	get_ix_int(xp, &xx);
-	*ip = (double)xx;
-	return NC_NOERR;
+ncx_get_int_double(const void *xp, double *ip) {
+  ix_int xx = 0;
+  get_ix_int(xp, &xx);
+  *ip = (double)xx;
+  return NC_NOERR;
 }
 
 
 static int
-ncx_put_int_schar(void *xp, const schar *ip, void *fillp)
-{
-	uchar *cp = (uchar *) xp;
-	if (*ip & 0x80)
-	{
-		*cp++ = 0xff;
-		*cp++ = 0xff;
-		*cp++ = 0xff;
-	}
-	else
-	{
-		*cp++ = 0x00;
-		*cp++ = 0x00;
-		*cp++ = 0x00;
-	}
-	*cp = (uchar)*ip;
-	return NC_NOERR;
+ncx_put_int_schar(void *xp, const schar *ip, void *fillp) {
+  uchar *cp = (uchar *)xp;
+  if (*ip & 0x80) {
+    *cp++ = 0xff;
+    *cp++ = 0xff;
+    *cp++ = 0xff;
+  } else {
+    *cp++ = 0x00;
+    *cp++ = 0x00;
+    *cp++ = 0x00;
+  }
+  *cp = (uchar)*ip;
+  return NC_NOERR;
 }
 
 static int
-ncx_put_int_uchar(void *xp, const uchar *ip, void *fillp)
-{
-	uchar *cp = (uchar *) xp;
-	*cp++ = 0x00;
-	*cp++ = 0x00;
-	*cp++ = 0x00;
-	*cp   = *ip;
-	return NC_NOERR;
+ncx_put_int_uchar(void *xp, const uchar *ip, void *fillp) {
+  uchar *cp = (uchar *)xp;
+  *cp++     = 0x00;
+  *cp++     = 0x00;
+  *cp++     = 0x00;
+  *cp       = *ip;
+  return NC_NOERR;
 }
 
 #if X_SIZEOF_INT != SIZEOF_INT
 static int
-ncx_put_int_int(void *xp, const int *ip, void *fillp)
-{
-    int err=NC_NOERR;
-#if SIZEOF_IX_INT == SIZEOF_INT && IX_INT_MAX == INT_MAX
-    put_ix_int(xp, (const ix_int *)ip);
-#else
-    ix_int xx = NC_FILL_INT;
+ncx_put_int_int(void *xp, const int *ip, void *fillp) {
+  int err = NC_NOERR;
+#  if SIZEOF_IX_INT == SIZEOF_INT && IX_INT_MAX == INT_MAX
+  put_ix_int(xp, (const ix_int *)ip);
+#  else
+  ix_int xx = NC_FILL_INT;
 
-#if IX_INT_MAX < INT_MAX
-    if (*ip > IX_INT_MAX || *ip < X_INT_MIN) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 4);
-#endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-        xx = (ix_int)*ip;
+#    if IX_INT_MAX < INT_MAX
+  if (*ip > IX_INT_MAX || *ip < X_INT_MIN) {
 
-    put_ix_int(xp, &xx);
-#endif
-    return err;
+#      ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 4);
+#      endif
+    err = NC_ERANGE;
+  }
+#      ifdef ERANGE_FILL
+  else
+#      endif
+#    endif
+    xx = (ix_int)*ip;
+
+  put_ix_int(xp, &xx);
+#  endif
+  return err;
 }
 
 #endif
 static int
-ncx_put_int_short(void *xp, const short *ip, void *fillp)
-{
-    int err=NC_NOERR;
+ncx_put_int_short(void *xp, const short *ip, void *fillp) {
+  int err = NC_NOERR;
 #if SIZEOF_IX_INT == SIZEOF_SHORT && IX_INT_MAX == SHORT_MAX
-    put_ix_int(xp, (const ix_int *)ip);
+  put_ix_int(xp, (const ix_int *)ip);
 #else
-    ix_int xx = NC_FILL_INT;
+  ix_int xx = NC_FILL_INT;
 
-#if IX_INT_MAX < SHORT_MAX
-    if (*ip > IX_INT_MAX || *ip < X_INT_MIN) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 4);
-#endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-        xx = (ix_int)*ip;
+#  if IX_INT_MAX < SHORT_MAX
+  if (*ip > IX_INT_MAX || *ip < X_INT_MIN) {
 
-    put_ix_int(xp, &xx);
+#    ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 4);
+#    endif
+    err = NC_ERANGE;
+  }
+#    ifdef ERANGE_FILL
+  else
+#    endif
+#  endif
+    xx = (ix_int)*ip;
+
+  put_ix_int(xp, &xx);
 #endif
-    return err;
+  return err;
 }
 
 static int
-ncx_put_int_long(void *xp, const long *ip, void *fillp)
-{
-    int err=NC_NOERR;
+ncx_put_int_long(void *xp, const long *ip, void *fillp) {
+  int err = NC_NOERR;
 #if SIZEOF_IX_INT == SIZEOF_LONG && IX_INT_MAX == LONG_MAX
-    put_ix_int(xp, (const ix_int *)ip);
+  put_ix_int(xp, (const ix_int *)ip);
 #else
-    ix_int xx = NC_FILL_INT;
+  ix_int xx = NC_FILL_INT;
 
-#if IX_INT_MAX < LONG_MAX
-    if (*ip > IX_INT_MAX || *ip < X_INT_MIN) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 4);
-#endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-        xx = (ix_int)*ip;
+#  if IX_INT_MAX < LONG_MAX
+  if (*ip > IX_INT_MAX || *ip < X_INT_MIN) {
 
-    put_ix_int(xp, &xx);
+#    ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 4);
+#    endif
+    err = NC_ERANGE;
+  }
+#    ifdef ERANGE_FILL
+  else
+#    endif
+#  endif
+    xx = (ix_int)*ip;
+
+  put_ix_int(xp, &xx);
 #endif
-    return err;
+  return err;
 }
 
 static int
-ncx_put_int_longlong(void *xp, const longlong *ip, void *fillp)
-{
-    int err=NC_NOERR;
+ncx_put_int_longlong(void *xp, const longlong *ip, void *fillp) {
+  int err = NC_NOERR;
 #if SIZEOF_IX_INT == SIZEOF_LONGLONG && IX_INT_MAX == LONGLONG_MAX
-    put_ix_int(xp, (const ix_int *)ip);
+  put_ix_int(xp, (const ix_int *)ip);
 #else
-    ix_int xx = NC_FILL_INT;
+  ix_int xx = NC_FILL_INT;
 
-#if IX_INT_MAX < LONGLONG_MAX
-    if (*ip > IX_INT_MAX || *ip < X_INT_MIN) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 4);
-#endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-        xx = (ix_int)*ip;
+#  if IX_INT_MAX < LONGLONG_MAX
+  if (*ip > IX_INT_MAX || *ip < X_INT_MIN) {
 
-    put_ix_int(xp, &xx);
+#    ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 4);
+#    endif
+    err = NC_ERANGE;
+  }
+#    ifdef ERANGE_FILL
+  else
+#    endif
+#  endif
+    xx = (ix_int)*ip;
+
+  put_ix_int(xp, &xx);
 #endif
-    return err;
+  return err;
 }
 
 static int
-ncx_put_int_ushort(void *xp, const ushort *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_int xx = NC_FILL_INT;
+ncx_put_int_ushort(void *xp, const ushort *ip, void *fillp) {
+  int err   = NC_NOERR;
+  ix_int xx = NC_FILL_INT;
 
 #if IX_INT_MAX < USHORT_MAX
-    if (*ip > IX_INT_MAX) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 4);
+  if (*ip > IX_INT_MAX) {
+#  ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 4);
+#  endif
+    err = NC_ERANGE;
+  }
+#  ifdef ERANGE_FILL
+  else
+#  endif
 #endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-        xx = (ix_int)*ip;
+    xx = (ix_int)*ip;
 
-    put_ix_int(xp, &xx);
-    return err;
+  put_ix_int(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_int_uint(void *xp, const uint *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_int xx = NC_FILL_INT;
+ncx_put_int_uint(void *xp, const uint *ip, void *fillp) {
+  int err   = NC_NOERR;
+  ix_int xx = NC_FILL_INT;
 
 #if IX_INT_MAX < UINT_MAX
-    if (*ip > IX_INT_MAX) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 4);
+  if (*ip > IX_INT_MAX) {
+#  ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 4);
+#  endif
+    err = NC_ERANGE;
+  }
+#  ifdef ERANGE_FILL
+  else
+#  endif
 #endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-        xx = (ix_int)*ip;
+    xx = (ix_int)*ip;
 
-    put_ix_int(xp, &xx);
-    return err;
+  put_ix_int(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_int_ulonglong(void *xp, const ulonglong *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_int xx = NC_FILL_INT;
+ncx_put_int_ulonglong(void *xp, const ulonglong *ip, void *fillp) {
+  int err   = NC_NOERR;
+  ix_int xx = NC_FILL_INT;
 
 #if IX_INT_MAX < ULONGLONG_MAX
-    if (*ip > IX_INT_MAX) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 4);
+  if (*ip > IX_INT_MAX) {
+#  ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 4);
+#  endif
+    err = NC_ERANGE;
+  }
+#  ifdef ERANGE_FILL
+  else
+#  endif
 #endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-        xx = (ix_int)*ip;
+    xx = (ix_int)*ip;
 
-    put_ix_int(xp, &xx);
-    return err;
+  put_ix_int(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_int_float(void *xp, const float *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_int xx = NC_FILL_INT;
+ncx_put_int_float(void *xp, const float *ip, void *fillp) {
+  int err   = NC_NOERR;
+  ix_int xx = NC_FILL_INT;
 
-    if (*ip > (double)X_INT_MAX || *ip < (double)X_INT_MIN) {
-        
+  if (*ip > (double)X_INT_MAX || *ip < (double)X_INT_MIN) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 4);
+    if (fillp != NULL) memcpy(&xx, fillp, 4);
 #endif
-        err = NC_ERANGE;
-    }
+    err = NC_ERANGE;
+  }
 #ifdef ERANGE_FILL
-    else
+  else
 #endif
-        xx = (ix_int)*ip;
+    xx = (ix_int)*ip;
 
-    put_ix_int(xp, &xx);
-    return err;
+  put_ix_int(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_int_double(void *xp, const double *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_int xx = NC_FILL_INT;
+ncx_put_int_double(void *xp, const double *ip, void *fillp) {
+  int err   = NC_NOERR;
+  ix_int xx = NC_FILL_INT;
 
-    if (*ip > X_INT_MAX || *ip < X_INT_MIN) {
-        
+  if (*ip > X_INT_MAX || *ip < X_INT_MIN) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 4);
+    if (fillp != NULL) memcpy(&xx, fillp, 4);
 #endif
-        err = NC_ERANGE;
-    }
+    err = NC_ERANGE;
+  }
 #ifdef ERANGE_FILL
-    else
+  else
 #endif
-        xx = (ix_int)*ip;
+    xx = (ix_int)*ip;
 
-    put_ix_int(xp, &xx);
-    return err;
+  put_ix_int(xp, &xx);
+  return err;
 }
-
 
 
 /* external NC_UINT ---------------------------------------------------------*/
 
 #if USHORT_MAX == X_UINT_MAX
 typedef ushort ix_uint;
-#define SIZEOF_IX_UINT SIZEOF_USHORT
-#define IX_UINT_MAX USHORT_MAX
-#elif UINT_MAX  >= X_UINT_MAX
+#  define SIZEOF_IX_UINT SIZEOF_USHORT
+#  define IX_UINT_MAX USHORT_MAX
+#elif UINT_MAX >= X_UINT_MAX
 typedef uint ix_uint;
-#define SIZEOF_IX_UINT SIZEOF_UINT
-#define IX_UINT_MAX UINT_MAX
-#elif ULONG_MAX  >= X_UINT_MAX
+#  define SIZEOF_IX_UINT SIZEOF_UINT
+#  define IX_UINT_MAX UINT_MAX
+#elif ULONG_MAX >= X_UINT_MAX
 typedef ulong ix_uint;
-#define SIZEOF_IX_UINT SIZEOF_ULONG
-#define IX_UINT_MAX ULONG_MAX
+#  define SIZEOF_IX_UINT SIZEOF_ULONG
+#  define IX_UINT_MAX ULONG_MAX
 #else
-#error "ix_uint implementation"
+#  error "ix_uint implementation"
 #endif
 
 
 static void
-get_ix_uint(const void *xp, ix_uint *ip)
-{
-	const uchar *cp = (const uchar *) xp;
+get_ix_uint(const void *xp, ix_uint *ip) {
+  const uchar *cp = (const uchar *)xp;
 
-	*ip = (ix_uint)(*cp++ << 24);
-	*ip = (ix_uint)(*ip | (ix_uint)(*cp++ << 16));
-	*ip = (ix_uint)(*ip | (ix_uint)(*cp++ << 8));
-	*ip = (ix_uint)(*ip | *cp);
+  *ip = (ix_uint)(*cp++ << 24);
+  *ip = (ix_uint)(*ip | (ix_uint)(*cp++ << 16));
+  *ip = (ix_uint)(*ip | (ix_uint)(*cp++ << 8));
+  *ip = (ix_uint)(*ip | *cp);
 }
 
 static void
-put_ix_uint(void *xp, const ix_uint *ip)
-{
-	uchar *cp = (uchar *) xp;
+put_ix_uint(void *xp, const ix_uint *ip) {
+  uchar *cp = (uchar *)xp;
 
-	*cp++ = (uchar)((*ip) >> 24);
-	*cp++ = (uchar)(((*ip) & 0x00ff0000) >> 16);
-	*cp++ = (uchar)(((*ip) & 0x0000ff00) >>  8);
-	*cp   = (uchar)( (*ip) & 0x000000ff);
+  *cp++ = (uchar)((*ip) >> 24);
+  *cp++ = (uchar)(((*ip) & 0x00ff0000) >> 16);
+  *cp++ = (uchar)(((*ip) & 0x0000ff00) >> 8);
+  *cp   = (uchar)((*ip) & 0x000000ff);
 }
 
 #if X_SIZEOF_UINT != SIZEOF_UINT
 static int
-ncx_get_uint_uint(const void *xp, uint *ip)
-{
-    int err=NC_NOERR;
-#if SIZEOF_IX_UINT == SIZEOF_UINT && IX_UINT_MAX == UINT_MAX
-    get_ix_uint(xp, (ix_uint *)ip);
-#else
-    ix_uint xx = 0;
-    get_ix_uint(xp, &xx);
+ncx_get_uint_uint(const void *xp, uint *ip) {
+  int err = NC_NOERR;
+#  if SIZEOF_IX_UINT == SIZEOF_UINT && IX_UINT_MAX == UINT_MAX
+  get_ix_uint(xp, (ix_uint *)ip);
+#  else
+  ix_uint xx = 0;
+  get_ix_uint(xp, &xx);
 
-#if IX_UINT_MAX > UINT_MAX
-    if (xx > UINT_MAX) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_UINT;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
-#endif
+#    if IX_UINT_MAX > UINT_MAX
+  if (xx > UINT_MAX) {
+#      ifdef ERANGE_FILL
+    *ip = NC_FILL_UINT;
+    return NC_ERANGE;
+#      else
+    err = NC_ERANGE;
+#      endif
+  }
+#    endif
 
 
-    *ip = (uint) xx;
-#endif
-    return err;
+  *ip = (uint)xx;
+#  endif
+  return err;
 }
 
 #endif
 
 static int
-ncx_get_uint_schar(const void *xp, schar *ip)
-{
-    int err=NC_NOERR;
-    ix_uint xx = 0;
-    get_ix_uint(xp, &xx);
+ncx_get_uint_schar(const void *xp, schar *ip) {
+  int err    = NC_NOERR;
+  ix_uint xx = 0;
+  get_ix_uint(xp, &xx);
 
 #if IX_UINT_MAX > SCHAR_MAX
-    if (xx > SCHAR_MAX) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_BYTE;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
+  if (xx > SCHAR_MAX) {
+#  ifdef ERANGE_FILL
+    *ip = NC_FILL_BYTE;
+    return NC_ERANGE;
+#  else
+    err = NC_ERANGE;
+#  endif
+  }
 #endif
 
 
-    *ip = (schar) xx;
-    return err;
+  *ip = (schar)xx;
+  return err;
 }
 
 static int
-ncx_get_uint_short(const void *xp, short *ip)
-{
-    int err=NC_NOERR;
-    ix_uint xx = 0;
-    get_ix_uint(xp, &xx);
+ncx_get_uint_short(const void *xp, short *ip) {
+  int err    = NC_NOERR;
+  ix_uint xx = 0;
+  get_ix_uint(xp, &xx);
 
 #if IX_UINT_MAX > SHORT_MAX
-    if (xx > SHORT_MAX) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_SHORT;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
+  if (xx > SHORT_MAX) {
+#  ifdef ERANGE_FILL
+    *ip = NC_FILL_SHORT;
+    return NC_ERANGE;
+#  else
+    err = NC_ERANGE;
+#  endif
+  }
 #endif
 
 
-    *ip = (short) xx;
-    return err;
+  *ip = (short)xx;
+  return err;
 }
 
 static int
-ncx_get_uint_int(const void *xp, int *ip)
-{
-    int err=NC_NOERR;
-    ix_uint xx = 0;
-    get_ix_uint(xp, &xx);
+ncx_get_uint_int(const void *xp, int *ip) {
+  int err    = NC_NOERR;
+  ix_uint xx = 0;
+  get_ix_uint(xp, &xx);
 
 #if IX_UINT_MAX > INT_MAX
-    if (xx > INT_MAX) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_INT;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
+  if (xx > INT_MAX) {
+#  ifdef ERANGE_FILL
+    *ip = NC_FILL_INT;
+    return NC_ERANGE;
+#  else
+    err = NC_ERANGE;
+#  endif
+  }
 #endif
 
 
-    *ip = (int) xx;
-    return err;
+  *ip = (int)xx;
+  return err;
 }
 
 static int
-ncx_get_uint_long(const void *xp, long *ip)
-{
-    int err=NC_NOERR;
-    ix_uint xx = 0;
-    get_ix_uint(xp, &xx);
+ncx_get_uint_long(const void *xp, long *ip) {
+  int err    = NC_NOERR;
+  ix_uint xx = 0;
+  get_ix_uint(xp, &xx);
 
 #if IX_UINT_MAX > LONG_MAX
-    if (xx > LONG_MAX) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_INT;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
+  if (xx > LONG_MAX) {
+#  ifdef ERANGE_FILL
+    *ip = NC_FILL_INT;
+    return NC_ERANGE;
+#  else
+    err = NC_ERANGE;
+#  endif
+  }
 #endif
 
 
-    *ip = (long) xx;
-    return err;
+  *ip = (long)xx;
+  return err;
 }
 
 static int
-ncx_get_uint_longlong(const void *xp, longlong *ip)
-{
-    int err=NC_NOERR;
-    ix_uint xx = 0;
-    get_ix_uint(xp, &xx);
+ncx_get_uint_longlong(const void *xp, longlong *ip) {
+  int err    = NC_NOERR;
+  ix_uint xx = 0;
+  get_ix_uint(xp, &xx);
 
 #if IX_UINT_MAX > LONGLONG_MAX
-    if (xx > LONGLONG_MAX) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_INT64;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
+  if (xx > LONGLONG_MAX) {
+#  ifdef ERANGE_FILL
+    *ip = NC_FILL_INT64;
+    return NC_ERANGE;
+#  else
+    err = NC_ERANGE;
+#  endif
+  }
 #endif
 
 
-    *ip = (longlong) xx;
-    return err;
+  *ip = (longlong)xx;
+  return err;
 }
 
 static int
-ncx_get_uint_ushort(const void *xp, ushort *ip)
-{
-    int err=NC_NOERR;
+ncx_get_uint_ushort(const void *xp, ushort *ip) {
+  int err = NC_NOERR;
 #if SIZEOF_IX_UINT == SIZEOF_USHORT && IX_UINT_MAX == USHORT_MAX
-    get_ix_uint(xp, (ix_uint *)ip);
+  get_ix_uint(xp, (ix_uint *)ip);
 #else
-    ix_uint xx = 0;
-    get_ix_uint(xp, &xx);
+  ix_uint xx = 0;
+  get_ix_uint(xp, &xx);
 
-#if IX_UINT_MAX > USHORT_MAX
-    if (xx > USHORT_MAX) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_USHORT;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
-#endif
+#  if IX_UINT_MAX > USHORT_MAX
+  if (xx > USHORT_MAX) {
+#    ifdef ERANGE_FILL
+    *ip = NC_FILL_USHORT;
+    return NC_ERANGE;
+#    else
+    err = NC_ERANGE;
+#    endif
+  }
+#  endif
 
 
-    *ip = (ushort) xx;
+  *ip        = (ushort)xx;
 #endif
-    return err;
+  return err;
 }
 
 static int
-ncx_get_uint_uchar(const void *xp, uchar *ip)
-{
-    int err=NC_NOERR;
+ncx_get_uint_uchar(const void *xp, uchar *ip) {
+  int err = NC_NOERR;
 #if SIZEOF_IX_UINT == SIZEOF_UCHAR && IX_UINT_MAX == UCHAR_MAX
-    get_ix_uint(xp, (ix_uint *)ip);
+  get_ix_uint(xp, (ix_uint *)ip);
 #else
-    ix_uint xx = 0;
-    get_ix_uint(xp, &xx);
+  ix_uint xx = 0;
+  get_ix_uint(xp, &xx);
 
-#if IX_UINT_MAX > UCHAR_MAX
-    if (xx > UCHAR_MAX) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_UBYTE;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
-#endif
+#  if IX_UINT_MAX > UCHAR_MAX
+  if (xx > UCHAR_MAX) {
+#    ifdef ERANGE_FILL
+    *ip = NC_FILL_UBYTE;
+    return NC_ERANGE;
+#    else
+    err = NC_ERANGE;
+#    endif
+  }
+#  endif
 
 
-    *ip = (uchar) xx;
+  *ip        = (uchar)xx;
 #endif
-    return err;
+  return err;
 }
 
 static int
-ncx_get_uint_ulonglong(const void *xp, ulonglong *ip)
-{
-    int err=NC_NOERR;
+ncx_get_uint_ulonglong(const void *xp, ulonglong *ip) {
+  int err = NC_NOERR;
 #if SIZEOF_IX_UINT == SIZEOF_ULONGLONG && IX_UINT_MAX == ULONGLONG_MAX
-    get_ix_uint(xp, (ix_uint *)ip);
+  get_ix_uint(xp, (ix_uint *)ip);
 #else
-    ix_uint xx = 0;
-    get_ix_uint(xp, &xx);
+  ix_uint xx = 0;
+  get_ix_uint(xp, &xx);
 
-#if IX_UINT_MAX > ULONGLONG_MAX
-    if (xx > ULONGLONG_MAX) {
+#  if IX_UINT_MAX > ULONGLONG_MAX
+  if (xx > ULONGLONG_MAX) {
+#    ifdef ERANGE_FILL
+    *ip = NC_FILL_UINT64;
+    return NC_ERANGE;
+#    else
+    err = NC_ERANGE;
+#    endif
+  }
+#  endif
+
+
+  *ip        = (ulonglong)xx;
+#endif
+  return err;
+}
+
+static int
+ncx_get_uint_float(const void *xp, float *ip) {
+  ix_uint xx = 0;
+  get_ix_uint(xp, &xx);
+  *ip = (float)xx;
+  return NC_NOERR;
+}
+
+static int
+ncx_get_uint_double(const void *xp, double *ip) {
+  ix_uint xx = 0;
+  get_ix_uint(xp, &xx);
+  *ip = (double)xx;
+  return NC_NOERR;
+}
+
+
+static int
+ncx_put_uint_schar(void *xp, const schar *ip, void *fillp) {
+  uchar *cp;
+  if (*ip < 0) {
 #ifdef ERANGE_FILL
-        *ip = NC_FILL_UINT64;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
+    if (fillp != NULL) memcpy(xp, fillp, 4);
+#  ifndef WORDS_BIGENDIAN
+    swapn4b(xp, xp, 1);
+#  endif
 #endif
-    }
-#endif
+    return NC_ERANGE;
+  }
 
+  cp    = (uchar *)xp;
+  *cp++ = 0x00;
+  *cp++ = 0x00;
+  *cp++ = 0x00;
+  *cp   = (uchar)*ip;
 
-    *ip = (ulonglong) xx;
-#endif
-    return err;
+  return NC_NOERR;
 }
 
 static int
-ncx_get_uint_float(const void *xp, float *ip)
-{
-	ix_uint xx = 0;
-	get_ix_uint(xp, &xx);
-	*ip = (float)xx;
-	return NC_NOERR;
-}
-
-static int
-ncx_get_uint_double(const void *xp, double *ip)
-{
-	ix_uint xx = 0;
-	get_ix_uint(xp, &xx);
-	*ip = (double)xx;
-	return NC_NOERR;
-}
-
-
-static int
-ncx_put_uint_schar(void *xp, const schar *ip, void *fillp)
-{
-    uchar *cp;
-    if (*ip < 0) {
-#ifdef ERANGE_FILL
-        if (fillp != NULL) memcpy(xp, fillp, 4);
-#ifndef WORDS_BIGENDIAN
-        swapn4b(xp, xp, 1);
-#endif
-#endif
-        return NC_ERANGE;
-    }
-
-    cp = (uchar *) xp;
-    *cp++ = 0x00;
-    *cp++ = 0x00;
-    *cp++ = 0x00;
-    *cp = (uchar)*ip;
-
-    return NC_NOERR;
-}
-
-static int
-ncx_put_uint_uchar(void *xp, const uchar *ip, void *fillp)
-{
-	uchar *cp = (uchar *) xp;
-	*cp++ = 0x00;
-	*cp++ = 0x00;
-	*cp++ = 0x00;
-	*cp   = *ip;
-	return NC_NOERR;
+ncx_put_uint_uchar(void *xp, const uchar *ip, void *fillp) {
+  uchar *cp = (uchar *)xp;
+  *cp++     = 0x00;
+  *cp++     = 0x00;
+  *cp++     = 0x00;
+  *cp       = *ip;
+  return NC_NOERR;
 }
 
 #if X_SIZEOF_UINT != SIZEOF_UINT
 static int
-ncx_put_uint_uint(void *xp, const uint *ip, void *fillp)
-{
-    int err=NC_NOERR;
-#if SIZEOF_IX_UINT == SIZEOF_UINT && IX_UINT_MAX == UINT_MAX
-    put_ix_uint(xp, (const ix_uint *)ip);
-#else
-    ix_uint xx = NC_FILL_UINT;
+ncx_put_uint_uint(void *xp, const uint *ip, void *fillp) {
+  int err = NC_NOERR;
+#  if SIZEOF_IX_UINT == SIZEOF_UINT && IX_UINT_MAX == UINT_MAX
+  put_ix_uint(xp, (const ix_uint *)ip);
+#  else
+  ix_uint xx = NC_FILL_UINT;
 
-#if IX_UINT_MAX < UINT_MAX
-    if (*ip > IX_UINT_MAX) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 4);
-#endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-        xx = (ix_uint)*ip;
+#    if IX_UINT_MAX < UINT_MAX
+  if (*ip > IX_UINT_MAX) {
 
-    put_ix_uint(xp, &xx);
-#endif
-    return err;
+#      ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 4);
+#      endif
+    err = NC_ERANGE;
+  }
+#      ifdef ERANGE_FILL
+  else
+#      endif
+#    endif
+    xx = (ix_uint)*ip;
+
+  put_ix_uint(xp, &xx);
+#  endif
+  return err;
 }
 
 #endif
 
 static int
-ncx_put_uint_short(void *xp, const short *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_uint xx = NC_FILL_UINT;
+ncx_put_uint_short(void *xp, const short *ip, void *fillp) {
+  int err    = NC_NOERR;
+  ix_uint xx = NC_FILL_UINT;
 
 #if IX_UINT_MAX < SHORT_MAX
-    if (*ip > IX_UINT_MAX) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 4);
+  if (*ip > IX_UINT_MAX) {
+#  ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 4);
+#  endif
+    err = NC_ERANGE;
+  }
+#  ifdef ERANGE_FILL
+  else
+#  endif
 #endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-    if (*ip < 0) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 4);
-#endif
-        err = NC_ERANGE; /* because xp is unsigned */
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-        xx = (ix_uint)*ip;
+  if (*ip < 0) {
 
-    put_ix_uint(xp, &xx);
-    return err;
+#ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 4);
+#endif
+    err = NC_ERANGE; /* because xp is unsigned */
+  }
+#ifdef ERANGE_FILL
+  else
+#endif
+    xx = (ix_uint)*ip;
+
+  put_ix_uint(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_uint_int(void *xp, const int *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_uint xx = NC_FILL_UINT;
+ncx_put_uint_int(void *xp, const int *ip, void *fillp) {
+  int err    = NC_NOERR;
+  ix_uint xx = NC_FILL_UINT;
 
 #if IX_UINT_MAX < INT_MAX
-    if (*ip > IX_UINT_MAX) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 4);
+  if (*ip > IX_UINT_MAX) {
+#  ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 4);
+#  endif
+    err = NC_ERANGE;
+  }
+#  ifdef ERANGE_FILL
+  else
+#  endif
 #endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-    if (*ip < 0) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 4);
-#endif
-        err = NC_ERANGE; /* because xp is unsigned */
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-        xx = (ix_uint)*ip;
+  if (*ip < 0) {
 
-    put_ix_uint(xp, &xx);
-    return err;
+#ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 4);
+#endif
+    err = NC_ERANGE; /* because xp is unsigned */
+  }
+#ifdef ERANGE_FILL
+  else
+#endif
+    xx = (ix_uint)*ip;
+
+  put_ix_uint(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_uint_long(void *xp, const long *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_uint xx = NC_FILL_UINT;
+ncx_put_uint_long(void *xp, const long *ip, void *fillp) {
+  int err    = NC_NOERR;
+  ix_uint xx = NC_FILL_UINT;
 
 #if IX_UINT_MAX < LONG_MAX
-    if (*ip > IX_UINT_MAX) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 4);
+  if (*ip > IX_UINT_MAX) {
+#  ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 4);
+#  endif
+    err = NC_ERANGE;
+  }
+#  ifdef ERANGE_FILL
+  else
+#  endif
 #endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-    if (*ip < 0) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 4);
-#endif
-        err = NC_ERANGE; /* because xp is unsigned */
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-        xx = (ix_uint)*ip;
+  if (*ip < 0) {
 
-    put_ix_uint(xp, &xx);
-    return err;
+#ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 4);
+#endif
+    err = NC_ERANGE; /* because xp is unsigned */
+  }
+#ifdef ERANGE_FILL
+  else
+#endif
+    xx = (ix_uint)*ip;
+
+  put_ix_uint(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_uint_longlong(void *xp, const longlong *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_uint xx = NC_FILL_UINT;
+ncx_put_uint_longlong(void *xp, const longlong *ip, void *fillp) {
+  int err    = NC_NOERR;
+  ix_uint xx = NC_FILL_UINT;
 
 #if IX_UINT_MAX < LONGLONG_MAX
-    if (*ip > IX_UINT_MAX) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 4);
+  if (*ip > IX_UINT_MAX) {
+#  ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 4);
+#  endif
+    err = NC_ERANGE;
+  }
+#  ifdef ERANGE_FILL
+  else
+#  endif
 #endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-    if (*ip < 0) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 4);
-#endif
-        err = NC_ERANGE; /* because xp is unsigned */
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-        xx = (ix_uint)*ip;
+  if (*ip < 0) {
 
-    put_ix_uint(xp, &xx);
-    return err;
+#ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 4);
+#endif
+    err = NC_ERANGE; /* because xp is unsigned */
+  }
+#ifdef ERANGE_FILL
+  else
+#endif
+    xx = (ix_uint)*ip;
+
+  put_ix_uint(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_uint_ushort(void *xp, const ushort *ip, void *fillp)
-{
-    int err=NC_NOERR;
+ncx_put_uint_ushort(void *xp, const ushort *ip, void *fillp) {
+  int err = NC_NOERR;
 #if SIZEOF_IX_UINT == SIZEOF_USHORT && IX_UINT_MAX == USHORT_MAX
-    put_ix_uint(xp, (const ix_uint *)ip);
+  put_ix_uint(xp, (const ix_uint *)ip);
 #else
-    ix_uint xx = NC_FILL_UINT;
+  ix_uint xx = NC_FILL_UINT;
 
-#if IX_UINT_MAX < USHORT_MAX
-    if (*ip > IX_UINT_MAX) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 4);
-#endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-        xx = (ix_uint)*ip;
+#  if IX_UINT_MAX < USHORT_MAX
+  if (*ip > IX_UINT_MAX) {
 
-    put_ix_uint(xp, &xx);
+#    ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 4);
+#    endif
+    err = NC_ERANGE;
+  }
+#    ifdef ERANGE_FILL
+  else
+#    endif
+#  endif
+    xx = (ix_uint)*ip;
+
+  put_ix_uint(xp, &xx);
 #endif
-    return err;
+  return err;
 }
 
 static int
-ncx_put_uint_ulonglong(void *xp, const ulonglong *ip, void *fillp)
-{
-    int err=NC_NOERR;
+ncx_put_uint_ulonglong(void *xp, const ulonglong *ip, void *fillp) {
+  int err = NC_NOERR;
 #if SIZEOF_IX_UINT == SIZEOF_ULONGLONG && IX_UINT_MAX == ULONGLONG_MAX
-    put_ix_uint(xp, (const ix_uint *)ip);
+  put_ix_uint(xp, (const ix_uint *)ip);
 #else
-    ix_uint xx = NC_FILL_UINT;
+  ix_uint xx = NC_FILL_UINT;
 
-#if IX_UINT_MAX < ULONGLONG_MAX
-    if (*ip > IX_UINT_MAX) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 4);
-#endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-        xx = (ix_uint)*ip;
+#  if IX_UINT_MAX < ULONGLONG_MAX
+  if (*ip > IX_UINT_MAX) {
 
-    put_ix_uint(xp, &xx);
+#    ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 4);
+#    endif
+    err = NC_ERANGE;
+  }
+#    ifdef ERANGE_FILL
+  else
+#    endif
+#  endif
+    xx = (ix_uint)*ip;
+
+  put_ix_uint(xp, &xx);
 #endif
-    return err;
+  return err;
 }
 
 static int
-ncx_put_uint_float(void *xp, const float *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_uint xx = NC_FILL_UINT;
+ncx_put_uint_float(void *xp, const float *ip, void *fillp) {
+  int err    = NC_NOERR;
+  ix_uint xx = NC_FILL_UINT;
 
-    if (*ip > (double)X_UINT_MAX || *ip < 0) {
-        
+  if (*ip > (double)X_UINT_MAX || *ip < 0) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 4);
+    if (fillp != NULL) memcpy(&xx, fillp, 4);
 #endif
-        err = NC_ERANGE;
-    }
+    err = NC_ERANGE;
+  }
 #ifdef ERANGE_FILL
-    else
+  else
 #endif
-        xx = (ix_uint)*ip;
+    xx = (ix_uint)*ip;
 
-    put_ix_uint(xp, &xx);
-    return err;
+  put_ix_uint(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_uint_double(void *xp, const double *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_uint xx = NC_FILL_UINT;
+ncx_put_uint_double(void *xp, const double *ip, void *fillp) {
+  int err    = NC_NOERR;
+  ix_uint xx = NC_FILL_UINT;
 
-    if (*ip > X_UINT_MAX || *ip < 0) {
-        
+  if (*ip > X_UINT_MAX || *ip < 0) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 4);
+    if (fillp != NULL) memcpy(&xx, fillp, 4);
 #endif
-        err = NC_ERANGE;
-    }
+    err = NC_ERANGE;
+  }
 #ifdef ERANGE_FILL
-    else
+  else
 #endif
-        xx = (ix_uint)*ip;
+    xx = (ix_uint)*ip;
 
-    put_ix_uint(xp, &xx);
-    return err;
+  put_ix_uint(xp, &xx);
+  return err;
 }
-
 
 
 /* external NC_FLOAT --------------------------------------------------------*/
@@ -2878,163 +2720,147 @@ ncx_put_uint_double(void *xp, const double *ip, void *fillp)
 #if X_SIZEOF_FLOAT == SIZEOF_FLOAT && !defined(NO_IEEE_FLOAT)
 
 inline static void
-get_ix_float(const void *xp, float *ip)
-{
-#ifdef WORDS_BIGENDIAN
-	(void) memcpy(ip, xp, SIZEOF_FLOAT);
-#else
-	swap4b(ip, xp);
-#endif
+get_ix_float(const void *xp, float *ip) {
+#  ifdef WORDS_BIGENDIAN
+  (void)memcpy(ip, xp, SIZEOF_FLOAT);
+#  else
+  swap4b(ip, xp);
+#  endif
 }
 
 inline static void
-put_ix_float(void *xp, const float *ip)
-{
-#ifdef WORDS_BIGENDIAN
-	(void) memcpy(xp, ip, X_SIZEOF_FLOAT);
-#else
-	swap4b(xp, ip);
-#endif
+put_ix_float(void *xp, const float *ip) {
+#  ifdef WORDS_BIGENDIAN
+  (void)memcpy(xp, ip, X_SIZEOF_FLOAT);
+#  else
+  swap4b(xp, ip);
+#  endif
 }
 
 #elif defined(vax) && vax != 0
 
 /* What IEEE single precision floating point looks like on a Vax */
-struct	ieee_single {
-	unsigned int	exp_hi       : 7;
-	unsigned int	sign         : 1;
-	unsigned int 	mant_hi      : 7;
-	unsigned int	exp_lo       : 1;
-	unsigned int	mant_lo_hi   : 8;
-	unsigned int	mant_lo_lo   : 8;
+struct ieee_single {
+  unsigned int exp_hi : 7;
+  unsigned int sign : 1;
+  unsigned int mant_hi : 7;
+  unsigned int exp_lo : 1;
+  unsigned int mant_lo_hi : 8;
+  unsigned int mant_lo_lo : 8;
 };
 
 /* Vax single precision floating point */
-struct	vax_single {
-	unsigned int	mantissa1 : 7;
-	unsigned int	exp       : 8;
-	unsigned int	sign      : 1;
-	unsigned int	mantissa2 : 16;
+struct vax_single {
+  unsigned int mantissa1 : 7;
+  unsigned int exp : 8;
+  unsigned int sign : 1;
+  unsigned int mantissa2 : 16;
 };
 
-#define VAX_SNG_BIAS	0x81
-#define IEEE_SNG_BIAS	0x7f
+#  define VAX_SNG_BIAS 0x81
+#  define IEEE_SNG_BIAS 0x7f
 
 static struct sgl_limits {
-	struct vax_single s;
-	struct ieee_single ieee;
+  struct vax_single s;
+  struct ieee_single ieee;
 } max = {
-	{ 0x7f, 0xff, 0x0, 0xffff },	/* Max Vax */
-	{ 0x7f, 0x0, 0x0, 0x1, 0x0, 0x0 }		/* Max IEEE */
+{0x7f, 0xff, 0x0, 0xffff},      /* Max Vax */
+{0x7f, 0x0, 0x0, 0x1, 0x0, 0x0} /* Max IEEE */
 };
 static struct sgl_limits min = {
-	{ 0x0, 0x0, 0x0, 0x0 },	/* Min Vax */
-	{ 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 }		/* Min IEEE */
+{0x0, 0x0, 0x0, 0x0},          /* Min Vax */
+{0x0, 0x0, 0x0, 0x0, 0x0, 0x0} /* Min IEEE */
 };
 
 static void
-get_ix_float(const void *xp, float *ip)
-{
-		struct vax_single *const vsp = (struct vax_single *) ip;
-		const struct ieee_single *const isp =
-			 (const struct ieee_single *) xp;
-		unsigned exp = isp->exp_hi << 1 | isp->exp_lo;
+get_ix_float(const void *xp, float *ip) {
+  struct vax_single *const vsp        = (struct vax_single *)ip;
+  const struct ieee_single *const isp = (const struct ieee_single *)xp;
+  unsigned exp                        = isp->exp_hi << 1 | isp->exp_lo;
 
-		switch(exp) {
-		case 0 :
-			/* ieee subnormal */
-			if (isp->mant_hi == min.ieee.mant_hi
-				&& isp->mant_lo_hi == min.ieee.mant_lo_hi
-				&& isp->mant_lo_lo == min.ieee.mant_lo_lo)
-			{
-				*vsp = min.s;
-			}
-			else
-			{
-				unsigned mantissa = (isp->mant_hi << 16)
-					 | isp->mant_lo_hi << 8
-					 | isp->mant_lo_lo;
-				unsigned tmp = mantissa >> 20;
-				if (tmp >= 4) {
-					vsp->exp = 2;
-				} else if (tmp >= 2) {
-					vsp->exp = 1;
-				} else {
-					*vsp = min.s;
-					break;
-				} /* else */
-				tmp = mantissa - (1 << (20 + vsp->exp ));
-				tmp <<= 3 - vsp->exp;
-				vsp->mantissa2 = tmp;
-				vsp->mantissa1 = (tmp >> 16);
-			}
-			break;
-		case 0xfe :
-		case 0xff :
-			*vsp = max.s;
-			break;
-		default :
-			vsp->exp = exp - IEEE_SNG_BIAS + VAX_SNG_BIAS;
-			vsp->mantissa2 = isp->mant_lo_hi << 8 | isp->mant_lo_lo;
-			vsp->mantissa1 = isp->mant_hi;
-		}
+  switch (exp) {
+    case 0:
+      /* ieee subnormal */
+      if (isp->mant_hi == min.ieee.mant_hi
+          && isp->mant_lo_hi == min.ieee.mant_lo_hi
+          && isp->mant_lo_lo == min.ieee.mant_lo_lo) {
+        *vsp = min.s;
+      } else {
+        unsigned mantissa = (isp->mant_hi << 16)
+                            | isp->mant_lo_hi << 8
+                            | isp->mant_lo_lo;
+        unsigned tmp = mantissa >> 20;
+        if (tmp >= 4) {
+          vsp->exp = 2;
+        } else if (tmp >= 2) {
+          vsp->exp = 1;
+        } else {
+          *vsp = min.s;
+          break;
+        } /* else */
+        tmp = mantissa - (1 << (20 + vsp->exp));
+        tmp <<= 3 - vsp->exp;
+        vsp->mantissa2 = tmp;
+        vsp->mantissa1 = (tmp >> 16);
+      }
+      break;
+    case 0xfe:
+    case 0xff:
+      *vsp = max.s;
+      break;
+    default:
+      vsp->exp       = exp - IEEE_SNG_BIAS + VAX_SNG_BIAS;
+      vsp->mantissa2 = isp->mant_lo_hi << 8 | isp->mant_lo_lo;
+      vsp->mantissa1 = isp->mant_hi;
+  }
 
-		vsp->sign = isp->sign;
-
+  vsp->sign = isp->sign;
 }
 
 
 static void
-put_ix_float(void *xp, const float *ip)
-{
-		const struct vax_single *const vsp =
-			 (const struct vax_single *)ip;
-		struct ieee_single *const isp = (struct ieee_single *) xp;
+put_ix_float(void *xp, const float *ip) {
+  const struct vax_single *const vsp = (const struct vax_single *)ip;
+  struct ieee_single *const isp      = (struct ieee_single *)xp;
 
-		switch(vsp->exp){
-		case 0 :
-			/* all vax float with zero exponent map to zero */
-			*isp = min.ieee;
-			break;
-		case 2 :
-		case 1 :
-		{
-			/* These will map to subnormals */
-			unsigned mantissa = (vsp->mantissa1 << 16)
-					 | vsp->mantissa2;
-			mantissa >>= 3 - vsp->exp;
-			mantissa += (1 << (20 + vsp->exp));
-			isp->mant_lo_lo = mantissa;
-			isp->mant_lo_hi = mantissa >> 8;
-			isp->mant_hi = mantissa >> 16;
-			isp->exp_lo = 0;
-			isp->exp_hi = 0;
-		}
-			break;
-		case 0xff : /* max.s.exp */
-			if (vsp->mantissa2 == max.s.mantissa2 &&
-			    vsp->mantissa1 == max.s.mantissa1)
-			{
-				/* map largest vax float to ieee infinity */
-				*isp = max.ieee;
-				break;
-			} /* else, fall thru */
-		default :
-		{
-			unsigned exp = vsp->exp - VAX_SNG_BIAS + IEEE_SNG_BIAS;
-			isp->exp_hi = exp >> 1;
-			isp->exp_lo = exp;
-			isp->mant_lo_lo = vsp->mantissa2;
-			isp->mant_lo_hi = vsp->mantissa2 >> 8;
-			isp->mant_hi = vsp->mantissa1;
-		}
-		}
+  switch (vsp->exp) {
+    case 0:
+      /* all vax float with zero exponent map to zero */
+      *isp = min.ieee;
+      break;
+    case 2:
+    case 1: {
+      /* These will map to subnormals */
+      unsigned mantissa = (vsp->mantissa1 << 16)
+                          | vsp->mantissa2;
+      mantissa >>= 3 - vsp->exp;
+      mantissa += (1 << (20 + vsp->exp));
+      isp->mant_lo_lo = mantissa;
+      isp->mant_lo_hi = mantissa >> 8;
+      isp->mant_hi    = mantissa >> 16;
+      isp->exp_lo     = 0;
+      isp->exp_hi     = 0;
+    } break;
+    case 0xff: /* max.s.exp */
+      if (vsp->mantissa2 == max.s.mantissa2 && vsp->mantissa1 == max.s.mantissa1) {
+        /* map largest vax float to ieee infinity */
+        *isp = max.ieee;
+        break;
+      } /* else, fall thru */
+    default: {
+      unsigned exp    = vsp->exp - VAX_SNG_BIAS + IEEE_SNG_BIAS;
+      isp->exp_hi     = exp >> 1;
+      isp->exp_lo     = exp;
+      isp->mant_lo_lo = vsp->mantissa2;
+      isp->mant_lo_hi = vsp->mantissa2 >> 8;
+      isp->mant_hi    = vsp->mantissa1;
+    }
+  }
 
-		isp->sign = vsp->sign;
-
+  isp->sign = vsp->sign;
 }
 
-	/* vax */
+/* vax */
 #elif defined(_CRAY) && !defined(__crayx1)
 
 /*
@@ -3044,45 +2870,44 @@ put_ix_float(void *xp, const float *ip)
  * of the address.
  */
 static size_t
-word_align(const void *vp)
-{
-	const size_t rem = ((size_t)vp >> (64 - 3)) & 0x7;
-	return (rem != 0);
+word_align(const void *vp) {
+  const size_t rem = ((size_t)vp >> (64 - 3)) & 0x7;
+  return (rem != 0);
 }
 
 struct ieee_single_hi {
-	unsigned int	sign	: 1;
-	unsigned int	 exp	: 8;
-	unsigned int	mant	:23;
-	unsigned int	pad	:32;
+  unsigned int sign : 1;
+  unsigned int exp : 8;
+  unsigned int mant : 23;
+  unsigned int pad : 32;
 };
 typedef struct ieee_single_hi ieee_single_hi;
 
 struct ieee_single_lo {
-	unsigned int	pad	:32;
-	unsigned int	sign	: 1;
-	unsigned int	 exp	: 8;
-	unsigned int	mant	:23;
+  unsigned int pad : 32;
+  unsigned int sign : 1;
+  unsigned int exp : 8;
+  unsigned int mant : 23;
 };
 typedef struct ieee_single_lo ieee_single_lo;
 
 static const int ieee_single_bias = 0x7f;
 
 struct ieee_double {
-	unsigned int	sign	: 1;
-	unsigned int	 exp	:11;
-	unsigned int	mant	:52;
+  unsigned int sign : 1;
+  unsigned int exp : 11;
+  unsigned int mant : 52;
 };
 typedef struct ieee_double ieee_double;
 
 static const int ieee_double_bias = 0x3ff;
 
-#if defined(NO_IEEE_FLOAT)
+#  if defined(NO_IEEE_FLOAT)
 
 struct cray_single {
-	unsigned int	sign	: 1;
-	unsigned int	 exp	:15;
-	unsigned int	mant	:48;
+  unsigned int sign : 1;
+  unsigned int exp : 15;
+  unsigned int mant : 48;
 };
 typedef struct cray_single cray_single;
 
@@ -3092,1161 +2917,1023 @@ static const int cs_id_bias = 0x4000 - 0x3ff;
 
 
 static void
-get_ix_float(const void *xp, float *ip)
-{
+get_ix_float(const void *xp, float *ip) {
+  if (word_align(xp) == 0) {
+    const ieee_single_hi *isp = (const ieee_single_hi *)xp;
+    cray_single *csp          = (cray_single *)ip;
 
-	if (word_align(xp) == 0)
-	{
-		const ieee_single_hi *isp = (const ieee_single_hi *) xp;
-		cray_single *csp = (cray_single *) ip;
-
-		if (isp->exp == 0)
-		{
-			/* ieee subnormal */
-			*ip = (double)isp->mant;
-			if (isp->mant != 0)
-			{
-				csp->exp -= (ieee_single_bias + 22);
-			}
-		}
-		else
-		{
-			csp->exp  = isp->exp + cs_ieis_bias + 1;
-			csp->mant = isp->mant << (48 - 1 - 23);
-			csp->mant |= (1 << (48 - 1));
-		}
-		csp->sign = isp->sign;
+    if (isp->exp == 0) {
+      /* ieee subnormal */
+      *ip = (double)isp->mant;
+      if (isp->mant != 0) {
+        csp->exp -= (ieee_single_bias + 22);
+      }
+    } else {
+      csp->exp  = isp->exp + cs_ieis_bias + 1;
+      csp->mant = isp->mant << (48 - 1 - 23);
+      csp->mant |= (1 << (48 - 1));
+    }
+    csp->sign = isp->sign;
 
 
-	}
-	else
-	{
-		const ieee_single_lo *isp = (const ieee_single_lo *) xp;
-		cray_single *csp = (cray_single *) ip;
+  } else {
+    const ieee_single_lo *isp = (const ieee_single_lo *)xp;
+    cray_single *csp          = (cray_single *)ip;
 
-		if (isp->exp == 0)
-		{
-			/* ieee subnormal */
-			*ip = (double)isp->mant;
-			if (isp->mant != 0)
-			{
-				csp->exp -= (ieee_single_bias + 22);
-			}
-		}
-		else
-		{
-			csp->exp  = isp->exp + cs_ieis_bias + 1;
-			csp->mant = isp->mant << (48 - 1 - 23);
-			csp->mant |= (1 << (48 - 1));
-		}
-		csp->sign = isp->sign;
-
-
-	}
+    if (isp->exp == 0) {
+      /* ieee subnormal */
+      *ip = (double)isp->mant;
+      if (isp->mant != 0) {
+        csp->exp -= (ieee_single_bias + 22);
+      }
+    } else {
+      csp->exp  = isp->exp + cs_ieis_bias + 1;
+      csp->mant = isp->mant << (48 - 1 - 23);
+      csp->mant |= (1 << (48 - 1));
+    }
+    csp->sign = isp->sign;
+  }
 }
 
 static void
-put_ix_float(void *xp, const float *ip)
-{
-	if (word_align(xp) == 0)
-	{
-		ieee_single_hi *isp = (ieee_single_hi*)xp;
-	const cray_single *csp = (const cray_single *) ip;
-	int ieee_exp = csp->exp - cs_ieis_bias -1;
+put_ix_float(void *xp, const float *ip) {
+  if (word_align(xp) == 0) {
+    ieee_single_hi *isp    = (ieee_single_hi *)xp;
+    const cray_single *csp = (const cray_single *)ip;
+    int ieee_exp           = csp->exp - cs_ieis_bias - 1;
 
-	isp->sign = csp->sign;
+    isp->sign = csp->sign;
 
-	if (ieee_exp >= 0xff)
-	{
-		/* NC_ERANGE => ieee Inf */
-		isp->exp = 0xff;
-		isp->mant = 0x0;
-	}
-	else if (ieee_exp > 0)
-	{
-		/* normal ieee representation */
-		isp->exp  = ieee_exp;
-		/* assumes cray rep is in normal form */
-		assert(csp->mant & 0x800000000000);
-		isp->mant = (((csp->mant << 1) &
-				0xffffffffffff) >> (48 - 23));
-	}
-	else if (ieee_exp > -23)
-	{
-		/* ieee subnormal, right shift */
-		const int rshift = (48 - 23 - ieee_exp);
+    if (ieee_exp >= 0xff) {
+      /* NC_ERANGE => ieee Inf */
+      isp->exp  = 0xff;
+      isp->mant = 0x0;
+    } else if (ieee_exp > 0) {
+      /* normal ieee representation */
+      isp->exp = ieee_exp;
+      /* assumes cray rep is in normal form */
+      assert(csp->mant & 0x800000000000);
+      isp->mant = (((csp->mant << 1) & 0xffffffffffff) >> (48 - 23));
+    } else if (ieee_exp > -23) {
+      /* ieee subnormal, right shift */
+      const int rshift = (48 - 23 - ieee_exp);
 
-		isp->mant = csp->mant >> rshift;
+      isp->mant = csp->mant >> rshift;
 
-#if 0
+#    if 0
 		if (csp->mant & (1 << (rshift -1)))
 		{
 			/* round up */
 			isp->mant++;
 		}
-#endif
+#    endif
 
-		isp->exp  = 0;
-	}
-	else
-	{
-		/* smaller than ieee can represent */
-		isp->exp = 0;
-		isp->mant = 0;
-	}
+      isp->exp = 0;
+    } else {
+      /* smaller than ieee can represent */
+      isp->exp  = 0;
+      isp->mant = 0;
+    }
 
-	}
-	else
-	{
-		ieee_single_lo *isp = (ieee_single_lo*)xp;
-	const cray_single *csp = (const cray_single *) ip;
-	int ieee_exp = csp->exp - cs_ieis_bias -1;
+  } else {
+    ieee_single_lo *isp    = (ieee_single_lo *)xp;
+    const cray_single *csp = (const cray_single *)ip;
+    int ieee_exp           = csp->exp - cs_ieis_bias - 1;
 
-	isp->sign = csp->sign;
+    isp->sign = csp->sign;
 
-	if (ieee_exp >= 0xff)
-	{
-		/* NC_ERANGE => ieee Inf */
-		isp->exp = 0xff;
-		isp->mant = 0x0;
-	}
-	else if (ieee_exp > 0)
-	{
-		/* normal ieee representation */
-		isp->exp  = ieee_exp;
-		/* assumes cray rep is in normal form */
-		assert(csp->mant & 0x800000000000);
-		isp->mant = (((csp->mant << 1) &
-				0xffffffffffff) >> (48 - 23));
-	}
-	else if (ieee_exp > -23)
-	{
-		/* ieee subnormal, right shift */
-		const int rshift = (48 - 23 - ieee_exp);
+    if (ieee_exp >= 0xff) {
+      /* NC_ERANGE => ieee Inf */
+      isp->exp  = 0xff;
+      isp->mant = 0x0;
+    } else if (ieee_exp > 0) {
+      /* normal ieee representation */
+      isp->exp = ieee_exp;
+      /* assumes cray rep is in normal form */
+      assert(csp->mant & 0x800000000000);
+      isp->mant = (((csp->mant << 1) & 0xffffffffffff) >> (48 - 23));
+    } else if (ieee_exp > -23) {
+      /* ieee subnormal, right shift */
+      const int rshift = (48 - 23 - ieee_exp);
 
-		isp->mant = csp->mant >> rshift;
+      isp->mant = csp->mant >> rshift;
 
-#if 0
+#    if 0
 		if (csp->mant & (1 << (rshift -1)))
 		{
 			/* round up */
 			isp->mant++;
 		}
-#endif
+#    endif
 
-		isp->exp  = 0;
-	}
-	else
-	{
-		/* smaller than ieee can represent */
-		isp->exp = 0;
-		isp->mant = 0;
-	}
-
-	}
+      isp->exp = 0;
+    } else {
+      /* smaller than ieee can represent */
+      isp->exp  = 0;
+      isp->mant = 0;
+    }
+  }
 }
 
-#else
-	/* IEEE Cray with only doubles */
+#  else
+/* IEEE Cray with only doubles */
 static void
-get_ix_float(const void *xp, float *ip)
-{
+get_ix_float(const void *xp, float *ip) {
+  ieee_double *idp = (ieee_double *)ip;
 
-	ieee_double *idp = (ieee_double *) ip;
-
-	if (word_align(xp) == 0)
-	{
-		const ieee_single_hi *isp = (const ieee_single_hi *) xp;
-		if (isp->exp == 0 && isp->mant == 0)
-		{
-			idp->exp = 0;
-			idp->mant = 0;
-		}
-		else
-		{
-			idp->exp = isp->exp + (ieee_double_bias - ieee_single_bias);
-			idp->mant = isp->mant << (52 - 23);
-		}
-		idp->sign = isp->sign;
-	}
-	else
-	{
-		const ieee_single_lo *isp = (const ieee_single_lo *) xp;
-		if (isp->exp == 0 && isp->mant == 0)
-		{
-			idp->exp = 0;
-			idp->mant = 0;
-		}
-		else
-		{
-			idp->exp = isp->exp + (ieee_double_bias - ieee_single_bias);
-			idp->mant = isp->mant << (52 - 23);
-		}
-		idp->sign = isp->sign;
-	}
+  if (word_align(xp) == 0) {
+    const ieee_single_hi *isp = (const ieee_single_hi *)xp;
+    if (isp->exp == 0 && isp->mant == 0) {
+      idp->exp  = 0;
+      idp->mant = 0;
+    } else {
+      idp->exp  = isp->exp + (ieee_double_bias - ieee_single_bias);
+      idp->mant = isp->mant << (52 - 23);
+    }
+    idp->sign = isp->sign;
+  } else {
+    const ieee_single_lo *isp = (const ieee_single_lo *)xp;
+    if (isp->exp == 0 && isp->mant == 0) {
+      idp->exp  = 0;
+      idp->mant = 0;
+    } else {
+      idp->exp  = isp->exp + (ieee_double_bias - ieee_single_bias);
+      idp->mant = isp->mant << (52 - 23);
+    }
+    idp->sign = isp->sign;
+  }
 }
 
 static void
-put_ix_float(void *xp, const float *ip)
-{
-	const ieee_double *idp = (const ieee_double *) ip;
-	if (word_align(xp) == 0)
-	{
-		ieee_single_hi *isp = (ieee_single_hi*)xp;
-		if (idp->exp > (ieee_double_bias - ieee_single_bias))
-			isp->exp = idp->exp - (ieee_double_bias - ieee_single_bias);
-		else
-			isp->exp = 0;
-		isp->mant = idp->mant >> (52 - 23);
-		isp->sign = idp->sign;
-	}
-	else
-	{
-		ieee_single_lo *isp = (ieee_single_lo*)xp;
-		if (idp->exp > (ieee_double_bias - ieee_single_bias))
-			isp->exp = idp->exp - (ieee_double_bias - ieee_single_bias);
-		else
-			isp->exp = 0;
-		isp->mant = idp->mant >> (52 - 23);
-		isp->sign = idp->sign;
-	}
+put_ix_float(void *xp, const float *ip) {
+  const ieee_double *idp = (const ieee_double *)ip;
+  if (word_align(xp) == 0) {
+    ieee_single_hi *isp = (ieee_single_hi *)xp;
+    if (idp->exp > (ieee_double_bias - ieee_single_bias))
+      isp->exp = idp->exp - (ieee_double_bias - ieee_single_bias);
+    else
+      isp->exp = 0;
+    isp->mant = idp->mant >> (52 - 23);
+    isp->sign = idp->sign;
+  } else {
+    ieee_single_lo *isp = (ieee_single_lo *)xp;
+    if (idp->exp > (ieee_double_bias - ieee_single_bias))
+      isp->exp = idp->exp - (ieee_double_bias - ieee_single_bias);
+    else
+      isp->exp = 0;
+    isp->mant = idp->mant >> (52 - 23);
+    isp->sign = idp->sign;
+  }
 }
-#endif
+#  endif
 
 #else
-#error "ix_float implementation"
+#  error "ix_float implementation"
 #endif
 
 #if X_SIZEOF_FLOAT != SIZEOF_FLOAT || defined(NO_IEEE_FLOAT)
 static int
-ncx_get_float_float(const void *xp, float *ip, void *fillp)
-{
-	/* TODO */
-	get_ix_float(xp, ip);
-	return NC_NOERR;
+ncx_get_float_float(const void *xp, float *ip, void *fillp) {
+  /* TODO */
+  get_ix_float(xp, ip);
+  return NC_NOERR;
 }
 #endif
 
 #define ix_float float
 
 static int
-ncx_get_float_schar(const void *xp, schar *ip)
-{
-	ix_float xx = 0;
-	get_ix_float(xp, &xx);
-	if (xx > (double)SCHAR_MAX || xx < (double)SCHAR_MIN) {
+ncx_get_float_schar(const void *xp, schar *ip) {
+  ix_float xx = 0;
+  get_ix_float(xp, &xx);
+  if (xx > (double)SCHAR_MAX || xx < (double)SCHAR_MIN) {
 #ifdef ERANGE_FILL
-            *ip = NC_FILL_BYTE;
+    *ip = NC_FILL_BYTE;
 #endif
-            return NC_ERANGE;
-        }
-	*ip = (schar)xx;
-	return NC_NOERR;
+    return NC_ERANGE;
+  }
+  *ip = (schar)xx;
+  return NC_NOERR;
 }
 
 static int
-ncx_get_float_short(const void *xp, short *ip)
-{
-	ix_float xx = 0;
-	get_ix_float(xp, &xx);
-	if (xx > (double)SHORT_MAX || xx < (double)SHORT_MIN) {
+ncx_get_float_short(const void *xp, short *ip) {
+  ix_float xx = 0;
+  get_ix_float(xp, &xx);
+  if (xx > (double)SHORT_MAX || xx < (double)SHORT_MIN) {
 #ifdef ERANGE_FILL
-            *ip = NC_FILL_SHORT;
+    *ip = NC_FILL_SHORT;
 #endif
-            return NC_ERANGE;
-        }
-	*ip = (short)xx;
-	return NC_NOERR;
+    return NC_ERANGE;
+  }
+  *ip = (short)xx;
+  return NC_NOERR;
 }
 
 static int
-ncx_get_float_int(const void *xp, int *ip)
-{
-	ix_float xx = 0;
-	get_ix_float(xp, &xx);
-	if (xx > (double)INT_MAX || xx < (double)INT_MIN) {
+ncx_get_float_int(const void *xp, int *ip) {
+  ix_float xx = 0;
+  get_ix_float(xp, &xx);
+  if (xx > (double)INT_MAX || xx < (double)INT_MIN) {
 #ifdef ERANGE_FILL
-            *ip = NC_FILL_INT;
+    *ip = NC_FILL_INT;
 #endif
-            return NC_ERANGE;
-        }
-	*ip = (int)xx;
-	return NC_NOERR;
+    return NC_ERANGE;
+  }
+  *ip = (int)xx;
+  return NC_NOERR;
 }
 
 static int
-ncx_get_float_long(const void *xp, long *ip)
-{
-	ix_float xx = 0;
-	get_ix_float(xp, &xx);
-	if (xx > (double)LONG_MAX || xx < (double)LONG_MIN) {
+ncx_get_float_long(const void *xp, long *ip) {
+  ix_float xx = 0;
+  get_ix_float(xp, &xx);
+  if (xx > (double)LONG_MAX || xx < (double)LONG_MIN) {
 #ifdef ERANGE_FILL
-            *ip = NC_FILL_INT;
+    *ip = NC_FILL_INT;
 #endif
-            return NC_ERANGE;
-        }
-	*ip = (long)xx;
-	return NC_NOERR;
+    return NC_ERANGE;
+  }
+  *ip = (long)xx;
+  return NC_NOERR;
 }
 
 static int
-ncx_get_float_double(const void *xp, double *ip)
-{
-	ix_float xx = 0;
-	get_ix_float(xp, &xx);
-	*ip = (double)xx;
-	return NC_NOERR;
+ncx_get_float_double(const void *xp, double *ip) {
+  ix_float xx = 0;
+  get_ix_float(xp, &xx);
+  *ip = (double)xx;
+  return NC_NOERR;
 }
 
 static int
-ncx_get_float_longlong(const void *xp, longlong *ip)
-{
-	ix_float xx = 0;
-	get_ix_float(xp, &xx);
-	if (xx == LONGLONG_MAX)      *ip = LONGLONG_MAX;
-	else if (xx == LONGLONG_MIN) *ip = LONGLONG_MIN;
-	else if (xx > (double)LONGLONG_MAX || xx < (double)LONGLONG_MIN) {
+ncx_get_float_longlong(const void *xp, longlong *ip) {
+  ix_float xx = 0;
+  get_ix_float(xp, &xx);
+  if (xx == LONGLONG_MAX)
+    *ip = LONGLONG_MAX;
+  else if (xx == LONGLONG_MIN)
+    *ip = LONGLONG_MIN;
+  else if (xx > (double)LONGLONG_MAX || xx < (double)LONGLONG_MIN) {
 #ifdef ERANGE_FILL
-            *ip = NC_FILL_INT64;
+    *ip = NC_FILL_INT64;
 #endif
-            return NC_ERANGE;
-        }
-	else *ip = (longlong)xx;
-	return NC_NOERR;
+    return NC_ERANGE;
+  } else
+    *ip = (longlong)xx;
+  return NC_NOERR;
 }
 
 static int
-ncx_get_float_uchar(const void *xp, uchar *ip)
-{
-	ix_float xx = 0;
-	get_ix_float(xp, &xx);
-	if (xx > (double)UCHAR_MAX || xx < 0) {
+ncx_get_float_uchar(const void *xp, uchar *ip) {
+  ix_float xx = 0;
+  get_ix_float(xp, &xx);
+  if (xx > (double)UCHAR_MAX || xx < 0) {
 #ifdef ERANGE_FILL
-            *ip = NC_FILL_UBYTE;
+    *ip = NC_FILL_UBYTE;
 #endif
-            return NC_ERANGE;
-        }
-	*ip = (uchar)xx;
-	return NC_NOERR;
+    return NC_ERANGE;
+  }
+  *ip = (uchar)xx;
+  return NC_NOERR;
 }
 
 static int
-ncx_get_float_ushort(const void *xp, ushort *ip)
-{
-	ix_float xx = 0;
-	get_ix_float(xp, &xx);
-	if (xx > (double)USHORT_MAX || xx < 0) {
+ncx_get_float_ushort(const void *xp, ushort *ip) {
+  ix_float xx = 0;
+  get_ix_float(xp, &xx);
+  if (xx > (double)USHORT_MAX || xx < 0) {
 #ifdef ERANGE_FILL
-            *ip = NC_FILL_USHORT;
+    *ip = NC_FILL_USHORT;
 #endif
-            return NC_ERANGE;
-        }
-	*ip = (ushort)xx;
-	return NC_NOERR;
+    return NC_ERANGE;
+  }
+  *ip = (ushort)xx;
+  return NC_NOERR;
 }
 
 static int
-ncx_get_float_uint(const void *xp, uint *ip)
-{
-	ix_float xx = 0;
-	get_ix_float(xp, &xx);
-	if (xx > (double)UINT_MAX || xx < 0) {
+ncx_get_float_uint(const void *xp, uint *ip) {
+  ix_float xx = 0;
+  get_ix_float(xp, &xx);
+  if (xx > (double)UINT_MAX || xx < 0) {
 #ifdef ERANGE_FILL
-            *ip = NC_FILL_UINT;
+    *ip = NC_FILL_UINT;
 #endif
-            return NC_ERANGE;
-        }
-	*ip = (uint)xx;
-	return NC_NOERR;
+    return NC_ERANGE;
+  }
+  *ip = (uint)xx;
+  return NC_NOERR;
 }
 
 static int
-ncx_get_float_ulonglong(const void *xp, ulonglong *ip)
-{
-	ix_float xx = 0;
-	get_ix_float(xp, &xx);
-	if (xx == ULONGLONG_MAX)      *ip = ULONGLONG_MAX;
-	else if (xx > (double)ULONGLONG_MAX || xx < 0) {
+ncx_get_float_ulonglong(const void *xp, ulonglong *ip) {
+  ix_float xx = 0;
+  get_ix_float(xp, &xx);
+  if (xx == ULONGLONG_MAX)
+    *ip = ULONGLONG_MAX;
+  else if (xx > (double)ULONGLONG_MAX || xx < 0) {
 #ifdef ERANGE_FILL
-            *ip = NC_FILL_UINT64;
+    *ip = NC_FILL_UINT64;
 #endif
-            return NC_ERANGE;
-        }
-	else *ip = (ulonglong)xx;
-	return NC_NOERR;
+    return NC_ERANGE;
+  } else
+    *ip = (ulonglong)xx;
+  return NC_NOERR;
 }
 
 
 #if X_SIZEOF_FLOAT != SIZEOF_FLOAT || defined(NO_IEEE_FLOAT)
 static int
-ncx_put_float_float(void *xp, const float *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    float *_ip=ip;
-#ifdef NO_IEEE_FLOAT
+ncx_put_float_float(void *xp, const float *ip, void *fillp) {
+  int err    = NC_NOERR;
+  float *_ip = ip;
+#  ifdef NO_IEEE_FLOAT
+#    ifdef ERANGE_FILL
+  float tmp;
+#    endif
+  if (*ip > X_FLOAT_MAX || *ip < X_FLOAT_MIN) {
+#    ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&tmp, fillp, 4);
+#    endif
+#    ifdef ERANGE_FILL
+    _ip = &tmp;
+#    endif
+    err = NC_ERANGE;
+  }
+#  endif
+  put_ix_float(xp, _ip);
+  return err;
+}
+#endif
+
+static int
+ncx_put_float_schar(void *xp, const schar *ip, void *fillp) {
+  int err     = NC_NOERR;
+  ix_float xx = NC_FILL_FLOAT;
+
+
+  xx = (ix_float)*ip;
+
+  put_ix_float(xp, &xx);
+  return err;
+}
+
+static int
+ncx_put_float_short(void *xp, const short *ip, void *fillp) {
+  int err     = NC_NOERR;
+  ix_float xx = NC_FILL_FLOAT;
+
+
+  xx = (ix_float)*ip;
+
+  put_ix_float(xp, &xx);
+  return err;
+}
+
+static int
+ncx_put_float_int(void *xp, const int *ip, void *fillp) {
+  int err     = NC_NOERR;
+  ix_float xx = NC_FILL_FLOAT;
+
+
+  xx = (ix_float)*ip;
+
+  put_ix_float(xp, &xx);
+  return err;
+}
+
+static int
+ncx_put_float_long(void *xp, const long *ip, void *fillp) {
+  int err     = NC_NOERR;
+  ix_float xx = NC_FILL_FLOAT;
+
+
+  xx = (ix_float)*ip;
+
+  put_ix_float(xp, &xx);
+  return err;
+}
+
+static int
+ncx_put_float_double(void *xp, const double *ip, void *fillp) {
+  int err     = NC_NOERR;
+  ix_float xx = NC_FILL_FLOAT;
+
+  if (*ip > X_FLOAT_MAX || *ip < X_FLOAT_MIN) {
 #ifdef ERANGE_FILL
-    float tmp;
+    if (fillp != NULL) memcpy(&xx, fillp, 4);
 #endif
-    if (*ip > X_FLOAT_MAX || *ip < X_FLOAT_MIN) {
-        
+    err = NC_ERANGE;
+  }
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&tmp, fillp, 4);
+  else
 #endif
-#ifdef ERANGE_FILL
-        _ip = &tmp;
-#endif
-        err = NC_ERANGE;
-    }
-#endif
-    put_ix_float(xp, _ip);
-    return err;
-}
-#endif
+    xx = (ix_float)*ip;
 
-static int
-ncx_put_float_schar(void *xp, const schar *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_float xx = NC_FILL_FLOAT;
-
-    
-        xx = (ix_float)*ip;
-
-    put_ix_float(xp, &xx);
-    return err;
+  put_ix_float(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_float_short(void *xp, const short *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_float xx = NC_FILL_FLOAT;
+ncx_put_float_longlong(void *xp, const longlong *ip, void *fillp) {
+  int err     = NC_NOERR;
+  ix_float xx = NC_FILL_FLOAT;
 
-    
-        xx = (ix_float)*ip;
 
-    put_ix_float(xp, &xx);
-    return err;
+  xx = (ix_float)*ip;
+
+  put_ix_float(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_float_int(void *xp, const int *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_float xx = NC_FILL_FLOAT;
+ncx_put_float_uchar(void *xp, const uchar *ip, void *fillp) {
+  int err     = NC_NOERR;
+  ix_float xx = NC_FILL_FLOAT;
 
-    
-        xx = (ix_float)*ip;
 
-    put_ix_float(xp, &xx);
-    return err;
+  xx = (ix_float)*ip;
+
+  put_ix_float(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_float_long(void *xp, const long *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_float xx = NC_FILL_FLOAT;
+ncx_put_float_ushort(void *xp, const ushort *ip, void *fillp) {
+  int err     = NC_NOERR;
+  ix_float xx = NC_FILL_FLOAT;
 
-    
-        xx = (ix_float)*ip;
 
-    put_ix_float(xp, &xx);
-    return err;
+  xx = (ix_float)*ip;
+
+  put_ix_float(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_float_double(void *xp, const double *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_float xx = NC_FILL_FLOAT;
+ncx_put_float_uint(void *xp, const uint *ip, void *fillp) {
+  int err     = NC_NOERR;
+  ix_float xx = NC_FILL_FLOAT;
 
-    if (*ip > X_FLOAT_MAX || *ip < X_FLOAT_MIN) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 4);
-#endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-        xx = (ix_float)*ip;
 
-    put_ix_float(xp, &xx);
-    return err;
+  xx = (ix_float)*ip;
+
+  put_ix_float(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_float_longlong(void *xp, const longlong *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_float xx = NC_FILL_FLOAT;
+ncx_put_float_ulonglong(void *xp, const ulonglong *ip, void *fillp) {
+  int err     = NC_NOERR;
+  ix_float xx = NC_FILL_FLOAT;
 
-    
-        xx = (ix_float)*ip;
 
-    put_ix_float(xp, &xx);
-    return err;
+  xx = (ix_float)*ip;
+
+  put_ix_float(xp, &xx);
+  return err;
 }
-
-static int
-ncx_put_float_uchar(void *xp, const uchar *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_float xx = NC_FILL_FLOAT;
-
-    
-        xx = (ix_float)*ip;
-
-    put_ix_float(xp, &xx);
-    return err;
-}
-
-static int
-ncx_put_float_ushort(void *xp, const ushort *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_float xx = NC_FILL_FLOAT;
-
-    
-        xx = (ix_float)*ip;
-
-    put_ix_float(xp, &xx);
-    return err;
-}
-
-static int
-ncx_put_float_uint(void *xp, const uint *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_float xx = NC_FILL_FLOAT;
-
-    
-        xx = (ix_float)*ip;
-
-    put_ix_float(xp, &xx);
-    return err;
-}
-
-static int
-ncx_put_float_ulonglong(void *xp, const ulonglong *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_float xx = NC_FILL_FLOAT;
-
-    
-        xx = (ix_float)*ip;
-
-    put_ix_float(xp, &xx);
-    return err;
-}
-
 
 
 /* external NC_DOUBLE -------------------------------------------------------*/
 
-#if X_SIZEOF_DOUBLE == SIZEOF_DOUBLE  && !defined(NO_IEEE_FLOAT)
+#if X_SIZEOF_DOUBLE == SIZEOF_DOUBLE && !defined(NO_IEEE_FLOAT)
 
 static void
-get_ix_double(const void *xp, double *ip)
-{
-#ifdef WORDS_BIGENDIAN
-	(void) memcpy(ip, xp, SIZEOF_DOUBLE);
-#else
-	swap8b(ip, xp);
-#endif
+get_ix_double(const void *xp, double *ip) {
+#  ifdef WORDS_BIGENDIAN
+  (void)memcpy(ip, xp, SIZEOF_DOUBLE);
+#  else
+  swap8b(ip, xp);
+#  endif
 }
 
 static void
-put_ix_double(void *xp, const double *ip)
-{
-#ifdef WORDS_BIGENDIAN
-	(void) memcpy(xp, ip, X_SIZEOF_DOUBLE);
-#else
-	swap8b(xp, ip);
-#endif
+put_ix_double(void *xp, const double *ip) {
+#  ifdef WORDS_BIGENDIAN
+  (void)memcpy(xp, ip, X_SIZEOF_DOUBLE);
+#  else
+  swap8b(xp, ip);
+#  endif
 }
 
 #elif defined(vax) && vax != 0
 
 /* What IEEE double precision floating point looks like on a Vax */
-struct	ieee_double {
-	unsigned int	exp_hi   : 7;
-	unsigned int	sign     : 1;
-	unsigned int 	mant_6   : 4;
-	unsigned int	exp_lo   : 4;
-	unsigned int	mant_5   : 8;
-	unsigned int	mant_4   : 8;
+struct ieee_double {
+  unsigned int exp_hi : 7;
+  unsigned int sign : 1;
+  unsigned int mant_6 : 4;
+  unsigned int exp_lo : 4;
+  unsigned int mant_5 : 8;
+  unsigned int mant_4 : 8;
 
-	unsigned int	mant_lo  : 32;
+  unsigned int mant_lo : 32;
 };
 
 /* Vax double precision floating point */
-struct  vax_double {
-	unsigned int	mantissa1 : 7;
-	unsigned int	exp       : 8;
-	unsigned int	sign      : 1;
-	unsigned int	mantissa2 : 16;
-	unsigned int	mantissa3 : 16;
-	unsigned int	mantissa4 : 16;
+struct vax_double {
+  unsigned int mantissa1 : 7;
+  unsigned int exp : 8;
+  unsigned int sign : 1;
+  unsigned int mantissa2 : 16;
+  unsigned int mantissa3 : 16;
+  unsigned int mantissa4 : 16;
 };
 
-#define VAX_DBL_BIAS	0x81
-#define IEEE_DBL_BIAS	0x3ff
-#define MASK(nbits)	((1 << nbits) - 1)
+#  define VAX_DBL_BIAS 0x81
+#  define IEEE_DBL_BIAS 0x3ff
+#  define MASK(nbits) ((1 << nbits) - 1)
 
 static const struct dbl_limits {
-	struct	vax_double d;
-	struct	ieee_double ieee;
+  struct vax_double d;
+  struct ieee_double ieee;
 } dbl_limits[2] = {
-	{{ 0x7f, 0xff, 0x0, 0xffff, 0xffff, 0xffff },	/* Max Vax */
-	{ 0x7f, 0x0, 0x0, 0xf, 0x0, 0x0, 0x0}}, /* Max IEEE */
-	{{ 0x0, 0x0, 0x0, 0x0, 0x0, 0x0},		/* Min Vax */
-	{ 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}}, /* Min IEEE */
+{{0x7f, 0xff, 0x0, 0xffff, 0xffff, 0xffff}, /* Max Vax */
+{0x7f, 0x0, 0x0, 0xf, 0x0, 0x0, 0x0}},      /* Max IEEE */
+{{0x0, 0x0, 0x0, 0x0, 0x0, 0x0},            /* Min Vax */
+{0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}},       /* Min IEEE */
 };
 
 
 static void
-get_ix_double(const void *xp, double *ip)
-{
-	struct vax_double *const vdp =
-			 (struct vax_double *)ip;
-	const struct ieee_double *const idp =
-			 (const struct ieee_double *) xp;
-	{
-		const struct dbl_limits *lim;
-		int ii;
-		for (ii = 0, lim = dbl_limits;
-			ii < sizeof(dbl_limits)/sizeof(struct dbl_limits);
-			ii++, lim++)
-		{
-			if ((idp->mant_lo == lim->ieee.mant_lo)
-				&& (idp->mant_4 == lim->ieee.mant_4)
-				&& (idp->mant_5 == lim->ieee.mant_5)
-				&& (idp->mant_6 == lim->ieee.mant_6)
-				&& (idp->exp_lo == lim->ieee.exp_lo)
-				&& (idp->exp_hi == lim->ieee.exp_hi)
-				)
-			{
-				*vdp = lim->d;
-				goto doneit;
-			}
-		}
-	}
-	{
-		unsigned exp = idp->exp_hi << 4 | idp->exp_lo;
-		vdp->exp = exp - IEEE_DBL_BIAS + VAX_DBL_BIAS;
-	}
-	{
-		unsigned mant_hi = ((idp->mant_6 << 16)
-				 | (idp->mant_5 << 8)
-				 | idp->mant_4);
-		unsigned mant_lo = SWAP4(idp->mant_lo);
-		vdp->mantissa1 = (mant_hi >> 13);
-		vdp->mantissa2 = ((mant_hi & MASK(13)) << 3)
-				| (mant_lo >> 29);
-		vdp->mantissa3 = (mant_lo >> 13);
-		vdp->mantissa4 = (mant_lo << 3);
-	}
-	doneit:
-		vdp->sign = idp->sign;
-
+get_ix_double(const void *xp, double *ip) {
+  struct vax_double *const vdp        = (struct vax_double *)ip;
+  const struct ieee_double *const idp = (const struct ieee_double *)xp;
+  {
+    const struct dbl_limits *lim;
+    int ii;
+    for (ii = 0, lim = dbl_limits;
+         ii < sizeof(dbl_limits) / sizeof(struct dbl_limits);
+         ii++, lim++) {
+      if ((idp->mant_lo == lim->ieee.mant_lo)
+          && (idp->mant_4 == lim->ieee.mant_4)
+          && (idp->mant_5 == lim->ieee.mant_5)
+          && (idp->mant_6 == lim->ieee.mant_6)
+          && (idp->exp_lo == lim->ieee.exp_lo)
+          && (idp->exp_hi == lim->ieee.exp_hi)) {
+        *vdp = lim->d;
+        goto doneit;
+      }
+    }
+  }
+  {
+    unsigned exp = idp->exp_hi << 4 | idp->exp_lo;
+    vdp->exp     = exp - IEEE_DBL_BIAS + VAX_DBL_BIAS;
+  }
+  {
+    unsigned mant_hi = ((idp->mant_6 << 16)
+                        | (idp->mant_5 << 8)
+                        | idp->mant_4);
+    unsigned mant_lo = SWAP4(idp->mant_lo);
+    vdp->mantissa1   = (mant_hi >> 13);
+    vdp->mantissa2   = ((mant_hi & MASK(13)) << 3)
+                     | (mant_lo >> 29);
+    vdp->mantissa3 = (mant_lo >> 13);
+    vdp->mantissa4 = (mant_lo << 3);
+  }
+doneit:
+  vdp->sign = idp->sign;
 }
 
 
 static void
-put_ix_double(void *xp, const double *ip)
-{
-	const struct vax_double *const vdp =
-			(const struct vax_double *)ip;
-	struct ieee_double *const idp =
-			 (struct ieee_double *) xp;
+put_ix_double(void *xp, const double *ip) {
+  const struct vax_double *const vdp = (const struct vax_double *)ip;
+  struct ieee_double *const idp      = (struct ieee_double *)xp;
 
-	if ((vdp->mantissa4 > (dbl_limits[0].d.mantissa4 - 3)) &&
-		(vdp->mantissa3 == dbl_limits[0].d.mantissa3) &&
-		(vdp->mantissa2 == dbl_limits[0].d.mantissa2) &&
-		(vdp->mantissa1 == dbl_limits[0].d.mantissa1) &&
-		(vdp->exp == dbl_limits[0].d.exp))
-	{
-		*idp = dbl_limits[0].ieee;
-		goto shipit;
-	}
-	if ((vdp->mantissa4 == dbl_limits[1].d.mantissa4) &&
-		(vdp->mantissa3 == dbl_limits[1].d.mantissa3) &&
-		(vdp->mantissa2 == dbl_limits[1].d.mantissa2) &&
-		(vdp->mantissa1 == dbl_limits[1].d.mantissa1) &&
-		(vdp->exp == dbl_limits[1].d.exp))
-	{
-		*idp = dbl_limits[1].ieee;
-		goto shipit;
-	}
+  if ((vdp->mantissa4 > (dbl_limits[0].d.mantissa4 - 3)) && (vdp->mantissa3 == dbl_limits[0].d.mantissa3) && (vdp->mantissa2 == dbl_limits[0].d.mantissa2) && (vdp->mantissa1 == dbl_limits[0].d.mantissa1) && (vdp->exp == dbl_limits[0].d.exp)) {
+    *idp = dbl_limits[0].ieee;
+    goto shipit;
+  }
+  if ((vdp->mantissa4 == dbl_limits[1].d.mantissa4) && (vdp->mantissa3 == dbl_limits[1].d.mantissa3) && (vdp->mantissa2 == dbl_limits[1].d.mantissa2) && (vdp->mantissa1 == dbl_limits[1].d.mantissa1) && (vdp->exp == dbl_limits[1].d.exp)) {
+    *idp = dbl_limits[1].ieee;
+    goto shipit;
+  }
 
-	{
-		unsigned exp = vdp->exp - VAX_DBL_BIAS + IEEE_DBL_BIAS;
+  {
+    unsigned exp = vdp->exp - VAX_DBL_BIAS + IEEE_DBL_BIAS;
 
-		unsigned mant_lo = ((vdp->mantissa2 & MASK(3)) << 29) |
-			(vdp->mantissa3 << 13) |
-			((vdp->mantissa4 >> 3) & MASK(13));
+    unsigned mant_lo = ((vdp->mantissa2 & MASK(3)) << 29) | (vdp->mantissa3 << 13) | ((vdp->mantissa4 >> 3) & MASK(13));
 
-		unsigned mant_hi = (vdp->mantissa1 << 13)
-				 | (vdp->mantissa2 >> 3);
+    unsigned mant_hi = (vdp->mantissa1 << 13)
+                       | (vdp->mantissa2 >> 3);
 
-		if ((vdp->mantissa4 & 7) > 4)
-		{
-			/* round up */
-			mant_lo++;
-			if (mant_lo == 0)
-			{
-				mant_hi++;
-				if (mant_hi > 0xffffff)
-				{
-					mant_hi = 0;
-					exp++;
-				}
-			}
-		}
+    if ((vdp->mantissa4 & 7) > 4) {
+      /* round up */
+      mant_lo++;
+      if (mant_lo == 0) {
+        mant_hi++;
+        if (mant_hi > 0xffffff) {
+          mant_hi = 0;
+          exp++;
+        }
+      }
+    }
 
-		idp->mant_lo = SWAP4(mant_lo);
-		idp->mant_6 = mant_hi >> 16;
-		idp->mant_5 = (mant_hi & 0xff00) >> 8;
-		idp->mant_4 = mant_hi;
-		idp->exp_hi = exp >> 4;
-		idp->exp_lo = exp;
-	}
+    idp->mant_lo = SWAP4(mant_lo);
+    idp->mant_6  = mant_hi >> 16;
+    idp->mant_5  = (mant_hi & 0xff00) >> 8;
+    idp->mant_4  = mant_hi;
+    idp->exp_hi  = exp >> 4;
+    idp->exp_lo  = exp;
+  }
 
-	shipit:
-		idp->sign = vdp->sign;
-
+shipit:
+  idp->sign = vdp->sign;
 }
 
-	/* vax */
+/* vax */
 #elif defined(_CRAY) && !defined(__crayx1)
 
 static void
-get_ix_double(const void *xp, double *ip)
-{
-	const ieee_double *idp = (const ieee_double *) xp;
-	cray_single *csp = (cray_single *) ip;
+get_ix_double(const void *xp, double *ip) {
+  const ieee_double *idp = (const ieee_double *)xp;
+  cray_single *csp       = (cray_single *)ip;
 
-	if (idp->exp == 0)
-	{
-		/* ieee subnormal */
-		*ip = (double)idp->mant;
-		if (idp->mant != 0)
-		{
-			csp->exp -= (ieee_double_bias + 51);
-		}
-	}
-	else
-	{
-		csp->exp  = idp->exp + cs_id_bias + 1;
-		csp->mant = idp->mant >> (52 - 48 + 1);
-		csp->mant |= (1 << (48 - 1));
-	}
-	csp->sign = idp->sign;
+  if (idp->exp == 0) {
+    /* ieee subnormal */
+    *ip = (double)idp->mant;
+    if (idp->mant != 0) {
+      csp->exp -= (ieee_double_bias + 51);
+    }
+  } else {
+    csp->exp  = idp->exp + cs_id_bias + 1;
+    csp->mant = idp->mant >> (52 - 48 + 1);
+    csp->mant |= (1 << (48 - 1));
+  }
+  csp->sign = idp->sign;
 }
 
 static void
-put_ix_double(void *xp, const double *ip)
-{
-	ieee_double *idp = (ieee_double *) xp;
-	const cray_single *csp = (const cray_single *) ip;
+put_ix_double(void *xp, const double *ip) {
+  ieee_double *idp       = (ieee_double *)xp;
+  const cray_single *csp = (const cray_single *)ip;
 
-	int ieee_exp = csp->exp - cs_id_bias -1;
+  int ieee_exp = csp->exp - cs_id_bias - 1;
 
-	idp->sign = csp->sign;
+  idp->sign = csp->sign;
 
-	if (ieee_exp >= 0x7ff)
-	{
-		/* NC_ERANGE => ieee Inf */
-		idp->exp = 0x7ff;
-		idp->mant = 0x0;
-	}
-	else if (ieee_exp > 0)
-	{
-		/* normal ieee representation */
-		idp->exp  = ieee_exp;
-		/* assumes cray rep is in normal form */
-		assert(csp->mant & 0x800000000000);
-		idp->mant = (((csp->mant << 1) &
-				0xffffffffffff) << (52 - 48));
-	}
-	else if (ieee_exp >= (-(52 -48)))
-	{
-		/* ieee subnormal, left shift */
-		const int lshift = (52 - 48) + ieee_exp;
-		idp->mant = csp->mant << lshift;
-		idp->exp  = 0;
-	}
-	else if (ieee_exp >= -52)
-	{
-		/* ieee subnormal, right shift */
-		const int rshift = (- (52 - 48) - ieee_exp);
+  if (ieee_exp >= 0x7ff) {
+    /* NC_ERANGE => ieee Inf */
+    idp->exp  = 0x7ff;
+    idp->mant = 0x0;
+  } else if (ieee_exp > 0) {
+    /* normal ieee representation */
+    idp->exp = ieee_exp;
+    /* assumes cray rep is in normal form */
+    assert(csp->mant & 0x800000000000);
+    idp->mant = (((csp->mant << 1) & 0xffffffffffff) << (52 - 48));
+  } else if (ieee_exp >= (-(52 - 48))) {
+    /* ieee subnormal, left shift */
+    const int lshift = (52 - 48) + ieee_exp;
+    idp->mant        = csp->mant << lshift;
+    idp->exp         = 0;
+  } else if (ieee_exp >= -52) {
+    /* ieee subnormal, right shift */
+    const int rshift = (-(52 - 48) - ieee_exp);
 
-		idp->mant = csp->mant >> rshift;
+    idp->mant = csp->mant >> rshift;
 
-#if 0
+#  if 0
 		if (csp->mant & (1 << (rshift -1)))
 		{
 			/* round up */
 			idp->mant++;
 		}
-#endif
+#  endif
 
-		idp->exp  = 0;
-	}
-	else
-	{
-		/* smaller than ieee can represent */
-		idp->exp = 0;
-		idp->mant = 0;
-	}
+    idp->exp = 0;
+  } else {
+    /* smaller than ieee can represent */
+    idp->exp  = 0;
+    idp->mant = 0;
+  }
 }
 #else
-#error "ix_double implementation"
+#  error "ix_double implementation"
 #endif
 
 #define ix_double double
 
 static int
-ncx_get_double_schar(const void *xp, schar *ip)
-{
-	ix_double xx = 0;
-	get_ix_double(xp, &xx);
-	if (xx > (double)SCHAR_MAX || xx < (double)SCHAR_MIN) {
+ncx_get_double_schar(const void *xp, schar *ip) {
+  ix_double xx = 0;
+  get_ix_double(xp, &xx);
+  if (xx > (double)SCHAR_MAX || xx < (double)SCHAR_MIN) {
 #ifdef ERANGE_FILL
-            *ip = NC_FILL_BYTE;
+    *ip = NC_FILL_BYTE;
 #endif
-            return NC_ERANGE;
-        }
-	*ip = (schar)xx;
-	return NC_NOERR;
+    return NC_ERANGE;
+  }
+  *ip = (schar)xx;
+  return NC_NOERR;
 }
 
 static int
-ncx_get_double_short(const void *xp, short *ip)
-{
-	ix_double xx = 0;
-	get_ix_double(xp, &xx);
-	if (xx > (double)SHORT_MAX || xx < (double)SHORT_MIN) {
+ncx_get_double_short(const void *xp, short *ip) {
+  ix_double xx = 0;
+  get_ix_double(xp, &xx);
+  if (xx > (double)SHORT_MAX || xx < (double)SHORT_MIN) {
 #ifdef ERANGE_FILL
-            *ip = NC_FILL_SHORT;
+    *ip = NC_FILL_SHORT;
 #endif
-            return NC_ERANGE;
-        }
-	*ip = (short)xx;
-	return NC_NOERR;
+    return NC_ERANGE;
+  }
+  *ip = (short)xx;
+  return NC_NOERR;
 }
 
 static int
-ncx_get_double_int(const void *xp, int *ip)
-{
-	ix_double xx = 0;
-	get_ix_double(xp, &xx);
-	if (xx > (double)INT_MAX || xx < (double)INT_MIN) {
+ncx_get_double_int(const void *xp, int *ip) {
+  ix_double xx = 0;
+  get_ix_double(xp, &xx);
+  if (xx > (double)INT_MAX || xx < (double)INT_MIN) {
 #ifdef ERANGE_FILL
-            *ip = NC_FILL_INT;
+    *ip = NC_FILL_INT;
 #endif
-            return NC_ERANGE;
-        }
-	*ip = (int)xx;
-	return NC_NOERR;
+    return NC_ERANGE;
+  }
+  *ip = (int)xx;
+  return NC_NOERR;
 }
 
 static int
-ncx_get_double_long(const void *xp, long *ip)
-{
-	ix_double xx = 0;
-	get_ix_double(xp, &xx);
-	if (xx > (double)LONG_MAX || xx < (double)LONG_MIN) {
+ncx_get_double_long(const void *xp, long *ip) {
+  ix_double xx = 0;
+  get_ix_double(xp, &xx);
+  if (xx > (double)LONG_MAX || xx < (double)LONG_MIN) {
 #ifdef ERANGE_FILL
-            *ip = NC_FILL_INT;
+    *ip = NC_FILL_INT;
 #endif
-            return NC_ERANGE;
-        }
-	*ip = (long)xx;
-	return NC_NOERR;
+    return NC_ERANGE;
+  }
+  *ip = (long)xx;
+  return NC_NOERR;
 }
 
 static int
-ncx_get_double_longlong(const void *xp, longlong *ip)
-{
-	ix_double xx = 0;
-	get_ix_double(xp, &xx);
-	if (xx == LONGLONG_MAX)      *ip = LONGLONG_MAX;
-	else if (xx == LONGLONG_MIN) *ip = LONGLONG_MIN;
-	else if (xx > (double)LONGLONG_MAX || xx < (double)LONGLONG_MIN) {
+ncx_get_double_longlong(const void *xp, longlong *ip) {
+  ix_double xx = 0;
+  get_ix_double(xp, &xx);
+  if (xx == LONGLONG_MAX)
+    *ip = LONGLONG_MAX;
+  else if (xx == LONGLONG_MIN)
+    *ip = LONGLONG_MIN;
+  else if (xx > (double)LONGLONG_MAX || xx < (double)LONGLONG_MIN) {
 #ifdef ERANGE_FILL
-            *ip = NC_FILL_INT64;
+    *ip = NC_FILL_INT64;
 #endif
-            return NC_ERANGE;
-        }
-	else *ip = (longlong)xx;
-	return NC_NOERR;
+    return NC_ERANGE;
+  } else
+    *ip = (longlong)xx;
+  return NC_NOERR;
 }
 
 static int
-ncx_get_double_uchar(const void *xp, uchar *ip)
-{
-	ix_double xx = 0;
-	get_ix_double(xp, &xx);
-	if (xx > (double)UCHAR_MAX || xx < 0) {
+ncx_get_double_uchar(const void *xp, uchar *ip) {
+  ix_double xx = 0;
+  get_ix_double(xp, &xx);
+  if (xx > (double)UCHAR_MAX || xx < 0) {
 #ifdef ERANGE_FILL
-            *ip = NC_FILL_UBYTE;
+    *ip = NC_FILL_UBYTE;
 #endif
-            return NC_ERANGE;
-        }
-	*ip = (uchar)xx;
-	return NC_NOERR;
+    return NC_ERANGE;
+  }
+  *ip = (uchar)xx;
+  return NC_NOERR;
 }
 
 static int
-ncx_get_double_ushort(const void *xp, ushort *ip)
-{
-	ix_double xx = 0;
-	get_ix_double(xp, &xx);
-	if (xx > (double)USHORT_MAX || xx < 0) {
+ncx_get_double_ushort(const void *xp, ushort *ip) {
+  ix_double xx = 0;
+  get_ix_double(xp, &xx);
+  if (xx > (double)USHORT_MAX || xx < 0) {
 #ifdef ERANGE_FILL
-            *ip = NC_FILL_USHORT;
+    *ip = NC_FILL_USHORT;
 #endif
-            return NC_ERANGE;
-        }
-	*ip = (ushort)xx;
-	return NC_NOERR;
+    return NC_ERANGE;
+  }
+  *ip = (ushort)xx;
+  return NC_NOERR;
 }
 
 static int
-ncx_get_double_uint(const void *xp, uint *ip)
-{
-	ix_double xx = 0;
-	get_ix_double(xp, &xx);
-	if (xx > (double)UINT_MAX || xx < 0) {
+ncx_get_double_uint(const void *xp, uint *ip) {
+  ix_double xx = 0;
+  get_ix_double(xp, &xx);
+  if (xx > (double)UINT_MAX || xx < 0) {
 #ifdef ERANGE_FILL
-            *ip = NC_FILL_UINT;
+    *ip = NC_FILL_UINT;
 #endif
-            return NC_ERANGE;
-        }
-	*ip = (uint)xx;
-	return NC_NOERR;
+    return NC_ERANGE;
+  }
+  *ip = (uint)xx;
+  return NC_NOERR;
 }
 
 static int
-ncx_get_double_ulonglong(const void *xp, ulonglong *ip)
-{
-	ix_double xx = 0;
-	get_ix_double(xp, &xx);
-	if (xx == ULONGLONG_MAX)      *ip = ULONGLONG_MAX;
-	else if (xx > (double)ULONGLONG_MAX || xx < 0) {
+ncx_get_double_ulonglong(const void *xp, ulonglong *ip) {
+  ix_double xx = 0;
+  get_ix_double(xp, &xx);
+  if (xx == ULONGLONG_MAX)
+    *ip = ULONGLONG_MAX;
+  else if (xx > (double)ULONGLONG_MAX || xx < 0) {
 #ifdef ERANGE_FILL
-            *ip = NC_FILL_UINT64;
+    *ip = NC_FILL_UINT64;
 #endif
-            return NC_ERANGE;
-        }
-	else *ip = (ulonglong)xx;
-	return NC_NOERR;
+    return NC_ERANGE;
+  } else
+    *ip = (ulonglong)xx;
+  return NC_NOERR;
 }
 
 
 static int
-ncx_get_double_float(const void *xp, float *ip)
-{
-    double xx = 0.0;
-    get_ix_double(xp, &xx);
-    if (xx > FLT_MAX) {
+ncx_get_double_float(const void *xp, float *ip) {
+  double xx = 0.0;
+  get_ix_double(xp, &xx);
+  if (xx > FLT_MAX) {
 #ifdef ERANGE_FILL
-        *ip = NC_FILL_FLOAT;
+    *ip = NC_FILL_FLOAT;
 #else
-        *ip = FLT_MAX;
+    *ip = FLT_MAX;
 #endif
-        return NC_ERANGE;
-    }
-    if (xx < (-FLT_MAX)) {
+    return NC_ERANGE;
+  }
+  if (xx < (-FLT_MAX)) {
 #ifdef ERANGE_FILL
-        *ip = NC_FILL_FLOAT;
+    *ip = NC_FILL_FLOAT;
 #else
-        *ip = (-FLT_MAX);
+    *ip = (-FLT_MAX);
 #endif
-        return NC_ERANGE;
-    }
-    *ip = (float) xx;
-    return NC_NOERR;
+    return NC_ERANGE;
+  }
+  *ip = (float)xx;
+  return NC_NOERR;
 }
 
-#if X_SIZEOF_DOUBLE != SIZEOF_DOUBLE  || defined(NO_IEEE_FLOAT)
+#if X_SIZEOF_DOUBLE != SIZEOF_DOUBLE || defined(NO_IEEE_FLOAT)
 static int
-ncx_get_double_double(const void *xp, double *ip, void *fillp)
-{
-	/* TODO */
-	get_ix_double(xp, ip);
-	return NC_NOERR;
+ncx_get_double_double(const void *xp, double *ip, void *fillp) {
+  /* TODO */
+  get_ix_double(xp, ip);
+  return NC_NOERR;
 }
 #endif
 
 static int
-ncx_put_double_schar(void *xp, const schar *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_double xx = NC_FILL_DOUBLE;
+ncx_put_double_schar(void *xp, const schar *ip, void *fillp) {
+  int err      = NC_NOERR;
+  ix_double xx = NC_FILL_DOUBLE;
 
-    
-        xx = (ix_double)*ip;
 
-    put_ix_double(xp, &xx);
-    return err;
+  xx = (ix_double)*ip;
+
+  put_ix_double(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_double_uchar(void *xp, const uchar *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_double xx = NC_FILL_DOUBLE;
+ncx_put_double_uchar(void *xp, const uchar *ip, void *fillp) {
+  int err      = NC_NOERR;
+  ix_double xx = NC_FILL_DOUBLE;
 
-    
-        xx = (ix_double)*ip;
 
-    put_ix_double(xp, &xx);
-    return err;
+  xx = (ix_double)*ip;
+
+  put_ix_double(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_double_short(void *xp, const short *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_double xx = NC_FILL_DOUBLE;
+ncx_put_double_short(void *xp, const short *ip, void *fillp) {
+  int err      = NC_NOERR;
+  ix_double xx = NC_FILL_DOUBLE;
 
-    
-        xx = (ix_double)*ip;
 
-    put_ix_double(xp, &xx);
-    return err;
+  xx = (ix_double)*ip;
+
+  put_ix_double(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_double_ushort(void *xp, const ushort *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_double xx = NC_FILL_DOUBLE;
+ncx_put_double_ushort(void *xp, const ushort *ip, void *fillp) {
+  int err      = NC_NOERR;
+  ix_double xx = NC_FILL_DOUBLE;
 
-    
-        xx = (ix_double)*ip;
 
-    put_ix_double(xp, &xx);
-    return err;
+  xx = (ix_double)*ip;
+
+  put_ix_double(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_double_int(void *xp, const int *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_double xx = NC_FILL_DOUBLE;
+ncx_put_double_int(void *xp, const int *ip, void *fillp) {
+  int err      = NC_NOERR;
+  ix_double xx = NC_FILL_DOUBLE;
 
-    
-        xx = (ix_double)*ip;
 
-    put_ix_double(xp, &xx);
-    return err;
+  xx = (ix_double)*ip;
+
+  put_ix_double(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_double_long(void *xp, const long *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_double xx = NC_FILL_DOUBLE;
+ncx_put_double_long(void *xp, const long *ip, void *fillp) {
+  int err      = NC_NOERR;
+  ix_double xx = NC_FILL_DOUBLE;
 
-    
-        xx = (ix_double)*ip;
 
-    put_ix_double(xp, &xx);
-    return err;
+  xx = (ix_double)*ip;
+
+  put_ix_double(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_double_uint(void *xp, const uint *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_double xx = NC_FILL_DOUBLE;
+ncx_put_double_uint(void *xp, const uint *ip, void *fillp) {
+  int err      = NC_NOERR;
+  ix_double xx = NC_FILL_DOUBLE;
 
-    
-        xx = (ix_double)*ip;
 
-    put_ix_double(xp, &xx);
-    return err;
+  xx = (ix_double)*ip;
+
+  put_ix_double(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_double_longlong(void *xp, const longlong *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_double xx = NC_FILL_DOUBLE;
+ncx_put_double_longlong(void *xp, const longlong *ip, void *fillp) {
+  int err      = NC_NOERR;
+  ix_double xx = NC_FILL_DOUBLE;
 
-    
-        xx = (ix_double)*ip;
 
-    put_ix_double(xp, &xx);
-    return err;
+  xx = (ix_double)*ip;
+
+  put_ix_double(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_double_ulonglong(void *xp, const ulonglong *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_double xx = NC_FILL_DOUBLE;
+ncx_put_double_ulonglong(void *xp, const ulonglong *ip, void *fillp) {
+  int err      = NC_NOERR;
+  ix_double xx = NC_FILL_DOUBLE;
 
-    
-        xx = (ix_double)*ip;
 
-    put_ix_double(xp, &xx);
-    return err;
+  xx = (ix_double)*ip;
+
+  put_ix_double(xp, &xx);
+  return err;
 }
 
 
 static int
-ncx_put_double_float(void *xp, const float *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    double xx = NC_FILL_DOUBLE;
-#if 1	/* TODO: figure this out (if condition below will never be true)*/
-    if ((double)(*ip) > X_DOUBLE_MAX || (double)(*ip) < X_DOUBLE_MIN) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 8);
+ncx_put_double_float(void *xp, const float *ip, void *fillp) {
+  int err   = NC_NOERR;
+  double xx = NC_FILL_DOUBLE;
+#if 1 /* TODO: figure this out (if condition below will never be true)*/
+  if ((double)(*ip) > X_DOUBLE_MAX || (double)(*ip) < X_DOUBLE_MIN) {
+#  ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 8);
+#  endif
+    err = NC_ERANGE;
+  }
+#  ifdef ERANGE_FILL
+  else
+#  endif
 #endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-        xx = (double) *ip;
+    xx = (double)*ip;
 
-    put_ix_double(xp, &xx);
-    return err;
+  put_ix_double(xp, &xx);
+  return err;
 }
 
-#if X_SIZEOF_DOUBLE != SIZEOF_DOUBLE  || defined(NO_IEEE_FLOAT)
+#if X_SIZEOF_DOUBLE != SIZEOF_DOUBLE || defined(NO_IEEE_FLOAT)
 static int
-ncx_put_double_double(void *xp, const double *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    double *_ip = ip;
-#ifdef NO_IEEE_FLOAT
-#ifdef ERANGE_FILL
-    double tmp=NC_FILL_DOUBLE;
-#endif
-    if (*ip > X_DOUBLE_MAX || *ip < X_DOUBLE_MIN) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&tmp, fillp, 8);
-#endif
-#ifdef ERANGE_FILL
-        _ip = &tmp;
-#endif
-        err = NC_ERANGE;
-    }
-#endif
-    put_ix_double(xp, _ip);
-    return err;
+ncx_put_double_double(void *xp, const double *ip, void *fillp) {
+  int err     = NC_NOERR;
+  double *_ip = ip;
+#  ifdef NO_IEEE_FLOAT
+#    ifdef ERANGE_FILL
+  double tmp = NC_FILL_DOUBLE;
+#    endif
+  if (*ip > X_DOUBLE_MAX || *ip < X_DOUBLE_MIN) {
+#    ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&tmp, fillp, 8);
+#    endif
+#    ifdef ERANGE_FILL
+    _ip = &tmp;
+#    endif
+    err = NC_ERANGE;
+  }
+#  endif
+  put_ix_double(xp, _ip);
+  return err;
 }
 #endif
 
@@ -4255,1470 +3942,1390 @@ ncx_put_double_double(void *xp, const double *ip, void *fillp)
 
 #if SHORT_MAX == X_INT64_MAX
 typedef short ix_int64;
-#define SIZEOF_IX_INT64 SIZEOF_SHORT
-#define IX_INT64_MAX SHORT_MAX
-#elif LONG_LONG_MAX  >= X_INT64_MAX
+#  define SIZEOF_IX_INT64 SIZEOF_SHORT
+#  define IX_INT64_MAX SHORT_MAX
+#elif LONG_LONG_MAX >= X_INT64_MAX
 typedef longlong ix_int64;
-#define SIZEOF_IX_INT64 SIZEOF_LONGLONG
-#define IX_INT64_MAX LONG_LONG_MAX
-#elif LONG_MAX  >= X_INT64_MAX
+#  define SIZEOF_IX_INT64 SIZEOF_LONGLONG
+#  define IX_INT64_MAX LONG_LONG_MAX
+#elif LONG_MAX >= X_INT64_MAX
 typedef long ix_int64;
-#define SIZEOF_IX_INT64 SIZEOF_LONG
-#define IX_INT64_MAX LONG_MAX
+#  define SIZEOF_IX_INT64 SIZEOF_LONG
+#  define IX_INT64_MAX LONG_MAX
 #else
-#error "ix_int64 implementation"
+#  error "ix_int64 implementation"
 #endif
 
 
 static void
-get_ix_int64(const void *xp, ix_int64 *ip)
-{
-    const uchar *cp = (const uchar *) xp;
+get_ix_int64(const void *xp, ix_int64 *ip) {
+  const uchar *cp = (const uchar *)xp;
 
-    *ip  = ((ix_int64)(*cp++) << 56);
-    *ip |= ((ix_int64)(*cp++) << 48);
-    *ip |= ((ix_int64)(*cp++) << 40);
-    *ip |= ((ix_int64)(*cp++) << 32);
-    *ip |= ((ix_int64)(*cp++) << 24);
-    *ip |= ((ix_int64)(*cp++) << 16);
-    *ip |= ((ix_int64)(*cp++) <<  8);
-    *ip |=  (ix_int64)*cp;
+  *ip = ((ix_int64)(*cp++) << 56);
+  *ip |= ((ix_int64)(*cp++) << 48);
+  *ip |= ((ix_int64)(*cp++) << 40);
+  *ip |= ((ix_int64)(*cp++) << 32);
+  *ip |= ((ix_int64)(*cp++) << 24);
+  *ip |= ((ix_int64)(*cp++) << 16);
+  *ip |= ((ix_int64)(*cp++) << 8);
+  *ip |= (ix_int64)*cp;
 }
 
 static void
-put_ix_int64(void *xp, const ix_int64 *ip)
-{
-    uchar *cp = (uchar *) xp;
+put_ix_int64(void *xp, const ix_int64 *ip) {
+  uchar *cp = (uchar *)xp;
 
-    *cp++ = (uchar)((*ip) >> 56);
-    *cp++ = (uchar)(((*ip) & 0x00ff000000000000LL) >> 48);
-    *cp++ = (uchar)(((*ip) & 0x0000ff0000000000LL) >> 40);
-    *cp++ = (uchar)(((*ip) & 0x000000ff00000000LL) >> 32);
-    *cp++ = (uchar)(((*ip) & 0x00000000ff000000LL) >> 24);
-    *cp++ = (uchar)(((*ip) & 0x0000000000ff0000LL) >> 16);
-    *cp++ = (uchar)(((*ip) & 0x000000000000ff00LL) >>  8);
-    *cp   = (uchar)( (*ip) & 0x00000000000000ffLL);
+  *cp++ = (uchar)((*ip) >> 56);
+  *cp++ = (uchar)(((*ip) & 0x00ff000000000000LL) >> 48);
+  *cp++ = (uchar)(((*ip) & 0x0000ff0000000000LL) >> 40);
+  *cp++ = (uchar)(((*ip) & 0x000000ff00000000LL) >> 32);
+  *cp++ = (uchar)(((*ip) & 0x00000000ff000000LL) >> 24);
+  *cp++ = (uchar)(((*ip) & 0x0000000000ff0000LL) >> 16);
+  *cp++ = (uchar)(((*ip) & 0x000000000000ff00LL) >> 8);
+  *cp   = (uchar)((*ip) & 0x00000000000000ffLL);
 }
 
 #if X_SIZEOF_INT64 != SIZEOF_LONGLONG
 static int
-ncx_get_longlong_longlong(const void *xp, longlong *ip)
-{
-    int err=NC_NOERR;
-#if SIZEOF_IX_INT64 == SIZEOF_LONGLONG && IX_INT64_MAX == LONGLONG_MAX
-    get_ix_int64(xp, (ix_int64 *)ip);
-#else
-    ix_int64 xx = 0;
-    get_ix_int64(xp, &xx);
+ncx_get_longlong_longlong(const void *xp, longlong *ip) {
+  int err = NC_NOERR;
+#  if SIZEOF_IX_INT64 == SIZEOF_LONGLONG && IX_INT64_MAX == LONGLONG_MAX
+  get_ix_int64(xp, (ix_int64 *)ip);
+#  else
+  ix_int64 xx = 0;
+  get_ix_int64(xp, &xx);
 
-#if IX_INT64_MAX > LONGLONG_MAX
-    if (xx > LONGLONG_MAX || xx < LONGLONG_MIN) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_INT64;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
-#endif
+#    if IX_INT64_MAX > LONGLONG_MAX
+  if (xx > LONGLONG_MAX || xx < LONGLONG_MIN) {
+#      ifdef ERANGE_FILL
+    *ip = NC_FILL_INT64;
+    return NC_ERANGE;
+#      else
+    err = NC_ERANGE;
+#      endif
+  }
+#    endif
 
 
-    *ip = (longlong) xx;
-#endif
-    return err;
+  *ip = (longlong)xx;
+#  endif
+  return err;
 }
 
 #endif
 static int
-ncx_get_longlong_schar(const void *xp, schar *ip)
-{
-    int err=NC_NOERR;
-    ix_int64 xx = 0;
-    get_ix_int64(xp, &xx);
+ncx_get_longlong_schar(const void *xp, schar *ip) {
+  int err     = NC_NOERR;
+  ix_int64 xx = 0;
+  get_ix_int64(xp, &xx);
 
 #if IX_INT64_MAX > SCHAR_MAX
-    if (xx > SCHAR_MAX || xx < SCHAR_MIN) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_BYTE;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
+  if (xx > SCHAR_MAX || xx < SCHAR_MIN) {
+#  ifdef ERANGE_FILL
+    *ip = NC_FILL_BYTE;
+    return NC_ERANGE;
+#  else
+    err = NC_ERANGE;
+#  endif
+  }
 #endif
 
 
-    *ip = (schar) xx;
-    return err;
+  *ip = (schar)xx;
+  return err;
 }
 
 static int
-ncx_get_longlong_short(const void *xp, short *ip)
-{
-    int err=NC_NOERR;
+ncx_get_longlong_short(const void *xp, short *ip) {
+  int err = NC_NOERR;
 #if SIZEOF_IX_INT64 == SIZEOF_SHORT && IX_INT64_MAX == SHORT_MAX
-    get_ix_int64(xp, (ix_int64 *)ip);
+  get_ix_int64(xp, (ix_int64 *)ip);
 #else
-    ix_int64 xx = 0;
-    get_ix_int64(xp, &xx);
+  ix_int64 xx = 0;
+  get_ix_int64(xp, &xx);
 
-#if IX_INT64_MAX > SHORT_MAX
-    if (xx > SHORT_MAX || xx < SHORT_MIN) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_SHORT;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
-#endif
+#  if IX_INT64_MAX > SHORT_MAX
+  if (xx > SHORT_MAX || xx < SHORT_MIN) {
+#    ifdef ERANGE_FILL
+    *ip = NC_FILL_SHORT;
+    return NC_ERANGE;
+#    else
+    err = NC_ERANGE;
+#    endif
+  }
+#  endif
 
 
-    *ip = (short) xx;
+  *ip         = (short)xx;
 #endif
-    return err;
+  return err;
 }
 
 static int
-ncx_get_longlong_int(const void *xp, int *ip)
-{
-    int err=NC_NOERR;
+ncx_get_longlong_int(const void *xp, int *ip) {
+  int err = NC_NOERR;
 #if SIZEOF_IX_INT64 == SIZEOF_INT && IX_INT64_MAX == INT_MAX
-    get_ix_int64(xp, (ix_int64 *)ip);
+  get_ix_int64(xp, (ix_int64 *)ip);
 #else
-    ix_int64 xx = 0;
-    get_ix_int64(xp, &xx);
+  ix_int64 xx = 0;
+  get_ix_int64(xp, &xx);
 
-#if IX_INT64_MAX > INT_MAX
-    if (xx > INT_MAX || xx < INT_MIN) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_INT;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
-#endif
+#  if IX_INT64_MAX > INT_MAX
+  if (xx > INT_MAX || xx < INT_MIN) {
+#    ifdef ERANGE_FILL
+    *ip = NC_FILL_INT;
+    return NC_ERANGE;
+#    else
+    err = NC_ERANGE;
+#    endif
+  }
+#  endif
 
 
-    *ip = (int) xx;
+  *ip         = (int)xx;
 #endif
-    return err;
+  return err;
 }
 
 static int
-ncx_get_longlong_long(const void *xp, long *ip)
-{
-    int err=NC_NOERR;
+ncx_get_longlong_long(const void *xp, long *ip) {
+  int err = NC_NOERR;
 #if SIZEOF_IX_INT64 == SIZEOF_LONG && IX_INT64_MAX == LONG_MAX
-    get_ix_int64(xp, (ix_int64 *)ip);
+  get_ix_int64(xp, (ix_int64 *)ip);
 #else
-    ix_int64 xx = 0;
-    get_ix_int64(xp, &xx);
+  ix_int64 xx = 0;
+  get_ix_int64(xp, &xx);
 
-#if IX_INT64_MAX > LONG_MAX
-    if (xx > LONG_MAX || xx < LONG_MIN) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_INT;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
-#endif
+#  if IX_INT64_MAX > LONG_MAX
+  if (xx > LONG_MAX || xx < LONG_MIN) {
+#    ifdef ERANGE_FILL
+    *ip = NC_FILL_INT;
+    return NC_ERANGE;
+#    else
+    err = NC_ERANGE;
+#    endif
+  }
+#  endif
 
 
-    *ip = (long) xx;
+  *ip = (long)xx;
 #endif
-    return err;
+  return err;
 }
 
 static int
-ncx_get_longlong_ushort(const void *xp, ushort *ip)
-{
-    int err=NC_NOERR;
-    ix_int64 xx = 0;
-    get_ix_int64(xp, &xx);
+ncx_get_longlong_ushort(const void *xp, ushort *ip) {
+  int err     = NC_NOERR;
+  ix_int64 xx = 0;
+  get_ix_int64(xp, &xx);
 
 #if IX_INT64_MAX > USHORT_MAX
-    if (xx > USHORT_MAX) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_USHORT;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
+  if (xx > USHORT_MAX) {
+#  ifdef ERANGE_FILL
+    *ip = NC_FILL_USHORT;
+    return NC_ERANGE;
+#  else
+    err = NC_ERANGE;
+#  endif
+  }
 #endif
 
-    if (xx < 0) {
+  if (xx < 0) {
 #ifdef ERANGE_FILL
-        *ip = NC_FILL_USHORT;
-        return NC_ERANGE;
+    *ip = NC_FILL_USHORT;
+    return NC_ERANGE;
 #else
-        err = NC_ERANGE; /* because ip is unsigned */
+    err = NC_ERANGE; /* because ip is unsigned */
 #endif
-    }
-    *ip = (ushort) xx;
-    return err;
+  }
+  *ip = (ushort)xx;
+  return err;
 }
 
 static int
-ncx_get_longlong_uchar(const void *xp, uchar *ip)
-{
-    int err=NC_NOERR;
-    ix_int64 xx = 0;
-    get_ix_int64(xp, &xx);
+ncx_get_longlong_uchar(const void *xp, uchar *ip) {
+  int err     = NC_NOERR;
+  ix_int64 xx = 0;
+  get_ix_int64(xp, &xx);
 
 #if IX_INT64_MAX > UCHAR_MAX
-    if (xx > UCHAR_MAX) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_UBYTE;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
+  if (xx > UCHAR_MAX) {
+#  ifdef ERANGE_FILL
+    *ip = NC_FILL_UBYTE;
+    return NC_ERANGE;
+#  else
+    err = NC_ERANGE;
+#  endif
+  }
 #endif
 
-    if (xx < 0) {
+  if (xx < 0) {
 #ifdef ERANGE_FILL
-        *ip = NC_FILL_UBYTE;
-        return NC_ERANGE;
+    *ip = NC_FILL_UBYTE;
+    return NC_ERANGE;
 #else
-        err = NC_ERANGE; /* because ip is unsigned */
+    err = NC_ERANGE; /* because ip is unsigned */
 #endif
-    }
-    *ip = (uchar) xx;
-    return err;
+  }
+  *ip = (uchar)xx;
+  return err;
 }
 
 static int
-ncx_get_longlong_uint(const void *xp, uint *ip)
-{
-    int err=NC_NOERR;
-    ix_int64 xx = 0;
-    get_ix_int64(xp, &xx);
+ncx_get_longlong_uint(const void *xp, uint *ip) {
+  int err     = NC_NOERR;
+  ix_int64 xx = 0;
+  get_ix_int64(xp, &xx);
 
 #if IX_INT64_MAX > UINT_MAX
-    if (xx > UINT_MAX) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_UINT;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
+  if (xx > UINT_MAX) {
+#  ifdef ERANGE_FILL
+    *ip = NC_FILL_UINT;
+    return NC_ERANGE;
+#  else
+    err = NC_ERANGE;
+#  endif
+  }
 #endif
 
-    if (xx < 0) {
+  if (xx < 0) {
 #ifdef ERANGE_FILL
-        *ip = NC_FILL_UINT;
-        return NC_ERANGE;
+    *ip = NC_FILL_UINT;
+    return NC_ERANGE;
 #else
-        err = NC_ERANGE; /* because ip is unsigned */
+    err = NC_ERANGE; /* because ip is unsigned */
 #endif
-    }
-    *ip = (uint) xx;
-    return err;
+  }
+  *ip = (uint)xx;
+  return err;
 }
 
 static int
-ncx_get_longlong_ulonglong(const void *xp, ulonglong *ip)
-{
-    int err=NC_NOERR;
-    ix_int64 xx = 0;
-    get_ix_int64(xp, &xx);
+ncx_get_longlong_ulonglong(const void *xp, ulonglong *ip) {
+  int err     = NC_NOERR;
+  ix_int64 xx = 0;
+  get_ix_int64(xp, &xx);
 
 #if IX_INT64_MAX > ULONGLONG_MAX
-    if (xx > ULONGLONG_MAX) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_UINT64;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
+  if (xx > ULONGLONG_MAX) {
+#  ifdef ERANGE_FILL
+    *ip = NC_FILL_UINT64;
+    return NC_ERANGE;
+#  else
+    err = NC_ERANGE;
+#  endif
+  }
 #endif
 
-    if (xx < 0) {
+  if (xx < 0) {
 #ifdef ERANGE_FILL
-        *ip = NC_FILL_UINT64;
-        return NC_ERANGE;
+    *ip = NC_FILL_UINT64;
+    return NC_ERANGE;
 #else
-        err = NC_ERANGE; /* because ip is unsigned */
+    err = NC_ERANGE; /* because ip is unsigned */
 #endif
-    }
-    *ip = (ulonglong) xx;
-    return err;
+  }
+  *ip = (ulonglong)xx;
+  return err;
 }
 
 static int
-ncx_get_longlong_float(const void *xp, float *ip)
-{
-	ix_int64 xx = 0;
-	get_ix_int64(xp, &xx);
-	*ip = (float)xx;
-	return NC_NOERR;
+ncx_get_longlong_float(const void *xp, float *ip) {
+  ix_int64 xx = 0;
+  get_ix_int64(xp, &xx);
+  *ip = (float)xx;
+  return NC_NOERR;
 }
 
 static int
-ncx_get_longlong_double(const void *xp, double *ip)
-{
-	ix_int64 xx = 0;
-	get_ix_int64(xp, &xx);
-	*ip = (double)xx;
-	return NC_NOERR;
+ncx_get_longlong_double(const void *xp, double *ip) {
+  ix_int64 xx = 0;
+  get_ix_int64(xp, &xx);
+  *ip = (double)xx;
+  return NC_NOERR;
 }
 
 
 #if X_SIZEOF_INT64 != SIZEOF_LONGLONG
 static int
-ncx_put_longlong_longlong(void *xp, const longlong *ip, void *fillp)
-{
-    int err=NC_NOERR;
-#if SIZEOF_IX_INT64 == SIZEOF_LONGLONG && IX_INT64_MAX == LONGLONG_MAX
-    put_ix_int64(xp, (const ix_int64 *)ip);
-#else
-    ix_int64 xx = NC_FILL_INT64;
+ncx_put_longlong_longlong(void *xp, const longlong *ip, void *fillp) {
+  int err = NC_NOERR;
+#  if SIZEOF_IX_INT64 == SIZEOF_LONGLONG && IX_INT64_MAX == LONGLONG_MAX
+  put_ix_int64(xp, (const ix_int64 *)ip);
+#  else
+  ix_int64 xx = NC_FILL_INT64;
 
-#if IX_INT64_MAX < LONGLONG_MAX
-    if (*ip > IX_INT64_MAX || *ip < X_INT64_MIN) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 8);
-#endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-        xx = (ix_int64)*ip;
+#    if IX_INT64_MAX < LONGLONG_MAX
+  if (*ip > IX_INT64_MAX || *ip < X_INT64_MIN) {
 
-    put_ix_int64(xp, &xx);
-#endif
-    return err;
+#      ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 8);
+#      endif
+    err = NC_ERANGE;
+  }
+#      ifdef ERANGE_FILL
+  else
+#      endif
+#    endif
+    xx = (ix_int64)*ip;
+
+  put_ix_int64(xp, &xx);
+#  endif
+  return err;
 }
 
 #endif
 static int
-ncx_put_longlong_schar(void *xp, const schar *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_int64 xx = NC_FILL_INT64;
+ncx_put_longlong_schar(void *xp, const schar *ip, void *fillp) {
+  int err     = NC_NOERR;
+  ix_int64 xx = NC_FILL_INT64;
 
 #if IX_INT64_MAX < SCHAR_MAX
-    if (*ip > IX_INT64_MAX || *ip < X_INT64_MIN) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 8);
+  if (*ip > IX_INT64_MAX || *ip < X_INT64_MIN) {
+#  ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 8);
+#  endif
+    err = NC_ERANGE;
+  }
+#  ifdef ERANGE_FILL
+  else
+#  endif
 #endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-        xx = (ix_int64)*ip;
+    xx = (ix_int64)*ip;
 
-    put_ix_int64(xp, &xx);
-    return err;
+  put_ix_int64(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_longlong_short(void *xp, const short *ip, void *fillp)
-{
-    int err=NC_NOERR;
+ncx_put_longlong_short(void *xp, const short *ip, void *fillp) {
+  int err = NC_NOERR;
 #if SIZEOF_IX_INT64 == SIZEOF_SHORT && IX_INT64_MAX == SHORT_MAX
-    put_ix_int64(xp, (const ix_int64 *)ip);
+  put_ix_int64(xp, (const ix_int64 *)ip);
 #else
-    ix_int64 xx = NC_FILL_INT64;
+  ix_int64 xx = NC_FILL_INT64;
 
-#if IX_INT64_MAX < SHORT_MAX
-    if (*ip > IX_INT64_MAX || *ip < X_INT64_MIN) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 8);
-#endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-        xx = (ix_int64)*ip;
+#  if IX_INT64_MAX < SHORT_MAX
+  if (*ip > IX_INT64_MAX || *ip < X_INT64_MIN) {
 
-    put_ix_int64(xp, &xx);
+#    ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 8);
+#    endif
+    err = NC_ERANGE;
+  }
+#    ifdef ERANGE_FILL
+  else
+#    endif
+#  endif
+    xx = (ix_int64)*ip;
+
+  put_ix_int64(xp, &xx);
 #endif
-    return err;
+  return err;
 }
 
 static int
-ncx_put_longlong_int(void *xp, const int *ip, void *fillp)
-{
-    int err=NC_NOERR;
+ncx_put_longlong_int(void *xp, const int *ip, void *fillp) {
+  int err = NC_NOERR;
 #if SIZEOF_IX_INT64 == SIZEOF_INT && IX_INT64_MAX == INT_MAX
-    put_ix_int64(xp, (const ix_int64 *)ip);
+  put_ix_int64(xp, (const ix_int64 *)ip);
 #else
-    ix_int64 xx = NC_FILL_INT64;
+  ix_int64 xx = NC_FILL_INT64;
 
-#if IX_INT64_MAX < INT_MAX
-    if (*ip > IX_INT64_MAX || *ip < X_INT64_MIN) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 8);
-#endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-        xx = (ix_int64)*ip;
+#  if IX_INT64_MAX < INT_MAX
+  if (*ip > IX_INT64_MAX || *ip < X_INT64_MIN) {
 
-    put_ix_int64(xp, &xx);
+#    ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 8);
+#    endif
+    err = NC_ERANGE;
+  }
+#    ifdef ERANGE_FILL
+  else
+#    endif
+#  endif
+    xx = (ix_int64)*ip;
+
+  put_ix_int64(xp, &xx);
 #endif
-    return err;
+  return err;
 }
 
 static int
-ncx_put_longlong_long(void *xp, const long *ip, void *fillp)
-{
-    int err=NC_NOERR;
+ncx_put_longlong_long(void *xp, const long *ip, void *fillp) {
+  int err = NC_NOERR;
 #if SIZEOF_IX_INT64 == SIZEOF_LONG && IX_INT64_MAX == LONG_MAX
-    put_ix_int64(xp, (const ix_int64 *)ip);
+  put_ix_int64(xp, (const ix_int64 *)ip);
 #else
-    ix_int64 xx = NC_FILL_INT64;
+  ix_int64 xx = NC_FILL_INT64;
 
-#if IX_INT64_MAX < LONG_MAX
-    if (*ip > IX_INT64_MAX || *ip < X_INT64_MIN) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 8);
-#endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-        xx = (ix_int64)*ip;
+#  if IX_INT64_MAX < LONG_MAX
+  if (*ip > IX_INT64_MAX || *ip < X_INT64_MIN) {
 
-    put_ix_int64(xp, &xx);
+#    ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 8);
+#    endif
+    err = NC_ERANGE;
+  }
+#    ifdef ERANGE_FILL
+  else
+#    endif
+#  endif
+    xx = (ix_int64)*ip;
+
+  put_ix_int64(xp, &xx);
 #endif
-    return err;
+  return err;
 }
 
 static int
-ncx_put_longlong_ushort(void *xp, const ushort *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_int64 xx = NC_FILL_INT64;
+ncx_put_longlong_ushort(void *xp, const ushort *ip, void *fillp) {
+  int err     = NC_NOERR;
+  ix_int64 xx = NC_FILL_INT64;
 
 #if IX_INT64_MAX < USHORT_MAX
-    if (*ip > IX_INT64_MAX) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 8);
+  if (*ip > IX_INT64_MAX) {
+#  ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 8);
+#  endif
+    err = NC_ERANGE;
+  }
+#  ifdef ERANGE_FILL
+  else
+#  endif
 #endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-        xx = (ix_int64)*ip;
+    xx = (ix_int64)*ip;
 
-    put_ix_int64(xp, &xx);
-    return err;
+  put_ix_int64(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_longlong_uchar(void *xp, const uchar *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_int64 xx = NC_FILL_INT64;
+ncx_put_longlong_uchar(void *xp, const uchar *ip, void *fillp) {
+  int err     = NC_NOERR;
+  ix_int64 xx = NC_FILL_INT64;
 
 #if IX_INT64_MAX < UCHAR_MAX
-    if (*ip > IX_INT64_MAX) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 8);
+  if (*ip > IX_INT64_MAX) {
+#  ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 8);
+#  endif
+    err = NC_ERANGE;
+  }
+#  ifdef ERANGE_FILL
+  else
+#  endif
 #endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-        xx = (ix_int64)*ip;
+    xx = (ix_int64)*ip;
 
-    put_ix_int64(xp, &xx);
-    return err;
+  put_ix_int64(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_longlong_uint(void *xp, const uint *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_int64 xx = NC_FILL_INT64;
+ncx_put_longlong_uint(void *xp, const uint *ip, void *fillp) {
+  int err     = NC_NOERR;
+  ix_int64 xx = NC_FILL_INT64;
 
 #if IX_INT64_MAX < UINT_MAX
-    if (*ip > IX_INT64_MAX) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 8);
+  if (*ip > IX_INT64_MAX) {
+#  ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 8);
+#  endif
+    err = NC_ERANGE;
+  }
+#  ifdef ERANGE_FILL
+  else
+#  endif
 #endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-        xx = (ix_int64)*ip;
+    xx = (ix_int64)*ip;
 
-    put_ix_int64(xp, &xx);
-    return err;
+  put_ix_int64(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_longlong_ulonglong(void *xp, const ulonglong *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_int64 xx = NC_FILL_INT64;
+ncx_put_longlong_ulonglong(void *xp, const ulonglong *ip, void *fillp) {
+  int err     = NC_NOERR;
+  ix_int64 xx = NC_FILL_INT64;
 
 #if IX_INT64_MAX < ULONGLONG_MAX
-    if (*ip > IX_INT64_MAX) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 8);
+  if (*ip > IX_INT64_MAX) {
+#  ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 8);
+#  endif
+    err = NC_ERANGE;
+  }
+#  ifdef ERANGE_FILL
+  else
+#  endif
 #endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-        xx = (ix_int64)*ip;
+    xx = (ix_int64)*ip;
 
-    put_ix_int64(xp, &xx);
-    return err;
+  put_ix_int64(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_longlong_float(void *xp, const float *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_int64 xx = NC_FILL_INT64;
+ncx_put_longlong_float(void *xp, const float *ip, void *fillp) {
+  int err     = NC_NOERR;
+  ix_int64 xx = NC_FILL_INT64;
 
-    if (*ip > (double)X_INT64_MAX || *ip < (double)X_INT64_MIN) {
-        
+  if (*ip > (double)X_INT64_MAX || *ip < (double)X_INT64_MIN) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 8);
+    if (fillp != NULL) memcpy(&xx, fillp, 8);
 #endif
-        err = NC_ERANGE;
-    }
+    err = NC_ERANGE;
+  }
 #ifdef ERANGE_FILL
-    else
+  else
 #endif
-        xx = (ix_int64)*ip;
+    xx = (ix_int64)*ip;
 
-    put_ix_int64(xp, &xx);
-    return err;
+  put_ix_int64(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_longlong_double(void *xp, const double *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_int64 xx = NC_FILL_INT64;
+ncx_put_longlong_double(void *xp, const double *ip, void *fillp) {
+  int err     = NC_NOERR;
+  ix_int64 xx = NC_FILL_INT64;
 
-    if (*ip > X_INT64_MAX || *ip < X_INT64_MIN) {
-        
+  if (*ip > X_INT64_MAX || *ip < X_INT64_MIN) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 8);
+    if (fillp != NULL) memcpy(&xx, fillp, 8);
 #endif
-        err = NC_ERANGE;
-    }
+    err = NC_ERANGE;
+  }
 #ifdef ERANGE_FILL
-    else
+  else
 #endif
-        xx = (ix_int64)*ip;
+    xx = (ix_int64)*ip;
 
-    put_ix_int64(xp, &xx);
-    return err;
+  put_ix_int64(xp, &xx);
+  return err;
 }
-
 
 
 /* external NC_UINT64 -------------------------------------------------------*/
 
 #if USHORT_MAX == X_UINT64_MAX
 typedef ushort ix_uint64;
-#define SIZEOF_IX_UINT64 SIZEOF_USHORT
-#define IX_UINT64_MAX USHORT_MAX
-#elif ULONG_LONG_MAX  >= X_UINT64_MAX
+#  define SIZEOF_IX_UINT64 SIZEOF_USHORT
+#  define IX_UINT64_MAX USHORT_MAX
+#elif ULONG_LONG_MAX >= X_UINT64_MAX
 typedef ulonglong ix_uint64;
-#define SIZEOF_IX_UINT64 SIZEOF_ULONGLONG
-#define IX_UINT64_MAX ULONG_LONG_MAX
-#elif ULONG_MAX  >= X_UINT64_MAX
+#  define SIZEOF_IX_UINT64 SIZEOF_ULONGLONG
+#  define IX_UINT64_MAX ULONG_LONG_MAX
+#elif ULONG_MAX >= X_UINT64_MAX
 typedef ulong ix_uint64;
-#define SIZEOF_IX_UINT64 SIZEOF_ULONG
-#define IX_UINT64_MAX ULONG_MAX
+#  define SIZEOF_IX_UINT64 SIZEOF_ULONG
+#  define IX_UINT64_MAX ULONG_MAX
 #else
-#error "ix_uint64 implementation"
+#  error "ix_uint64 implementation"
 #endif
 
 
 static void
-get_ix_uint64(const void *xp, ix_uint64 *ip)
-{
-    const uchar *cp = (const uchar *) xp;
+get_ix_uint64(const void *xp, ix_uint64 *ip) {
+  const uchar *cp = (const uchar *)xp;
 
-    *ip  = ((ix_uint64)(*cp++) << 56);
-    *ip |= ((ix_uint64)(*cp++) << 48);
-    *ip |= ((ix_uint64)(*cp++) << 40);
-    *ip |= ((ix_uint64)(*cp++) << 32);
-    *ip |= ((ix_uint64)(*cp++) << 24);
-    *ip |= ((ix_uint64)(*cp++) << 16);
-    *ip |= ((ix_uint64)(*cp++) <<  8);
-    *ip |=  (ix_uint64)*cp;
+  *ip = ((ix_uint64)(*cp++) << 56);
+  *ip |= ((ix_uint64)(*cp++) << 48);
+  *ip |= ((ix_uint64)(*cp++) << 40);
+  *ip |= ((ix_uint64)(*cp++) << 32);
+  *ip |= ((ix_uint64)(*cp++) << 24);
+  *ip |= ((ix_uint64)(*cp++) << 16);
+  *ip |= ((ix_uint64)(*cp++) << 8);
+  *ip |= (ix_uint64)*cp;
 }
 
 static void
-put_ix_uint64(void *xp, const ix_uint64 *ip)
-{
-    uchar *cp = (uchar *) xp;
+put_ix_uint64(void *xp, const ix_uint64 *ip) {
+  uchar *cp = (uchar *)xp;
 
-    *cp++ = (uchar)((*ip) >> 56);
-    *cp++ = (uchar)(((*ip) & 0x00ff000000000000ULL) >> 48);
-    *cp++ = (uchar)(((*ip) & 0x0000ff0000000000ULL) >> 40);
-    *cp++ = (uchar)(((*ip) & 0x000000ff00000000ULL) >> 32);
-    *cp++ = (uchar)(((*ip) & 0x00000000ff000000ULL) >> 24);
-    *cp++ = (uchar)(((*ip) & 0x0000000000ff0000ULL) >> 16);
-    *cp++ = (uchar)(((*ip) & 0x000000000000ff00ULL) >>  8);
-    *cp   = (uchar)( (*ip) & 0x00000000000000ffULL);
+  *cp++ = (uchar)((*ip) >> 56);
+  *cp++ = (uchar)(((*ip) & 0x00ff000000000000ULL) >> 48);
+  *cp++ = (uchar)(((*ip) & 0x0000ff0000000000ULL) >> 40);
+  *cp++ = (uchar)(((*ip) & 0x000000ff00000000ULL) >> 32);
+  *cp++ = (uchar)(((*ip) & 0x00000000ff000000ULL) >> 24);
+  *cp++ = (uchar)(((*ip) & 0x0000000000ff0000ULL) >> 16);
+  *cp++ = (uchar)(((*ip) & 0x000000000000ff00ULL) >> 8);
+  *cp   = (uchar)((*ip) & 0x00000000000000ffULL);
 }
 
 #if X_SIZEOF_UINT64 != SIZEOF_ULONGLONG
 static int
-ncx_get_ulonglong_ulonglong(const void *xp, ulonglong *ip)
-{
-    int err=NC_NOERR;
-#if SIZEOF_IX_UINT64 == SIZEOF_ULONGLONG && IX_UINT64_MAX == ULONGLONG_MAX
-    get_ix_uint64(xp, (ix_uint64 *)ip);
-#else
-    ix_uint64 xx = 0;
-    get_ix_uint64(xp, &xx);
+ncx_get_ulonglong_ulonglong(const void *xp, ulonglong *ip) {
+  int err = NC_NOERR;
+#  if SIZEOF_IX_UINT64 == SIZEOF_ULONGLONG && IX_UINT64_MAX == ULONGLONG_MAX
+  get_ix_uint64(xp, (ix_uint64 *)ip);
+#  else
+  ix_uint64 xx = 0;
+  get_ix_uint64(xp, &xx);
 
-#if IX_UINT64_MAX > ULONGLONG_MAX
-    if (xx > ULONGLONG_MAX) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_UINT64;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
-#endif
+#    if IX_UINT64_MAX > ULONGLONG_MAX
+  if (xx > ULONGLONG_MAX) {
+#      ifdef ERANGE_FILL
+    *ip = NC_FILL_UINT64;
+    return NC_ERANGE;
+#      else
+    err = NC_ERANGE;
+#      endif
+  }
+#    endif
 
 
-    *ip = (ulonglong) xx;
-#endif
-    return err;
+  *ip = (ulonglong)xx;
+#  endif
+  return err;
 }
 
 #endif
 static int
-ncx_get_ulonglong_schar(const void *xp, schar *ip)
-{
-    int err=NC_NOERR;
-    ix_uint64 xx = 0;
-    get_ix_uint64(xp, &xx);
+ncx_get_ulonglong_schar(const void *xp, schar *ip) {
+  int err      = NC_NOERR;
+  ix_uint64 xx = 0;
+  get_ix_uint64(xp, &xx);
 
 #if IX_UINT64_MAX > SCHAR_MAX
-    if (xx > SCHAR_MAX) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_BYTE;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
+  if (xx > SCHAR_MAX) {
+#  ifdef ERANGE_FILL
+    *ip = NC_FILL_BYTE;
+    return NC_ERANGE;
+#  else
+    err = NC_ERANGE;
+#  endif
+  }
 #endif
 
 
-    *ip = (schar) xx;
-    return err;
+  *ip = (schar)xx;
+  return err;
 }
 
 static int
-ncx_get_ulonglong_short(const void *xp, short *ip)
-{
-    int err=NC_NOERR;
-    ix_uint64 xx = 0;
-    get_ix_uint64(xp, &xx);
+ncx_get_ulonglong_short(const void *xp, short *ip) {
+  int err      = NC_NOERR;
+  ix_uint64 xx = 0;
+  get_ix_uint64(xp, &xx);
 
 #if IX_UINT64_MAX > SHORT_MAX
-    if (xx > SHORT_MAX) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_SHORT;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
+  if (xx > SHORT_MAX) {
+#  ifdef ERANGE_FILL
+    *ip = NC_FILL_SHORT;
+    return NC_ERANGE;
+#  else
+    err = NC_ERANGE;
+#  endif
+  }
 #endif
 
 
-    *ip = (short) xx;
-    return err;
+  *ip = (short)xx;
+  return err;
 }
 
 static int
-ncx_get_ulonglong_int(const void *xp, int *ip)
-{
-    int err=NC_NOERR;
-    ix_uint64 xx = 0;
-    get_ix_uint64(xp, &xx);
+ncx_get_ulonglong_int(const void *xp, int *ip) {
+  int err      = NC_NOERR;
+  ix_uint64 xx = 0;
+  get_ix_uint64(xp, &xx);
 
 #if IX_UINT64_MAX > INT_MAX
-    if (xx > INT_MAX) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_INT;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
+  if (xx > INT_MAX) {
+#  ifdef ERANGE_FILL
+    *ip = NC_FILL_INT;
+    return NC_ERANGE;
+#  else
+    err = NC_ERANGE;
+#  endif
+  }
 #endif
 
 
-    *ip = (int) xx;
-    return err;
+  *ip = (int)xx;
+  return err;
 }
 
 static int
-ncx_get_ulonglong_long(const void *xp, long *ip)
-{
-    int err=NC_NOERR;
-    ix_uint64 xx = 0;
-    get_ix_uint64(xp, &xx);
+ncx_get_ulonglong_long(const void *xp, long *ip) {
+  int err      = NC_NOERR;
+  ix_uint64 xx = 0;
+  get_ix_uint64(xp, &xx);
 
 #if IX_UINT64_MAX > LONG_MAX
-    if (xx > LONG_MAX) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_INT;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
+  if (xx > LONG_MAX) {
+#  ifdef ERANGE_FILL
+    *ip = NC_FILL_INT;
+    return NC_ERANGE;
+#  else
+    err = NC_ERANGE;
+#  endif
+  }
 #endif
 
 
-    *ip = (long) xx;
-    return err;
+  *ip = (long)xx;
+  return err;
 }
 
 static int
-ncx_get_ulonglong_longlong(const void *xp, longlong *ip)
-{
-    int err=NC_NOERR;
-    ix_uint64 xx = 0;
-    get_ix_uint64(xp, &xx);
+ncx_get_ulonglong_longlong(const void *xp, longlong *ip) {
+  int err      = NC_NOERR;
+  ix_uint64 xx = 0;
+  get_ix_uint64(xp, &xx);
 
 #if IX_UINT64_MAX > LONGLONG_MAX
-    if (xx > LONGLONG_MAX) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_INT64;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
+  if (xx > LONGLONG_MAX) {
+#  ifdef ERANGE_FILL
+    *ip = NC_FILL_INT64;
+    return NC_ERANGE;
+#  else
+    err = NC_ERANGE;
+#  endif
+  }
 #endif
 
 
-    *ip = (longlong) xx;
-    return err;
+  *ip = (longlong)xx;
+  return err;
 }
 
 static int
-ncx_get_ulonglong_ushort(const void *xp, ushort *ip)
-{
-    int err=NC_NOERR;
+ncx_get_ulonglong_ushort(const void *xp, ushort *ip) {
+  int err = NC_NOERR;
 #if SIZEOF_IX_UINT64 == SIZEOF_USHORT && IX_UINT64_MAX == USHORT_MAX
-    get_ix_uint64(xp, (ix_uint64 *)ip);
+  get_ix_uint64(xp, (ix_uint64 *)ip);
 #else
-    ix_uint64 xx = 0;
-    get_ix_uint64(xp, &xx);
+  ix_uint64 xx = 0;
+  get_ix_uint64(xp, &xx);
 
-#if IX_UINT64_MAX > USHORT_MAX
-    if (xx > USHORT_MAX) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_USHORT;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
-#endif
+#  if IX_UINT64_MAX > USHORT_MAX
+  if (xx > USHORT_MAX) {
+#    ifdef ERANGE_FILL
+    *ip = NC_FILL_USHORT;
+    return NC_ERANGE;
+#    else
+    err = NC_ERANGE;
+#    endif
+  }
+#  endif
 
 
-    *ip = (ushort) xx;
+  *ip          = (ushort)xx;
 #endif
-    return err;
+  return err;
 }
 
 static int
-ncx_get_ulonglong_uchar(const void *xp, uchar *ip)
-{
-    int err=NC_NOERR;
+ncx_get_ulonglong_uchar(const void *xp, uchar *ip) {
+  int err = NC_NOERR;
 #if SIZEOF_IX_UINT64 == SIZEOF_UCHAR && IX_UINT64_MAX == UCHAR_MAX
-    get_ix_uint64(xp, (ix_uint64 *)ip);
+  get_ix_uint64(xp, (ix_uint64 *)ip);
 #else
-    ix_uint64 xx = 0;
-    get_ix_uint64(xp, &xx);
+  ix_uint64 xx = 0;
+  get_ix_uint64(xp, &xx);
 
-#if IX_UINT64_MAX > UCHAR_MAX
-    if (xx > UCHAR_MAX) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_UBYTE;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
-#endif
+#  if IX_UINT64_MAX > UCHAR_MAX
+  if (xx > UCHAR_MAX) {
+#    ifdef ERANGE_FILL
+    *ip = NC_FILL_UBYTE;
+    return NC_ERANGE;
+#    else
+    err = NC_ERANGE;
+#    endif
+  }
+#  endif
 
 
-    *ip = (uchar) xx;
+  *ip          = (uchar)xx;
 #endif
-    return err;
+  return err;
 }
 
 static int
-ncx_get_ulonglong_uint(const void *xp, uint *ip)
-{
-    int err=NC_NOERR;
+ncx_get_ulonglong_uint(const void *xp, uint *ip) {
+  int err = NC_NOERR;
 #if SIZEOF_IX_UINT64 == SIZEOF_UINT && IX_UINT64_MAX == UINT_MAX
-    get_ix_uint64(xp, (ix_uint64 *)ip);
+  get_ix_uint64(xp, (ix_uint64 *)ip);
 #else
-    ix_uint64 xx = 0;
-    get_ix_uint64(xp, &xx);
+  ix_uint64 xx = 0;
+  get_ix_uint64(xp, &xx);
 
-#if IX_UINT64_MAX > UINT_MAX
-    if (xx > UINT_MAX) {
-#ifdef ERANGE_FILL
-        *ip = NC_FILL_UINT;
-        return NC_ERANGE;
-#else
-        err = NC_ERANGE;
-#endif
-    }
-#endif
+#  if IX_UINT64_MAX > UINT_MAX
+  if (xx > UINT_MAX) {
+#    ifdef ERANGE_FILL
+    *ip = NC_FILL_UINT;
+    return NC_ERANGE;
+#    else
+    err = NC_ERANGE;
+#    endif
+  }
+#  endif
 
 
-    *ip = (uint) xx;
+  *ip          = (uint)xx;
 #endif
-    return err;
+  return err;
 }
 
 static int
-ncx_get_ulonglong_float(const void *xp, float *ip)
-{
-	ix_uint64 xx = 0;
-	get_ix_uint64(xp, &xx);
-	*ip = (float)xx;
-	return NC_NOERR;
+ncx_get_ulonglong_float(const void *xp, float *ip) {
+  ix_uint64 xx = 0;
+  get_ix_uint64(xp, &xx);
+  *ip = (float)xx;
+  return NC_NOERR;
 }
 
 static int
-ncx_get_ulonglong_double(const void *xp, double *ip)
-{
-	ix_uint64 xx = 0;
-	get_ix_uint64(xp, &xx);
-	*ip = (double)xx;
-	return NC_NOERR;
+ncx_get_ulonglong_double(const void *xp, double *ip) {
+  ix_uint64 xx = 0;
+  get_ix_uint64(xp, &xx);
+  *ip = (double)xx;
+  return NC_NOERR;
 }
 
 
 #if X_SIZEOF_UINT64 != SIZEOF_ULONGLONG
 static int
-ncx_put_ulonglong_ulonglong(void *xp, const ulonglong *ip, void *fillp)
-{
-    int err=NC_NOERR;
-#if SIZEOF_IX_UINT64 == SIZEOF_ULONGLONG && IX_UINT64_MAX == ULONGLONG_MAX
-    put_ix_uint64(xp, (const ix_uint64 *)ip);
-#else
-    ix_uint64 xx = NC_FILL_UINT64;
+ncx_put_ulonglong_ulonglong(void *xp, const ulonglong *ip, void *fillp) {
+  int err = NC_NOERR;
+#  if SIZEOF_IX_UINT64 == SIZEOF_ULONGLONG && IX_UINT64_MAX == ULONGLONG_MAX
+  put_ix_uint64(xp, (const ix_uint64 *)ip);
+#  else
+  ix_uint64 xx = NC_FILL_UINT64;
 
-#if IX_UINT64_MAX < ULONGLONG_MAX
-    if (*ip > IX_UINT64_MAX) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 8);
-#endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-        xx = (ix_uint64)*ip;
+#    if IX_UINT64_MAX < ULONGLONG_MAX
+  if (*ip > IX_UINT64_MAX) {
 
-    put_ix_uint64(xp, &xx);
-#endif
-    return err;
+#      ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 8);
+#      endif
+    err = NC_ERANGE;
+  }
+#      ifdef ERANGE_FILL
+  else
+#      endif
+#    endif
+    xx = (ix_uint64)*ip;
+
+  put_ix_uint64(xp, &xx);
+#  endif
+  return err;
 }
 
 #endif
 static int
-ncx_put_ulonglong_schar(void *xp, const schar *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_uint64 xx = NC_FILL_UINT64;
+ncx_put_ulonglong_schar(void *xp, const schar *ip, void *fillp) {
+  int err      = NC_NOERR;
+  ix_uint64 xx = NC_FILL_UINT64;
 
 #if IX_UINT64_MAX < SCHAR_MAX
-    if (*ip > IX_UINT64_MAX) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 8);
+  if (*ip > IX_UINT64_MAX) {
+#  ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 8);
+#  endif
+    err = NC_ERANGE;
+  }
+#  ifdef ERANGE_FILL
+  else
+#  endif
 #endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-    if (*ip < 0) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 8);
-#endif
-        err = NC_ERANGE; /* because xp is unsigned */
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-        xx = (ix_uint64)*ip;
+  if (*ip < 0) {
 
-    put_ix_uint64(xp, &xx);
-    return err;
+#ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 8);
+#endif
+    err = NC_ERANGE; /* because xp is unsigned */
+  }
+#ifdef ERANGE_FILL
+  else
+#endif
+    xx = (ix_uint64)*ip;
+
+  put_ix_uint64(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_ulonglong_short(void *xp, const short *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_uint64 xx = NC_FILL_UINT64;
+ncx_put_ulonglong_short(void *xp, const short *ip, void *fillp) {
+  int err      = NC_NOERR;
+  ix_uint64 xx = NC_FILL_UINT64;
 
 #if IX_UINT64_MAX < SHORT_MAX
-    if (*ip > IX_UINT64_MAX) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 8);
+  if (*ip > IX_UINT64_MAX) {
+#  ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 8);
+#  endif
+    err = NC_ERANGE;
+  }
+#  ifdef ERANGE_FILL
+  else
+#  endif
 #endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-    if (*ip < 0) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 8);
-#endif
-        err = NC_ERANGE; /* because xp is unsigned */
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-        xx = (ix_uint64)*ip;
+  if (*ip < 0) {
 
-    put_ix_uint64(xp, &xx);
-    return err;
+#ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 8);
+#endif
+    err = NC_ERANGE; /* because xp is unsigned */
+  }
+#ifdef ERANGE_FILL
+  else
+#endif
+    xx = (ix_uint64)*ip;
+
+  put_ix_uint64(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_ulonglong_int(void *xp, const int *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_uint64 xx = NC_FILL_UINT64;
+ncx_put_ulonglong_int(void *xp, const int *ip, void *fillp) {
+  int err      = NC_NOERR;
+  ix_uint64 xx = NC_FILL_UINT64;
 
 #if IX_UINT64_MAX < INT_MAX
-    if (*ip > IX_UINT64_MAX) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 8);
+  if (*ip > IX_UINT64_MAX) {
+#  ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 8);
+#  endif
+    err = NC_ERANGE;
+  }
+#  ifdef ERANGE_FILL
+  else
+#  endif
 #endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-    if (*ip < 0) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 8);
-#endif
-        err = NC_ERANGE; /* because xp is unsigned */
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-        xx = (ix_uint64)*ip;
+  if (*ip < 0) {
 
-    put_ix_uint64(xp, &xx);
-    return err;
+#ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 8);
+#endif
+    err = NC_ERANGE; /* because xp is unsigned */
+  }
+#ifdef ERANGE_FILL
+  else
+#endif
+    xx = (ix_uint64)*ip;
+
+  put_ix_uint64(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_ulonglong_long(void *xp, const long *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_uint64 xx = NC_FILL_UINT64;
+ncx_put_ulonglong_long(void *xp, const long *ip, void *fillp) {
+  int err      = NC_NOERR;
+  ix_uint64 xx = NC_FILL_UINT64;
 
 #if IX_UINT64_MAX < LONG_MAX
-    if (*ip > IX_UINT64_MAX) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 8);
+  if (*ip > IX_UINT64_MAX) {
+#  ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 8);
+#  endif
+    err = NC_ERANGE;
+  }
+#  ifdef ERANGE_FILL
+  else
+#  endif
 #endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-    if (*ip < 0) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 8);
-#endif
-        err = NC_ERANGE; /* because xp is unsigned */
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-        xx = (ix_uint64)*ip;
+  if (*ip < 0) {
 
-    put_ix_uint64(xp, &xx);
-    return err;
+#ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 8);
+#endif
+    err = NC_ERANGE; /* because xp is unsigned */
+  }
+#ifdef ERANGE_FILL
+  else
+#endif
+    xx = (ix_uint64)*ip;
+
+  put_ix_uint64(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_ulonglong_longlong(void *xp, const longlong *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_uint64 xx = NC_FILL_UINT64;
+ncx_put_ulonglong_longlong(void *xp, const longlong *ip, void *fillp) {
+  int err      = NC_NOERR;
+  ix_uint64 xx = NC_FILL_UINT64;
 
 #if IX_UINT64_MAX < LONGLONG_MAX
-    if (*ip > IX_UINT64_MAX) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 8);
+  if (*ip > IX_UINT64_MAX) {
+#  ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 8);
+#  endif
+    err = NC_ERANGE;
+  }
+#  ifdef ERANGE_FILL
+  else
+#  endif
 #endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-    if (*ip < 0) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 8);
-#endif
-        err = NC_ERANGE; /* because xp is unsigned */
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-        xx = (ix_uint64)*ip;
+  if (*ip < 0) {
 
-    put_ix_uint64(xp, &xx);
-    return err;
+#ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 8);
+#endif
+    err = NC_ERANGE; /* because xp is unsigned */
+  }
+#ifdef ERANGE_FILL
+  else
+#endif
+    xx = (ix_uint64)*ip;
+
+  put_ix_uint64(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_ulonglong_uchar(void *xp, const uchar *ip, void *fillp)
-{
-    int err=NC_NOERR;
+ncx_put_ulonglong_uchar(void *xp, const uchar *ip, void *fillp) {
+  int err = NC_NOERR;
 #if SIZEOF_IX_UINT64 == SIZEOF_UCHAR && IX_UINT64_MAX == UCHAR_MAX
-    put_ix_uint64(xp, (const ix_uint64 *)ip);
+  put_ix_uint64(xp, (const ix_uint64 *)ip);
 #else
-    ix_uint64 xx = NC_FILL_UINT64;
+  ix_uint64 xx = NC_FILL_UINT64;
 
-#if IX_UINT64_MAX < UCHAR_MAX
-    if (*ip > IX_UINT64_MAX) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 8);
-#endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-        xx = (ix_uint64)*ip;
+#  if IX_UINT64_MAX < UCHAR_MAX
+  if (*ip > IX_UINT64_MAX) {
 
-    put_ix_uint64(xp, &xx);
+#    ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 8);
+#    endif
+    err = NC_ERANGE;
+  }
+#    ifdef ERANGE_FILL
+  else
+#    endif
+#  endif
+    xx = (ix_uint64)*ip;
+
+  put_ix_uint64(xp, &xx);
 #endif
-    return err;
+  return err;
 }
 
 static int
-ncx_put_ulonglong_ushort(void *xp, const ushort *ip, void *fillp)
-{
-    int err=NC_NOERR;
+ncx_put_ulonglong_ushort(void *xp, const ushort *ip, void *fillp) {
+  int err = NC_NOERR;
 #if SIZEOF_IX_UINT64 == SIZEOF_USHORT && IX_UINT64_MAX == USHORT_MAX
-    put_ix_uint64(xp, (const ix_uint64 *)ip);
+  put_ix_uint64(xp, (const ix_uint64 *)ip);
 #else
-    ix_uint64 xx = NC_FILL_UINT64;
+  ix_uint64 xx = NC_FILL_UINT64;
 
-#if IX_UINT64_MAX < USHORT_MAX
-    if (*ip > IX_UINT64_MAX) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 8);
-#endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-        xx = (ix_uint64)*ip;
+#  if IX_UINT64_MAX < USHORT_MAX
+  if (*ip > IX_UINT64_MAX) {
 
-    put_ix_uint64(xp, &xx);
+#    ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 8);
+#    endif
+    err = NC_ERANGE;
+  }
+#    ifdef ERANGE_FILL
+  else
+#    endif
+#  endif
+    xx = (ix_uint64)*ip;
+
+  put_ix_uint64(xp, &xx);
 #endif
-    return err;
+  return err;
 }
 
 static int
-ncx_put_ulonglong_uint(void *xp, const uint *ip, void *fillp)
-{
-    int err=NC_NOERR;
+ncx_put_ulonglong_uint(void *xp, const uint *ip, void *fillp) {
+  int err = NC_NOERR;
 #if SIZEOF_IX_UINT64 == SIZEOF_UINT && IX_UINT64_MAX == UINT_MAX
-    put_ix_uint64(xp, (const ix_uint64 *)ip);
+  put_ix_uint64(xp, (const ix_uint64 *)ip);
 #else
-    ix_uint64 xx = NC_FILL_UINT64;
+  ix_uint64 xx = NC_FILL_UINT64;
 
-#if IX_UINT64_MAX < UINT_MAX
-    if (*ip > IX_UINT64_MAX) {
-        
-#ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 8);
-#endif
-        err = NC_ERANGE;
-    }
-#ifdef ERANGE_FILL
-    else
-#endif
-#endif
-        xx = (ix_uint64)*ip;
+#  if IX_UINT64_MAX < UINT_MAX
+  if (*ip > IX_UINT64_MAX) {
 
-    put_ix_uint64(xp, &xx);
+#    ifdef ERANGE_FILL
+    if (fillp != NULL) memcpy(&xx, fillp, 8);
+#    endif
+    err = NC_ERANGE;
+  }
+#    ifdef ERANGE_FILL
+  else
+#    endif
+#  endif
+    xx = (ix_uint64)*ip;
+
+  put_ix_uint64(xp, &xx);
 #endif
-    return err;
+  return err;
 }
 
 static int
-ncx_put_ulonglong_float(void *xp, const float *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_uint64 xx = NC_FILL_UINT64;
+ncx_put_ulonglong_float(void *xp, const float *ip, void *fillp) {
+  int err      = NC_NOERR;
+  ix_uint64 xx = NC_FILL_UINT64;
 
-    if (*ip > (double)X_UINT64_MAX || *ip < 0) {
-        
+  if (*ip > (double)X_UINT64_MAX || *ip < 0) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 8);
+    if (fillp != NULL) memcpy(&xx, fillp, 8);
 #endif
-        err = NC_ERANGE;
-    }
+    err = NC_ERANGE;
+  }
 #ifdef ERANGE_FILL
-    else
+  else
 #endif
-        xx = (ix_uint64)*ip;
+    xx = (ix_uint64)*ip;
 
-    put_ix_uint64(xp, &xx);
-    return err;
+  put_ix_uint64(xp, &xx);
+  return err;
 }
 
 static int
-ncx_put_ulonglong_double(void *xp, const double *ip, void *fillp)
-{
-    int err=NC_NOERR;
-    ix_uint64 xx = NC_FILL_UINT64;
+ncx_put_ulonglong_double(void *xp, const double *ip, void *fillp) {
+  int err      = NC_NOERR;
+  ix_uint64 xx = NC_FILL_UINT64;
 
-    if (*ip > X_UINT64_MAX || *ip < 0) {
-        
+  if (*ip > X_UINT64_MAX || *ip < 0) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(&xx, fillp, 8);
+    if (fillp != NULL) memcpy(&xx, fillp, 8);
 #endif
-        err = NC_ERANGE;
-    }
+    err = NC_ERANGE;
+  }
 #ifdef ERANGE_FILL
-    else
+  else
 #endif
-        xx = (ix_uint64)*ip;
+    xx = (ix_uint64)*ip;
 
-    put_ix_uint64(xp, &xx);
-    return err;
+  put_ix_uint64(xp, &xx);
+  return err;
 }
-
 
 
 /* x_size_t */
 
 #if SIZEOF_SIZE_T < X_SIZEOF_SIZE_T
-#error "x_size_t implementation"
+#  error "x_size_t implementation"
 /* netcdf requires size_t which can hold a values from 0 to 2^32 -1 */
 #endif
 
-int
-ncx_put_size_t(void **xpp, const size_t *ulp)
-{
-	/* similar to put_ix_int() */
-	uchar *cp = (uchar *) *xpp;
-	assert(*ulp <= X_SIZE_MAX);
+int ncx_put_size_t(void **xpp, const size_t *ulp) {
+  /* similar to put_ix_int() */
+  uchar *cp = (uchar *)*xpp;
+  assert(*ulp <= X_SIZE_MAX);
 
-	*cp++ = (uchar)((*ulp) >> 24);
-	*cp++ = (uchar)(((*ulp) & 0x00ff0000) >> 16);
-	*cp++ = (uchar)(((*ulp) & 0x0000ff00) >>  8);
-	*cp   = (uchar)((*ulp) & 0x000000ff);
+  *cp++ = (uchar)((*ulp) >> 24);
+  *cp++ = (uchar)(((*ulp) & 0x00ff0000) >> 16);
+  *cp++ = (uchar)(((*ulp) & 0x0000ff00) >> 8);
+  *cp   = (uchar)((*ulp) & 0x000000ff);
 
-	*xpp = (void *)((char *)(*xpp) + X_SIZEOF_SIZE_T);
-	return NC_NOERR;
+  *xpp = (void *)((char *)(*xpp) + X_SIZEOF_SIZE_T);
+  return NC_NOERR;
 }
 
-int
-ncx_get_size_t(const void **xpp,  size_t *ulp)
-{
-	/* similar to get_ix_int */
-	const uchar *cp = (const uchar *) *xpp;
+int ncx_get_size_t(const void **xpp, size_t *ulp) {
+  /* similar to get_ix_int */
+  const uchar *cp = (const uchar *)*xpp;
 
-	*ulp  = (unsigned)(*cp++) << 24;
-	*ulp |= (*cp++ << 16);
-	*ulp |= (*cp++ << 8);
-	*ulp |= *cp;
+  *ulp = (unsigned)(*cp++) << 24;
+  *ulp |= (*cp++ << 16);
+  *ulp |= (*cp++ << 8);
+  *ulp |= *cp;
 
-	*xpp = (const void *)((const char *)(*xpp) + X_SIZEOF_SIZE_T);
-	return NC_NOERR;
+  *xpp = (const void *)((const char *)(*xpp) + X_SIZEOF_SIZE_T);
+  return NC_NOERR;
 }
 
 /* x_off_t */
 
-int
-ncx_put_off_t(void **xpp, const off_t *lp, size_t sizeof_off_t)
-{
-	/* similar to put_ix_int() */
-	uchar *cp = (uchar *) *xpp;
+int ncx_put_off_t(void **xpp, const off_t *lp, size_t sizeof_off_t) {
+  /* similar to put_ix_int() */
+  uchar *cp = (uchar *)*xpp;
 
-	/* No negative offsets stored in netcdf */
-	if (*lp < 0) {
-	  /* Assume this is an overflow of a 32-bit int... */
-	  return NC_ERANGE;
-	}
+  /* No negative offsets stored in netcdf */
+  if (*lp < 0) {
+    /* Assume this is an overflow of a 32-bit int... */
+    return NC_ERANGE;
+  }
 
-	assert(sizeof_off_t == 4 || sizeof_off_t == 8);
+  assert(sizeof_off_t == 4 || sizeof_off_t == 8);
 
-	if (sizeof_off_t == 4) {
-		*cp++ = (uchar) ((*lp)               >> 24);
-		*cp++ = (uchar)(((*lp) & 0x00ff0000) >> 16);
-		*cp++ = (uchar)(((*lp) & 0x0000ff00) >>  8);
-		*cp   = (uchar)( (*lp) & 0x000000ff);
-	} else {
+  if (sizeof_off_t == 4) {
+    *cp++ = (uchar)((*lp) >> 24);
+    *cp++ = (uchar)(((*lp) & 0x00ff0000) >> 16);
+    *cp++ = (uchar)(((*lp) & 0x0000ff00) >> 8);
+    *cp   = (uchar)((*lp) & 0x000000ff);
+  } else {
 #if SIZEOF_OFF_T == 4
-/* Write a 64-bit offset on a system with only a 32-bit offset */
-		*cp++ = (uchar)0;
-		*cp++ = (uchar)0;
-		*cp++ = (uchar)0;
-		*cp++ = (uchar)0;
+    /* Write a 64-bit offset on a system with only a 32-bit offset */
+    *cp++ = (uchar)0;
+    *cp++ = (uchar)0;
+    *cp++ = (uchar)0;
+    *cp++ = (uchar)0;
 
-		*cp++ = (uchar)(((*lp) & 0xff000000) >> 24);
-		*cp++ = (uchar)(((*lp) & 0x00ff0000) >> 16);
-		*cp++ = (uchar)(((*lp) & 0x0000ff00) >>  8);
-		*cp   = (uchar)( (*lp) & 0x000000ff);
+    *cp++ = (uchar)(((*lp) & 0xff000000) >> 24);
+    *cp++ = (uchar)(((*lp) & 0x00ff0000) >> 16);
+    *cp++ = (uchar)(((*lp) & 0x0000ff00) >> 8);
+    *cp   = (uchar)((*lp) & 0x000000ff);
 #else
-		*cp++ = (uchar) ((*lp)                          >> 56);
-		*cp++ = (uchar)(((*lp) & 0x00ff000000000000LL) >> 48);
-		*cp++ = (uchar)(((*lp) & 0x0000ff0000000000LL) >> 40);
-		*cp++ = (uchar)(((*lp) & 0x000000ff00000000LL) >> 32);
-		*cp++ = (uchar)(((*lp) & 0x00000000ff000000LL) >> 24);
-		*cp++ = (uchar)(((*lp) & 0x0000000000ff0000LL) >> 16);
-		*cp++ = (uchar)(((*lp) & 0x000000000000ff00LL) >>  8);
-		*cp   = (uchar)( (*lp) & 0x00000000000000ffLL);
+    *cp++ = (uchar)((*lp) >> 56);
+    *cp++ = (uchar)(((*lp) & 0x00ff000000000000LL) >> 48);
+    *cp++ = (uchar)(((*lp) & 0x0000ff0000000000LL) >> 40);
+    *cp++ = (uchar)(((*lp) & 0x000000ff00000000LL) >> 32);
+    *cp++ = (uchar)(((*lp) & 0x00000000ff000000LL) >> 24);
+    *cp++ = (uchar)(((*lp) & 0x0000000000ff0000LL) >> 16);
+    *cp++ = (uchar)(((*lp) & 0x000000000000ff00LL) >> 8);
+    *cp   = (uchar)((*lp) & 0x00000000000000ffLL);
 #endif
-	}
-	*xpp = (void *)((char *)(*xpp) + sizeof_off_t);
-	return NC_NOERR;
+  }
+  *xpp = (void *)((char *)(*xpp) + sizeof_off_t);
+  return NC_NOERR;
 }
 
-int
-ncx_get_off_t(const void **xpp, off_t *lp, size_t sizeof_off_t)
-{
-	/* similar to get_ix_int() */
-	const uchar *cp = (const uchar *) *xpp;
-	assert(sizeof_off_t == 4 || sizeof_off_t == 8);
+int ncx_get_off_t(const void **xpp, off_t *lp, size_t sizeof_off_t) {
+  /* similar to get_ix_int() */
+  const uchar *cp = (const uchar *)*xpp;
+  assert(sizeof_off_t == 4 || sizeof_off_t == 8);
 
- 	if (sizeof_off_t == 4) {
-		*lp =  (off_t)(*cp++ << 24);
-		*lp |= (off_t)(*cp++ << 16);
-		*lp |= (off_t)(*cp++ <<  8);
-		*lp |= (off_t)*cp;
-	} else {
+  if (sizeof_off_t == 4) {
+    *lp = (off_t)(*cp++ << 24);
+    *lp |= (off_t)(*cp++ << 16);
+    *lp |= (off_t)(*cp++ << 8);
+    *lp |= (off_t)*cp;
+  } else {
 #if SIZEOF_OFF_T == 4
-/* Read a 64-bit offset on a system with only a 32-bit offset */
-/* If the offset overflows, set an error code and return */
-		*lp =  ((off_t)(*cp++) << 24);
-		*lp |= ((off_t)(*cp++) << 16);
-		*lp |= ((off_t)(*cp++) <<  8);
-		*lp |= ((off_t)(*cp++));
-/*
+    /* Read a 64-bit offset on a system with only a 32-bit offset */
+    /* If the offset overflows, set an error code and return */
+    *lp = ((off_t)(*cp++) << 24);
+    *lp |= ((off_t)(*cp++) << 16);
+    *lp |= ((off_t)(*cp++) << 8);
+    *lp |= ((off_t)(*cp++));
+    /*
  * lp now contains the upper 32-bits of the 64-bit offset.  if lp is
  * not zero, then the dataset is larger than can be represented
  * on this system.  Set an error code and return.
  */
-		if (*lp != 0) {
-		  return NC_ERANGE;
-		}
+    if (*lp != 0) {
+      return NC_ERANGE;
+    }
 
-		*lp  = ((off_t)(*cp++) << 24);
-		*lp |= ((off_t)(*cp++) << 16);
-		*lp |= ((off_t)(*cp++) <<  8);
-		*lp |=  (off_t)*cp;
+    *lp = ((off_t)(*cp++) << 24);
+    *lp |= ((off_t)(*cp++) << 16);
+    *lp |= ((off_t)(*cp++) << 8);
+    *lp |= (off_t)*cp;
 
-		if (*lp < 0) {
-		  /*
+    if (*lp < 0) {
+      /*
 		   * If this fails, then the offset is >2^31, but less
 		   * than 2^32 which is not allowed, but is not caught
 		   * by the previous check
 		   */
-		  return NC_ERANGE;
-		}
+      return NC_ERANGE;
+    }
 #else
-		*lp =  ((off_t)(*cp++) << 56);
-		*lp |= ((off_t)(*cp++) << 48);
-		*lp |= ((off_t)(*cp++) << 40);
-		*lp |= ((off_t)(*cp++) << 32);
-		*lp |= ((off_t)(*cp++) << 24);
-		*lp |= ((off_t)(*cp++) << 16);
-		*lp |= ((off_t)(*cp++) <<  8);
-		*lp |=  (off_t)*cp;
+    *lp   = ((off_t)(*cp++) << 56);
+    *lp |= ((off_t)(*cp++) << 48);
+    *lp |= ((off_t)(*cp++) << 40);
+    *lp |= ((off_t)(*cp++) << 32);
+    *lp |= ((off_t)(*cp++) << 24);
+    *lp |= ((off_t)(*cp++) << 16);
+    *lp |= ((off_t)(*cp++) << 8);
+    *lp |= (off_t)*cp;
 #endif
-	}
-	*xpp = (const void *)((const char *)(*xpp) + sizeof_off_t);
-	return NC_NOERR;
+  }
+  *xpp = (const void *)((const char *)(*xpp) + sizeof_off_t);
+  return NC_NOERR;
 }
 
 /*----< ncx_get_uint32() >------------------------------------------*/
-int
-ncx_get_uint32(const void **xpp, uint *ip)
-{
+int ncx_get_uint32(const void **xpp, uint *ip) {
 #ifdef WORDS_BIGENDIAN
-    /* use memcpy instead of assignment to avoid BUS_ADRALN alignment error on
+  /* use memcpy instead of assignment to avoid BUS_ADRALN alignment error on
      * some system, such as HPUX */
-    (void) memcpy(ip, *xpp, SIZEOF_UINT);
+  (void)memcpy(ip, *xpp, SIZEOF_UINT);
 #else
-    const uchar *cp = (const uchar *) *xpp;
+  const uchar *cp = (const uchar *)*xpp;
 
-    *ip = (uint)(*cp++ << 24);
-    *ip = (uint)(*ip | (uint)(*cp++ << 16));
-    *ip = (uint)(*ip | (uint)(*cp++ <<  8));
-    *ip = (uint)(*ip | *cp);
+  *ip             = (uint)(*cp++ << 24);
+  *ip             = (uint)(*ip | (uint)(*cp++ << 16));
+  *ip             = (uint)(*ip | (uint)(*cp++ << 8));
+  *ip             = (uint)(*ip | *cp);
 #endif
-    /* advance *xpp 4 bytes */
-    *xpp = (void *)((const char *)(*xpp) + 4);
+  /* advance *xpp 4 bytes */
+  *xpp = (void *)((const char *)(*xpp) + 4);
 
-    return NC_NOERR;
+  return NC_NOERR;
 }
 
 /*----< ncx_get_uint64() >------------------------------------------*/
-int
-ncx_get_uint64(const void **xpp, unsigned long long *ullp)
-{
+int ncx_get_uint64(const void **xpp, unsigned long long *ullp) {
 #ifdef WORDS_BIGENDIAN
-    /* use memcpy instead of assignment to avoid BUS_ADRALN alignment error on
+  /* use memcpy instead of assignment to avoid BUS_ADRALN alignment error on
      * some system, such as HPUX */
-    (void) memcpy(ullp, *xpp, SIZEOF_UINT64);
+  (void)memcpy(ullp, *xpp, SIZEOF_UINT64);
 #else
-    const uchar *cp = (const uchar *) *xpp;
+  const uchar *cp = (const uchar *)*xpp;
 
-    /* below is the same as calling swap8b(ullp, *xpp) */
-    *ullp = (unsigned long long)(*cp++) << 56;
-    *ullp = (unsigned long long)(*ullp | (unsigned long long)(*cp++) << 48);
-    *ullp = (unsigned long long)(*ullp | (unsigned long long)(*cp++) << 40);
-    *ullp = (unsigned long long)(*ullp | (unsigned long long)(*cp++) << 32);
-    *ullp = (unsigned long long)(*ullp | (unsigned long long)(*cp++) << 24);
-    *ullp = (unsigned long long)(*ullp | (unsigned long long)(*cp++) << 16);
-    *ullp = (unsigned long long)(*ullp | (unsigned long long)(*cp++) <<  8);
-    *ullp = (unsigned long long)(*ullp | (unsigned long long)(*cp));
+  /* below is the same as calling swap8b(ullp, *xpp) */
+  *ullp = (unsigned long long)(*cp++) << 56;
+  *ullp = (unsigned long long)(*ullp | (unsigned long long)(*cp++) << 48);
+  *ullp = (unsigned long long)(*ullp | (unsigned long long)(*cp++) << 40);
+  *ullp = (unsigned long long)(*ullp | (unsigned long long)(*cp++) << 32);
+  *ullp = (unsigned long long)(*ullp | (unsigned long long)(*cp++) << 24);
+  *ullp = (unsigned long long)(*ullp | (unsigned long long)(*cp++) << 16);
+  *ullp = (unsigned long long)(*ullp | (unsigned long long)(*cp++) << 8);
+  *ullp = (unsigned long long)(*ullp | (unsigned long long)(*cp));
 #endif
-    /* advance *xpp 8 bytes */
-    *xpp = (void *)((const char *)(*xpp) + 8);
+  /* advance *xpp 8 bytes */
+  *xpp = (void *)((const char *)(*xpp) + 8);
 
-    return NC_NOERR;
+  return NC_NOERR;
 }
 
 /*---< ncx_put_uint32() >-------------------------------------------*/
 /* copy the contents of ip (an unsigned 32-bit integer) to xpp in Big Endian
  * form and advance *xpp 4 bytes
  */
-int
-ncx_put_uint32(void **xpp, const unsigned int ip)
-{
+int ncx_put_uint32(void **xpp, const unsigned int ip) {
 #ifdef WORDS_BIGENDIAN
-    /* use memcpy instead of assignment to avoid BUS_ADRALN alignment error on
+  /* use memcpy instead of assignment to avoid BUS_ADRALN alignment error on
      * some system, such as HPUX */
-    (void) memcpy(*xpp, &ip, X_SIZEOF_UINT);
+  (void)memcpy(*xpp, &ip, X_SIZEOF_UINT);
 #else
-    /* bitwise shifts below are to produce an integer in Big Endian */
-    uchar *cp = (uchar *) *xpp;
-    *cp++ = (uchar)((ip & 0xff000000) >> 24);
-    *cp++ = (uchar)((ip & 0x00ff0000) >> 16);
-    *cp++ = (uchar)((ip & 0x0000ff00) >>  8);
-    *cp   = (uchar)( ip & 0x000000ff);
+  /* bitwise shifts below are to produce an integer in Big Endian */
+  uchar *cp = (uchar *)*xpp;
+  *cp++     = (uchar)((ip & 0xff000000) >> 24);
+  *cp++     = (uchar)((ip & 0x00ff0000) >> 16);
+  *cp++     = (uchar)((ip & 0x0000ff00) >> 8);
+  *cp       = (uchar)(ip & 0x000000ff);
 #endif
-    /* advance *xpp 4 bytes */
-    *xpp  = (void *)((char *)(*xpp) + 4);
+  /* advance *xpp 4 bytes */
+  *xpp = (void *)((char *)(*xpp) + 4);
 
-    return NC_NOERR;
+  return NC_NOERR;
 }
 
 /*---< ncx_put_uint64() >-------------------------------------------*/
 /* copy the contents of ip (an unsigned 64-bit integer) to xpp in Big Endian
  * form and advance *xpp 8 bytes
  */
-int
-ncx_put_uint64(void **xpp, const unsigned long long ip)
-{
+int ncx_put_uint64(void **xpp, const unsigned long long ip) {
 #ifdef WORDS_BIGENDIAN
-    /* use memcpy instead of assignment to avoid BUS_ADRALN alignment error on
+  /* use memcpy instead of assignment to avoid BUS_ADRALN alignment error on
      * some system, such as HPUX */
-    (void) memcpy(*xpp, &ip, X_SIZEOF_UINT64);
+  (void)memcpy(*xpp, &ip, X_SIZEOF_UINT64);
 #else
-    uchar *cp = (uchar *) *xpp;
-    /* below is the same as calling swap8b(*xpp, &ip) */
-    *cp++ = (uchar) (ip                         >> 56);
-    *cp++ = (uchar)((ip & 0x00ff000000000000LL) >> 48);
-    *cp++ = (uchar)((ip & 0x0000ff0000000000LL) >> 40);
-    *cp++ = (uchar)((ip & 0x000000ff00000000LL) >> 32);
-    *cp++ = (uchar)((ip & 0x00000000ff000000LL) >> 24);
-    *cp++ = (uchar)((ip & 0x0000000000ff0000LL) >> 16);
-    *cp++ = (uchar)((ip & 0x000000000000ff00LL) >>  8);
-    *cp   = (uchar) (ip & 0x00000000000000ffLL);
+  uchar *cp = (uchar *)*xpp;
+  /* below is the same as calling swap8b(*xpp, &ip) */
+  *cp++ = (uchar)(ip >> 56);
+  *cp++ = (uchar)((ip & 0x00ff000000000000LL) >> 48);
+  *cp++ = (uchar)((ip & 0x0000ff0000000000LL) >> 40);
+  *cp++ = (uchar)((ip & 0x000000ff00000000LL) >> 32);
+  *cp++ = (uchar)((ip & 0x00000000ff000000LL) >> 24);
+  *cp++ = (uchar)((ip & 0x0000000000ff0000LL) >> 16);
+  *cp++ = (uchar)((ip & 0x000000000000ff00LL) >> 8);
+  *cp   = (uchar)(ip & 0x00000000000000ffLL);
 #endif
-    /* advance *xpp 8 bytes */
-    *xpp  = (void *)((char *)(*xpp) + 8);
+  /* advance *xpp 8 bytes */
+  *xpp = (void *)((char *)(*xpp) + 8);
 
-    return NC_NOERR;
+  return NC_NOERR;
 }
 
 
@@ -5727,2066 +5334,1900 @@ ncx_put_uint64(void **xpp, const unsigned long long ip)
  */
 
 
-
 /* schar ---------------------------------------------------------------------*/
 
-int
-ncx_getn_schar_schar(const void **xpp, size_t nelems, schar *tp)
-{
-		(void) memcpy(tp, *xpp, (size_t)nelems);
-	*xpp = (void *)((char *)(*xpp) + nelems);
-	return NC_NOERR;
-
+int ncx_getn_schar_schar(const void **xpp, size_t nelems, schar *tp) {
+  (void)memcpy(tp, *xpp, (size_t)nelems);
+  *xpp = (void *)((char *)(*xpp) + nelems);
+  return NC_NOERR;
 }
-int
-ncx_getn_schar_uchar(const void **xpp, size_t nelems, uchar *tp)
-{
-    int status = NC_NOERR;
-    schar *xp = (schar *)(*xpp);
+int ncx_getn_schar_uchar(const void **xpp, size_t nelems, uchar *tp) {
+  int status = NC_NOERR;
+  schar *xp  = (schar *)(*xpp);
 
-    while (nelems-- != 0) {
-        
-        if (*xp < 0) {
+  while (nelems-- != 0) {
+    if (*xp < 0) {
 #ifdef ERANGE_FILL
-            *tp = NC_FILL_UBYTE;
+      *tp = NC_FILL_UBYTE;
 #endif
-            status = NC_ERANGE; /* because tp is unsigned */
-            
+      status = NC_ERANGE; /* because tp is unsigned */
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *tp++ = (uchar) (signed) (*xp++);  /* type cast from schar to uchar */
     }
+    *tp++ = (uchar)(signed)(*xp++); /* type cast from schar to uchar */
+  }
 
-    *xpp = (const void *)xp;
-    return status;
+  *xpp = (const void *)xp;
+  return status;
 }
 
-int
-ncx_getn_schar_short(const void **xpp, size_t nelems, short *tp)
-{
-    int status = NC_NOERR;
-    schar *xp = (schar *)(*xpp);
+int ncx_getn_schar_short(const void **xpp, size_t nelems, short *tp) {
+  int status = NC_NOERR;
+  schar *xp  = (schar *)(*xpp);
 
-    while (nelems-- != 0) {
-        
-        *tp++ = (short)  (*xp++);  /* type cast from schar to short */
-    }
+  while (nelems-- != 0) {
+    *tp++ = (short)(*xp++); /* type cast from schar to short */
+  }
 
-    *xpp = (const void *)xp;
-    return status;
+  *xpp = (const void *)xp;
+  return status;
 }
 
-int
-ncx_getn_schar_int(const void **xpp, size_t nelems, int *tp)
-{
-    int status = NC_NOERR;
-    schar *xp = (schar *)(*xpp);
+int ncx_getn_schar_int(const void **xpp, size_t nelems, int *tp) {
+  int status = NC_NOERR;
+  schar *xp  = (schar *)(*xpp);
 
-    while (nelems-- != 0) {
-        
-        *tp++ = (int)  (*xp++);  /* type cast from schar to int */
-    }
+  while (nelems-- != 0) {
+    *tp++ = (int)(*xp++); /* type cast from schar to int */
+  }
 
-    *xpp = (const void *)xp;
-    return status;
+  *xpp = (const void *)xp;
+  return status;
 }
 
-int
-ncx_getn_schar_long(const void **xpp, size_t nelems, long *tp)
-{
-    int status = NC_NOERR;
-    schar *xp = (schar *)(*xpp);
+int ncx_getn_schar_long(const void **xpp, size_t nelems, long *tp) {
+  int status = NC_NOERR;
+  schar *xp  = (schar *)(*xpp);
 
-    while (nelems-- != 0) {
-        
-        *tp++ = (long)  (*xp++);  /* type cast from schar to long */
-    }
+  while (nelems-- != 0) {
+    *tp++ = (long)(*xp++); /* type cast from schar to long */
+  }
 
-    *xpp = (const void *)xp;
-    return status;
+  *xpp = (const void *)xp;
+  return status;
 }
 
-int
-ncx_getn_schar_float(const void **xpp, size_t nelems, float *tp)
-{
-    int status = NC_NOERR;
-    schar *xp = (schar *)(*xpp);
+int ncx_getn_schar_float(const void **xpp, size_t nelems, float *tp) {
+  int status = NC_NOERR;
+  schar *xp  = (schar *)(*xpp);
 
-    while (nelems-- != 0) {
-        
-        *tp++ = (float)  (*xp++);  /* type cast from schar to float */
-    }
+  while (nelems-- != 0) {
+    *tp++ = (float)(*xp++); /* type cast from schar to float */
+  }
 
-    *xpp = (const void *)xp;
-    return status;
+  *xpp = (const void *)xp;
+  return status;
 }
 
-int
-ncx_getn_schar_double(const void **xpp, size_t nelems, double *tp)
-{
-    int status = NC_NOERR;
-    schar *xp = (schar *)(*xpp);
+int ncx_getn_schar_double(const void **xpp, size_t nelems, double *tp) {
+  int status = NC_NOERR;
+  schar *xp  = (schar *)(*xpp);
 
-    while (nelems-- != 0) {
-        
-        *tp++ = (double)  (*xp++);  /* type cast from schar to double */
-    }
+  while (nelems-- != 0) {
+    *tp++ = (double)(*xp++); /* type cast from schar to double */
+  }
 
-    *xpp = (const void *)xp;
-    return status;
+  *xpp = (const void *)xp;
+  return status;
 }
 
-int
-ncx_getn_schar_longlong(const void **xpp, size_t nelems, longlong *tp)
-{
-    int status = NC_NOERR;
-    schar *xp = (schar *)(*xpp);
+int ncx_getn_schar_longlong(const void **xpp, size_t nelems, longlong *tp) {
+  int status = NC_NOERR;
+  schar *xp  = (schar *)(*xpp);
 
-    while (nelems-- != 0) {
-        
-        *tp++ = (longlong)  (*xp++);  /* type cast from schar to longlong */
-    }
+  while (nelems-- != 0) {
+    *tp++ = (longlong)(*xp++); /* type cast from schar to longlong */
+  }
 
-    *xpp = (const void *)xp;
-    return status;
+  *xpp = (const void *)xp;
+  return status;
 }
 
-int
-ncx_getn_schar_ushort(const void **xpp, size_t nelems, ushort *tp)
-{
-    int status = NC_NOERR;
-    schar *xp = (schar *)(*xpp);
+int ncx_getn_schar_ushort(const void **xpp, size_t nelems, ushort *tp) {
+  int status = NC_NOERR;
+  schar *xp  = (schar *)(*xpp);
 
-    while (nelems-- != 0) {
-        
-        if (*xp < 0) {
+  while (nelems-- != 0) {
+    if (*xp < 0) {
 #ifdef ERANGE_FILL
-            *tp = NC_FILL_USHORT;
+      *tp = NC_FILL_USHORT;
 #endif
-            status = NC_ERANGE; /* because tp is unsigned */
-            
-#ifdef ERANGE_FILL
-            xp++; tp++; continue;
-#endif
-        }
-        *tp++ = (ushort) (signed) (*xp++);  /* type cast from schar to ushort */
-    }
+      status = NC_ERANGE; /* because tp is unsigned */
 
-    *xpp = (const void *)xp;
-    return status;
+#ifdef ERANGE_FILL
+      xp++;
+      tp++;
+      continue;
+#endif
+    }
+    *tp++ = (ushort)(signed)(*xp++); /* type cast from schar to ushort */
+  }
+
+  *xpp = (const void *)xp;
+  return status;
 }
 
-int
-ncx_getn_schar_uint(const void **xpp, size_t nelems, uint *tp)
-{
-    int status = NC_NOERR;
-    schar *xp = (schar *)(*xpp);
+int ncx_getn_schar_uint(const void **xpp, size_t nelems, uint *tp) {
+  int status = NC_NOERR;
+  schar *xp  = (schar *)(*xpp);
 
-    while (nelems-- != 0) {
-        
-        if (*xp < 0) {
+  while (nelems-- != 0) {
+    if (*xp < 0) {
 #ifdef ERANGE_FILL
-            *tp = NC_FILL_UINT;
+      *tp = NC_FILL_UINT;
 #endif
-            status = NC_ERANGE; /* because tp is unsigned */
-            
+      status = NC_ERANGE; /* because tp is unsigned */
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *tp++ = (uint) (signed) (*xp++);  /* type cast from schar to uint */
     }
+    *tp++ = (uint)(signed)(*xp++); /* type cast from schar to uint */
+  }
 
-    *xpp = (const void *)xp;
-    return status;
+  *xpp = (const void *)xp;
+  return status;
 }
 
-int
-ncx_getn_schar_ulonglong(const void **xpp, size_t nelems, ulonglong *tp)
-{
-    int status = NC_NOERR;
-    schar *xp = (schar *)(*xpp);
+int ncx_getn_schar_ulonglong(const void **xpp, size_t nelems, ulonglong *tp) {
+  int status = NC_NOERR;
+  schar *xp  = (schar *)(*xpp);
 
-    while (nelems-- != 0) {
-        
-        if (*xp < 0) {
+  while (nelems-- != 0) {
+    if (*xp < 0) {
 #ifdef ERANGE_FILL
-            *tp = NC_FILL_UINT64;
+      *tp = NC_FILL_UINT64;
 #endif
-            status = NC_ERANGE; /* because tp is unsigned */
-            
+      status = NC_ERANGE; /* because tp is unsigned */
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *tp++ = (ulonglong) (signed) (*xp++);  /* type cast from schar to ulonglong */
     }
+    *tp++ = (ulonglong)(signed)(*xp++); /* type cast from schar to ulonglong */
+  }
 
-    *xpp = (const void *)xp;
-    return status;
+  *xpp = (const void *)xp;
+  return status;
 }
 
 
-int
-ncx_pad_getn_schar_schar(const void **xpp, size_t nelems, schar *tp)
-{
-		size_t rndup = nelems % X_ALIGN;
+int ncx_pad_getn_schar_schar(const void **xpp, size_t nelems, schar *tp) {
+  size_t rndup = nelems % X_ALIGN;
 
-	if (rndup)
-		rndup = X_ALIGN - rndup;
+  if (rndup)
+    rndup = X_ALIGN - rndup;
 
-	(void) memcpy(tp, *xpp, (size_t)nelems);
-	*xpp = (void *)((char *)(*xpp) + nelems + rndup);
+  (void)memcpy(tp, *xpp, (size_t)nelems);
+  *xpp = (void *)((char *)(*xpp) + nelems + rndup);
 
-	return NC_NOERR;
-
+  return NC_NOERR;
 }
-int
-ncx_pad_getn_schar_uchar(const void **xpp, size_t nelems, uchar *tp)
-{
-    int status = NC_NOERR;
-    size_t rndup = nelems % X_ALIGN;
-    schar *xp = (schar *) *xpp;
+int ncx_pad_getn_schar_uchar(const void **xpp, size_t nelems, uchar *tp) {
+  int status   = NC_NOERR;
+  size_t rndup = nelems % X_ALIGN;
+  schar *xp    = (schar *)*xpp;
 
-    if (rndup)
-        rndup = X_ALIGN - rndup;
+  if (rndup)
+    rndup = X_ALIGN - rndup;
 
-    while (nelems-- != 0) {
-        
-        if (*xp < 0) {
+  while (nelems-- != 0) {
+    if (*xp < 0) {
 #ifdef ERANGE_FILL
-            *tp = NC_FILL_UBYTE;
+      *tp = NC_FILL_UBYTE;
 #endif
-            status = NC_ERANGE; /* because tp is unsigned */
-            
+      status = NC_ERANGE; /* because tp is unsigned */
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *tp++ = (uchar) (signed) (*xp++);  /* type cast from schar to uchar */
     }
+    *tp++ = (uchar)(signed)(*xp++); /* type cast from schar to uchar */
+  }
 
-    *xpp = (void *)(xp + rndup);
-    return status;
+  *xpp = (void *)(xp + rndup);
+  return status;
 }
 
-int
-ncx_pad_getn_schar_short(const void **xpp, size_t nelems, short *tp)
-{
-    int status = NC_NOERR;
-    size_t rndup = nelems % X_ALIGN;
-    schar *xp = (schar *) *xpp;
+int ncx_pad_getn_schar_short(const void **xpp, size_t nelems, short *tp) {
+  int status   = NC_NOERR;
+  size_t rndup = nelems % X_ALIGN;
+  schar *xp    = (schar *)*xpp;
 
-    if (rndup)
-        rndup = X_ALIGN - rndup;
+  if (rndup)
+    rndup = X_ALIGN - rndup;
 
-    while (nelems-- != 0) {
-        
-        *tp++ = (short)  (*xp++);  /* type cast from schar to short */
-    }
+  while (nelems-- != 0) {
+    *tp++ = (short)(*xp++); /* type cast from schar to short */
+  }
 
-    *xpp = (void *)(xp + rndup);
-    return status;
+  *xpp = (void *)(xp + rndup);
+  return status;
 }
 
-int
-ncx_pad_getn_schar_int(const void **xpp, size_t nelems, int *tp)
-{
-    int status = NC_NOERR;
-    size_t rndup = nelems % X_ALIGN;
-    schar *xp = (schar *) *xpp;
+int ncx_pad_getn_schar_int(const void **xpp, size_t nelems, int *tp) {
+  int status   = NC_NOERR;
+  size_t rndup = nelems % X_ALIGN;
+  schar *xp    = (schar *)*xpp;
 
-    if (rndup)
-        rndup = X_ALIGN - rndup;
+  if (rndup)
+    rndup = X_ALIGN - rndup;
 
-    while (nelems-- != 0) {
-        
-        *tp++ = (int)  (*xp++);  /* type cast from schar to int */
-    }
+  while (nelems-- != 0) {
+    *tp++ = (int)(*xp++); /* type cast from schar to int */
+  }
 
-    *xpp = (void *)(xp + rndup);
-    return status;
+  *xpp = (void *)(xp + rndup);
+  return status;
 }
 
-int
-ncx_pad_getn_schar_long(const void **xpp, size_t nelems, long *tp)
-{
-    int status = NC_NOERR;
-    size_t rndup = nelems % X_ALIGN;
-    schar *xp = (schar *) *xpp;
+int ncx_pad_getn_schar_long(const void **xpp, size_t nelems, long *tp) {
+  int status   = NC_NOERR;
+  size_t rndup = nelems % X_ALIGN;
+  schar *xp    = (schar *)*xpp;
 
-    if (rndup)
-        rndup = X_ALIGN - rndup;
+  if (rndup)
+    rndup = X_ALIGN - rndup;
 
-    while (nelems-- != 0) {
-        
-        *tp++ = (long)  (*xp++);  /* type cast from schar to long */
-    }
+  while (nelems-- != 0) {
+    *tp++ = (long)(*xp++); /* type cast from schar to long */
+  }
 
-    *xpp = (void *)(xp + rndup);
-    return status;
+  *xpp = (void *)(xp + rndup);
+  return status;
 }
 
-int
-ncx_pad_getn_schar_float(const void **xpp, size_t nelems, float *tp)
-{
-    int status = NC_NOERR;
-    size_t rndup = nelems % X_ALIGN;
-    schar *xp = (schar *) *xpp;
+int ncx_pad_getn_schar_float(const void **xpp, size_t nelems, float *tp) {
+  int status   = NC_NOERR;
+  size_t rndup = nelems % X_ALIGN;
+  schar *xp    = (schar *)*xpp;
 
-    if (rndup)
-        rndup = X_ALIGN - rndup;
+  if (rndup)
+    rndup = X_ALIGN - rndup;
 
-    while (nelems-- != 0) {
-        
-        *tp++ = (float)  (*xp++);  /* type cast from schar to float */
-    }
+  while (nelems-- != 0) {
+    *tp++ = (float)(*xp++); /* type cast from schar to float */
+  }
 
-    *xpp = (void *)(xp + rndup);
-    return status;
+  *xpp = (void *)(xp + rndup);
+  return status;
 }
 
-int
-ncx_pad_getn_schar_double(const void **xpp, size_t nelems, double *tp)
-{
-    int status = NC_NOERR;
-    size_t rndup = nelems % X_ALIGN;
-    schar *xp = (schar *) *xpp;
+int ncx_pad_getn_schar_double(const void **xpp, size_t nelems, double *tp) {
+  int status   = NC_NOERR;
+  size_t rndup = nelems % X_ALIGN;
+  schar *xp    = (schar *)*xpp;
 
-    if (rndup)
-        rndup = X_ALIGN - rndup;
+  if (rndup)
+    rndup = X_ALIGN - rndup;
 
-    while (nelems-- != 0) {
-        
-        *tp++ = (double)  (*xp++);  /* type cast from schar to double */
-    }
+  while (nelems-- != 0) {
+    *tp++ = (double)(*xp++); /* type cast from schar to double */
+  }
 
-    *xpp = (void *)(xp + rndup);
-    return status;
+  *xpp = (void *)(xp + rndup);
+  return status;
 }
 
-int
-ncx_pad_getn_schar_longlong(const void **xpp, size_t nelems, longlong *tp)
-{
-    int status = NC_NOERR;
-    size_t rndup = nelems % X_ALIGN;
-    schar *xp = (schar *) *xpp;
+int ncx_pad_getn_schar_longlong(const void **xpp, size_t nelems, longlong *tp) {
+  int status   = NC_NOERR;
+  size_t rndup = nelems % X_ALIGN;
+  schar *xp    = (schar *)*xpp;
 
-    if (rndup)
-        rndup = X_ALIGN - rndup;
+  if (rndup)
+    rndup = X_ALIGN - rndup;
 
-    while (nelems-- != 0) {
-        
-        *tp++ = (longlong)  (*xp++);  /* type cast from schar to longlong */
-    }
+  while (nelems-- != 0) {
+    *tp++ = (longlong)(*xp++); /* type cast from schar to longlong */
+  }
 
-    *xpp = (void *)(xp + rndup);
-    return status;
+  *xpp = (void *)(xp + rndup);
+  return status;
 }
 
-int
-ncx_pad_getn_schar_ushort(const void **xpp, size_t nelems, ushort *tp)
-{
-    int status = NC_NOERR;
-    size_t rndup = nelems % X_ALIGN;
-    schar *xp = (schar *) *xpp;
+int ncx_pad_getn_schar_ushort(const void **xpp, size_t nelems, ushort *tp) {
+  int status   = NC_NOERR;
+  size_t rndup = nelems % X_ALIGN;
+  schar *xp    = (schar *)*xpp;
 
-    if (rndup)
-        rndup = X_ALIGN - rndup;
+  if (rndup)
+    rndup = X_ALIGN - rndup;
 
-    while (nelems-- != 0) {
-        
-        if (*xp < 0) {
+  while (nelems-- != 0) {
+    if (*xp < 0) {
 #ifdef ERANGE_FILL
-            *tp = NC_FILL_USHORT;
+      *tp = NC_FILL_USHORT;
 #endif
-            status = NC_ERANGE; /* because tp is unsigned */
-            
-#ifdef ERANGE_FILL
-            xp++; tp++; continue;
-#endif
-        }
-        *tp++ = (ushort) (signed) (*xp++);  /* type cast from schar to ushort */
-    }
+      status = NC_ERANGE; /* because tp is unsigned */
 
-    *xpp = (void *)(xp + rndup);
-    return status;
+#ifdef ERANGE_FILL
+      xp++;
+      tp++;
+      continue;
+#endif
+    }
+    *tp++ = (ushort)(signed)(*xp++); /* type cast from schar to ushort */
+  }
+
+  *xpp = (void *)(xp + rndup);
+  return status;
 }
 
-int
-ncx_pad_getn_schar_uint(const void **xpp, size_t nelems, uint *tp)
-{
-    int status = NC_NOERR;
-    size_t rndup = nelems % X_ALIGN;
-    schar *xp = (schar *) *xpp;
+int ncx_pad_getn_schar_uint(const void **xpp, size_t nelems, uint *tp) {
+  int status   = NC_NOERR;
+  size_t rndup = nelems % X_ALIGN;
+  schar *xp    = (schar *)*xpp;
 
-    if (rndup)
-        rndup = X_ALIGN - rndup;
+  if (rndup)
+    rndup = X_ALIGN - rndup;
 
-    while (nelems-- != 0) {
-        
-        if (*xp < 0) {
+  while (nelems-- != 0) {
+    if (*xp < 0) {
 #ifdef ERANGE_FILL
-            *tp = NC_FILL_UINT;
+      *tp = NC_FILL_UINT;
 #endif
-            status = NC_ERANGE; /* because tp is unsigned */
-            
+      status = NC_ERANGE; /* because tp is unsigned */
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *tp++ = (uint) (signed) (*xp++);  /* type cast from schar to uint */
     }
+    *tp++ = (uint)(signed)(*xp++); /* type cast from schar to uint */
+  }
 
-    *xpp = (void *)(xp + rndup);
-    return status;
+  *xpp = (void *)(xp + rndup);
+  return status;
 }
 
-int
-ncx_pad_getn_schar_ulonglong(const void **xpp, size_t nelems, ulonglong *tp)
-{
-    int status = NC_NOERR;
-    size_t rndup = nelems % X_ALIGN;
-    schar *xp = (schar *) *xpp;
+int ncx_pad_getn_schar_ulonglong(const void **xpp, size_t nelems, ulonglong *tp) {
+  int status   = NC_NOERR;
+  size_t rndup = nelems % X_ALIGN;
+  schar *xp    = (schar *)*xpp;
 
-    if (rndup)
-        rndup = X_ALIGN - rndup;
+  if (rndup)
+    rndup = X_ALIGN - rndup;
 
-    while (nelems-- != 0) {
-        
-        if (*xp < 0) {
+  while (nelems-- != 0) {
+    if (*xp < 0) {
 #ifdef ERANGE_FILL
-            *tp = NC_FILL_UINT64;
+      *tp = NC_FILL_UINT64;
 #endif
-            status = NC_ERANGE; /* because tp is unsigned */
-            
+      status = NC_ERANGE; /* because tp is unsigned */
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *tp++ = (ulonglong) (signed) (*xp++);  /* type cast from schar to ulonglong */
     }
+    *tp++ = (ulonglong)(signed)(*xp++); /* type cast from schar to ulonglong */
+  }
 
-    *xpp = (void *)(xp + rndup);
-    return status;
+  *xpp = (void *)(xp + rndup);
+  return status;
 }
 
 
-int
-ncx_putn_schar_schar(void **xpp, size_t nelems, const schar *tp, void *fillp)
-{
-		(void) memcpy(*xpp, tp, (size_t)nelems);
-	*xpp = (void *)((char *)(*xpp) + nelems);
+int ncx_putn_schar_schar(void **xpp, size_t nelems, const schar *tp, void *fillp) {
+  (void)memcpy(*xpp, tp, (size_t)nelems);
+  *xpp = (void *)((char *)(*xpp) + nelems);
 
-	return NC_NOERR;
-
+  return NC_NOERR;
 }
-int
-ncx_putn_schar_uchar(void **xpp, size_t nelems, const uchar *tp, void *fillp)
-{
-    int status = NC_NOERR;
-    schar *xp = (schar *) *xpp;
+int ncx_putn_schar_uchar(void **xpp, size_t nelems, const uchar *tp, void *fillp) {
+  int status = NC_NOERR;
+  schar *xp  = (schar *)*xpp;
 
-    while (nelems-- != 0) {
-        if (*tp > (uchar)X_SCHAR_MAX ) {
-            
+  while (nelems-- != 0) {
+    if (*tp > (uchar)X_SCHAR_MAX) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(xp, fillp, 1);
+      if (fillp != NULL) memcpy(xp, fillp, 1);
 #endif
-            status = NC_ERANGE;
-            
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *xp++ = (schar)  *tp++; /* type cast from uchar to schar */
     }
+    *xp++ = (schar)*tp++; /* type cast from uchar to schar */
+  }
 
-    *xpp = (void *)xp;
-    return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_putn_schar_short(void **xpp, size_t nelems, const short *tp, void *fillp)
-{
-    int status = NC_NOERR;
-    schar *xp = (schar *) *xpp;
+int ncx_putn_schar_short(void **xpp, size_t nelems, const short *tp, void *fillp) {
+  int status = NC_NOERR;
+  schar *xp  = (schar *)*xpp;
 
-    while (nelems-- != 0) {
-        if (*tp > (short)X_SCHAR_MAX || *tp < X_SCHAR_MIN) {
-            
+  while (nelems-- != 0) {
+    if (*tp > (short)X_SCHAR_MAX || *tp < X_SCHAR_MIN) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(xp, fillp, 1);
+      if (fillp != NULL) memcpy(xp, fillp, 1);
 #endif
-            status = NC_ERANGE;
-            
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *xp++ = (schar)  *tp++; /* type cast from short to schar */
     }
+    *xp++ = (schar)*tp++; /* type cast from short to schar */
+  }
 
-    *xpp = (void *)xp;
-    return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_putn_schar_int(void **xpp, size_t nelems, const int *tp, void *fillp)
-{
-    int status = NC_NOERR;
-    schar *xp = (schar *) *xpp;
+int ncx_putn_schar_int(void **xpp, size_t nelems, const int *tp, void *fillp) {
+  int status = NC_NOERR;
+  schar *xp  = (schar *)*xpp;
 
-    while (nelems-- != 0) {
-        if (*tp > (int)X_SCHAR_MAX || *tp < X_SCHAR_MIN) {
-            
+  while (nelems-- != 0) {
+    if (*tp > (int)X_SCHAR_MAX || *tp < X_SCHAR_MIN) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(xp, fillp, 1);
+      if (fillp != NULL) memcpy(xp, fillp, 1);
 #endif
-            status = NC_ERANGE;
-            
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *xp++ = (schar)  *tp++; /* type cast from int to schar */
     }
+    *xp++ = (schar)*tp++; /* type cast from int to schar */
+  }
 
-    *xpp = (void *)xp;
-    return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_putn_schar_long(void **xpp, size_t nelems, const long *tp, void *fillp)
-{
-    int status = NC_NOERR;
-    schar *xp = (schar *) *xpp;
+int ncx_putn_schar_long(void **xpp, size_t nelems, const long *tp, void *fillp) {
+  int status = NC_NOERR;
+  schar *xp  = (schar *)*xpp;
 
-    while (nelems-- != 0) {
-        if (*tp > (long)X_SCHAR_MAX || *tp < X_SCHAR_MIN) {
-            
+  while (nelems-- != 0) {
+    if (*tp > (long)X_SCHAR_MAX || *tp < X_SCHAR_MIN) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(xp, fillp, 1);
+      if (fillp != NULL) memcpy(xp, fillp, 1);
 #endif
-            status = NC_ERANGE;
-            
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *xp++ = (schar)  *tp++; /* type cast from long to schar */
     }
+    *xp++ = (schar)*tp++; /* type cast from long to schar */
+  }
 
-    *xpp = (void *)xp;
-    return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_putn_schar_float(void **xpp, size_t nelems, const float *tp, void *fillp)
-{
-    int status = NC_NOERR;
-    schar *xp = (schar *) *xpp;
+int ncx_putn_schar_float(void **xpp, size_t nelems, const float *tp, void *fillp) {
+  int status = NC_NOERR;
+  schar *xp  = (schar *)*xpp;
 
-    while (nelems-- != 0) {
-        if (*tp > (float)X_SCHAR_MAX || *tp < X_SCHAR_MIN) {
-            
+  while (nelems-- != 0) {
+    if (*tp > (float)X_SCHAR_MAX || *tp < X_SCHAR_MIN) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(xp, fillp, 1);
+      if (fillp != NULL) memcpy(xp, fillp, 1);
 #endif
-            status = NC_ERANGE;
-            
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *xp++ = (schar)  *tp++; /* type cast from float to schar */
     }
+    *xp++ = (schar)*tp++; /* type cast from float to schar */
+  }
 
-    *xpp = (void *)xp;
-    return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_putn_schar_double(void **xpp, size_t nelems, const double *tp, void *fillp)
-{
-    int status = NC_NOERR;
-    schar *xp = (schar *) *xpp;
+int ncx_putn_schar_double(void **xpp, size_t nelems, const double *tp, void *fillp) {
+  int status = NC_NOERR;
+  schar *xp  = (schar *)*xpp;
 
-    while (nelems-- != 0) {
-        if (*tp > (double)X_SCHAR_MAX || *tp < X_SCHAR_MIN) {
-            
+  while (nelems-- != 0) {
+    if (*tp > (double)X_SCHAR_MAX || *tp < X_SCHAR_MIN) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(xp, fillp, 1);
+      if (fillp != NULL) memcpy(xp, fillp, 1);
 #endif
-            status = NC_ERANGE;
-            
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *xp++ = (schar)  *tp++; /* type cast from double to schar */
     }
+    *xp++ = (schar)*tp++; /* type cast from double to schar */
+  }
 
-    *xpp = (void *)xp;
-    return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_putn_schar_longlong(void **xpp, size_t nelems, const longlong *tp, void *fillp)
-{
-    int status = NC_NOERR;
-    schar *xp = (schar *) *xpp;
+int ncx_putn_schar_longlong(void **xpp, size_t nelems, const longlong *tp, void *fillp) {
+  int status = NC_NOERR;
+  schar *xp  = (schar *)*xpp;
 
-    while (nelems-- != 0) {
-        if (*tp > (longlong)X_SCHAR_MAX || *tp < X_SCHAR_MIN) {
-            
+  while (nelems-- != 0) {
+    if (*tp > (longlong)X_SCHAR_MAX || *tp < X_SCHAR_MIN) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(xp, fillp, 1);
+      if (fillp != NULL) memcpy(xp, fillp, 1);
 #endif
-            status = NC_ERANGE;
-            
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *xp++ = (schar)  *tp++; /* type cast from longlong to schar */
     }
+    *xp++ = (schar)*tp++; /* type cast from longlong to schar */
+  }
 
-    *xpp = (void *)xp;
-    return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_putn_schar_ushort(void **xpp, size_t nelems, const ushort *tp, void *fillp)
-{
-    int status = NC_NOERR;
-    schar *xp = (schar *) *xpp;
+int ncx_putn_schar_ushort(void **xpp, size_t nelems, const ushort *tp, void *fillp) {
+  int status = NC_NOERR;
+  schar *xp  = (schar *)*xpp;
 
-    while (nelems-- != 0) {
-        if (*tp > (ushort)X_SCHAR_MAX ) {
-            
+  while (nelems-- != 0) {
+    if (*tp > (ushort)X_SCHAR_MAX) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(xp, fillp, 1);
+      if (fillp != NULL) memcpy(xp, fillp, 1);
 #endif
-            status = NC_ERANGE;
-            
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *xp++ = (schar)  *tp++; /* type cast from ushort to schar */
     }
+    *xp++ = (schar)*tp++; /* type cast from ushort to schar */
+  }
 
-    *xpp = (void *)xp;
-    return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_putn_schar_uint(void **xpp, size_t nelems, const uint *tp, void *fillp)
-{
-    int status = NC_NOERR;
-    schar *xp = (schar *) *xpp;
+int ncx_putn_schar_uint(void **xpp, size_t nelems, const uint *tp, void *fillp) {
+  int status = NC_NOERR;
+  schar *xp  = (schar *)*xpp;
 
-    while (nelems-- != 0) {
-        if (*tp > (uint)X_SCHAR_MAX ) {
-            
+  while (nelems-- != 0) {
+    if (*tp > (uint)X_SCHAR_MAX) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(xp, fillp, 1);
+      if (fillp != NULL) memcpy(xp, fillp, 1);
 #endif
-            status = NC_ERANGE;
-            
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *xp++ = (schar)  *tp++; /* type cast from uint to schar */
     }
+    *xp++ = (schar)*tp++; /* type cast from uint to schar */
+  }
 
-    *xpp = (void *)xp;
-    return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_putn_schar_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, void *fillp)
-{
-    int status = NC_NOERR;
-    schar *xp = (schar *) *xpp;
+int ncx_putn_schar_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, void *fillp) {
+  int status = NC_NOERR;
+  schar *xp  = (schar *)*xpp;
 
-    while (nelems-- != 0) {
-        if (*tp > (ulonglong)X_SCHAR_MAX ) {
-            
+  while (nelems-- != 0) {
+    if (*tp > (ulonglong)X_SCHAR_MAX) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(xp, fillp, 1);
+      if (fillp != NULL) memcpy(xp, fillp, 1);
 #endif
-            status = NC_ERANGE;
-            
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *xp++ = (schar)  *tp++; /* type cast from ulonglong to schar */
     }
+    *xp++ = (schar)*tp++; /* type cast from ulonglong to schar */
+  }
 
-    *xpp = (void *)xp;
-    return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
 
-int
-ncx_pad_putn_schar_schar(void **xpp, size_t nelems, const schar *tp, void *fillp)
-{
-		size_t rndup = nelems % X_ALIGN;
+int ncx_pad_putn_schar_schar(void **xpp, size_t nelems, const schar *tp, void *fillp) {
+  size_t rndup = nelems % X_ALIGN;
 
-	if (rndup)
-		rndup = X_ALIGN - rndup;
+  if (rndup)
+    rndup = X_ALIGN - rndup;
 
-	(void) memcpy(*xpp, tp, (size_t)nelems);
-	*xpp = (void *)((char *)(*xpp) + nelems);
+  (void)memcpy(*xpp, tp, (size_t)nelems);
+  *xpp = (void *)((char *)(*xpp) + nelems);
 
-	if (rndup)
-	{
-		(void) memcpy(*xpp, nada, (size_t)rndup);
-		*xpp = (void *)((char *)(*xpp) + rndup);
-	}
+  if (rndup) {
+    (void)memcpy(*xpp, nada, (size_t)rndup);
+    *xpp = (void *)((char *)(*xpp) + rndup);
+  }
 
-	return NC_NOERR;
-
+  return NC_NOERR;
 }
-int
-ncx_pad_putn_schar_uchar(void **xpp, size_t nelems, const uchar *tp, void *fillp)
-{
-    int status = NC_NOERR;
-    size_t rndup = nelems % X_ALIGN;
-    schar *xp = (schar *) *xpp;
+int ncx_pad_putn_schar_uchar(void **xpp, size_t nelems, const uchar *tp, void *fillp) {
+  int status   = NC_NOERR;
+  size_t rndup = nelems % X_ALIGN;
+  schar *xp    = (schar *)*xpp;
 
-    if (rndup) rndup = X_ALIGN - rndup;
+  if (rndup) rndup = X_ALIGN - rndup;
 
-    while (nelems-- != 0) {
-        if (*tp > (uchar)X_SCHAR_MAX ) {
-            
+  while (nelems-- != 0) {
+    if (*tp > (uchar)X_SCHAR_MAX) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(xp, fillp, 1);
+      if (fillp != NULL) memcpy(xp, fillp, 1);
 #endif
-            status = NC_ERANGE;
-            
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *xp++ = (schar)  *tp++; /* type cast from uchar to schar */
     }
+    *xp++ = (schar)*tp++; /* type cast from uchar to schar */
+  }
 
 
-    if (rndup) {
-        (void) memcpy(xp, nada, (size_t)rndup);
-        xp += rndup;
-    }
+  if (rndup) {
+    (void)memcpy(xp, nada, (size_t)rndup);
+    xp += rndup;
+  }
 
-    *xpp = (void *)xp;
-    return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_putn_schar_short(void **xpp, size_t nelems, const short *tp, void *fillp)
-{
-    int status = NC_NOERR;
-    size_t rndup = nelems % X_ALIGN;
-    schar *xp = (schar *) *xpp;
+int ncx_pad_putn_schar_short(void **xpp, size_t nelems, const short *tp, void *fillp) {
+  int status   = NC_NOERR;
+  size_t rndup = nelems % X_ALIGN;
+  schar *xp    = (schar *)*xpp;
 
-    if (rndup) rndup = X_ALIGN - rndup;
+  if (rndup) rndup = X_ALIGN - rndup;
 
-    while (nelems-- != 0) {
-        if (*tp > (short)X_SCHAR_MAX || *tp < X_SCHAR_MIN) {
-            
+  while (nelems-- != 0) {
+    if (*tp > (short)X_SCHAR_MAX || *tp < X_SCHAR_MIN) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(xp, fillp, 1);
+      if (fillp != NULL) memcpy(xp, fillp, 1);
 #endif
-            status = NC_ERANGE;
-            
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *xp++ = (schar)  *tp++; /* type cast from short to schar */
     }
+    *xp++ = (schar)*tp++; /* type cast from short to schar */
+  }
 
 
-    if (rndup) {
-        (void) memcpy(xp, nada, (size_t)rndup);
-        xp += rndup;
-    }
+  if (rndup) {
+    (void)memcpy(xp, nada, (size_t)rndup);
+    xp += rndup;
+  }
 
-    *xpp = (void *)xp;
-    return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_putn_schar_int(void **xpp, size_t nelems, const int *tp, void *fillp)
-{
-    int status = NC_NOERR;
-    size_t rndup = nelems % X_ALIGN;
-    schar *xp = (schar *) *xpp;
+int ncx_pad_putn_schar_int(void **xpp, size_t nelems, const int *tp, void *fillp) {
+  int status   = NC_NOERR;
+  size_t rndup = nelems % X_ALIGN;
+  schar *xp    = (schar *)*xpp;
 
-    if (rndup) rndup = X_ALIGN - rndup;
+  if (rndup) rndup = X_ALIGN - rndup;
 
-    while (nelems-- != 0) {
-        if (*tp > (int)X_SCHAR_MAX || *tp < X_SCHAR_MIN) {
-            
+  while (nelems-- != 0) {
+    if (*tp > (int)X_SCHAR_MAX || *tp < X_SCHAR_MIN) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(xp, fillp, 1);
+      if (fillp != NULL) memcpy(xp, fillp, 1);
 #endif
-            status = NC_ERANGE;
-            
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *xp++ = (schar)  *tp++; /* type cast from int to schar */
     }
+    *xp++ = (schar)*tp++; /* type cast from int to schar */
+  }
 
 
-    if (rndup) {
-        (void) memcpy(xp, nada, (size_t)rndup);
-        xp += rndup;
-    }
+  if (rndup) {
+    (void)memcpy(xp, nada, (size_t)rndup);
+    xp += rndup;
+  }
 
-    *xpp = (void *)xp;
-    return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_putn_schar_long(void **xpp, size_t nelems, const long *tp, void *fillp)
-{
-    int status = NC_NOERR;
-    size_t rndup = nelems % X_ALIGN;
-    schar *xp = (schar *) *xpp;
+int ncx_pad_putn_schar_long(void **xpp, size_t nelems, const long *tp, void *fillp) {
+  int status   = NC_NOERR;
+  size_t rndup = nelems % X_ALIGN;
+  schar *xp    = (schar *)*xpp;
 
-    if (rndup) rndup = X_ALIGN - rndup;
+  if (rndup) rndup = X_ALIGN - rndup;
 
-    while (nelems-- != 0) {
-        if (*tp > (long)X_SCHAR_MAX || *tp < X_SCHAR_MIN) {
-            
+  while (nelems-- != 0) {
+    if (*tp > (long)X_SCHAR_MAX || *tp < X_SCHAR_MIN) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(xp, fillp, 1);
+      if (fillp != NULL) memcpy(xp, fillp, 1);
 #endif
-            status = NC_ERANGE;
-            
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *xp++ = (schar)  *tp++; /* type cast from long to schar */
     }
+    *xp++ = (schar)*tp++; /* type cast from long to schar */
+  }
 
 
-    if (rndup) {
-        (void) memcpy(xp, nada, (size_t)rndup);
-        xp += rndup;
-    }
+  if (rndup) {
+    (void)memcpy(xp, nada, (size_t)rndup);
+    xp += rndup;
+  }
 
-    *xpp = (void *)xp;
-    return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_putn_schar_float(void **xpp, size_t nelems, const float *tp, void *fillp)
-{
-    int status = NC_NOERR;
-    size_t rndup = nelems % X_ALIGN;
-    schar *xp = (schar *) *xpp;
+int ncx_pad_putn_schar_float(void **xpp, size_t nelems, const float *tp, void *fillp) {
+  int status   = NC_NOERR;
+  size_t rndup = nelems % X_ALIGN;
+  schar *xp    = (schar *)*xpp;
 
-    if (rndup) rndup = X_ALIGN - rndup;
+  if (rndup) rndup = X_ALIGN - rndup;
 
-    while (nelems-- != 0) {
-        if (*tp > (float)X_SCHAR_MAX || *tp < X_SCHAR_MIN) {
-            
+  while (nelems-- != 0) {
+    if (*tp > (float)X_SCHAR_MAX || *tp < X_SCHAR_MIN) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(xp, fillp, 1);
+      if (fillp != NULL) memcpy(xp, fillp, 1);
 #endif
-            status = NC_ERANGE;
-            
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *xp++ = (schar)  *tp++; /* type cast from float to schar */
     }
+    *xp++ = (schar)*tp++; /* type cast from float to schar */
+  }
 
 
-    if (rndup) {
-        (void) memcpy(xp, nada, (size_t)rndup);
-        xp += rndup;
-    }
+  if (rndup) {
+    (void)memcpy(xp, nada, (size_t)rndup);
+    xp += rndup;
+  }
 
-    *xpp = (void *)xp;
-    return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_putn_schar_double(void **xpp, size_t nelems, const double *tp, void *fillp)
-{
-    int status = NC_NOERR;
-    size_t rndup = nelems % X_ALIGN;
-    schar *xp = (schar *) *xpp;
+int ncx_pad_putn_schar_double(void **xpp, size_t nelems, const double *tp, void *fillp) {
+  int status   = NC_NOERR;
+  size_t rndup = nelems % X_ALIGN;
+  schar *xp    = (schar *)*xpp;
 
-    if (rndup) rndup = X_ALIGN - rndup;
+  if (rndup) rndup = X_ALIGN - rndup;
 
-    while (nelems-- != 0) {
-        if (*tp > (double)X_SCHAR_MAX || *tp < X_SCHAR_MIN) {
-            
+  while (nelems-- != 0) {
+    if (*tp > (double)X_SCHAR_MAX || *tp < X_SCHAR_MIN) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(xp, fillp, 1);
+      if (fillp != NULL) memcpy(xp, fillp, 1);
 #endif
-            status = NC_ERANGE;
-            
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *xp++ = (schar)  *tp++; /* type cast from double to schar */
     }
+    *xp++ = (schar)*tp++; /* type cast from double to schar */
+  }
 
 
-    if (rndup) {
-        (void) memcpy(xp, nada, (size_t)rndup);
-        xp += rndup;
-    }
+  if (rndup) {
+    (void)memcpy(xp, nada, (size_t)rndup);
+    xp += rndup;
+  }
 
-    *xpp = (void *)xp;
-    return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_putn_schar_longlong(void **xpp, size_t nelems, const longlong *tp, void *fillp)
-{
-    int status = NC_NOERR;
-    size_t rndup = nelems % X_ALIGN;
-    schar *xp = (schar *) *xpp;
+int ncx_pad_putn_schar_longlong(void **xpp, size_t nelems, const longlong *tp, void *fillp) {
+  int status   = NC_NOERR;
+  size_t rndup = nelems % X_ALIGN;
+  schar *xp    = (schar *)*xpp;
 
-    if (rndup) rndup = X_ALIGN - rndup;
+  if (rndup) rndup = X_ALIGN - rndup;
 
-    while (nelems-- != 0) {
-        if (*tp > (longlong)X_SCHAR_MAX || *tp < X_SCHAR_MIN) {
-            
+  while (nelems-- != 0) {
+    if (*tp > (longlong)X_SCHAR_MAX || *tp < X_SCHAR_MIN) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(xp, fillp, 1);
+      if (fillp != NULL) memcpy(xp, fillp, 1);
 #endif
-            status = NC_ERANGE;
-            
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *xp++ = (schar)  *tp++; /* type cast from longlong to schar */
     }
+    *xp++ = (schar)*tp++; /* type cast from longlong to schar */
+  }
 
 
-    if (rndup) {
-        (void) memcpy(xp, nada, (size_t)rndup);
-        xp += rndup;
-    }
+  if (rndup) {
+    (void)memcpy(xp, nada, (size_t)rndup);
+    xp += rndup;
+  }
 
-    *xpp = (void *)xp;
-    return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_putn_schar_ushort(void **xpp, size_t nelems, const ushort *tp, void *fillp)
-{
-    int status = NC_NOERR;
-    size_t rndup = nelems % X_ALIGN;
-    schar *xp = (schar *) *xpp;
+int ncx_pad_putn_schar_ushort(void **xpp, size_t nelems, const ushort *tp, void *fillp) {
+  int status   = NC_NOERR;
+  size_t rndup = nelems % X_ALIGN;
+  schar *xp    = (schar *)*xpp;
 
-    if (rndup) rndup = X_ALIGN - rndup;
+  if (rndup) rndup = X_ALIGN - rndup;
 
-    while (nelems-- != 0) {
-        if (*tp > (ushort)X_SCHAR_MAX ) {
-            
+  while (nelems-- != 0) {
+    if (*tp > (ushort)X_SCHAR_MAX) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(xp, fillp, 1);
+      if (fillp != NULL) memcpy(xp, fillp, 1);
 #endif
-            status = NC_ERANGE;
-            
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *xp++ = (schar)  *tp++; /* type cast from ushort to schar */
     }
+    *xp++ = (schar)*tp++; /* type cast from ushort to schar */
+  }
 
 
-    if (rndup) {
-        (void) memcpy(xp, nada, (size_t)rndup);
-        xp += rndup;
-    }
+  if (rndup) {
+    (void)memcpy(xp, nada, (size_t)rndup);
+    xp += rndup;
+  }
 
-    *xpp = (void *)xp;
-    return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_putn_schar_uint(void **xpp, size_t nelems, const uint *tp, void *fillp)
-{
-    int status = NC_NOERR;
-    size_t rndup = nelems % X_ALIGN;
-    schar *xp = (schar *) *xpp;
+int ncx_pad_putn_schar_uint(void **xpp, size_t nelems, const uint *tp, void *fillp) {
+  int status   = NC_NOERR;
+  size_t rndup = nelems % X_ALIGN;
+  schar *xp    = (schar *)*xpp;
 
-    if (rndup) rndup = X_ALIGN - rndup;
+  if (rndup) rndup = X_ALIGN - rndup;
 
-    while (nelems-- != 0) {
-        if (*tp > (uint)X_SCHAR_MAX ) {
-            
+  while (nelems-- != 0) {
+    if (*tp > (uint)X_SCHAR_MAX) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(xp, fillp, 1);
+      if (fillp != NULL) memcpy(xp, fillp, 1);
 #endif
-            status = NC_ERANGE;
-            
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *xp++ = (schar)  *tp++; /* type cast from uint to schar */
     }
+    *xp++ = (schar)*tp++; /* type cast from uint to schar */
+  }
 
 
-    if (rndup) {
-        (void) memcpy(xp, nada, (size_t)rndup);
-        xp += rndup;
-    }
+  if (rndup) {
+    (void)memcpy(xp, nada, (size_t)rndup);
+    xp += rndup;
+  }
 
-    *xpp = (void *)xp;
-    return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_putn_schar_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, void *fillp)
-{
-    int status = NC_NOERR;
-    size_t rndup = nelems % X_ALIGN;
-    schar *xp = (schar *) *xpp;
+int ncx_pad_putn_schar_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, void *fillp) {
+  int status   = NC_NOERR;
+  size_t rndup = nelems % X_ALIGN;
+  schar *xp    = (schar *)*xpp;
 
-    if (rndup) rndup = X_ALIGN - rndup;
+  if (rndup) rndup = X_ALIGN - rndup;
 
-    while (nelems-- != 0) {
-        if (*tp > (ulonglong)X_SCHAR_MAX ) {
-            
+  while (nelems-- != 0) {
+    if (*tp > (ulonglong)X_SCHAR_MAX) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(xp, fillp, 1);
+      if (fillp != NULL) memcpy(xp, fillp, 1);
 #endif
-            status = NC_ERANGE;
-            
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *xp++ = (schar)  *tp++; /* type cast from ulonglong to schar */
     }
+    *xp++ = (schar)*tp++; /* type cast from ulonglong to schar */
+  }
 
 
-    if (rndup) {
-        (void) memcpy(xp, nada, (size_t)rndup);
-        xp += rndup;
-    }
+  if (rndup) {
+    (void)memcpy(xp, nada, (size_t)rndup);
+    xp += rndup;
+  }
 
-    *xpp = (void *)xp;
-    return status;
+  *xpp = (void *)xp;
+  return status;
 }
-
 
 
 /* uchar ---------------------------------------------------------------------*/
-int
-ncx_getn_uchar_schar(const void **xpp, size_t nelems, schar *tp)
-{
-    int status = NC_NOERR;
-    uchar *xp = (uchar *)(*xpp);
+int ncx_getn_uchar_schar(const void **xpp, size_t nelems, schar *tp) {
+  int status = NC_NOERR;
+  uchar *xp  = (uchar *)(*xpp);
 
-    while (nelems-- != 0) {
-        if (*xp > SCHAR_MAX) {
-            *tp = NC_FILL_BYTE;
-       	    status = NC_ERANGE;
-            
+  while (nelems-- != 0) {
+    if (*xp > SCHAR_MAX) {
+      *tp    = NC_FILL_BYTE;
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-	*tp++ = (schar) *xp++; /* type cast from uchar to schar */
     }
+    *tp++ = (schar)*xp++; /* type cast from uchar to schar */
+  }
 
-    *xpp = (const void *)xp;
-    return status;
+  *xpp = (const void *)xp;
+  return status;
 }
-int
-ncx_getn_uchar_uchar(const void **xpp, size_t nelems, uchar *tp)
-{
-		(void) memcpy(tp, *xpp, (size_t)nelems);
-	*xpp = (void *)((char *)(*xpp) + nelems);
-	return NC_NOERR;
-
+int ncx_getn_uchar_uchar(const void **xpp, size_t nelems, uchar *tp) {
+  (void)memcpy(tp, *xpp, (size_t)nelems);
+  *xpp = (void *)((char *)(*xpp) + nelems);
+  return NC_NOERR;
 }
-int
-ncx_getn_uchar_short(const void **xpp, size_t nelems, short *tp)
-{
-    int status = NC_NOERR;
-    uchar *xp = (uchar *)(*xpp);
+int ncx_getn_uchar_short(const void **xpp, size_t nelems, short *tp) {
+  int status = NC_NOERR;
+  uchar *xp  = (uchar *)(*xpp);
 
-    while (nelems-- != 0) {
-        
-        *tp++ = (short)  (*xp++);  /* type cast from uchar to short */
-    }
+  while (nelems-- != 0) {
+    *tp++ = (short)(*xp++); /* type cast from uchar to short */
+  }
 
-    *xpp = (const void *)xp;
-    return status;
+  *xpp = (const void *)xp;
+  return status;
 }
 
-int
-ncx_getn_uchar_int(const void **xpp, size_t nelems, int *tp)
-{
-    int status = NC_NOERR;
-    uchar *xp = (uchar *)(*xpp);
+int ncx_getn_uchar_int(const void **xpp, size_t nelems, int *tp) {
+  int status = NC_NOERR;
+  uchar *xp  = (uchar *)(*xpp);
 
-    while (nelems-- != 0) {
-        
-        *tp++ = (int)  (*xp++);  /* type cast from uchar to int */
-    }
+  while (nelems-- != 0) {
+    *tp++ = (int)(*xp++); /* type cast from uchar to int */
+  }
 
-    *xpp = (const void *)xp;
-    return status;
+  *xpp = (const void *)xp;
+  return status;
 }
 
-int
-ncx_getn_uchar_long(const void **xpp, size_t nelems, long *tp)
-{
-    int status = NC_NOERR;
-    uchar *xp = (uchar *)(*xpp);
+int ncx_getn_uchar_long(const void **xpp, size_t nelems, long *tp) {
+  int status = NC_NOERR;
+  uchar *xp  = (uchar *)(*xpp);
 
-    while (nelems-- != 0) {
-        
-        *tp++ = (long)  (*xp++);  /* type cast from uchar to long */
-    }
+  while (nelems-- != 0) {
+    *tp++ = (long)(*xp++); /* type cast from uchar to long */
+  }
 
-    *xpp = (const void *)xp;
-    return status;
+  *xpp = (const void *)xp;
+  return status;
 }
 
-int
-ncx_getn_uchar_float(const void **xpp, size_t nelems, float *tp)
-{
-    int status = NC_NOERR;
-    uchar *xp = (uchar *)(*xpp);
+int ncx_getn_uchar_float(const void **xpp, size_t nelems, float *tp) {
+  int status = NC_NOERR;
+  uchar *xp  = (uchar *)(*xpp);
 
-    while (nelems-- != 0) {
-        
-        *tp++ = (float)  (*xp++);  /* type cast from uchar to float */
-    }
+  while (nelems-- != 0) {
+    *tp++ = (float)(*xp++); /* type cast from uchar to float */
+  }
 
-    *xpp = (const void *)xp;
-    return status;
+  *xpp = (const void *)xp;
+  return status;
 }
 
-int
-ncx_getn_uchar_double(const void **xpp, size_t nelems, double *tp)
-{
-    int status = NC_NOERR;
-    uchar *xp = (uchar *)(*xpp);
+int ncx_getn_uchar_double(const void **xpp, size_t nelems, double *tp) {
+  int status = NC_NOERR;
+  uchar *xp  = (uchar *)(*xpp);
 
-    while (nelems-- != 0) {
-        
-        *tp++ = (double)  (*xp++);  /* type cast from uchar to double */
-    }
+  while (nelems-- != 0) {
+    *tp++ = (double)(*xp++); /* type cast from uchar to double */
+  }
 
-    *xpp = (const void *)xp;
-    return status;
+  *xpp = (const void *)xp;
+  return status;
 }
 
-int
-ncx_getn_uchar_longlong(const void **xpp, size_t nelems, longlong *tp)
-{
-    int status = NC_NOERR;
-    uchar *xp = (uchar *)(*xpp);
+int ncx_getn_uchar_longlong(const void **xpp, size_t nelems, longlong *tp) {
+  int status = NC_NOERR;
+  uchar *xp  = (uchar *)(*xpp);
 
-    while (nelems-- != 0) {
-        
-        *tp++ = (longlong)  (*xp++);  /* type cast from uchar to longlong */
-    }
+  while (nelems-- != 0) {
+    *tp++ = (longlong)(*xp++); /* type cast from uchar to longlong */
+  }
 
-    *xpp = (const void *)xp;
-    return status;
+  *xpp = (const void *)xp;
+  return status;
 }
 
-int
-ncx_getn_uchar_ushort(const void **xpp, size_t nelems, ushort *tp)
-{
-    int status = NC_NOERR;
-    uchar *xp = (uchar *)(*xpp);
+int ncx_getn_uchar_ushort(const void **xpp, size_t nelems, ushort *tp) {
+  int status = NC_NOERR;
+  uchar *xp  = (uchar *)(*xpp);
 
-    while (nelems-- != 0) {
-        
-        *tp++ = (ushort)  (*xp++);  /* type cast from uchar to ushort */
-    }
+  while (nelems-- != 0) {
+    *tp++ = (ushort)(*xp++); /* type cast from uchar to ushort */
+  }
 
-    *xpp = (const void *)xp;
-    return status;
+  *xpp = (const void *)xp;
+  return status;
 }
 
-int
-ncx_getn_uchar_uint(const void **xpp, size_t nelems, uint *tp)
-{
-    int status = NC_NOERR;
-    uchar *xp = (uchar *)(*xpp);
+int ncx_getn_uchar_uint(const void **xpp, size_t nelems, uint *tp) {
+  int status = NC_NOERR;
+  uchar *xp  = (uchar *)(*xpp);
 
-    while (nelems-- != 0) {
-        
-        *tp++ = (uint)  (*xp++);  /* type cast from uchar to uint */
-    }
+  while (nelems-- != 0) {
+    *tp++ = (uint)(*xp++); /* type cast from uchar to uint */
+  }
 
-    *xpp = (const void *)xp;
-    return status;
+  *xpp = (const void *)xp;
+  return status;
 }
 
-int
-ncx_getn_uchar_ulonglong(const void **xpp, size_t nelems, ulonglong *tp)
-{
-    int status = NC_NOERR;
-    uchar *xp = (uchar *)(*xpp);
+int ncx_getn_uchar_ulonglong(const void **xpp, size_t nelems, ulonglong *tp) {
+  int status = NC_NOERR;
+  uchar *xp  = (uchar *)(*xpp);
 
-    while (nelems-- != 0) {
-        
-        *tp++ = (ulonglong)  (*xp++);  /* type cast from uchar to ulonglong */
-    }
+  while (nelems-- != 0) {
+    *tp++ = (ulonglong)(*xp++); /* type cast from uchar to ulonglong */
+  }
 
-    *xpp = (const void *)xp;
-    return status;
+  *xpp = (const void *)xp;
+  return status;
 }
 
 
-int
-ncx_pad_getn_uchar_schar(const void **xpp, size_t nelems, schar *tp)
-{
-    int status = NC_NOERR;
-    size_t rndup = nelems % X_ALIGN;
-    uchar *xp = (uchar *) *xpp;
+int ncx_pad_getn_uchar_schar(const void **xpp, size_t nelems, schar *tp) {
+  int status   = NC_NOERR;
+  size_t rndup = nelems % X_ALIGN;
+  uchar *xp    = (uchar *)*xpp;
 
-    if (rndup) rndup = X_ALIGN - rndup;
+  if (rndup) rndup = X_ALIGN - rndup;
 
-    while (nelems-- != 0) {
-        if (*xp > SCHAR_MAX) {
-            *tp = NC_FILL_BYTE;
-            status = NC_ERANGE;
-            
+  while (nelems-- != 0) {
+    if (*xp > SCHAR_MAX) {
+      *tp    = NC_FILL_BYTE;
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *tp++ = (schar) *xp++; /* type cast from uchar to schar */
     }
+    *tp++ = (schar)*xp++; /* type cast from uchar to schar */
+  }
 
-    *xpp = (void *)(xp + rndup);
-    return status;
+  *xpp = (void *)(xp + rndup);
+  return status;
 }
-int
-ncx_pad_getn_uchar_uchar(const void **xpp, size_t nelems, uchar *tp)
-{
-		size_t rndup = nelems % X_ALIGN;
+int ncx_pad_getn_uchar_uchar(const void **xpp, size_t nelems, uchar *tp) {
+  size_t rndup = nelems % X_ALIGN;
 
-	if (rndup)
-		rndup = X_ALIGN - rndup;
+  if (rndup)
+    rndup = X_ALIGN - rndup;
 
-	(void) memcpy(tp, *xpp, (size_t)nelems);
-	*xpp = (void *)((char *)(*xpp) + nelems + rndup);
+  (void)memcpy(tp, *xpp, (size_t)nelems);
+  *xpp = (void *)((char *)(*xpp) + nelems + rndup);
 
-	return NC_NOERR;
-
+  return NC_NOERR;
 }
-int
-ncx_pad_getn_uchar_short(const void **xpp, size_t nelems, short *tp)
-{
-    int status = NC_NOERR;
-    size_t rndup = nelems % X_ALIGN;
-    uchar *xp = (uchar *) *xpp;
+int ncx_pad_getn_uchar_short(const void **xpp, size_t nelems, short *tp) {
+  int status   = NC_NOERR;
+  size_t rndup = nelems % X_ALIGN;
+  uchar *xp    = (uchar *)*xpp;
 
-    if (rndup)
-        rndup = X_ALIGN - rndup;
+  if (rndup)
+    rndup = X_ALIGN - rndup;
 
-    while (nelems-- != 0) {
-        
-        *tp++ = (short)  (*xp++);  /* type cast from uchar to short */
-    }
+  while (nelems-- != 0) {
+    *tp++ = (short)(*xp++); /* type cast from uchar to short */
+  }
 
-    *xpp = (void *)(xp + rndup);
-    return status;
+  *xpp = (void *)(xp + rndup);
+  return status;
 }
 
-int
-ncx_pad_getn_uchar_int(const void **xpp, size_t nelems, int *tp)
-{
-    int status = NC_NOERR;
-    size_t rndup = nelems % X_ALIGN;
-    uchar *xp = (uchar *) *xpp;
+int ncx_pad_getn_uchar_int(const void **xpp, size_t nelems, int *tp) {
+  int status   = NC_NOERR;
+  size_t rndup = nelems % X_ALIGN;
+  uchar *xp    = (uchar *)*xpp;
 
-    if (rndup)
-        rndup = X_ALIGN - rndup;
+  if (rndup)
+    rndup = X_ALIGN - rndup;
 
-    while (nelems-- != 0) {
-        
-        *tp++ = (int)  (*xp++);  /* type cast from uchar to int */
-    }
+  while (nelems-- != 0) {
+    *tp++ = (int)(*xp++); /* type cast from uchar to int */
+  }
 
-    *xpp = (void *)(xp + rndup);
-    return status;
+  *xpp = (void *)(xp + rndup);
+  return status;
 }
 
-int
-ncx_pad_getn_uchar_long(const void **xpp, size_t nelems, long *tp)
-{
-    int status = NC_NOERR;
-    size_t rndup = nelems % X_ALIGN;
-    uchar *xp = (uchar *) *xpp;
+int ncx_pad_getn_uchar_long(const void **xpp, size_t nelems, long *tp) {
+  int status   = NC_NOERR;
+  size_t rndup = nelems % X_ALIGN;
+  uchar *xp    = (uchar *)*xpp;
 
-    if (rndup)
-        rndup = X_ALIGN - rndup;
+  if (rndup)
+    rndup = X_ALIGN - rndup;
 
-    while (nelems-- != 0) {
-        
-        *tp++ = (long)  (*xp++);  /* type cast from uchar to long */
-    }
+  while (nelems-- != 0) {
+    *tp++ = (long)(*xp++); /* type cast from uchar to long */
+  }
 
-    *xpp = (void *)(xp + rndup);
-    return status;
+  *xpp = (void *)(xp + rndup);
+  return status;
 }
 
-int
-ncx_pad_getn_uchar_float(const void **xpp, size_t nelems, float *tp)
-{
-    int status = NC_NOERR;
-    size_t rndup = nelems % X_ALIGN;
-    uchar *xp = (uchar *) *xpp;
+int ncx_pad_getn_uchar_float(const void **xpp, size_t nelems, float *tp) {
+  int status   = NC_NOERR;
+  size_t rndup = nelems % X_ALIGN;
+  uchar *xp    = (uchar *)*xpp;
 
-    if (rndup)
-        rndup = X_ALIGN - rndup;
+  if (rndup)
+    rndup = X_ALIGN - rndup;
 
-    while (nelems-- != 0) {
-        
-        *tp++ = (float)  (*xp++);  /* type cast from uchar to float */
-    }
+  while (nelems-- != 0) {
+    *tp++ = (float)(*xp++); /* type cast from uchar to float */
+  }
 
-    *xpp = (void *)(xp + rndup);
-    return status;
+  *xpp = (void *)(xp + rndup);
+  return status;
 }
 
-int
-ncx_pad_getn_uchar_double(const void **xpp, size_t nelems, double *tp)
-{
-    int status = NC_NOERR;
-    size_t rndup = nelems % X_ALIGN;
-    uchar *xp = (uchar *) *xpp;
+int ncx_pad_getn_uchar_double(const void **xpp, size_t nelems, double *tp) {
+  int status   = NC_NOERR;
+  size_t rndup = nelems % X_ALIGN;
+  uchar *xp    = (uchar *)*xpp;
 
-    if (rndup)
-        rndup = X_ALIGN - rndup;
+  if (rndup)
+    rndup = X_ALIGN - rndup;
 
-    while (nelems-- != 0) {
-        
-        *tp++ = (double)  (*xp++);  /* type cast from uchar to double */
-    }
+  while (nelems-- != 0) {
+    *tp++ = (double)(*xp++); /* type cast from uchar to double */
+  }
 
-    *xpp = (void *)(xp + rndup);
-    return status;
+  *xpp = (void *)(xp + rndup);
+  return status;
 }
 
-int
-ncx_pad_getn_uchar_longlong(const void **xpp, size_t nelems, longlong *tp)
-{
-    int status = NC_NOERR;
-    size_t rndup = nelems % X_ALIGN;
-    uchar *xp = (uchar *) *xpp;
+int ncx_pad_getn_uchar_longlong(const void **xpp, size_t nelems, longlong *tp) {
+  int status   = NC_NOERR;
+  size_t rndup = nelems % X_ALIGN;
+  uchar *xp    = (uchar *)*xpp;
 
-    if (rndup)
-        rndup = X_ALIGN - rndup;
+  if (rndup)
+    rndup = X_ALIGN - rndup;
 
-    while (nelems-- != 0) {
-        
-        *tp++ = (longlong)  (*xp++);  /* type cast from uchar to longlong */
-    }
+  while (nelems-- != 0) {
+    *tp++ = (longlong)(*xp++); /* type cast from uchar to longlong */
+  }
 
-    *xpp = (void *)(xp + rndup);
-    return status;
+  *xpp = (void *)(xp + rndup);
+  return status;
 }
 
-int
-ncx_pad_getn_uchar_ushort(const void **xpp, size_t nelems, ushort *tp)
-{
-    int status = NC_NOERR;
-    size_t rndup = nelems % X_ALIGN;
-    uchar *xp = (uchar *) *xpp;
+int ncx_pad_getn_uchar_ushort(const void **xpp, size_t nelems, ushort *tp) {
+  int status   = NC_NOERR;
+  size_t rndup = nelems % X_ALIGN;
+  uchar *xp    = (uchar *)*xpp;
 
-    if (rndup)
-        rndup = X_ALIGN - rndup;
+  if (rndup)
+    rndup = X_ALIGN - rndup;
 
-    while (nelems-- != 0) {
-        
-        *tp++ = (ushort)  (*xp++);  /* type cast from uchar to ushort */
-    }
+  while (nelems-- != 0) {
+    *tp++ = (ushort)(*xp++); /* type cast from uchar to ushort */
+  }
 
-    *xpp = (void *)(xp + rndup);
-    return status;
+  *xpp = (void *)(xp + rndup);
+  return status;
 }
 
-int
-ncx_pad_getn_uchar_uint(const void **xpp, size_t nelems, uint *tp)
-{
-    int status = NC_NOERR;
-    size_t rndup = nelems % X_ALIGN;
-    uchar *xp = (uchar *) *xpp;
+int ncx_pad_getn_uchar_uint(const void **xpp, size_t nelems, uint *tp) {
+  int status   = NC_NOERR;
+  size_t rndup = nelems % X_ALIGN;
+  uchar *xp    = (uchar *)*xpp;
 
-    if (rndup)
-        rndup = X_ALIGN - rndup;
+  if (rndup)
+    rndup = X_ALIGN - rndup;
 
-    while (nelems-- != 0) {
-        
-        *tp++ = (uint)  (*xp++);  /* type cast from uchar to uint */
-    }
+  while (nelems-- != 0) {
+    *tp++ = (uint)(*xp++); /* type cast from uchar to uint */
+  }
 
-    *xpp = (void *)(xp + rndup);
-    return status;
+  *xpp = (void *)(xp + rndup);
+  return status;
 }
 
-int
-ncx_pad_getn_uchar_ulonglong(const void **xpp, size_t nelems, ulonglong *tp)
-{
-    int status = NC_NOERR;
-    size_t rndup = nelems % X_ALIGN;
-    uchar *xp = (uchar *) *xpp;
+int ncx_pad_getn_uchar_ulonglong(const void **xpp, size_t nelems, ulonglong *tp) {
+  int status   = NC_NOERR;
+  size_t rndup = nelems % X_ALIGN;
+  uchar *xp    = (uchar *)*xpp;
 
-    if (rndup)
-        rndup = X_ALIGN - rndup;
+  if (rndup)
+    rndup = X_ALIGN - rndup;
 
-    while (nelems-- != 0) {
-        
-        *tp++ = (ulonglong)  (*xp++);  /* type cast from uchar to ulonglong */
-    }
+  while (nelems-- != 0) {
+    *tp++ = (ulonglong)(*xp++); /* type cast from uchar to ulonglong */
+  }
 
-    *xpp = (void *)(xp + rndup);
-    return status;
+  *xpp = (void *)(xp + rndup);
+  return status;
 }
 
 
-int
-ncx_putn_uchar_schar(void **xpp, size_t nelems, const schar *tp, void *fillp)
-{
-    int status = NC_NOERR;
-    uchar *xp = (uchar *) *xpp;
+int ncx_putn_uchar_schar(void **xpp, size_t nelems, const schar *tp, void *fillp) {
+  int status = NC_NOERR;
+  uchar *xp  = (uchar *)*xpp;
 
-    while (nelems-- != 0) {
-        if (*tp < 0) {
-            
+  while (nelems-- != 0) {
+    if (*tp < 0) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(xp, fillp, 1);
+      if (fillp != NULL) memcpy(xp, fillp, 1);
 #endif
-            status = NC_ERANGE;
-            
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *xp++ = (uchar) (signed) *tp++; /* type cast from schar to uchar */
     }
+    *xp++ = (uchar)(signed)*tp++; /* type cast from schar to uchar */
+  }
 
-    *xpp = (void *)xp;
-    return status;
+  *xpp = (void *)xp;
+  return status;
 }
-int
-ncx_putn_uchar_uchar(void **xpp, size_t nelems, const uchar *tp, void *fillp)
-{
-		(void) memcpy(*xpp, tp, (size_t)nelems);
-	*xpp = (void *)((char *)(*xpp) + nelems);
+int ncx_putn_uchar_uchar(void **xpp, size_t nelems, const uchar *tp, void *fillp) {
+  (void)memcpy(*xpp, tp, (size_t)nelems);
+  *xpp = (void *)((char *)(*xpp) + nelems);
 
-	return NC_NOERR;
-
+  return NC_NOERR;
 }
-int
-ncx_putn_uchar_short(void **xpp, size_t nelems, const short *tp, void *fillp)
-{
-    int status = NC_NOERR;
-    uchar *xp = (uchar *) *xpp;
+int ncx_putn_uchar_short(void **xpp, size_t nelems, const short *tp, void *fillp) {
+  int status = NC_NOERR;
+  uchar *xp  = (uchar *)*xpp;
 
-    while (nelems-- != 0) {
-        if (*tp > (short)X_UCHAR_MAX || *tp < 0) {
-            
+  while (nelems-- != 0) {
+    if (*tp > (short)X_UCHAR_MAX || *tp < 0) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(xp, fillp, 1);
+      if (fillp != NULL) memcpy(xp, fillp, 1);
 #endif
-            status = NC_ERANGE;
-            
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *xp++ = (uchar) (signed) *tp++; /* type cast from short to uchar */
     }
+    *xp++ = (uchar)(signed)*tp++; /* type cast from short to uchar */
+  }
 
-    *xpp = (void *)xp;
-    return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_putn_uchar_int(void **xpp, size_t nelems, const int *tp, void *fillp)
-{
-    int status = NC_NOERR;
-    uchar *xp = (uchar *) *xpp;
+int ncx_putn_uchar_int(void **xpp, size_t nelems, const int *tp, void *fillp) {
+  int status = NC_NOERR;
+  uchar *xp  = (uchar *)*xpp;
 
-    while (nelems-- != 0) {
-        if (*tp > (int)X_UCHAR_MAX || *tp < 0) {
-            
+  while (nelems-- != 0) {
+    if (*tp > (int)X_UCHAR_MAX || *tp < 0) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(xp, fillp, 1);
+      if (fillp != NULL) memcpy(xp, fillp, 1);
 #endif
-            status = NC_ERANGE;
-            
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *xp++ = (uchar) (signed) *tp++; /* type cast from int to uchar */
     }
+    *xp++ = (uchar)(signed)*tp++; /* type cast from int to uchar */
+  }
 
-    *xpp = (void *)xp;
-    return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_putn_uchar_long(void **xpp, size_t nelems, const long *tp, void *fillp)
-{
-    int status = NC_NOERR;
-    uchar *xp = (uchar *) *xpp;
+int ncx_putn_uchar_long(void **xpp, size_t nelems, const long *tp, void *fillp) {
+  int status = NC_NOERR;
+  uchar *xp  = (uchar *)*xpp;
 
-    while (nelems-- != 0) {
-        if (*tp > (long)X_UCHAR_MAX || *tp < 0) {
-            
+  while (nelems-- != 0) {
+    if (*tp > (long)X_UCHAR_MAX || *tp < 0) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(xp, fillp, 1);
+      if (fillp != NULL) memcpy(xp, fillp, 1);
 #endif
-            status = NC_ERANGE;
-            
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *xp++ = (uchar) (signed) *tp++; /* type cast from long to uchar */
     }
+    *xp++ = (uchar)(signed)*tp++; /* type cast from long to uchar */
+  }
 
-    *xpp = (void *)xp;
-    return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_putn_uchar_float(void **xpp, size_t nelems, const float *tp, void *fillp)
-{
-    int status = NC_NOERR;
-    uchar *xp = (uchar *) *xpp;
+int ncx_putn_uchar_float(void **xpp, size_t nelems, const float *tp, void *fillp) {
+  int status = NC_NOERR;
+  uchar *xp  = (uchar *)*xpp;
 
-    while (nelems-- != 0) {
-        if (*tp > (float)X_UCHAR_MAX || *tp < 0) {
-            
+  while (nelems-- != 0) {
+    if (*tp > (float)X_UCHAR_MAX || *tp < 0) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(xp, fillp, 1);
+      if (fillp != NULL) memcpy(xp, fillp, 1);
 #endif
-            status = NC_ERANGE;
-            
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *xp++ = (uchar) (signed) *tp++; /* type cast from float to uchar */
     }
+    *xp++ = (uchar)(signed)*tp++; /* type cast from float to uchar */
+  }
 
-    *xpp = (void *)xp;
-    return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_putn_uchar_double(void **xpp, size_t nelems, const double *tp, void *fillp)
-{
-    int status = NC_NOERR;
-    uchar *xp = (uchar *) *xpp;
+int ncx_putn_uchar_double(void **xpp, size_t nelems, const double *tp, void *fillp) {
+  int status = NC_NOERR;
+  uchar *xp  = (uchar *)*xpp;
 
-    while (nelems-- != 0) {
-        if (*tp > (double)X_UCHAR_MAX || *tp < 0) {
-            
+  while (nelems-- != 0) {
+    if (*tp > (double)X_UCHAR_MAX || *tp < 0) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(xp, fillp, 1);
+      if (fillp != NULL) memcpy(xp, fillp, 1);
 #endif
-            status = NC_ERANGE;
-            
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *xp++ = (uchar) (signed) *tp++; /* type cast from double to uchar */
     }
+    *xp++ = (uchar)(signed)*tp++; /* type cast from double to uchar */
+  }
 
-    *xpp = (void *)xp;
-    return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_putn_uchar_longlong(void **xpp, size_t nelems, const longlong *tp, void *fillp)
-{
-    int status = NC_NOERR;
-    uchar *xp = (uchar *) *xpp;
+int ncx_putn_uchar_longlong(void **xpp, size_t nelems, const longlong *tp, void *fillp) {
+  int status = NC_NOERR;
+  uchar *xp  = (uchar *)*xpp;
 
-    while (nelems-- != 0) {
-        if (*tp > (longlong)X_UCHAR_MAX || *tp < 0) {
-            
+  while (nelems-- != 0) {
+    if (*tp > (longlong)X_UCHAR_MAX || *tp < 0) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(xp, fillp, 1);
+      if (fillp != NULL) memcpy(xp, fillp, 1);
 #endif
-            status = NC_ERANGE;
-            
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *xp++ = (uchar) (signed) *tp++; /* type cast from longlong to uchar */
     }
+    *xp++ = (uchar)(signed)*tp++; /* type cast from longlong to uchar */
+  }
 
-    *xpp = (void *)xp;
-    return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_putn_uchar_ushort(void **xpp, size_t nelems, const ushort *tp, void *fillp)
-{
-    int status = NC_NOERR;
-    uchar *xp = (uchar *) *xpp;
+int ncx_putn_uchar_ushort(void **xpp, size_t nelems, const ushort *tp, void *fillp) {
+  int status = NC_NOERR;
+  uchar *xp  = (uchar *)*xpp;
 
-    while (nelems-- != 0) {
-        if (*tp > (ushort)X_UCHAR_MAX ) {
-            
+  while (nelems-- != 0) {
+    if (*tp > (ushort)X_UCHAR_MAX) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(xp, fillp, 1);
+      if (fillp != NULL) memcpy(xp, fillp, 1);
 #endif
-            status = NC_ERANGE;
-            
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *xp++ = (uchar)  *tp++; /* type cast from ushort to uchar */
     }
+    *xp++ = (uchar)*tp++; /* type cast from ushort to uchar */
+  }
 
-    *xpp = (void *)xp;
-    return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_putn_uchar_uint(void **xpp, size_t nelems, const uint *tp, void *fillp)
-{
-    int status = NC_NOERR;
-    uchar *xp = (uchar *) *xpp;
+int ncx_putn_uchar_uint(void **xpp, size_t nelems, const uint *tp, void *fillp) {
+  int status = NC_NOERR;
+  uchar *xp  = (uchar *)*xpp;
 
-    while (nelems-- != 0) {
-        if (*tp > (uint)X_UCHAR_MAX ) {
-            
+  while (nelems-- != 0) {
+    if (*tp > (uint)X_UCHAR_MAX) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(xp, fillp, 1);
+      if (fillp != NULL) memcpy(xp, fillp, 1);
 #endif
-            status = NC_ERANGE;
-            
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *xp++ = (uchar)  *tp++; /* type cast from uint to uchar */
     }
+    *xp++ = (uchar)*tp++; /* type cast from uint to uchar */
+  }
 
-    *xpp = (void *)xp;
-    return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_putn_uchar_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, void *fillp)
-{
-    int status = NC_NOERR;
-    uchar *xp = (uchar *) *xpp;
+int ncx_putn_uchar_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, void *fillp) {
+  int status = NC_NOERR;
+  uchar *xp  = (uchar *)*xpp;
 
-    while (nelems-- != 0) {
-        if (*tp > (ulonglong)X_UCHAR_MAX ) {
-            
+  while (nelems-- != 0) {
+    if (*tp > (ulonglong)X_UCHAR_MAX) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(xp, fillp, 1);
+      if (fillp != NULL) memcpy(xp, fillp, 1);
 #endif
-            status = NC_ERANGE;
-            
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *xp++ = (uchar)  *tp++; /* type cast from ulonglong to uchar */
     }
+    *xp++ = (uchar)*tp++; /* type cast from ulonglong to uchar */
+  }
 
-    *xpp = (void *)xp;
-    return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
 
-int
-ncx_pad_putn_uchar_schar(void **xpp, size_t nelems, const schar *tp, void *fillp)
-{
-    int status = NC_NOERR;
-    size_t rndup = nelems % X_ALIGN;
-    uchar *xp = (uchar *) *xpp;
+int ncx_pad_putn_uchar_schar(void **xpp, size_t nelems, const schar *tp, void *fillp) {
+  int status   = NC_NOERR;
+  size_t rndup = nelems % X_ALIGN;
+  uchar *xp    = (uchar *)*xpp;
 
-    if (rndup) rndup = X_ALIGN - rndup;
+  if (rndup) rndup = X_ALIGN - rndup;
 
-    while (nelems-- != 0) {
-        if (*tp < 0) {
-            
+  while (nelems-- != 0) {
+    if (*tp < 0) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(xp, fillp, 1);
+      if (fillp != NULL) memcpy(xp, fillp, 1);
 #endif
-            status = NC_ERANGE;
-            
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *xp++ = (uchar) (signed) *tp++; /* type cast from schar to uchar */
     }
+    *xp++ = (uchar)(signed)*tp++; /* type cast from schar to uchar */
+  }
 
-    if (rndup) {
-        (void) memcpy(xp, nada, (size_t)rndup);
-        xp += rndup;
-    }
+  if (rndup) {
+    (void)memcpy(xp, nada, (size_t)rndup);
+    xp += rndup;
+  }
 
-    *xpp = (void *)xp;
-    return status;
+  *xpp = (void *)xp;
+  return status;
 }
-int
-ncx_pad_putn_uchar_uchar(void **xpp, size_t nelems, const uchar *tp, void *fillp)
-{
-		size_t rndup = nelems % X_ALIGN;
+int ncx_pad_putn_uchar_uchar(void **xpp, size_t nelems, const uchar *tp, void *fillp) {
+  size_t rndup = nelems % X_ALIGN;
 
-	if (rndup)
-		rndup = X_ALIGN - rndup;
+  if (rndup)
+    rndup = X_ALIGN - rndup;
 
-	(void) memcpy(*xpp, tp, (size_t)nelems);
-	*xpp = (void *)((char *)(*xpp) + nelems);
+  (void)memcpy(*xpp, tp, (size_t)nelems);
+  *xpp = (void *)((char *)(*xpp) + nelems);
 
-	if (rndup)
-	{
-		(void) memcpy(*xpp, nada, (size_t)rndup);
-		*xpp = (void *)((char *)(*xpp) + rndup);
-	}
+  if (rndup) {
+    (void)memcpy(*xpp, nada, (size_t)rndup);
+    *xpp = (void *)((char *)(*xpp) + rndup);
+  }
 
-	return NC_NOERR;
-
+  return NC_NOERR;
 }
-int
-ncx_pad_putn_uchar_short(void **xpp, size_t nelems, const short *tp, void *fillp)
-{
-    int status = NC_NOERR;
-    size_t rndup = nelems % X_ALIGN;
-    uchar *xp = (uchar *) *xpp;
+int ncx_pad_putn_uchar_short(void **xpp, size_t nelems, const short *tp, void *fillp) {
+  int status   = NC_NOERR;
+  size_t rndup = nelems % X_ALIGN;
+  uchar *xp    = (uchar *)*xpp;
 
-    if (rndup) rndup = X_ALIGN - rndup;
+  if (rndup) rndup = X_ALIGN - rndup;
 
-    while (nelems-- != 0) {
-        if (*tp > (short)X_UCHAR_MAX || *tp < 0) {
-            
+  while (nelems-- != 0) {
+    if (*tp > (short)X_UCHAR_MAX || *tp < 0) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(xp, fillp, 1);
+      if (fillp != NULL) memcpy(xp, fillp, 1);
 #endif
-            status = NC_ERANGE;
-            
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *xp++ = (uchar) (signed) *tp++; /* type cast from short to uchar */
     }
+    *xp++ = (uchar)(signed)*tp++; /* type cast from short to uchar */
+  }
 
 
-    if (rndup) {
-        (void) memcpy(xp, nada, (size_t)rndup);
-        xp += rndup;
-    }
+  if (rndup) {
+    (void)memcpy(xp, nada, (size_t)rndup);
+    xp += rndup;
+  }
 
-    *xpp = (void *)xp;
-    return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_putn_uchar_int(void **xpp, size_t nelems, const int *tp, void *fillp)
-{
-    int status = NC_NOERR;
-    size_t rndup = nelems % X_ALIGN;
-    uchar *xp = (uchar *) *xpp;
+int ncx_pad_putn_uchar_int(void **xpp, size_t nelems, const int *tp, void *fillp) {
+  int status   = NC_NOERR;
+  size_t rndup = nelems % X_ALIGN;
+  uchar *xp    = (uchar *)*xpp;
 
-    if (rndup) rndup = X_ALIGN - rndup;
+  if (rndup) rndup = X_ALIGN - rndup;
 
-    while (nelems-- != 0) {
-        if (*tp > (int)X_UCHAR_MAX || *tp < 0) {
-            
+  while (nelems-- != 0) {
+    if (*tp > (int)X_UCHAR_MAX || *tp < 0) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(xp, fillp, 1);
+      if (fillp != NULL) memcpy(xp, fillp, 1);
 #endif
-            status = NC_ERANGE;
-            
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *xp++ = (uchar) (signed) *tp++; /* type cast from int to uchar */
     }
+    *xp++ = (uchar)(signed)*tp++; /* type cast from int to uchar */
+  }
 
 
-    if (rndup) {
-        (void) memcpy(xp, nada, (size_t)rndup);
-        xp += rndup;
-    }
+  if (rndup) {
+    (void)memcpy(xp, nada, (size_t)rndup);
+    xp += rndup;
+  }
 
-    *xpp = (void *)xp;
-    return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_putn_uchar_long(void **xpp, size_t nelems, const long *tp, void *fillp)
-{
-    int status = NC_NOERR;
-    size_t rndup = nelems % X_ALIGN;
-    uchar *xp = (uchar *) *xpp;
+int ncx_pad_putn_uchar_long(void **xpp, size_t nelems, const long *tp, void *fillp) {
+  int status   = NC_NOERR;
+  size_t rndup = nelems % X_ALIGN;
+  uchar *xp    = (uchar *)*xpp;
 
-    if (rndup) rndup = X_ALIGN - rndup;
+  if (rndup) rndup = X_ALIGN - rndup;
 
-    while (nelems-- != 0) {
-        if (*tp > (long)X_UCHAR_MAX || *tp < 0) {
-            
+  while (nelems-- != 0) {
+    if (*tp > (long)X_UCHAR_MAX || *tp < 0) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(xp, fillp, 1);
+      if (fillp != NULL) memcpy(xp, fillp, 1);
 #endif
-            status = NC_ERANGE;
-            
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *xp++ = (uchar) (signed) *tp++; /* type cast from long to uchar */
     }
+    *xp++ = (uchar)(signed)*tp++; /* type cast from long to uchar */
+  }
 
 
-    if (rndup) {
-        (void) memcpy(xp, nada, (size_t)rndup);
-        xp += rndup;
-    }
+  if (rndup) {
+    (void)memcpy(xp, nada, (size_t)rndup);
+    xp += rndup;
+  }
 
-    *xpp = (void *)xp;
-    return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_putn_uchar_float(void **xpp, size_t nelems, const float *tp, void *fillp)
-{
-    int status = NC_NOERR;
-    size_t rndup = nelems % X_ALIGN;
-    uchar *xp = (uchar *) *xpp;
+int ncx_pad_putn_uchar_float(void **xpp, size_t nelems, const float *tp, void *fillp) {
+  int status   = NC_NOERR;
+  size_t rndup = nelems % X_ALIGN;
+  uchar *xp    = (uchar *)*xpp;
 
-    if (rndup) rndup = X_ALIGN - rndup;
+  if (rndup) rndup = X_ALIGN - rndup;
 
-    while (nelems-- != 0) {
-        if (*tp > (float)X_UCHAR_MAX || *tp < 0) {
-            
+  while (nelems-- != 0) {
+    if (*tp > (float)X_UCHAR_MAX || *tp < 0) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(xp, fillp, 1);
+      if (fillp != NULL) memcpy(xp, fillp, 1);
 #endif
-            status = NC_ERANGE;
-            
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *xp++ = (uchar) (signed) *tp++; /* type cast from float to uchar */
     }
+    *xp++ = (uchar)(signed)*tp++; /* type cast from float to uchar */
+  }
 
 
-    if (rndup) {
-        (void) memcpy(xp, nada, (size_t)rndup);
-        xp += rndup;
-    }
+  if (rndup) {
+    (void)memcpy(xp, nada, (size_t)rndup);
+    xp += rndup;
+  }
 
-    *xpp = (void *)xp;
-    return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_putn_uchar_double(void **xpp, size_t nelems, const double *tp, void *fillp)
-{
-    int status = NC_NOERR;
-    size_t rndup = nelems % X_ALIGN;
-    uchar *xp = (uchar *) *xpp;
+int ncx_pad_putn_uchar_double(void **xpp, size_t nelems, const double *tp, void *fillp) {
+  int status   = NC_NOERR;
+  size_t rndup = nelems % X_ALIGN;
+  uchar *xp    = (uchar *)*xpp;
 
-    if (rndup) rndup = X_ALIGN - rndup;
+  if (rndup) rndup = X_ALIGN - rndup;
 
-    while (nelems-- != 0) {
-        if (*tp > (double)X_UCHAR_MAX || *tp < 0) {
-            
+  while (nelems-- != 0) {
+    if (*tp > (double)X_UCHAR_MAX || *tp < 0) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(xp, fillp, 1);
+      if (fillp != NULL) memcpy(xp, fillp, 1);
 #endif
-            status = NC_ERANGE;
-            
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *xp++ = (uchar) (signed) *tp++; /* type cast from double to uchar */
     }
+    *xp++ = (uchar)(signed)*tp++; /* type cast from double to uchar */
+  }
 
 
-    if (rndup) {
-        (void) memcpy(xp, nada, (size_t)rndup);
-        xp += rndup;
-    }
+  if (rndup) {
+    (void)memcpy(xp, nada, (size_t)rndup);
+    xp += rndup;
+  }
 
-    *xpp = (void *)xp;
-    return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_putn_uchar_longlong(void **xpp, size_t nelems, const longlong *tp, void *fillp)
-{
-    int status = NC_NOERR;
-    size_t rndup = nelems % X_ALIGN;
-    uchar *xp = (uchar *) *xpp;
+int ncx_pad_putn_uchar_longlong(void **xpp, size_t nelems, const longlong *tp, void *fillp) {
+  int status   = NC_NOERR;
+  size_t rndup = nelems % X_ALIGN;
+  uchar *xp    = (uchar *)*xpp;
 
-    if (rndup) rndup = X_ALIGN - rndup;
+  if (rndup) rndup = X_ALIGN - rndup;
 
-    while (nelems-- != 0) {
-        if (*tp > (longlong)X_UCHAR_MAX || *tp < 0) {
-            
+  while (nelems-- != 0) {
+    if (*tp > (longlong)X_UCHAR_MAX || *tp < 0) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(xp, fillp, 1);
+      if (fillp != NULL) memcpy(xp, fillp, 1);
 #endif
-            status = NC_ERANGE;
-            
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *xp++ = (uchar) (signed) *tp++; /* type cast from longlong to uchar */
     }
+    *xp++ = (uchar)(signed)*tp++; /* type cast from longlong to uchar */
+  }
 
 
-    if (rndup) {
-        (void) memcpy(xp, nada, (size_t)rndup);
-        xp += rndup;
-    }
+  if (rndup) {
+    (void)memcpy(xp, nada, (size_t)rndup);
+    xp += rndup;
+  }
 
-    *xpp = (void *)xp;
-    return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_putn_uchar_ushort(void **xpp, size_t nelems, const ushort *tp, void *fillp)
-{
-    int status = NC_NOERR;
-    size_t rndup = nelems % X_ALIGN;
-    uchar *xp = (uchar *) *xpp;
+int ncx_pad_putn_uchar_ushort(void **xpp, size_t nelems, const ushort *tp, void *fillp) {
+  int status   = NC_NOERR;
+  size_t rndup = nelems % X_ALIGN;
+  uchar *xp    = (uchar *)*xpp;
 
-    if (rndup) rndup = X_ALIGN - rndup;
+  if (rndup) rndup = X_ALIGN - rndup;
 
-    while (nelems-- != 0) {
-        if (*tp > (ushort)X_UCHAR_MAX ) {
-            
+  while (nelems-- != 0) {
+    if (*tp > (ushort)X_UCHAR_MAX) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(xp, fillp, 1);
+      if (fillp != NULL) memcpy(xp, fillp, 1);
 #endif
-            status = NC_ERANGE;
-            
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *xp++ = (uchar)  *tp++; /* type cast from ushort to uchar */
     }
+    *xp++ = (uchar)*tp++; /* type cast from ushort to uchar */
+  }
 
 
-    if (rndup) {
-        (void) memcpy(xp, nada, (size_t)rndup);
-        xp += rndup;
-    }
+  if (rndup) {
+    (void)memcpy(xp, nada, (size_t)rndup);
+    xp += rndup;
+  }
 
-    *xpp = (void *)xp;
-    return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_putn_uchar_uint(void **xpp, size_t nelems, const uint *tp, void *fillp)
-{
-    int status = NC_NOERR;
-    size_t rndup = nelems % X_ALIGN;
-    uchar *xp = (uchar *) *xpp;
+int ncx_pad_putn_uchar_uint(void **xpp, size_t nelems, const uint *tp, void *fillp) {
+  int status   = NC_NOERR;
+  size_t rndup = nelems % X_ALIGN;
+  uchar *xp    = (uchar *)*xpp;
 
-    if (rndup) rndup = X_ALIGN - rndup;
+  if (rndup) rndup = X_ALIGN - rndup;
 
-    while (nelems-- != 0) {
-        if (*tp > (uint)X_UCHAR_MAX ) {
-            
+  while (nelems-- != 0) {
+    if (*tp > (uint)X_UCHAR_MAX) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(xp, fillp, 1);
+      if (fillp != NULL) memcpy(xp, fillp, 1);
 #endif
-            status = NC_ERANGE;
-            
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *xp++ = (uchar)  *tp++; /* type cast from uint to uchar */
     }
+    *xp++ = (uchar)*tp++; /* type cast from uint to uchar */
+  }
 
 
-    if (rndup) {
-        (void) memcpy(xp, nada, (size_t)rndup);
-        xp += rndup;
-    }
+  if (rndup) {
+    (void)memcpy(xp, nada, (size_t)rndup);
+    xp += rndup;
+  }
 
-    *xpp = (void *)xp;
-    return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_putn_uchar_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, void *fillp)
-{
-    int status = NC_NOERR;
-    size_t rndup = nelems % X_ALIGN;
-    uchar *xp = (uchar *) *xpp;
+int ncx_pad_putn_uchar_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, void *fillp) {
+  int status   = NC_NOERR;
+  size_t rndup = nelems % X_ALIGN;
+  uchar *xp    = (uchar *)*xpp;
 
-    if (rndup) rndup = X_ALIGN - rndup;
+  if (rndup) rndup = X_ALIGN - rndup;
 
-    while (nelems-- != 0) {
-        if (*tp > (ulonglong)X_UCHAR_MAX ) {
-            
+  while (nelems-- != 0) {
+    if (*tp > (ulonglong)X_UCHAR_MAX) {
 #ifdef ERANGE_FILL
-            if (fillp != NULL) memcpy(xp, fillp, 1);
+      if (fillp != NULL) memcpy(xp, fillp, 1);
 #endif
-            status = NC_ERANGE;
-            
+      status = NC_ERANGE;
+
 #ifdef ERANGE_FILL
-            xp++; tp++; continue;
+      xp++;
+      tp++;
+      continue;
 #endif
-        }
-        *xp++ = (uchar)  *tp++; /* type cast from ulonglong to uchar */
     }
+    *xp++ = (uchar)*tp++; /* type cast from ulonglong to uchar */
+  }
 
 
-    if (rndup) {
-        (void) memcpy(xp, nada, (size_t)rndup);
-        xp += rndup;
-    }
+  if (rndup) {
+    (void)memcpy(xp, nada, (size_t)rndup);
+    xp += rndup;
+  }
 
-    *xpp = (void *)xp;
-    return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
 
@@ -7794,24 +7235,20 @@ ncx_pad_putn_uchar_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, voi
 
 #if X_SIZEOF_SHORT == SIZEOF_SHORT
 /* optimized version */
-int
-ncx_getn_short_short(const void **xpp, size_t nelems, short *tp)
-{
-#ifdef WORDS_BIGENDIAN
-	(void) memcpy(tp, *xpp, (size_t)nelems * SIZEOF_SHORT);
-# else
-	swapn2b(tp, *xpp, nelems);
-# endif
-	*xpp = (const void *)((const char *)(*xpp) + nelems * X_SIZEOF_SHORT);
-	return NC_NOERR;
+int ncx_getn_short_short(const void **xpp, size_t nelems, short *tp) {
+#  ifdef WORDS_BIGENDIAN
+  (void)memcpy(tp, *xpp, (size_t)nelems * SIZEOF_SHORT);
+#  else
+  swapn2b(tp, *xpp, nelems);
+#  endif
+  *xpp = (const void *)((const char *)(*xpp) + nelems * X_SIZEOF_SHORT);
+  return NC_NOERR;
 }
 #else
-int
-ncx_getn_short_short(const void **xpp, size_t nelems, short *tp)
-{
-#if defined(_SX) && _SX != 0 && X_SIZEOF_SHORT == SIZEOF_SHORT
+int ncx_getn_short_short(const void **xpp, size_t nelems, short *tp) {
+#  if defined(_SX) && _SX != 0 && X_SIZEOF_SHORT == SIZEOF_SHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -7819,65 +7256,62 @@ ncx_getn_short_short(const void **xpp, size_t nelems, short *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  short tmp[LOOPCNT];        /* in case input is misaligned */
+  short tmp[LOOPCNT]; /* in case input is misaligned */
   short *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_SHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_SHORT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_SHORT));
       xp = tmp;
     } else {
-      xp = (short *) *xpp;
+      xp = (short *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (short) Max( SHORT_MIN, Min(SHORT_MAX, (short) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#    pragma cdir loopcnt = LOOPCNT
+#    pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (short)Max(SHORT_MIN, Min(SHORT_MAX, (short)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > SHORT_MAX || xp[i] < SHORT_MIN;
     }
-   /* update xpp and tp */
-    if (realign) xp = (short *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (short *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#  else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		const int lstatus = ncx_get_short_short(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    const int lstatus = ncx_get_short_short(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
-#endif
+  *xpp = (const void *)xp;
+  return status;
+#  endif
 }
 
 #endif
-int
-ncx_getn_short_schar(const void **xpp, size_t nelems, schar *tp)
-{
+int ncx_getn_short_schar(const void **xpp, size_t nelems, schar *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_SHORT == SIZEOF_SHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -7885,64 +7319,61 @@ ncx_getn_short_schar(const void **xpp, size_t nelems, schar *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  short tmp[LOOPCNT];        /* in case input is misaligned */
+  short tmp[LOOPCNT]; /* in case input is misaligned */
   short *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_SHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_SHORT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_SHORT));
       xp = tmp;
     } else {
-      xp = (short *) *xpp;
+      xp = (short *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (schar) Max( SCHAR_MIN, Min(SCHAR_MAX, (schar) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (schar)Max(SCHAR_MIN, Min(SCHAR_MAX, (schar)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > SCHAR_MAX || xp[i] < SCHAR_MIN;
     }
-   /* update xpp and tp */
-    if (realign) xp = (short *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (short *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		const int lstatus = ncx_get_short_schar(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    const int lstatus = ncx_get_short_schar(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_short_int(const void **xpp, size_t nelems, int *tp)
-{
+int ncx_getn_short_int(const void **xpp, size_t nelems, int *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_SHORT == SIZEOF_SHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -7950,64 +7381,61 @@ ncx_getn_short_int(const void **xpp, size_t nelems, int *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  short tmp[LOOPCNT];        /* in case input is misaligned */
+  short tmp[LOOPCNT]; /* in case input is misaligned */
   short *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_SHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_SHORT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_SHORT));
       xp = tmp;
     } else {
-      xp = (short *) *xpp;
+      xp = (short *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (int) Max( INT_MIN, Min(INT_MAX, (int) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (int)Max(INT_MIN, Min(INT_MAX, (int)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > INT_MAX || xp[i] < INT_MIN;
     }
-   /* update xpp and tp */
-    if (realign) xp = (short *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (short *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		const int lstatus = ncx_get_short_int(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    const int lstatus = ncx_get_short_int(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_short_long(const void **xpp, size_t nelems, long *tp)
-{
+int ncx_getn_short_long(const void **xpp, size_t nelems, long *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_SHORT == SIZEOF_SHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -8015,64 +7443,61 @@ ncx_getn_short_long(const void **xpp, size_t nelems, long *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  short tmp[LOOPCNT];        /* in case input is misaligned */
+  short tmp[LOOPCNT]; /* in case input is misaligned */
   short *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_SHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_SHORT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_SHORT));
       xp = tmp;
     } else {
-      xp = (short *) *xpp;
+      xp = (short *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (long) Max( LONG_MIN, Min(LONG_MAX, (long) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (long)Max(LONG_MIN, Min(LONG_MAX, (long)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > LONG_MAX || xp[i] < LONG_MIN;
     }
-   /* update xpp and tp */
-    if (realign) xp = (short *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (short *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		const int lstatus = ncx_get_short_long(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    const int lstatus = ncx_get_short_long(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_short_float(const void **xpp, size_t nelems, float *tp)
-{
+int ncx_getn_short_float(const void **xpp, size_t nelems, float *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_SHORT == SIZEOF_SHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -8080,64 +7505,61 @@ ncx_getn_short_float(const void **xpp, size_t nelems, float *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  short tmp[LOOPCNT];        /* in case input is misaligned */
+  short tmp[LOOPCNT]; /* in case input is misaligned */
   short *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_SHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_SHORT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_SHORT));
       xp = tmp;
     } else {
-      xp = (short *) *xpp;
+      xp = (short *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (float) Max( FLOAT_MIN, Min(FLOAT_MAX, (float) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (float)Max(FLOAT_MIN, Min(FLOAT_MAX, (float)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > FLOAT_MAX || xp[i] < FLOAT_MIN;
     }
-   /* update xpp and tp */
-    if (realign) xp = (short *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (short *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		const int lstatus = ncx_get_short_float(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    const int lstatus = ncx_get_short_float(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_short_double(const void **xpp, size_t nelems, double *tp)
-{
+int ncx_getn_short_double(const void **xpp, size_t nelems, double *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_SHORT == SIZEOF_SHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -8145,64 +7567,61 @@ ncx_getn_short_double(const void **xpp, size_t nelems, double *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  short tmp[LOOPCNT];        /* in case input is misaligned */
+  short tmp[LOOPCNT]; /* in case input is misaligned */
   short *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_SHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_SHORT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_SHORT));
       xp = tmp;
     } else {
-      xp = (short *) *xpp;
+      xp = (short *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (double) Max( DOUBLE_MIN, Min(DOUBLE_MAX, (double) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (double)Max(DOUBLE_MIN, Min(DOUBLE_MAX, (double)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > DOUBLE_MAX || xp[i] < DOUBLE_MIN;
     }
-   /* update xpp and tp */
-    if (realign) xp = (short *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (short *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		const int lstatus = ncx_get_short_double(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    const int lstatus = ncx_get_short_double(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_short_longlong(const void **xpp, size_t nelems, longlong *tp)
-{
+int ncx_getn_short_longlong(const void **xpp, size_t nelems, longlong *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_SHORT == SIZEOF_SHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -8210,64 +7629,61 @@ ncx_getn_short_longlong(const void **xpp, size_t nelems, longlong *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  short tmp[LOOPCNT];        /* in case input is misaligned */
+  short tmp[LOOPCNT]; /* in case input is misaligned */
   short *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_SHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_SHORT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_SHORT));
       xp = tmp;
     } else {
-      xp = (short *) *xpp;
+      xp = (short *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (longlong) Max( LONGLONG_MIN, Min(LONGLONG_MAX, (longlong) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (longlong)Max(LONGLONG_MIN, Min(LONGLONG_MAX, (longlong)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > LONGLONG_MAX || xp[i] < LONGLONG_MIN;
     }
-   /* update xpp and tp */
-    if (realign) xp = (short *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (short *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		const int lstatus = ncx_get_short_longlong(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    const int lstatus = ncx_get_short_longlong(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_short_uchar(const void **xpp, size_t nelems, uchar *tp)
-{
+int ncx_getn_short_uchar(const void **xpp, size_t nelems, uchar *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_SHORT == SIZEOF_SHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -8275,64 +7691,61 @@ ncx_getn_short_uchar(const void **xpp, size_t nelems, uchar *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  short tmp[LOOPCNT];        /* in case input is misaligned */
+  short tmp[LOOPCNT]; /* in case input is misaligned */
   short *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_SHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_SHORT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_SHORT));
       xp = tmp;
     } else {
-      xp = (short *) *xpp;
+      xp = (short *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (uchar) Max( UCHAR_MIN, Min(UCHAR_MAX, (uchar) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (uchar)Max(UCHAR_MIN, Min(UCHAR_MAX, (uchar)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > UCHAR_MAX || xp[i] < 0;
     }
-   /* update xpp and tp */
-    if (realign) xp = (short *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (short *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		const int lstatus = ncx_get_short_uchar(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    const int lstatus = ncx_get_short_uchar(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_short_ushort(const void **xpp, size_t nelems, ushort *tp)
-{
+int ncx_getn_short_ushort(const void **xpp, size_t nelems, ushort *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_SHORT == SIZEOF_SHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -8340,64 +7753,61 @@ ncx_getn_short_ushort(const void **xpp, size_t nelems, ushort *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  short tmp[LOOPCNT];        /* in case input is misaligned */
+  short tmp[LOOPCNT]; /* in case input is misaligned */
   short *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_SHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_SHORT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_SHORT));
       xp = tmp;
     } else {
-      xp = (short *) *xpp;
+      xp = (short *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (ushort) Max( USHORT_MIN, Min(USHORT_MAX, (ushort) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (ushort)Max(USHORT_MIN, Min(USHORT_MAX, (ushort)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > USHORT_MAX || xp[i] < 0;
     }
-   /* update xpp and tp */
-    if (realign) xp = (short *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (short *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		const int lstatus = ncx_get_short_ushort(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    const int lstatus = ncx_get_short_ushort(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_short_uint(const void **xpp, size_t nelems, uint *tp)
-{
+int ncx_getn_short_uint(const void **xpp, size_t nelems, uint *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_SHORT == SIZEOF_SHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -8405,64 +7815,61 @@ ncx_getn_short_uint(const void **xpp, size_t nelems, uint *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  short tmp[LOOPCNT];        /* in case input is misaligned */
+  short tmp[LOOPCNT]; /* in case input is misaligned */
   short *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_SHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_SHORT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_SHORT));
       xp = tmp;
     } else {
-      xp = (short *) *xpp;
+      xp = (short *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (uint) Max( UINT_MIN, Min(UINT_MAX, (uint) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (uint)Max(UINT_MIN, Min(UINT_MAX, (uint)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > UINT_MAX || xp[i] < 0;
     }
-   /* update xpp and tp */
-    if (realign) xp = (short *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (short *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		const int lstatus = ncx_get_short_uint(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    const int lstatus = ncx_get_short_uint(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_short_ulonglong(const void **xpp, size_t nelems, ulonglong *tp)
-{
+int ncx_getn_short_ulonglong(const void **xpp, size_t nelems, ulonglong *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_SHORT == SIZEOF_SHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -8470,322 +7877,284 @@ ncx_getn_short_ulonglong(const void **xpp, size_t nelems, ulonglong *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  short tmp[LOOPCNT];        /* in case input is misaligned */
+  short tmp[LOOPCNT]; /* in case input is misaligned */
   short *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_SHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_SHORT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_SHORT));
       xp = tmp;
     } else {
-      xp = (short *) *xpp;
+      xp = (short *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (ulonglong) Max( ULONGLONG_MIN, Min(ULONGLONG_MAX, (ulonglong) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (ulonglong)Max(ULONGLONG_MIN, Min(ULONGLONG_MAX, (ulonglong)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > ULONGLONG_MAX || xp[i] < 0;
     }
-   /* update xpp and tp */
-    if (realign) xp = (short *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (short *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		const int lstatus = ncx_get_short_ulonglong(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    const int lstatus = ncx_get_short_ulonglong(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
 
-int
-ncx_pad_getn_short_schar(const void **xpp, size_t nelems, schar *tp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_getn_short_schar(const void **xpp, size_t nelems, schar *tp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		const int lstatus = ncx_get_short_schar(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    const int lstatus = ncx_get_short_schar(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-		xp += X_SIZEOF_SHORT;
+  if (rndup != 0)
+    xp += X_SIZEOF_SHORT;
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_getn_short_uchar(const void **xpp, size_t nelems, uchar *tp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_getn_short_uchar(const void **xpp, size_t nelems, uchar *tp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		const int lstatus = ncx_get_short_uchar(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    const int lstatus = ncx_get_short_uchar(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-		xp += X_SIZEOF_SHORT;
+  if (rndup != 0)
+    xp += X_SIZEOF_SHORT;
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_getn_short_short(const void **xpp, size_t nelems, short *tp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_getn_short_short(const void **xpp, size_t nelems, short *tp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		const int lstatus = ncx_get_short_short(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    const int lstatus = ncx_get_short_short(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-		xp += X_SIZEOF_SHORT;
+  if (rndup != 0)
+    xp += X_SIZEOF_SHORT;
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_getn_short_int(const void **xpp, size_t nelems, int *tp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_getn_short_int(const void **xpp, size_t nelems, int *tp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		const int lstatus = ncx_get_short_int(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    const int lstatus = ncx_get_short_int(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-		xp += X_SIZEOF_SHORT;
+  if (rndup != 0)
+    xp += X_SIZEOF_SHORT;
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_getn_short_long(const void **xpp, size_t nelems, long *tp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_getn_short_long(const void **xpp, size_t nelems, long *tp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		const int lstatus = ncx_get_short_long(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    const int lstatus = ncx_get_short_long(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-		xp += X_SIZEOF_SHORT;
+  if (rndup != 0)
+    xp += X_SIZEOF_SHORT;
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_getn_short_float(const void **xpp, size_t nelems, float *tp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_getn_short_float(const void **xpp, size_t nelems, float *tp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		const int lstatus = ncx_get_short_float(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    const int lstatus = ncx_get_short_float(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-		xp += X_SIZEOF_SHORT;
+  if (rndup != 0)
+    xp += X_SIZEOF_SHORT;
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_getn_short_double(const void **xpp, size_t nelems, double *tp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_getn_short_double(const void **xpp, size_t nelems, double *tp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		const int lstatus = ncx_get_short_double(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    const int lstatus = ncx_get_short_double(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-		xp += X_SIZEOF_SHORT;
+  if (rndup != 0)
+    xp += X_SIZEOF_SHORT;
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_getn_short_uint(const void **xpp, size_t nelems, uint *tp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_getn_short_uint(const void **xpp, size_t nelems, uint *tp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		const int lstatus = ncx_get_short_uint(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    const int lstatus = ncx_get_short_uint(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-		xp += X_SIZEOF_SHORT;
+  if (rndup != 0)
+    xp += X_SIZEOF_SHORT;
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_getn_short_longlong(const void **xpp, size_t nelems, longlong *tp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_getn_short_longlong(const void **xpp, size_t nelems, longlong *tp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		const int lstatus = ncx_get_short_longlong(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    const int lstatus = ncx_get_short_longlong(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-		xp += X_SIZEOF_SHORT;
+  if (rndup != 0)
+    xp += X_SIZEOF_SHORT;
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_getn_short_ulonglong(const void **xpp, size_t nelems, ulonglong *tp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_getn_short_ulonglong(const void **xpp, size_t nelems, ulonglong *tp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		const int lstatus = ncx_get_short_ulonglong(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    const int lstatus = ncx_get_short_ulonglong(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-		xp += X_SIZEOF_SHORT;
+  if (rndup != 0)
+    xp += X_SIZEOF_SHORT;
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_getn_short_ushort(const void **xpp, size_t nelems, ushort *tp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_getn_short_ushort(const void **xpp, size_t nelems, ushort *tp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		const int lstatus = ncx_get_short_ushort(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    const int lstatus = ncx_get_short_ushort(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-		xp += X_SIZEOF_SHORT;
+  if (rndup != 0)
+    xp += X_SIZEOF_SHORT;
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
 
 #if X_SIZEOF_SHORT == SIZEOF_SHORT
 /* optimized version */
-int
-ncx_putn_short_short(void **xpp, size_t nelems, const short *tp, void *fillp)
-{
-#ifdef WORDS_BIGENDIAN
-	(void) memcpy(*xpp, tp, (size_t)nelems * X_SIZEOF_SHORT);
-# else
-	swapn2b(*xpp, tp, nelems);
-# endif
-	*xpp = (void *)((char *)(*xpp) + nelems * X_SIZEOF_SHORT);
-	return NC_NOERR;
+int ncx_putn_short_short(void **xpp, size_t nelems, const short *tp, void *fillp) {
+#  ifdef WORDS_BIGENDIAN
+  (void)memcpy(*xpp, tp, (size_t)nelems * X_SIZEOF_SHORT);
+#  else
+  swapn2b(*xpp, tp, nelems);
+#  endif
+  *xpp = (void *)((char *)(*xpp) + nelems * X_SIZEOF_SHORT);
+  return NC_NOERR;
 }
 #else
-int
-ncx_putn_short_short(void **xpp, size_t nelems, const short *tp, void *fillp)
-{
-#if defined(_SX) && _SX != 0 && X_SIZEOF_SHORT == SIZEOF_SHORT
+int ncx_putn_short_short(void **xpp, size_t nelems, const short *tp, void *fillp) {
+#  if defined(_SX) && _SX != 0 && X_SIZEOF_SHORT == SIZEOF_SHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -8793,70 +8162,67 @@ ncx_putn_short_short(void **xpp, size_t nelems, const short *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  short tmp[LOOPCNT];        /* in case input is misaligned */
+  short tmp[LOOPCNT]; /* in case input is misaligned */
   short *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_SHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (short *) *xpp;
+      xp = (short *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#    pragma cdir loopcnt = LOOPCNT
+#    pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (short) Max( X_SHORT_MIN, Min(X_SHORT_MAX, (short) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (short)Max(X_SHORT_MIN, Min(X_SHORT_MAX, (short)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_SHORT_MAX || tp[i] < X_SHORT_MIN;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_SHORT);
-      xp = (short *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_SHORT);
+      xp = (short *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#  else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		int lstatus = ncx_put_short_short(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    int lstatus = ncx_put_short_short(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
-#endif
+  *xpp = (void *)xp;
+  return status;
+#  endif
 }
 
 #endif
-int
-ncx_putn_short_schar(void **xpp, size_t nelems, const schar *tp, void *fillp)
-{
+int ncx_putn_short_schar(void **xpp, size_t nelems, const schar *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_SHORT == SIZEOF_SHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -8864,69 +8230,66 @@ ncx_putn_short_schar(void **xpp, size_t nelems, const schar *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  short tmp[LOOPCNT];        /* in case input is misaligned */
+  short tmp[LOOPCNT]; /* in case input is misaligned */
   short *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_SHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (short *) *xpp;
+      xp = (short *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (short) Max( X_SHORT_MIN, Min(X_SHORT_MAX, (short) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (short)Max(X_SHORT_MIN, Min(X_SHORT_MAX, (short)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_SHORT_MAX || tp[i] < X_SHORT_MIN;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_SHORT);
-      xp = (short *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_SHORT);
+      xp = (short *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		int lstatus = ncx_put_short_schar(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    int lstatus = ncx_put_short_schar(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_short_int(void **xpp, size_t nelems, const int *tp, void *fillp)
-{
+int ncx_putn_short_int(void **xpp, size_t nelems, const int *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_SHORT == SIZEOF_SHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -8934,69 +8297,66 @@ ncx_putn_short_int(void **xpp, size_t nelems, const int *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  short tmp[LOOPCNT];        /* in case input is misaligned */
+  short tmp[LOOPCNT]; /* in case input is misaligned */
   short *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_SHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (short *) *xpp;
+      xp = (short *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (short) Max( X_SHORT_MIN, Min(X_SHORT_MAX, (short) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (short)Max(X_SHORT_MIN, Min(X_SHORT_MAX, (short)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_SHORT_MAX || tp[i] < X_SHORT_MIN;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_SHORT);
-      xp = (short *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_SHORT);
+      xp = (short *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		int lstatus = ncx_put_short_int(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    int lstatus = ncx_put_short_int(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_short_long(void **xpp, size_t nelems, const long *tp, void *fillp)
-{
+int ncx_putn_short_long(void **xpp, size_t nelems, const long *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_SHORT == SIZEOF_SHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -9004,69 +8364,66 @@ ncx_putn_short_long(void **xpp, size_t nelems, const long *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  short tmp[LOOPCNT];        /* in case input is misaligned */
+  short tmp[LOOPCNT]; /* in case input is misaligned */
   short *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_SHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (short *) *xpp;
+      xp = (short *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (short) Max( X_SHORT_MIN, Min(X_SHORT_MAX, (short) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (short)Max(X_SHORT_MIN, Min(X_SHORT_MAX, (short)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_SHORT_MAX || tp[i] < X_SHORT_MIN;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_SHORT);
-      xp = (short *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_SHORT);
+      xp = (short *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		int lstatus = ncx_put_short_long(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    int lstatus = ncx_put_short_long(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_short_float(void **xpp, size_t nelems, const float *tp, void *fillp)
-{
+int ncx_putn_short_float(void **xpp, size_t nelems, const float *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_SHORT == SIZEOF_SHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -9074,69 +8431,66 @@ ncx_putn_short_float(void **xpp, size_t nelems, const float *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  short tmp[LOOPCNT];        /* in case input is misaligned */
+  short tmp[LOOPCNT]; /* in case input is misaligned */
   short *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_SHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (short *) *xpp;
+      xp = (short *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (short) Max( X_SHORT_MIN, Min(X_SHORT_MAX, (short) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (short)Max(X_SHORT_MIN, Min(X_SHORT_MAX, (short)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_SHORT_MAX || tp[i] < X_SHORT_MIN;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_SHORT);
-      xp = (short *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_SHORT);
+      xp = (short *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		int lstatus = ncx_put_short_float(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    int lstatus = ncx_put_short_float(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_short_double(void **xpp, size_t nelems, const double *tp, void *fillp)
-{
+int ncx_putn_short_double(void **xpp, size_t nelems, const double *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_SHORT == SIZEOF_SHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -9144,69 +8498,66 @@ ncx_putn_short_double(void **xpp, size_t nelems, const double *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  short tmp[LOOPCNT];        /* in case input is misaligned */
+  short tmp[LOOPCNT]; /* in case input is misaligned */
   short *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_SHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (short *) *xpp;
+      xp = (short *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (short) Max( X_SHORT_MIN, Min(X_SHORT_MAX, (short) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (short)Max(X_SHORT_MIN, Min(X_SHORT_MAX, (short)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_SHORT_MAX || tp[i] < X_SHORT_MIN;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_SHORT);
-      xp = (short *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_SHORT);
+      xp = (short *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		int lstatus = ncx_put_short_double(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    int lstatus = ncx_put_short_double(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_short_longlong(void **xpp, size_t nelems, const longlong *tp, void *fillp)
-{
+int ncx_putn_short_longlong(void **xpp, size_t nelems, const longlong *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_SHORT == SIZEOF_SHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -9214,69 +8565,66 @@ ncx_putn_short_longlong(void **xpp, size_t nelems, const longlong *tp, void *fil
   *     at next location for converted output
   */
   long i, j, ni;
-  short tmp[LOOPCNT];        /* in case input is misaligned */
+  short tmp[LOOPCNT]; /* in case input is misaligned */
   short *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_SHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (short *) *xpp;
+      xp = (short *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (short) Max( X_SHORT_MIN, Min(X_SHORT_MAX, (short) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (short)Max(X_SHORT_MIN, Min(X_SHORT_MAX, (short)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_SHORT_MAX || tp[i] < X_SHORT_MIN;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_SHORT);
-      xp = (short *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_SHORT);
+      xp = (short *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		int lstatus = ncx_put_short_longlong(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    int lstatus = ncx_put_short_longlong(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_short_uchar(void **xpp, size_t nelems, const uchar *tp, void *fillp)
-{
+int ncx_putn_short_uchar(void **xpp, size_t nelems, const uchar *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_SHORT == SIZEOF_SHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -9284,69 +8632,66 @@ ncx_putn_short_uchar(void **xpp, size_t nelems, const uchar *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  short tmp[LOOPCNT];        /* in case input is misaligned */
+  short tmp[LOOPCNT]; /* in case input is misaligned */
   short *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_SHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (short *) *xpp;
+      xp = (short *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (short) Max( X_SHORT_MIN, Min(X_SHORT_MAX, (short) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
-      nrange += tp[i] > X_SHORT_MAX ;
+      xp[i] = (short)Max(X_SHORT_MIN, Min(X_SHORT_MAX, (short)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      nrange += tp[i] > X_SHORT_MAX;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_SHORT);
-      xp = (short *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_SHORT);
+      xp = (short *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		int lstatus = ncx_put_short_uchar(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    int lstatus = ncx_put_short_uchar(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_short_uint(void **xpp, size_t nelems, const uint *tp, void *fillp)
-{
+int ncx_putn_short_uint(void **xpp, size_t nelems, const uint *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_SHORT == SIZEOF_SHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -9354,69 +8699,66 @@ ncx_putn_short_uint(void **xpp, size_t nelems, const uint *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  short tmp[LOOPCNT];        /* in case input is misaligned */
+  short tmp[LOOPCNT]; /* in case input is misaligned */
   short *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_SHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (short *) *xpp;
+      xp = (short *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (short) Max( X_SHORT_MIN, Min(X_SHORT_MAX, (short) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
-      nrange += tp[i] > X_SHORT_MAX ;
+      xp[i] = (short)Max(X_SHORT_MIN, Min(X_SHORT_MAX, (short)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      nrange += tp[i] > X_SHORT_MAX;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_SHORT);
-      xp = (short *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_SHORT);
+      xp = (short *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		int lstatus = ncx_put_short_uint(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    int lstatus = ncx_put_short_uint(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_short_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, void *fillp)
-{
+int ncx_putn_short_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_SHORT == SIZEOF_SHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -9424,69 +8766,66 @@ ncx_putn_short_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, void *f
   *     at next location for converted output
   */
   long i, j, ni;
-  short tmp[LOOPCNT];        /* in case input is misaligned */
+  short tmp[LOOPCNT]; /* in case input is misaligned */
   short *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_SHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (short *) *xpp;
+      xp = (short *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (short) Max( X_SHORT_MIN, Min(X_SHORT_MAX, (short) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
-      nrange += tp[i] > X_SHORT_MAX ;
+      xp[i] = (short)Max(X_SHORT_MIN, Min(X_SHORT_MAX, (short)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      nrange += tp[i] > X_SHORT_MAX;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_SHORT);
-      xp = (short *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_SHORT);
+      xp = (short *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		int lstatus = ncx_put_short_ulonglong(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    int lstatus = ncx_put_short_ulonglong(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_short_ushort(void **xpp, size_t nelems, const ushort *tp, void *fillp)
-{
+int ncx_putn_short_ushort(void **xpp, size_t nelems, const ushort *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_SHORT == SIZEOF_SHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -9494,363 +8833,313 @@ ncx_putn_short_ushort(void **xpp, size_t nelems, const ushort *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  short tmp[LOOPCNT];        /* in case input is misaligned */
+  short tmp[LOOPCNT]; /* in case input is misaligned */
   short *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_SHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (short *) *xpp;
+      xp = (short *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (short) Max( X_SHORT_MIN, Min(X_SHORT_MAX, (short) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
-      nrange += tp[i] > X_SHORT_MAX ;
+      xp[i] = (short)Max(X_SHORT_MIN, Min(X_SHORT_MAX, (short)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      nrange += tp[i] > X_SHORT_MAX;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_SHORT);
-      xp = (short *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_SHORT);
+      xp = (short *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		int lstatus = ncx_put_short_ushort(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    int lstatus = ncx_put_short_ushort(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
 
-int
-ncx_pad_putn_short_schar(void **xpp, size_t nelems, const schar *tp, void *fillp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_putn_short_schar(void **xpp, size_t nelems, const schar *tp, void *fillp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		int lstatus = ncx_put_short_schar(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    int lstatus = ncx_put_short_schar(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-	{
-		(void) memcpy(xp, nada, (size_t)(X_SIZEOF_SHORT));
-		xp += X_SIZEOF_SHORT;
-	}
+  if (rndup != 0) {
+    (void)memcpy(xp, nada, (size_t)(X_SIZEOF_SHORT));
+    xp += X_SIZEOF_SHORT;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_putn_short_uchar(void **xpp, size_t nelems, const uchar *tp, void *fillp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_putn_short_uchar(void **xpp, size_t nelems, const uchar *tp, void *fillp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		int lstatus = ncx_put_short_uchar(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    int lstatus = ncx_put_short_uchar(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-	{
-		(void) memcpy(xp, nada, (size_t)(X_SIZEOF_SHORT));
-		xp += X_SIZEOF_SHORT;
-	}
+  if (rndup != 0) {
+    (void)memcpy(xp, nada, (size_t)(X_SIZEOF_SHORT));
+    xp += X_SIZEOF_SHORT;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_putn_short_short(void **xpp, size_t nelems, const short *tp, void *fillp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_putn_short_short(void **xpp, size_t nelems, const short *tp, void *fillp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		int lstatus = ncx_put_short_short(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    int lstatus = ncx_put_short_short(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-	{
-		(void) memcpy(xp, nada, (size_t)(X_SIZEOF_SHORT));
-		xp += X_SIZEOF_SHORT;
-	}
+  if (rndup != 0) {
+    (void)memcpy(xp, nada, (size_t)(X_SIZEOF_SHORT));
+    xp += X_SIZEOF_SHORT;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_putn_short_int(void **xpp, size_t nelems, const int *tp, void *fillp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_putn_short_int(void **xpp, size_t nelems, const int *tp, void *fillp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		int lstatus = ncx_put_short_int(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    int lstatus = ncx_put_short_int(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-	{
-		(void) memcpy(xp, nada, (size_t)(X_SIZEOF_SHORT));
-		xp += X_SIZEOF_SHORT;
-	}
+  if (rndup != 0) {
+    (void)memcpy(xp, nada, (size_t)(X_SIZEOF_SHORT));
+    xp += X_SIZEOF_SHORT;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_putn_short_long(void **xpp, size_t nelems, const long *tp, void *fillp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_putn_short_long(void **xpp, size_t nelems, const long *tp, void *fillp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		int lstatus = ncx_put_short_long(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    int lstatus = ncx_put_short_long(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-	{
-		(void) memcpy(xp, nada, (size_t)(X_SIZEOF_SHORT));
-		xp += X_SIZEOF_SHORT;
-	}
+  if (rndup != 0) {
+    (void)memcpy(xp, nada, (size_t)(X_SIZEOF_SHORT));
+    xp += X_SIZEOF_SHORT;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_putn_short_float(void **xpp, size_t nelems, const float *tp, void *fillp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_putn_short_float(void **xpp, size_t nelems, const float *tp, void *fillp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		int lstatus = ncx_put_short_float(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    int lstatus = ncx_put_short_float(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-	{
-		(void) memcpy(xp, nada, (size_t)(X_SIZEOF_SHORT));
-		xp += X_SIZEOF_SHORT;
-	}
+  if (rndup != 0) {
+    (void)memcpy(xp, nada, (size_t)(X_SIZEOF_SHORT));
+    xp += X_SIZEOF_SHORT;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_putn_short_double(void **xpp, size_t nelems, const double *tp, void *fillp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_putn_short_double(void **xpp, size_t nelems, const double *tp, void *fillp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		int lstatus = ncx_put_short_double(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    int lstatus = ncx_put_short_double(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-	{
-		(void) memcpy(xp, nada, (size_t)(X_SIZEOF_SHORT));
-		xp += X_SIZEOF_SHORT;
-	}
+  if (rndup != 0) {
+    (void)memcpy(xp, nada, (size_t)(X_SIZEOF_SHORT));
+    xp += X_SIZEOF_SHORT;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_putn_short_uint(void **xpp, size_t nelems, const uint *tp, void *fillp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_putn_short_uint(void **xpp, size_t nelems, const uint *tp, void *fillp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		int lstatus = ncx_put_short_uint(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    int lstatus = ncx_put_short_uint(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-	{
-		(void) memcpy(xp, nada, (size_t)(X_SIZEOF_SHORT));
-		xp += X_SIZEOF_SHORT;
-	}
+  if (rndup != 0) {
+    (void)memcpy(xp, nada, (size_t)(X_SIZEOF_SHORT));
+    xp += X_SIZEOF_SHORT;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_putn_short_longlong(void **xpp, size_t nelems, const longlong *tp, void *fillp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_putn_short_longlong(void **xpp, size_t nelems, const longlong *tp, void *fillp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		int lstatus = ncx_put_short_longlong(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    int lstatus = ncx_put_short_longlong(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-	{
-		(void) memcpy(xp, nada, (size_t)(X_SIZEOF_SHORT));
-		xp += X_SIZEOF_SHORT;
-	}
+  if (rndup != 0) {
+    (void)memcpy(xp, nada, (size_t)(X_SIZEOF_SHORT));
+    xp += X_SIZEOF_SHORT;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_putn_short_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, void *fillp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_putn_short_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, void *fillp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		int lstatus = ncx_put_short_ulonglong(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    int lstatus = ncx_put_short_ulonglong(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-	{
-		(void) memcpy(xp, nada, (size_t)(X_SIZEOF_SHORT));
-		xp += X_SIZEOF_SHORT;
-	}
+  if (rndup != 0) {
+    (void)memcpy(xp, nada, (size_t)(X_SIZEOF_SHORT));
+    xp += X_SIZEOF_SHORT;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_putn_short_ushort(void **xpp, size_t nelems, const ushort *tp, void *fillp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_putn_short_ushort(void **xpp, size_t nelems, const ushort *tp, void *fillp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++)
-	{
-		int lstatus = ncx_put_short_ushort(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_SHORT, tp++) {
+    int lstatus = ncx_put_short_ushort(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-	{
-		(void) memcpy(xp, nada, (size_t)(X_SIZEOF_SHORT));
-		xp += X_SIZEOF_SHORT;
-	}
+  if (rndup != 0) {
+    (void)memcpy(xp, nada, (size_t)(X_SIZEOF_SHORT));
+    xp += X_SIZEOF_SHORT;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
-
 
 
 /* ushort --------------------------------------------------------------------*/
 
 #if X_SIZEOF_USHORT == SIZEOF_USHORT
 /* optimized version */
-int
-ncx_getn_ushort_ushort(const void **xpp, size_t nelems, unsigned short *tp)
-{
-#ifdef WORDS_BIGENDIAN
-	(void) memcpy(tp, *xpp, (size_t)nelems * SIZEOF_USHORT);
-# else
-	swapn2b(tp, *xpp, nelems);
-# endif
-	*xpp = (const void *)((const char *)(*xpp) + nelems * X_SIZEOF_USHORT);
-	return NC_NOERR;
+int ncx_getn_ushort_ushort(const void **xpp, size_t nelems, unsigned short *tp) {
+#  ifdef WORDS_BIGENDIAN
+  (void)memcpy(tp, *xpp, (size_t)nelems * SIZEOF_USHORT);
+#  else
+  swapn2b(tp, *xpp, nelems);
+#  endif
+  *xpp = (const void *)((const char *)(*xpp) + nelems * X_SIZEOF_USHORT);
+  return NC_NOERR;
 }
 #else
-int
-ncx_getn_ushort_ushort(const void **xpp, size_t nelems, ushort *tp)
-{
-#if defined(_SX) && _SX != 0 && X_SIZEOF_USHORT == SIZEOF_USHORT
+int ncx_getn_ushort_ushort(const void **xpp, size_t nelems, ushort *tp) {
+#  if defined(_SX) && _SX != 0 && X_SIZEOF_USHORT == SIZEOF_USHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -9858,65 +9147,62 @@ ncx_getn_ushort_ushort(const void **xpp, size_t nelems, ushort *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  ushort tmp[LOOPCNT];        /* in case input is misaligned */
+  ushort tmp[LOOPCNT]; /* in case input is misaligned */
   ushort *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_USHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_USHORT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_USHORT));
       xp = tmp;
     } else {
-      xp = (ushort *) *xpp;
+      xp = (ushort *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (ushort) Max( USHORT_MIN, Min(USHORT_MAX, (ushort) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
-      nrange += xp[i] > USHORT_MAX ;
+    /* copy the next block */
+#    pragma cdir loopcnt = LOOPCNT
+#    pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (ushort)Max(USHORT_MIN, Min(USHORT_MAX, (ushort)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+      nrange += xp[i] > USHORT_MAX;
     }
-   /* update xpp and tp */
-    if (realign) xp = (ushort *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (ushort *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#  else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		const int lstatus = ncx_get_ushort_ushort(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    const int lstatus = ncx_get_ushort_ushort(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
-#endif
+  *xpp = (const void *)xp;
+  return status;
+#  endif
 }
 
 #endif
-int
-ncx_getn_ushort_schar(const void **xpp, size_t nelems, schar *tp)
-{
+int ncx_getn_ushort_schar(const void **xpp, size_t nelems, schar *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_USHORT == SIZEOF_USHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -9924,64 +9210,61 @@ ncx_getn_ushort_schar(const void **xpp, size_t nelems, schar *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  ushort tmp[LOOPCNT];        /* in case input is misaligned */
+  ushort tmp[LOOPCNT]; /* in case input is misaligned */
   ushort *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_USHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_USHORT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_USHORT));
       xp = tmp;
     } else {
-      xp = (ushort *) *xpp;
+      xp = (ushort *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (schar) Max( SCHAR_MIN, Min(SCHAR_MAX, (schar) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
-      nrange += xp[i] > SCHAR_MAX ;
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (schar)Max(SCHAR_MIN, Min(SCHAR_MAX, (schar)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+      nrange += xp[i] > SCHAR_MAX;
     }
-   /* update xpp and tp */
-    if (realign) xp = (ushort *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (ushort *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		const int lstatus = ncx_get_ushort_schar(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    const int lstatus = ncx_get_ushort_schar(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_ushort_short(const void **xpp, size_t nelems, short *tp)
-{
+int ncx_getn_ushort_short(const void **xpp, size_t nelems, short *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_USHORT == SIZEOF_USHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -9989,64 +9272,61 @@ ncx_getn_ushort_short(const void **xpp, size_t nelems, short *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  ushort tmp[LOOPCNT];        /* in case input is misaligned */
+  ushort tmp[LOOPCNT]; /* in case input is misaligned */
   ushort *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_USHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_USHORT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_USHORT));
       xp = tmp;
     } else {
-      xp = (ushort *) *xpp;
+      xp = (ushort *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (short) Max( SHORT_MIN, Min(SHORT_MAX, (short) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
-      nrange += xp[i] > SHORT_MAX ;
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (short)Max(SHORT_MIN, Min(SHORT_MAX, (short)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+      nrange += xp[i] > SHORT_MAX;
     }
-   /* update xpp and tp */
-    if (realign) xp = (ushort *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (ushort *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		const int lstatus = ncx_get_ushort_short(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    const int lstatus = ncx_get_ushort_short(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_ushort_int(const void **xpp, size_t nelems, int *tp)
-{
+int ncx_getn_ushort_int(const void **xpp, size_t nelems, int *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_USHORT == SIZEOF_USHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -10054,64 +9334,61 @@ ncx_getn_ushort_int(const void **xpp, size_t nelems, int *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  ushort tmp[LOOPCNT];        /* in case input is misaligned */
+  ushort tmp[LOOPCNT]; /* in case input is misaligned */
   ushort *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_USHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_USHORT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_USHORT));
       xp = tmp;
     } else {
-      xp = (ushort *) *xpp;
+      xp = (ushort *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (int) Max( INT_MIN, Min(INT_MAX, (int) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
-      nrange += xp[i] > INT_MAX ;
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (int)Max(INT_MIN, Min(INT_MAX, (int)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+      nrange += xp[i] > INT_MAX;
     }
-   /* update xpp and tp */
-    if (realign) xp = (ushort *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (ushort *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		const int lstatus = ncx_get_ushort_int(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    const int lstatus = ncx_get_ushort_int(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_ushort_long(const void **xpp, size_t nelems, long *tp)
-{
+int ncx_getn_ushort_long(const void **xpp, size_t nelems, long *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_USHORT == SIZEOF_USHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -10119,64 +9396,61 @@ ncx_getn_ushort_long(const void **xpp, size_t nelems, long *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  ushort tmp[LOOPCNT];        /* in case input is misaligned */
+  ushort tmp[LOOPCNT]; /* in case input is misaligned */
   ushort *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_USHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_USHORT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_USHORT));
       xp = tmp;
     } else {
-      xp = (ushort *) *xpp;
+      xp = (ushort *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (long) Max( LONG_MIN, Min(LONG_MAX, (long) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
-      nrange += xp[i] > LONG_MAX ;
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (long)Max(LONG_MIN, Min(LONG_MAX, (long)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+      nrange += xp[i] > LONG_MAX;
     }
-   /* update xpp and tp */
-    if (realign) xp = (ushort *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (ushort *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		const int lstatus = ncx_get_ushort_long(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    const int lstatus = ncx_get_ushort_long(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_ushort_float(const void **xpp, size_t nelems, float *tp)
-{
+int ncx_getn_ushort_float(const void **xpp, size_t nelems, float *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_USHORT == SIZEOF_USHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -10184,64 +9458,61 @@ ncx_getn_ushort_float(const void **xpp, size_t nelems, float *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  ushort tmp[LOOPCNT];        /* in case input is misaligned */
+  ushort tmp[LOOPCNT]; /* in case input is misaligned */
   ushort *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_USHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_USHORT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_USHORT));
       xp = tmp;
     } else {
-      xp = (ushort *) *xpp;
+      xp = (ushort *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (float) Max( FLOAT_MIN, Min(FLOAT_MAX, (float) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
-      nrange += xp[i] > FLOAT_MAX ;
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (float)Max(FLOAT_MIN, Min(FLOAT_MAX, (float)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+      nrange += xp[i] > FLOAT_MAX;
     }
-   /* update xpp and tp */
-    if (realign) xp = (ushort *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (ushort *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		const int lstatus = ncx_get_ushort_float(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    const int lstatus = ncx_get_ushort_float(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_ushort_double(const void **xpp, size_t nelems, double *tp)
-{
+int ncx_getn_ushort_double(const void **xpp, size_t nelems, double *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_USHORT == SIZEOF_USHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -10249,64 +9520,61 @@ ncx_getn_ushort_double(const void **xpp, size_t nelems, double *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  ushort tmp[LOOPCNT];        /* in case input is misaligned */
+  ushort tmp[LOOPCNT]; /* in case input is misaligned */
   ushort *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_USHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_USHORT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_USHORT));
       xp = tmp;
     } else {
-      xp = (ushort *) *xpp;
+      xp = (ushort *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (double) Max( DOUBLE_MIN, Min(DOUBLE_MAX, (double) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
-      nrange += xp[i] > DOUBLE_MAX ;
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (double)Max(DOUBLE_MIN, Min(DOUBLE_MAX, (double)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+      nrange += xp[i] > DOUBLE_MAX;
     }
-   /* update xpp and tp */
-    if (realign) xp = (ushort *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (ushort *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		const int lstatus = ncx_get_ushort_double(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    const int lstatus = ncx_get_ushort_double(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_ushort_longlong(const void **xpp, size_t nelems, longlong *tp)
-{
+int ncx_getn_ushort_longlong(const void **xpp, size_t nelems, longlong *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_USHORT == SIZEOF_USHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -10314,64 +9582,61 @@ ncx_getn_ushort_longlong(const void **xpp, size_t nelems, longlong *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  ushort tmp[LOOPCNT];        /* in case input is misaligned */
+  ushort tmp[LOOPCNT]; /* in case input is misaligned */
   ushort *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_USHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_USHORT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_USHORT));
       xp = tmp;
     } else {
-      xp = (ushort *) *xpp;
+      xp = (ushort *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (longlong) Max( LONGLONG_MIN, Min(LONGLONG_MAX, (longlong) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
-      nrange += xp[i] > LONGLONG_MAX ;
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (longlong)Max(LONGLONG_MIN, Min(LONGLONG_MAX, (longlong)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+      nrange += xp[i] > LONGLONG_MAX;
     }
-   /* update xpp and tp */
-    if (realign) xp = (ushort *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (ushort *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		const int lstatus = ncx_get_ushort_longlong(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    const int lstatus = ncx_get_ushort_longlong(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_ushort_uchar(const void **xpp, size_t nelems, uchar *tp)
-{
+int ncx_getn_ushort_uchar(const void **xpp, size_t nelems, uchar *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_USHORT == SIZEOF_USHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -10379,64 +9644,61 @@ ncx_getn_ushort_uchar(const void **xpp, size_t nelems, uchar *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  ushort tmp[LOOPCNT];        /* in case input is misaligned */
+  ushort tmp[LOOPCNT]; /* in case input is misaligned */
   ushort *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_USHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_USHORT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_USHORT));
       xp = tmp;
     } else {
-      xp = (ushort *) *xpp;
+      xp = (ushort *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (uchar) Max( UCHAR_MIN, Min(UCHAR_MAX, (uchar) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
-      nrange += xp[i] > UCHAR_MAX ;
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (uchar)Max(UCHAR_MIN, Min(UCHAR_MAX, (uchar)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+      nrange += xp[i] > UCHAR_MAX;
     }
-   /* update xpp and tp */
-    if (realign) xp = (ushort *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (ushort *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		const int lstatus = ncx_get_ushort_uchar(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    const int lstatus = ncx_get_ushort_uchar(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_ushort_uint(const void **xpp, size_t nelems, uint *tp)
-{
+int ncx_getn_ushort_uint(const void **xpp, size_t nelems, uint *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_USHORT == SIZEOF_USHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -10444,64 +9706,61 @@ ncx_getn_ushort_uint(const void **xpp, size_t nelems, uint *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  ushort tmp[LOOPCNT];        /* in case input is misaligned */
+  ushort tmp[LOOPCNT]; /* in case input is misaligned */
   ushort *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_USHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_USHORT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_USHORT));
       xp = tmp;
     } else {
-      xp = (ushort *) *xpp;
+      xp = (ushort *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (uint) Max( UINT_MIN, Min(UINT_MAX, (uint) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
-      nrange += xp[i] > UINT_MAX ;
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (uint)Max(UINT_MIN, Min(UINT_MAX, (uint)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+      nrange += xp[i] > UINT_MAX;
     }
-   /* update xpp and tp */
-    if (realign) xp = (ushort *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (ushort *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		const int lstatus = ncx_get_ushort_uint(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    const int lstatus = ncx_get_ushort_uint(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_ushort_ulonglong(const void **xpp, size_t nelems, ulonglong *tp)
-{
+int ncx_getn_ushort_ulonglong(const void **xpp, size_t nelems, ulonglong *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_USHORT == SIZEOF_USHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -10509,322 +9768,284 @@ ncx_getn_ushort_ulonglong(const void **xpp, size_t nelems, ulonglong *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  ushort tmp[LOOPCNT];        /* in case input is misaligned */
+  ushort tmp[LOOPCNT]; /* in case input is misaligned */
   ushort *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_USHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_USHORT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_USHORT));
       xp = tmp;
     } else {
-      xp = (ushort *) *xpp;
+      xp = (ushort *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (ulonglong) Max( ULONGLONG_MIN, Min(ULONGLONG_MAX, (ulonglong) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
-      nrange += xp[i] > ULONGLONG_MAX ;
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (ulonglong)Max(ULONGLONG_MIN, Min(ULONGLONG_MAX, (ulonglong)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+      nrange += xp[i] > ULONGLONG_MAX;
     }
-   /* update xpp and tp */
-    if (realign) xp = (ushort *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (ushort *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		const int lstatus = ncx_get_ushort_ulonglong(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    const int lstatus = ncx_get_ushort_ulonglong(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
 
-int
-ncx_pad_getn_ushort_schar(const void **xpp, size_t nelems, schar *tp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_getn_ushort_schar(const void **xpp, size_t nelems, schar *tp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		const int lstatus = ncx_get_ushort_schar(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    const int lstatus = ncx_get_ushort_schar(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-		xp += X_SIZEOF_USHORT;
+  if (rndup != 0)
+    xp += X_SIZEOF_USHORT;
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_getn_ushort_short(const void **xpp, size_t nelems, short *tp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_getn_ushort_short(const void **xpp, size_t nelems, short *tp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		const int lstatus = ncx_get_ushort_short(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    const int lstatus = ncx_get_ushort_short(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-		xp += X_SIZEOF_USHORT;
+  if (rndup != 0)
+    xp += X_SIZEOF_USHORT;
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_getn_ushort_int(const void **xpp, size_t nelems, int *tp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_getn_ushort_int(const void **xpp, size_t nelems, int *tp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		const int lstatus = ncx_get_ushort_int(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    const int lstatus = ncx_get_ushort_int(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-		xp += X_SIZEOF_USHORT;
+  if (rndup != 0)
+    xp += X_SIZEOF_USHORT;
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_getn_ushort_long(const void **xpp, size_t nelems, long *tp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_getn_ushort_long(const void **xpp, size_t nelems, long *tp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		const int lstatus = ncx_get_ushort_long(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    const int lstatus = ncx_get_ushort_long(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-		xp += X_SIZEOF_USHORT;
+  if (rndup != 0)
+    xp += X_SIZEOF_USHORT;
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_getn_ushort_float(const void **xpp, size_t nelems, float *tp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_getn_ushort_float(const void **xpp, size_t nelems, float *tp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		const int lstatus = ncx_get_ushort_float(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    const int lstatus = ncx_get_ushort_float(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-		xp += X_SIZEOF_USHORT;
+  if (rndup != 0)
+    xp += X_SIZEOF_USHORT;
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_getn_ushort_double(const void **xpp, size_t nelems, double *tp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_getn_ushort_double(const void **xpp, size_t nelems, double *tp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		const int lstatus = ncx_get_ushort_double(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    const int lstatus = ncx_get_ushort_double(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-		xp += X_SIZEOF_USHORT;
+  if (rndup != 0)
+    xp += X_SIZEOF_USHORT;
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_getn_ushort_uchar(const void **xpp, size_t nelems, uchar *tp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_getn_ushort_uchar(const void **xpp, size_t nelems, uchar *tp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		const int lstatus = ncx_get_ushort_uchar(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    const int lstatus = ncx_get_ushort_uchar(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-		xp += X_SIZEOF_USHORT;
+  if (rndup != 0)
+    xp += X_SIZEOF_USHORT;
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_getn_ushort_ushort(const void **xpp, size_t nelems, ushort *tp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_getn_ushort_ushort(const void **xpp, size_t nelems, ushort *tp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		const int lstatus = ncx_get_ushort_ushort(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    const int lstatus = ncx_get_ushort_ushort(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-		xp += X_SIZEOF_USHORT;
+  if (rndup != 0)
+    xp += X_SIZEOF_USHORT;
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_getn_ushort_uint(const void **xpp, size_t nelems, uint *tp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_getn_ushort_uint(const void **xpp, size_t nelems, uint *tp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		const int lstatus = ncx_get_ushort_uint(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    const int lstatus = ncx_get_ushort_uint(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-		xp += X_SIZEOF_USHORT;
+  if (rndup != 0)
+    xp += X_SIZEOF_USHORT;
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_getn_ushort_longlong(const void **xpp, size_t nelems, longlong *tp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_getn_ushort_longlong(const void **xpp, size_t nelems, longlong *tp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		const int lstatus = ncx_get_ushort_longlong(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    const int lstatus = ncx_get_ushort_longlong(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-		xp += X_SIZEOF_USHORT;
+  if (rndup != 0)
+    xp += X_SIZEOF_USHORT;
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_getn_ushort_ulonglong(const void **xpp, size_t nelems, ulonglong *tp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_getn_ushort_ulonglong(const void **xpp, size_t nelems, ulonglong *tp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		const int lstatus = ncx_get_ushort_ulonglong(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    const int lstatus = ncx_get_ushort_ulonglong(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-		xp += X_SIZEOF_USHORT;
+  if (rndup != 0)
+    xp += X_SIZEOF_USHORT;
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
 
 #if X_SIZEOF_USHORT == SIZEOF_USHORT
 /* optimized version */
-int
-ncx_putn_ushort_ushort(void **xpp, size_t nelems, const unsigned short *tp, void *fillp)
-{
-#ifdef WORDS_BIGENDIAN
-	(void) memcpy(*xpp, tp, (size_t)nelems * X_SIZEOF_USHORT);
-# else
-	swapn2b(*xpp, tp, nelems);
-# endif
-	*xpp = (void *)((char *)(*xpp) + nelems * X_SIZEOF_USHORT);
-	return NC_NOERR;
+int ncx_putn_ushort_ushort(void **xpp, size_t nelems, const unsigned short *tp, void *fillp) {
+#  ifdef WORDS_BIGENDIAN
+  (void)memcpy(*xpp, tp, (size_t)nelems * X_SIZEOF_USHORT);
+#  else
+  swapn2b(*xpp, tp, nelems);
+#  endif
+  *xpp = (void *)((char *)(*xpp) + nelems * X_SIZEOF_USHORT);
+  return NC_NOERR;
 }
 #else
-int
-ncx_putn_ushort_ushort(void **xpp, size_t nelems, const ushort *tp, void *fillp)
-{
-#if defined(_SX) && _SX != 0 && X_SIZEOF_USHORT == SIZEOF_USHORT
+int ncx_putn_ushort_ushort(void **xpp, size_t nelems, const ushort *tp, void *fillp) {
+#  if defined(_SX) && _SX != 0 && X_SIZEOF_USHORT == SIZEOF_USHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -10832,70 +10053,67 @@ ncx_putn_ushort_ushort(void **xpp, size_t nelems, const ushort *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  ushort tmp[LOOPCNT];        /* in case input is misaligned */
+  ushort tmp[LOOPCNT]; /* in case input is misaligned */
   ushort *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_USHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (ushort *) *xpp;
+      xp = (ushort *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#    pragma cdir loopcnt = LOOPCNT
+#    pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (ushort) Max( X_USHORT_MIN, Min(X_USHORT_MAX, (ushort) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
-      nrange += tp[i] > X_USHORT_MAX ;
+      xp[i] = (ushort)Max(X_USHORT_MIN, Min(X_USHORT_MAX, (ushort)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      nrange += tp[i] > X_USHORT_MAX;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_USHORT);
-      xp = (ushort *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_USHORT);
+      xp = (ushort *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#  else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		int lstatus = ncx_put_ushort_ushort(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    int lstatus = ncx_put_ushort_ushort(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
-#endif
+  *xpp = (void *)xp;
+  return status;
+#  endif
 }
 
 #endif
-int
-ncx_putn_ushort_schar(void **xpp, size_t nelems, const schar *tp, void *fillp)
-{
+int ncx_putn_ushort_schar(void **xpp, size_t nelems, const schar *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_USHORT == SIZEOF_USHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -10903,69 +10121,66 @@ ncx_putn_ushort_schar(void **xpp, size_t nelems, const schar *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  ushort tmp[LOOPCNT];        /* in case input is misaligned */
+  ushort tmp[LOOPCNT]; /* in case input is misaligned */
   ushort *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_USHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (ushort *) *xpp;
+      xp = (ushort *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (ushort) Max( X_USHORT_MIN, Min(X_USHORT_MAX, (ushort) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (ushort)Max(X_USHORT_MIN, Min(X_USHORT_MAX, (ushort)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_USHORT_MAX || tp[i] < 0;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_USHORT);
-      xp = (ushort *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_USHORT);
+      xp = (ushort *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		int lstatus = ncx_put_ushort_schar(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    int lstatus = ncx_put_ushort_schar(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_ushort_short(void **xpp, size_t nelems, const short *tp, void *fillp)
-{
+int ncx_putn_ushort_short(void **xpp, size_t nelems, const short *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_USHORT == SIZEOF_USHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -10973,69 +10188,66 @@ ncx_putn_ushort_short(void **xpp, size_t nelems, const short *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  ushort tmp[LOOPCNT];        /* in case input is misaligned */
+  ushort tmp[LOOPCNT]; /* in case input is misaligned */
   ushort *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_USHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (ushort *) *xpp;
+      xp = (ushort *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (ushort) Max( X_USHORT_MIN, Min(X_USHORT_MAX, (ushort) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (ushort)Max(X_USHORT_MIN, Min(X_USHORT_MAX, (ushort)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_USHORT_MAX || tp[i] < 0;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_USHORT);
-      xp = (ushort *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_USHORT);
+      xp = (ushort *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		int lstatus = ncx_put_ushort_short(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    int lstatus = ncx_put_ushort_short(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_ushort_int(void **xpp, size_t nelems, const int *tp, void *fillp)
-{
+int ncx_putn_ushort_int(void **xpp, size_t nelems, const int *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_USHORT == SIZEOF_USHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -11043,69 +10255,66 @@ ncx_putn_ushort_int(void **xpp, size_t nelems, const int *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  ushort tmp[LOOPCNT];        /* in case input is misaligned */
+  ushort tmp[LOOPCNT]; /* in case input is misaligned */
   ushort *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_USHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (ushort *) *xpp;
+      xp = (ushort *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (ushort) Max( X_USHORT_MIN, Min(X_USHORT_MAX, (ushort) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (ushort)Max(X_USHORT_MIN, Min(X_USHORT_MAX, (ushort)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_USHORT_MAX || tp[i] < 0;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_USHORT);
-      xp = (ushort *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_USHORT);
+      xp = (ushort *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		int lstatus = ncx_put_ushort_int(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    int lstatus = ncx_put_ushort_int(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_ushort_long(void **xpp, size_t nelems, const long *tp, void *fillp)
-{
+int ncx_putn_ushort_long(void **xpp, size_t nelems, const long *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_USHORT == SIZEOF_USHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -11113,69 +10322,66 @@ ncx_putn_ushort_long(void **xpp, size_t nelems, const long *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  ushort tmp[LOOPCNT];        /* in case input is misaligned */
+  ushort tmp[LOOPCNT]; /* in case input is misaligned */
   ushort *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_USHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (ushort *) *xpp;
+      xp = (ushort *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (ushort) Max( X_USHORT_MIN, Min(X_USHORT_MAX, (ushort) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (ushort)Max(X_USHORT_MIN, Min(X_USHORT_MAX, (ushort)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_USHORT_MAX || tp[i] < 0;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_USHORT);
-      xp = (ushort *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_USHORT);
+      xp = (ushort *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		int lstatus = ncx_put_ushort_long(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    int lstatus = ncx_put_ushort_long(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_ushort_float(void **xpp, size_t nelems, const float *tp, void *fillp)
-{
+int ncx_putn_ushort_float(void **xpp, size_t nelems, const float *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_USHORT == SIZEOF_USHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -11183,69 +10389,66 @@ ncx_putn_ushort_float(void **xpp, size_t nelems, const float *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  ushort tmp[LOOPCNT];        /* in case input is misaligned */
+  ushort tmp[LOOPCNT]; /* in case input is misaligned */
   ushort *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_USHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (ushort *) *xpp;
+      xp = (ushort *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (ushort) Max( X_USHORT_MIN, Min(X_USHORT_MAX, (ushort) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (ushort)Max(X_USHORT_MIN, Min(X_USHORT_MAX, (ushort)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_USHORT_MAX || tp[i] < 0;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_USHORT);
-      xp = (ushort *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_USHORT);
+      xp = (ushort *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		int lstatus = ncx_put_ushort_float(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    int lstatus = ncx_put_ushort_float(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_ushort_double(void **xpp, size_t nelems, const double *tp, void *fillp)
-{
+int ncx_putn_ushort_double(void **xpp, size_t nelems, const double *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_USHORT == SIZEOF_USHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -11253,69 +10456,66 @@ ncx_putn_ushort_double(void **xpp, size_t nelems, const double *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  ushort tmp[LOOPCNT];        /* in case input is misaligned */
+  ushort tmp[LOOPCNT]; /* in case input is misaligned */
   ushort *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_USHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (ushort *) *xpp;
+      xp = (ushort *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (ushort) Max( X_USHORT_MIN, Min(X_USHORT_MAX, (ushort) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (ushort)Max(X_USHORT_MIN, Min(X_USHORT_MAX, (ushort)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_USHORT_MAX || tp[i] < 0;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_USHORT);
-      xp = (ushort *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_USHORT);
+      xp = (ushort *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		int lstatus = ncx_put_ushort_double(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    int lstatus = ncx_put_ushort_double(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_ushort_longlong(void **xpp, size_t nelems, const longlong *tp, void *fillp)
-{
+int ncx_putn_ushort_longlong(void **xpp, size_t nelems, const longlong *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_USHORT == SIZEOF_USHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -11323,69 +10523,66 @@ ncx_putn_ushort_longlong(void **xpp, size_t nelems, const longlong *tp, void *fi
   *     at next location for converted output
   */
   long i, j, ni;
-  ushort tmp[LOOPCNT];        /* in case input is misaligned */
+  ushort tmp[LOOPCNT]; /* in case input is misaligned */
   ushort *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_USHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (ushort *) *xpp;
+      xp = (ushort *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (ushort) Max( X_USHORT_MIN, Min(X_USHORT_MAX, (ushort) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (ushort)Max(X_USHORT_MIN, Min(X_USHORT_MAX, (ushort)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_USHORT_MAX || tp[i] < 0;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_USHORT);
-      xp = (ushort *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_USHORT);
+      xp = (ushort *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		int lstatus = ncx_put_ushort_longlong(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    int lstatus = ncx_put_ushort_longlong(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_ushort_uchar(void **xpp, size_t nelems, const uchar *tp, void *fillp)
-{
+int ncx_putn_ushort_uchar(void **xpp, size_t nelems, const uchar *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_USHORT == SIZEOF_USHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -11393,69 +10590,66 @@ ncx_putn_ushort_uchar(void **xpp, size_t nelems, const uchar *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  ushort tmp[LOOPCNT];        /* in case input is misaligned */
+  ushort tmp[LOOPCNT]; /* in case input is misaligned */
   ushort *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_USHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (ushort *) *xpp;
+      xp = (ushort *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (ushort) Max( X_USHORT_MIN, Min(X_USHORT_MAX, (ushort) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
-      nrange += tp[i] > X_USHORT_MAX ;
+      xp[i] = (ushort)Max(X_USHORT_MIN, Min(X_USHORT_MAX, (ushort)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      nrange += tp[i] > X_USHORT_MAX;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_USHORT);
-      xp = (ushort *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_USHORT);
+      xp = (ushort *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		int lstatus = ncx_put_ushort_uchar(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    int lstatus = ncx_put_ushort_uchar(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_ushort_uint(void **xpp, size_t nelems, const uint *tp, void *fillp)
-{
+int ncx_putn_ushort_uint(void **xpp, size_t nelems, const uint *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_USHORT == SIZEOF_USHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -11463,69 +10657,66 @@ ncx_putn_ushort_uint(void **xpp, size_t nelems, const uint *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  ushort tmp[LOOPCNT];        /* in case input is misaligned */
+  ushort tmp[LOOPCNT]; /* in case input is misaligned */
   ushort *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_USHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (ushort *) *xpp;
+      xp = (ushort *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (ushort) Max( X_USHORT_MIN, Min(X_USHORT_MAX, (ushort) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
-      nrange += tp[i] > X_USHORT_MAX ;
+      xp[i] = (ushort)Max(X_USHORT_MIN, Min(X_USHORT_MAX, (ushort)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      nrange += tp[i] > X_USHORT_MAX;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_USHORT);
-      xp = (ushort *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_USHORT);
+      xp = (ushort *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		int lstatus = ncx_put_ushort_uint(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    int lstatus = ncx_put_ushort_uint(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_ushort_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, void *fillp)
-{
+int ncx_putn_ushort_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_USHORT == SIZEOF_USHORT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -11533,363 +10724,313 @@ ncx_putn_ushort_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, void *
   *     at next location for converted output
   */
   long i, j, ni;
-  ushort tmp[LOOPCNT];        /* in case input is misaligned */
+  ushort tmp[LOOPCNT]; /* in case input is misaligned */
   ushort *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_USHORT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (ushort *) *xpp;
+      xp = (ushort *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (ushort) Max( X_USHORT_MIN, Min(X_USHORT_MAX, (ushort) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
-      nrange += tp[i] > X_USHORT_MAX ;
+      xp[i] = (ushort)Max(X_USHORT_MIN, Min(X_USHORT_MAX, (ushort)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      nrange += tp[i] > X_USHORT_MAX;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_USHORT);
-      xp = (ushort *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_USHORT);
+      xp = (ushort *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		int lstatus = ncx_put_ushort_ulonglong(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    int lstatus = ncx_put_ushort_ulonglong(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
 
-int
-ncx_pad_putn_ushort_schar(void **xpp, size_t nelems, const schar *tp, void *fillp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_putn_ushort_schar(void **xpp, size_t nelems, const schar *tp, void *fillp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		int lstatus = ncx_put_ushort_schar(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    int lstatus = ncx_put_ushort_schar(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-	{
-		(void) memcpy(xp, nada, (size_t)(X_SIZEOF_USHORT));
-		xp += X_SIZEOF_USHORT;
-	}
+  if (rndup != 0) {
+    (void)memcpy(xp, nada, (size_t)(X_SIZEOF_USHORT));
+    xp += X_SIZEOF_USHORT;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_putn_ushort_uchar(void **xpp, size_t nelems, const uchar *tp, void *fillp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_putn_ushort_uchar(void **xpp, size_t nelems, const uchar *tp, void *fillp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		int lstatus = ncx_put_ushort_uchar(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    int lstatus = ncx_put_ushort_uchar(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-	{
-		(void) memcpy(xp, nada, (size_t)(X_SIZEOF_USHORT));
-		xp += X_SIZEOF_USHORT;
-	}
+  if (rndup != 0) {
+    (void)memcpy(xp, nada, (size_t)(X_SIZEOF_USHORT));
+    xp += X_SIZEOF_USHORT;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_putn_ushort_short(void **xpp, size_t nelems, const short *tp, void *fillp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_putn_ushort_short(void **xpp, size_t nelems, const short *tp, void *fillp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		int lstatus = ncx_put_ushort_short(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    int lstatus = ncx_put_ushort_short(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-	{
-		(void) memcpy(xp, nada, (size_t)(X_SIZEOF_USHORT));
-		xp += X_SIZEOF_USHORT;
-	}
+  if (rndup != 0) {
+    (void)memcpy(xp, nada, (size_t)(X_SIZEOF_USHORT));
+    xp += X_SIZEOF_USHORT;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_putn_ushort_int(void **xpp, size_t nelems, const int *tp, void *fillp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_putn_ushort_int(void **xpp, size_t nelems, const int *tp, void *fillp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		int lstatus = ncx_put_ushort_int(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    int lstatus = ncx_put_ushort_int(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-	{
-		(void) memcpy(xp, nada, (size_t)(X_SIZEOF_USHORT));
-		xp += X_SIZEOF_USHORT;
-	}
+  if (rndup != 0) {
+    (void)memcpy(xp, nada, (size_t)(X_SIZEOF_USHORT));
+    xp += X_SIZEOF_USHORT;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_putn_ushort_long(void **xpp, size_t nelems, const long *tp, void *fillp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_putn_ushort_long(void **xpp, size_t nelems, const long *tp, void *fillp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		int lstatus = ncx_put_ushort_long(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    int lstatus = ncx_put_ushort_long(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-	{
-		(void) memcpy(xp, nada, (size_t)(X_SIZEOF_USHORT));
-		xp += X_SIZEOF_USHORT;
-	}
+  if (rndup != 0) {
+    (void)memcpy(xp, nada, (size_t)(X_SIZEOF_USHORT));
+    xp += X_SIZEOF_USHORT;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_putn_ushort_float(void **xpp, size_t nelems, const float *tp, void *fillp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_putn_ushort_float(void **xpp, size_t nelems, const float *tp, void *fillp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		int lstatus = ncx_put_ushort_float(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    int lstatus = ncx_put_ushort_float(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-	{
-		(void) memcpy(xp, nada, (size_t)(X_SIZEOF_USHORT));
-		xp += X_SIZEOF_USHORT;
-	}
+  if (rndup != 0) {
+    (void)memcpy(xp, nada, (size_t)(X_SIZEOF_USHORT));
+    xp += X_SIZEOF_USHORT;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_putn_ushort_double(void **xpp, size_t nelems, const double *tp, void *fillp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_putn_ushort_double(void **xpp, size_t nelems, const double *tp, void *fillp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		int lstatus = ncx_put_ushort_double(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    int lstatus = ncx_put_ushort_double(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-	{
-		(void) memcpy(xp, nada, (size_t)(X_SIZEOF_USHORT));
-		xp += X_SIZEOF_USHORT;
-	}
+  if (rndup != 0) {
+    (void)memcpy(xp, nada, (size_t)(X_SIZEOF_USHORT));
+    xp += X_SIZEOF_USHORT;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_putn_ushort_uint(void **xpp, size_t nelems, const uint *tp, void *fillp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_putn_ushort_uint(void **xpp, size_t nelems, const uint *tp, void *fillp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		int lstatus = ncx_put_ushort_uint(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    int lstatus = ncx_put_ushort_uint(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-	{
-		(void) memcpy(xp, nada, (size_t)(X_SIZEOF_USHORT));
-		xp += X_SIZEOF_USHORT;
-	}
+  if (rndup != 0) {
+    (void)memcpy(xp, nada, (size_t)(X_SIZEOF_USHORT));
+    xp += X_SIZEOF_USHORT;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_putn_ushort_longlong(void **xpp, size_t nelems, const longlong *tp, void *fillp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_putn_ushort_longlong(void **xpp, size_t nelems, const longlong *tp, void *fillp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		int lstatus = ncx_put_ushort_longlong(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    int lstatus = ncx_put_ushort_longlong(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-	{
-		(void) memcpy(xp, nada, (size_t)(X_SIZEOF_USHORT));
-		xp += X_SIZEOF_USHORT;
-	}
+  if (rndup != 0) {
+    (void)memcpy(xp, nada, (size_t)(X_SIZEOF_USHORT));
+    xp += X_SIZEOF_USHORT;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_putn_ushort_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, void *fillp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_putn_ushort_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, void *fillp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		int lstatus = ncx_put_ushort_ulonglong(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    int lstatus = ncx_put_ushort_ulonglong(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-	{
-		(void) memcpy(xp, nada, (size_t)(X_SIZEOF_USHORT));
-		xp += X_SIZEOF_USHORT;
-	}
+  if (rndup != 0) {
+    (void)memcpy(xp, nada, (size_t)(X_SIZEOF_USHORT));
+    xp += X_SIZEOF_USHORT;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 
-int
-ncx_pad_putn_ushort_ushort(void **xpp, size_t nelems, const ushort *tp, void *fillp)
-{
-	const size_t rndup = nelems % X_SIZEOF_SHORT;
+int ncx_pad_putn_ushort_ushort(void **xpp, size_t nelems, const ushort *tp, void *fillp) {
+  const size_t rndup = nelems % X_SIZEOF_SHORT;
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++)
-	{
-		int lstatus = ncx_put_ushort_ushort(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_USHORT, tp++) {
+    int lstatus = ncx_put_ushort_ushort(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	if (rndup != 0)
-	{
-		(void) memcpy(xp, nada, (size_t)(X_SIZEOF_USHORT));
-		xp += X_SIZEOF_USHORT;
-	}
+  if (rndup != 0) {
+    (void)memcpy(xp, nada, (size_t)(X_SIZEOF_USHORT));
+    xp += X_SIZEOF_USHORT;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
-
 
 
 /* int -----------------------------------------------------------------------*/
 
 #if X_SIZEOF_INT == SIZEOF_INT
 /* optimized version */
-int
-ncx_getn_int_int(const void **xpp, size_t nelems, int *tp)
-{
-#ifdef WORDS_BIGENDIAN
-	(void) memcpy(tp, *xpp, (size_t)nelems * SIZEOF_INT);
-# else
-	swapn4b(tp, *xpp, nelems);
-# endif
-	*xpp = (const void *)((const char *)(*xpp) + nelems * X_SIZEOF_INT);
-	return NC_NOERR;
+int ncx_getn_int_int(const void **xpp, size_t nelems, int *tp) {
+#  ifdef WORDS_BIGENDIAN
+  (void)memcpy(tp, *xpp, (size_t)nelems * SIZEOF_INT);
+#  else
+  swapn4b(tp, *xpp, nelems);
+#  endif
+  *xpp = (const void *)((const char *)(*xpp) + nelems * X_SIZEOF_INT);
+  return NC_NOERR;
 }
 #else
-int
-ncx_getn_int_int(const void **xpp, size_t nelems, int *tp)
-{
-#if defined(_SX) && _SX != 0 && X_SIZEOF_INT == SIZEOF_INT
+int ncx_getn_int_int(const void **xpp, size_t nelems, int *tp) {
+#  if defined(_SX) && _SX != 0 && X_SIZEOF_INT == SIZEOF_INT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -11897,65 +11038,62 @@ ncx_getn_int_int(const void **xpp, size_t nelems, int *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  int tmp[LOOPCNT];        /* in case input is misaligned */
+  int tmp[LOOPCNT]; /* in case input is misaligned */
   int *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_INT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_INT));
       xp = tmp;
     } else {
-      xp = (int *) *xpp;
+      xp = (int *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (int) Max( INT_MIN, Min(INT_MAX, (int) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#    pragma cdir loopcnt = LOOPCNT
+#    pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (int)Max(INT_MIN, Min(INT_MAX, (int)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > INT_MAX || xp[i] < INT_MIN;
     }
-   /* update xpp and tp */
-    if (realign) xp = (int *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (int *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#  else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++)
-	{
-		const int lstatus = ncx_get_int_int(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++) {
+    const int lstatus = ncx_get_int_int(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
-#endif
+  *xpp = (const void *)xp;
+  return status;
+#  endif
 }
 
 #endif
-int
-ncx_getn_int_schar(const void **xpp, size_t nelems, schar *tp)
-{
+int ncx_getn_int_schar(const void **xpp, size_t nelems, schar *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_INT == SIZEOF_INT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -11963,64 +11101,61 @@ ncx_getn_int_schar(const void **xpp, size_t nelems, schar *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  int tmp[LOOPCNT];        /* in case input is misaligned */
+  int tmp[LOOPCNT]; /* in case input is misaligned */
   int *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_INT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_INT));
       xp = tmp;
     } else {
-      xp = (int *) *xpp;
+      xp = (int *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (schar) Max( SCHAR_MIN, Min(SCHAR_MAX, (schar) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (schar)Max(SCHAR_MIN, Min(SCHAR_MAX, (schar)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > SCHAR_MAX || xp[i] < SCHAR_MIN;
     }
-   /* update xpp and tp */
-    if (realign) xp = (int *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (int *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++)
-	{
-		const int lstatus = ncx_get_int_schar(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++) {
+    const int lstatus = ncx_get_int_schar(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_int_short(const void **xpp, size_t nelems, short *tp)
-{
+int ncx_getn_int_short(const void **xpp, size_t nelems, short *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_INT == SIZEOF_INT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -12028,64 +11163,61 @@ ncx_getn_int_short(const void **xpp, size_t nelems, short *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  int tmp[LOOPCNT];        /* in case input is misaligned */
+  int tmp[LOOPCNT]; /* in case input is misaligned */
   int *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_INT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_INT));
       xp = tmp;
     } else {
-      xp = (int *) *xpp;
+      xp = (int *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (short) Max( SHORT_MIN, Min(SHORT_MAX, (short) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (short)Max(SHORT_MIN, Min(SHORT_MAX, (short)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > SHORT_MAX || xp[i] < SHORT_MIN;
     }
-   /* update xpp and tp */
-    if (realign) xp = (int *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (int *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++)
-	{
-		const int lstatus = ncx_get_int_short(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++) {
+    const int lstatus = ncx_get_int_short(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_int_long(const void **xpp, size_t nelems, long *tp)
-{
+int ncx_getn_int_long(const void **xpp, size_t nelems, long *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_INT == SIZEOF_INT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -12093,64 +11225,61 @@ ncx_getn_int_long(const void **xpp, size_t nelems, long *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  int tmp[LOOPCNT];        /* in case input is misaligned */
+  int tmp[LOOPCNT]; /* in case input is misaligned */
   int *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_INT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_INT));
       xp = tmp;
     } else {
-      xp = (int *) *xpp;
+      xp = (int *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (long) Max( LONG_MIN, Min(LONG_MAX, (long) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (long)Max(LONG_MIN, Min(LONG_MAX, (long)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > LONG_MAX || xp[i] < LONG_MIN;
     }
-   /* update xpp and tp */
-    if (realign) xp = (int *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (int *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++)
-	{
-		const int lstatus = ncx_get_int_long(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++) {
+    const int lstatus = ncx_get_int_long(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_int_float(const void **xpp, size_t nelems, float *tp)
-{
+int ncx_getn_int_float(const void **xpp, size_t nelems, float *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_INT == SIZEOF_INT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -12158,64 +11287,61 @@ ncx_getn_int_float(const void **xpp, size_t nelems, float *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  int tmp[LOOPCNT];        /* in case input is misaligned */
+  int tmp[LOOPCNT]; /* in case input is misaligned */
   int *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_INT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_INT));
       xp = tmp;
     } else {
-      xp = (int *) *xpp;
+      xp = (int *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (float) Max( FLOAT_MIN, Min(FLOAT_MAX, (float) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (float)Max(FLOAT_MIN, Min(FLOAT_MAX, (float)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > FLOAT_MAX || xp[i] < FLOAT_MIN;
     }
-   /* update xpp and tp */
-    if (realign) xp = (int *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (int *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++)
-	{
-		const int lstatus = ncx_get_int_float(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++) {
+    const int lstatus = ncx_get_int_float(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_int_double(const void **xpp, size_t nelems, double *tp)
-{
+int ncx_getn_int_double(const void **xpp, size_t nelems, double *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_INT == SIZEOF_INT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -12223,64 +11349,61 @@ ncx_getn_int_double(const void **xpp, size_t nelems, double *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  int tmp[LOOPCNT];        /* in case input is misaligned */
+  int tmp[LOOPCNT]; /* in case input is misaligned */
   int *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_INT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_INT));
       xp = tmp;
     } else {
-      xp = (int *) *xpp;
+      xp = (int *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (double) Max( DOUBLE_MIN, Min(DOUBLE_MAX, (double) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (double)Max(DOUBLE_MIN, Min(DOUBLE_MAX, (double)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > DOUBLE_MAX || xp[i] < DOUBLE_MIN;
     }
-   /* update xpp and tp */
-    if (realign) xp = (int *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (int *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++)
-	{
-		const int lstatus = ncx_get_int_double(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++) {
+    const int lstatus = ncx_get_int_double(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_int_longlong(const void **xpp, size_t nelems, longlong *tp)
-{
+int ncx_getn_int_longlong(const void **xpp, size_t nelems, longlong *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_INT == SIZEOF_INT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -12288,64 +11411,61 @@ ncx_getn_int_longlong(const void **xpp, size_t nelems, longlong *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  int tmp[LOOPCNT];        /* in case input is misaligned */
+  int tmp[LOOPCNT]; /* in case input is misaligned */
   int *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_INT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_INT));
       xp = tmp;
     } else {
-      xp = (int *) *xpp;
+      xp = (int *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (longlong) Max( LONGLONG_MIN, Min(LONGLONG_MAX, (longlong) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (longlong)Max(LONGLONG_MIN, Min(LONGLONG_MAX, (longlong)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > LONGLONG_MAX || xp[i] < LONGLONG_MIN;
     }
-   /* update xpp and tp */
-    if (realign) xp = (int *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (int *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++)
-	{
-		const int lstatus = ncx_get_int_longlong(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++) {
+    const int lstatus = ncx_get_int_longlong(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_int_uchar(const void **xpp, size_t nelems, uchar *tp)
-{
+int ncx_getn_int_uchar(const void **xpp, size_t nelems, uchar *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_INT == SIZEOF_INT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -12353,64 +11473,61 @@ ncx_getn_int_uchar(const void **xpp, size_t nelems, uchar *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  int tmp[LOOPCNT];        /* in case input is misaligned */
+  int tmp[LOOPCNT]; /* in case input is misaligned */
   int *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_INT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_INT));
       xp = tmp;
     } else {
-      xp = (int *) *xpp;
+      xp = (int *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (uchar) Max( UCHAR_MIN, Min(UCHAR_MAX, (uchar) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (uchar)Max(UCHAR_MIN, Min(UCHAR_MAX, (uchar)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > UCHAR_MAX || xp[i] < 0;
     }
-   /* update xpp and tp */
-    if (realign) xp = (int *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (int *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++)
-	{
-		const int lstatus = ncx_get_int_uchar(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++) {
+    const int lstatus = ncx_get_int_uchar(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_int_ushort(const void **xpp, size_t nelems, ushort *tp)
-{
+int ncx_getn_int_ushort(const void **xpp, size_t nelems, ushort *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_INT == SIZEOF_INT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -12418,64 +11535,61 @@ ncx_getn_int_ushort(const void **xpp, size_t nelems, ushort *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  int tmp[LOOPCNT];        /* in case input is misaligned */
+  int tmp[LOOPCNT]; /* in case input is misaligned */
   int *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_INT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_INT));
       xp = tmp;
     } else {
-      xp = (int *) *xpp;
+      xp = (int *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (ushort) Max( USHORT_MIN, Min(USHORT_MAX, (ushort) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (ushort)Max(USHORT_MIN, Min(USHORT_MAX, (ushort)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > USHORT_MAX || xp[i] < 0;
     }
-   /* update xpp and tp */
-    if (realign) xp = (int *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (int *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++)
-	{
-		const int lstatus = ncx_get_int_ushort(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++) {
+    const int lstatus = ncx_get_int_ushort(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_int_uint(const void **xpp, size_t nelems, uint *tp)
-{
+int ncx_getn_int_uint(const void **xpp, size_t nelems, uint *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_INT == SIZEOF_INT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -12483,64 +11597,61 @@ ncx_getn_int_uint(const void **xpp, size_t nelems, uint *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  int tmp[LOOPCNT];        /* in case input is misaligned */
+  int tmp[LOOPCNT]; /* in case input is misaligned */
   int *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_INT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_INT));
       xp = tmp;
     } else {
-      xp = (int *) *xpp;
+      xp = (int *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (uint) Max( UINT_MIN, Min(UINT_MAX, (uint) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (uint)Max(UINT_MIN, Min(UINT_MAX, (uint)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > UINT_MAX || xp[i] < 0;
     }
-   /* update xpp and tp */
-    if (realign) xp = (int *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (int *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++)
-	{
-		const int lstatus = ncx_get_int_uint(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++) {
+    const int lstatus = ncx_get_int_uint(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_int_ulonglong(const void **xpp, size_t nelems, ulonglong *tp)
-{
+int ncx_getn_int_ulonglong(const void **xpp, size_t nelems, ulonglong *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_INT == SIZEOF_INT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -12548,79 +11659,74 @@ ncx_getn_int_ulonglong(const void **xpp, size_t nelems, ulonglong *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  int tmp[LOOPCNT];        /* in case input is misaligned */
+  int tmp[LOOPCNT]; /* in case input is misaligned */
   int *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_INT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_INT));
       xp = tmp;
     } else {
-      xp = (int *) *xpp;
+      xp = (int *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (ulonglong) Max( ULONGLONG_MIN, Min(ULONGLONG_MAX, (ulonglong) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (ulonglong)Max(ULONGLONG_MIN, Min(ULONGLONG_MAX, (ulonglong)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > ULONGLONG_MAX || xp[i] < 0;
     }
-   /* update xpp and tp */
-    if (realign) xp = (int *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (int *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++)
-	{
-		const int lstatus = ncx_get_int_ulonglong(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++) {
+    const int lstatus = ncx_get_int_ulonglong(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
 
 #if X_SIZEOF_INT == SIZEOF_INT
 /* optimized version */
-int
-ncx_putn_int_int(void **xpp, size_t nelems, const int *tp, void *fillp)
-{
-#ifdef WORDS_BIGENDIAN
-	(void) memcpy(*xpp, tp, (size_t)nelems * X_SIZEOF_INT);
-# else
-	swapn4b(*xpp, tp, nelems);
-# endif
-	*xpp = (void *)((char *)(*xpp) + nelems * X_SIZEOF_INT);
-	return NC_NOERR;
+int ncx_putn_int_int(void **xpp, size_t nelems, const int *tp, void *fillp) {
+#  ifdef WORDS_BIGENDIAN
+  (void)memcpy(*xpp, tp, (size_t)nelems * X_SIZEOF_INT);
+#  else
+  swapn4b(*xpp, tp, nelems);
+#  endif
+  *xpp = (void *)((char *)(*xpp) + nelems * X_SIZEOF_INT);
+  return NC_NOERR;
 }
 #else
-int
-ncx_putn_int_int(void **xpp, size_t nelems, const int *tp, void *fillp)
-{
-#if defined(_SX) && _SX != 0 && X_SIZEOF_INT == SIZEOF_INT
+int ncx_putn_int_int(void **xpp, size_t nelems, const int *tp, void *fillp) {
+#  if defined(_SX) && _SX != 0 && X_SIZEOF_INT == SIZEOF_INT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -12628,70 +11734,67 @@ ncx_putn_int_int(void **xpp, size_t nelems, const int *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  int tmp[LOOPCNT];        /* in case input is misaligned */
+  int tmp[LOOPCNT]; /* in case input is misaligned */
   int *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (int *) *xpp;
+      xp = (int *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#    pragma cdir loopcnt = LOOPCNT
+#    pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (int) Max( X_INT_MIN, Min(X_INT_MAX, (int) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (int)Max(X_INT_MIN, Min(X_INT_MAX, (int)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_INT_MAX || tp[i] < X_INT_MIN;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_INT);
-      xp = (int *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_INT);
+      xp = (int *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#  else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++)
-	{
-		int lstatus = ncx_put_int_int(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++) {
+    int lstatus = ncx_put_int_int(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
-#endif
+  *xpp = (void *)xp;
+  return status;
+#  endif
 }
 
 #endif
-int
-ncx_putn_int_schar(void **xpp, size_t nelems, const schar *tp, void *fillp)
-{
+int ncx_putn_int_schar(void **xpp, size_t nelems, const schar *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_INT == SIZEOF_INT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -12699,69 +11802,66 @@ ncx_putn_int_schar(void **xpp, size_t nelems, const schar *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  int tmp[LOOPCNT];        /* in case input is misaligned */
+  int tmp[LOOPCNT]; /* in case input is misaligned */
   int *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (int *) *xpp;
+      xp = (int *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (int) Max( X_INT_MIN, Min(X_INT_MAX, (int) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (int)Max(X_INT_MIN, Min(X_INT_MAX, (int)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_INT_MAX || tp[i] < X_INT_MIN;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_INT);
-      xp = (int *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_INT);
+      xp = (int *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++)
-	{
-		int lstatus = ncx_put_int_schar(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++) {
+    int lstatus = ncx_put_int_schar(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_int_short(void **xpp, size_t nelems, const short *tp, void *fillp)
-{
+int ncx_putn_int_short(void **xpp, size_t nelems, const short *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_INT == SIZEOF_INT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -12769,69 +11869,66 @@ ncx_putn_int_short(void **xpp, size_t nelems, const short *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  int tmp[LOOPCNT];        /* in case input is misaligned */
+  int tmp[LOOPCNT]; /* in case input is misaligned */
   int *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (int *) *xpp;
+      xp = (int *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (int) Max( X_INT_MIN, Min(X_INT_MAX, (int) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (int)Max(X_INT_MIN, Min(X_INT_MAX, (int)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_INT_MAX || tp[i] < X_INT_MIN;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_INT);
-      xp = (int *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_INT);
+      xp = (int *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++)
-	{
-		int lstatus = ncx_put_int_short(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++) {
+    int lstatus = ncx_put_int_short(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_int_long(void **xpp, size_t nelems, const long *tp, void *fillp)
-{
+int ncx_putn_int_long(void **xpp, size_t nelems, const long *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_INT == SIZEOF_INT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -12839,69 +11936,66 @@ ncx_putn_int_long(void **xpp, size_t nelems, const long *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  int tmp[LOOPCNT];        /* in case input is misaligned */
+  int tmp[LOOPCNT]; /* in case input is misaligned */
   int *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (int *) *xpp;
+      xp = (int *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (int) Max( X_INT_MIN, Min(X_INT_MAX, (int) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (int)Max(X_INT_MIN, Min(X_INT_MAX, (int)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_INT_MAX || tp[i] < X_INT_MIN;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_INT);
-      xp = (int *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_INT);
+      xp = (int *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++)
-	{
-		int lstatus = ncx_put_int_long(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++) {
+    int lstatus = ncx_put_int_long(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_int_float(void **xpp, size_t nelems, const float *tp, void *fillp)
-{
+int ncx_putn_int_float(void **xpp, size_t nelems, const float *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_INT == SIZEOF_INT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -12909,68 +12003,65 @@ ncx_putn_int_float(void **xpp, size_t nelems, const float *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  int tmp[LOOPCNT];        /* in case input is misaligned */
+  int tmp[LOOPCNT]; /* in case input is misaligned */
   int *xp;
-  double d;               /* special case for ncx_putn_int_float */
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  double d;        /* special case for ncx_putn_int_float */
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (int *) *xpp;
+      xp = (int *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* for some reason int to float, for putn, requires a special case */
-      d = tp[i];
-      xp[i] = (int) Max( X_INT_MIN, Min(X_INT_MAX, (int) d));
+      d     = tp[i];
+      xp[i] = (int)Max(X_INT_MIN, Min(X_INT_MAX, (int)d));
       nrange += tp[i] > X_INT_MAX || tp[i] < X_INT_MIN;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_INT);
-      xp = (int *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_INT);
+      xp = (int *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++)
-	{
-		int lstatus = ncx_put_int_float(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++) {
+    int lstatus = ncx_put_int_float(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_int_double(void **xpp, size_t nelems, const double *tp, void *fillp)
-{
+int ncx_putn_int_double(void **xpp, size_t nelems, const double *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_INT == SIZEOF_INT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -12978,69 +12069,66 @@ ncx_putn_int_double(void **xpp, size_t nelems, const double *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  int tmp[LOOPCNT];        /* in case input is misaligned */
+  int tmp[LOOPCNT]; /* in case input is misaligned */
   int *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (int *) *xpp;
+      xp = (int *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (int) Max( X_INT_MIN, Min(X_INT_MAX, (int) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (int)Max(X_INT_MIN, Min(X_INT_MAX, (int)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_INT_MAX || tp[i] < X_INT_MIN;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_INT);
-      xp = (int *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_INT);
+      xp = (int *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++)
-	{
-		int lstatus = ncx_put_int_double(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++) {
+    int lstatus = ncx_put_int_double(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_int_longlong(void **xpp, size_t nelems, const longlong *tp, void *fillp)
-{
+int ncx_putn_int_longlong(void **xpp, size_t nelems, const longlong *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_INT == SIZEOF_INT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -13048,69 +12136,66 @@ ncx_putn_int_longlong(void **xpp, size_t nelems, const longlong *tp, void *fillp
   *     at next location for converted output
   */
   long i, j, ni;
-  int tmp[LOOPCNT];        /* in case input is misaligned */
+  int tmp[LOOPCNT]; /* in case input is misaligned */
   int *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (int *) *xpp;
+      xp = (int *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (int) Max( X_INT_MIN, Min(X_INT_MAX, (int) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (int)Max(X_INT_MIN, Min(X_INT_MAX, (int)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_INT_MAX || tp[i] < X_INT_MIN;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_INT);
-      xp = (int *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_INT);
+      xp = (int *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++)
-	{
-		int lstatus = ncx_put_int_longlong(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++) {
+    int lstatus = ncx_put_int_longlong(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_int_uchar(void **xpp, size_t nelems, const uchar *tp, void *fillp)
-{
+int ncx_putn_int_uchar(void **xpp, size_t nelems, const uchar *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_INT == SIZEOF_INT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -13118,69 +12203,66 @@ ncx_putn_int_uchar(void **xpp, size_t nelems, const uchar *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  int tmp[LOOPCNT];        /* in case input is misaligned */
+  int tmp[LOOPCNT]; /* in case input is misaligned */
   int *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (int *) *xpp;
+      xp = (int *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (int) Max( X_INT_MIN, Min(X_INT_MAX, (int) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
-      nrange += tp[i] > X_INT_MAX ;
+      xp[i] = (int)Max(X_INT_MIN, Min(X_INT_MAX, (int)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      nrange += tp[i] > X_INT_MAX;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_INT);
-      xp = (int *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_INT);
+      xp = (int *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++)
-	{
-		int lstatus = ncx_put_int_uchar(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++) {
+    int lstatus = ncx_put_int_uchar(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_int_ushort(void **xpp, size_t nelems, const ushort *tp, void *fillp)
-{
+int ncx_putn_int_ushort(void **xpp, size_t nelems, const ushort *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_INT == SIZEOF_INT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -13188,69 +12270,66 @@ ncx_putn_int_ushort(void **xpp, size_t nelems, const ushort *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  int tmp[LOOPCNT];        /* in case input is misaligned */
+  int tmp[LOOPCNT]; /* in case input is misaligned */
   int *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (int *) *xpp;
+      xp = (int *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (int) Max( X_INT_MIN, Min(X_INT_MAX, (int) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
-      nrange += tp[i] > X_INT_MAX ;
+      xp[i] = (int)Max(X_INT_MIN, Min(X_INT_MAX, (int)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      nrange += tp[i] > X_INT_MAX;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_INT);
-      xp = (int *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_INT);
+      xp = (int *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++)
-	{
-		int lstatus = ncx_put_int_ushort(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++) {
+    int lstatus = ncx_put_int_ushort(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_int_uint(void **xpp, size_t nelems, const uint *tp, void *fillp)
-{
+int ncx_putn_int_uint(void **xpp, size_t nelems, const uint *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_INT == SIZEOF_INT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -13258,69 +12337,66 @@ ncx_putn_int_uint(void **xpp, size_t nelems, const uint *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  int tmp[LOOPCNT];        /* in case input is misaligned */
+  int tmp[LOOPCNT]; /* in case input is misaligned */
   int *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (int *) *xpp;
+      xp = (int *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (int) Max( X_INT_MIN, Min(X_INT_MAX, (int) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
-      nrange += tp[i] > X_INT_MAX ;
+      xp[i] = (int)Max(X_INT_MIN, Min(X_INT_MAX, (int)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      nrange += tp[i] > X_INT_MAX;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_INT);
-      xp = (int *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_INT);
+      xp = (int *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++)
-	{
-		int lstatus = ncx_put_int_uint(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++) {
+    int lstatus = ncx_put_int_uint(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_int_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, void *fillp)
-{
+int ncx_putn_int_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_INT == SIZEOF_INT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -13328,60 +12404,59 @@ ncx_putn_int_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, void *fil
   *     at next location for converted output
   */
   long i, j, ni;
-  int tmp[LOOPCNT];        /* in case input is misaligned */
+  int tmp[LOOPCNT]; /* in case input is misaligned */
   int *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (int *) *xpp;
+      xp = (int *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (int) Max( X_INT_MIN, Min(X_INT_MAX, (int) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
-      nrange += tp[i] > X_INT_MAX ;
+      xp[i] = (int)Max(X_INT_MIN, Min(X_INT_MAX, (int)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      nrange += tp[i] > X_INT_MAX;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_INT);
-      xp = (int *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_INT);
+      xp = (int *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++)
-	{
-		int lstatus = ncx_put_int_ulonglong(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT, tp++) {
+    int lstatus = ncx_put_int_ulonglong(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
@@ -13390,24 +12465,20 @@ ncx_putn_int_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, void *fil
 
 #if X_SIZEOF_UINT == SIZEOF_UINT
 /* optimized version */
-int
-ncx_getn_uint_uint(const void **xpp, size_t nelems, unsigned int *tp)
-{
-#ifdef WORDS_BIGENDIAN
-	(void) memcpy(tp, *xpp, (size_t)nelems * SIZEOF_UINT);
-# else
-	swapn4b(tp, *xpp, nelems);
-# endif
-	*xpp = (const void *)((const char *)(*xpp) + nelems * X_SIZEOF_UINT);
-	return NC_NOERR;
+int ncx_getn_uint_uint(const void **xpp, size_t nelems, unsigned int *tp) {
+#  ifdef WORDS_BIGENDIAN
+  (void)memcpy(tp, *xpp, (size_t)nelems * SIZEOF_UINT);
+#  else
+  swapn4b(tp, *xpp, nelems);
+#  endif
+  *xpp = (const void *)((const char *)(*xpp) + nelems * X_SIZEOF_UINT);
+  return NC_NOERR;
 }
 #else
-int
-ncx_getn_uint_uint(const void **xpp, size_t nelems, uint *tp)
-{
-#if defined(_SX) && _SX != 0 && X_SIZEOF_UINT == SIZEOF_UINT
+int ncx_getn_uint_uint(const void **xpp, size_t nelems, uint *tp) {
+#  if defined(_SX) && _SX != 0 && X_SIZEOF_UINT == SIZEOF_UINT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -13415,65 +12486,62 @@ ncx_getn_uint_uint(const void **xpp, size_t nelems, uint *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  uint tmp[LOOPCNT];        /* in case input is misaligned */
+  uint tmp[LOOPCNT]; /* in case input is misaligned */
   uint *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_UINT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_UINT));
       xp = tmp;
     } else {
-      xp = (uint *) *xpp;
+      xp = (uint *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (uint) Max( UINT_MIN, Min(UINT_MAX, (uint) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
-      nrange += xp[i] > UINT_MAX ;
+    /* copy the next block */
+#    pragma cdir loopcnt = LOOPCNT
+#    pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (uint)Max(UINT_MIN, Min(UINT_MAX, (uint)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+      nrange += xp[i] > UINT_MAX;
     }
-   /* update xpp and tp */
-    if (realign) xp = (uint *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (uint *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#  else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++)
-	{
-		const int lstatus = ncx_get_uint_uint(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++) {
+    const int lstatus = ncx_get_uint_uint(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
-#endif
+  *xpp = (const void *)xp;
+  return status;
+#  endif
 }
 
 #endif
-int
-ncx_getn_uint_schar(const void **xpp, size_t nelems, schar *tp)
-{
+int ncx_getn_uint_schar(const void **xpp, size_t nelems, schar *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_UINT == SIZEOF_UINT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -13481,64 +12549,61 @@ ncx_getn_uint_schar(const void **xpp, size_t nelems, schar *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  uint tmp[LOOPCNT];        /* in case input is misaligned */
+  uint tmp[LOOPCNT]; /* in case input is misaligned */
   uint *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_UINT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_UINT));
       xp = tmp;
     } else {
-      xp = (uint *) *xpp;
+      xp = (uint *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (schar) Max( SCHAR_MIN, Min(SCHAR_MAX, (schar) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
-      nrange += xp[i] > SCHAR_MAX ;
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (schar)Max(SCHAR_MIN, Min(SCHAR_MAX, (schar)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+      nrange += xp[i] > SCHAR_MAX;
     }
-   /* update xpp and tp */
-    if (realign) xp = (uint *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (uint *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++)
-	{
-		const int lstatus = ncx_get_uint_schar(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++) {
+    const int lstatus = ncx_get_uint_schar(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_uint_short(const void **xpp, size_t nelems, short *tp)
-{
+int ncx_getn_uint_short(const void **xpp, size_t nelems, short *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_UINT == SIZEOF_UINT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -13546,64 +12611,61 @@ ncx_getn_uint_short(const void **xpp, size_t nelems, short *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  uint tmp[LOOPCNT];        /* in case input is misaligned */
+  uint tmp[LOOPCNT]; /* in case input is misaligned */
   uint *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_UINT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_UINT));
       xp = tmp;
     } else {
-      xp = (uint *) *xpp;
+      xp = (uint *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (short) Max( SHORT_MIN, Min(SHORT_MAX, (short) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
-      nrange += xp[i] > SHORT_MAX ;
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (short)Max(SHORT_MIN, Min(SHORT_MAX, (short)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+      nrange += xp[i] > SHORT_MAX;
     }
-   /* update xpp and tp */
-    if (realign) xp = (uint *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (uint *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++)
-	{
-		const int lstatus = ncx_get_uint_short(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++) {
+    const int lstatus = ncx_get_uint_short(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_uint_int(const void **xpp, size_t nelems, int *tp)
-{
+int ncx_getn_uint_int(const void **xpp, size_t nelems, int *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_UINT == SIZEOF_UINT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -13611,64 +12673,61 @@ ncx_getn_uint_int(const void **xpp, size_t nelems, int *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  uint tmp[LOOPCNT];        /* in case input is misaligned */
+  uint tmp[LOOPCNT]; /* in case input is misaligned */
   uint *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_UINT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_UINT));
       xp = tmp;
     } else {
-      xp = (uint *) *xpp;
+      xp = (uint *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (int) Max( INT_MIN, Min(INT_MAX, (int) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
-      nrange += xp[i] > INT_MAX ;
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (int)Max(INT_MIN, Min(INT_MAX, (int)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+      nrange += xp[i] > INT_MAX;
     }
-   /* update xpp and tp */
-    if (realign) xp = (uint *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (uint *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++)
-	{
-		const int lstatus = ncx_get_uint_int(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++) {
+    const int lstatus = ncx_get_uint_int(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_uint_long(const void **xpp, size_t nelems, long *tp)
-{
+int ncx_getn_uint_long(const void **xpp, size_t nelems, long *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_UINT == SIZEOF_UINT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -13676,64 +12735,61 @@ ncx_getn_uint_long(const void **xpp, size_t nelems, long *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  uint tmp[LOOPCNT];        /* in case input is misaligned */
+  uint tmp[LOOPCNT]; /* in case input is misaligned */
   uint *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_UINT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_UINT));
       xp = tmp;
     } else {
-      xp = (uint *) *xpp;
+      xp = (uint *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (long) Max( LONG_MIN, Min(LONG_MAX, (long) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
-      nrange += xp[i] > LONG_MAX ;
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (long)Max(LONG_MIN, Min(LONG_MAX, (long)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+      nrange += xp[i] > LONG_MAX;
     }
-   /* update xpp and tp */
-    if (realign) xp = (uint *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (uint *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++)
-	{
-		const int lstatus = ncx_get_uint_long(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++) {
+    const int lstatus = ncx_get_uint_long(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_uint_float(const void **xpp, size_t nelems, float *tp)
-{
+int ncx_getn_uint_float(const void **xpp, size_t nelems, float *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_UINT == SIZEOF_UINT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -13741,64 +12797,61 @@ ncx_getn_uint_float(const void **xpp, size_t nelems, float *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  uint tmp[LOOPCNT];        /* in case input is misaligned */
+  uint tmp[LOOPCNT]; /* in case input is misaligned */
   uint *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_UINT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_UINT));
       xp = tmp;
     } else {
-      xp = (uint *) *xpp;
+      xp = (uint *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (float) Max( FLOAT_MIN, Min(FLOAT_MAX, (float) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
-      nrange += xp[i] > FLOAT_MAX ;
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (float)Max(FLOAT_MIN, Min(FLOAT_MAX, (float)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+      nrange += xp[i] > FLOAT_MAX;
     }
-   /* update xpp and tp */
-    if (realign) xp = (uint *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (uint *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++)
-	{
-		const int lstatus = ncx_get_uint_float(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++) {
+    const int lstatus = ncx_get_uint_float(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_uint_double(const void **xpp, size_t nelems, double *tp)
-{
+int ncx_getn_uint_double(const void **xpp, size_t nelems, double *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_UINT == SIZEOF_UINT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -13806,64 +12859,61 @@ ncx_getn_uint_double(const void **xpp, size_t nelems, double *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  uint tmp[LOOPCNT];        /* in case input is misaligned */
+  uint tmp[LOOPCNT]; /* in case input is misaligned */
   uint *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_UINT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_UINT));
       xp = tmp;
     } else {
-      xp = (uint *) *xpp;
+      xp = (uint *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (double) Max( DOUBLE_MIN, Min(DOUBLE_MAX, (double) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
-      nrange += xp[i] > DOUBLE_MAX ;
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (double)Max(DOUBLE_MIN, Min(DOUBLE_MAX, (double)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+      nrange += xp[i] > DOUBLE_MAX;
     }
-   /* update xpp and tp */
-    if (realign) xp = (uint *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (uint *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++)
-	{
-		const int lstatus = ncx_get_uint_double(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++) {
+    const int lstatus = ncx_get_uint_double(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_uint_longlong(const void **xpp, size_t nelems, longlong *tp)
-{
+int ncx_getn_uint_longlong(const void **xpp, size_t nelems, longlong *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_UINT == SIZEOF_UINT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -13871,64 +12921,61 @@ ncx_getn_uint_longlong(const void **xpp, size_t nelems, longlong *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  uint tmp[LOOPCNT];        /* in case input is misaligned */
+  uint tmp[LOOPCNT]; /* in case input is misaligned */
   uint *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_UINT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_UINT));
       xp = tmp;
     } else {
-      xp = (uint *) *xpp;
+      xp = (uint *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (longlong) Max( LONGLONG_MIN, Min(LONGLONG_MAX, (longlong) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
-      nrange += xp[i] > LONGLONG_MAX ;
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (longlong)Max(LONGLONG_MIN, Min(LONGLONG_MAX, (longlong)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+      nrange += xp[i] > LONGLONG_MAX;
     }
-   /* update xpp and tp */
-    if (realign) xp = (uint *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (uint *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++)
-	{
-		const int lstatus = ncx_get_uint_longlong(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++) {
+    const int lstatus = ncx_get_uint_longlong(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_uint_uchar(const void **xpp, size_t nelems, uchar *tp)
-{
+int ncx_getn_uint_uchar(const void **xpp, size_t nelems, uchar *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_UINT == SIZEOF_UINT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -13936,64 +12983,61 @@ ncx_getn_uint_uchar(const void **xpp, size_t nelems, uchar *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  uint tmp[LOOPCNT];        /* in case input is misaligned */
+  uint tmp[LOOPCNT]; /* in case input is misaligned */
   uint *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_UINT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_UINT));
       xp = tmp;
     } else {
-      xp = (uint *) *xpp;
+      xp = (uint *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (uchar) Max( UCHAR_MIN, Min(UCHAR_MAX, (uchar) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
-      nrange += xp[i] > UCHAR_MAX ;
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (uchar)Max(UCHAR_MIN, Min(UCHAR_MAX, (uchar)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+      nrange += xp[i] > UCHAR_MAX;
     }
-   /* update xpp and tp */
-    if (realign) xp = (uint *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (uint *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++)
-	{
-		const int lstatus = ncx_get_uint_uchar(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++) {
+    const int lstatus = ncx_get_uint_uchar(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_uint_ushort(const void **xpp, size_t nelems, ushort *tp)
-{
+int ncx_getn_uint_ushort(const void **xpp, size_t nelems, ushort *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_UINT == SIZEOF_UINT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -14001,64 +13045,61 @@ ncx_getn_uint_ushort(const void **xpp, size_t nelems, ushort *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  uint tmp[LOOPCNT];        /* in case input is misaligned */
+  uint tmp[LOOPCNT]; /* in case input is misaligned */
   uint *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_UINT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_UINT));
       xp = tmp;
     } else {
-      xp = (uint *) *xpp;
+      xp = (uint *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (ushort) Max( USHORT_MIN, Min(USHORT_MAX, (ushort) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
-      nrange += xp[i] > USHORT_MAX ;
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (ushort)Max(USHORT_MIN, Min(USHORT_MAX, (ushort)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+      nrange += xp[i] > USHORT_MAX;
     }
-   /* update xpp and tp */
-    if (realign) xp = (uint *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (uint *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++)
-	{
-		const int lstatus = ncx_get_uint_ushort(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++) {
+    const int lstatus = ncx_get_uint_ushort(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_uint_ulonglong(const void **xpp, size_t nelems, ulonglong *tp)
-{
+int ncx_getn_uint_ulonglong(const void **xpp, size_t nelems, ulonglong *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_UINT == SIZEOF_UINT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -14066,79 +13107,74 @@ ncx_getn_uint_ulonglong(const void **xpp, size_t nelems, ulonglong *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  uint tmp[LOOPCNT];        /* in case input is misaligned */
+  uint tmp[LOOPCNT]; /* in case input is misaligned */
   uint *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_UINT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_UINT));
       xp = tmp;
     } else {
-      xp = (uint *) *xpp;
+      xp = (uint *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (ulonglong) Max( ULONGLONG_MIN, Min(ULONGLONG_MAX, (ulonglong) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
-      nrange += xp[i] > ULONGLONG_MAX ;
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (ulonglong)Max(ULONGLONG_MIN, Min(ULONGLONG_MAX, (ulonglong)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+      nrange += xp[i] > ULONGLONG_MAX;
     }
-   /* update xpp and tp */
-    if (realign) xp = (uint *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (uint *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++)
-	{
-		const int lstatus = ncx_get_uint_ulonglong(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++) {
+    const int lstatus = ncx_get_uint_ulonglong(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
 
 #if X_SIZEOF_UINT == SIZEOF_UINT
 /* optimized version */
-int
-ncx_putn_uint_uint(void **xpp, size_t nelems, const unsigned int *tp, void *fillp)
-{
-#ifdef WORDS_BIGENDIAN
-	(void) memcpy(*xpp, tp, (size_t)nelems * X_SIZEOF_UINT);
-# else
-	swapn4b(*xpp, tp, nelems);
-# endif
-	*xpp = (void *)((char *)(*xpp) + nelems * X_SIZEOF_UINT);
-	return NC_NOERR;
+int ncx_putn_uint_uint(void **xpp, size_t nelems, const unsigned int *tp, void *fillp) {
+#  ifdef WORDS_BIGENDIAN
+  (void)memcpy(*xpp, tp, (size_t)nelems * X_SIZEOF_UINT);
+#  else
+  swapn4b(*xpp, tp, nelems);
+#  endif
+  *xpp = (void *)((char *)(*xpp) + nelems * X_SIZEOF_UINT);
+  return NC_NOERR;
 }
 #else
-int
-ncx_putn_uint_uint(void **xpp, size_t nelems, const uint *tp, void *fillp)
-{
-#if defined(_SX) && _SX != 0 && X_SIZEOF_UINT == SIZEOF_UINT
+int ncx_putn_uint_uint(void **xpp, size_t nelems, const uint *tp, void *fillp) {
+#  if defined(_SX) && _SX != 0 && X_SIZEOF_UINT == SIZEOF_UINT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -14146,70 +13182,67 @@ ncx_putn_uint_uint(void **xpp, size_t nelems, const uint *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  uint tmp[LOOPCNT];        /* in case input is misaligned */
+  uint tmp[LOOPCNT]; /* in case input is misaligned */
   uint *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (uint *) *xpp;
+      xp = (uint *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#    pragma cdir loopcnt = LOOPCNT
+#    pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (uint) Max( X_UINT_MIN, Min(X_UINT_MAX, (uint) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
-      nrange += tp[i] > X_UINT_MAX ;
+      xp[i] = (uint)Max(X_UINT_MIN, Min(X_UINT_MAX, (uint)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      nrange += tp[i] > X_UINT_MAX;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_UINT);
-      xp = (uint *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_UINT);
+      xp = (uint *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#  else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++)
-	{
-		int lstatus = ncx_put_uint_uint(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++) {
+    int lstatus = ncx_put_uint_uint(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
-#endif
+  *xpp = (void *)xp;
+  return status;
+#  endif
 }
 
 #endif
-int
-ncx_putn_uint_schar(void **xpp, size_t nelems, const schar *tp, void *fillp)
-{
+int ncx_putn_uint_schar(void **xpp, size_t nelems, const schar *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_UINT == SIZEOF_UINT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -14217,69 +13250,66 @@ ncx_putn_uint_schar(void **xpp, size_t nelems, const schar *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  uint tmp[LOOPCNT];        /* in case input is misaligned */
+  uint tmp[LOOPCNT]; /* in case input is misaligned */
   uint *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (uint *) *xpp;
+      xp = (uint *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (uint) Max( X_UINT_MIN, Min(X_UINT_MAX, (uint) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (uint)Max(X_UINT_MIN, Min(X_UINT_MAX, (uint)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_UINT_MAX || tp[i] < 0;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_UINT);
-      xp = (uint *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_UINT);
+      xp = (uint *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++)
-	{
-		int lstatus = ncx_put_uint_schar(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++) {
+    int lstatus = ncx_put_uint_schar(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_uint_short(void **xpp, size_t nelems, const short *tp, void *fillp)
-{
+int ncx_putn_uint_short(void **xpp, size_t nelems, const short *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_UINT == SIZEOF_UINT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -14287,69 +13317,66 @@ ncx_putn_uint_short(void **xpp, size_t nelems, const short *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  uint tmp[LOOPCNT];        /* in case input is misaligned */
+  uint tmp[LOOPCNT]; /* in case input is misaligned */
   uint *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (uint *) *xpp;
+      xp = (uint *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (uint) Max( X_UINT_MIN, Min(X_UINT_MAX, (uint) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (uint)Max(X_UINT_MIN, Min(X_UINT_MAX, (uint)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_UINT_MAX || tp[i] < 0;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_UINT);
-      xp = (uint *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_UINT);
+      xp = (uint *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++)
-	{
-		int lstatus = ncx_put_uint_short(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++) {
+    int lstatus = ncx_put_uint_short(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_uint_int(void **xpp, size_t nelems, const int *tp, void *fillp)
-{
+int ncx_putn_uint_int(void **xpp, size_t nelems, const int *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_UINT == SIZEOF_UINT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -14357,69 +13384,66 @@ ncx_putn_uint_int(void **xpp, size_t nelems, const int *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  uint tmp[LOOPCNT];        /* in case input is misaligned */
+  uint tmp[LOOPCNT]; /* in case input is misaligned */
   uint *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (uint *) *xpp;
+      xp = (uint *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (uint) Max( X_UINT_MIN, Min(X_UINT_MAX, (uint) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (uint)Max(X_UINT_MIN, Min(X_UINT_MAX, (uint)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_UINT_MAX || tp[i] < 0;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_UINT);
-      xp = (uint *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_UINT);
+      xp = (uint *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++)
-	{
-		int lstatus = ncx_put_uint_int(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++) {
+    int lstatus = ncx_put_uint_int(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_uint_long(void **xpp, size_t nelems, const long *tp, void *fillp)
-{
+int ncx_putn_uint_long(void **xpp, size_t nelems, const long *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_UINT == SIZEOF_UINT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -14427,69 +13451,66 @@ ncx_putn_uint_long(void **xpp, size_t nelems, const long *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  uint tmp[LOOPCNT];        /* in case input is misaligned */
+  uint tmp[LOOPCNT]; /* in case input is misaligned */
   uint *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (uint *) *xpp;
+      xp = (uint *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (uint) Max( X_UINT_MIN, Min(X_UINT_MAX, (uint) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (uint)Max(X_UINT_MIN, Min(X_UINT_MAX, (uint)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_UINT_MAX || tp[i] < 0;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_UINT);
-      xp = (uint *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_UINT);
+      xp = (uint *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++)
-	{
-		int lstatus = ncx_put_uint_long(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++) {
+    int lstatus = ncx_put_uint_long(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_uint_float(void **xpp, size_t nelems, const float *tp, void *fillp)
-{
+int ncx_putn_uint_float(void **xpp, size_t nelems, const float *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_UINT == SIZEOF_UINT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -14497,69 +13518,66 @@ ncx_putn_uint_float(void **xpp, size_t nelems, const float *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  uint tmp[LOOPCNT];        /* in case input is misaligned */
+  uint tmp[LOOPCNT]; /* in case input is misaligned */
   uint *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (uint *) *xpp;
+      xp = (uint *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (uint) Max( X_UINT_MIN, Min(X_UINT_MAX, (uint) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (uint)Max(X_UINT_MIN, Min(X_UINT_MAX, (uint)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_UINT_MAX || tp[i] < 0;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_UINT);
-      xp = (uint *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_UINT);
+      xp = (uint *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++)
-	{
-		int lstatus = ncx_put_uint_float(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++) {
+    int lstatus = ncx_put_uint_float(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_uint_double(void **xpp, size_t nelems, const double *tp, void *fillp)
-{
+int ncx_putn_uint_double(void **xpp, size_t nelems, const double *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_UINT == SIZEOF_UINT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -14567,69 +13585,66 @@ ncx_putn_uint_double(void **xpp, size_t nelems, const double *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  uint tmp[LOOPCNT];        /* in case input is misaligned */
+  uint tmp[LOOPCNT]; /* in case input is misaligned */
   uint *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (uint *) *xpp;
+      xp = (uint *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (uint) Max( X_UINT_MIN, Min(X_UINT_MAX, (uint) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (uint)Max(X_UINT_MIN, Min(X_UINT_MAX, (uint)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_UINT_MAX || tp[i] < 0;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_UINT);
-      xp = (uint *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_UINT);
+      xp = (uint *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++)
-	{
-		int lstatus = ncx_put_uint_double(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++) {
+    int lstatus = ncx_put_uint_double(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_uint_longlong(void **xpp, size_t nelems, const longlong *tp, void *fillp)
-{
+int ncx_putn_uint_longlong(void **xpp, size_t nelems, const longlong *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_UINT == SIZEOF_UINT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -14637,69 +13652,66 @@ ncx_putn_uint_longlong(void **xpp, size_t nelems, const longlong *tp, void *fill
   *     at next location for converted output
   */
   long i, j, ni;
-  uint tmp[LOOPCNT];        /* in case input is misaligned */
+  uint tmp[LOOPCNT]; /* in case input is misaligned */
   uint *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (uint *) *xpp;
+      xp = (uint *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (uint) Max( X_UINT_MIN, Min(X_UINT_MAX, (uint) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (uint)Max(X_UINT_MIN, Min(X_UINT_MAX, (uint)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_UINT_MAX || tp[i] < 0;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_UINT);
-      xp = (uint *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_UINT);
+      xp = (uint *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++)
-	{
-		int lstatus = ncx_put_uint_longlong(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++) {
+    int lstatus = ncx_put_uint_longlong(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_uint_uchar(void **xpp, size_t nelems, const uchar *tp, void *fillp)
-{
+int ncx_putn_uint_uchar(void **xpp, size_t nelems, const uchar *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_UINT == SIZEOF_UINT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -14707,69 +13719,66 @@ ncx_putn_uint_uchar(void **xpp, size_t nelems, const uchar *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  uint tmp[LOOPCNT];        /* in case input is misaligned */
+  uint tmp[LOOPCNT]; /* in case input is misaligned */
   uint *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (uint *) *xpp;
+      xp = (uint *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (uint) Max( X_UINT_MIN, Min(X_UINT_MAX, (uint) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
-      nrange += tp[i] > X_UINT_MAX ;
+      xp[i] = (uint)Max(X_UINT_MIN, Min(X_UINT_MAX, (uint)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      nrange += tp[i] > X_UINT_MAX;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_UINT);
-      xp = (uint *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_UINT);
+      xp = (uint *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++)
-	{
-		int lstatus = ncx_put_uint_uchar(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++) {
+    int lstatus = ncx_put_uint_uchar(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_uint_ushort(void **xpp, size_t nelems, const ushort *tp, void *fillp)
-{
+int ncx_putn_uint_ushort(void **xpp, size_t nelems, const ushort *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_UINT == SIZEOF_UINT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -14777,69 +13786,66 @@ ncx_putn_uint_ushort(void **xpp, size_t nelems, const ushort *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  uint tmp[LOOPCNT];        /* in case input is misaligned */
+  uint tmp[LOOPCNT]; /* in case input is misaligned */
   uint *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (uint *) *xpp;
+      xp = (uint *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (uint) Max( X_UINT_MIN, Min(X_UINT_MAX, (uint) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
-      nrange += tp[i] > X_UINT_MAX ;
+      xp[i] = (uint)Max(X_UINT_MIN, Min(X_UINT_MAX, (uint)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      nrange += tp[i] > X_UINT_MAX;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_UINT);
-      xp = (uint *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_UINT);
+      xp = (uint *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++)
-	{
-		int lstatus = ncx_put_uint_ushort(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++) {
+    int lstatus = ncx_put_uint_ushort(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_uint_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, void *fillp)
-{
+int ncx_putn_uint_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_UINT == SIZEOF_UINT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -14847,165 +13853,149 @@ ncx_putn_uint_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, void *fi
   *     at next location for converted output
   */
   long i, j, ni;
-  uint tmp[LOOPCNT];        /* in case input is misaligned */
+  uint tmp[LOOPCNT]; /* in case input is misaligned */
   uint *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (uint *) *xpp;
+      xp = (uint *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (uint) Max( X_UINT_MIN, Min(X_UINT_MAX, (uint) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
-      nrange += tp[i] > X_UINT_MAX ;
+      xp[i] = (uint)Max(X_UINT_MIN, Min(X_UINT_MAX, (uint)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      nrange += tp[i] > X_UINT_MAX;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_UINT);
-      xp = (uint *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_UINT);
+      xp = (uint *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++)
-	{
-		int lstatus = ncx_put_uint_ulonglong(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT, tp++) {
+    int lstatus = ncx_put_uint_ulonglong(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
-
 
 
 /* float ---------------------------------------------------------------------*/
 
 #if X_SIZEOF_FLOAT == SIZEOF_FLOAT && !defined(NO_IEEE_FLOAT)
 /* optimized version */
-int
-ncx_getn_float_float(const void **xpp, size_t nelems, float *tp)
-{
-#ifdef WORDS_BIGENDIAN
-	(void) memcpy(tp, *xpp, (size_t)nelems * SIZEOF_FLOAT);
-# else
-	swapn4b(tp, *xpp, nelems);
-# endif
-	*xpp = (const void *)((const char *)(*xpp) + nelems * X_SIZEOF_FLOAT);
-	return NC_NOERR;
+int ncx_getn_float_float(const void **xpp, size_t nelems, float *tp) {
+#  ifdef WORDS_BIGENDIAN
+  (void)memcpy(tp, *xpp, (size_t)nelems * SIZEOF_FLOAT);
+#  else
+  swapn4b(tp, *xpp, nelems);
+#  endif
+  *xpp = (const void *)((const char *)(*xpp) + nelems * X_SIZEOF_FLOAT);
+  return NC_NOERR;
 }
 #elif defined(vax) && vax != 0
-int
-ncx_getn_float_float(const void **xpp, size_t nfloats, float *ip)
-{
-	float *const end = ip + nfloats;
+int ncx_getn_float_float(const void **xpp, size_t nfloats, float *ip) {
+  float *const end = ip + nfloats;
 
-	while (ip < end)
-	{
-		struct vax_single *const vsp = (struct vax_single *) ip;
-		const struct ieee_single *const isp =
-			 (const struct ieee_single *) (*xpp);
-		unsigned exp = isp->exp_hi << 1 | isp->exp_lo;
+  while (ip < end) {
+    struct vax_single *const vsp        = (struct vax_single *)ip;
+    const struct ieee_single *const isp = (const struct ieee_single *)(*xpp);
+    unsigned exp                        = isp->exp_hi << 1 | isp->exp_lo;
 
-		switch(exp) {
-		case 0 :
-			/* ieee subnormal */
-			if (isp->mant_hi == min.ieee.mant_hi
-				&& isp->mant_lo_hi == min.ieee.mant_lo_hi
-				&& isp->mant_lo_lo == min.ieee.mant_lo_lo)
-			{
-				*vsp = min.s;
-			}
-			else
-			{
-				unsigned mantissa = (isp->mant_hi << 16)
-					 | isp->mant_lo_hi << 8
-					 | isp->mant_lo_lo;
-				unsigned tmp = mantissa >> 20;
-				if (tmp >= 4) {
-					vsp->exp = 2;
-				} else if (tmp >= 2) {
-					vsp->exp = 1;
-				} else {
-					*vsp = min.s;
-					break;
-				} /* else */
-				tmp = mantissa - (1 << (20 + vsp->exp ));
-				tmp <<= 3 - vsp->exp;
-				vsp->mantissa2 = tmp;
-				vsp->mantissa1 = (tmp >> 16);
-			}
-			break;
-		case 0xfe :
-		case 0xff :
-			*vsp = max.s;
-			break;
-		default :
-			vsp->exp = exp - IEEE_SNG_BIAS + VAX_SNG_BIAS;
-			vsp->mantissa2 = isp->mant_lo_hi << 8 | isp->mant_lo_lo;
-			vsp->mantissa1 = isp->mant_hi;
-		}
+    switch (exp) {
+      case 0:
+        /* ieee subnormal */
+        if (isp->mant_hi == min.ieee.mant_hi
+            && isp->mant_lo_hi == min.ieee.mant_lo_hi
+            && isp->mant_lo_lo == min.ieee.mant_lo_lo) {
+          *vsp = min.s;
+        } else {
+          unsigned mantissa = (isp->mant_hi << 16)
+                              | isp->mant_lo_hi << 8
+                              | isp->mant_lo_lo;
+          unsigned tmp = mantissa >> 20;
+          if (tmp >= 4) {
+            vsp->exp = 2;
+          } else if (tmp >= 2) {
+            vsp->exp = 1;
+          } else {
+            *vsp = min.s;
+            break;
+          } /* else */
+          tmp = mantissa - (1 << (20 + vsp->exp));
+          tmp <<= 3 - vsp->exp;
+          vsp->mantissa2 = tmp;
+          vsp->mantissa1 = (tmp >> 16);
+        }
+        break;
+      case 0xfe:
+      case 0xff:
+        *vsp = max.s;
+        break;
+      default:
+        vsp->exp       = exp - IEEE_SNG_BIAS + VAX_SNG_BIAS;
+        vsp->mantissa2 = isp->mant_lo_hi << 8 | isp->mant_lo_lo;
+        vsp->mantissa1 = isp->mant_hi;
+    }
 
-		vsp->sign = isp->sign;
+    vsp->sign = isp->sign;
 
 
-		ip++;
-		*xpp = (char *)(*xpp) + X_SIZEOF_FLOAT;
-	}
-	return NC_NOERR;
+    ip++;
+    *xpp = (char *)(*xpp) + X_SIZEOF_FLOAT;
+  }
+  return NC_NOERR;
 }
 #else
-int
-ncx_getn_float_float(const void **xpp, size_t nelems, float *tp)
-{
-	const char *xp = *xpp;
-	int status = NC_NOERR;
+int ncx_getn_float_float(const void **xpp, size_t nelems, float *tp) {
+  const char *xp = *xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++)
-	{
-		const int lstatus = ncx_get_float_float(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++) {
+    const int lstatus = ncx_get_float_float(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 }
 
 #endif
-int
-ncx_getn_float_schar(const void **xpp, size_t nelems, schar *tp)
-{
+int ncx_getn_float_schar(const void **xpp, size_t nelems, schar *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_FLOAT == SIZEOF_FLOAT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -15013,64 +14003,61 @@ ncx_getn_float_schar(const void **xpp, size_t nelems, schar *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  float tmp[LOOPCNT];        /* in case input is misaligned */
+  float tmp[LOOPCNT]; /* in case input is misaligned */
   float *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_FLOAT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_FLOAT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_FLOAT));
       xp = tmp;
     } else {
-      xp = (float *) *xpp;
+      xp = (float *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (schar) Max( SCHAR_MIN, Min(SCHAR_MAX, (schar) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (schar)Max(SCHAR_MIN, Min(SCHAR_MAX, (schar)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > SCHAR_MAX || xp[i] < SCHAR_MIN;
     }
-   /* update xpp and tp */
-    if (realign) xp = (float *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (float *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++)
-	{
-		const int lstatus = ncx_get_float_schar(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++) {
+    const int lstatus = ncx_get_float_schar(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_float_short(const void **xpp, size_t nelems, short *tp)
-{
+int ncx_getn_float_short(const void **xpp, size_t nelems, short *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_FLOAT == SIZEOF_FLOAT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -15078,64 +14065,61 @@ ncx_getn_float_short(const void **xpp, size_t nelems, short *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  float tmp[LOOPCNT];        /* in case input is misaligned */
+  float tmp[LOOPCNT]; /* in case input is misaligned */
   float *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_FLOAT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_FLOAT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_FLOAT));
       xp = tmp;
     } else {
-      xp = (float *) *xpp;
+      xp = (float *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (short) Max( SHORT_MIN, Min(SHORT_MAX, (short) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (short)Max(SHORT_MIN, Min(SHORT_MAX, (short)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > SHORT_MAX || xp[i] < SHORT_MIN;
     }
-   /* update xpp and tp */
-    if (realign) xp = (float *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (float *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++)
-	{
-		const int lstatus = ncx_get_float_short(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++) {
+    const int lstatus = ncx_get_float_short(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_float_int(const void **xpp, size_t nelems, int *tp)
-{
+int ncx_getn_float_int(const void **xpp, size_t nelems, int *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_FLOAT == SIZEOF_FLOAT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -15143,64 +14127,61 @@ ncx_getn_float_int(const void **xpp, size_t nelems, int *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  float tmp[LOOPCNT];        /* in case input is misaligned */
+  float tmp[LOOPCNT]; /* in case input is misaligned */
   float *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_FLOAT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_FLOAT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_FLOAT));
       xp = tmp;
     } else {
-      xp = (float *) *xpp;
+      xp = (float *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (int) Max( INT_MIN, Min(INT_MAX, (int) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (int)Max(INT_MIN, Min(INT_MAX, (int)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > INT_MAX || xp[i] < INT_MIN;
     }
-   /* update xpp and tp */
-    if (realign) xp = (float *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (float *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++)
-	{
-		const int lstatus = ncx_get_float_int(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++) {
+    const int lstatus = ncx_get_float_int(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_float_long(const void **xpp, size_t nelems, long *tp)
-{
+int ncx_getn_float_long(const void **xpp, size_t nelems, long *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_FLOAT == SIZEOF_FLOAT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -15208,64 +14189,61 @@ ncx_getn_float_long(const void **xpp, size_t nelems, long *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  float tmp[LOOPCNT];        /* in case input is misaligned */
+  float tmp[LOOPCNT]; /* in case input is misaligned */
   float *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_FLOAT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_FLOAT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_FLOAT));
       xp = tmp;
     } else {
-      xp = (float *) *xpp;
+      xp = (float *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (long) Max( LONG_MIN, Min(LONG_MAX, (long) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (long)Max(LONG_MIN, Min(LONG_MAX, (long)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > LONG_MAX || xp[i] < LONG_MIN;
     }
-   /* update xpp and tp */
-    if (realign) xp = (float *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (float *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++)
-	{
-		const int lstatus = ncx_get_float_long(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++) {
+    const int lstatus = ncx_get_float_long(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_float_double(const void **xpp, size_t nelems, double *tp)
-{
+int ncx_getn_float_double(const void **xpp, size_t nelems, double *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_FLOAT == SIZEOF_FLOAT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -15273,64 +14251,61 @@ ncx_getn_float_double(const void **xpp, size_t nelems, double *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  float tmp[LOOPCNT];        /* in case input is misaligned */
+  float tmp[LOOPCNT]; /* in case input is misaligned */
   float *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_FLOAT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_FLOAT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_FLOAT));
       xp = tmp;
     } else {
-      xp = (float *) *xpp;
+      xp = (float *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (double) Max( DOUBLE_MIN, Min(DOUBLE_MAX, (double) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (double)Max(DOUBLE_MIN, Min(DOUBLE_MAX, (double)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > DOUBLE_MAX || xp[i] < DOUBLE_MIN;
     }
-   /* update xpp and tp */
-    if (realign) xp = (float *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (float *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++)
-	{
-		const int lstatus = ncx_get_float_double(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++) {
+    const int lstatus = ncx_get_float_double(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_float_longlong(const void **xpp, size_t nelems, longlong *tp)
-{
+int ncx_getn_float_longlong(const void **xpp, size_t nelems, longlong *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_FLOAT == SIZEOF_FLOAT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -15338,64 +14313,61 @@ ncx_getn_float_longlong(const void **xpp, size_t nelems, longlong *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  float tmp[LOOPCNT];        /* in case input is misaligned */
+  float tmp[LOOPCNT]; /* in case input is misaligned */
   float *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_FLOAT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_FLOAT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_FLOAT));
       xp = tmp;
     } else {
-      xp = (float *) *xpp;
+      xp = (float *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (longlong) Max( LONGLONG_MIN, Min(LONGLONG_MAX, (longlong) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (longlong)Max(LONGLONG_MIN, Min(LONGLONG_MAX, (longlong)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > LONGLONG_MAX || xp[i] < LONGLONG_MIN;
     }
-   /* update xpp and tp */
-    if (realign) xp = (float *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (float *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++)
-	{
-		const int lstatus = ncx_get_float_longlong(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++) {
+    const int lstatus = ncx_get_float_longlong(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_float_ushort(const void **xpp, size_t nelems, ushort *tp)
-{
+int ncx_getn_float_ushort(const void **xpp, size_t nelems, ushort *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_FLOAT == SIZEOF_FLOAT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -15403,64 +14375,61 @@ ncx_getn_float_ushort(const void **xpp, size_t nelems, ushort *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  float tmp[LOOPCNT];        /* in case input is misaligned */
+  float tmp[LOOPCNT]; /* in case input is misaligned */
   float *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_FLOAT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_FLOAT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_FLOAT));
       xp = tmp;
     } else {
-      xp = (float *) *xpp;
+      xp = (float *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (ushort) Max( USHORT_MIN, Min(USHORT_MAX, (ushort) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (ushort)Max(USHORT_MIN, Min(USHORT_MAX, (ushort)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > USHORT_MAX || xp[i] < 0;
     }
-   /* update xpp and tp */
-    if (realign) xp = (float *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (float *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++)
-	{
-		const int lstatus = ncx_get_float_ushort(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++) {
+    const int lstatus = ncx_get_float_ushort(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_float_uchar(const void **xpp, size_t nelems, uchar *tp)
-{
+int ncx_getn_float_uchar(const void **xpp, size_t nelems, uchar *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_FLOAT == SIZEOF_FLOAT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -15468,64 +14437,61 @@ ncx_getn_float_uchar(const void **xpp, size_t nelems, uchar *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  float tmp[LOOPCNT];        /* in case input is misaligned */
+  float tmp[LOOPCNT]; /* in case input is misaligned */
   float *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_FLOAT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_FLOAT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_FLOAT));
       xp = tmp;
     } else {
-      xp = (float *) *xpp;
+      xp = (float *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (uchar) Max( UCHAR_MIN, Min(UCHAR_MAX, (uchar) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (uchar)Max(UCHAR_MIN, Min(UCHAR_MAX, (uchar)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > UCHAR_MAX || xp[i] < 0;
     }
-   /* update xpp and tp */
-    if (realign) xp = (float *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (float *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++)
-	{
-		const int lstatus = ncx_get_float_uchar(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++) {
+    const int lstatus = ncx_get_float_uchar(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_float_uint(const void **xpp, size_t nelems, uint *tp)
-{
+int ncx_getn_float_uint(const void **xpp, size_t nelems, uint *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_FLOAT == SIZEOF_FLOAT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -15533,64 +14499,61 @@ ncx_getn_float_uint(const void **xpp, size_t nelems, uint *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  float tmp[LOOPCNT];        /* in case input is misaligned */
+  float tmp[LOOPCNT]; /* in case input is misaligned */
   float *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_FLOAT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_FLOAT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_FLOAT));
       xp = tmp;
     } else {
-      xp = (float *) *xpp;
+      xp = (float *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (uint) Max( UINT_MIN, Min(UINT_MAX, (uint) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (uint)Max(UINT_MIN, Min(UINT_MAX, (uint)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > UINT_MAX || xp[i] < 0;
     }
-   /* update xpp and tp */
-    if (realign) xp = (float *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (float *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++)
-	{
-		const int lstatus = ncx_get_float_uint(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++) {
+    const int lstatus = ncx_get_float_uint(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_float_ulonglong(const void **xpp, size_t nelems, ulonglong *tp)
-{
+int ncx_getn_float_ulonglong(const void **xpp, size_t nelems, ulonglong *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_FLOAT == SIZEOF_FLOAT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -15598,148 +14561,138 @@ ncx_getn_float_ulonglong(const void **xpp, size_t nelems, ulonglong *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  float tmp[LOOPCNT];        /* in case input is misaligned */
+  float tmp[LOOPCNT]; /* in case input is misaligned */
   float *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_FLOAT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_FLOAT));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_FLOAT));
       xp = tmp;
     } else {
-      xp = (float *) *xpp;
+      xp = (float *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (ulonglong) Max( ULONGLONG_MIN, Min(ULONGLONG_MAX, (ulonglong) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (ulonglong)Max(ULONGLONG_MIN, Min(ULONGLONG_MAX, (ulonglong)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > ULONGLONG_MAX || xp[i] < 0;
     }
-   /* update xpp and tp */
-    if (realign) xp = (float *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (float *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++)
-	{
-		const int lstatus = ncx_get_float_ulonglong(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++) {
+    const int lstatus = ncx_get_float_ulonglong(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
 
-int
-ncx_putn_float_float(void **xpp, size_t nelems, const float *tp, void *fillp)
+int ncx_putn_float_float(void **xpp, size_t nelems, const float *tp, void *fillp)
 #if X_SIZEOF_FLOAT == SIZEOF_FLOAT && !defined(NO_IEEE_FLOAT)
 /* optimized version */
 {
-#ifdef WORDS_BIGENDIAN
-	(void) memcpy(*xpp, tp, (size_t)nelems * X_SIZEOF_FLOAT);
-# else
-	swapn4b(*xpp, tp, nelems);
-# endif
-	*xpp = (void *)((char *)(*xpp) + nelems * X_SIZEOF_FLOAT);
-	return NC_NOERR;
+#  ifdef WORDS_BIGENDIAN
+  (void)memcpy(*xpp, tp, (size_t)nelems * X_SIZEOF_FLOAT);
+#  else
+  swapn4b(*xpp, tp, nelems);
+#  endif
+  *xpp = (void *)((char *)(*xpp) + nelems * X_SIZEOF_FLOAT);
+  return NC_NOERR;
 }
 #elif defined(vax) && vax != 0
 {
-	const float *const end = tp + nelems;
+  const float *const end = tp + nelems;
 
-	while (tp < end) {
-				const struct vax_single *const vsp =
-			 (const struct vax_single *)ip;
-		struct ieee_single *const isp = (struct ieee_single *) (*xpp);
+  while (tp < end) {
+    const struct vax_single *const vsp = (const struct vax_single *)ip;
+    struct ieee_single *const isp      = (struct ieee_single *)(*xpp);
 
-		switch(vsp->exp){
-		case 0 :
-			/* all vax float with zero exponent map to zero */
-			*isp = min.ieee;
-			break;
-		case 2 :
-		case 1 :
-		{
-			/* These will map to subnormals */
-			unsigned mantissa = (vsp->mantissa1 << 16)
-					 | vsp->mantissa2;
-			mantissa >>= 3 - vsp->exp;
-			mantissa += (1 << (20 + vsp->exp));
-			isp->mant_lo_lo = mantissa;
-			isp->mant_lo_hi = mantissa >> 8;
-			isp->mant_hi = mantissa >> 16;
-			isp->exp_lo = 0;
-			isp->exp_hi = 0;
-		}
-			break;
-		case 0xff : /* max.s.exp */
-			if (vsp->mantissa2 == max.s.mantissa2 &&
-			    vsp->mantissa1 == max.s.mantissa1)
-			{
-				/* map largest vax float to ieee infinity */
-				*isp = max.ieee;
-				break;
-			} /* else, fall thru */
-		default :
-		{
-			unsigned exp = vsp->exp - VAX_SNG_BIAS + IEEE_SNG_BIAS;
-			isp->exp_hi = exp >> 1;
-			isp->exp_lo = exp;
-			isp->mant_lo_lo = vsp->mantissa2;
-			isp->mant_lo_hi = vsp->mantissa2 >> 8;
-			isp->mant_hi = vsp->mantissa1;
-		}
-		}
+    switch (vsp->exp) {
+      case 0:
+        /* all vax float with zero exponent map to zero */
+        *isp = min.ieee;
+        break;
+      case 2:
+      case 1: {
+        /* These will map to subnormals */
+        unsigned mantissa = (vsp->mantissa1 << 16)
+                            | vsp->mantissa2;
+        mantissa >>= 3 - vsp->exp;
+        mantissa += (1 << (20 + vsp->exp));
+        isp->mant_lo_lo = mantissa;
+        isp->mant_lo_hi = mantissa >> 8;
+        isp->mant_hi    = mantissa >> 16;
+        isp->exp_lo     = 0;
+        isp->exp_hi     = 0;
+      } break;
+      case 0xff: /* max.s.exp */
+        if (vsp->mantissa2 == max.s.mantissa2 && vsp->mantissa1 == max.s.mantissa1) {
+          /* map largest vax float to ieee infinity */
+          *isp = max.ieee;
+          break;
+        } /* else, fall thru */
+      default: {
+        unsigned exp    = vsp->exp - VAX_SNG_BIAS + IEEE_SNG_BIAS;
+        isp->exp_hi     = exp >> 1;
+        isp->exp_lo     = exp;
+        isp->mant_lo_lo = vsp->mantissa2;
+        isp->mant_lo_hi = vsp->mantissa2 >> 8;
+        isp->mant_hi    = vsp->mantissa1;
+      }
+    }
 
-		isp->sign = vsp->sign;
+    isp->sign = vsp->sign;
 
-		tp++;
-		*xpp = (char *)(*xpp) + X_SIZEOF_FLOAT;
-	}
-	return NC_NOERR;
+    tp++;
+    *xpp = (char *)(*xpp) + X_SIZEOF_FLOAT;
+  }
+  return NC_NOERR;
 }
 #else
 {
-	char *xp = *xpp;
-	int status = NC_NOERR;
+  char *xp   = *xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++) {
-		int lstatus = ncx_put_float_float(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++) {
+    int lstatus = ncx_put_float_float(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 #endif
-int
-ncx_putn_float_schar(void **xpp, size_t nelems, const schar *tp, void *fillp)
-{
+int ncx_putn_float_schar(void **xpp, size_t nelems, const schar *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_FLOAT == SIZEOF_FLOAT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -15747,69 +14700,66 @@ ncx_putn_float_schar(void **xpp, size_t nelems, const schar *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  float tmp[LOOPCNT];        /* in case input is misaligned */
+  float tmp[LOOPCNT]; /* in case input is misaligned */
   float *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_FLOAT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (float *) *xpp;
+      xp = (float *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (float) Max( X_FLOAT_MIN, Min(X_FLOAT_MAX, (float) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (float)Max(X_FLOAT_MIN, Min(X_FLOAT_MAX, (float)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_FLOAT_MAX || tp[i] < X_FLOAT_MIN;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_FLOAT);
-      xp = (float *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_FLOAT);
+      xp = (float *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++)
-	{
-		int lstatus = ncx_put_float_schar(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++) {
+    int lstatus = ncx_put_float_schar(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_float_short(void **xpp, size_t nelems, const short *tp, void *fillp)
-{
+int ncx_putn_float_short(void **xpp, size_t nelems, const short *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_FLOAT == SIZEOF_FLOAT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -15817,69 +14767,66 @@ ncx_putn_float_short(void **xpp, size_t nelems, const short *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  float tmp[LOOPCNT];        /* in case input is misaligned */
+  float tmp[LOOPCNT]; /* in case input is misaligned */
   float *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_FLOAT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (float *) *xpp;
+      xp = (float *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (float) Max( X_FLOAT_MIN, Min(X_FLOAT_MAX, (float) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (float)Max(X_FLOAT_MIN, Min(X_FLOAT_MAX, (float)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_FLOAT_MAX || tp[i] < X_FLOAT_MIN;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_FLOAT);
-      xp = (float *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_FLOAT);
+      xp = (float *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++)
-	{
-		int lstatus = ncx_put_float_short(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++) {
+    int lstatus = ncx_put_float_short(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_float_int(void **xpp, size_t nelems, const int *tp, void *fillp)
-{
+int ncx_putn_float_int(void **xpp, size_t nelems, const int *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_FLOAT == SIZEOF_FLOAT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -15887,69 +14834,66 @@ ncx_putn_float_int(void **xpp, size_t nelems, const int *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  float tmp[LOOPCNT];        /* in case input is misaligned */
+  float tmp[LOOPCNT]; /* in case input is misaligned */
   float *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_FLOAT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (float *) *xpp;
+      xp = (float *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (float) Max( X_FLOAT_MIN, Min(X_FLOAT_MAX, (float) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (float)Max(X_FLOAT_MIN, Min(X_FLOAT_MAX, (float)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_FLOAT_MAX || tp[i] < X_FLOAT_MIN;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_FLOAT);
-      xp = (float *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_FLOAT);
+      xp = (float *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++)
-	{
-		int lstatus = ncx_put_float_int(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++) {
+    int lstatus = ncx_put_float_int(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_float_long(void **xpp, size_t nelems, const long *tp, void *fillp)
-{
+int ncx_putn_float_long(void **xpp, size_t nelems, const long *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_FLOAT == SIZEOF_FLOAT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -15957,69 +14901,66 @@ ncx_putn_float_long(void **xpp, size_t nelems, const long *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  float tmp[LOOPCNT];        /* in case input is misaligned */
+  float tmp[LOOPCNT]; /* in case input is misaligned */
   float *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_FLOAT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (float *) *xpp;
+      xp = (float *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (float) Max( X_FLOAT_MIN, Min(X_FLOAT_MAX, (float) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (float)Max(X_FLOAT_MIN, Min(X_FLOAT_MAX, (float)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_FLOAT_MAX || tp[i] < X_FLOAT_MIN;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_FLOAT);
-      xp = (float *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_FLOAT);
+      xp = (float *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++)
-	{
-		int lstatus = ncx_put_float_long(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++) {
+    int lstatus = ncx_put_float_long(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_float_double(void **xpp, size_t nelems, const double *tp, void *fillp)
-{
+int ncx_putn_float_double(void **xpp, size_t nelems, const double *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_FLOAT == SIZEOF_FLOAT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -16027,69 +14968,66 @@ ncx_putn_float_double(void **xpp, size_t nelems, const double *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  float tmp[LOOPCNT];        /* in case input is misaligned */
+  float tmp[LOOPCNT]; /* in case input is misaligned */
   float *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_FLOAT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (float *) *xpp;
+      xp = (float *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (float) Max( X_FLOAT_MIN, Min(X_FLOAT_MAX, (float) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (float)Max(X_FLOAT_MIN, Min(X_FLOAT_MAX, (float)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_FLOAT_MAX || tp[i] < X_FLOAT_MIN;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_FLOAT);
-      xp = (float *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_FLOAT);
+      xp = (float *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++)
-	{
-		int lstatus = ncx_put_float_double(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++) {
+    int lstatus = ncx_put_float_double(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_float_longlong(void **xpp, size_t nelems, const longlong *tp, void *fillp)
-{
+int ncx_putn_float_longlong(void **xpp, size_t nelems, const longlong *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_FLOAT == SIZEOF_FLOAT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -16097,69 +15035,66 @@ ncx_putn_float_longlong(void **xpp, size_t nelems, const longlong *tp, void *fil
   *     at next location for converted output
   */
   long i, j, ni;
-  float tmp[LOOPCNT];        /* in case input is misaligned */
+  float tmp[LOOPCNT]; /* in case input is misaligned */
   float *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_FLOAT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (float *) *xpp;
+      xp = (float *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (float) Max( X_FLOAT_MIN, Min(X_FLOAT_MAX, (float) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (float)Max(X_FLOAT_MIN, Min(X_FLOAT_MAX, (float)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_FLOAT_MAX || tp[i] < X_FLOAT_MIN;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_FLOAT);
-      xp = (float *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_FLOAT);
+      xp = (float *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++)
-	{
-		int lstatus = ncx_put_float_longlong(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++) {
+    int lstatus = ncx_put_float_longlong(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_float_uchar(void **xpp, size_t nelems, const uchar *tp, void *fillp)
-{
+int ncx_putn_float_uchar(void **xpp, size_t nelems, const uchar *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_FLOAT == SIZEOF_FLOAT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -16167,69 +15102,66 @@ ncx_putn_float_uchar(void **xpp, size_t nelems, const uchar *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  float tmp[LOOPCNT];        /* in case input is misaligned */
+  float tmp[LOOPCNT]; /* in case input is misaligned */
   float *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_FLOAT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (float *) *xpp;
+      xp = (float *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (float) Max( X_FLOAT_MIN, Min(X_FLOAT_MAX, (float) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
-      nrange += tp[i] > X_FLOAT_MAX ;
+      xp[i] = (float)Max(X_FLOAT_MIN, Min(X_FLOAT_MAX, (float)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      nrange += tp[i] > X_FLOAT_MAX;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_FLOAT);
-      xp = (float *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_FLOAT);
+      xp = (float *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++)
-	{
-		int lstatus = ncx_put_float_uchar(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++) {
+    int lstatus = ncx_put_float_uchar(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_float_ushort(void **xpp, size_t nelems, const ushort *tp, void *fillp)
-{
+int ncx_putn_float_ushort(void **xpp, size_t nelems, const ushort *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_FLOAT == SIZEOF_FLOAT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -16237,69 +15169,66 @@ ncx_putn_float_ushort(void **xpp, size_t nelems, const ushort *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  float tmp[LOOPCNT];        /* in case input is misaligned */
+  float tmp[LOOPCNT]; /* in case input is misaligned */
   float *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_FLOAT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (float *) *xpp;
+      xp = (float *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (float) Max( X_FLOAT_MIN, Min(X_FLOAT_MAX, (float) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
-      nrange += tp[i] > X_FLOAT_MAX ;
+      xp[i] = (float)Max(X_FLOAT_MIN, Min(X_FLOAT_MAX, (float)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      nrange += tp[i] > X_FLOAT_MAX;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_FLOAT);
-      xp = (float *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_FLOAT);
+      xp = (float *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++)
-	{
-		int lstatus = ncx_put_float_ushort(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++) {
+    int lstatus = ncx_put_float_ushort(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_float_uint(void **xpp, size_t nelems, const uint *tp, void *fillp)
-{
+int ncx_putn_float_uint(void **xpp, size_t nelems, const uint *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_FLOAT == SIZEOF_FLOAT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -16307,69 +15236,66 @@ ncx_putn_float_uint(void **xpp, size_t nelems, const uint *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  float tmp[LOOPCNT];        /* in case input is misaligned */
+  float tmp[LOOPCNT]; /* in case input is misaligned */
   float *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_FLOAT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (float *) *xpp;
+      xp = (float *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (float) Max( X_FLOAT_MIN, Min(X_FLOAT_MAX, (float) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
-      nrange += tp[i] > X_FLOAT_MAX ;
+      xp[i] = (float)Max(X_FLOAT_MIN, Min(X_FLOAT_MAX, (float)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      nrange += tp[i] > X_FLOAT_MAX;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_FLOAT);
-      xp = (float *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_FLOAT);
+      xp = (float *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++)
-	{
-		int lstatus = ncx_put_float_uint(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++) {
+    int lstatus = ncx_put_float_uint(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_float_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, void *fillp)
-{
+int ncx_putn_float_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_FLOAT == SIZEOF_FLOAT
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -16377,60 +15303,59 @@ ncx_putn_float_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, void *f
   *     at next location for converted output
   */
   long i, j, ni;
-  float tmp[LOOPCNT];        /* in case input is misaligned */
+  float tmp[LOOPCNT]; /* in case input is misaligned */
   float *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_FLOAT;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (float *) *xpp;
+      xp = (float *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (float) Max( X_FLOAT_MIN, Min(X_FLOAT_MAX, (float) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
-      nrange += tp[i] > X_FLOAT_MAX ;
+      xp[i] = (float)Max(X_FLOAT_MIN, Min(X_FLOAT_MAX, (float)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      nrange += tp[i] > X_FLOAT_MAX;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_FLOAT);
-      xp = (float *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_FLOAT);
+      xp = (float *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++)
-	{
-		int lstatus = ncx_put_float_ulonglong(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_FLOAT, tp++) {
+    int lstatus = ncx_put_float_ulonglong(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
@@ -16439,97 +15364,82 @@ ncx_putn_float_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, void *f
 
 #if X_SIZEOF_DOUBLE == SIZEOF_DOUBLE && !defined(NO_IEEE_FLOAT)
 /* optimized version */
-int
-ncx_getn_double_double(const void **xpp, size_t nelems, double *tp)
-{
-#ifdef WORDS_BIGENDIAN
-	(void) memcpy(tp, *xpp, (size_t)nelems * SIZEOF_DOUBLE);
-# else
-	swapn8b(tp, *xpp, nelems);
-# endif
-	*xpp = (const void *)((const char *)(*xpp) + nelems * X_SIZEOF_DOUBLE);
-	return NC_NOERR;
+int ncx_getn_double_double(const void **xpp, size_t nelems, double *tp) {
+#  ifdef WORDS_BIGENDIAN
+  (void)memcpy(tp, *xpp, (size_t)nelems * SIZEOF_DOUBLE);
+#  else
+  swapn8b(tp, *xpp, nelems);
+#  endif
+  *xpp = (const void *)((const char *)(*xpp) + nelems * X_SIZEOF_DOUBLE);
+  return NC_NOERR;
 }
 #elif defined(vax) && vax != 0
-int
-ncx_getn_double_double(const void **xpp, size_t ndoubles, double *ip)
-{
-	double *const end = ip + ndoubles;
+int ncx_getn_double_double(const void **xpp, size_t ndoubles, double *ip) {
+  double *const end = ip + ndoubles;
 
-	while (ip < end)
-	{
-	struct vax_double *const vdp =
-			 (struct vax_double *)ip;
-	const struct ieee_double *const idp =
-			 (const struct ieee_double *) (*xpp);
-	{
-		const struct dbl_limits *lim;
-		int ii;
-		for (ii = 0, lim = dbl_limits;
-			ii < sizeof(dbl_limits)/sizeof(struct dbl_limits);
-			ii++, lim++)
-		{
-			if ((idp->mant_lo == lim->ieee.mant_lo)
-				&& (idp->mant_4 == lim->ieee.mant_4)
-				&& (idp->mant_5 == lim->ieee.mant_5)
-				&& (idp->mant_6 == lim->ieee.mant_6)
-				&& (idp->exp_lo == lim->ieee.exp_lo)
-				&& (idp->exp_hi == lim->ieee.exp_hi)
-				)
-			{
-				*vdp = lim->d;
-				goto doneit;
-			}
-		}
-	}
-	{
-		unsigned exp = idp->exp_hi << 4 | idp->exp_lo;
-		vdp->exp = exp - IEEE_DBL_BIAS + VAX_DBL_BIAS;
-	}
-	{
-		unsigned mant_hi = ((idp->mant_6 << 16)
-				 | (idp->mant_5 << 8)
-				 | idp->mant_4);
-		unsigned mant_lo = SWAP4(idp->mant_lo);
-		vdp->mantissa1 = (mant_hi >> 13);
-		vdp->mantissa2 = ((mant_hi & MASK(13)) << 3)
-				| (mant_lo >> 29);
-		vdp->mantissa3 = (mant_lo >> 13);
-		vdp->mantissa4 = (mant_lo << 3);
-	}
-	doneit:
-		vdp->sign = idp->sign;
+  while (ip < end) {
+    struct vax_double *const vdp        = (struct vax_double *)ip;
+    const struct ieee_double *const idp = (const struct ieee_double *)(*xpp);
+    {
+      const struct dbl_limits *lim;
+      int ii;
+      for (ii = 0, lim = dbl_limits;
+           ii < sizeof(dbl_limits) / sizeof(struct dbl_limits);
+           ii++, lim++) {
+        if ((idp->mant_lo == lim->ieee.mant_lo)
+            && (idp->mant_4 == lim->ieee.mant_4)
+            && (idp->mant_5 == lim->ieee.mant_5)
+            && (idp->mant_6 == lim->ieee.mant_6)
+            && (idp->exp_lo == lim->ieee.exp_lo)
+            && (idp->exp_hi == lim->ieee.exp_hi)) {
+          *vdp = lim->d;
+          goto doneit;
+        }
+      }
+    }
+    {
+      unsigned exp = idp->exp_hi << 4 | idp->exp_lo;
+      vdp->exp     = exp - IEEE_DBL_BIAS + VAX_DBL_BIAS;
+    }
+    {
+      unsigned mant_hi = ((idp->mant_6 << 16)
+                          | (idp->mant_5 << 8)
+                          | idp->mant_4);
+      unsigned mant_lo = SWAP4(idp->mant_lo);
+      vdp->mantissa1   = (mant_hi >> 13);
+      vdp->mantissa2   = ((mant_hi & MASK(13)) << 3)
+                       | (mant_lo >> 29);
+      vdp->mantissa3 = (mant_lo >> 13);
+      vdp->mantissa4 = (mant_lo << 3);
+    }
+  doneit:
+    vdp->sign = idp->sign;
 
-		ip++;
-		*xpp = (char *)(*xpp) + X_SIZEOF_DOUBLE;
-	}
-	return NC_NOERR;
+    ip++;
+    *xpp = (char *)(*xpp) + X_SIZEOF_DOUBLE;
+  }
+  return NC_NOERR;
 }
-	/* vax */
+/* vax */
 #else
-int
-ncx_getn_double_double(const void **xpp, size_t nelems, double *tp)
-{
-	const char *xp = *xpp;
-	int status = NC_NOERR;
+int ncx_getn_double_double(const void **xpp, size_t nelems, double *tp) {
+  const char *xp = *xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++)
-	{
-		const int lstatus = ncx_get_double_double(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++) {
+    const int lstatus = ncx_get_double_double(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 }
 #endif
-int
-ncx_getn_double_schar(const void **xpp, size_t nelems, schar *tp)
-{
+int ncx_getn_double_schar(const void **xpp, size_t nelems, schar *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_DOUBLE == SIZEOF_DOUBLE
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -16537,64 +15447,61 @@ ncx_getn_double_schar(const void **xpp, size_t nelems, schar *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  double tmp[LOOPCNT];        /* in case input is misaligned */
+  double tmp[LOOPCNT]; /* in case input is misaligned */
   double *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_DOUBLE;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_DOUBLE));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_DOUBLE));
       xp = tmp;
     } else {
-      xp = (double *) *xpp;
+      xp = (double *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (schar) Max( SCHAR_MIN, Min(SCHAR_MAX, (schar) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (schar)Max(SCHAR_MIN, Min(SCHAR_MAX, (schar)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > SCHAR_MAX || xp[i] < SCHAR_MIN;
     }
-   /* update xpp and tp */
-    if (realign) xp = (double *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (double *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++)
-	{
-		const int lstatus = ncx_get_double_schar(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++) {
+    const int lstatus = ncx_get_double_schar(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_double_short(const void **xpp, size_t nelems, short *tp)
-{
+int ncx_getn_double_short(const void **xpp, size_t nelems, short *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_DOUBLE == SIZEOF_DOUBLE
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -16602,64 +15509,61 @@ ncx_getn_double_short(const void **xpp, size_t nelems, short *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  double tmp[LOOPCNT];        /* in case input is misaligned */
+  double tmp[LOOPCNT]; /* in case input is misaligned */
   double *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_DOUBLE;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_DOUBLE));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_DOUBLE));
       xp = tmp;
     } else {
-      xp = (double *) *xpp;
+      xp = (double *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (short) Max( SHORT_MIN, Min(SHORT_MAX, (short) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (short)Max(SHORT_MIN, Min(SHORT_MAX, (short)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > SHORT_MAX || xp[i] < SHORT_MIN;
     }
-   /* update xpp and tp */
-    if (realign) xp = (double *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (double *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++)
-	{
-		const int lstatus = ncx_get_double_short(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++) {
+    const int lstatus = ncx_get_double_short(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_double_int(const void **xpp, size_t nelems, int *tp)
-{
+int ncx_getn_double_int(const void **xpp, size_t nelems, int *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_DOUBLE == SIZEOF_DOUBLE
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -16667,64 +15571,61 @@ ncx_getn_double_int(const void **xpp, size_t nelems, int *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  double tmp[LOOPCNT];        /* in case input is misaligned */
+  double tmp[LOOPCNT]; /* in case input is misaligned */
   double *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_DOUBLE;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_DOUBLE));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_DOUBLE));
       xp = tmp;
     } else {
-      xp = (double *) *xpp;
+      xp = (double *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (int) Max( INT_MIN, Min(INT_MAX, (int) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (int)Max(INT_MIN, Min(INT_MAX, (int)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > INT_MAX || xp[i] < INT_MIN;
     }
-   /* update xpp and tp */
-    if (realign) xp = (double *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (double *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++)
-	{
-		const int lstatus = ncx_get_double_int(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++) {
+    const int lstatus = ncx_get_double_int(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_double_long(const void **xpp, size_t nelems, long *tp)
-{
+int ncx_getn_double_long(const void **xpp, size_t nelems, long *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_DOUBLE == SIZEOF_DOUBLE
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -16732,64 +15633,61 @@ ncx_getn_double_long(const void **xpp, size_t nelems, long *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  double tmp[LOOPCNT];        /* in case input is misaligned */
+  double tmp[LOOPCNT]; /* in case input is misaligned */
   double *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_DOUBLE;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_DOUBLE));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_DOUBLE));
       xp = tmp;
     } else {
-      xp = (double *) *xpp;
+      xp = (double *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (long) Max( LONG_MIN, Min(LONG_MAX, (long) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (long)Max(LONG_MIN, Min(LONG_MAX, (long)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > LONG_MAX || xp[i] < LONG_MIN;
     }
-   /* update xpp and tp */
-    if (realign) xp = (double *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (double *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++)
-	{
-		const int lstatus = ncx_get_double_long(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++) {
+    const int lstatus = ncx_get_double_long(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_double_float(const void **xpp, size_t nelems, float *tp)
-{
+int ncx_getn_double_float(const void **xpp, size_t nelems, float *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_DOUBLE == SIZEOF_DOUBLE
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -16797,64 +15695,61 @@ ncx_getn_double_float(const void **xpp, size_t nelems, float *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  double tmp[LOOPCNT];        /* in case input is misaligned */
+  double tmp[LOOPCNT]; /* in case input is misaligned */
   double *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_DOUBLE;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_DOUBLE));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_DOUBLE));
       xp = tmp;
     } else {
-      xp = (double *) *xpp;
+      xp = (double *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (float) Max( FLOAT_MIN, Min(FLOAT_MAX, (float) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (float)Max(FLOAT_MIN, Min(FLOAT_MAX, (float)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > FLOAT_MAX || xp[i] < FLOAT_MIN;
     }
-   /* update xpp and tp */
-    if (realign) xp = (double *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (double *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++)
-	{
-		const int lstatus = ncx_get_double_float(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++) {
+    const int lstatus = ncx_get_double_float(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_double_longlong(const void **xpp, size_t nelems, longlong *tp)
-{
+int ncx_getn_double_longlong(const void **xpp, size_t nelems, longlong *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_DOUBLE == SIZEOF_DOUBLE
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -16862,64 +15757,61 @@ ncx_getn_double_longlong(const void **xpp, size_t nelems, longlong *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  double tmp[LOOPCNT];        /* in case input is misaligned */
+  double tmp[LOOPCNT]; /* in case input is misaligned */
   double *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_DOUBLE;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_DOUBLE));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_DOUBLE));
       xp = tmp;
     } else {
-      xp = (double *) *xpp;
+      xp = (double *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (longlong) Max( LONGLONG_MIN, Min(LONGLONG_MAX, (longlong) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (longlong)Max(LONGLONG_MIN, Min(LONGLONG_MAX, (longlong)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > LONGLONG_MAX || xp[i] < LONGLONG_MIN;
     }
-   /* update xpp and tp */
-    if (realign) xp = (double *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (double *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++)
-	{
-		const int lstatus = ncx_get_double_longlong(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++) {
+    const int lstatus = ncx_get_double_longlong(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_double_uchar(const void **xpp, size_t nelems, uchar *tp)
-{
+int ncx_getn_double_uchar(const void **xpp, size_t nelems, uchar *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_DOUBLE == SIZEOF_DOUBLE
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -16927,64 +15819,61 @@ ncx_getn_double_uchar(const void **xpp, size_t nelems, uchar *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  double tmp[LOOPCNT];        /* in case input is misaligned */
+  double tmp[LOOPCNT]; /* in case input is misaligned */
   double *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_DOUBLE;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_DOUBLE));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_DOUBLE));
       xp = tmp;
     } else {
-      xp = (double *) *xpp;
+      xp = (double *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (uchar) Max( UCHAR_MIN, Min(UCHAR_MAX, (uchar) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (uchar)Max(UCHAR_MIN, Min(UCHAR_MAX, (uchar)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > UCHAR_MAX || xp[i] < 0;
     }
-   /* update xpp and tp */
-    if (realign) xp = (double *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (double *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++)
-	{
-		const int lstatus = ncx_get_double_uchar(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++) {
+    const int lstatus = ncx_get_double_uchar(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_double_ushort(const void **xpp, size_t nelems, ushort *tp)
-{
+int ncx_getn_double_ushort(const void **xpp, size_t nelems, ushort *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_DOUBLE == SIZEOF_DOUBLE
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -16992,64 +15881,61 @@ ncx_getn_double_ushort(const void **xpp, size_t nelems, ushort *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  double tmp[LOOPCNT];        /* in case input is misaligned */
+  double tmp[LOOPCNT]; /* in case input is misaligned */
   double *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_DOUBLE;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_DOUBLE));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_DOUBLE));
       xp = tmp;
     } else {
-      xp = (double *) *xpp;
+      xp = (double *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (ushort) Max( USHORT_MIN, Min(USHORT_MAX, (ushort) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (ushort)Max(USHORT_MIN, Min(USHORT_MAX, (ushort)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > USHORT_MAX || xp[i] < 0;
     }
-   /* update xpp and tp */
-    if (realign) xp = (double *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (double *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++)
-	{
-		const int lstatus = ncx_get_double_ushort(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++) {
+    const int lstatus = ncx_get_double_ushort(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_double_uint(const void **xpp, size_t nelems, uint *tp)
-{
+int ncx_getn_double_uint(const void **xpp, size_t nelems, uint *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_DOUBLE == SIZEOF_DOUBLE
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -17057,64 +15943,61 @@ ncx_getn_double_uint(const void **xpp, size_t nelems, uint *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  double tmp[LOOPCNT];        /* in case input is misaligned */
+  double tmp[LOOPCNT]; /* in case input is misaligned */
   double *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_DOUBLE;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_DOUBLE));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_DOUBLE));
       xp = tmp;
     } else {
-      xp = (double *) *xpp;
+      xp = (double *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (uint) Max( UINT_MIN, Min(UINT_MAX, (uint) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (uint)Max(UINT_MIN, Min(UINT_MAX, (uint)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > UINT_MAX || xp[i] < 0;
     }
-   /* update xpp and tp */
-    if (realign) xp = (double *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (double *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++)
-	{
-		const int lstatus = ncx_get_double_uint(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++) {
+    const int lstatus = ncx_get_double_uint(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_double_ulonglong(const void **xpp, size_t nelems, ulonglong *tp)
-{
+int ncx_getn_double_ulonglong(const void **xpp, size_t nelems, ulonglong *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_DOUBLE == SIZEOF_DOUBLE
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -17122,170 +16005,142 @@ ncx_getn_double_ulonglong(const void **xpp, size_t nelems, ulonglong *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  double tmp[LOOPCNT];        /* in case input is misaligned */
+  double tmp[LOOPCNT]; /* in case input is misaligned */
   double *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_DOUBLE;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_DOUBLE));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_DOUBLE));
       xp = tmp;
     } else {
-      xp = (double *) *xpp;
+      xp = (double *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (ulonglong) Max( ULONGLONG_MIN, Min(ULONGLONG_MAX, (ulonglong) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (ulonglong)Max(ULONGLONG_MIN, Min(ULONGLONG_MAX, (ulonglong)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > ULONGLONG_MAX || xp[i] < 0;
     }
-   /* update xpp and tp */
-    if (realign) xp = (double *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (double *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++)
-	{
-		const int lstatus = ncx_get_double_ulonglong(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++) {
+    const int lstatus = ncx_get_double_ulonglong(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
 
 #if X_SIZEOF_DOUBLE == SIZEOF_DOUBLE && !defined(NO_IEEE_FLOAT)
 /* optimized version */
-int
-ncx_putn_double_double(void **xpp, size_t nelems, const double *tp, void *fillp)
-{
-#ifdef WORDS_BIGENDIAN
-	(void) memcpy(*xpp, tp, (size_t)nelems * X_SIZEOF_DOUBLE);
-# else
-	swapn8b(*xpp, tp, nelems);
-# endif
-	*xpp = (void *)((char *)(*xpp) + nelems * X_SIZEOF_DOUBLE);
-	return NC_NOERR;
+int ncx_putn_double_double(void **xpp, size_t nelems, const double *tp, void *fillp) {
+#  ifdef WORDS_BIGENDIAN
+  (void)memcpy(*xpp, tp, (size_t)nelems * X_SIZEOF_DOUBLE);
+#  else
+  swapn8b(*xpp, tp, nelems);
+#  endif
+  *xpp = (void *)((char *)(*xpp) + nelems * X_SIZEOF_DOUBLE);
+  return NC_NOERR;
 }
 #elif defined(vax) && vax != 0
-int
-ncx_putn_double_double(void **xpp, size_t ndoubles, const double *ip, void *fillp)
-{
-	const double *const end = ip + ndoubles;
+int ncx_putn_double_double(void **xpp, size_t ndoubles, const double *ip, void *fillp) {
+  const double *const end = ip + ndoubles;
 
-	while (ip < end)
-	{
-	const struct vax_double *const vdp =
-			(const struct vax_double *)ip;
-	struct ieee_double *const idp =
-			 (struct ieee_double *) (*xpp);
+  while (ip < end) {
+    const struct vax_double *const vdp = (const struct vax_double *)ip;
+    struct ieee_double *const idp      = (struct ieee_double *)(*xpp);
 
-	if ((vdp->mantissa4 > (dbl_limits[0].d.mantissa4 - 3)) &&
-		(vdp->mantissa3 == dbl_limits[0].d.mantissa3) &&
-		(vdp->mantissa2 == dbl_limits[0].d.mantissa2) &&
-		(vdp->mantissa1 == dbl_limits[0].d.mantissa1) &&
-		(vdp->exp == dbl_limits[0].d.exp))
-	{
-		*idp = dbl_limits[0].ieee;
-		goto shipit;
-	}
-	if ((vdp->mantissa4 == dbl_limits[1].d.mantissa4) &&
-		(vdp->mantissa3 == dbl_limits[1].d.mantissa3) &&
-		(vdp->mantissa2 == dbl_limits[1].d.mantissa2) &&
-		(vdp->mantissa1 == dbl_limits[1].d.mantissa1) &&
-		(vdp->exp == dbl_limits[1].d.exp))
-	{
-		*idp = dbl_limits[1].ieee;
-		goto shipit;
-	}
+    if ((vdp->mantissa4 > (dbl_limits[0].d.mantissa4 - 3)) && (vdp->mantissa3 == dbl_limits[0].d.mantissa3) && (vdp->mantissa2 == dbl_limits[0].d.mantissa2) && (vdp->mantissa1 == dbl_limits[0].d.mantissa1) && (vdp->exp == dbl_limits[0].d.exp)) {
+      *idp = dbl_limits[0].ieee;
+      goto shipit;
+    }
+    if ((vdp->mantissa4 == dbl_limits[1].d.mantissa4) && (vdp->mantissa3 == dbl_limits[1].d.mantissa3) && (vdp->mantissa2 == dbl_limits[1].d.mantissa2) && (vdp->mantissa1 == dbl_limits[1].d.mantissa1) && (vdp->exp == dbl_limits[1].d.exp)) {
+      *idp = dbl_limits[1].ieee;
+      goto shipit;
+    }
 
-	{
-		unsigned exp = vdp->exp - VAX_DBL_BIAS + IEEE_DBL_BIAS;
+    {
+      unsigned exp = vdp->exp - VAX_DBL_BIAS + IEEE_DBL_BIAS;
 
-		unsigned mant_lo = ((vdp->mantissa2 & MASK(3)) << 29) |
-			(vdp->mantissa3 << 13) |
-			((vdp->mantissa4 >> 3) & MASK(13));
+      unsigned mant_lo = ((vdp->mantissa2 & MASK(3)) << 29) | (vdp->mantissa3 << 13) | ((vdp->mantissa4 >> 3) & MASK(13));
 
-		unsigned mant_hi = (vdp->mantissa1 << 13)
-				 | (vdp->mantissa2 >> 3);
+      unsigned mant_hi = (vdp->mantissa1 << 13)
+                         | (vdp->mantissa2 >> 3);
 
-		if ((vdp->mantissa4 & 7) > 4)
-		{
-			/* round up */
-			mant_lo++;
-			if (mant_lo == 0)
-			{
-				mant_hi++;
-				if (mant_hi > 0xffffff)
-				{
-					mant_hi = 0;
-					exp++;
-				}
-			}
-		}
+      if ((vdp->mantissa4 & 7) > 4) {
+        /* round up */
+        mant_lo++;
+        if (mant_lo == 0) {
+          mant_hi++;
+          if (mant_hi > 0xffffff) {
+            mant_hi = 0;
+            exp++;
+          }
+        }
+      }
 
-		idp->mant_lo = SWAP4(mant_lo);
-		idp->mant_6 = mant_hi >> 16;
-		idp->mant_5 = (mant_hi & 0xff00) >> 8;
-		idp->mant_4 = mant_hi;
-		idp->exp_hi = exp >> 4;
-		idp->exp_lo = exp;
-	}
+      idp->mant_lo = SWAP4(mant_lo);
+      idp->mant_6  = mant_hi >> 16;
+      idp->mant_5  = (mant_hi & 0xff00) >> 8;
+      idp->mant_4  = mant_hi;
+      idp->exp_hi  = exp >> 4;
+      idp->exp_lo  = exp;
+    }
 
-	shipit:
-		idp->sign = vdp->sign;
+  shipit:
+    idp->sign = vdp->sign;
 
-		ip++;
-		*xpp = (char *)(*xpp) + X_SIZEOF_DOUBLE;
-	}
-	return NC_NOERR;
+    ip++;
+    *xpp = (char *)(*xpp) + X_SIZEOF_DOUBLE;
+  }
+  return NC_NOERR;
 }
-	/* vax */
+/* vax */
 #else
-int
-ncx_putn_double_double(void **xpp, size_t nelems, const double *tp, void *fillp)
-{
-	char *xp = *xpp;
-	int status = NC_NOERR;
+int ncx_putn_double_double(void **xpp, size_t nelems, const double *tp, void *fillp) {
+  char *xp   = *xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++)
-	{
-		int lstatus = ncx_put_double_double(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++) {
+    int lstatus = ncx_put_double_double(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 }
 #endif
-int
-ncx_putn_double_schar(void **xpp, size_t nelems, const schar *tp, void *fillp)
-{
+int ncx_putn_double_schar(void **xpp, size_t nelems, const schar *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_DOUBLE == SIZEOF_DOUBLE
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -17293,69 +16148,66 @@ ncx_putn_double_schar(void **xpp, size_t nelems, const schar *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  double tmp[LOOPCNT];        /* in case input is misaligned */
+  double tmp[LOOPCNT]; /* in case input is misaligned */
   double *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_DOUBLE;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (double *) *xpp;
+      xp = (double *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (double) Max( X_DOUBLE_MIN, Min(X_DOUBLE_MAX, (double) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (double)Max(X_DOUBLE_MIN, Min(X_DOUBLE_MAX, (double)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_DOUBLE_MAX || tp[i] < X_DOUBLE_MIN;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_DOUBLE);
-      xp = (double *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_DOUBLE);
+      xp = (double *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++)
-	{
-		int lstatus = ncx_put_double_schar(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++) {
+    int lstatus = ncx_put_double_schar(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_double_short(void **xpp, size_t nelems, const short *tp, void *fillp)
-{
+int ncx_putn_double_short(void **xpp, size_t nelems, const short *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_DOUBLE == SIZEOF_DOUBLE
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -17363,69 +16215,66 @@ ncx_putn_double_short(void **xpp, size_t nelems, const short *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  double tmp[LOOPCNT];        /* in case input is misaligned */
+  double tmp[LOOPCNT]; /* in case input is misaligned */
   double *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_DOUBLE;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (double *) *xpp;
+      xp = (double *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (double) Max( X_DOUBLE_MIN, Min(X_DOUBLE_MAX, (double) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (double)Max(X_DOUBLE_MIN, Min(X_DOUBLE_MAX, (double)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_DOUBLE_MAX || tp[i] < X_DOUBLE_MIN;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_DOUBLE);
-      xp = (double *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_DOUBLE);
+      xp = (double *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++)
-	{
-		int lstatus = ncx_put_double_short(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++) {
+    int lstatus = ncx_put_double_short(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_double_int(void **xpp, size_t nelems, const int *tp, void *fillp)
-{
+int ncx_putn_double_int(void **xpp, size_t nelems, const int *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_DOUBLE == SIZEOF_DOUBLE
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -17433,69 +16282,66 @@ ncx_putn_double_int(void **xpp, size_t nelems, const int *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  double tmp[LOOPCNT];        /* in case input is misaligned */
+  double tmp[LOOPCNT]; /* in case input is misaligned */
   double *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_DOUBLE;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (double *) *xpp;
+      xp = (double *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (double) Max( X_DOUBLE_MIN, Min(X_DOUBLE_MAX, (double) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (double)Max(X_DOUBLE_MIN, Min(X_DOUBLE_MAX, (double)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_DOUBLE_MAX || tp[i] < X_DOUBLE_MIN;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_DOUBLE);
-      xp = (double *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_DOUBLE);
+      xp = (double *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++)
-	{
-		int lstatus = ncx_put_double_int(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++) {
+    int lstatus = ncx_put_double_int(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_double_long(void **xpp, size_t nelems, const long *tp, void *fillp)
-{
+int ncx_putn_double_long(void **xpp, size_t nelems, const long *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_DOUBLE == SIZEOF_DOUBLE
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -17503,69 +16349,66 @@ ncx_putn_double_long(void **xpp, size_t nelems, const long *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  double tmp[LOOPCNT];        /* in case input is misaligned */
+  double tmp[LOOPCNT]; /* in case input is misaligned */
   double *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_DOUBLE;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (double *) *xpp;
+      xp = (double *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (double) Max( X_DOUBLE_MIN, Min(X_DOUBLE_MAX, (double) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (double)Max(X_DOUBLE_MIN, Min(X_DOUBLE_MAX, (double)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_DOUBLE_MAX || tp[i] < X_DOUBLE_MIN;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_DOUBLE);
-      xp = (double *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_DOUBLE);
+      xp = (double *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++)
-	{
-		int lstatus = ncx_put_double_long(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++) {
+    int lstatus = ncx_put_double_long(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_double_float(void **xpp, size_t nelems, const float *tp, void *fillp)
-{
+int ncx_putn_double_float(void **xpp, size_t nelems, const float *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_DOUBLE == SIZEOF_DOUBLE
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -17573,69 +16416,66 @@ ncx_putn_double_float(void **xpp, size_t nelems, const float *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  double tmp[LOOPCNT];        /* in case input is misaligned */
+  double tmp[LOOPCNT]; /* in case input is misaligned */
   double *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_DOUBLE;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (double *) *xpp;
+      xp = (double *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (double) Max( X_DOUBLE_MIN, Min(X_DOUBLE_MAX, (double) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (double)Max(X_DOUBLE_MIN, Min(X_DOUBLE_MAX, (double)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_DOUBLE_MAX || tp[i] < X_DOUBLE_MIN;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_DOUBLE);
-      xp = (double *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_DOUBLE);
+      xp = (double *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++)
-	{
-		int lstatus = ncx_put_double_float(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++) {
+    int lstatus = ncx_put_double_float(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_double_longlong(void **xpp, size_t nelems, const longlong *tp, void *fillp)
-{
+int ncx_putn_double_longlong(void **xpp, size_t nelems, const longlong *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_DOUBLE == SIZEOF_DOUBLE
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -17643,69 +16483,66 @@ ncx_putn_double_longlong(void **xpp, size_t nelems, const longlong *tp, void *fi
   *     at next location for converted output
   */
   long i, j, ni;
-  double tmp[LOOPCNT];        /* in case input is misaligned */
+  double tmp[LOOPCNT]; /* in case input is misaligned */
   double *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_DOUBLE;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (double *) *xpp;
+      xp = (double *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (double) Max( X_DOUBLE_MIN, Min(X_DOUBLE_MAX, (double) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (double)Max(X_DOUBLE_MIN, Min(X_DOUBLE_MAX, (double)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_DOUBLE_MAX || tp[i] < X_DOUBLE_MIN;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_DOUBLE);
-      xp = (double *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_DOUBLE);
+      xp = (double *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++)
-	{
-		int lstatus = ncx_put_double_longlong(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++) {
+    int lstatus = ncx_put_double_longlong(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_double_uchar(void **xpp, size_t nelems, const uchar *tp, void *fillp)
-{
+int ncx_putn_double_uchar(void **xpp, size_t nelems, const uchar *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_DOUBLE == SIZEOF_DOUBLE
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -17713,69 +16550,66 @@ ncx_putn_double_uchar(void **xpp, size_t nelems, const uchar *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  double tmp[LOOPCNT];        /* in case input is misaligned */
+  double tmp[LOOPCNT]; /* in case input is misaligned */
   double *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_DOUBLE;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (double *) *xpp;
+      xp = (double *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (double) Max( X_DOUBLE_MIN, Min(X_DOUBLE_MAX, (double) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
-      nrange += tp[i] > X_DOUBLE_MAX ;
+      xp[i] = (double)Max(X_DOUBLE_MIN, Min(X_DOUBLE_MAX, (double)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      nrange += tp[i] > X_DOUBLE_MAX;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_DOUBLE);
-      xp = (double *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_DOUBLE);
+      xp = (double *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++)
-	{
-		int lstatus = ncx_put_double_uchar(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++) {
+    int lstatus = ncx_put_double_uchar(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_double_ushort(void **xpp, size_t nelems, const ushort *tp, void *fillp)
-{
+int ncx_putn_double_ushort(void **xpp, size_t nelems, const ushort *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_DOUBLE == SIZEOF_DOUBLE
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -17783,69 +16617,66 @@ ncx_putn_double_ushort(void **xpp, size_t nelems, const ushort *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  double tmp[LOOPCNT];        /* in case input is misaligned */
+  double tmp[LOOPCNT]; /* in case input is misaligned */
   double *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_DOUBLE;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (double *) *xpp;
+      xp = (double *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (double) Max( X_DOUBLE_MIN, Min(X_DOUBLE_MAX, (double) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
-      nrange += tp[i] > X_DOUBLE_MAX ;
+      xp[i] = (double)Max(X_DOUBLE_MIN, Min(X_DOUBLE_MAX, (double)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      nrange += tp[i] > X_DOUBLE_MAX;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_DOUBLE);
-      xp = (double *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_DOUBLE);
+      xp = (double *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++)
-	{
-		int lstatus = ncx_put_double_ushort(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++) {
+    int lstatus = ncx_put_double_ushort(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_double_uint(void **xpp, size_t nelems, const uint *tp, void *fillp)
-{
+int ncx_putn_double_uint(void **xpp, size_t nelems, const uint *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_DOUBLE == SIZEOF_DOUBLE
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -17853,69 +16684,66 @@ ncx_putn_double_uint(void **xpp, size_t nelems, const uint *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  double tmp[LOOPCNT];        /* in case input is misaligned */
+  double tmp[LOOPCNT]; /* in case input is misaligned */
   double *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_DOUBLE;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (double *) *xpp;
+      xp = (double *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (double) Max( X_DOUBLE_MIN, Min(X_DOUBLE_MAX, (double) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
-      nrange += tp[i] > X_DOUBLE_MAX ;
+      xp[i] = (double)Max(X_DOUBLE_MIN, Min(X_DOUBLE_MAX, (double)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      nrange += tp[i] > X_DOUBLE_MAX;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_DOUBLE);
-      xp = (double *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_DOUBLE);
+      xp = (double *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++)
-	{
-		int lstatus = ncx_put_double_uint(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++) {
+    int lstatus = ncx_put_double_uint(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_double_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, void *fillp)
-{
+int ncx_putn_double_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_DOUBLE == SIZEOF_DOUBLE
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -17923,87 +16751,81 @@ ncx_putn_double_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, void *
   *     at next location for converted output
   */
   long i, j, ni;
-  double tmp[LOOPCNT];        /* in case input is misaligned */
+  double tmp[LOOPCNT]; /* in case input is misaligned */
   double *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_DOUBLE;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (double *) *xpp;
+      xp = (double *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (double) Max( X_DOUBLE_MIN, Min(X_DOUBLE_MAX, (double) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
-      nrange += tp[i] > X_DOUBLE_MAX ;
+      xp[i] = (double)Max(X_DOUBLE_MIN, Min(X_DOUBLE_MAX, (double)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      nrange += tp[i] > X_DOUBLE_MAX;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_DOUBLE);
-      xp = (double *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_DOUBLE);
+      xp = (double *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++)
-	{
-		int lstatus = ncx_put_double_ulonglong(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_DOUBLE, tp++) {
+    int lstatus = ncx_put_double_ulonglong(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
-
 
 
 /* longlong ------------------------------------------------------------------*/
 
 #if X_SIZEOF_INT64 == SIZEOF_LONGLONG
 /* optimized version */
-int
-ncx_getn_longlong_longlong(const void **xpp, size_t nelems, long long *tp)
-{
-#ifdef WORDS_BIGENDIAN
-	(void) memcpy(tp, *xpp, (size_t)nelems * SIZEOF_LONG_LONG);
-# else
-	swapn8b(tp, *xpp, nelems);
-# endif
-	*xpp = (const void *)((const char *)(*xpp) + nelems * X_SIZEOF_INT64);
-	return NC_NOERR;
+int ncx_getn_longlong_longlong(const void **xpp, size_t nelems, long long *tp) {
+#  ifdef WORDS_BIGENDIAN
+  (void)memcpy(tp, *xpp, (size_t)nelems * SIZEOF_LONG_LONG);
+#  else
+  swapn8b(tp, *xpp, nelems);
+#  endif
+  *xpp = (const void *)((const char *)(*xpp) + nelems * X_SIZEOF_INT64);
+  return NC_NOERR;
 }
 #else
-int
-ncx_getn_longlong_longlong(const void **xpp, size_t nelems, longlong *tp)
-{
-#if defined(_SX) && _SX != 0 && X_SIZEOF_INT64 == SIZEOF_INT64
+int ncx_getn_longlong_longlong(const void **xpp, size_t nelems, longlong *tp) {
+#  if defined(_SX) && _SX != 0 && X_SIZEOF_INT64 == SIZEOF_INT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -18011,65 +16833,62 @@ ncx_getn_longlong_longlong(const void **xpp, size_t nelems, longlong *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  int64 tmp[LOOPCNT];        /* in case input is misaligned */
+  int64 tmp[LOOPCNT]; /* in case input is misaligned */
   int64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_INT64));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_INT64));
       xp = tmp;
     } else {
-      xp = (int64 *) *xpp;
+      xp = (int64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (longlong) Max( LONGLONG_MIN, Min(LONGLONG_MAX, (longlong) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#    pragma cdir loopcnt = LOOPCNT
+#    pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (longlong)Max(LONGLONG_MIN, Min(LONGLONG_MAX, (longlong)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > LONGLONG_MAX || xp[i] < LONGLONG_MIN;
     }
-   /* update xpp and tp */
-    if (realign) xp = (int64 *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (int64 *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#  else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++)
-	{
-		const int lstatus = ncx_get_longlong_longlong(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++) {
+    const int lstatus = ncx_get_longlong_longlong(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
-#endif
+  *xpp = (const void *)xp;
+  return status;
+#  endif
 }
 
 #endif
-int
-ncx_getn_longlong_schar(const void **xpp, size_t nelems, schar *tp)
-{
+int ncx_getn_longlong_schar(const void **xpp, size_t nelems, schar *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_INT64 == SIZEOF_INT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -18077,64 +16896,61 @@ ncx_getn_longlong_schar(const void **xpp, size_t nelems, schar *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  int64 tmp[LOOPCNT];        /* in case input is misaligned */
+  int64 tmp[LOOPCNT]; /* in case input is misaligned */
   int64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_INT64));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_INT64));
       xp = tmp;
     } else {
-      xp = (int64 *) *xpp;
+      xp = (int64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (schar) Max( SCHAR_MIN, Min(SCHAR_MAX, (schar) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (schar)Max(SCHAR_MIN, Min(SCHAR_MAX, (schar)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > SCHAR_MAX || xp[i] < SCHAR_MIN;
     }
-   /* update xpp and tp */
-    if (realign) xp = (int64 *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (int64 *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++)
-	{
-		const int lstatus = ncx_get_longlong_schar(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++) {
+    const int lstatus = ncx_get_longlong_schar(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_longlong_short(const void **xpp, size_t nelems, short *tp)
-{
+int ncx_getn_longlong_short(const void **xpp, size_t nelems, short *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_INT64 == SIZEOF_INT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -18142,64 +16958,61 @@ ncx_getn_longlong_short(const void **xpp, size_t nelems, short *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  int64 tmp[LOOPCNT];        /* in case input is misaligned */
+  int64 tmp[LOOPCNT]; /* in case input is misaligned */
   int64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_INT64));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_INT64));
       xp = tmp;
     } else {
-      xp = (int64 *) *xpp;
+      xp = (int64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (short) Max( SHORT_MIN, Min(SHORT_MAX, (short) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (short)Max(SHORT_MIN, Min(SHORT_MAX, (short)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > SHORT_MAX || xp[i] < SHORT_MIN;
     }
-   /* update xpp and tp */
-    if (realign) xp = (int64 *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (int64 *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++)
-	{
-		const int lstatus = ncx_get_longlong_short(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++) {
+    const int lstatus = ncx_get_longlong_short(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_longlong_int(const void **xpp, size_t nelems, int *tp)
-{
+int ncx_getn_longlong_int(const void **xpp, size_t nelems, int *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_INT64 == SIZEOF_INT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -18207,64 +17020,61 @@ ncx_getn_longlong_int(const void **xpp, size_t nelems, int *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  int64 tmp[LOOPCNT];        /* in case input is misaligned */
+  int64 tmp[LOOPCNT]; /* in case input is misaligned */
   int64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_INT64));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_INT64));
       xp = tmp;
     } else {
-      xp = (int64 *) *xpp;
+      xp = (int64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (int) Max( INT_MIN, Min(INT_MAX, (int) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (int)Max(INT_MIN, Min(INT_MAX, (int)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > INT_MAX || xp[i] < INT_MIN;
     }
-   /* update xpp and tp */
-    if (realign) xp = (int64 *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (int64 *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++)
-	{
-		const int lstatus = ncx_get_longlong_int(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++) {
+    const int lstatus = ncx_get_longlong_int(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_longlong_long(const void **xpp, size_t nelems, long *tp)
-{
+int ncx_getn_longlong_long(const void **xpp, size_t nelems, long *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_INT64 == SIZEOF_INT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -18272,64 +17082,61 @@ ncx_getn_longlong_long(const void **xpp, size_t nelems, long *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  int64 tmp[LOOPCNT];        /* in case input is misaligned */
+  int64 tmp[LOOPCNT]; /* in case input is misaligned */
   int64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_INT64));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_INT64));
       xp = tmp;
     } else {
-      xp = (int64 *) *xpp;
+      xp = (int64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (long) Max( LONG_MIN, Min(LONG_MAX, (long) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (long)Max(LONG_MIN, Min(LONG_MAX, (long)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > LONG_MAX || xp[i] < LONG_MIN;
     }
-   /* update xpp and tp */
-    if (realign) xp = (int64 *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (int64 *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++)
-	{
-		const int lstatus = ncx_get_longlong_long(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++) {
+    const int lstatus = ncx_get_longlong_long(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_longlong_float(const void **xpp, size_t nelems, float *tp)
-{
+int ncx_getn_longlong_float(const void **xpp, size_t nelems, float *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_INT64 == SIZEOF_INT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -18337,64 +17144,61 @@ ncx_getn_longlong_float(const void **xpp, size_t nelems, float *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  int64 tmp[LOOPCNT];        /* in case input is misaligned */
+  int64 tmp[LOOPCNT]; /* in case input is misaligned */
   int64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_INT64));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_INT64));
       xp = tmp;
     } else {
-      xp = (int64 *) *xpp;
+      xp = (int64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (float) Max( FLOAT_MIN, Min(FLOAT_MAX, (float) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (float)Max(FLOAT_MIN, Min(FLOAT_MAX, (float)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > FLOAT_MAX || xp[i] < FLOAT_MIN;
     }
-   /* update xpp and tp */
-    if (realign) xp = (int64 *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (int64 *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++)
-	{
-		const int lstatus = ncx_get_longlong_float(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++) {
+    const int lstatus = ncx_get_longlong_float(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_longlong_double(const void **xpp, size_t nelems, double *tp)
-{
+int ncx_getn_longlong_double(const void **xpp, size_t nelems, double *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_INT64 == SIZEOF_INT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -18402,64 +17206,61 @@ ncx_getn_longlong_double(const void **xpp, size_t nelems, double *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  int64 tmp[LOOPCNT];        /* in case input is misaligned */
+  int64 tmp[LOOPCNT]; /* in case input is misaligned */
   int64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_INT64));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_INT64));
       xp = tmp;
     } else {
-      xp = (int64 *) *xpp;
+      xp = (int64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (double) Max( DOUBLE_MIN, Min(DOUBLE_MAX, (double) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (double)Max(DOUBLE_MIN, Min(DOUBLE_MAX, (double)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > DOUBLE_MAX || xp[i] < DOUBLE_MIN;
     }
-   /* update xpp and tp */
-    if (realign) xp = (int64 *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (int64 *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++)
-	{
-		const int lstatus = ncx_get_longlong_double(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++) {
+    const int lstatus = ncx_get_longlong_double(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_longlong_uchar(const void **xpp, size_t nelems, uchar *tp)
-{
+int ncx_getn_longlong_uchar(const void **xpp, size_t nelems, uchar *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_INT64 == SIZEOF_INT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -18467,64 +17268,61 @@ ncx_getn_longlong_uchar(const void **xpp, size_t nelems, uchar *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  int64 tmp[LOOPCNT];        /* in case input is misaligned */
+  int64 tmp[LOOPCNT]; /* in case input is misaligned */
   int64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_INT64));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_INT64));
       xp = tmp;
     } else {
-      xp = (int64 *) *xpp;
+      xp = (int64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (uchar) Max( UCHAR_MIN, Min(UCHAR_MAX, (uchar) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (uchar)Max(UCHAR_MIN, Min(UCHAR_MAX, (uchar)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > UCHAR_MAX || xp[i] < 0;
     }
-   /* update xpp and tp */
-    if (realign) xp = (int64 *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (int64 *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++)
-	{
-		const int lstatus = ncx_get_longlong_uchar(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++) {
+    const int lstatus = ncx_get_longlong_uchar(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_longlong_ushort(const void **xpp, size_t nelems, ushort *tp)
-{
+int ncx_getn_longlong_ushort(const void **xpp, size_t nelems, ushort *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_INT64 == SIZEOF_INT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -18532,64 +17330,61 @@ ncx_getn_longlong_ushort(const void **xpp, size_t nelems, ushort *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  int64 tmp[LOOPCNT];        /* in case input is misaligned */
+  int64 tmp[LOOPCNT]; /* in case input is misaligned */
   int64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_INT64));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_INT64));
       xp = tmp;
     } else {
-      xp = (int64 *) *xpp;
+      xp = (int64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (ushort) Max( USHORT_MIN, Min(USHORT_MAX, (ushort) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (ushort)Max(USHORT_MIN, Min(USHORT_MAX, (ushort)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > USHORT_MAX || xp[i] < 0;
     }
-   /* update xpp and tp */
-    if (realign) xp = (int64 *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (int64 *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++)
-	{
-		const int lstatus = ncx_get_longlong_ushort(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++) {
+    const int lstatus = ncx_get_longlong_ushort(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_longlong_uint(const void **xpp, size_t nelems, uint *tp)
-{
+int ncx_getn_longlong_uint(const void **xpp, size_t nelems, uint *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_INT64 == SIZEOF_INT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -18597,64 +17392,61 @@ ncx_getn_longlong_uint(const void **xpp, size_t nelems, uint *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  int64 tmp[LOOPCNT];        /* in case input is misaligned */
+  int64 tmp[LOOPCNT]; /* in case input is misaligned */
   int64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_INT64));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_INT64));
       xp = tmp;
     } else {
-      xp = (int64 *) *xpp;
+      xp = (int64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (uint) Max( UINT_MIN, Min(UINT_MAX, (uint) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (uint)Max(UINT_MIN, Min(UINT_MAX, (uint)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > UINT_MAX || xp[i] < 0;
     }
-   /* update xpp and tp */
-    if (realign) xp = (int64 *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (int64 *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++)
-	{
-		const int lstatus = ncx_get_longlong_uint(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++) {
+    const int lstatus = ncx_get_longlong_uint(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_longlong_ulonglong(const void **xpp, size_t nelems, ulonglong *tp)
-{
+int ncx_getn_longlong_ulonglong(const void **xpp, size_t nelems, ulonglong *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_INT64 == SIZEOF_INT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -18662,79 +17454,74 @@ ncx_getn_longlong_ulonglong(const void **xpp, size_t nelems, ulonglong *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  int64 tmp[LOOPCNT];        /* in case input is misaligned */
+  int64 tmp[LOOPCNT]; /* in case input is misaligned */
   int64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_INT64));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_INT64));
       xp = tmp;
     } else {
-      xp = (int64 *) *xpp;
+      xp = (int64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (ulonglong) Max( ULONGLONG_MIN, Min(ULONGLONG_MAX, (ulonglong) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (ulonglong)Max(ULONGLONG_MIN, Min(ULONGLONG_MAX, (ulonglong)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
       nrange += xp[i] > ULONGLONG_MAX || xp[i] < 0;
     }
-   /* update xpp and tp */
-    if (realign) xp = (int64 *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (int64 *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++)
-	{
-		const int lstatus = ncx_get_longlong_ulonglong(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++) {
+    const int lstatus = ncx_get_longlong_ulonglong(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
 
 #if X_SIZEOF_INT64 == SIZEOF_LONGLONG
 /* optimized version */
-int
-ncx_putn_longlong_longlong(void **xpp, size_t nelems, const long long *tp, void *fillp)
-{
-#ifdef WORDS_BIGENDIAN
-	(void) memcpy(*xpp, tp, (size_t)nelems * X_SIZEOF_INT64);
-# else
-	swapn8b(*xpp, tp, nelems);
-# endif
-	*xpp = (void *)((char *)(*xpp) + nelems * X_SIZEOF_INT64);
-	return NC_NOERR;
+int ncx_putn_longlong_longlong(void **xpp, size_t nelems, const long long *tp, void *fillp) {
+#  ifdef WORDS_BIGENDIAN
+  (void)memcpy(*xpp, tp, (size_t)nelems * X_SIZEOF_INT64);
+#  else
+  swapn8b(*xpp, tp, nelems);
+#  endif
+  *xpp = (void *)((char *)(*xpp) + nelems * X_SIZEOF_INT64);
+  return NC_NOERR;
 }
 #else
-int
-ncx_putn_longlong_longlong(void **xpp, size_t nelems, const longlong *tp, void *fillp)
-{
-#if defined(_SX) && _SX != 0 && X_SIZEOF_INT64 == SIZEOF_INT64
+int ncx_putn_longlong_longlong(void **xpp, size_t nelems, const longlong *tp, void *fillp) {
+#  if defined(_SX) && _SX != 0 && X_SIZEOF_INT64 == SIZEOF_INT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -18742,70 +17529,67 @@ ncx_putn_longlong_longlong(void **xpp, size_t nelems, const longlong *tp, void *
   *     at next location for converted output
   */
   long i, j, ni;
-  int64 tmp[LOOPCNT];        /* in case input is misaligned */
+  int64 tmp[LOOPCNT]; /* in case input is misaligned */
   int64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (int64 *) *xpp;
+      xp = (int64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#    pragma cdir loopcnt = LOOPCNT
+#    pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (int64) Max( X_INT64_MIN, Min(X_INT64_MAX, (int64) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (int64)Max(X_INT64_MIN, Min(X_INT64_MAX, (int64)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_INT64_MAX || tp[i] < X_INT64_MIN;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_INT64);
-      xp = (int64 *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_INT64);
+      xp = (int64 *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#  else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++)
-	{
-		int lstatus = ncx_put_longlong_longlong(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++) {
+    int lstatus = ncx_put_longlong_longlong(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
-#endif
+  *xpp = (void *)xp;
+  return status;
+#  endif
 }
 
 #endif
-int
-ncx_putn_longlong_schar(void **xpp, size_t nelems, const schar *tp, void *fillp)
-{
+int ncx_putn_longlong_schar(void **xpp, size_t nelems, const schar *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_INT64 == SIZEOF_INT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -18813,69 +17597,66 @@ ncx_putn_longlong_schar(void **xpp, size_t nelems, const schar *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  int64 tmp[LOOPCNT];        /* in case input is misaligned */
+  int64 tmp[LOOPCNT]; /* in case input is misaligned */
   int64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (int64 *) *xpp;
+      xp = (int64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (int64) Max( X_INT64_MIN, Min(X_INT64_MAX, (int64) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (int64)Max(X_INT64_MIN, Min(X_INT64_MAX, (int64)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_INT64_MAX || tp[i] < X_INT64_MIN;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_INT64);
-      xp = (int64 *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_INT64);
+      xp = (int64 *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++)
-	{
-		int lstatus = ncx_put_longlong_schar(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++) {
+    int lstatus = ncx_put_longlong_schar(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_longlong_short(void **xpp, size_t nelems, const short *tp, void *fillp)
-{
+int ncx_putn_longlong_short(void **xpp, size_t nelems, const short *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_INT64 == SIZEOF_INT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -18883,69 +17664,66 @@ ncx_putn_longlong_short(void **xpp, size_t nelems, const short *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  int64 tmp[LOOPCNT];        /* in case input is misaligned */
+  int64 tmp[LOOPCNT]; /* in case input is misaligned */
   int64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (int64 *) *xpp;
+      xp = (int64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (int64) Max( X_INT64_MIN, Min(X_INT64_MAX, (int64) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (int64)Max(X_INT64_MIN, Min(X_INT64_MAX, (int64)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_INT64_MAX || tp[i] < X_INT64_MIN;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_INT64);
-      xp = (int64 *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_INT64);
+      xp = (int64 *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++)
-	{
-		int lstatus = ncx_put_longlong_short(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++) {
+    int lstatus = ncx_put_longlong_short(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_longlong_int(void **xpp, size_t nelems, const int *tp, void *fillp)
-{
+int ncx_putn_longlong_int(void **xpp, size_t nelems, const int *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_INT64 == SIZEOF_INT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -18953,69 +17731,66 @@ ncx_putn_longlong_int(void **xpp, size_t nelems, const int *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  int64 tmp[LOOPCNT];        /* in case input is misaligned */
+  int64 tmp[LOOPCNT]; /* in case input is misaligned */
   int64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (int64 *) *xpp;
+      xp = (int64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (int64) Max( X_INT64_MIN, Min(X_INT64_MAX, (int64) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (int64)Max(X_INT64_MIN, Min(X_INT64_MAX, (int64)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_INT64_MAX || tp[i] < X_INT64_MIN;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_INT64);
-      xp = (int64 *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_INT64);
+      xp = (int64 *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++)
-	{
-		int lstatus = ncx_put_longlong_int(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++) {
+    int lstatus = ncx_put_longlong_int(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_longlong_long(void **xpp, size_t nelems, const long *tp, void *fillp)
-{
+int ncx_putn_longlong_long(void **xpp, size_t nelems, const long *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_INT64 == SIZEOF_INT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -19023,69 +17798,66 @@ ncx_putn_longlong_long(void **xpp, size_t nelems, const long *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  int64 tmp[LOOPCNT];        /* in case input is misaligned */
+  int64 tmp[LOOPCNT]; /* in case input is misaligned */
   int64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (int64 *) *xpp;
+      xp = (int64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (int64) Max( X_INT64_MIN, Min(X_INT64_MAX, (int64) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (int64)Max(X_INT64_MIN, Min(X_INT64_MAX, (int64)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_INT64_MAX || tp[i] < X_INT64_MIN;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_INT64);
-      xp = (int64 *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_INT64);
+      xp = (int64 *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++)
-	{
-		int lstatus = ncx_put_longlong_long(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++) {
+    int lstatus = ncx_put_longlong_long(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_longlong_float(void **xpp, size_t nelems, const float *tp, void *fillp)
-{
+int ncx_putn_longlong_float(void **xpp, size_t nelems, const float *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_INT64 == SIZEOF_INT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -19093,69 +17865,66 @@ ncx_putn_longlong_float(void **xpp, size_t nelems, const float *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  int64 tmp[LOOPCNT];        /* in case input is misaligned */
+  int64 tmp[LOOPCNT]; /* in case input is misaligned */
   int64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (int64 *) *xpp;
+      xp = (int64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (int64) Max( X_INT64_MIN, Min(X_INT64_MAX, (int64) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (int64)Max(X_INT64_MIN, Min(X_INT64_MAX, (int64)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_INT64_MAX || tp[i] < X_INT64_MIN;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_INT64);
-      xp = (int64 *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_INT64);
+      xp = (int64 *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++)
-	{
-		int lstatus = ncx_put_longlong_float(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++) {
+    int lstatus = ncx_put_longlong_float(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_longlong_double(void **xpp, size_t nelems, const double *tp, void *fillp)
-{
+int ncx_putn_longlong_double(void **xpp, size_t nelems, const double *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_INT64 == SIZEOF_INT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -19163,69 +17932,66 @@ ncx_putn_longlong_double(void **xpp, size_t nelems, const double *tp, void *fill
   *     at next location for converted output
   */
   long i, j, ni;
-  int64 tmp[LOOPCNT];        /* in case input is misaligned */
+  int64 tmp[LOOPCNT]; /* in case input is misaligned */
   int64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (int64 *) *xpp;
+      xp = (int64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (int64) Max( X_INT64_MIN, Min(X_INT64_MAX, (int64) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (int64)Max(X_INT64_MIN, Min(X_INT64_MAX, (int64)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_INT64_MAX || tp[i] < X_INT64_MIN;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_INT64);
-      xp = (int64 *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_INT64);
+      xp = (int64 *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++)
-	{
-		int lstatus = ncx_put_longlong_double(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++) {
+    int lstatus = ncx_put_longlong_double(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_longlong_uchar(void **xpp, size_t nelems, const uchar *tp, void *fillp)
-{
+int ncx_putn_longlong_uchar(void **xpp, size_t nelems, const uchar *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_INT64 == SIZEOF_INT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -19233,69 +17999,66 @@ ncx_putn_longlong_uchar(void **xpp, size_t nelems, const uchar *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  int64 tmp[LOOPCNT];        /* in case input is misaligned */
+  int64 tmp[LOOPCNT]; /* in case input is misaligned */
   int64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (int64 *) *xpp;
+      xp = (int64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (int64) Max( X_INT64_MIN, Min(X_INT64_MAX, (int64) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
-      nrange += tp[i] > X_INT64_MAX ;
+      xp[i] = (int64)Max(X_INT64_MIN, Min(X_INT64_MAX, (int64)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      nrange += tp[i] > X_INT64_MAX;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_INT64);
-      xp = (int64 *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_INT64);
+      xp = (int64 *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++)
-	{
-		int lstatus = ncx_put_longlong_uchar(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++) {
+    int lstatus = ncx_put_longlong_uchar(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_longlong_ushort(void **xpp, size_t nelems, const ushort *tp, void *fillp)
-{
+int ncx_putn_longlong_ushort(void **xpp, size_t nelems, const ushort *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_INT64 == SIZEOF_INT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -19303,69 +18066,66 @@ ncx_putn_longlong_ushort(void **xpp, size_t nelems, const ushort *tp, void *fill
   *     at next location for converted output
   */
   long i, j, ni;
-  int64 tmp[LOOPCNT];        /* in case input is misaligned */
+  int64 tmp[LOOPCNT]; /* in case input is misaligned */
   int64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (int64 *) *xpp;
+      xp = (int64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (int64) Max( X_INT64_MIN, Min(X_INT64_MAX, (int64) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
-      nrange += tp[i] > X_INT64_MAX ;
+      xp[i] = (int64)Max(X_INT64_MIN, Min(X_INT64_MAX, (int64)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      nrange += tp[i] > X_INT64_MAX;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_INT64);
-      xp = (int64 *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_INT64);
+      xp = (int64 *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++)
-	{
-		int lstatus = ncx_put_longlong_ushort(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++) {
+    int lstatus = ncx_put_longlong_ushort(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_longlong_uint(void **xpp, size_t nelems, const uint *tp, void *fillp)
-{
+int ncx_putn_longlong_uint(void **xpp, size_t nelems, const uint *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_INT64 == SIZEOF_INT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -19373,69 +18133,66 @@ ncx_putn_longlong_uint(void **xpp, size_t nelems, const uint *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  int64 tmp[LOOPCNT];        /* in case input is misaligned */
+  int64 tmp[LOOPCNT]; /* in case input is misaligned */
   int64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (int64 *) *xpp;
+      xp = (int64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (int64) Max( X_INT64_MIN, Min(X_INT64_MAX, (int64) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
-      nrange += tp[i] > X_INT64_MAX ;
+      xp[i] = (int64)Max(X_INT64_MIN, Min(X_INT64_MAX, (int64)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      nrange += tp[i] > X_INT64_MAX;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_INT64);
-      xp = (int64 *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_INT64);
+      xp = (int64 *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++)
-	{
-		int lstatus = ncx_put_longlong_uint(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++) {
+    int lstatus = ncx_put_longlong_uint(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_longlong_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, void *fillp)
-{
+int ncx_putn_longlong_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_INT64 == SIZEOF_INT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -19443,60 +18200,59 @@ ncx_putn_longlong_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, void
   *     at next location for converted output
   */
   long i, j, ni;
-  int64 tmp[LOOPCNT];        /* in case input is misaligned */
+  int64 tmp[LOOPCNT]; /* in case input is misaligned */
   int64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_INT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (int64 *) *xpp;
+      xp = (int64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (int64) Max( X_INT64_MIN, Min(X_INT64_MAX, (int64) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
-      nrange += tp[i] > X_INT64_MAX ;
+      xp[i] = (int64)Max(X_INT64_MIN, Min(X_INT64_MAX, (int64)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      nrange += tp[i] > X_INT64_MAX;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_INT64);
-      xp = (int64 *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_INT64);
+      xp = (int64 *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++)
-	{
-		int lstatus = ncx_put_longlong_ulonglong(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_INT64, tp++) {
+    int lstatus = ncx_put_longlong_ulonglong(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
@@ -19505,24 +18261,20 @@ ncx_putn_longlong_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, void
 
 #if X_SIZEOF_UINT64 == SIZEOF_ULONGLONG
 /* optimized version */
-int
-ncx_getn_ulonglong_ulonglong(const void **xpp, size_t nelems, unsigned long long *tp)
-{
-#ifdef WORDS_BIGENDIAN
-	(void) memcpy(tp, *xpp, (size_t)nelems * SIZEOF_UNSIGNED_LONG_LONG);
-# else
-	swapn8b(tp, *xpp, nelems);
-# endif
-	*xpp = (const void *)((const char *)(*xpp) + nelems * X_SIZEOF_UINT64);
-	return NC_NOERR;
+int ncx_getn_ulonglong_ulonglong(const void **xpp, size_t nelems, unsigned long long *tp) {
+#  ifdef WORDS_BIGENDIAN
+  (void)memcpy(tp, *xpp, (size_t)nelems * SIZEOF_UNSIGNED_LONG_LONG);
+#  else
+  swapn8b(tp, *xpp, nelems);
+#  endif
+  *xpp = (const void *)((const char *)(*xpp) + nelems * X_SIZEOF_UINT64);
+  return NC_NOERR;
 }
 #else
-int
-ncx_getn_ulonglong_ulonglong(const void **xpp, size_t nelems, ulonglong *tp)
-{
-#if defined(_SX) && _SX != 0 && X_SIZEOF_UINT64 == SIZEOF_UINT64
+int ncx_getn_ulonglong_ulonglong(const void **xpp, size_t nelems, ulonglong *tp) {
+#  if defined(_SX) && _SX != 0 && X_SIZEOF_UINT64 == SIZEOF_UINT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -19530,65 +18282,62 @@ ncx_getn_ulonglong_ulonglong(const void **xpp, size_t nelems, ulonglong *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  uint64 tmp[LOOPCNT];        /* in case input is misaligned */
+  uint64 tmp[LOOPCNT]; /* in case input is misaligned */
   uint64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_UINT64));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_UINT64));
       xp = tmp;
     } else {
-      xp = (uint64 *) *xpp;
+      xp = (uint64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (ulonglong) Max( ULONGLONG_MIN, Min(ULONGLONG_MAX, (ulonglong) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
-      nrange += xp[i] > ULONGLONG_MAX ;
+    /* copy the next block */
+#    pragma cdir loopcnt = LOOPCNT
+#    pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (ulonglong)Max(ULONGLONG_MIN, Min(ULONGLONG_MAX, (ulonglong)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+      nrange += xp[i] > ULONGLONG_MAX;
     }
-   /* update xpp and tp */
-    if (realign) xp = (uint64 *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (uint64 *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#  else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++)
-	{
-		const int lstatus = ncx_get_ulonglong_ulonglong(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++) {
+    const int lstatus = ncx_get_ulonglong_ulonglong(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
-#endif
+  *xpp = (const void *)xp;
+  return status;
+#  endif
 }
 
 #endif
-int
-ncx_getn_ulonglong_schar(const void **xpp, size_t nelems, schar *tp)
-{
+int ncx_getn_ulonglong_schar(const void **xpp, size_t nelems, schar *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_UINT64 == SIZEOF_UINT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -19596,64 +18345,61 @@ ncx_getn_ulonglong_schar(const void **xpp, size_t nelems, schar *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  uint64 tmp[LOOPCNT];        /* in case input is misaligned */
+  uint64 tmp[LOOPCNT]; /* in case input is misaligned */
   uint64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_UINT64));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_UINT64));
       xp = tmp;
     } else {
-      xp = (uint64 *) *xpp;
+      xp = (uint64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (schar) Max( SCHAR_MIN, Min(SCHAR_MAX, (schar) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
-      nrange += xp[i] > SCHAR_MAX ;
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (schar)Max(SCHAR_MIN, Min(SCHAR_MAX, (schar)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+      nrange += xp[i] > SCHAR_MAX;
     }
-   /* update xpp and tp */
-    if (realign) xp = (uint64 *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (uint64 *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++)
-	{
-		const int lstatus = ncx_get_ulonglong_schar(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++) {
+    const int lstatus = ncx_get_ulonglong_schar(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_ulonglong_short(const void **xpp, size_t nelems, short *tp)
-{
+int ncx_getn_ulonglong_short(const void **xpp, size_t nelems, short *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_UINT64 == SIZEOF_UINT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -19661,64 +18407,61 @@ ncx_getn_ulonglong_short(const void **xpp, size_t nelems, short *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  uint64 tmp[LOOPCNT];        /* in case input is misaligned */
+  uint64 tmp[LOOPCNT]; /* in case input is misaligned */
   uint64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_UINT64));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_UINT64));
       xp = tmp;
     } else {
-      xp = (uint64 *) *xpp;
+      xp = (uint64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (short) Max( SHORT_MIN, Min(SHORT_MAX, (short) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
-      nrange += xp[i] > SHORT_MAX ;
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (short)Max(SHORT_MIN, Min(SHORT_MAX, (short)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+      nrange += xp[i] > SHORT_MAX;
     }
-   /* update xpp and tp */
-    if (realign) xp = (uint64 *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (uint64 *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++)
-	{
-		const int lstatus = ncx_get_ulonglong_short(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++) {
+    const int lstatus = ncx_get_ulonglong_short(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_ulonglong_int(const void **xpp, size_t nelems, int *tp)
-{
+int ncx_getn_ulonglong_int(const void **xpp, size_t nelems, int *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_UINT64 == SIZEOF_UINT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -19726,64 +18469,61 @@ ncx_getn_ulonglong_int(const void **xpp, size_t nelems, int *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  uint64 tmp[LOOPCNT];        /* in case input is misaligned */
+  uint64 tmp[LOOPCNT]; /* in case input is misaligned */
   uint64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_UINT64));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_UINT64));
       xp = tmp;
     } else {
-      xp = (uint64 *) *xpp;
+      xp = (uint64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (int) Max( INT_MIN, Min(INT_MAX, (int) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
-      nrange += xp[i] > INT_MAX ;
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (int)Max(INT_MIN, Min(INT_MAX, (int)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+      nrange += xp[i] > INT_MAX;
     }
-   /* update xpp and tp */
-    if (realign) xp = (uint64 *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (uint64 *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++)
-	{
-		const int lstatus = ncx_get_ulonglong_int(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++) {
+    const int lstatus = ncx_get_ulonglong_int(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_ulonglong_long(const void **xpp, size_t nelems, long *tp)
-{
+int ncx_getn_ulonglong_long(const void **xpp, size_t nelems, long *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_UINT64 == SIZEOF_UINT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -19791,64 +18531,61 @@ ncx_getn_ulonglong_long(const void **xpp, size_t nelems, long *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  uint64 tmp[LOOPCNT];        /* in case input is misaligned */
+  uint64 tmp[LOOPCNT]; /* in case input is misaligned */
   uint64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_UINT64));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_UINT64));
       xp = tmp;
     } else {
-      xp = (uint64 *) *xpp;
+      xp = (uint64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (long) Max( LONG_MIN, Min(LONG_MAX, (long) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
-      nrange += xp[i] > LONG_MAX ;
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (long)Max(LONG_MIN, Min(LONG_MAX, (long)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+      nrange += xp[i] > LONG_MAX;
     }
-   /* update xpp and tp */
-    if (realign) xp = (uint64 *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (uint64 *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++)
-	{
-		const int lstatus = ncx_get_ulonglong_long(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++) {
+    const int lstatus = ncx_get_ulonglong_long(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_ulonglong_float(const void **xpp, size_t nelems, float *tp)
-{
+int ncx_getn_ulonglong_float(const void **xpp, size_t nelems, float *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_UINT64 == SIZEOF_UINT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -19856,64 +18593,61 @@ ncx_getn_ulonglong_float(const void **xpp, size_t nelems, float *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  uint64 tmp[LOOPCNT];        /* in case input is misaligned */
+  uint64 tmp[LOOPCNT]; /* in case input is misaligned */
   uint64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_UINT64));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_UINT64));
       xp = tmp;
     } else {
-      xp = (uint64 *) *xpp;
+      xp = (uint64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (float) Max( FLOAT_MIN, Min(FLOAT_MAX, (float) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
-      nrange += xp[i] > FLOAT_MAX ;
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (float)Max(FLOAT_MIN, Min(FLOAT_MAX, (float)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+      nrange += xp[i] > FLOAT_MAX;
     }
-   /* update xpp and tp */
-    if (realign) xp = (uint64 *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (uint64 *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++)
-	{
-		const int lstatus = ncx_get_ulonglong_float(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++) {
+    const int lstatus = ncx_get_ulonglong_float(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_ulonglong_double(const void **xpp, size_t nelems, double *tp)
-{
+int ncx_getn_ulonglong_double(const void **xpp, size_t nelems, double *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_UINT64 == SIZEOF_UINT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -19921,64 +18655,61 @@ ncx_getn_ulonglong_double(const void **xpp, size_t nelems, double *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  uint64 tmp[LOOPCNT];        /* in case input is misaligned */
+  uint64 tmp[LOOPCNT]; /* in case input is misaligned */
   uint64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_UINT64));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_UINT64));
       xp = tmp;
     } else {
-      xp = (uint64 *) *xpp;
+      xp = (uint64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (double) Max( DOUBLE_MIN, Min(DOUBLE_MAX, (double) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
-      nrange += xp[i] > DOUBLE_MAX ;
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (double)Max(DOUBLE_MIN, Min(DOUBLE_MAX, (double)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+      nrange += xp[i] > DOUBLE_MAX;
     }
-   /* update xpp and tp */
-    if (realign) xp = (uint64 *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (uint64 *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++)
-	{
-		const int lstatus = ncx_get_ulonglong_double(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++) {
+    const int lstatus = ncx_get_ulonglong_double(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_ulonglong_longlong(const void **xpp, size_t nelems, longlong *tp)
-{
+int ncx_getn_ulonglong_longlong(const void **xpp, size_t nelems, longlong *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_UINT64 == SIZEOF_UINT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -19986,64 +18717,61 @@ ncx_getn_ulonglong_longlong(const void **xpp, size_t nelems, longlong *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  uint64 tmp[LOOPCNT];        /* in case input is misaligned */
+  uint64 tmp[LOOPCNT]; /* in case input is misaligned */
   uint64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_UINT64));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_UINT64));
       xp = tmp;
     } else {
-      xp = (uint64 *) *xpp;
+      xp = (uint64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (longlong) Max( LONGLONG_MIN, Min(LONGLONG_MAX, (longlong) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
-      nrange += xp[i] > LONGLONG_MAX ;
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (longlong)Max(LONGLONG_MIN, Min(LONGLONG_MAX, (longlong)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+      nrange += xp[i] > LONGLONG_MAX;
     }
-   /* update xpp and tp */
-    if (realign) xp = (uint64 *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (uint64 *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++)
-	{
-		const int lstatus = ncx_get_ulonglong_longlong(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++) {
+    const int lstatus = ncx_get_ulonglong_longlong(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_ulonglong_uchar(const void **xpp, size_t nelems, uchar *tp)
-{
+int ncx_getn_ulonglong_uchar(const void **xpp, size_t nelems, uchar *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_UINT64 == SIZEOF_UINT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -20051,64 +18779,61 @@ ncx_getn_ulonglong_uchar(const void **xpp, size_t nelems, uchar *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  uint64 tmp[LOOPCNT];        /* in case input is misaligned */
+  uint64 tmp[LOOPCNT]; /* in case input is misaligned */
   uint64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_UINT64));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_UINT64));
       xp = tmp;
     } else {
-      xp = (uint64 *) *xpp;
+      xp = (uint64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (uchar) Max( UCHAR_MIN, Min(UCHAR_MAX, (uchar) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
-      nrange += xp[i] > UCHAR_MAX ;
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (uchar)Max(UCHAR_MIN, Min(UCHAR_MAX, (uchar)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+      nrange += xp[i] > UCHAR_MAX;
     }
-   /* update xpp and tp */
-    if (realign) xp = (uint64 *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (uint64 *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++)
-	{
-		const int lstatus = ncx_get_ulonglong_uchar(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++) {
+    const int lstatus = ncx_get_ulonglong_uchar(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_ulonglong_ushort(const void **xpp, size_t nelems, ushort *tp)
-{
+int ncx_getn_ulonglong_ushort(const void **xpp, size_t nelems, ushort *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_UINT64 == SIZEOF_UINT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -20116,64 +18841,61 @@ ncx_getn_ulonglong_ushort(const void **xpp, size_t nelems, ushort *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  uint64 tmp[LOOPCNT];        /* in case input is misaligned */
+  uint64 tmp[LOOPCNT]; /* in case input is misaligned */
   uint64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_UINT64));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_UINT64));
       xp = tmp;
     } else {
-      xp = (uint64 *) *xpp;
+      xp = (uint64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (ushort) Max( USHORT_MIN, Min(USHORT_MAX, (ushort) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
-      nrange += xp[i] > USHORT_MAX ;
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (ushort)Max(USHORT_MIN, Min(USHORT_MAX, (ushort)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+      nrange += xp[i] > USHORT_MAX;
     }
-   /* update xpp and tp */
-    if (realign) xp = (uint64 *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (uint64 *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++)
-	{
-		const int lstatus = ncx_get_ulonglong_ushort(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++) {
+    const int lstatus = ncx_get_ulonglong_ushort(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_getn_ulonglong_uint(const void **xpp, size_t nelems, uint *tp)
-{
+int ncx_getn_ulonglong_uint(const void **xpp, size_t nelems, uint *tp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_UINT64 == SIZEOF_UINT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of input data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -20181,79 +18903,74 @@ ncx_getn_ulonglong_uint(const void **xpp, size_t nelems, uint *tp)
   *     at next location for converted output
   */
   long i, j, ni;
-  uint64 tmp[LOOPCNT];        /* in case input is misaligned */
+  uint64 tmp[LOOPCNT]; /* in case input is misaligned */
   uint64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
-      memcpy(tmp, *xpp, (size_t)(ni*SIZEOF_UINT64));
+      memcpy(tmp, *xpp, (size_t)(ni * SIZEOF_UINT64));
       xp = tmp;
     } else {
-      xp = (uint64 *) *xpp;
+      xp = (uint64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
-      tp[i] = (uint) Max( UINT_MIN, Min(UINT_MAX, (uint) xp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned, we need not check if xp[i] < _MIN */
-     /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
-      nrange += xp[i] > UINT_MAX ;
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
+      tp[i] = (uint)Max(UINT_MIN, Min(UINT_MAX, (uint)xp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned, we need not check if xp[i] < _MIN */
+      /* if xpp is signed && tp is unsigned, we need check if xp[i] >= 0 */
+      nrange += xp[i] > UINT_MAX;
     }
-   /* update xpp and tp */
-    if (realign) xp = (uint64 *) *xpp;
+    /* update xpp and tp */
+    if (realign) xp = (uint64 *)*xpp;
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
-	const char *xp = (const char *) *xpp;
-	int status = NC_NOERR;
+#else /* not SX */
+  const char *xp = (const char *)*xpp;
+  int status     = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++)
-	{
-		const int lstatus = ncx_get_ulonglong_uint(xp, tp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++) {
+    const int lstatus = ncx_get_ulonglong_uint(xp, tp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (const void *)xp;
-	return status;
+  *xpp = (const void *)xp;
+  return status;
 #endif
 }
 
 
 #if X_SIZEOF_UINT64 == SIZEOF_ULONGLONG
 /* optimized version */
-int
-ncx_putn_ulonglong_ulonglong(void **xpp, size_t nelems, const unsigned long long *tp, void *fillp)
-{
-#ifdef WORDS_BIGENDIAN
-	(void) memcpy(*xpp, tp, (size_t)nelems * X_SIZEOF_UINT64);
-# else
-	swapn8b(*xpp, tp, nelems);
-# endif
-	*xpp = (void *)((char *)(*xpp) + nelems * X_SIZEOF_UINT64);
-	return NC_NOERR;
+int ncx_putn_ulonglong_ulonglong(void **xpp, size_t nelems, const unsigned long long *tp, void *fillp) {
+#  ifdef WORDS_BIGENDIAN
+  (void)memcpy(*xpp, tp, (size_t)nelems * X_SIZEOF_UINT64);
+#  else
+  swapn8b(*xpp, tp, nelems);
+#  endif
+  *xpp = (void *)((char *)(*xpp) + nelems * X_SIZEOF_UINT64);
+  return NC_NOERR;
 }
 #else
-int
-ncx_putn_ulonglong_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, void *fillp)
-{
-#if defined(_SX) && _SX != 0 && X_SIZEOF_UINT64 == SIZEOF_UINT64
+int ncx_putn_ulonglong_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, void *fillp) {
+#  if defined(_SX) && _SX != 0 && X_SIZEOF_UINT64 == SIZEOF_UINT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -20261,70 +18978,67 @@ ncx_putn_ulonglong_ulonglong(void **xpp, size_t nelems, const ulonglong *tp, voi
   *     at next location for converted output
   */
   long i, j, ni;
-  uint64 tmp[LOOPCNT];        /* in case input is misaligned */
+  uint64 tmp[LOOPCNT]; /* in case input is misaligned */
   uint64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (uint64 *) *xpp;
+      xp = (uint64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#    pragma cdir loopcnt = LOOPCNT
+#    pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (uint64) Max( X_UINT64_MIN, Min(X_UINT64_MAX, (uint64) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
-      nrange += tp[i] > X_UINT64_MAX ;
+      xp[i] = (uint64)Max(X_UINT64_MIN, Min(X_UINT64_MAX, (uint64)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      nrange += tp[i] > X_UINT64_MAX;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_UINT64);
-      xp = (uint64 *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_UINT64);
+      xp = (uint64 *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#  else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++)
-	{
-		int lstatus = ncx_put_ulonglong_ulonglong(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++) {
+    int lstatus = ncx_put_ulonglong_ulonglong(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
-#endif
+  *xpp = (void *)xp;
+  return status;
+#  endif
 }
 
 #endif
-int
-ncx_putn_ulonglong_schar(void **xpp, size_t nelems, const schar *tp, void *fillp)
-{
+int ncx_putn_ulonglong_schar(void **xpp, size_t nelems, const schar *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_UINT64 == SIZEOF_UINT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -20332,69 +19046,66 @@ ncx_putn_ulonglong_schar(void **xpp, size_t nelems, const schar *tp, void *fillp
   *     at next location for converted output
   */
   long i, j, ni;
-  uint64 tmp[LOOPCNT];        /* in case input is misaligned */
+  uint64 tmp[LOOPCNT]; /* in case input is misaligned */
   uint64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (uint64 *) *xpp;
+      xp = (uint64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (uint64) Max( X_UINT64_MIN, Min(X_UINT64_MAX, (uint64) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (uint64)Max(X_UINT64_MIN, Min(X_UINT64_MAX, (uint64)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_UINT64_MAX || tp[i] < 0;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_UINT64);
-      xp = (uint64 *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_UINT64);
+      xp = (uint64 *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++)
-	{
-		int lstatus = ncx_put_ulonglong_schar(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++) {
+    int lstatus = ncx_put_ulonglong_schar(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_ulonglong_short(void **xpp, size_t nelems, const short *tp, void *fillp)
-{
+int ncx_putn_ulonglong_short(void **xpp, size_t nelems, const short *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_UINT64 == SIZEOF_UINT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -20402,69 +19113,66 @@ ncx_putn_ulonglong_short(void **xpp, size_t nelems, const short *tp, void *fillp
   *     at next location for converted output
   */
   long i, j, ni;
-  uint64 tmp[LOOPCNT];        /* in case input is misaligned */
+  uint64 tmp[LOOPCNT]; /* in case input is misaligned */
   uint64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (uint64 *) *xpp;
+      xp = (uint64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (uint64) Max( X_UINT64_MIN, Min(X_UINT64_MAX, (uint64) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (uint64)Max(X_UINT64_MIN, Min(X_UINT64_MAX, (uint64)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_UINT64_MAX || tp[i] < 0;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_UINT64);
-      xp = (uint64 *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_UINT64);
+      xp = (uint64 *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++)
-	{
-		int lstatus = ncx_put_ulonglong_short(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++) {
+    int lstatus = ncx_put_ulonglong_short(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_ulonglong_int(void **xpp, size_t nelems, const int *tp, void *fillp)
-{
+int ncx_putn_ulonglong_int(void **xpp, size_t nelems, const int *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_UINT64 == SIZEOF_UINT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -20472,69 +19180,66 @@ ncx_putn_ulonglong_int(void **xpp, size_t nelems, const int *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  uint64 tmp[LOOPCNT];        /* in case input is misaligned */
+  uint64 tmp[LOOPCNT]; /* in case input is misaligned */
   uint64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (uint64 *) *xpp;
+      xp = (uint64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (uint64) Max( X_UINT64_MIN, Min(X_UINT64_MAX, (uint64) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (uint64)Max(X_UINT64_MIN, Min(X_UINT64_MAX, (uint64)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_UINT64_MAX || tp[i] < 0;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_UINT64);
-      xp = (uint64 *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_UINT64);
+      xp = (uint64 *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++)
-	{
-		int lstatus = ncx_put_ulonglong_int(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++) {
+    int lstatus = ncx_put_ulonglong_int(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_ulonglong_long(void **xpp, size_t nelems, const long *tp, void *fillp)
-{
+int ncx_putn_ulonglong_long(void **xpp, size_t nelems, const long *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_UINT64 == SIZEOF_UINT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -20542,69 +19247,66 @@ ncx_putn_ulonglong_long(void **xpp, size_t nelems, const long *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  uint64 tmp[LOOPCNT];        /* in case input is misaligned */
+  uint64 tmp[LOOPCNT]; /* in case input is misaligned */
   uint64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (uint64 *) *xpp;
+      xp = (uint64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (uint64) Max( X_UINT64_MIN, Min(X_UINT64_MAX, (uint64) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (uint64)Max(X_UINT64_MIN, Min(X_UINT64_MAX, (uint64)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_UINT64_MAX || tp[i] < 0;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_UINT64);
-      xp = (uint64 *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_UINT64);
+      xp = (uint64 *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++)
-	{
-		int lstatus = ncx_put_ulonglong_long(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++) {
+    int lstatus = ncx_put_ulonglong_long(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_ulonglong_float(void **xpp, size_t nelems, const float *tp, void *fillp)
-{
+int ncx_putn_ulonglong_float(void **xpp, size_t nelems, const float *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_UINT64 == SIZEOF_UINT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -20612,69 +19314,66 @@ ncx_putn_ulonglong_float(void **xpp, size_t nelems, const float *tp, void *fillp
   *     at next location for converted output
   */
   long i, j, ni;
-  uint64 tmp[LOOPCNT];        /* in case input is misaligned */
+  uint64 tmp[LOOPCNT]; /* in case input is misaligned */
   uint64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (uint64 *) *xpp;
+      xp = (uint64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (uint64) Max( X_UINT64_MIN, Min(X_UINT64_MAX, (uint64) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (uint64)Max(X_UINT64_MIN, Min(X_UINT64_MAX, (uint64)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_UINT64_MAX || tp[i] < 0;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_UINT64);
-      xp = (uint64 *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_UINT64);
+      xp = (uint64 *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++)
-	{
-		int lstatus = ncx_put_ulonglong_float(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++) {
+    int lstatus = ncx_put_ulonglong_float(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_ulonglong_double(void **xpp, size_t nelems, const double *tp, void *fillp)
-{
+int ncx_putn_ulonglong_double(void **xpp, size_t nelems, const double *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_UINT64 == SIZEOF_UINT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -20682,69 +19381,66 @@ ncx_putn_ulonglong_double(void **xpp, size_t nelems, const double *tp, void *fil
   *     at next location for converted output
   */
   long i, j, ni;
-  uint64 tmp[LOOPCNT];        /* in case input is misaligned */
+  uint64 tmp[LOOPCNT]; /* in case input is misaligned */
   uint64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (uint64 *) *xpp;
+      xp = (uint64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (uint64) Max( X_UINT64_MIN, Min(X_UINT64_MAX, (uint64) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (uint64)Max(X_UINT64_MIN, Min(X_UINT64_MAX, (uint64)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_UINT64_MAX || tp[i] < 0;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_UINT64);
-      xp = (uint64 *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_UINT64);
+      xp = (uint64 *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++)
-	{
-		int lstatus = ncx_put_ulonglong_double(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++) {
+    int lstatus = ncx_put_ulonglong_double(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_ulonglong_longlong(void **xpp, size_t nelems, const longlong *tp, void *fillp)
-{
+int ncx_putn_ulonglong_longlong(void **xpp, size_t nelems, const longlong *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_UINT64 == SIZEOF_UINT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -20752,69 +19448,66 @@ ncx_putn_ulonglong_longlong(void **xpp, size_t nelems, const longlong *tp, void 
   *     at next location for converted output
   */
   long i, j, ni;
-  uint64 tmp[LOOPCNT];        /* in case input is misaligned */
+  uint64 tmp[LOOPCNT]; /* in case input is misaligned */
   uint64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (uint64 *) *xpp;
+      xp = (uint64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (uint64) Max( X_UINT64_MIN, Min(X_UINT64_MAX, (uint64) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      xp[i] = (uint64)Max(X_UINT64_MIN, Min(X_UINT64_MAX, (uint64)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
       nrange += tp[i] > X_UINT64_MAX || tp[i] < 0;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_UINT64);
-      xp = (uint64 *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_UINT64);
+      xp = (uint64 *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++)
-	{
-		int lstatus = ncx_put_ulonglong_longlong(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++) {
+    int lstatus = ncx_put_ulonglong_longlong(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_ulonglong_uchar(void **xpp, size_t nelems, const uchar *tp, void *fillp)
-{
+int ncx_putn_ulonglong_uchar(void **xpp, size_t nelems, const uchar *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_UINT64 == SIZEOF_UINT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -20822,69 +19515,66 @@ ncx_putn_ulonglong_uchar(void **xpp, size_t nelems, const uchar *tp, void *fillp
   *     at next location for converted output
   */
   long i, j, ni;
-  uint64 tmp[LOOPCNT];        /* in case input is misaligned */
+  uint64 tmp[LOOPCNT]; /* in case input is misaligned */
   uint64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (uint64 *) *xpp;
+      xp = (uint64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (uint64) Max( X_UINT64_MIN, Min(X_UINT64_MAX, (uint64) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
-      nrange += tp[i] > X_UINT64_MAX ;
+      xp[i] = (uint64)Max(X_UINT64_MIN, Min(X_UINT64_MAX, (uint64)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      nrange += tp[i] > X_UINT64_MAX;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_UINT64);
-      xp = (uint64 *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_UINT64);
+      xp = (uint64 *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++)
-	{
-		int lstatus = ncx_put_ulonglong_uchar(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++) {
+    int lstatus = ncx_put_ulonglong_uchar(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_ulonglong_ushort(void **xpp, size_t nelems, const ushort *tp, void *fillp)
-{
+int ncx_putn_ulonglong_ushort(void **xpp, size_t nelems, const ushort *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_UINT64 == SIZEOF_UINT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -20892,69 +19582,66 @@ ncx_putn_ulonglong_ushort(void **xpp, size_t nelems, const ushort *tp, void *fil
   *     at next location for converted output
   */
   long i, j, ni;
-  uint64 tmp[LOOPCNT];        /* in case input is misaligned */
+  uint64 tmp[LOOPCNT]; /* in case input is misaligned */
   uint64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (uint64 *) *xpp;
+      xp = (uint64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (uint64) Max( X_UINT64_MIN, Min(X_UINT64_MAX, (uint64) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
-      nrange += tp[i] > X_UINT64_MAX ;
+      xp[i] = (uint64)Max(X_UINT64_MIN, Min(X_UINT64_MAX, (uint64)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      nrange += tp[i] > X_UINT64_MAX;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_UINT64);
-      xp = (uint64 *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_UINT64);
+      xp = (uint64 *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++)
-	{
-		int lstatus = ncx_put_ulonglong_ushort(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++) {
+    int lstatus = ncx_put_ulonglong_ushort(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
 
-int
-ncx_putn_ulonglong_uint(void **xpp, size_t nelems, const uint *tp, void *fillp)
-{
+int ncx_putn_ulonglong_uint(void **xpp, size_t nelems, const uint *tp, void *fillp) {
 #if defined(_SX) && _SX != 0 && X_SIZEOF_UINT64 == SIZEOF_UINT64
 
- /* basic algorithm is:
+  /* basic algorithm is:
   *   - ensure sane alignment of output data
   *   - copy (conversion happens automatically) input data
   *     to output
@@ -20962,63 +19649,61 @@ ncx_putn_ulonglong_uint(void **xpp, size_t nelems, const uint *tp, void *fillp)
   *     at next location for converted output
   */
   long i, j, ni;
-  uint64 tmp[LOOPCNT];        /* in case input is misaligned */
+  uint64 tmp[LOOPCNT]; /* in case input is misaligned */
   uint64 *xp;
-  int nrange = 0;         /* number of range errors */
-  int realign = 0;        /* "do we need to fix input data alignment?" */
-  long cxp = (long) *((char**)xpp);
+  int nrange  = 0; /* number of range errors */
+  int realign = 0; /* "do we need to fix input data alignment?" */
+  long cxp    = (long)*((char **)xpp);
 
   realign = (cxp & 7) % SIZEOF_UINT64;
   /* sjl: manually stripmine so we can limit amount of
    * vector work space reserved to LOOPCNT elements. Also
    * makes vectorisation easy */
-  for (j=0; j<nelems && nrange==0; j+=LOOPCNT) {
-    ni=Min(nelems-j,LOOPCNT);
+  for (j = 0; j < nelems && nrange == 0; j += LOOPCNT) {
+    ni = Min(nelems - j, LOOPCNT);
     if (realign) {
       xp = tmp;
     } else {
-      xp = (uint64 *) *xpp;
+      xp = (uint64 *)*xpp;
     }
-   /* copy the next block */
-#pragma cdir loopcnt=LOOPCNT
-#pragma cdir shortloop
-    for (i=0; i<ni; i++) {
+    /* copy the next block */
+#  pragma cdir loopcnt = LOOPCNT
+#  pragma cdir shortloop
+    for (i = 0; i < ni; i++) {
       /* the normal case: */
-      xp[i] = (uint64) Max( X_UINT64_MIN, Min(X_UINT64_MAX, (uint64) tp[i]));
-     /* test for range errors (not always needed but do it anyway) */
-     /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
-     /* if tp is unsigned, we need not check if tp[i] < X__MIN */
-      nrange += tp[i] > X_UINT64_MAX ;
+      xp[i] = (uint64)Max(X_UINT64_MIN, Min(X_UINT64_MAX, (uint64)tp[i]));
+      /* test for range errors (not always needed but do it anyway) */
+      /* if xpp is unsigned && tp is signed, we need check if tp[i] >= 0 */
+      /* if tp is unsigned, we need not check if tp[i] < X__MIN */
+      nrange += tp[i] > X_UINT64_MAX;
     }
-   /* copy workspace back if necessary */
+    /* copy workspace back if necessary */
     if (realign) {
-      memcpy(*xpp, tmp, (size_t)*ni*X_SIZEOF_UINT64);
-      xp = (uint64 *) *xpp;
+      memcpy(*xpp, tmp, (size_t)*ni * X_SIZEOF_UINT64);
+      xp = (uint64 *)*xpp;
     }
-   /* update xpp and tp */
+    /* update xpp and tp */
     xp += ni;
     tp += ni;
-    *xpp = (void*)xp;
+    *xpp = (void *)xp;
   }
   return nrange == 0 ? NC_NOERR : NC_ERANGE;
 
-#else   /* not SX */
+#else /* not SX */
 
-	char *xp = (char *) *xpp;
-	int status = NC_NOERR;
+  char *xp   = (char *)*xpp;
+  int status = NC_NOERR;
 
-	for( ; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++)
-	{
-		int lstatus = ncx_put_ulonglong_uint(xp, tp, fillp);
-		if (status == NC_NOERR) /* report the first encountered error */
-			status = lstatus;
-	}
+  for (; nelems != 0; nelems--, xp += X_SIZEOF_UINT64, tp++) {
+    int lstatus = ncx_put_ulonglong_uint(xp, tp, fillp);
+    if (status == NC_NOERR) /* report the first encountered error */
+      status = lstatus;
+  }
 
-	*xpp = (void *)xp;
-	return status;
+  *xpp = (void *)xp;
+  return status;
 #endif
 }
-
 
 
 /*
@@ -21027,115 +19712,89 @@ ncx_putn_ulonglong_uint(void **xpp, size_t nelems, const uint *tp, void *fillp)
 
 /* text */
 
-int
-ncx_getn_text(const void **xpp, size_t nelems, char *tp)
-{
-	(void) memcpy(tp, *xpp, (size_t)nelems);
-	*xpp = (void *)((char *)(*xpp) + nelems);
-	return NC_NOERR;
-
+int ncx_getn_text(const void **xpp, size_t nelems, char *tp) {
+  (void)memcpy(tp, *xpp, (size_t)nelems);
+  *xpp = (void *)((char *)(*xpp) + nelems);
+  return NC_NOERR;
 }
 
-int
-ncx_pad_getn_text(const void **xpp, size_t nelems, char *tp)
-{
-	size_t rndup = nelems % X_ALIGN;
+int ncx_pad_getn_text(const void **xpp, size_t nelems, char *tp) {
+  size_t rndup = nelems % X_ALIGN;
 
-	if (rndup)
-		rndup = X_ALIGN - rndup;
+  if (rndup)
+    rndup = X_ALIGN - rndup;
 
-	(void) memcpy(tp, *xpp, (size_t)nelems);
-	*xpp = (void *)((char *)(*xpp) + nelems + rndup);
+  (void)memcpy(tp, *xpp, (size_t)nelems);
+  *xpp = (void *)((char *)(*xpp) + nelems + rndup);
 
-	return NC_NOERR;
-
+  return NC_NOERR;
 }
 
-int
-ncx_putn_text(void **xpp, size_t nelems, const char *tp)
-{
-	(void) memcpy(*xpp, tp, (size_t)nelems);
-	*xpp = (void *)((char *)(*xpp) + nelems);
+int ncx_putn_text(void **xpp, size_t nelems, const char *tp) {
+  (void)memcpy(*xpp, tp, (size_t)nelems);
+  *xpp = (void *)((char *)(*xpp) + nelems);
 
-	return NC_NOERR;
-
+  return NC_NOERR;
 }
 
-int
-ncx_pad_putn_text(void **xpp, size_t nelems, const char *tp)
-{
-	size_t rndup = nelems % X_ALIGN;
+int ncx_pad_putn_text(void **xpp, size_t nelems, const char *tp) {
+  size_t rndup = nelems % X_ALIGN;
 
-	if (rndup)
-		rndup = X_ALIGN - rndup;
+  if (rndup)
+    rndup = X_ALIGN - rndup;
 
-	(void) memcpy(*xpp, tp, (size_t)nelems);
-	*xpp = (void *)((char *)(*xpp) + nelems);
+  (void)memcpy(*xpp, tp, (size_t)nelems);
+  *xpp = (void *)((char *)(*xpp) + nelems);
 
-	if (rndup)
-	{
-		(void) memcpy(*xpp, nada, (size_t)rndup);
-		*xpp = (void *)((char *)(*xpp) + rndup);
-	}
+  if (rndup) {
+    (void)memcpy(*xpp, nada, (size_t)rndup);
+    *xpp = (void *)((char *)(*xpp) + rndup);
+  }
 
-	return NC_NOERR;
-
+  return NC_NOERR;
 }
 
 
 /* opaque */
 
-int
-ncx_getn_void(const void **xpp, size_t nelems, void *tp)
-{
-	(void) memcpy(tp, *xpp, (size_t)nelems);
-	*xpp = (void *)((char *)(*xpp) + nelems);
-	return NC_NOERR;
-
+int ncx_getn_void(const void **xpp, size_t nelems, void *tp) {
+  (void)memcpy(tp, *xpp, (size_t)nelems);
+  *xpp = (void *)((char *)(*xpp) + nelems);
+  return NC_NOERR;
 }
 
-int
-ncx_pad_getn_void(const void **xpp, size_t nelems, void *tp)
-{
-	size_t rndup = nelems % X_ALIGN;
+int ncx_pad_getn_void(const void **xpp, size_t nelems, void *tp) {
+  size_t rndup = nelems % X_ALIGN;
 
-	if (rndup)
-		rndup = X_ALIGN - rndup;
+  if (rndup)
+    rndup = X_ALIGN - rndup;
 
-	(void) memcpy(tp, *xpp, (size_t)nelems);
-	*xpp = (void *)((char *)(*xpp) + nelems + rndup);
+  (void)memcpy(tp, *xpp, (size_t)nelems);
+  *xpp = (void *)((char *)(*xpp) + nelems + rndup);
 
-	return NC_NOERR;
-
+  return NC_NOERR;
 }
 
-int
-ncx_putn_void(void **xpp, size_t nelems, const void *tp)
-{
-	(void) memcpy(*xpp, tp, (size_t)nelems);
-	*xpp = (void *)((char *)(*xpp) + nelems);
+int ncx_putn_void(void **xpp, size_t nelems, const void *tp) {
+  (void)memcpy(*xpp, tp, (size_t)nelems);
+  *xpp = (void *)((char *)(*xpp) + nelems);
 
-	return NC_NOERR;
-
+  return NC_NOERR;
 }
 
-int
-ncx_pad_putn_void(void **xpp, size_t nelems, const void *tp)
-{
-	size_t rndup = nelems % X_ALIGN;
+int ncx_pad_putn_void(void **xpp, size_t nelems, const void *tp) {
+  size_t rndup = nelems % X_ALIGN;
 
-	if (rndup)
-		rndup = X_ALIGN - rndup;
+  if (rndup)
+    rndup = X_ALIGN - rndup;
 
-	(void) memcpy(*xpp, tp, (size_t)nelems);
-	*xpp = (void *)((char *)(*xpp) + nelems);
+  (void)memcpy(*xpp, tp, (size_t)nelems);
+  *xpp = (void *)((char *)(*xpp) + nelems);
 
-	if (rndup)
-	{
-		(void) memcpy(*xpp, nada, (size_t)rndup);
-		*xpp = (void *)((char *)(*xpp) + rndup);
-	}
+  if (rndup) {
+    (void)memcpy(*xpp, nada, (size_t)rndup);
+    *xpp = (void *)((char *)(*xpp) + rndup);
+  }
 
-	return NC_NOERR;
-
+  return NC_NOERR;
 }

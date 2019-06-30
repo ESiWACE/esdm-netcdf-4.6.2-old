@@ -10,7 +10,7 @@ if [[ ! -d netcdf-bench ]] ; then
   git clone https://github.com/joobog/netcdf-bench.git
 fi
 
-NETCDF_DIR="$PWD/../../install"
+NETCDF_DIR="$HOME/esiwace/esdm/install"
 
 if [[ ! -d build ]] ; then
   mkdir build

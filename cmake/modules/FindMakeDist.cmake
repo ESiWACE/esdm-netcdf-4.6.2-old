@@ -89,7 +89,7 @@
 #     existence of required files and a proper VERSION format))
 #   * it is somehow ugly, to see hundreds of 'Built target .distdir'
 #     messages
-#   * is is ugly that all sources must be specified for enable_makedist();
+#   * is ugly that all sources must be specified for enable_makedist();
 #     there should be added support to 'cmake' to enumerate targets and
 #     their sources
 

@@ -16,4 +16,3 @@ extern void get_timeinfo(int ncid, int varid, ncvar_t *vp);
 extern void print_att_times(int ncid, int varid, const ncatt_t *att);
 
 #endif /* _NCTIME0_H */
-
