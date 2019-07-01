@@ -46,7 +46,7 @@ typedef struct{
 typedef struct{
   int ncid;
   int idp;
-  esdm_container * c;
+  esdm_container_t * c;
 
   // Some attributes provide information about the dataset as a whole and are called
   // global attributes. These are identified by the attribute name together with a blank
@@ -59,7 +59,7 @@ typedef struct{
   nc_esdm_md_t md;
 } nc_esdm_t;
 
-static esdm_datatype_t type_nc_to_esdm(nc_type type){
+static esdm_type_t type_nc_to_esdm(nc_type type){
   switch(type){
     case(NC_NAT): return SMD_DTYPE_UNKNOWN;
     case(NC_BYTE): return SMD_DTYPE_INT8;
@@ -80,7 +80,7 @@ static esdm_datatype_t type_nc_to_esdm(nc_type type){
   }
 }
 
-static nc_type type_esdm_to_nc(esdm_datatype_t type){
+static nc_type type_esdm_to_nc(esdm_type_t type){
   switch(type->type){
     case(SMD_TYPE_UNKNOWN): return NC_NAT;
     case(SMD_TYPE_INT8): return NC_BYTE;
@@ -124,6 +124,7 @@ int insert_md(metadata_t * md, const char * name, void * value){
 
 int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_t *chunksizehintp, void* parameters, struct NC_Dispatch* table, NC* ncp){
   const char * realpath = path;
+	esdm_status ret;
 
   if(strncmp(path, "esdm:", 5) == 0){
     realpath = & path[5];
@@ -142,7 +143,8 @@ int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_
   e->md.vars = smd_attr_new("vars", SMD_DTYPE_EMPTY, NULL, 0);
   e->md.attrs = smd_attr_new("attr", SMD_DTYPE_EMPTY, NULL, 0);
 
-  e->c = esdm_container_create(realpath);
+	ret = esdm_container_create(realpath, & e->c);
+	assert(ret == ESDM_SUCCESS);
   ncp->dispatchdata = e;
 
   return NC_NOERR;
@@ -332,7 +334,7 @@ int ESDM_del_att(int ncid, int varid, const char *name){
 }
 
 int ESDM_get_att(int ncid, int varid, const char* name, void* value, nc_type t){
-  esdm_datatype_t etype = type_nc_to_esdm(t);
+  esdm_type_t etype = type_nc_to_esdm(t);
   if(etype == NULL) {
     return NC_EINVAL;
   }
@@ -365,7 +367,7 @@ int ESDM_get_att(int ncid, int varid, const char* name, void* value, nc_type t){
 int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype,
 	   size_t len, const void *value, nc_type type){
   assert(type == datatype);
-  esdm_datatype_t etype = type_nc_to_esdm(datatype);
+  esdm_type_t etype = type_nc_to_esdm(datatype);
   if(etype == NULL) {
     return NC_EINVAL;
   }
@@ -432,12 +434,14 @@ int ESDM_def_var(int ncid, const char *name, nc_type xtype,
     bounds[i] = val;
   }
 
-  esdm_datatype_t typ = type_nc_to_esdm(xtype);
+  esdm_type_t typ = type_nc_to_esdm(xtype);
   if(typ == SMD_DTYPE_UNKNOWN){
     return NC_EBADTYPE;
   }
-  esdm_dataspace_t * dataspace = esdm_dataspace_create(ndims, bounds, typ);
-  esdm_dataset_t * dataset = esdm_dataset_create(e->c, name, dataspace);
+  esdm_dataspace_t * dataspace;
+	ret = esdm_dataspace_create(ndims, bounds, typ, &dataspace);
+  esdm_dataset_t * dataset;
+	esdm_dataset_create(e->c, name, dataspace, &dataset);
   if(dataset == NULL){
     return NC_EBADID;
   }
@@ -506,7 +510,8 @@ int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *count
       size[i] = countp[i];
       offset[i] = startp[i];
     }
-    esdm_dataspace_t * subspace = esdm_dataspace_subspace(space, kv->ndims, size, offset);
+    esdm_dataspace_t * subspace;
+		ret = esdm_dataspace_subspace(space, kv->ndims, size, offset, & subspace);
     ret = esdm_write(kv->dset, data, subspace);
     if(ret != ESDM_SUCCESS){
       esdm_dataspace_destroy(subspace);
