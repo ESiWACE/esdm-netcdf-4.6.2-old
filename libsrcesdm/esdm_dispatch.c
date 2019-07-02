@@ -46,7 +46,7 @@ typedef struct{
 typedef struct{
   int ncid;
   int idp;
-  esdm_container_t * c;
+  esdm_container_t *c;
 
   // Some attributes provide information about the dataset as a whole and are called
   // global attributes. These are identified by the attribute name together with a blank
@@ -58,6 +58,10 @@ typedef struct{
 
   nc_esdm_md_t md;
 } nc_esdm_t;
+
+// this is a temporary hack
+static nc_esdm_t * last_file_md = NULL;
+
 
 static esdm_type_t type_nc_to_esdm(nc_type type){
   switch(type){
@@ -124,7 +128,6 @@ int insert_md(metadata_t * md, const char * name, void * value){
 
 int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_t *chunksizehintp, void* parameters, struct NC_Dispatch* table, NC* ncp){
   const char * realpath = path;
-	esdm_status ret;
 
   if(strncmp(path, "esdm:", 5) == 0){
     realpath = & path[5];
@@ -143,9 +146,10 @@ int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_
   e->md.vars = smd_attr_new("vars", SMD_DTYPE_EMPTY, NULL, 0);
   e->md.attrs = smd_attr_new("attr", SMD_DTYPE_EMPTY, NULL, 0);
 
-	ret = esdm_container_create(realpath, & e->c);
-	assert(ret == ESDM_SUCCESS);
+  esdm_container_create(realpath, & e->c);
   ncp->dispatchdata = e;
+
+  last_file_md = e;
 
   return NC_NOERR;
 }
@@ -165,8 +169,8 @@ int ESDM_open(const char *path, int mode, int basepe, size_t *chunksizehintp, vo
   memset(e, 0, sizeof(nc_esdm_t));
 
   //e->c = esdm_container_create(realpath);
-  //ncp->dispatchdata = e;
   //TODO load metadata and such
+  ncp->dispatchdata = last_file_md;
 
   return NC_NOERR;
 }
@@ -203,7 +207,7 @@ int ESDM_close(int ncid, void * b){
   if((ret = NC_check_id(ncid, (NC**)&ncp)) != NC_NOERR) return (ret);
   nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
   debug("%d\n", ncid);
-  esdm_container_destroy(e->c);
+  //esdm_container_destroy(e->c); // TODO disable for now, as we want to reread the file
   // TODO
   return NC_NOERR;
 }
@@ -364,8 +368,7 @@ int ESDM_get_att(int ncid, int varid, const char* name, void* value, nc_type t){
   return NC_NOERR;
 }
 
-int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype,
-	   size_t len, const void *value, nc_type type){
+int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype, size_t len, const void *value, nc_type type){
   assert(type == datatype);
   esdm_type_t etype = type_nc_to_esdm(datatype);
   if(etype == NULL) {
@@ -400,8 +403,7 @@ int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype,
   return NC_NOERR;
 }
 
-int ESDM_def_var(int ncid, const char *name, nc_type xtype,
-            int ndims, const int *dimidsp, int *varidp){
+int ESDM_def_var(int ncid, const char *name, nc_type xtype, int ndims, const int *dimidsp, int *varidp){
   NC * ncp;
   int ret = NC_NOERR;
   if((ret = NC_check_id(ncid, (NC**)&ncp)) != NC_NOERR) return (ret);
@@ -438,10 +440,12 @@ int ESDM_def_var(int ncid, const char *name, nc_type xtype,
   if(typ == SMD_DTYPE_UNKNOWN){
     return NC_EBADTYPE;
   }
-  esdm_dataspace_t * dataspace;
-	ret = esdm_dataspace_create(ndims, bounds, typ, &dataspace);
-  esdm_dataset_t * dataset;
-	esdm_dataset_create(e->c, name, dataspace, &dataset);
+  esdm_dataspace_t *dataspace;
+  esdm_dataspace_create(ndims, bounds, typ, &dataspace);
+
+  esdm_dataset_t *dataset;
+  esdm_dataset_create(e->c, name, dataspace, & dataset);
+
   if(dataset == NULL){
     return NC_EBADID;
   }
@@ -462,22 +466,61 @@ int ESDM_rename_var(int ncid, int varid, const char *name){
   return NC_NOERR;
 }
 
+int ESDM_get_vars(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const void *data, nc_type mem_nc_type){
+//  debug("%d\n", ncid);
 
-int ESDM_get_vars(int ncid, int varid, const size_t *startp, const size_t *countp,
-             const ptrdiff_t *stridep, void *data, nc_type mem_nc_type){
-  debug("%d\n", ncid);
+  NC * ncp;
+  int ret_NC = NC_NOERR;
+  if((ret_NC = NC_check_id(ncid, (NC**)&ncp)) != NC_NOERR) return (ret_NC);
+  nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
+  assert(e->vars.size > varid);
+  md_entity_var_t * kv = e->vars.kv[varid].value;
+  debug("%d type: %d buff: %p %p %p %p\n", ncid, mem_nc_type, data, startp, countp, stridep);
+  if(mem_nc_type != kv->type){
+    return NC_EBADTYPE;
+  }
+  // check the dimensions we actually want to write
+  int access_all = 1;
+  esdm_dataspace_t * space = kv->space;
+  for(int i=0; i < kv->ndims; i++){
+    printf(" - %zu %zu\n", startp[i], countp[i]);
+    if(startp[i] != 0 || countp[i] != space->size[i]){
+      access_all = 0;
+      break;
+    }
+  }
+  if(access_all){
+    esdm_status ret = esdm_read(kv->dset, (void *)data, space);
+    if(ret != ESDM_SUCCESS){
+      return NC_EINVAL;
+    }
+  }else{
+    int64_t size[kv->ndims];
+    int64_t offset[kv->ndims];
+    for(int i=0; i < kv->ndims; i++){
+      size[i] = countp[i];
+      offset[i] = startp[i];
+    }
+    esdm_dataspace_t *subspace;
+    esdm_dataspace_subspace(space, kv->ndims, size, offset, &subspace);
+    esdm_status ret = esdm_read(kv->dset, (void *)data, subspace);
+    if(ret != ESDM_SUCCESS){
+      esdm_dataspace_destroy(subspace);
+      return NC_EINVAL;
+    }
+    esdm_dataspace_destroy(subspace);
+  }
+
   return NC_NOERR;
 }
 
-int ESDM_get_vara(int ncid, int varid, const size_t *startp,
-             const size_t *countp, void *ip, int memtype)
+int ESDM_get_vara(int ncid, int varid, const size_t *startp, const size_t *countp, void *ip, int memtype)
 {
   debug("%d\n", ncid);
   return ESDM_get_vars(ncid, varid, startp, countp, NULL, ip, memtype);
 }
 
-int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *countp,
-             const ptrdiff_t *stridep, const void *data, nc_type mem_nc_type){
+int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const void *data, nc_type mem_nc_type){
   NC * ncp;
   int ret = NC_NOERR;
   if((ret = NC_check_id(ncid, (NC**)&ncp)) != NC_NOERR) return (ret);
@@ -499,7 +542,7 @@ int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *count
     }
   }
   if(access_all){
-    ret = esdm_write(kv->dset, data, space);
+    ret = esdm_write(kv->dset, (void *)data, space);
     if(ret != ESDM_SUCCESS){
       return NC_EINVAL;
     }
@@ -510,9 +553,10 @@ int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *count
       size[i] = countp[i];
       offset[i] = startp[i];
     }
-    esdm_dataspace_t * subspace;
-		ret = esdm_dataspace_subspace(space, kv->ndims, size, offset, & subspace);
-    ret = esdm_write(kv->dset, data, subspace);
+    esdm_dataspace_t *subspace;
+    esdm_dataspace_subspace(space, kv->ndims, size, offset, &subspace);
+
+    ret = esdm_write(kv->dset, (void *)data, subspace);
     if(ret != ESDM_SUCCESS){
       esdm_dataspace_destroy(subspace);
       return NC_EINVAL;
@@ -523,14 +567,12 @@ int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *count
   return NC_NOERR;
 }
 
-int ESDM_put_vara(int ncid, int varid, const size_t *startp,
-             const size_t *countp, const void *op, int memtype)
-{
+int ESDM_put_vara(int ncid, int varid, const size_t *startp, const size_t *countp, const void *op, int memtype){
   debug("%d\n", ncid);
   return ESDM_put_vars(ncid, varid, startp, countp, NULL, op, memtype);
 }
 
-int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndimsp, int *dimidsp, int *nattsp, int *shufflep, int *deflatep, int *deflate_levelp, int *fletcher32p, int *contiguousp, size_t *chunksizesp, int *no_fill, void *fill_valuep, int *endiannessp, unsigned int* idp, size_t* nparamsp, unsigned int* params ){
+int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndimsp, int *dimidsp, int *nattsp, int *shufflep, int *deflatep, int *deflate_levelp, int *fletcher32p, int *contiguousp, size_t *chunksizesp, int *no_fill, void *fill_valuep, int *endiannessp, unsigned int* idp, size_t* nparamsp, unsigned int* params){
   NC * ncp;
   int ret = NC_NOERR;
   if((ret = NC_check_id(ncid, (NC**)&ncp)) != NC_NOERR) return (ret);

@@ -29,8 +29,7 @@ static int default_create_format = NC_FORMAT_CLASSIC;
 #define VER_64BIT_OFFSET 2
 #define VER_HDF5 3
 
-int
-NC_check_id(int ncid, NC** ncpp)
+int NC_check_id(int ncid, NC** ncpp)
 {
     NC* nc = find_in_NCList(ncid);
     if(nc == NULL) return NC_EBADID;
@@ -38,8 +37,7 @@ NC_check_id(int ncid, NC** ncpp)
     return NC_NOERR;
 }
 
-void
-free_NC(NC *ncp)
+void free_NC(NC *ncp)
 {
     if(ncp == NULL)
 	return;
@@ -53,8 +51,7 @@ free_NC(NC *ncp)
 #endif /* _CRAYMPP && LOCKNUMREC */
 }
 
-int
-new_NC(NC_Dispatch* dispatcher, const char* path, int mode, int model, NC** ncpp)
+int new_NC(NC_Dispatch* dispatcher, const char* path, int mode, int model, NC** ncpp)
 {
     NC *ncp = (NC*)calloc(1,sizeof(NC));
     if(ncp == NULL) return NC_ENOMEM;
@@ -74,13 +71,7 @@ new_NC(NC_Dispatch* dispatcher, const char* path, int mode, int model, NC** ncpp
     return NC_NOERR;
 }
 
-/* This function sets a default create flag that will be logically
-   or'd to whatever flags are passed into nc_create for all future
-   calls to nc_create.
-   Valid default create flags are NC_64BIT_OFFSET, NC_CLOBBER,
-   NC_LOCK, NC_SHARE. */
-int
-nc_set_default_format(int format, int *old_formatp)
+int nc_set_default_format(int format, int *old_formatp)
 {
     /* Return existing format if desired. */
     if (old_formatp)
