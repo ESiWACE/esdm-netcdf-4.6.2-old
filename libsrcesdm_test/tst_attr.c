@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+
+#include <string.h>
 #include <assert.h>
 
 #include "netcdf.h"
@@ -7,14 +9,16 @@
 // This program is derived from simple_xy_wr.c
 
 /* This is the name of the data file we will create. */
-#define FILE_NAME "tst_select.esdm"
+// #define FILE_NAME "esdm://tst_select.dat"
+// #define FILE_NAME "tst_select.esdm"
+#define FILE_NAME "Luciana"
 
 /* Handle errors by printing an error message and exiting with a
  * non-zero status. */
 #define ERRCODE 2
 #define ERR(e) {printf("Error: %s\n", nc_strerror(e)); exit(ERRCODE);}
 
-int main(int argc, char ** argv){
+int main (int argc, char ** argv){
  /* When we create netCDF variables and dimensions, we get back an
     * ID for each one. */
    int ncid, x_dimid, y_dimid, varid;
@@ -52,7 +56,6 @@ int main(int argc, char ** argv){
    if ((retval = nc_get_att_string(ncid, varid, "string", & str_new))) ERR(retval);
    assert(strcmp(str, str_new) == 0);
 
-   nc_free_string(1, & str_new);
 
    if ((retval = nc_enddef(ncid)))
       ERR(retval);
@@ -60,6 +63,8 @@ int main(int argc, char ** argv){
    if ((retval = nc_close(ncid)))
       ERR(retval);
 
+   nc_free_string(1, & str_new);
+   
    printf("*** SUCCESS attributes!\n");
    return 0;
 }

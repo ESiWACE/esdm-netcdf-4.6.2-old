@@ -124,9 +124,7 @@ of the interfaces for these operations.
  * @author Ed Hartnett
  * @ingroup datasets
  */
-int
-nc_def_user_format(int mode_flag, NC_Dispatch *dispatch_table, char *magic_number)
-{
+int nc_def_user_format(int mode_flag, NC_Dispatch *dispatch_table, char *magic_number) {
    /* Check inputs. */
    if (mode_flag != NC_UDF0 && mode_flag != NC_UDF1)
       return NC_EINVAL;
@@ -137,8 +135,7 @@ nc_def_user_format(int mode_flag, NC_Dispatch *dispatch_table, char *magic_numbe
 
    /* Retain a pointer to the dispatch_table and a copy of the magic
     * number, if one was provided. */
-   switch(mode_flag)
-   {
+   switch(mode_flag) {
    case NC_UDF0:
       UDF0_dispatch_table = dispatch_table;
       if (magic_number)
@@ -170,9 +167,8 @@ nc_def_user_format(int mode_flag, NC_Dispatch *dispatch_table, char *magic_numbe
  * @author Ed Hartnett
  * @ingroup datasets
  */
-int
-nc_inq_user_format(int mode_flag, NC_Dispatch **dispatch_table, char *magic_number)
-{
+
+int nc_inq_user_format(int mode_flag, NC_Dispatch **dispatch_table, char *magic_number) {
    /* Check inputs. */
    if (mode_flag != NC_UDF0 && mode_flag != NC_UDF1)
       return NC_EINVAL;
@@ -211,9 +207,7 @@ nc_inq_user_format(int mode_flag, NC_Dispatch **dispatch_table, char *magic_numb
 \ingroup datasets
 
 */
-static int
-NC_interpret_magic_number(char* magic, int* model, int* version)
-{
+static int NC_interpret_magic_number(char* magic, int* model, int* version) {
     int status = NC_NOERR;
     /* Look at the magic number */
     *model = 0;
@@ -287,10 +281,7 @@ done:
  * @return ::NC_NOERR No error.
  * @author Dennis Heimbigner
 */
-static int
-NC_check_file_type(const char *path, int flags, int use_parallel,
-		   void *parameters, int* model, int* version)
-{
+static int NC_check_file_type(const char *path, int flags, int use_parallel, void *parameters, int* model, int* version) {
     char magic[MAGIC_NUMBER_LEN];
     int status = NC_NOERR;
     int diskless = ((flags & NC_DISKLESS) == NC_DISKLESS);
@@ -550,9 +541,7 @@ in a file named diskless.nc when nc_close() is called.
 A variant of nc_create(), nc__create() (note the double underscore) allows
 users to specify two tuning parameters for the file that it is
 creating.  */
-int
-nc_create(const char *path, int cmode, int *ncidp)
-{
+int nc_create(const char *path, int cmode, int *ncidp) {
    return nc__create(path,cmode,NC_SIZEHINT_DEFAULT,NULL,ncidp);
 }
 
@@ -622,10 +611,7 @@ nc_create(const char *path, int cmode, int *ncidp)
  * @ingroup datasets
  * @author Glenn Davis
 */
-int
-nc__create(const char *path, int cmode, size_t initialsz,
-	   size_t *chunksizehintp, int *ncidp)
-{
+int nc__create(const char *path, int cmode, size_t initialsz, size_t *chunksizehintp, int *ncidp) {
    return NC_create(path, cmode, initialsz, 0,
 		    chunksizehintp, 0, NULL, ncidp);
 }
@@ -668,9 +654,7 @@ named foo.nc. The initial size is set to 4096.
 @endcode
 */
 
-int
-nc_create_mem(const char* path, int mode, size_t initialsize, int* ncidp)
-{
+int nc_create_mem(const char* path, int mode, size_t initialsize, int* ncidp) {
     if(mode & NC_MMAP) return NC_EINVAL;
     mode |= NC_INMEMORY; /* Specifically, do not set NC_DISKLESS */
     return NC_create(path, mode, initialsize, 0, NULL, 0, NULL, ncidp);
@@ -695,10 +679,7 @@ nc_create_mem(const char* path, int mode, size_t initialsize, int* ncidp)
  * @return ::NC_NOERR No error.
  * @author Glenn Davis
  */
-int
-nc__create_mp(const char *path, int cmode, size_t initialsz,
-	      int basepe, size_t *chunksizehintp, int *ncidp)
-{
+int nc__create_mp(const char *path, int cmode, size_t initialsz, int basepe, size_t *chunksizehintp, int *ncidp) {
    return NC_create(path, cmode, initialsz, basepe,
 		    chunksizehintp, 0, NULL, ncidp);
 }
@@ -816,9 +797,7 @@ nc__create_mp(const char *path, int cmode, size_t initialsz,
  * @ingroup datasets
  * @author Glenn Davis, Ed Hartnett, Dennis Heimbigner
 */
-int
-nc_open(const char *path, int omode, int *ncidp)
-{
+int nc_open(const char *path, int omode, int *ncidp) {
    return NC_open(path, omode, 0, NULL, 0, NULL, ncidp);
 }
 
@@ -873,10 +852,7 @@ is not a persistent property of the netcdf dataset.
 files only.)
 
 */
-int
-nc__open(const char *path, int omode,
-	 size_t *chunksizehintp, int *ncidp)
-{
+int nc__open(const char *path, int omode, size_t *chunksizehintp, int *ncidp) {
    /* this API is for non-parallel access.
     * Note nc_open_par() also calls NC_open().
     */
@@ -928,9 +904,7 @@ status = nc_open_mem("foo.nc", 0, size, memory, &ncid);
 if (status != NC_NOERR) handle_error(status);
 @endcode
 */
-int
-nc_open_mem(const char* path, int omode, size_t size, void* memory, int* ncidp)
-{
+int nc_open_mem(const char* path, int omode, size_t size, void* memory, int* ncidp) {
     NC_memio meminfo;
 
     /* Sanity checks */
@@ -993,9 +967,7 @@ status = nc_open_memio("foo.nc", 0, &params, &ncid);
 if (status != NC_NOERR) handle_error(status);
 @endcode
 */
-int
-nc_open_memio(const char* path, int omode, NC_memio* params, int* ncidp)
-{
+int nc_open_memio(const char* path, int omode, NC_memio* params, int* ncidp) {
     /* Sanity checks */
     if(path == NULL || params == NULL)
  	return NC_EINVAL;
@@ -1026,10 +998,7 @@ nc_open_memio(const char* path, int omode, NC_memio* params, int* ncidp)
  * @return ::NC_NOERR
  * @author Glenn Davis
  */
-int
-nc__open_mp(const char *path, int omode, int basepe,
-	    size_t *chunksizehintp, int *ncidp)
-{
+int nc__open_mp(const char *path, int omode, int basepe, size_t *chunksizehintp, int *ncidp) {
    return NC_open(path, omode, basepe, chunksizehintp, 0, NULL, ncidp);
 }
 
@@ -1050,9 +1019,7 @@ be allocated. Ignored if NULL.
 
 \returns ::NC_EBADID Invalid ncid passed.
 */
-int
-nc_inq_path(int ncid, size_t *pathlen, char *path)
-{
+int nc_inq_path(int ncid, size_t *pathlen, char *path) {
    NC* ncp;
    int stat = NC_NOERR;
    if ((stat = NC_check_id(ncid, &ncp)))
@@ -1115,9 +1082,7 @@ status = nc_redef(ncid);
 if (status != NC_NOERR) handle_error(status);
 \endcode
  */
-int
-nc_redef(int ncid)
-{
+int nc_redef(int ncid) {
    NC* ncp;
    int stat = NC_check_id(ncid, &ncp);
    if(stat != NC_NOERR) return stat;
@@ -1179,9 +1144,7 @@ netCDF dataset named foo.nc and put it into data mode:
      if (status != NC_NOERR) handle_error(status);
 \endcode
  */
-int
-nc_enddef(int ncid)
-{
+int nc_enddef(int ncid) {
    int status = NC_NOERR;
    NC *ncp;
    status = NC_check_id(ncid, &ncp);
@@ -1270,10 +1233,7 @@ variables).
 \returns ::NC_EBADID Invalid ncid passed.
 
  */
-int
-nc__enddef(int ncid, size_t h_minfree, size_t v_align, size_t v_minfree,
-	   size_t r_align)
-{
+int nc__enddef(int ncid, size_t h_minfree, size_t v_align, size_t v_minfree, size_t r_align) {
    NC* ncp;
    int stat = NC_check_id(ncid, &ncp);
    if(stat != NC_NOERR) return stat;
@@ -1347,9 +1307,7 @@ nc_create().
 
 \returns ::NC_EBADID Invalid ncid passed.
  */
-int
-nc_sync(int ncid)
-{
+int nc_sync(int ncid) {
    NC* ncp;
    int stat = NC_check_id(ncid, &ncp);
    if(stat != NC_NOERR) return stat;
@@ -1399,9 +1357,7 @@ dataset named foo.nc:
 \endcode
 
  */
-int
-nc_abort(int ncid)
-{
+int nc_abort(int ncid) {
    NC* ncp;
    int stat = NC_check_id(ncid, &ncp);
    if(stat != NC_NOERR) return stat;
@@ -1458,9 +1414,7 @@ netCDF dataset named foo.nc and release its netCDF ID:
 \endcode
 
  */
-int
-nc_close(int ncid)
-{
+int nc_close(int ncid) {
    NC* ncp;
    int stat = NC_check_id(ncid, &ncp);
    if(stat != NC_NOERR) return stat;
@@ -1523,9 +1477,7 @@ and release its netCDF ID:
 \endcode
 
  */
-int
-nc_close_memio(int ncid, NC_memio* memio)
-{
+int nc_close_memio(int ncid, NC_memio* memio) {
    NC* ncp;
    int stat = NC_check_id(ncid, &ncp);
    if(stat != NC_NOERR) return stat;
@@ -1644,9 +1596,7 @@ writes of a netCDF dataset named foo.nc:
         ...    write data with no prefilling
 \endcode
  */
-int
-nc_set_fill(int ncid, int fillmode, int *old_modep)
-{
+int nc_set_fill(int ncid, int fillmode, int *old_modep) {
    NC* ncp;
    int stat = NC_check_id(ncid, &ncp);
    if(stat != NC_NOERR) return stat;
@@ -1667,9 +1617,7 @@ nc_set_fill(int ncid, int fillmode, int *old_modep)
  * @return ::NC_EBADID Invalid ncid passed.
  * @author Glenn Davis
  */
-int
-nc_inq_base_pe(int ncid, int *pe)
-{
+int nc_inq_base_pe(int ncid, int *pe) {
    NC* ncp;
    int stat = NC_check_id(ncid, &ncp);
    if(stat != NC_NOERR) return stat;
@@ -1717,9 +1665,7 @@ NC_FORMAT_NETCDF4_CLASSIC.
 \returns ::NC_EBADID Invalid ncid passed.
 
  */
-int
-nc_inq_format(int ncid, int *formatp)
-{
+int nc_inq_format(int ncid, int *formatp) {
    NC* ncp;
    int stat = NC_check_id(ncid, &ncp);
    if(stat != NC_NOERR) return stat;
@@ -1752,9 +1698,7 @@ currently defined set.
 \returns ::NC_EBADID Invalid ncid passed.
 
  */
-int
-nc_inq_format_extended(int ncid, int *formatp, int *modep)
-{
+int nc_inq_format_extended(int ncid, int *formatp, int *modep) {
    NC* ncp;
    int stat = NC_check_id(ncid, &ncp);
    if(stat != NC_NOERR) return stat;
@@ -1805,9 +1749,7 @@ named foo.nc:
      if (status != NC_NOERR) handle_error(status);
 \endcode
  */
-int
-nc_inq(int ncid, int *ndimsp, int *nvarsp, int *nattsp, int *unlimdimidp)
-{
+int nc_inq(int ncid, int *ndimsp, int *nvarsp, int *nattsp, int *unlimdimidp) {
    NC* ncp;
    int stat = NC_check_id(ncid, &ncp);
    if(stat != NC_NOERR) return stat;
@@ -1824,9 +1766,7 @@ nc_inq(int ncid, int *ndimsp, int *nvarsp, int *nattsp, int *unlimdimidp)
  * @return ::NC_EBADID Bad ncid.
  * @author Glenn Davis, Ed Hartnett, Dennis Heimbigner
  */
-int
-nc_inq_nvars(int ncid, int *nvarsp)
-{
+int nc_inq_nvars(int ncid, int *nvarsp) {
    NC* ncp;
    int stat = NC_check_id(ncid, &ncp);
    if(stat != NC_NOERR) return stat;
@@ -1898,9 +1838,7 @@ possible inquiry functions on an enum type.
            if (nc_close(ncid)) ERR;
 \endcode
  */
-int
-nc_inq_type(int ncid, nc_type xtype, char *name, size_t *size)
-{
+int nc_inq_type(int ncid, nc_type xtype, char *name, size_t *size) {
    NC* ncp;
    int stat;
 
@@ -1938,9 +1876,7 @@ flag before calling the dispatch layer nc_create functions.
 \ingroup dispatch
 \author Ed Hartnett
 */
-static int
-check_create_mode(int mode)
-{
+static int check_create_mode(int mode) {
     int mode_format;
     int mmap = 0;
     int inmemory = 0;
@@ -2007,11 +1943,7 @@ check_create_mode(int mode)
  * @ingroup dispatch
  * @author Dennis Heimbigner, Ed Hartnett, Ward Fisher
 */
-int
-NC_create(const char *path0, int cmode, size_t initialsz,
-	  int basepe, size_t *chunksizehintp, int useparallel,
-	  void* parameters, int *ncidp)
-{
+int NC_create(const char *path0, int cmode, size_t initialsz, int basepe, size_t *chunksizehintp, int useparallel, void* parameters, int *ncidp) {
    int stat = NC_NOERR;
    NC* ncp = NULL;
    NC_Dispatch* dispatcher = NULL;
@@ -2022,11 +1954,13 @@ NC_create(const char *path0, int cmode, size_t initialsz,
 
    TRACE(nc_create);
    if(path0 == NULL)
-	return NC_EINVAL;
+	   return NC_EINVAL;
+
+     printf("\n\n\n\npath0 = %s\n\n\n\n",path0);
 
    /* Check mode flag for sanity. */
    if ((stat = check_create_mode(cmode)))
-      return stat;
+     return stat;
 
    /* Initialize the library. The available dispatch tables
     * will depend on how netCDF was built
@@ -2034,7 +1968,7 @@ NC_create(const char *path0, int cmode, size_t initialsz,
    if(!NC_initialized)
    {
       if ((stat = nc_initialize()))
-	 return stat;
+	      return stat;
    }
 
 #ifdef WINPATH
@@ -2207,10 +2141,7 @@ NC_create(const char *path0, int cmode, size_t initialsz,
  * @ingroup dispatch
  * @author Dennis Heimbigner
 */
-int
-NC_open(const char *path0, int omode, int basepe, size_t *chunksizehintp,
-        int useparallel, void* parameters, int *ncidp)
-{
+int NC_open(const char *path0, int omode, int basepe, size_t *chunksizehintp, int useparallel, void* parameters, int *ncidp) {
    int stat = NC_NOERR;
    NC* ncp = NULL;
    NC_Dispatch* dispatcher = NULL;
@@ -2456,9 +2387,7 @@ static int pseudofd = 0;
  * @return pseudo file number
  * @author Dennis Heimbigner
 */
-int
-nc__pseudofd(void)
-{
+int nc__pseudofd(void) {
     if(pseudofd == 0)  {
         int maxfd = 32767; /* default */
 #ifdef HAVE_GETRLIMIT
@@ -2480,9 +2409,7 @@ nc__pseudofd(void)
 \ingroup datasets
 Provide open, read and close for use when searching for magic numbers
 */
-static int
-openmagic(struct MagicFile* file)
-{
+static int openmagic(struct MagicFile* file) {
     int status = NC_NOERR;
     assert((file->inmemory) ? file->parameters != NULL : 1);
     if(file->inmemory) {
@@ -2555,9 +2482,7 @@ done:
     return status;
 }
 
-static int
-readmagic(struct MagicFile* file, long pos, char* magic)
-{
+static int readmagic(struct MagicFile* file, long pos, char* magic) {
     int status = NC_NOERR;
     memset(magic,0,MAGIC_NUMBER_LEN);
     if(file->inmemory) {
@@ -2609,9 +2534,7 @@ done:
  * (parallel builds only).
  * @author Dennis Heimbigner
  */
-static int
-closemagic(struct MagicFile* file)
-{
+static int closemagic(struct MagicFile* file) {
     int status = NC_NOERR;
     if(file->inmemory) goto done; /* noop*/
 #ifdef USE_PARALLEL
@@ -2631,9 +2554,8 @@ done:
 }
 
 #ifdef DEBUG
-static void
-printmagic(const char* tag, char* magic, struct MagicFile* f)
-{
+
+static void printmagic(const char* tag, char* magic, struct MagicFile* f) {
     int i;
     fprintf(stderr,"%s: inmem=%d ispar=%d magic=",tag,f->inmemory,f->use_parallel);
     for(i=0;i<MAGIC_NUMBER_LEN;i++) {

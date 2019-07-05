@@ -120,9 +120,7 @@ named foo.nc:
 \endcode
 
  */
-int
-nc_def_dim(int ncid, const char *name, size_t len, int *idp)
-{
+int nc_def_dim(int ncid, const char *name, size_t len, int *idp) {
     NC* ncp;
     int stat = NC_check_id(ncid, &ncp);
     if(stat != NC_NOERR) return stat;
@@ -150,9 +148,7 @@ nc_inq_ncid().
 \returns ::NC_EBADID  Not a valid ID.
 \returns ::NC_EBADDIM Invalid dimension ID or name.
  */
-int
-nc_inq_dimid(int ncid, const char *name, int *idp)
-{
+int nc_inq_dimid(int ncid, const char *name, int *idp) {
     NC* ncp;
     int stat = NC_check_id(ncid, &ncp);
     if(stat != NC_NOERR) return stat;
@@ -214,9 +210,7 @@ unlimited dimension for an existing netCDF dataset named foo.nc:
      if (status != NC_NOERR) handle_error(status);
 \endcode
  */
-int
-nc_inq_dim(int ncid, int dimid, char *name, size_t *lenp)
-{
+int nc_inq_dim(int ncid, int dimid, char *name, size_t *lenp) {
     NC* ncp;
     int stat = NC_check_id(ncid, &ncp);
     if(stat != NC_NOERR) return stat;
@@ -277,9 +271,7 @@ latitude in an existing netCDF dataset named foo.nc:
      if (status != NC_NOERR) handle_error(status);
 \endcode
  */
-int
-nc_rename_dim(int ncid, int dimid, const char *name)
-{
+int nc_rename_dim(int ncid, int dimid, const char *name) {
     NC* ncp;
     int stat = NC_check_id(ncid, &ncp);
     if(stat != NC_NOERR) return stat;
@@ -308,9 +300,7 @@ written. Ignored if NULL.
 \returns ::NC_EBADID Not a valid ID.
 
  */
-int
-nc_inq_ndims(int ncid, int *ndimsp)
-{
+int nc_inq_ndims(int ncid, int *ndimsp) {
     NC* ncp;
     int stat = NC_check_id(ncid, &ncp);
     if(stat != NC_NOERR) return stat;
@@ -339,9 +329,7 @@ here. Ignored if NULL.
 \returns ::NC_EBADID Not a valid ID.
 
  */
-int
-nc_inq_unlimdim(int ncid, int *unlimdimidp)
-{
+int nc_inq_unlimdim(int ncid, int *unlimdimidp) {
     NC* ncp;
     int stat = NC_check_id(ncid, &ncp);
     if(stat != NC_NOERR) return stat;
@@ -398,9 +386,7 @@ unlimited dimension for an existing netCDF dataset named foo.nc:
 \endcode
 
  */
-int
-nc_inq_dimname(int ncid, int dimid, char *name)
-{
+int nc_inq_dimname(int ncid, int dimid, char *name) {
     NC* ncp;
     int stat = NC_check_id(ncid, &ncp);
     if(stat != NC_NOERR) return stat;
@@ -455,9 +441,7 @@ unlimited dimension for an existing netCDF dataset named foo.nc:
      if (status != NC_NOERR) handle_error(status);
 \endcode
  */
-int
-nc_inq_dimlen(int ncid, int dimid, size_t *lenp)
-{
+int nc_inq_dimlen(int ncid, int dimid, size_t *lenp) {
     NC* ncp;
     int stat = NC_check_id(ncid, &ncp);
     if(stat != NC_NOERR) return stat;

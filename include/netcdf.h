@@ -518,171 +518,120 @@ nc_strerror(int ncerr);
 
 /* Set up user-defined format. */
 typedef struct NC_Dispatch NC_Dispatch;
-EXTERNL int
-nc_def_user_format(int mode_flag, NC_Dispatch *dispatch_table, char *magic_number);
 
-EXTERNL int
-nc_inq_user_format(int mode_flag, NC_Dispatch **dispatch_table, char *magic_number);
+EXTERNL int nc_def_user_format(int mode_flag, NC_Dispatch *dispatch_table, char *magic_number);
 
-EXTERNL int
-nc__create(const char *path, int cmode, size_t initialsz,
-         size_t *chunksizehintp, int *ncidp);
+EXTERNL int nc_inq_user_format(int mode_flag, NC_Dispatch **dispatch_table, char *magic_number);
 
-EXTERNL int
-nc_create(const char *path, int cmode, int *ncidp);
+EXTERNL int nc__create(const char *path, int cmode, size_t initialsz, size_t *chunksizehintp, int *ncidp);
 
-EXTERNL int
-nc__open(const char *path, int mode,
-        size_t *chunksizehintp, int *ncidp);
+EXTERNL int nc_create(const char *path, int cmode, int *ncidp);
 
-EXTERNL int
-nc_open(const char *path, int mode, int *ncidp);
+EXTERNL int nc__open(const char *path, int mode, size_t *chunksizehintp, int *ncidp);
+
+EXTERNL int nc_open(const char *path, int mode, int *ncidp);
 
 /* Learn the path used to open/create the file. */
-EXTERNL int
-nc_inq_path(int ncid, size_t *pathlen, char *path);
+EXTERNL int nc_inq_path(int ncid, size_t *pathlen, char *path);
 
 /* Given an ncid and group name (NULL gets root group), return
  * locid. */
-EXTERNL int
-nc_inq_ncid(int ncid, const char *name, int *grp_ncid);
+EXTERNL int nc_inq_ncid(int ncid, const char *name, int *grp_ncid);
 
 /* Given a location id, return the number of groups it contains, and
  * an array of their locids. */
-EXTERNL int
-nc_inq_grps(int ncid, int *numgrps, int *ncids);
+EXTERNL int nc_inq_grps(int ncid, int *numgrps, int *ncids);
 
 /* Given locid, find name of group. (Root group is named "/".) */
-EXTERNL int
-nc_inq_grpname(int ncid, char *name);
+EXTERNL int nc_inq_grpname(int ncid, char *name);
 
 /* Given ncid, find full name and len of full name. (Root group is
  * named "/", with length 1.) */
-EXTERNL int
-nc_inq_grpname_full(int ncid, size_t *lenp, char *full_name);
+EXTERNL int nc_inq_grpname_full(int ncid, size_t *lenp, char *full_name);
 
 /* Given ncid, find len of full name. */
-EXTERNL int
-nc_inq_grpname_len(int ncid, size_t *lenp);
+EXTERNL int nc_inq_grpname_len(int ncid, size_t *lenp);
 
 /* Given an ncid, find the ncid of its parent group. */
-EXTERNL int
-nc_inq_grp_parent(int ncid, int *parent_ncid);
+EXTERNL int nc_inq_grp_parent(int ncid, int *parent_ncid);
 
 /* Given a name and parent ncid, find group ncid. */
-EXTERNL int
-nc_inq_grp_ncid(int ncid, const char *grp_name, int *grp_ncid);
+EXTERNL int nc_inq_grp_ncid(int ncid, const char *grp_name, int *grp_ncid);
 
 /* Given a full name and ncid, find group ncid. */
-EXTERNL int
-nc_inq_grp_full_ncid(int ncid, const char *full_name, int *grp_ncid);
+EXTERNL int nc_inq_grp_full_ncid(int ncid, const char *full_name, int *grp_ncid);
 
 /* Get a list of ids for all the variables in a group. */
-EXTERNL int
-nc_inq_varids(int ncid, int *nvars, int *varids);
+EXTERNL int nc_inq_varids(int ncid, int *nvars, int *varids);
 
 /* Find all dimids for a location. This finds all dimensions in a
  * group, or any of its parents. */
-EXTERNL int
-nc_inq_dimids(int ncid, int *ndims, int *dimids, int include_parents);
+EXTERNL int nc_inq_dimids(int ncid, int *ndims, int *dimids, int include_parents);
 
 /* Find all user-defined types for a location. This finds all
  * user-defined types in a group. */
-EXTERNL int
-nc_inq_typeids(int ncid, int *ntypes, int *typeids);
+EXTERNL int nc_inq_typeids(int ncid, int *ntypes, int *typeids);
 
 /* Are two types equal? */
-EXTERNL int
-nc_inq_type_equal(int ncid1, nc_type typeid1, int ncid2,
-                  nc_type typeid2, int *equal);
+EXTERNL int nc_inq_type_equal(int ncid1, nc_type typeid1, int ncid2, nc_type typeid2, int *equal);
 
 /* Create a group. its ncid is returned in the new_ncid pointer. */
-EXTERNL int
-nc_def_grp(int parent_ncid, const char *name, int *new_ncid);
+EXTERNL int nc_def_grp(int parent_ncid, const char *name, int *new_ncid);
 
 /* Rename a group */
-EXTERNL int
-nc_rename_grp(int grpid, const char *name);
+EXTERNL int nc_rename_grp(int grpid, const char *name);
 
 /* Here are functions for dealing with compound types. */
 
 /* Create a compound type. */
-EXTERNL int
-nc_def_compound(int ncid, size_t size, const char *name, nc_type *typeidp);
+EXTERNL int nc_def_compound(int ncid, size_t size, const char *name, nc_type *typeidp);
 
 /* Insert a named field into a compound type. */
-EXTERNL int
-nc_insert_compound(int ncid, nc_type xtype, const char *name,
-                   size_t offset, nc_type field_typeid);
+EXTERNL int nc_insert_compound(int ncid, nc_type xtype, const char *name, size_t offset, nc_type field_typeid);
 
 /* Insert a named array into a compound type. */
-EXTERNL int
-nc_insert_array_compound(int ncid, nc_type xtype, const char *name,
-                         size_t offset, nc_type field_typeid,
-                         int ndims, const int *dim_sizes);
+EXTERNL int nc_insert_array_compound(int ncid, nc_type xtype, const char *name, size_t offset, nc_type field_typeid, int ndims, const int *dim_sizes);
 
 /* Get the name and size of a type. */
-EXTERNL int
-nc_inq_type(int ncid, nc_type xtype, char *name, size_t *size);
+EXTERNL int nc_inq_type(int ncid, nc_type xtype, char *name, size_t *size);
 
 /* Get the id of a type from the name. */
-EXTERNL int
-nc_inq_typeid(int ncid, const char *name, nc_type *typeidp);
+EXTERNL int nc_inq_typeid(int ncid, const char *name, nc_type *typeidp);
 
 /* Get the name, size, and number of fields in a compound type. */
-EXTERNL int
-nc_inq_compound(int ncid, nc_type xtype, char *name, size_t *sizep,
-                size_t *nfieldsp);
+EXTERNL int nc_inq_compound(int ncid, nc_type xtype, char *name, size_t *sizep, size_t *nfieldsp);
 
 /* Get the name of a compound type. */
-EXTERNL int
-nc_inq_compound_name(int ncid, nc_type xtype, char *name);
+EXTERNL int nc_inq_compound_name(int ncid, nc_type xtype, char *name);
 
 /* Get the size of a compound type. */
-EXTERNL int
-nc_inq_compound_size(int ncid, nc_type xtype, size_t *sizep);
+EXTERNL int nc_inq_compound_size(int ncid, nc_type xtype, size_t *sizep);
 
 /* Get the number of fields in this compound type. */
-EXTERNL int
-nc_inq_compound_nfields(int ncid, nc_type xtype, size_t *nfieldsp);
+EXTERNL int nc_inq_compound_nfields(int ncid, nc_type xtype, size_t *nfieldsp);
 
 /* Given the xtype and the fieldid, get all info about it. */
-EXTERNL int
-nc_inq_compound_field(int ncid, nc_type xtype, int fieldid, char *name,
-                      size_t *offsetp, nc_type *field_typeidp, int *ndimsp,
-                      int *dim_sizesp);
+EXTERNL int nc_inq_compound_field(int ncid, nc_type xtype, int fieldid, char *name, size_t *offsetp, nc_type *field_typeidp, int *ndimsp, int *dim_sizesp);
 
 /* Given the typeid and the fieldid, get the name. */
-EXTERNL int
-nc_inq_compound_fieldname(int ncid, nc_type xtype, int fieldid,
-                          char *name);
+EXTERNL int nc_inq_compound_fieldname(int ncid, nc_type xtype, int fieldid, char *name);
 
 /* Given the xtype and the name, get the fieldid. */
-EXTERNL int
-nc_inq_compound_fieldindex(int ncid, nc_type xtype, const char *name,
-                           int *fieldidp);
+EXTERNL int nc_inq_compound_fieldindex(int ncid, nc_type xtype, const char *name, int *fieldidp);
 
 /* Given the xtype and fieldid, get the offset. */
-EXTERNL int
-nc_inq_compound_fieldoffset(int ncid, nc_type xtype, int fieldid,
-                            size_t *offsetp);
+EXTERNL int nc_inq_compound_fieldoffset(int ncid, nc_type xtype, int fieldid, size_t *offsetp);
 
 /* Given the xtype and the fieldid, get the type of that field. */
-EXTERNL int
-nc_inq_compound_fieldtype(int ncid, nc_type xtype, int fieldid,
-                          nc_type *field_typeidp);
+EXTERNL int nc_inq_compound_fieldtype(int ncid, nc_type xtype, int fieldid, nc_type *field_typeidp);
 
 /* Given the xtype and the fieldid, get the number of dimensions for
  * that field (scalars are 0). */
-EXTERNL int
-nc_inq_compound_fieldndims(int ncid, nc_type xtype, int fieldid,
-                           int *ndimsp);
+EXTERNL int nc_inq_compound_fieldndims(int ncid, nc_type xtype, int fieldid, int *ndimsp);
 
 /* Given the xtype and the fieldid, get the sizes of dimensions for
  * that field. User must have allocated storage for the dim_sizes. */
-EXTERNL int
-nc_inq_compound_fielddim_sizes(int ncid, nc_type xtype, int fieldid,
-                               int *dim_sizes);
+EXTERNL int nc_inq_compound_fielddim_sizes(int ncid, nc_type xtype, int fieldid, int *dim_sizes);
 
 /** This is the type of arrays of vlens. */
 typedef struct {
@@ -697,457 +646,306 @@ typedef struct {
 #define NC_COMPOUND_OFFSET(S,M)    (offsetof(S,M))
 
 /* Create a variable length type. */
-EXTERNL int
-nc_def_vlen(int ncid, const char *name, nc_type base_typeid, nc_type *xtypep);
+EXTERNL int nc_def_vlen(int ncid, const char *name, nc_type base_typeid, nc_type *xtypep);
 
 /* Find out about a vlen. */
-EXTERNL int
-nc_inq_vlen(int ncid, nc_type xtype, char *name, size_t *datum_sizep,
-            nc_type *base_nc_typep);
+EXTERNL int nc_inq_vlen(int ncid, nc_type xtype, char *name, size_t *datum_sizep, nc_type *base_nc_typep);
 
 /* When you read VLEN type the library will actually allocate the
  * storage space for the data. This storage space must be freed, so
  * pass the pointer back to this function, when you're done with the
  * data, and it will free the vlen memory. */
-EXTERNL int
-nc_free_vlen(nc_vlen_t *vl);
+EXTERNL int nc_free_vlen(nc_vlen_t *vl);
 
-EXTERNL int
-nc_free_vlens(size_t len, nc_vlen_t vlens[]);
+EXTERNL int nc_free_vlens(size_t len, nc_vlen_t vlens[]);
 
 /* Put or get one element in a vlen array. */
-EXTERNL int
-nc_put_vlen_element(int ncid, int typeid1, void *vlen_element,
-                    size_t len, const void *data);
+EXTERNL int nc_put_vlen_element(int ncid, int typeid1, void *vlen_element, size_t len, const void *data);
 
-EXTERNL int
-nc_get_vlen_element(int ncid, int typeid1, const void *vlen_element,
-                    size_t *len, void *data);
+EXTERNL int nc_get_vlen_element(int ncid, int typeid1, const void *vlen_element, size_t *len, void *data);
 
 /* When you read the string type the library will allocate the storage
  * space for the data. This storage space must be freed, so pass the
  * pointer back to this function, when you're done with the data, and
  * it will free the string memory. */
-EXTERNL int
-nc_free_string(size_t len, char **data);
+EXTERNL int nc_free_string(size_t len, char **data);
 
 /* Find out about a user defined type. */
-EXTERNL int
-nc_inq_user_type(int ncid, nc_type xtype, char *name, size_t *size,
-                 nc_type *base_nc_typep, size_t *nfieldsp, int *classp);
+EXTERNL int nc_inq_user_type(int ncid, nc_type xtype, char *name, size_t *size, nc_type *base_nc_typep, size_t *nfieldsp, int *classp);
 
 /* Write an attribute of any type. */
-EXTERNL int
-nc_put_att(int ncid, int varid, const char *name, nc_type xtype,
-           size_t len, const void *op);
+EXTERNL int nc_put_att(int ncid, int varid, const char *name, nc_type xtype, size_t len, const void *op);
 
 /* Read an attribute of any type. */
-EXTERNL int
-nc_get_att(int ncid, int varid, const char *name, void *ip);
+EXTERNL int nc_get_att(int ncid, int varid, const char *name, void *ip);
 
 /* Enum type. */
 
 /* Create an enum type. Provide a base type and a name. At the moment
  * only ints are accepted as base types. */
-EXTERNL int
-nc_def_enum(int ncid, nc_type base_typeid, const char *name,
-            nc_type *typeidp);
+EXTERNL int nc_def_enum(int ncid, nc_type base_typeid, const char *name, nc_type *typeidp);
 
 /* Insert a named value into an enum type. The value must fit within
  * the size of the enum type, the name size must be <= NC_MAX_NAME. */
-EXTERNL int
-nc_insert_enum(int ncid, nc_type xtype, const char *name,
-               const void *value);
+EXTERNL int nc_insert_enum(int ncid, nc_type xtype, const char *name, const void *value);
 
 /* Get information about an enum type: its name, base type and the
  * number of members defined. */
-EXTERNL int
-nc_inq_enum(int ncid, nc_type xtype, char *name, nc_type *base_nc_typep,
-            size_t *base_sizep, size_t *num_membersp);
+EXTERNL int nc_inq_enum(int ncid, nc_type xtype, char *name, nc_type *base_nc_typep, size_t *base_sizep, size_t *num_membersp);
 
 /* Get information about an enum member: a name and value. Name size
  * will be <= NC_MAX_NAME. */
-EXTERNL int
-nc_inq_enum_member(int ncid, nc_type xtype, int idx, char *name,
-                   void *value);
+EXTERNL int nc_inq_enum_member(int ncid, nc_type xtype, int idx, char *name, void *value);
 
 
 /* Get enum name from enum value. Name size will be <= NC_MAX_NAME. */
-EXTERNL int
-nc_inq_enum_ident(int ncid, nc_type xtype, long long value, char *identifier);
+EXTERNL int nc_inq_enum_ident(int ncid, nc_type xtype, long long value, char *identifier);
 
 /* Opaque type. */
 
 /* Create an opaque type. Provide a size and a name. */
-EXTERNL int
-nc_def_opaque(int ncid, size_t size, const char *name, nc_type *xtypep);
+EXTERNL int nc_def_opaque(int ncid, size_t size, const char *name, nc_type *xtypep);
 
 /* Get information about an opaque type. */
-EXTERNL int
-nc_inq_opaque(int ncid, nc_type xtype, char *name, size_t *sizep);
+EXTERNL int nc_inq_opaque(int ncid, nc_type xtype, char *name, size_t *sizep);
 
 /* Write entire var of any type. */
-EXTERNL int
-nc_put_var(int ncid, int varid,  const void *op);
+EXTERNL int nc_put_var(int ncid, int varid,  const void *op);
 
 /* Read entire var of any type. */
-EXTERNL int
-nc_get_var(int ncid, int varid,  void *ip);
+EXTERNL int nc_get_var(int ncid, int varid,  void *ip);
 
 /* Write one value. */
-EXTERNL int
-nc_put_var1(int ncid, int varid,  const size_t *indexp,
-            const void *op);
+EXTERNL int nc_put_var1(int ncid, int varid,  const size_t *indexp, const void *op);
 
 /* Read one value. */
-EXTERNL int
-nc_get_var1(int ncid, int varid,  const size_t *indexp, void *ip);
+EXTERNL int nc_get_var1(int ncid, int varid,  const size_t *indexp, void *ip);
 
 /* Write an array of values. */
-EXTERNL int
-nc_put_vara(int ncid, int varid,  const size_t *startp,
-            const size_t *countp, const void *op);
+EXTERNL int nc_put_vara(int ncid, int varid,  const size_t *startp, const size_t *countp, const void *op);
 
 /* Read an array of values. */
-EXTERNL int
-nc_get_vara(int ncid, int varid,  const size_t *startp,
-            const size_t *countp, void *ip);
+EXTERNL int nc_get_vara(int ncid, int varid,  const size_t *startp, const size_t *countp, void *ip);
 
 /* Write slices of an array of values. */
-EXTERNL int
-nc_put_vars(int ncid, int varid,  const size_t *startp,
-            const size_t *countp, const ptrdiff_t *stridep,
-            const void *op);
+EXTERNL int nc_put_vars(int ncid, int varid,  const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const void *op);
 
 /* Read slices of an array of values. */
-EXTERNL int
-nc_get_vars(int ncid, int varid,  const size_t *startp,
-            const size_t *countp, const ptrdiff_t *stridep,
-            void *ip);
+EXTERNL int nc_get_vars(int ncid, int varid,  const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, void *ip);
 
 /* Write mapped slices of an array of values. */
-EXTERNL int
-nc_put_varm(int ncid, int varid,  const size_t *startp,
-            const size_t *countp, const ptrdiff_t *stridep,
-            const ptrdiff_t *imapp, const void *op);
+EXTERNL int nc_put_varm(int ncid, int varid,  const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const ptrdiff_t *imapp, const void *op);
 
 /* Read mapped slices of an array of values. */
-EXTERNL int
-nc_get_varm(int ncid, int varid,  const size_t *startp,
-            const size_t *countp, const ptrdiff_t *stridep,
-            const ptrdiff_t *imapp, void *ip);
+EXTERNL int nc_get_varm(int ncid, int varid,  const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const ptrdiff_t *imapp, void *ip);
 
 /* Extra netcdf-4 stuff. */
 
 /* Set compression settings for a variable. Lower is faster, higher is
  * better. Must be called after nc_def_var and before nc_enddef. */
-EXTERNL int
-nc_def_var_deflate(int ncid, int varid, int shuffle, int deflate,
-                   int deflate_level);
+EXTERNL int nc_def_var_deflate(int ncid, int varid, int shuffle, int deflate, int deflate_level);
 
 /* Find out compression settings of a var. */
-EXTERNL int
-nc_inq_var_deflate(int ncid, int varid, int *shufflep,
-                   int *deflatep, int *deflate_levelp);
+EXTERNL int nc_inq_var_deflate(int ncid, int varid, int *shufflep, int *deflatep, int *deflate_levelp);
 
 /* Find out szip settings of a var. */
-EXTERNL int
-nc_inq_var_szip(int ncid, int varid, int *options_maskp, int *pixels_per_blockp);
+EXTERNL int nc_inq_var_szip(int ncid, int varid, int *options_maskp, int *pixels_per_blockp);
 
 /* Set fletcher32 checksum for a var. This must be done after nc_def_var
    and before nc_enddef. */
-EXTERNL int
-nc_def_var_fletcher32(int ncid, int varid, int fletcher32);
+EXTERNL int nc_def_var_fletcher32(int ncid, int varid, int fletcher32);
 
 /* Inquire about fletcher32 checksum for a var. */
-EXTERNL int
-nc_inq_var_fletcher32(int ncid, int varid, int *fletcher32p);
+EXTERNL int nc_inq_var_fletcher32(int ncid, int varid, int *fletcher32p);
 
 /* Define chunking for a variable. This must be done after nc_def_var
    and before nc_enddef. */
-EXTERNL int
-nc_def_var_chunking(int ncid, int varid, int storage, const size_t *chunksizesp);
+EXTERNL int nc_def_var_chunking(int ncid, int varid, int storage, const size_t *chunksizesp);
 
 /* Inq chunking stuff for a var. */
-EXTERNL int
-nc_inq_var_chunking(int ncid, int varid, int *storagep, size_t *chunksizesp);
+EXTERNL int nc_inq_var_chunking(int ncid, int varid, int *storagep, size_t *chunksizesp);
 
 /* Define fill value behavior for a variable. This must be done after
    nc_def_var and before nc_enddef. */
-EXTERNL int
-nc_def_var_fill(int ncid, int varid, int no_fill, const void *fill_value);
+EXTERNL int nc_def_var_fill(int ncid, int varid, int no_fill, const void *fill_value);
 
 /* Inq fill value setting for a var. */
-EXTERNL int
-nc_inq_var_fill(int ncid, int varid, int *no_fill, void *fill_valuep);
+EXTERNL int nc_inq_var_fill(int ncid, int varid, int *no_fill, void *fill_valuep);
 
 /* Define the endianness of a variable. */
-EXTERNL int
-nc_def_var_endian(int ncid, int varid, int endian);
+EXTERNL int nc_def_var_endian(int ncid, int varid, int endian);
 
 /* Learn about the endianness of a variable. */
-EXTERNL int
-nc_inq_var_endian(int ncid, int varid, int *endianp);
+EXTERNL int nc_inq_var_endian(int ncid, int varid, int *endianp);
 
 /* Define a filter for a variable */
-EXTERNL int
-nc_def_var_filter(int ncid, int varid, unsigned int id, size_t nparams, const unsigned int* parms);
+EXTERNL int nc_def_var_filter(int ncid, int varid, unsigned int id, size_t nparams, const unsigned int* parms);
 
 /* Learn about the filter on a variable */
-EXTERNL int
-nc_inq_var_filter(int ncid, int varid, unsigned int* idp, size_t* nparams, unsigned int* params);
+EXTERNL int nc_inq_var_filter(int ncid, int varid, unsigned int* idp, size_t* nparams, unsigned int* params);
 
 /* Set the fill mode (classic or 64-bit offset files only). */
-EXTERNL int
-nc_set_fill(int ncid, int fillmode, int *old_modep);
+EXTERNL int nc_set_fill(int ncid, int fillmode, int *old_modep);
 
 /* Set the default nc_create format to NC_FORMAT_CLASSIC, NC_FORMAT_64BIT,
  * NC_FORMAT_CDF5, NC_FORMAT_NETCDF4, or NC_FORMAT_NETCDF4_CLASSIC */
-EXTERNL int
-nc_set_default_format(int format, int *old_formatp);
+EXTERNL int nc_set_default_format(int format, int *old_formatp);
 
 /* Set the cache size, nelems, and preemption policy. */
-EXTERNL int
-nc_set_chunk_cache(size_t size, size_t nelems, float preemption);
+EXTERNL int nc_set_chunk_cache(size_t size, size_t nelems, float preemption);
 
 /* Get the cache size, nelems, and preemption policy. */
-EXTERNL int
-nc_get_chunk_cache(size_t *sizep, size_t *nelemsp, float *preemptionp);
+EXTERNL int nc_get_chunk_cache(size_t *sizep, size_t *nelemsp, float *preemptionp);
 
 /* Set the per-variable cache size, nelems, and preemption policy. */
-EXTERNL int
-nc_set_var_chunk_cache(int ncid, int varid, size_t size, size_t nelems,
+EXTERNL int nc_set_var_chunk_cache(int ncid, int varid, size_t size, size_t nelems,
                        float preemption);
 
 /* Get the per-variable cache size, nelems, and preemption policy. */
-EXTERNL int
-nc_get_var_chunk_cache(int ncid, int varid, size_t *sizep, size_t *nelemsp,
+EXTERNL int nc_get_var_chunk_cache(int ncid, int varid, size_t *sizep, size_t *nelemsp,
                        float *preemptionp);
 
-EXTERNL int
-nc_redef(int ncid);
+EXTERNL int nc_redef(int ncid);
 
 /* Is this ever used? Convert to parameter form */
-EXTERNL int
-nc__enddef(int ncid, size_t h_minfree, size_t v_align,
-        size_t v_minfree, size_t r_align);
+EXTERNL int nc__enddef(int ncid, size_t h_minfree, size_t v_align, size_t v_minfree, size_t r_align);
 
-EXTERNL int
-nc_enddef(int ncid);
+EXTERNL int nc_enddef(int ncid);
 
-EXTERNL int
-nc_sync(int ncid);
+EXTERNL int nc_sync(int ncid);
 
-EXTERNL int
-nc_abort(int ncid);
+EXTERNL int nc_abort(int ncid);
 
-EXTERNL int
-nc_close(int ncid);
+EXTERNL int nc_close(int ncid);
 
-EXTERNL int
-nc_inq(int ncid, int *ndimsp, int *nvarsp, int *nattsp, int *unlimdimidp);
+EXTERNL int nc_inq(int ncid, int *ndimsp, int *nvarsp, int *nattsp, int *unlimdimidp);
 
-EXTERNL int
-nc_inq_ndims(int ncid, int *ndimsp);
+EXTERNL int nc_inq_ndims(int ncid, int *ndimsp);
 
-EXTERNL int
-nc_inq_nvars(int ncid, int *nvarsp);
+EXTERNL int nc_inq_nvars(int ncid, int *nvarsp);
 
-EXTERNL int
-nc_inq_natts(int ncid, int *nattsp);
+EXTERNL int nc_inq_natts(int ncid, int *nattsp);
 
-EXTERNL int
-nc_inq_unlimdim(int ncid, int *unlimdimidp);
+EXTERNL int nc_inq_unlimdim(int ncid, int *unlimdimidp);
 
 /* The next function is for NetCDF-4 only */
-EXTERNL int
-nc_inq_unlimdims(int ncid, int *nunlimdimsp, int *unlimdimidsp);
+EXTERNL int nc_inq_unlimdims(int ncid, int *nunlimdimsp, int *unlimdimidsp);
 
 /* Added in 3.6.1 to return format of netCDF file. */
-EXTERNL int
-nc_inq_format(int ncid, int *formatp);
+EXTERNL int nc_inq_format(int ncid, int *formatp);
 
 /* Added in 4.3.1 to return additional format info */
-EXTERNL int
-nc_inq_format_extended(int ncid, int *formatp, int* modep);
+EXTERNL int nc_inq_format_extended(int ncid, int *formatp, int* modep);
 
 /* Begin _dim */
 
-EXTERNL int
-nc_def_dim(int ncid, const char *name, size_t len, int *idp);
+EXTERNL int nc_def_dim(int ncid, const char *name, size_t len, int *idp);
 
-EXTERNL int
-nc_inq_dimid(int ncid, const char *name, int *idp);
+EXTERNL int nc_inq_dimid(int ncid, const char *name, int *idp);
 
-EXTERNL int
-nc_inq_dim(int ncid, int dimid, char *name, size_t *lenp);
+EXTERNL int nc_inq_dim(int ncid, int dimid, char *name, size_t *lenp);
 
-EXTERNL int
-nc_inq_dimname(int ncid, int dimid, char *name);
+EXTERNL int nc_inq_dimname(int ncid, int dimid, char *name);
 
-EXTERNL int
-nc_inq_dimlen(int ncid, int dimid, size_t *lenp);
+EXTERNL int nc_inq_dimlen(int ncid, int dimid, size_t *lenp);
 
-EXTERNL int
-nc_rename_dim(int ncid, int dimid, const char *name);
+EXTERNL int nc_rename_dim(int ncid, int dimid, const char *name);
 
 /* End _dim */
 /* Begin _att */
 
-EXTERNL int
-nc_inq_att(int ncid, int varid, const char *name,
-           nc_type *xtypep, size_t *lenp);
+EXTERNL int nc_inq_att(int ncid, int varid, const char *name, nc_type *xtypep, size_t *lenp);
 
-EXTERNL int
-nc_inq_attid(int ncid, int varid, const char *name, int *idp);
+EXTERNL int nc_inq_attid(int ncid, int varid, const char *name, int *idp);
 
-EXTERNL int
-nc_inq_atttype(int ncid, int varid, const char *name, nc_type *xtypep);
+EXTERNL int nc_inq_atttype(int ncid, int varid, const char *name, nc_type *xtypep);
 
-EXTERNL int
-nc_inq_attlen(int ncid, int varid, const char *name, size_t *lenp);
+EXTERNL int nc_inq_attlen(int ncid, int varid, const char *name, size_t *lenp);
 
-EXTERNL int
-nc_inq_attname(int ncid, int varid, int attnum, char *name);
+EXTERNL int nc_inq_attname(int ncid, int varid, int attnum, char *name);
 
-EXTERNL int
-nc_copy_att(int ncid_in, int varid_in, const char *name, int ncid_out, int varid_out);
+EXTERNL int nc_copy_att(int ncid_in, int varid_in, const char *name, int ncid_out, int varid_out);
 
-EXTERNL int
-nc_rename_att(int ncid, int varid, const char *name, const char *newname);
+EXTERNL int nc_rename_att(int ncid, int varid, const char *name, const char *newname);
 
-EXTERNL int
-nc_del_att(int ncid, int varid, const char *name);
+EXTERNL int nc_del_att(int ncid, int varid, const char *name);
 
 /* End _att */
 /* Begin {put,get}_att */
-EXTERNL int
-nc_put_att_text(int ncid, int varid, const char *name,
-                size_t len, const char *op);
+EXTERNL int nc_put_att_text(int ncid, int varid, const char *name, size_t len, const char *op);
 
-EXTERNL int
-nc_get_att_text(int ncid, int varid, const char *name, char *ip);
+EXTERNL int nc_get_att_text(int ncid, int varid, const char *name, char *ip);
 
-EXTERNL int
-nc_put_att_string(int ncid, int varid, const char *name,
-                  size_t len, const char **op);
+EXTERNL int nc_put_att_string(int ncid, int varid, const char *name, size_t len, const char **op);
 
-EXTERNL int
-nc_get_att_string(int ncid, int varid, const char *name, char **ip);
+EXTERNL int nc_get_att_string(int ncid, int varid, const char *name, char **ip);
 
-EXTERNL int
-nc_put_att_uchar(int ncid, int varid, const char *name, nc_type xtype,
-                 size_t len, const unsigned char *op);
+EXTERNL int nc_put_att_uchar(int ncid, int varid, const char *name, nc_type xtype, size_t len, const unsigned char *op);
 
-EXTERNL int
-nc_get_att_uchar(int ncid, int varid, const char *name, unsigned char *ip);
+EXTERNL int nc_get_att_uchar(int ncid, int varid, const char *name, unsigned char *ip);
 
-EXTERNL int
-nc_put_att_schar(int ncid, int varid, const char *name, nc_type xtype,
-                 size_t len, const signed char *op);
+EXTERNL int nc_put_att_schar(int ncid, int varid, const char *name, nc_type xtype, size_t len, const signed char *op);
 
-EXTERNL int
-nc_get_att_schar(int ncid, int varid, const char *name, signed char *ip);
+EXTERNL int nc_get_att_schar(int ncid, int varid, const char *name, signed char *ip);
 
-EXTERNL int
-nc_put_att_short(int ncid, int varid, const char *name, nc_type xtype,
-                 size_t len, const short *op);
+EXTERNL int nc_put_att_short(int ncid, int varid, const char *name, nc_type xtype, size_t len, const short *op);
 
-EXTERNL int
-nc_get_att_short(int ncid, int varid, const char *name, short *ip);
+EXTERNL int nc_get_att_short(int ncid, int varid, const char *name, short *ip);
 
-EXTERNL int
-nc_put_att_int(int ncid, int varid, const char *name, nc_type xtype,
-               size_t len, const int *op);
+EXTERNL int nc_put_att_int(int ncid, int varid, const char *name, nc_type xtype, size_t len, const int *op);
 
-EXTERNL int
-nc_get_att_int(int ncid, int varid, const char *name, int *ip);
+EXTERNL int nc_get_att_int(int ncid, int varid, const char *name, int *ip);
 
-EXTERNL int
-nc_put_att_long(int ncid, int varid, const char *name, nc_type xtype,
-                size_t len, const long *op);
+EXTERNL int nc_put_att_long(int ncid, int varid, const char *name, nc_type xtype, size_t len, const long *op);
 
-EXTERNL int
-nc_get_att_long(int ncid, int varid, const char *name, long *ip);
+EXTERNL int nc_get_att_long(int ncid, int varid, const char *name, long *ip);
 
-EXTERNL int
-nc_put_att_float(int ncid, int varid, const char *name, nc_type xtype,
-                 size_t len, const float *op);
+EXTERNL int nc_put_att_float(int ncid, int varid, const char *name, nc_type xtype, size_t len, const float *op);
 
-EXTERNL int
-nc_get_att_float(int ncid, int varid, const char *name, float *ip);
+EXTERNL int nc_get_att_float(int ncid, int varid, const char *name, float *ip);
 
-EXTERNL int
-nc_put_att_double(int ncid, int varid, const char *name, nc_type xtype,
-                  size_t len, const double *op);
+EXTERNL int nc_put_att_double(int ncid, int varid, const char *name, nc_type xtype, size_t len, const double *op);
 
-EXTERNL int
-nc_get_att_double(int ncid, int varid, const char *name, double *ip);
+EXTERNL int nc_get_att_double(int ncid, int varid, const char *name, double *ip);
 
-EXTERNL int
-nc_put_att_ushort(int ncid, int varid, const char *name, nc_type xtype,
-                  size_t len, const unsigned short *op);
+EXTERNL int nc_put_att_ushort(int ncid, int varid, const char *name, nc_type xtype, size_t len, const unsigned short *op);
 
-EXTERNL int
-nc_get_att_ushort(int ncid, int varid, const char *name, unsigned short *ip);
+EXTERNL int nc_get_att_ushort(int ncid, int varid, const char *name, unsigned short *ip);
 
-EXTERNL int
-nc_put_att_uint(int ncid, int varid, const char *name, nc_type xtype,
-                size_t len, const unsigned int *op);
+EXTERNL int nc_put_att_uint(int ncid, int varid, const char *name, nc_type xtype, size_t len, const unsigned int *op);
 
-EXTERNL int
-nc_get_att_uint(int ncid, int varid, const char *name, unsigned int *ip);
+EXTERNL int nc_get_att_uint(int ncid, int varid, const char *name, unsigned int *ip);
 
-EXTERNL int
-nc_put_att_longlong(int ncid, int varid, const char *name, nc_type xtype,
-                 size_t len, const long long *op);
+EXTERNL int nc_put_att_longlong(int ncid, int varid, const char *name, nc_type xtype, size_t len, const long long *op);
 
-EXTERNL int
-nc_get_att_longlong(int ncid, int varid, const char *name, long long *ip);
+EXTERNL int nc_get_att_longlong(int ncid, int varid, const char *name, long long *ip);
 
-EXTERNL int
-nc_put_att_ulonglong(int ncid, int varid, const char *name, nc_type xtype,
-                     size_t len, const unsigned long long *op);
+EXTERNL int nc_put_att_ulonglong(int ncid, int varid, const char *name, nc_type xtype, size_t len, const unsigned long long *op);
 
-EXTERNL int
-nc_get_att_ulonglong(int ncid, int varid, const char *name,
-                     unsigned long long *ip);
-
+EXTERNL int nc_get_att_ulonglong(int ncid, int varid, const char *name, unsigned long long *ip);
 
 /* End {put,get}_att */
 /* Begin _var */
 
-EXTERNL int
-nc_def_var(int ncid, const char *name, nc_type xtype, int ndims,
-           const int *dimidsp, int *varidp);
+EXTERNL int nc_def_var(int ncid, const char *name, nc_type xtype, int ndims, const int *dimidsp, int *varidp);
 
-EXTERNL int
-nc_inq_var(int ncid, int varid, char *name, nc_type *xtypep,
-           int *ndimsp, int *dimidsp, int *nattsp);
+EXTERNL int nc_inq_var(int ncid, int varid, char *name, nc_type *xtypep, int *ndimsp, int *dimidsp, int *nattsp);
 
-EXTERNL int
-nc_inq_varid(int ncid, const char *name, int *varidp);
+EXTERNL int nc_inq_varid(int ncid, const char *name, int *varidp);
 
-EXTERNL int
-nc_inq_varname(int ncid, int varid, char *name);
+EXTERNL int nc_inq_varname(int ncid, int varid, char *name);
 
-EXTERNL int
-nc_inq_vartype(int ncid, int varid, nc_type *xtypep);
+EXTERNL int nc_inq_vartype(int ncid, int varid, nc_type *xtypep);
 
-EXTERNL int
-nc_inq_varndims(int ncid, int varid, int *ndimsp);
+EXTERNL int nc_inq_varndims(int ncid, int varid, int *ndimsp);
 
-EXTERNL int
-nc_inq_vardimid(int ncid, int varid, int *dimidsp);
+EXTERNL int nc_inq_vardimid(int ncid, int varid, int *dimidsp);
 
-EXTERNL int
-nc_inq_varnatts(int ncid, int varid, int *nattsp);
+EXTERNL int nc_inq_varnatts(int ncid, int varid, int *nattsp);
 
-EXTERNL int
-nc_rename_var(int ncid, int varid, const char *name);
+EXTERNL int nc_rename_var(int ncid, int varid, const char *name);
 
-EXTERNL int
-nc_copy_var(int ncid_in, int varid, int ncid_out);
+EXTERNL int nc_copy_var(int ncid_in, int varid, int ncid_out);
 
 #ifndef ncvarcpy
 /* support the old name for now */
@@ -1157,607 +955,314 @@ nc_copy_var(int ncid_in, int varid, int ncid_out);
 /* End _var */
 /* Begin {put,get}_var1 */
 
-EXTERNL int
-nc_put_var1_text(int ncid, int varid, const size_t *indexp, const char *op);
+EXTERNL int nc_put_var1_text(int ncid, int varid, const size_t *indexp, const char *op);
 
-EXTERNL int
-nc_get_var1_text(int ncid, int varid, const size_t *indexp, char *ip);
+EXTERNL int nc_get_var1_text(int ncid, int varid, const size_t *indexp, char *ip);
 
-EXTERNL int
-nc_put_var1_uchar(int ncid, int varid, const size_t *indexp,
-                  const unsigned char *op);
+EXTERNL int nc_put_var1_uchar(int ncid, int varid, const size_t *indexp, const unsigned char *op);
 
-EXTERNL int
-nc_get_var1_uchar(int ncid, int varid, const size_t *indexp,
-                  unsigned char *ip);
+EXTERNL int nc_get_var1_uchar(int ncid, int varid, const size_t *indexp, unsigned char *ip);
 
-EXTERNL int
-nc_put_var1_schar(int ncid, int varid, const size_t *indexp,
-                  const signed char *op);
+EXTERNL int nc_put_var1_schar(int ncid, int varid, const size_t *indexp, const signed char *op);
 
-EXTERNL int
-nc_get_var1_schar(int ncid, int varid, const size_t *indexp,
-                  signed char *ip);
+EXTERNL int nc_get_var1_schar(int ncid, int varid, const size_t *indexp, signed char *ip);
 
-EXTERNL int
-nc_put_var1_short(int ncid, int varid, const size_t *indexp,
-                  const short *op);
+EXTERNL int nc_put_var1_short(int ncid, int varid, const size_t *indexp, const short *op);
 
-EXTERNL int
-nc_get_var1_short(int ncid, int varid, const size_t *indexp,
-                  short *ip);
+EXTERNL int nc_get_var1_short(int ncid, int varid, const size_t *indexp, short *ip);
 
-EXTERNL int
-nc_put_var1_int(int ncid, int varid, const size_t *indexp, const int *op);
+EXTERNL int nc_put_var1_int(int ncid, int varid, const size_t *indexp, const int *op);
 
-EXTERNL int
-nc_get_var1_int(int ncid, int varid, const size_t *indexp, int *ip);
+EXTERNL int nc_get_var1_int(int ncid, int varid, const size_t *indexp, int *ip);
 
-EXTERNL int
-nc_put_var1_long(int ncid, int varid, const size_t *indexp, const long *op);
+EXTERNL int nc_put_var1_long(int ncid, int varid, const size_t *indexp, const long *op);
 
-EXTERNL int
-nc_get_var1_long(int ncid, int varid, const size_t *indexp, long *ip);
+EXTERNL int nc_get_var1_long(int ncid, int varid, const size_t *indexp, long *ip);
 
-EXTERNL int
-nc_put_var1_float(int ncid, int varid, const size_t *indexp, const float *op);
+EXTERNL int nc_put_var1_float(int ncid, int varid, const size_t *indexp, const float *op);
 
-EXTERNL int
-nc_get_var1_float(int ncid, int varid, const size_t *indexp, float *ip);
+EXTERNL int nc_get_var1_float(int ncid, int varid, const size_t *indexp, float *ip);
 
-EXTERNL int
-nc_put_var1_double(int ncid, int varid, const size_t *indexp, const double *op);
+EXTERNL int nc_put_var1_double(int ncid, int varid, const size_t *indexp, const double *op);
 
-EXTERNL int
-nc_get_var1_double(int ncid, int varid, const size_t *indexp, double *ip);
+EXTERNL int nc_get_var1_double(int ncid, int varid, const size_t *indexp, double *ip);
 
-EXTERNL int
-nc_put_var1_ushort(int ncid, int varid, const size_t *indexp,
-                   const unsigned short *op);
+EXTERNL int nc_put_var1_ushort(int ncid, int varid, const size_t *indexp, const unsigned short *op);
 
-EXTERNL int
-nc_get_var1_ushort(int ncid, int varid, const size_t *indexp,
-                   unsigned short *ip);
+EXTERNL int nc_get_var1_ushort(int ncid, int varid, const size_t *indexp, unsigned short *ip);
 
-EXTERNL int
-nc_put_var1_uint(int ncid, int varid, const size_t *indexp,
-                 const unsigned int *op);
+EXTERNL int nc_put_var1_uint(int ncid, int varid, const size_t *indexp, const unsigned int *op);
 
-EXTERNL int
-nc_get_var1_uint(int ncid, int varid, const size_t *indexp,
-                 unsigned int *ip);
+EXTERNL int nc_get_var1_uint(int ncid, int varid, const size_t *indexp, unsigned int *ip);
 
-EXTERNL int
-nc_put_var1_longlong(int ncid, int varid, const size_t *indexp,
-                     const long long *op);
+EXTERNL int nc_put_var1_longlong(int ncid, int varid, const size_t *indexp, const long long *op);
 
-EXTERNL int
-nc_get_var1_longlong(int ncid, int varid, const size_t *indexp,
-                  long long *ip);
+EXTERNL int nc_get_var1_longlong(int ncid, int varid, const size_t *indexp, long long *ip);
 
-EXTERNL int
-nc_put_var1_ulonglong(int ncid, int varid, const size_t *indexp,
-                   const unsigned long long *op);
+EXTERNL int nc_put_var1_ulonglong(int ncid, int varid, const size_t *indexp, const unsigned long long *op);
 
-EXTERNL int
-nc_get_var1_ulonglong(int ncid, int varid, const size_t *indexp,
-                   unsigned long long *ip);
+EXTERNL int nc_get_var1_ulonglong(int ncid, int varid, const size_t *indexp, unsigned long long *ip);
 
-EXTERNL int
-nc_put_var1_string(int ncid, int varid, const size_t *indexp,
-                   const char **op);
+EXTERNL int nc_put_var1_string(int ncid, int varid, const size_t *indexp, const char **op);
 
-EXTERNL int
-nc_get_var1_string(int ncid, int varid, const size_t *indexp,
-                   char **ip);
+EXTERNL int nc_get_var1_string(int ncid, int varid, const size_t *indexp, char **ip);
 
 /* End {put,get}_var1 */
 /* Begin {put,get}_vara */
 
-EXTERNL int
-nc_put_vara_text(int ncid, int varid, const size_t *startp,
-                 const size_t *countp, const char *op);
+EXTERNL int nc_put_vara_text(int ncid, int varid, const size_t *startp, const size_t *countp, const char *op);
 
-EXTERNL int
-nc_get_vara_text(int ncid, int varid, const size_t *startp,
-                 const size_t *countp, char *ip);
+EXTERNL int nc_get_vara_text(int ncid, int varid, const size_t *startp, const size_t *countp, char *ip);
 
-EXTERNL int
-nc_put_vara_uchar(int ncid, int varid, const size_t *startp,
-                  const size_t *countp, const unsigned char *op);
+EXTERNL int nc_put_vara_uchar(int ncid, int varid, const size_t *startp, const size_t *countp, const unsigned char *op);
 
-EXTERNL int
-nc_get_vara_uchar(int ncid, int varid, const size_t *startp,
-                  const size_t *countp, unsigned char *ip);
+EXTERNL int nc_get_vara_uchar(int ncid, int varid, const size_t *startp, const size_t *countp, unsigned char *ip);
 
-EXTERNL int
-nc_put_vara_schar(int ncid, int varid, const size_t *startp,
-                  const size_t *countp, const signed char *op);
+EXTERNL int nc_put_vara_schar(int ncid, int varid, const size_t *startp, const size_t *countp, const signed char *op);
 
-EXTERNL int
-nc_get_vara_schar(int ncid, int varid, const size_t *startp,
-                  const size_t *countp, signed char *ip);
+EXTERNL int nc_get_vara_schar(int ncid, int varid, const size_t *startp, const size_t *countp, signed char *ip);
 
-EXTERNL int
-nc_put_vara_short(int ncid, int varid, const size_t *startp,
-                  const size_t *countp, const short *op);
+EXTERNL int nc_put_vara_short(int ncid, int varid, const size_t *startp, const size_t *countp, const short *op);
 
-EXTERNL int
-nc_get_vara_short(int ncid, int varid, const size_t *startp,
-                  const size_t *countp, short *ip);
+EXTERNL int nc_get_vara_short(int ncid, int varid, const size_t *startp, const size_t *countp, short *ip);
 
-EXTERNL int
-nc_put_vara_int(int ncid, int varid, const size_t *startp,
-                const size_t *countp, const int *op);
+EXTERNL int nc_put_vara_int(int ncid, int varid, const size_t *startp, const size_t *countp, const int *op);
 
-EXTERNL int
-nc_get_vara_int(int ncid, int varid, const size_t *startp,
-                const size_t *countp, int *ip);
+EXTERNL int nc_get_vara_int(int ncid, int varid, const size_t *startp, const size_t *countp, int *ip);
 
-EXTERNL int
-nc_put_vara_long(int ncid, int varid, const size_t *startp,
-                 const size_t *countp, const long *op);
+EXTERNL int nc_put_vara_long(int ncid, int varid, const size_t *startp, const size_t *countp, const long *op);
 
-EXTERNL int
-nc_get_vara_long(int ncid, int varid,
-        const size_t *startp, const size_t *countp, long *ip);
+EXTERNL int nc_get_vara_long(int ncid, int varid, const size_t *startp, const size_t *countp, long *ip);
 
-EXTERNL int
-nc_put_vara_float(int ncid, int varid,
-        const size_t *startp, const size_t *countp, const float *op);
+EXTERNL int nc_put_vara_float(int ncid, int varid, const size_t *startp, const size_t *countp, const float *op);
 
-EXTERNL int
-nc_get_vara_float(int ncid, int varid,
-        const size_t *startp, const size_t *countp, float *ip);
+EXTERNL int nc_get_vara_float(int ncid, int varid, const size_t *startp, const size_t *countp, float *ip);
 
-EXTERNL int
-nc_put_vara_double(int ncid, int varid, const size_t *startp,
-                   const size_t *countp, const double *op);
+EXTERNL int nc_put_vara_double(int ncid, int varid, const size_t *startp, const size_t *countp, const double *op);
 
-EXTERNL int
-nc_get_vara_double(int ncid, int varid, const size_t *startp,
-                   const size_t *countp, double *ip);
+EXTERNL int nc_get_vara_double(int ncid, int varid, const size_t *startp, const size_t *countp, double *ip);
 
-EXTERNL int
-nc_put_vara_ushort(int ncid, int varid, const size_t *startp,
-                   const size_t *countp, const unsigned short *op);
+EXTERNL int nc_put_vara_ushort(int ncid, int varid, const size_t *startp, const size_t *countp, const unsigned short *op);
 
-EXTERNL int
-nc_get_vara_ushort(int ncid, int varid, const size_t *startp,
-                   const size_t *countp, unsigned short *ip);
+EXTERNL int nc_get_vara_ushort(int ncid, int varid, const size_t *startp, const size_t *countp, unsigned short *ip);
 
-EXTERNL int
-nc_put_vara_uint(int ncid, int varid, const size_t *startp,
-                 const size_t *countp, const unsigned int *op);
+EXTERNL int nc_put_vara_uint(int ncid, int varid, const size_t *startp, const size_t *countp, const unsigned int *op);
 
-EXTERNL int
-nc_get_vara_uint(int ncid, int varid, const size_t *startp,
-                 const size_t *countp, unsigned int *ip);
+EXTERNL int nc_get_vara_uint(int ncid, int varid, const size_t *startp, const size_t *countp, unsigned int *ip);
 
-EXTERNL int
-nc_put_vara_longlong(int ncid, int varid, const size_t *startp,
-                  const size_t *countp, const long long *op);
+EXTERNL int nc_put_vara_longlong(int ncid, int varid, const size_t *startp, const size_t *countp, const long long *op);
 
-EXTERNL int
-nc_get_vara_longlong(int ncid, int varid, const size_t *startp,
-                  const size_t *countp, long long *ip);
+EXTERNL int nc_get_vara_longlong(int ncid, int varid, const size_t *startp, const size_t *countp, long long *ip);
 
-EXTERNL int
-nc_put_vara_ulonglong(int ncid, int varid, const size_t *startp,
-                   const size_t *countp, const unsigned long long *op);
+EXTERNL int nc_put_vara_ulonglong(int ncid, int varid, const size_t *startp, const size_t *countp, const unsigned long long *op);
 
-EXTERNL int
-nc_get_vara_ulonglong(int ncid, int varid, const size_t *startp,
-                   const size_t *countp, unsigned long long *ip);
+EXTERNL int nc_get_vara_ulonglong(int ncid, int varid, const size_t *startp, const size_t *countp, unsigned long long *ip);
 
-EXTERNL int
-nc_put_vara_string(int ncid, int varid, const size_t *startp,
-                   const size_t *countp, const char **op);
+EXTERNL int nc_put_vara_string(int ncid, int varid, const size_t *startp, const size_t *countp, const char **op);
 
-EXTERNL int
-nc_get_vara_string(int ncid, int varid, const size_t *startp,
-                   const size_t *countp, char **ip);
+EXTERNL int nc_get_vara_string(int ncid, int varid, const size_t *startp, const size_t *countp, char **ip);
 
 /* End {put,get}_vara */
 /* Begin {put,get}_vars */
 
-EXTERNL int
-nc_put_vars_text(int ncid, int varid,
-        const size_t *startp, const size_t *countp, const ptrdiff_t *stridep,
-        const char *op);
+EXTERNL int nc_put_vars_text(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const char *op);
 
-EXTERNL int
-nc_get_vars_text(int ncid, int varid,
-        const size_t *startp, const size_t *countp, const ptrdiff_t *stridep,
-        char *ip);
+EXTERNL int nc_get_vars_text(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, char *ip);
 
-EXTERNL int
-nc_put_vars_uchar(int ncid, int varid,
-        const size_t *startp, const size_t *countp, const ptrdiff_t *stridep,
-        const unsigned char *op);
+EXTERNL int nc_put_vars_uchar(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const unsigned char *op);
 
-EXTERNL int
-nc_get_vars_uchar(int ncid, int varid,
-        const size_t *startp, const size_t *countp, const ptrdiff_t *stridep,
-        unsigned char *ip);
+EXTERNL int nc_get_vars_uchar(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, unsigned char *ip);
 
-EXTERNL int
-nc_put_vars_schar(int ncid, int varid,
-        const size_t *startp, const size_t *countp, const ptrdiff_t *stridep,
-        const signed char *op);
+EXTERNL int nc_put_vars_schar(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const signed char *op);
 
-EXTERNL int
-nc_get_vars_schar(int ncid, int varid,
-        const size_t *startp, const size_t *countp, const ptrdiff_t *stridep,
-        signed char *ip);
+EXTERNL int nc_get_vars_schar(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, signed char *ip);
 
-EXTERNL int
-nc_put_vars_short(int ncid, int varid,
-        const size_t *startp, const size_t *countp, const ptrdiff_t *stridep,
-        const short *op);
+EXTERNL int nc_put_vars_short(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const short *op);
 
-EXTERNL int
-nc_get_vars_short(int ncid, int varid, const size_t *startp,
-                  const size_t *countp, const ptrdiff_t *stridep,
-                  short *ip);
+EXTERNL int nc_get_vars_short(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, short *ip);
 
-EXTERNL int
-nc_put_vars_int(int ncid, int varid,
-        const size_t *startp, const size_t *countp, const ptrdiff_t *stridep,
-        const int *op);
+EXTERNL int nc_put_vars_int(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const int *op);
 
-EXTERNL int
-nc_get_vars_int(int ncid, int varid,
-        const size_t *startp, const size_t *countp, const ptrdiff_t *stridep,
-        int *ip);
+EXTERNL int nc_get_vars_int(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, int *ip);
 
-EXTERNL int
-nc_put_vars_long(int ncid, int varid,
-        const size_t *startp, const size_t *countp, const ptrdiff_t *stridep,
-        const long *op);
+EXTERNL int nc_put_vars_long(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const long *op);
 
-EXTERNL int
-nc_get_vars_long(int ncid, int varid,
-        const size_t *startp, const size_t *countp, const ptrdiff_t *stridep,
-        long *ip);
+EXTERNL int nc_get_vars_long(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, long *ip);
 
-EXTERNL int
-nc_put_vars_float(int ncid, int varid,
-        const size_t *startp, const size_t *countp, const ptrdiff_t *stridep,
-        const float *op);
+EXTERNL int nc_put_vars_float(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const float *op);
 
-EXTERNL int
-nc_get_vars_float(int ncid, int varid,
-        const size_t *startp, const size_t *countp, const ptrdiff_t *stridep,
-        float *ip);
+EXTERNL int nc_get_vars_float(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, float *ip);
 
-EXTERNL int
-nc_put_vars_double(int ncid, int varid,
-        const size_t *startp, const size_t *countp, const ptrdiff_t *stridep,
-        const double *op);
+EXTERNL int nc_put_vars_double(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const double *op);
 
-EXTERNL int
-nc_get_vars_double(int ncid, int varid, const size_t *startp,
-                   const size_t *countp, const ptrdiff_t *stridep,
-                   double *ip);
+EXTERNL int nc_get_vars_double(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, double *ip);
 
-EXTERNL int
-nc_put_vars_ushort(int ncid, int varid, const size_t *startp,
-                   const size_t *countp, const ptrdiff_t *stridep,
-                   const unsigned short *op);
+EXTERNL int nc_put_vars_ushort(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const unsigned short *op);
 
-EXTERNL int
-nc_get_vars_ushort(int ncid, int varid, const size_t *startp,
-                   const size_t *countp, const ptrdiff_t *stridep,
-                   unsigned short *ip);
+EXTERNL int nc_get_vars_ushort(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, unsigned short *ip);
 
-EXTERNL int
-nc_put_vars_uint(int ncid, int varid, const size_t *startp,
-                 const size_t *countp, const ptrdiff_t *stridep,
-                 const unsigned int *op);
+EXTERNL int nc_put_vars_uint(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const unsigned int *op);
 
-EXTERNL int
-nc_get_vars_uint(int ncid, int varid, const size_t *startp,
-                 const size_t *countp, const ptrdiff_t *stridep,
-                 unsigned int *ip);
+EXTERNL int nc_get_vars_uint(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, unsigned int *ip);
 
-EXTERNL int
-nc_put_vars_longlong(int ncid, int varid, const size_t *startp,
-                  const size_t *countp, const ptrdiff_t *stridep,
-                  const long long *op);
+EXTERNL int nc_put_vars_longlong(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const long long *op);
 
-EXTERNL int
-nc_get_vars_longlong(int ncid, int varid, const size_t *startp,
-                  const size_t *countp, const ptrdiff_t *stridep,
-                  long long *ip);
+EXTERNL int nc_get_vars_longlong(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, long long *ip);
 
-EXTERNL int
-nc_put_vars_ulonglong(int ncid, int varid, const size_t *startp,
-                   const size_t *countp, const ptrdiff_t *stridep,
-                   const unsigned long long *op);
+EXTERNL int nc_put_vars_ulonglong(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const unsigned long long *op);
 
-EXTERNL int
-nc_get_vars_ulonglong(int ncid, int varid, const size_t *startp,
-                   const size_t *countp, const ptrdiff_t *stridep,
-                   unsigned long long *ip);
+EXTERNL int nc_get_vars_ulonglong(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, unsigned long long *ip);
 
-EXTERNL int
-nc_put_vars_string(int ncid, int varid, const size_t *startp,
-                   const size_t *countp, const ptrdiff_t *stridep,
-                   const char **op);
+EXTERNL int nc_put_vars_string(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const char **op);
 
-EXTERNL int
-nc_get_vars_string(int ncid, int varid, const size_t *startp,
-                   const size_t *countp, const ptrdiff_t *stridep,
-                   char **ip);
+EXTERNL int nc_get_vars_string(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, char **ip);
 
 /* End {put,get}_vars */
 /* Begin {put,get}_varm */
 
-EXTERNL int
-nc_put_varm_text(int ncid, int varid, const size_t *startp,
-                 const size_t *countp, const ptrdiff_t *stridep,
-                 const ptrdiff_t *imapp, const char *op);
+EXTERNL int nc_put_varm_text(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const ptrdiff_t *imapp, const char *op);
 
-EXTERNL int
-nc_get_varm_text(int ncid, int varid, const size_t *startp,
-                 const size_t *countp, const ptrdiff_t *stridep,
-                 const ptrdiff_t *imapp, char *ip);
+EXTERNL int nc_get_varm_text(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const ptrdiff_t *imapp, char *ip);
 
-EXTERNL int
-nc_put_varm_uchar(int ncid, int varid, const size_t *startp,
-                  const size_t *countp, const ptrdiff_t *stridep,
-                  const ptrdiff_t *imapp, const unsigned char *op);
+EXTERNL int nc_put_varm_uchar(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const ptrdiff_t *imapp, const unsigned char *op);
 
-EXTERNL int
-nc_get_varm_uchar(int ncid, int varid, const size_t *startp,
-                  const size_t *countp, const ptrdiff_t *stridep,
-                  const ptrdiff_t *imapp, unsigned char *ip);
+EXTERNL int nc_get_varm_uchar(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const ptrdiff_t *imapp, unsigned char *ip);
 
-EXTERNL int
-nc_put_varm_schar(int ncid, int varid, const size_t *startp,
-                  const size_t *countp, const ptrdiff_t *stridep,
-                  const ptrdiff_t *imapp, const signed char *op);
+EXTERNL int nc_put_varm_schar(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const ptrdiff_t *imapp, const signed char *op);
 
-EXTERNL int
-nc_get_varm_schar(int ncid, int varid, const size_t *startp,
-                  const size_t *countp, const ptrdiff_t *stridep,
-                  const ptrdiff_t *imapp, signed char *ip);
+EXTERNL int nc_get_varm_schar(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const ptrdiff_t *imapp, signed char *ip);
 
-EXTERNL int
-nc_put_varm_short(int ncid, int varid, const size_t *startp,
-                  const size_t *countp, const ptrdiff_t *stridep,
-                  const ptrdiff_t *imapp, const short *op);
+EXTERNL int nc_put_varm_short(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const ptrdiff_t *imapp, const short *op);
 
-EXTERNL int
-nc_get_varm_short(int ncid, int varid, const size_t *startp,
-                  const size_t *countp, const ptrdiff_t *stridep,
-                  const ptrdiff_t *imapp, short *ip);
+EXTERNL int nc_get_varm_short(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const ptrdiff_t *imapp, short *ip);
 
-EXTERNL int
-nc_put_varm_int(int ncid, int varid, const size_t *startp,
-                const size_t *countp, const ptrdiff_t *stridep,
-                const ptrdiff_t *imapp, const int *op);
+EXTERNL int nc_put_varm_int(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const ptrdiff_t *imapp, const int *op);
 
-EXTERNL int
-nc_get_varm_int(int ncid, int varid, const size_t *startp,
-                const size_t *countp, const ptrdiff_t *stridep,
-                const ptrdiff_t *imapp, int *ip);
+EXTERNL int nc_get_varm_int(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const ptrdiff_t *imapp, int *ip);
 
-EXTERNL int
-nc_put_varm_long(int ncid, int varid, const size_t *startp,
-                 const size_t *countp, const ptrdiff_t *stridep,
-                 const ptrdiff_t *imapp, const long *op);
+EXTERNL int nc_put_varm_long(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const ptrdiff_t *imapp, const long *op);
 
-EXTERNL int
-nc_get_varm_long(int ncid, int varid, const size_t *startp,
-                 const size_t *countp, const ptrdiff_t *stridep,
-                 const ptrdiff_t *imapp, long *ip);
+EXTERNL int nc_get_varm_long(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const ptrdiff_t *imapp, long *ip);
 
-EXTERNL int
-nc_put_varm_float(int ncid, int varid,const size_t *startp,
-                  const size_t *countp, const ptrdiff_t *stridep,
-                  const ptrdiff_t *imapp, const float *op);
+EXTERNL int nc_put_varm_float(int ncid, int varid,const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const ptrdiff_t *imapp, const float *op);
 
-EXTERNL int
-nc_get_varm_float(int ncid, int varid,const size_t *startp,
-                  const size_t *countp, const ptrdiff_t *stridep,
-                  const ptrdiff_t *imapp, float *ip);
+EXTERNL int nc_get_varm_float(int ncid, int varid,const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const ptrdiff_t *imapp, float *ip);
 
-EXTERNL int
-nc_put_varm_double(int ncid, int varid, const size_t *startp,
-                   const size_t *countp, const ptrdiff_t *stridep,
-                   const ptrdiff_t *imapp, const double *op);
+EXTERNL int nc_put_varm_double(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const ptrdiff_t *imapp, const double *op);
 
-EXTERNL int
-nc_get_varm_double(int ncid, int varid, const size_t *startp,
-                   const size_t *countp, const ptrdiff_t *stridep,
-                   const ptrdiff_t * imapp, double *ip);
+EXTERNL int nc_get_varm_double(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const ptrdiff_t * imapp, double *ip);
 
-EXTERNL int
-nc_put_varm_ushort(int ncid, int varid, const size_t *startp,
-                   const size_t *countp, const ptrdiff_t *stridep,
-                   const ptrdiff_t * imapp, const unsigned short *op);
+EXTERNL int nc_put_varm_ushort(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const ptrdiff_t * imapp, const unsigned short *op);
 
-EXTERNL int
-nc_get_varm_ushort(int ncid, int varid, const size_t *startp,
-                   const size_t *countp, const ptrdiff_t *stridep,
-                   const ptrdiff_t * imapp, unsigned short *ip);
+EXTERNL int nc_get_varm_ushort(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const ptrdiff_t * imapp, unsigned short *ip);
 
-EXTERNL int
-nc_put_varm_uint(int ncid, int varid, const size_t *startp,
-                 const size_t *countp, const ptrdiff_t *stridep,
-                 const ptrdiff_t * imapp, const unsigned int *op);
+EXTERNL int nc_put_varm_uint(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const ptrdiff_t * imapp, const unsigned int *op);
 
-EXTERNL int
-nc_get_varm_uint(int ncid, int varid, const size_t *startp,
-                 const size_t *countp, const ptrdiff_t *stridep,
-                 const ptrdiff_t * imapp, unsigned int *ip);
+EXTERNL int nc_get_varm_uint(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const ptrdiff_t * imapp, unsigned int *ip);
 
-EXTERNL int
-nc_put_varm_longlong(int ncid, int varid, const size_t *startp,
-                  const size_t *countp, const ptrdiff_t *stridep,
-                  const ptrdiff_t * imapp, const long long *op);
+EXTERNL int nc_put_varm_longlong(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const ptrdiff_t * imapp, const long long *op);
 
-EXTERNL int
-nc_get_varm_longlong(int ncid, int varid, const size_t *startp,
-                  const size_t *countp, const ptrdiff_t *stridep,
-                  const ptrdiff_t * imapp, long long *ip);
+EXTERNL int nc_get_varm_longlong(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const ptrdiff_t * imapp, long long *ip);
 
-EXTERNL int
-nc_put_varm_ulonglong(int ncid, int varid, const size_t *startp,
-                   const size_t *countp, const ptrdiff_t *stridep,
-                   const ptrdiff_t * imapp, const unsigned long long *op);
+EXTERNL int nc_put_varm_ulonglong(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const ptrdiff_t * imapp, const unsigned long long *op);
 
-EXTERNL int
-nc_get_varm_ulonglong(int ncid, int varid, const size_t *startp,
-                   const size_t *countp, const ptrdiff_t *stridep,
-                   const ptrdiff_t * imapp, unsigned long long *ip);
+EXTERNL int nc_get_varm_ulonglong(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const ptrdiff_t * imapp, unsigned long long *ip);
 
-EXTERNL int
-nc_put_varm_string(int ncid, int varid, const size_t *startp,
-                   const size_t *countp, const ptrdiff_t *stridep,
-                   const ptrdiff_t * imapp, const char **op);
+EXTERNL int nc_put_varm_string(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const ptrdiff_t * imapp, const char **op);
 
-EXTERNL int
-nc_get_varm_string(int ncid, int varid, const size_t *startp,
-                   const size_t *countp, const ptrdiff_t *stridep,
-                   const ptrdiff_t * imapp, char **ip);
+EXTERNL int nc_get_varm_string(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const ptrdiff_t * imapp, char **ip);
 
 /* End {put,get}_varm */
 /* Begin {put,get}_var */
 
-EXTERNL int
-nc_put_var_text(int ncid, int varid, const char *op);
+EXTERNL int nc_put_var_text(int ncid, int varid, const char *op);
 
-EXTERNL int
-nc_get_var_text(int ncid, int varid, char *ip);
+EXTERNL int nc_get_var_text(int ncid, int varid, char *ip);
 
-EXTERNL int
-nc_put_var_uchar(int ncid, int varid, const unsigned char *op);
+EXTERNL int nc_put_var_uchar(int ncid, int varid, const unsigned char *op);
 
-EXTERNL int
-nc_get_var_uchar(int ncid, int varid, unsigned char *ip);
+EXTERNL int nc_get_var_uchar(int ncid, int varid, unsigned char *ip);
 
-EXTERNL int
-nc_put_var_schar(int ncid, int varid, const signed char *op);
+EXTERNL int nc_put_var_schar(int ncid, int varid, const signed char *op);
 
-EXTERNL int
-nc_get_var_schar(int ncid, int varid, signed char *ip);
+EXTERNL int nc_get_var_schar(int ncid, int varid, signed char *ip);
 
-EXTERNL int
-nc_put_var_short(int ncid, int varid, const short *op);
+EXTERNL int nc_put_var_short(int ncid, int varid, const short *op);
 
-EXTERNL int
-nc_get_var_short(int ncid, int varid, short *ip);
+EXTERNL int nc_get_var_short(int ncid, int varid, short *ip);
 
-EXTERNL int
-nc_put_var_int(int ncid, int varid, const int *op);
+EXTERNL int nc_put_var_int(int ncid, int varid, const int *op);
 
-EXTERNL int
-nc_get_var_int(int ncid, int varid, int *ip);
+EXTERNL int nc_get_var_int(int ncid, int varid, int *ip);
 
-EXTERNL int
-nc_put_var_long(int ncid, int varid, const long *op);
+EXTERNL int nc_put_var_long(int ncid, int varid, const long *op);
 
-EXTERNL int
-nc_get_var_long(int ncid, int varid, long *ip);
+EXTERNL int nc_get_var_long(int ncid, int varid, long *ip);
 
-EXTERNL int
-nc_put_var_float(int ncid, int varid, const float *op);
+EXTERNL int nc_put_var_float(int ncid, int varid, const float *op);
 
-EXTERNL int
-nc_get_var_float(int ncid, int varid, float *ip);
+EXTERNL int nc_get_var_float(int ncid, int varid, float *ip);
 
-EXTERNL int
-nc_put_var_double(int ncid, int varid, const double *op);
+EXTERNL int nc_put_var_double(int ncid, int varid, const double *op);
 
-EXTERNL int
-nc_get_var_double(int ncid, int varid, double *ip);
+EXTERNL int nc_get_var_double(int ncid, int varid, double *ip);
 
-EXTERNL int
-nc_put_var_ushort(int ncid, int varid, const unsigned short *op);
+EXTERNL int nc_put_var_ushort(int ncid, int varid, const unsigned short *op);
 
-EXTERNL int
-nc_get_var_ushort(int ncid, int varid, unsigned short *ip);
+EXTERNL int nc_get_var_ushort(int ncid, int varid, unsigned short *ip);
 
-EXTERNL int
-nc_put_var_uint(int ncid, int varid, const unsigned int *op);
+EXTERNL int nc_put_var_uint(int ncid, int varid, const unsigned int *op);
 
-EXTERNL int
-nc_get_var_uint(int ncid, int varid, unsigned int *ip);
+EXTERNL int nc_get_var_uint(int ncid, int varid, unsigned int *ip);
 
-EXTERNL int
-nc_put_var_longlong(int ncid, int varid, const long long *op);
+EXTERNL int nc_put_var_longlong(int ncid, int varid, const long long *op);
 
-EXTERNL int
-nc_get_var_longlong(int ncid, int varid, long long *ip);
+EXTERNL int nc_get_var_longlong(int ncid, int varid, long long *ip);
 
-EXTERNL int
-nc_put_var_ulonglong(int ncid, int varid, const unsigned long long *op);
+EXTERNL int nc_put_var_ulonglong(int ncid, int varid, const unsigned long long *op);
 
-EXTERNL int
-nc_get_var_ulonglong(int ncid, int varid, unsigned long long *ip);
+EXTERNL int nc_get_var_ulonglong(int ncid, int varid, unsigned long long *ip);
 
-EXTERNL int
-nc_put_var_string(int ncid, int varid, const char **op);
+EXTERNL int nc_put_var_string(int ncid, int varid, const char **op);
 
-EXTERNL int
-nc_get_var_string(int ncid, int varid, char **ip);
+EXTERNL int nc_get_var_string(int ncid, int varid, char **ip);
 
 /* Begin Deprecated, same as functions with "_ubyte" replaced by "_uchar" */
-EXTERNL int
-nc_put_att_ubyte(int ncid, int varid, const char *name, nc_type xtype,
-                 size_t len, const unsigned char *op);
-EXTERNL int
-nc_get_att_ubyte(int ncid, int varid, const char *name,
-                 unsigned char *ip);
-EXTERNL int
-nc_put_var1_ubyte(int ncid, int varid, const size_t *indexp,
-                  const unsigned char *op);
-EXTERNL int
-nc_get_var1_ubyte(int ncid, int varid, const size_t *indexp,
-                  unsigned char *ip);
-EXTERNL int
-nc_put_vara_ubyte(int ncid, int varid, const size_t *startp,
-                  const size_t *countp, const unsigned char *op);
-EXTERNL int
-nc_get_vara_ubyte(int ncid, int varid, const size_t *startp,
-                  const size_t *countp, unsigned char *ip);
-EXTERNL int
-nc_put_vars_ubyte(int ncid, int varid, const size_t *startp,
-                  const size_t *countp, const ptrdiff_t *stridep,
-                  const unsigned char *op);
-EXTERNL int
-nc_get_vars_ubyte(int ncid, int varid, const size_t *startp,
-                  const size_t *countp, const ptrdiff_t *stridep,
-                  unsigned char *ip);
-EXTERNL int
-nc_put_varm_ubyte(int ncid, int varid, const size_t *startp,
-                  const size_t *countp, const ptrdiff_t *stridep,
-                  const ptrdiff_t * imapp, const unsigned char *op);
-EXTERNL int
-nc_get_varm_ubyte(int ncid, int varid, const size_t *startp,
-                  const size_t *countp, const ptrdiff_t *stridep,
-                  const ptrdiff_t * imapp, unsigned char *ip);
-EXTERNL int
-nc_put_var_ubyte(int ncid, int varid, const unsigned char *op);
-EXTERNL int
-nc_get_var_ubyte(int ncid, int varid, unsigned char *ip);
+EXTERNL int nc_put_att_ubyte(int ncid, int varid, const char *name, nc_type xtype, size_t len, const unsigned char *op);
+
+EXTERNL int nc_get_att_ubyte(int ncid, int varid, const char *name, unsigned char *ip);
+
+EXTERNL int nc_put_var1_ubyte(int ncid, int varid, const size_t *indexp, const unsigned char *op);
+
+EXTERNL int nc_get_var1_ubyte(int ncid, int varid, const size_t *indexp, unsigned char *ip);
+
+EXTERNL int nc_put_vara_ubyte(int ncid, int varid, const size_t *startp, const size_t *countp, const unsigned char *op);
+
+EXTERNL int nc_get_vara_ubyte(int ncid, int varid, const size_t *startp, const size_t *countp, unsigned char *ip);
+
+EXTERNL int nc_put_vars_ubyte(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const unsigned char *op);
+
+EXTERNL int nc_get_vars_ubyte(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, unsigned char *ip);
+
+EXTERNL int nc_put_varm_ubyte(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const ptrdiff_t * imapp, const unsigned char *op);
+
+EXTERNL int nc_get_varm_ubyte(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const ptrdiff_t * imapp, unsigned char *ip);
+
+EXTERNL int nc_put_var_ubyte(int ncid, int varid, const unsigned char *op);
+
+EXTERNL int nc_get_var_ubyte(int ncid, int varid, unsigned char *ip);
 /* End Deprecated */
 
 /* Set the log level. 0 shows only errors, 1 only major messages,
  * etc., to 5, which shows way too much information. */
-EXTERNL int
-nc_set_log_level(int new_level);
+EXTERNL int nc_set_log_level(int new_level);
 
 /* Use this to turn off logging by calling
    nc_log_level(NC_TURN_OFF_LOGGING) */
 #define NC_TURN_OFF_LOGGING (-1)
 
 /* Show the netCDF library's in-memory metadata for a file. */
-EXTERNL int
-nc_show_metadata(int ncid);
+EXTERNL int nc_show_metadata(int ncid);
 
 /* End {put,get}_var */
 
@@ -1776,31 +1281,22 @@ nc_show_metadata(int ncid);
  * can only use "processor element" 0.
  */
 
-EXTERNL int
-nc__create_mp(const char *path, int cmode, size_t initialsz, int basepe,
-         size_t *chunksizehintp, int *ncidp);
+EXTERNL int nc__create_mp(const char *path, int cmode, size_t initialsz, int basepe, size_t *chunksizehintp, int *ncidp);
 
-EXTERNL int
-nc__open_mp(const char *path, int mode, int basepe,
-        size_t *chunksizehintp, int *ncidp);
+EXTERNL int nc__open_mp(const char *path, int mode, int basepe, size_t *chunksizehintp, int *ncidp);
 
-EXTERNL int
-nc_delete(const char *path);
+EXTERNL int nc_delete(const char *path);
 
-EXTERNL int
-nc_delete_mp(const char *path, int basepe);
+EXTERNL int nc_delete_mp(const char *path, int basepe);
 
-EXTERNL int
-nc_set_base_pe(int ncid, int pe);
+EXTERNL int nc_set_base_pe(int ncid, int pe);
 
-EXTERNL int
-nc_inq_base_pe(int ncid, int *pe);
+EXTERNL int nc_inq_base_pe(int ncid, int *pe);
 
 /* #endif _CRAYMPP */
 
 /* This v2 function is used in the nc_test program. */
-EXTERNL int
-nctypelen(nc_type datatype);
+EXTERNL int nctypelen(nc_type datatype);
 
 /* Begin v2.4 backward compatibility */
 
@@ -1840,8 +1336,7 @@ EXTERNL int ncerr;
 /** V2 API error handling. Default is (NC_FATAL | NC_VERBOSE). */
 EXTERNL int ncopts;
 
-EXTERNL void
-nc_advise(const char *cdf_routine_name, int err, const char *fmt,...);
+EXTERNL void nc_advise(const char *cdf_routine_name, int err, const char *fmt,...);
 
 /**
  * C data type corresponding to a netCDF NC_LONG argument, a signed 32
@@ -1850,120 +1345,75 @@ nc_advise(const char *cdf_routine_name, int err, const char *fmt,...);
  */
 typedef int nclong;
 
-EXTERNL int
-nccreate(const char* path, int cmode);
+EXTERNL int nccreate(const char* path, int cmode);
 
-EXTERNL int
-ncopen(const char* path, int mode);
+EXTERNL int ncopen(const char* path, int mode);
 
-EXTERNL int
-ncsetfill(int ncid, int fillmode);
+EXTERNL int ncsetfill(int ncid, int fillmode);
 
-EXTERNL int
-ncredef(int ncid);
+EXTERNL int ncredef(int ncid);
 
-EXTERNL int
-ncendef(int ncid);
+EXTERNL int ncendef(int ncid);
 
-EXTERNL int
-ncsync(int ncid);
+EXTERNL int ncsync(int ncid);
 
-EXTERNL int
-ncabort(int ncid);
+EXTERNL int ncabort(int ncid);
 
-EXTERNL int
-ncclose(int ncid);
+EXTERNL int ncclose(int ncid);
 
-EXTERNL int
-ncinquire(int ncid, int *ndimsp, int *nvarsp, int *nattsp, int *unlimdimp);
+EXTERNL int ncinquire(int ncid, int *ndimsp, int *nvarsp, int *nattsp, int *unlimdimp);
 
-EXTERNL int
-ncdimdef(int ncid, const char *name, long len);
+EXTERNL int ncdimdef(int ncid, const char *name, long len);
 
-EXTERNL int
-ncdimid(int ncid, const char *name);
+EXTERNL int ncdimid(int ncid, const char *name);
 
-EXTERNL int
-ncdiminq(int ncid, int dimid, char *name, long *lenp);
+EXTERNL int ncdiminq(int ncid, int dimid, char *name, long *lenp);
 
-EXTERNL int
-ncdimrename(int ncid, int dimid, const char *name);
+EXTERNL int ncdimrename(int ncid, int dimid, const char *name);
 
-EXTERNL int
-ncattput(int ncid, int varid, const char *name, nc_type xtype,
-        int len, const void *op);
+EXTERNL int ncattput(int ncid, int varid, const char *name, nc_type xtype, int len, const void *op);
 
-EXTERNL int
-ncattinq(int ncid, int varid, const char *name, nc_type *xtypep, int *lenp);
+EXTERNL int ncattinq(int ncid, int varid, const char *name, nc_type *xtypep, int *lenp);
 
-EXTERNL int
-ncattget(int ncid, int varid, const char *name, void *ip);
+EXTERNL int ncattget(int ncid, int varid, const char *name, void *ip);
 
-EXTERNL int
-ncattcopy(int ncid_in, int varid_in, const char *name, int ncid_out,
-        int varid_out);
+EXTERNL int ncattcopy(int ncid_in, int varid_in, const char *name, int ncid_out, int varid_out);
 
-EXTERNL int
-ncattname(int ncid, int varid, int attnum, char *name);
+EXTERNL int ncattname(int ncid, int varid, int attnum, char *name);
 
-EXTERNL int
-ncattrename(int ncid, int varid, const char *name, const char *newname);
+EXTERNL int ncattrename(int ncid, int varid, const char *name, const char *newname);
 
-EXTERNL int
-ncattdel(int ncid, int varid, const char *name);
+EXTERNL int ncattdel(int ncid, int varid, const char *name);
 
-EXTERNL int
-ncvardef(int ncid, const char *name, nc_type xtype,
-        int ndims, const int *dimidsp);
+EXTERNL int ncvardef(int ncid, const char *name, nc_type xtype, int ndims, const int *dimidsp);
 
-EXTERNL int
-ncvarid(int ncid, const char *name);
+EXTERNL int ncvarid(int ncid, const char *name);
 
-EXTERNL int
-ncvarinq(int ncid, int varid, char *name, nc_type *xtypep,
-        int *ndimsp, int *dimidsp, int *nattsp);
+EXTERNL int ncvarinq(int ncid, int varid, char *name, nc_type *xtypep, int *ndimsp, int *dimidsp, int *nattsp);
 
-EXTERNL int
-ncvarput1(int ncid, int varid, const long *indexp, const void *op);
+EXTERNL int ncvarput1(int ncid, int varid, const long *indexp, const void *op);
 
-EXTERNL int
-ncvarget1(int ncid, int varid, const long *indexp, void *ip);
+EXTERNL int ncvarget1(int ncid, int varid, const long *indexp, void *ip);
 
-EXTERNL int
-ncvarput(int ncid, int varid, const long *startp, const long *countp,
-        const void *op);
+EXTERNL int ncvarput(int ncid, int varid, const long *startp, const long *countp, const void *op);
 
-EXTERNL int
-ncvarget(int ncid, int varid, const long *startp, const long *countp,
-        void *ip);
+EXTERNL int ncvarget(int ncid, int varid, const long *startp, const long *countp, void *ip);
 
-EXTERNL int
-ncvarputs(int ncid, int varid, const long *startp, const long *countp,
-        const long *stridep, const void *op);
+EXTERNL int ncvarputs(int ncid, int varid, const long *startp, const long *countp, const long *stridep, const void *op);
 
-EXTERNL int
-ncvargets(int ncid, int varid, const long *startp, const long *countp,
-        const long *stridep, void *ip);
+EXTERNL int ncvargets(int ncid, int varid, const long *startp, const long *countp, const long *stridep, void *ip);
 
-EXTERNL int
-ncvarputg(int ncid, int varid, const long *startp, const long *countp,
-        const long *stridep, const long *imapp, const void *op);
+EXTERNL int ncvarputg(int ncid, int varid, const long *startp, const long *countp, const long *stridep, const long *imapp, const void *op);
 
-EXTERNL int
-ncvargetg(int ncid, int varid, const long *startp, const long *countp,
-        const long *stridep, const long *imapp, void *ip);
+EXTERNL int ncvargetg(int ncid, int varid, const long *startp, const long *countp, const long *stridep, const long *imapp, void *ip);
 
-EXTERNL int
-ncvarrename(int ncid, int varid, const char *name);
+EXTERNL int ncvarrename(int ncid, int varid, const char *name);
 
-EXTERNL int
-ncrecinq(int ncid, int *nrecvarsp, int *recvaridsp, long *recsizesp);
+EXTERNL int ncrecinq(int ncid, int *nrecvarsp, int *recvaridsp, long *recsizesp);
 
-EXTERNL int
-ncrecget(int ncid, long recnum, void **datap);
+EXTERNL int ncrecget(int ncid, long recnum, void **datap);
 
-EXTERNL int
-ncrecput(int ncid, long recnum, void *const *datap);
+EXTERNL int ncrecput(int ncid, long recnum, void *const *datap);
 
 /* This function may be called to force the library to
    initialize itself. It is not required, however.

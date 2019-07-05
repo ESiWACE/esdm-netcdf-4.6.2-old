@@ -146,7 +146,7 @@ int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_
   e->md.vars = smd_attr_new("vars", SMD_DTYPE_EMPTY, NULL, 0);
   e->md.attrs = smd_attr_new("attr", SMD_DTYPE_EMPTY, NULL, 0);
 
-  esdm_container_create(realpath, & e->c);
+  int ret = esdm_container_create(realpath, & e->c);
   ncp->dispatchdata = e;
 
   last_file_md = e;
@@ -163,14 +163,21 @@ int ESDM_open(const char *path, int mode, int basepe, size_t *chunksizehintp, vo
     realpath = & path[4];
   }
   //const char * base = basename(realpath);
+
   debug("%s %d %d %s\n", realpath, ncp->ext_ncid, ncp->int_ncid, ncp->path);
 
   nc_esdm_t * e = malloc(sizeof(nc_esdm_t));
   memset(e, 0, sizeof(nc_esdm_t));
+  e->ncid = ncp->ext_ncid;
 
-  //e->c = esdm_container_create(realpath);
-  //TODO load metadata and such
-  ncp->dispatchdata = last_file_md;
+  e->md.dims = smd_attr_new("dims", SMD_DTYPE_EMPTY, NULL, 0);
+  e->md.vars = smd_attr_new("vars", SMD_DTYPE_EMPTY, NULL, 0);
+  e->md.attrs = smd_attr_new("attr", SMD_DTYPE_EMPTY, NULL, 0);
+
+  esdm_container_open(realpath, & e->c);
+  ncp->dispatchdata = e;
+
+  //ncp->dispatchdata = last_file_md;
 
   return NC_NOERR;
 }
@@ -350,19 +357,12 @@ int ESDM_get_att(int ncid, int varid, const char* name, void* value, nc_type t){
 
   smd_attr_t * att;
   if(varid == NC_GLOBAL){
-    att = e->md.vars;
+    ret = esdm_container_get_attributes(e->c, & att);
   }else{
-    assert(e->vars.size > varid);
-    md_entity_var_t * kv = e->vars.kv[varid].value;
-    if(kv->att == NULL){
-      return NC_EINVAL;
-    }
-    att = kv->att;
+    ret = esdm_container_get_attributes(e->c, & att);
   }
-  int pos = smd_find_position_by_name(att, name);
-  if(pos < 0) return NC_EINVAL;
 
-  smd_attr_t * child = smd_attr_get_child(att, pos);
+  smd_attr_t * child = smd_attr_get_child_by_name(att, name);
   if(etype->type != child->type->type) return NC_EINVAL;
   smd_attr_copy_value(child, value);
   return NC_NOERR;
@@ -380,26 +380,22 @@ int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype, size_t
   nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
   debug("%d %d %s\n", ncid, varid, name);
 
-  smd_attr_t * att;
-  if(varid == NC_GLOBAL){
-    att = e->md.vars;
-  }else{
-    assert(e->vars.size > varid);
-    md_entity_var_t * kv = e->vars.kv[varid].value;
-    if(kv->att == NULL){
-      kv->att = smd_attr_new("attr", SMD_DTYPE_EMPTY, NULL, 0);
-    }
-    att = kv->att;
-  }
-  assert(len == 1);
   smd_attr_t * new;
   if(datatype == NC_STRING){
     new = smd_attr_new(name, etype, *(void**) value, 0);
   }else{
     new = smd_attr_new(name, etype, value, 0);
   }
-  smd_attr_link(att, new, 1);
 
+  if(varid == NC_GLOBAL){
+    ret = esdm_container_link_attribute(e->c, new);
+  }else{
+    // FAKE
+    ret = esdm_container_link_attribute(e->c, new);
+  }
+  if(ret != ESDM_SUCCESS){
+    return NC_EBADID;
+  }
   return NC_NOERR;
 }
 

@@ -1,5 +1,5 @@
 include $(top_srcdir)/lib_flags.am
-ESDMTESTS = tst_select tst_attr
+ESDMTESTS = tst_select tst_attr tst_attr_global
 check_PROGRAMS = $(ESDMTESTS)
 TESTS = $(ESDMTESTS)
 

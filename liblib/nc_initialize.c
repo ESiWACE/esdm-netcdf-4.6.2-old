@@ -66,8 +66,7 @@ then you need to fix it everywhere.
 It also initializes appropriate external libraries.
 */
 
-int
-nc_initialize()
+int nc_initialize()
 {
     int stat = NC_NOERR;
 
@@ -113,8 +112,7 @@ then you need to fix it everywhere.
 It also finalizes appropriate external libraries.
 */
 
-int
-nc_finalize(void)
+int nc_finalize(void)
 {
     int stat = NC_NOERR;
 

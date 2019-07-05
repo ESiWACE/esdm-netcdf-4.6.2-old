@@ -206,18 +206,14 @@ dataset named foo.nc:
 @endcode
 @author Glenn Davis, Ed Hartnett, Dennis Heimbigner
  */
-int
-nc_def_var(int ncid, const char *name, nc_type xtype,
-	   int ndims,  const int *dimidsp, int *varidp)
-{
+int nc_def_var(int ncid, const char *name, nc_type xtype, int ndims,  const int *dimidsp, int *varidp) {
    NC* ncp;
    int stat = NC_NOERR;
 
    if ((stat = NC_check_id(ncid, &ncp)))
       return stat;
    TRACE(nc_def_var);
-   return ncp->dispatch->def_var(ncid, name, xtype, ndims,
-				 dimidsp, varidp);
+   return ncp->dispatch->def_var(ncid, name, xtype, ndims, dimidsp, varidp);
 }
 /*! \} */
 
@@ -307,9 +303,7 @@ nc_rename_var(int ncid, int varid, const char *name)
 
 @returns 0 if not a record var, 1 if it is.
  */
-int
-NC_is_recvar(int ncid, int varid, size_t* nrecs)
-{
+int NC_is_recvar(int ncid, int varid, size_t* nrecs) {
    int status = NC_NOERR;
    int unlimid;
    int ndims;
@@ -353,9 +347,7 @@ status = NC_inq_recvar(ncid,varid,&nrecdims,is_recdim);
 isrecvar = (nrecdims > 0);
 @endcode
  */
-int
-NC_inq_recvar(int ncid, int varid, int* nrecdimsp, int *is_recdim)
-{
+int NC_inq_recvar(int ncid, int varid, int* nrecdimsp, int *is_recdim) {
    int status = NC_NOERR;
    int unlimid;
    int nvardims;
@@ -432,9 +424,7 @@ NC_inq_recvar(int ncid, int varid, int* nrecdimsp, int *is_recdim)
  * @return Length of the type in bytes, or -1 if type not found.
  * @author Ed Hartnett
  */
-int
-nctypelen(nc_type type)
-{
+int nctypelen(nc_type type) {
    switch(type){
       case NC_CHAR :
 	 return ((int)sizeof(char));
@@ -473,9 +463,7 @@ nctypelen(nc_type type)
 /** \internal
 \ingroup variables
 Find the length of a type. Redundant over nctypelen() above. */
-size_t
-NC_atomictypelen(nc_type xtype)
-{
+size_t NC_atomictypelen(nc_type xtype) {
    size_t sz = 0;
    switch(xtype) {
       case NC_NAT: sz = 0; break;
@@ -501,9 +489,7 @@ NC_atomictypelen(nc_type xtype)
 /** \internal
 \ingroup variables
     Get the type name. */
-char *
-NC_atomictypename(nc_type xtype)
-{
+char *NC_atomictypename(nc_type xtype) {
    char* nm = NULL;
    switch(xtype) {
       case NC_NAT: nm = "undefined"; break;
@@ -530,9 +516,7 @@ NC_atomictypename(nc_type xtype)
 \ingroup variables
 Get the shape of a variable.
  */
-int
-NC_getshape(int ncid, int varid, int ndims, size_t* shape)
-{
+int NC_getshape(int ncid, int varid, int ndims, size_t* shape) {
    int dimids[NC_MAX_VAR_DIMS];
    int i;
    int status = NC_NOERR;
@@ -626,11 +610,9 @@ NC_getshape(int ncid, int varid, int ndims, size_t* shape)
  @endcode
  * @author Glenn Davis, Ed Hartnett, Dennis Heimbigner
 */
-int
-nc_def_var_fill(int ncid, int varid, int no_fill, const void *fill_value)
-{
+int nc_def_var_fill(int ncid, int varid, int no_fill, const void *fill_value) {
     NC* ncp;
-    int stat = NC_check_id(ncid,&ncp);
+    int stat = NC_check_id(ncid, &ncp);
     if(stat != NC_NOERR) return stat;
 
     /* Dennis Heimbigner: Using NC_GLOBAL is illegal, as this API has no
@@ -668,9 +650,7 @@ nc_def_var_fill(int ncid, int varid, int no_fill, const void *fill_value)
  * @author Ed Hartnett
  */
 int
-NC_check_nulls(int ncid, int varid, const size_t *start, size_t **count,
-               ptrdiff_t **stride)
-{
+NC_check_nulls(int ncid, int varid, const size_t *start, size_t **count, ptrdiff_t **stride) {
    int varndims;
    int stat;
 
@@ -721,9 +701,7 @@ free the string memory.
 
 \returns ::NC_NOERR No error.
 */
-int
-nc_free_string(size_t len, char **data)
-{
+int nc_free_string(size_t len, char **data) {
    int i;
    for (i = 0; i < len; i++)
       free(data[i]);
@@ -790,15 +768,11 @@ the chunk cache settings are changed for that variable.
    SUMMARIZE_ERR;
 \endcode
  */
-int
-nc_set_var_chunk_cache(int ncid, int varid, size_t size, size_t nelems,
-		       float preemption)
-{
+int nc_set_var_chunk_cache(int ncid, int varid, size_t size, size_t nelems, float preemption) {
     NC* ncp;
     int stat = NC_check_id(ncid, &ncp);
     if(stat != NC_NOERR) return stat;
-    return ncp->dispatch->set_var_chunk_cache(ncid, varid, size,
-					      nelems, preemption);
+    return ncp->dispatch->set_var_chunk_cache(ncid, varid, size, nelems, preemption);
 }
 
 /** \ingroup variables
@@ -831,15 +805,11 @@ chunks are always preempted before other chunks. \ref ignored_if_null.
 netcdf-4 file.
 \returns ::NC_EINVAL Invalid input
 */
-int
-nc_get_var_chunk_cache(int ncid, int varid, size_t *sizep, size_t *nelemsp,
-		       float *preemptionp)
-{
+int nc_get_var_chunk_cache(int ncid, int varid, size_t *sizep, size_t *nelemsp, float *preemptionp) {
     NC* ncp;
     int stat = NC_check_id(ncid, &ncp);
     if(stat != NC_NOERR) return stat;
-    return ncp->dispatch->get_var_chunk_cache(ncid, varid, sizep,
-					      nelemsp, preemptionp);
+    return ncp->dispatch->get_var_chunk_cache(ncid, varid, sizep, nelemsp, preemptionp);
 }
 
 /**
@@ -935,9 +905,7 @@ filter and compression.
 @endcode
 * @author Ed Hartnett, Dennis Heimbigner
 */
-int
-nc_def_var_deflate(int ncid, int varid, int shuffle, int deflate, int deflate_level)
-{
+int nc_def_var_deflate(int ncid, int varid, int shuffle, int deflate, int deflate_level) {
     NC* ncp;
     int stat = NC_check_id(ncid,&ncp);
     if(stat != NC_NOERR) return stat;
@@ -975,9 +943,7 @@ netcdf-4 file.
  * @returns ::NC_EINVAL Invalid input
  * @author Ed Hartnett, Dennis Heimbigner
 */
-int
-nc_def_var_fletcher32(int ncid, int varid, int fletcher32)
-{
+int nc_def_var_fletcher32(int ncid, int varid, int fletcher32) {
     NC* ncp;
     int stat = NC_check_id(ncid,&ncp);
     if(stat != NC_NOERR) return stat;
@@ -1076,15 +1042,11 @@ nc_var_def_chunking, and checked with nc_var_inq_chunking.
            if (storage_in != NC_CHUNKED) ERR;
 \endcode
 */
-int
-nc_def_var_chunking(int ncid, int varid, int storage,
-		    const size_t *chunksizesp)
-{
+int nc_def_var_chunking(int ncid, int varid, int storage, const size_t *chunksizesp) {
     NC* ncp;
     int stat = NC_check_id(ncid, &ncp);
     if(stat != NC_NOERR) return stat;
-    return ncp->dispatch->def_var_chunking(ncid, varid, storage,
-					   chunksizesp);
+    return ncp->dispatch->def_var_chunking(ncid, varid, storage, chunksizesp);
 }
 
 /**
@@ -1102,7 +1064,7 @@ Warning: this function is only defined if the type of the variable
 is an atomic integer or float type.
 
 This function may only be called after the variable is defined, but
-before nc_enddef is called. 
+before nc_enddef is called.
 
 @param[in] ncid NetCDF ID, from a previous call to nc_open or
 nc_create.
@@ -1157,9 +1119,7 @@ the endianness set to NC_ENDIAN_BIG.
 @endcode
 @author Ed Hartnett
 */
-int
-nc_def_var_endian(int ncid, int varid, int endian)
-{
+int nc_def_var_endian(int ncid, int varid, int endian) {
     NC* ncp;
     int stat = NC_check_id(ncid,&ncp);
     if(stat != NC_NOERR) return stat;
@@ -1179,9 +1139,7 @@ nc_def_var_endian(int ncid, int varid, int endian)
  * @return ::NC_EBADID Bad ID.
  * @author Dennis Heimbigner
  */
-int
-nc_def_var_filter(int ncid, int varid, unsigned int id, size_t nparams, const unsigned int* parms)
-{
+int nc_def_var_filter(int ncid, int varid, unsigned int id, size_t nparams, const unsigned int* parms) {
     NC* ncp;
     int stat = NC_check_id(ncid,&ncp);
     if(stat != NC_NOERR) return stat;
