@@ -9,7 +9,7 @@
 /* This is the name of the data file we will create. */
 // #define FILE_NAME "esdm://tst_select.dat"
 // #define FILE_NAME "tst_select.esdm"
-#define FILE_NAME "testfile"
+#define FILE_NAME "julian"
 #define TEST_FLAGS NC_ESDM
 //NC_NETCDF4
 
@@ -25,7 +25,6 @@ static void write_test(){
      ERR(retval);
 
   short s = 32;
-  const char * str = "this is test1";
   if ((retval = nc_put_att_short(ncid, NC_GLOBAL, "short", NC_SHORT, 1, & s))) ERR(retval);
 
   if ((retval = nc_enddef(ncid)))
@@ -38,7 +37,7 @@ static void write_test(){
 static void read_test(){
   int ncid;
   int retval;
-  if ((retval = nc_open(FILE_NAME, NC_NOCLOBBER | TEST_FLAGS, & ncid)))
+  if ((retval = nc_open(FILE_NAME, NC_NOWRITE | TEST_FLAGS, & ncid)))
      ERR(retval);
   short s = 1;
   if ((retval = nc_get_att_short(ncid, NC_GLOBAL, "short", & s))) ERR(retval);
@@ -50,7 +49,7 @@ static void read_test(){
 
 int main (int argc, char ** argv){
   write_test();
-  //read_test();
+  read_test();
   printf("OK\n");
   return 0;
 }
