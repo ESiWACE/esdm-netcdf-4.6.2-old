@@ -59,9 +59,6 @@ typedef struct{
   nc_esdm_md_t md;
 } nc_esdm_t;
 
-// this is a temporary hack
-static nc_esdm_t * last_file_md = NULL;
-
 
 static esdm_type_t type_nc_to_esdm(nc_type type){
   switch(type){
@@ -147,9 +144,10 @@ int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_
   e->md.attrs = smd_attr_new("attr", SMD_DTYPE_EMPTY, NULL, 0);
 
   int ret = esdm_container_create(realpath, & e->c);
+  if(ret != ESDM_SUCCESS){
+    return NC_EBADID;
+  }
   ncp->dispatchdata = e;
-
-  last_file_md = e;
 
   return NC_NOERR;
 }
@@ -174,10 +172,13 @@ int ESDM_open(const char *path, int mode, int basepe, size_t *chunksizehintp, vo
   e->md.vars = smd_attr_new("vars", SMD_DTYPE_EMPTY, NULL, 0);
   e->md.attrs = smd_attr_new("attr", SMD_DTYPE_EMPTY, NULL, 0);
 
-  esdm_container_open(realpath, & e->c);
-  ncp->dispatchdata = e;
+  int ret;
+  ret = esdm_container_open(realpath, & e->c);
+  if(ret != ESDM_SUCCESS){
+    return NC_EBADID;
+  }
 
-  //ncp->dispatchdata = last_file_md;
+  ncp->dispatchdata = e;
 
   return NC_NOERR;
 }
@@ -194,7 +195,10 @@ int ESDM__enddef(int ncid, size_t h_minfree, size_t v_align, size_t v_minfree, s
   nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
   debug("%d\n", ncid);
 
-  esdm_container_commit(e->c);
+  ret = esdm_container_commit(e->c);
+  if(ret != ESDM_SUCCESS){
+    return NC_EBADID;
+  }
   return NC_NOERR;
 }
 

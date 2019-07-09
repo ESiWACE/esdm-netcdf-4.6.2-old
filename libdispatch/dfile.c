@@ -2203,6 +2203,16 @@ int NC_open(const char *path0, int omode, int basepe, size_t *chunksizehintp, in
 	    nullfree(newpath);
     }
 
+
+#ifdef USE_ESDM
+    if (model == NC_FORMATX_UNDEFINED && (omode & NC_ESDM))
+        model = NC_FORMATX_ESDM;
+#else
+    if (model == NC_FORMATX_UNDEFINED && (omode & NC_ESDM))
+        return NC_ENOTBUILT;
+#endif
+
+
 #ifdef USE_NETCDF4
    /* Check for use of user-defined format 0. */
    if (omode & NC_UDF0)

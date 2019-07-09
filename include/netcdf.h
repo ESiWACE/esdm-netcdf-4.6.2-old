@@ -161,7 +161,7 @@ Use this in mode flags for both nc_create() and nc_open(). */
 
 #define NC_PNETCDF       (NC_MPIIO) /**< \deprecated Use PnetCDF library; alias for NC_MPIIO. */
 
-#define NC_ESDM   0x0080  /**< Use ESDM */
+#define NC_ESDM   0x10000  /**< Use ESDM */
 
 
 #define NC_MAX_MAGIC_NUMBER_LEN 8 /**< Max len of user-defined format magic number. */
