@@ -129,6 +129,10 @@ int nc_finalize(void)
     if((stat = NCD4_finalize())) return stat;
 #endif
 
+#ifdef USE_ESDM
+    if((stat = NC_ESDM_finalize())) return stat;
+#endif
+
 #ifdef USE_PNETCDF
     if((stat = NCP_finalize())) return stat;
 #endif

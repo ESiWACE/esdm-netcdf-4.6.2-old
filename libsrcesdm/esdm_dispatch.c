@@ -299,6 +299,18 @@ int ESDM_inq_format_extended(int ncid, int *formatp, int* modep){
 
 int ESDM_inq(int ncid, int *ndimsp, int *nvarsp, int *nattsp, int *unlimdimidp){
   debug("%d\n", ncid);
+  if(ndimsp){
+    *ndimsp = 0;
+  }
+  if(nvarsp){
+    *nvarsp = 0;
+  }
+  if(nattsp){
+    *nattsp = 0;
+  }
+  if(unlimdimidp){
+    *unlimdimidp = 0;
+  }
   return NC_NOERR;
 }
 
