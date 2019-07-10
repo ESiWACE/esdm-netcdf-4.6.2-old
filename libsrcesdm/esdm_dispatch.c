@@ -420,9 +420,15 @@ int ESDM_get_att(int ncid, int varid, const char* name, void* value, nc_type t){
   return NC_NOERR;
 }
 
-int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype, size_t len, const void *value, nc_type type){
+int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype, size_t len, void const *value, nc_type type){
   assert(type == datatype);
-  esdm_type_t etype = type_nc_to_esdm(datatype);
+  esdm_type_t etype;
+
+  if(type == NC_CHAR && len > 1){
+    etype = SMD_DTYPE_STRING;
+  }else{
+    etype = type_nc_to_esdm(datatype);
+  }
   if(etype == NULL) {
     return NC_EINVAL;
   }
