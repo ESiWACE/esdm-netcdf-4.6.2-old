@@ -1183,7 +1183,7 @@ if test "x$enable_pnetcdf" = xyes; then
 fi
 
 # Now, set enable_parallel if either enable_pnetcdf or enable_parallel4 is set
-if test "x$enable_pnetcdf" = xyes -o "x$enable_parallel4" = xyes; then
+if test "x$enable_pnetcdf" = xyes -o "x$enable_parallel4" = xyes -o "x$enable_esdm" = xyes; then
   enable_parallel=yes
 else
   enable_parallel=no
@@ -1207,7 +1207,7 @@ fi
 
 # If enable_parallel is in use, enable it in the C code. Also add some stuff to netcdf.h.
 if test "x$enable_parallel" = xyes; then
-  AC_DEFINE([USE_PARALLEL], [1], [if true, PnetCDF or parallel netcdf-4 is in use])
+  AC_DEFINE([USE_PARALLEL], [1], [if true, PnetCDF, ESDM or parallel netcdf-4 is in use])
 fi
 
 AC_ARG_ENABLE([erange_fill],
@@ -1525,6 +1525,7 @@ AX_SET_META([NC_HAS_DAP4],[$enable_dap4],[yes])
 AX_SET_META([NC_HAS_DISKLESS],[yes],[yes])
 AX_SET_META([NC_HAS_MMAP],[$enable_mmap],[yes])
 AX_SET_META([NC_HAS_JNA],[$enable_jna],[yes])
+AX_SET_META([NC_HAS_ESDM],[$enable_esdm],[yes])
 AX_SET_META([NC_HAS_PNETCDF],[$enable_pnetcdf],[yes])
 AX_SET_META([NC_HAS_PARALLEL],[$enable_parallel],[yes])
 AX_SET_META([NC_HAS_PARALLEL4],[$enable_parallel4],[yes])

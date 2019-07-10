@@ -53,7 +53,7 @@ NCD4_initialize(void)
     /* Init global state */
     globalinit();
     /* Load rc file */
-    NC_rcload();    
+    NC_rcload();
 
     return THROW(NC_NOERR);
 }
@@ -732,7 +732,7 @@ NCD4_get_var_chunk_cache(int ncid, int p2, size_t* p3, size_t* p4, float* p5)
 
 /**************************************************/
 /*
-Following functions are overridden to handle 
+Following functions are overridden to handle
 dap4 implementation specific issues.
 */
 
@@ -897,5 +897,3 @@ NCD4_get_var_chunk_cache,
 #endif /*USE_NETCDF4*/
 
 };
-
-

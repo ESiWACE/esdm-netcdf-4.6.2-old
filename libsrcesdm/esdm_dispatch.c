@@ -132,8 +132,19 @@ int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_
     realpath = & path[4];
   }
   //const char * base = basename(realpath);
-
-  debug("%s %d %d %s\n", realpath, ncp->ext_ncid, ncp->int_ncid, ncp->path);
+  // remove leading slashes
+  while(realpath[0] == '/'){
+    realpath++;
+  }
+  char * cpath = strdup(realpath);
+  // remove trailing slashes
+  int pos = strlen(cpath) - 1;
+  for( ; pos > 0; pos-- ){
+    if (cpath[pos] == '/'){
+      cpath[pos] = '\0';
+    }
+  }
+  debug("%s %d %d %s\n", cpath, ncp->ext_ncid, ncp->int_ncid, ncp->path);
 
   nc_esdm_t * e = malloc(sizeof(nc_esdm_t));
   memset(e, 0, sizeof(nc_esdm_t));
@@ -143,7 +154,8 @@ int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_
   e->md.vars = smd_attr_new("vars", SMD_DTYPE_EMPTY, NULL, 0);
   e->md.attrs = smd_attr_new("attr", SMD_DTYPE_EMPTY, NULL, 0);
 
-  int ret = esdm_container_create(realpath, & e->c);
+  int ret = esdm_container_create(cpath, & e->c);
+  free(cpath);
   if(ret != ESDM_SUCCESS){
     return NC_EBADID;
   }
@@ -160,9 +172,21 @@ int ESDM_open(const char *path, int mode, int basepe, size_t *chunksizehintp, vo
   }else if(strncmp(path, "esd:", 4) == 0){
     realpath = & path[4];
   }
+  // remove leading slashes
+  while(realpath[0] == '/'){
+    realpath++;
+  }
+  char * cpath = strdup(realpath);
+  // remove trailing slashes
+  int pos = strlen(cpath) - 1;
+  for( ; pos > 0; pos-- ){
+    if (cpath[pos] == '/'){
+      cpath[pos] = '\0';
+    }
+  }
   //const char * base = basename(realpath);
 
-  debug("%s %d %d %s\n", realpath, ncp->ext_ncid, ncp->int_ncid, ncp->path);
+  debug("%s %d %d %s\n", cpath, ncp->ext_ncid, ncp->int_ncid, ncp->path);
 
   nc_esdm_t * e = malloc(sizeof(nc_esdm_t));
   memset(e, 0, sizeof(nc_esdm_t));
@@ -173,7 +197,10 @@ int ESDM_open(const char *path, int mode, int basepe, size_t *chunksizehintp, vo
   e->md.attrs = smd_attr_new("attr", SMD_DTYPE_EMPTY, NULL, 0);
 
   int ret;
-  ret = esdm_container_open(realpath, & e->c);
+  ret = esdm_container_open(cpath, & e->c);
+
+  free(cpath);
+
   if(ret != ESDM_SUCCESS){
     return NC_EBADID;
   }
@@ -253,6 +280,15 @@ int ESDM_set_base_pe(int ncid, int pe){ // for parallel execution
 
 int ESDM_inq_format(int ncid, int *formatp){
   debug("%d\n", ncid);
+  int status;
+  void * nc;
+  status = NC_check_id(ncid, &nc);
+  if(status != NC_NOERR)
+    return status;
+  if (!formatp)
+    return NC_NOERR;
+
+  *formatp = NC_FORMATX_ESDM;
   return NC_NOERR;
 }
 
@@ -602,6 +638,27 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
   return NC_NOERR;
 }
 
+static int ESDM_inq_typeids(int ncid, int*  ntypes, int* p) {
+  debug("%d\n", ncid);
+  NC * ncp;
+  int ret = NC_NOERR;
+  if((ret = NC_check_id(ncid, (NC**)&ncp)) != NC_NOERR) return ret;
+  nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
+
+  return ret;
+}
+
+static int ESDM_inq_typeid(int ncid, const char* name, nc_type* t)
+{
+  NC* ncp;
+  int ret = NC_NOERR;
+  if((ret = NC_check_id(ncid, (NC**)&ncp)) != NC_NOERR) return ret;
+  nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
+
+  return ret;
+}
+
+
 
 static NC_Dispatch esdm_dispatcher = {
   NC_FORMATX_ESDM,
@@ -649,7 +706,45 @@ static NC_Dispatch esdm_dispatcher = {
 
   ESDM_inq_var_all,
   ESDM_var_par_access,
-  ESDM_def_var_fill
+  ESDM_def_var_fill,
+
+  NULL, //NCD4_show_metadata,
+  NULL, //NCD4_inq_unlimdims,
+  NULL, //NCD4_inq_ncid,
+  NULL, //NCD4_inq_grps,
+  NULL, //NCD4_inq_grpname,
+  NULL, //NCD4_inq_grpname_full,
+  NULL, //NCD4_inq_grp_parent,
+  NULL, //NCD4_inq_grp_full_ncid,
+  NULL, //NCD4_inq_varids,
+  NULL, //NCD4_inq_dimids,
+  ESDM_inq_typeids,
+  NULL, //NCD4_inq_type_equal,
+  NULL, //NCD4_def_grp,
+  NULL, //NCD4_rename_grp,
+  NULL, //NCD4_inq_user_type,
+  ESDM_inq_typeid
+
+  //NCD4_def_compound,
+  //NCD4_insert_compound,
+  //NCD4_insert_array_compound,
+  //NCD4_inq_compound_field,
+  //NCD4_inq_compound_fieldindex,
+  //NCD4_def_vlen,
+  //NCD4_put_vlen_element,
+  //NCD4_get_vlen_element,
+  //NCD4_def_enum,
+  //NCD4_insert_enum,
+  //NCD4_inq_enum_member,
+  //NCD4_inq_enum_ident,
+  //NCD4_def_opaque,
+  //NCD4_def_var_deflate,
+  //NCD4_def_var_fletcher32,
+  //NCD4_def_var_chunking,
+  //NCD4_def_var_endian,
+  //NCD4_def_var_filter,
+  //NCD4_set_var_chunk_cache,
+  //NCD4_get_var_chunk_cache
 };
 
 NC_Dispatch* esdm_dispatch_table = NULL;

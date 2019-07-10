@@ -25,7 +25,7 @@ int main (int argc, char ** argv){
    int dimids[2];
    /* Loop indexes, and error handling. */
    int x, y, retval;
-   if ((retval = nc_create(FILE_NAME, NC_CLOBBER | NC_ESDM, &ncid)))
+   if ((retval = nc_create(FILE_NAME, NC_CLOBBER | NC_NETCDF4, &ncid)))
       ERR(retval);
 
    /* Define the dimensions. NetCDF will hand back an ID for each. */
@@ -64,7 +64,7 @@ int main (int argc, char ** argv){
       ERR(retval);
 
    nc_free_string(1, & str_new);
-   
+
    printf("*** SUCCESS attributes!\n");
    return 0;
 }

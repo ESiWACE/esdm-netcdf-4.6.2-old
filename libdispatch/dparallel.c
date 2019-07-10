@@ -106,7 +106,10 @@ int nc_create_par(const char *path, int cmode, MPI_Comm comm, MPI_Info info, int
       if (!(cmode & NC_NETCDF4))
           return NC_ENOTBUILT;
   #endif
-
+  #ifndef USE_ESDM
+      if (cmode & NC_ESDM)
+          return NC_ENOTBUILT;
+  #endif
   #ifndef USE_NETCDF4
      /* NETCDF4 is disabled but user wants to create NETCDF4 file in parallel */
       if (cmode & NC_NETCDF4)

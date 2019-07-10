@@ -1956,8 +1956,6 @@ int NC_create(const char *path0, int cmode, size_t initialsz, int basepe, size_t
    if(path0 == NULL)
 	   return NC_EINVAL;
 
-     printf("\n\n\n\npath0 = %s\n\n\n\n",path0);
-
    /* Check mode flag for sanity. */
    if ((stat = check_create_mode(cmode)))
      return stat;
