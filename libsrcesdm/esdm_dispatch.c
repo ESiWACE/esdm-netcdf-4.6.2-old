@@ -140,9 +140,10 @@ int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_
   // remove trailing slashes
   int pos = strlen(cpath) - 1;
   for( ; pos > 0; pos-- ){
-    if (cpath[pos] == '/'){
-      cpath[pos] = '\0';
+    if (cpath[pos] != '/'){
+      break;
     }
+    cpath[pos] = '\0';
   }
   debug("%s %d %d %s\n", cpath, ncp->ext_ncid, ncp->int_ncid, ncp->path);
 
@@ -180,9 +181,10 @@ int ESDM_open(const char *path, int mode, int basepe, size_t *chunksizehintp, vo
   // remove trailing slashes
   int pos = strlen(cpath) - 1;
   for( ; pos > 0; pos-- ){
-    if (cpath[pos] == '/'){
-      cpath[pos] = '\0';
+    if (cpath[pos] != '/'){
+      break;
     }
+    cpath[pos] = '\0';
   }
   //const char * base = basename(realpath);
 
@@ -521,7 +523,7 @@ int ESDM_rename_var(int ncid, int varid, const char *name){
 }
 
 int ESDM_get_vars(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const void *data, nc_type mem_nc_type){
-//  debug("%d\n", ncid);
+  debug("%d\n", ncid);
 
   NC * ncp;
   int ret_NC = NC_NOERR;
@@ -656,7 +658,7 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
   return NC_NOERR;
 }
 
-static int ESDM_inq_typeids(int ncid, int*  ntypes, int* p) {
+static int ESDM_inq_typeids(int ncid, int *ntypes, int* p) {
   debug("%d\n", ncid);
   NC * ncp;
   int ret = NC_NOERR;
@@ -676,7 +678,142 @@ static int ESDM_inq_typeid(int ncid, const char* name, nc_type* t)
   return ret;
 }
 
-
+int ESDM_show_metadata(){
+  debug("");
+  return NC_NOERR;
+}
+int ESDM_inq_unlimdims(){
+  debug("");
+  return NC_NOERR;
+}
+int ESDM_inq_ncid(){
+  debug("");
+  return NC_NOERR;
+}
+int ESDM_inq_grps(){
+  debug("");
+  return NC_NOERR;
+}
+int ESDM_inq_grpname(){
+  debug("");
+  return NC_NOERR;
+}
+int ESDM_inq_grpname_full(){
+  debug("");
+  return NC_NOERR;
+}
+int ESDM_inq_grp_parent(){
+  debug("");
+  return NC_NOERR;
+}
+int ESDM_inq_grp_full_ncid(){
+  debug("");
+  return NC_NOERR;
+}
+int ESDM_inq_varids(){
+  debug("");
+  return NC_NOERR;
+}
+int ESDM_inq_dimids(){
+  debug("");
+  return NC_NOERR;
+}
+int ESDM_inq_type_equal(){
+  debug("");
+  return NC_NOERR;
+}
+int ESDM_def_grp(){
+  debug("");
+  return NC_NOERR;
+}
+int ESDM_rename_grp(){
+  debug("");
+  return NC_NOERR;
+}
+int ESDM_inq_user_type(){
+  debug("");
+  return NC_NOERR;
+}
+int ESDM_def_compound(){
+  debug("");
+  return NC_NOERR;
+}
+int ESDM_insert_compound(){
+  debug("");
+  return NC_NOERR;
+}
+int ESDM_insert_array_compound(){
+  debug("");
+  return NC_NOERR;
+}
+int ESDM_inq_compound_field(){
+  debug("");
+  return NC_NOERR;
+}
+int ESDM_inq_compound_fieldindex(){
+  debug("");
+  return NC_NOERR;
+}
+int ESDM_def_vlen(){
+  debug("");
+  return NC_NOERR;
+}
+int ESDM_put_vlen_element(){
+  debug("");
+  return NC_NOERR;
+}
+int ESDM_get_vlen_element(){
+  debug("");
+  return NC_NOERR;
+}
+int ESDM_def_enum(){
+  debug("");
+  return NC_NOERR;
+}
+int ESDM_insert_enum(){
+  debug("");
+  return NC_NOERR;
+}
+int ESDM_inq_enum_member(){
+  debug("");
+  return NC_NOERR;
+}
+int ESDM_inq_enum_ident(){
+  debug("");
+  return NC_NOERR;
+}
+int ESDM_def_opaque(){
+  debug("");
+  return NC_NOERR;
+}
+int ESDM_def_var_deflate(){
+  debug("");
+  return NC_NOERR;
+}
+int ESDM_def_var_fletcher32(){
+  debug("");
+  return NC_NOERR;
+}
+int ESDM_def_var_chunking(){
+  debug("");
+  return NC_NOERR;
+}
+int ESDM_def_var_endian(){
+  debug("");
+  return NC_NOERR;
+}
+int ESDM_def_var_filter(){
+  debug("");
+  return NC_NOERR;
+}
+int ESDM_set_var_chunk_cache(){
+  debug("");
+  return NC_NOERR;
+}
+int ESDM_get_var_chunk_cache(){
+  debug("");
+  return NC_NOERR;
+}
 
 static NC_Dispatch esdm_dispatcher = {
   NC_FORMATX_ESDM,
@@ -726,43 +863,43 @@ static NC_Dispatch esdm_dispatcher = {
   ESDM_var_par_access,
   ESDM_def_var_fill,
 
-  NULL, //NCD4_show_metadata,
-  NULL, //NCD4_inq_unlimdims,
-  NULL, //NCD4_inq_ncid,
-  NULL, //NCD4_inq_grps,
-  NULL, //NCD4_inq_grpname,
-  NULL, //NCD4_inq_grpname_full,
-  NULL, //NCD4_inq_grp_parent,
-  NULL, //NCD4_inq_grp_full_ncid,
-  NULL, //NCD4_inq_varids,
-  NULL, //NCD4_inq_dimids,
+  ESDM_show_metadata,
+  ESDM_inq_unlimdims,
+  ESDM_inq_ncid,
+  ESDM_inq_grps,
+  ESDM_inq_grpname,
+  ESDM_inq_grpname_full,
+  ESDM_inq_grp_parent,
+  ESDM_inq_grp_full_ncid,
+  ESDM_inq_varids,
+  ESDM_inq_dimids,
   ESDM_inq_typeids,
-  NULL, //NCD4_inq_type_equal,
-  NULL, //NCD4_def_grp,
-  NULL, //NCD4_rename_grp,
-  NULL, //NCD4_inq_user_type,
-  ESDM_inq_typeid
+  ESDM_inq_type_equal,
+  ESDM_def_grp,
+  ESDM_rename_grp,
+  ESDM_inq_user_type,
+  ESDM_inq_typeid,
 
-  //NCD4_def_compound,
-  //NCD4_insert_compound,
-  //NCD4_insert_array_compound,
-  //NCD4_inq_compound_field,
-  //NCD4_inq_compound_fieldindex,
-  //NCD4_def_vlen,
-  //NCD4_put_vlen_element,
-  //NCD4_get_vlen_element,
-  //NCD4_def_enum,
-  //NCD4_insert_enum,
-  //NCD4_inq_enum_member,
-  //NCD4_inq_enum_ident,
-  //NCD4_def_opaque,
-  //NCD4_def_var_deflate,
-  //NCD4_def_var_fletcher32,
-  //NCD4_def_var_chunking,
-  //NCD4_def_var_endian,
-  //NCD4_def_var_filter,
-  //NCD4_set_var_chunk_cache,
-  //NCD4_get_var_chunk_cache
+  ESDM_def_compound,
+  ESDM_insert_compound,
+  ESDM_insert_array_compound,
+  ESDM_inq_compound_field,
+  ESDM_inq_compound_fieldindex,
+  ESDM_def_vlen,
+  ESDM_put_vlen_element,
+  ESDM_get_vlen_element,
+  ESDM_def_enum,
+  ESDM_insert_enum,
+  ESDM_inq_enum_member,
+  ESDM_inq_enum_ident,
+  ESDM_def_opaque,
+  ESDM_def_var_deflate,
+  ESDM_def_var_fletcher32,
+  ESDM_def_var_chunking,
+  ESDM_def_var_endian,
+  ESDM_def_var_filter,
+  ESDM_set_var_chunk_cache,
+  ESDM_get_var_chunk_cache
 };
 
 NC_Dispatch* esdm_dispatch_table = NULL;
