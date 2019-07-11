@@ -247,8 +247,9 @@ int ESDM_close(int ncid, void * b){
   if((ret = NC_check_id(ncid, (NC**)&ncp)) != NC_NOERR) return (ret);
   nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
   debug("%d\n", ncid);
+
+  esdm_container_commit(e->c);
   //esdm_container_destroy(e->c); // TODO disable for now, as we want to reread the file
-  // TODO
   return NC_NOERR;
 }
 
