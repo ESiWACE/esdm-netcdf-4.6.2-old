@@ -453,19 +453,15 @@ int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype, size_t
   if(varid == NC_GLOBAL){
     ret = esdm_container_link_attribute(e->c, new);
   }else{
-    // FAKE
-    esdm_dataset_t *dataset;
-    status = esdm_dataset_open(e->c, "data", &dataset);
-    if(ret != ESDM_SUCCESS){
-      return NC_EACCESS;
+    if(varid > e->vars.size){
+      smd_attr_destroy(new);
+      return NC_EINVAL;
     }
-
-    ret = esdm_dataset_link_attribute(dataset, new);
-    if(ret != ESDM_SUCCESS){
-      return NC_EACCESS;
-    }
+    md_entity_var_t * ev = (md_entity_var_t *) e->vars.kv[varid].value;
+    ret = esdm_dataset_link_attribute(ev->dset, new);
   }
   if(ret != ESDM_SUCCESS){
+    smd_attr_destroy(new);
     return NC_EACCESS;
   }
   return NC_NOERR;
