@@ -9,7 +9,7 @@
 /* This is the name of the data file we will create. */
 // #define FILE_NAME "esdm://tst_select.dat"
 // #define FILE_NAME "tst_select.esdm"
-#define FILE_NAME "julian"
+#define FILE_NAME "tst_global.nc4"
 #define TEST_FLAGS NC_ESDM
 //NC_NETCDF4
 
@@ -17,6 +17,17 @@
  * non-zero status. */
 #define ERRCODE 2
 #define ERR(e) {printf("Error: %s\n", nc_strerror(e)); exit(ERRCODE);}
+
+static void write_test();
+static void read_test();
+
+int main (int argc, char ** argv){
+  write_test();
+  read_test();
+  // printf("OK\n");
+  printf("*** SUCCESS attributes!\n");
+  return 0;
+}
 
 static void write_test(){
   int ncid;
@@ -45,11 +56,4 @@ static void read_test(){
 
   if ((retval = nc_close(ncid)))
      ERR(retval);
-}
-
-int main (int argc, char ** argv){
-  write_test();
-  read_test();
-  printf("OK\n");
-  return 0;
 }

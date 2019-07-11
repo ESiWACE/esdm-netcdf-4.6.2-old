@@ -11,7 +11,7 @@
 /* This is the name of the data file we will create. */
 // #define FILE_NAME "esdm://tst_select.dat"
 // #define FILE_NAME "tst_select.esdm"
-#define FILE_NAME "Luciana"
+#define FILE_NAME "tst.nc4"
 
 /* Handle errors by printing an error message and exiting with a
  * non-zero status. */
@@ -25,7 +25,8 @@ int main (int argc, char ** argv){
    int dimids[2];
    /* Loop indexes, and error handling. */
    int x, y, retval;
-   if ((retval = nc_create(FILE_NAME, NC_CLOBBER | NC_NETCDF4, &ncid)))
+   // if ((retval = nc_create(FILE_NAME, NC_CLOBBER | NC_NETCDF4, &ncid)))
+   if ((retval = nc_create(FILE_NAME, NC_CLOBBER | NC_ESDM, &ncid)))
       ERR(retval);
 
    /* Define the dimensions. NetCDF will hand back an ID for each. */

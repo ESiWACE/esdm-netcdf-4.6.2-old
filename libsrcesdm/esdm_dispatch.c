@@ -907,8 +907,15 @@ NC_Dispatch* esdm_dispatch_table = NULL;
 
 int NC_ESDM_initialize(void) {
    int ret = NC_NOERR;
+   esdm_status status;
 
    esdm_init();
+
+   status = esdm_mkfs(ESDM_FORMAT_PURGE_RECREATE, ESDM_ACCESSIBILITY_GLOBAL);
+   assert(status == ESDM_SUCCESS);
+   status = esdm_mkfs(ESDM_FORMAT_PURGE_RECREATE, ESDM_ACCESSIBILITY_NODELOCAL);
+   assert(status == ESDM_SUCCESS);
+
    esdm_dispatch_table = &esdm_dispatcher;
    return ret;
 }
