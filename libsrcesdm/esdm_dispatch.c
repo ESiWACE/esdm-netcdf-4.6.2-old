@@ -17,16 +17,10 @@ typedef struct{
   esdm_dataset_t * dset;
 } md_entity_var_t;
 
-typedef struct {
-  smd_attr_t * dims;
-  smd_attr_t * vars;
-} nc_esdm_md_t;
-
 typedef struct{
   char * name;
   void * value;
 } md_entity_t;
-
 
 // This structure contains a flat mday for the metadata name
 // it is used up to a specific size of the metadata table before
@@ -41,16 +35,11 @@ typedef struct{
   int ncid;
   int idp;
   esdm_container_t *c;
-
   // Some attributes provide information about the dataset as a whole and are called
   // global attributes. These are identified by the attribute name together with a blank
   // variable name (in CDL) or a special null "global variable" ID (in C or Fortran).
-
-  metadata_t attr;
   metadata_t dims;
   metadata_t vars;
-
-  nc_esdm_md_t md;
 } nc_esdm_t;
 
 
@@ -145,9 +134,6 @@ int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_
   memset(e, 0, sizeof(nc_esdm_t));
   e->ncid = ncp->ext_ncid;
 
-  e->md.dims = smd_attr_new("dims", SMD_DTYPE_EMPTY, NULL, 0);
-  e->md.vars = smd_attr_new("vars", SMD_DTYPE_EMPTY, NULL, 0);
-
   int ret = esdm_container_create(cpath, & e->c);
   free(cpath);
   if(ret != ESDM_SUCCESS){
@@ -186,9 +172,6 @@ int ESDM_open(const char *path, int mode, int basepe, size_t *chunksizehintp, vo
   nc_esdm_t * e = malloc(sizeof(nc_esdm_t));
   memset(e, 0, sizeof(nc_esdm_t));
   e->ncid = ncp->ext_ncid;
-
-  e->md.dims = smd_attr_new("dims", SMD_DTYPE_EMPTY, NULL, 0);
-  e->md.vars = smd_attr_new("vars", SMD_DTYPE_EMPTY, NULL, 0);
 
   esdm_status status;
   status = esdm_container_open(cpath, & e->c);
@@ -323,11 +306,6 @@ int ESDM_def_dim(int ncid, const char *name, size_t len, int *idp){
   debug("%d: %d\n", ncid, *idp);
   ret = insert_md(& e->dims, name, (size_t*) len);
 
-  smd_attr_t * new = smd_attr_new(name, SMD_DTYPE_UINT64, & len, *idp);
-  ret = smd_attr_link(e->md.dims, new, 0);
-  if (ret == SMD_ATTR_EEXIST){
-    return NC_EINVAL;
-  }
   return NC_NOERR;
 }
 
@@ -477,12 +455,6 @@ int ESDM_def_var(int ncid, const char *name, nc_type xtype, int ndims, const int
 
   *varidp = e->vars.size;
   debug("%d: varid: %d\n", ncid, *varidp);
-
-  smd_attr_t * new = smd_attr_new(name, SMD_DTYPE_EMPTY, NULL, *varidp);
-  ret = smd_attr_link(e->md.vars, new, 0);
-  if (ret == SMD_ATTR_EEXIST){
-    return NC_EINVAL;
-  }
 
   md_entity_var_t * evar = malloc(sizeof(md_entity_var_t));
   memset(evar, 0, sizeof(md_entity_var_t));
