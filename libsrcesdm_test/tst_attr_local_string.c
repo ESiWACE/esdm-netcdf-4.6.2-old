@@ -30,11 +30,10 @@ int main(int argc, char **argv) {
   /* When we create netCDF variables and dimensions, we get back an
     * ID for each one. */
     write_test ();
-    // read_test ();
+    read_test ();
 
     printf("*** SUCCESS attributes!\n");
     return 0;
-
 }
 
 static void write_test ()
@@ -69,6 +68,7 @@ static void write_test ()
   const char * str = "this is test1";
 
   if ((retval = nc_put_att_string(ncid, varid, "string", 1, & str))) ERR(retval);
+  printf("\n\nvarid = %d", varid);
 
   if ((retval = nc_enddef(ncid)))
      ERR(retval);
@@ -84,13 +84,16 @@ static void read_test ()
   if ((retval = nc_open(FILE_NAME, NC_CLOBBER | TEST_FLAGS, &ncid)))
     ERR(retval);
 
-  nc_inq_varid (ncid, "data", &varid);
-
+  // nc_inq_varid (ncid, "data", &varid);
+  // printf("\n\nvarid = %d", varid);
+  varid = 0;
+  
   char * str_new;
-  if ((retval = nc_get_att_string(ncid, varid, "string", & str_new))) ERR(retval);
-  // assert(strcmp(str, str_new) == 0);
 
-  printf("\n\nstr_new = %s", str_new);
+  if ((retval = nc_get_att_string(ncid, varid, "string", & str_new))) ERR(retval);
+  assert(strcmp("this is test1", str_new) == 0);
+
+  // printf("\n\nstr_new = %s", str_new);
 
   nc_free_string(1, & str_new);
 
