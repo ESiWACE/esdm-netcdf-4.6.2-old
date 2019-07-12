@@ -190,6 +190,18 @@ int ESDM_open(const char *path, int mode, int basepe, size_t *chunksizehintp, vo
 
   ncp->dispatchdata = e;
 
+  /*
+   * Rebuild the dimension table
+   * Algorithm:
+   * for each dataset:
+   *   open_dataset <= just leave it open
+   *   inquire dataspace_named_dimensions()
+   *   create a mapping from name to ID (ID == the new spot in the table); add the names => we do not know the dataset variable ID yet that implements it.
+   * for each name in mapping:
+   *    search the dataset number (new function) in the container and put it into the mapping
+   *    Allow for same name with different dimensions if needed (can happen when compiling a container on the fly)
+   */
+
   return NC_NOERR;
 }
 
