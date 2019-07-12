@@ -190,12 +190,12 @@ int ESDM_open(const char *path, int mode, int basepe, size_t *chunksizehintp, vo
   e->md.dims = smd_attr_new("dims", SMD_DTYPE_EMPTY, NULL, 0);
   e->md.vars = smd_attr_new("vars", SMD_DTYPE_EMPTY, NULL, 0);
 
-  int ret;
-  ret = esdm_container_open(cpath, & e->c);
+  esdm_status status;
+  status = esdm_container_open(cpath, & e->c);
 
   free(cpath);
 
-  if(ret != ESDM_SUCCESS){
+  if(status != ESDM_SUCCESS){
     return NC_EBADID;
   }
 
@@ -396,17 +396,27 @@ int ESDM_get_att(int ncid, int varid, const char* name, void* value, nc_type t){
   if(etype == NULL) {
     return NC_EINVAL;
   }
+  esdm_status status;
   int ret;
   NC * ncp;
   if((ret = NC_check_id(ncid, (NC**)& ncp)) != NC_NOERR) return (ret);
   nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
   debug("%d %d %s\n", ncid, varid, name);
+  printf("\n\n%d %d %s %d\n", ncid, varid, name, e->vars.size);
 
   smd_attr_t * att;
   if(varid == NC_GLOBAL){
-    ret = esdm_container_get_attributes(e->c, & att);
+    status = esdm_container_get_attributes(e->c, & att);
   }else{
-    ret = esdm_container_get_attributes(e->c, & att);
+    if(varid > e->vars.size){
+      return NC_EACCESS;
+    }
+    md_entity_var_t * ev = (md_entity_var_t *) e->vars.kv[varid].value;
+    status = esdm_dataset_get_attributes(ev->dset, & att);
+    if(status != ESDM_SUCCESS){
+      smd_attr_destroy(att);
+      return NC_EACCESS;
+    }
   }
 
   smd_attr_t * child = smd_attr_get_child_by_name(att, name);
