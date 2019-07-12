@@ -13,18 +13,12 @@
 #define debug(...) do{printf("called %s: %d ",__func__, __LINE__); printf(__VA_ARGS__); }while(0)
 
 typedef struct{
-  nc_type type;
-  int ndims;
   int *dimidsp;
-  esdm_dataspace_t * space;
   esdm_dataset_t * dset;
-
-  smd_attr_t * att;
 } md_entity_var_t;
 
 typedef struct {
   smd_attr_t * dims;
-  smd_attr_t * attrs;
   smd_attr_t * vars;
 } nc_esdm_md_t;
 
@@ -153,7 +147,6 @@ int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_
 
   e->md.dims = smd_attr_new("dims", SMD_DTYPE_EMPTY, NULL, 0);
   e->md.vars = smd_attr_new("vars", SMD_DTYPE_EMPTY, NULL, 0);
-  e->md.attrs = smd_attr_new("attr", SMD_DTYPE_EMPTY, NULL, 0);
 
   int ret = esdm_container_create(cpath, & e->c);
   free(cpath);
@@ -196,7 +189,6 @@ int ESDM_open(const char *path, int mode, int basepe, size_t *chunksizehintp, vo
 
   e->md.dims = smd_attr_new("dims", SMD_DTYPE_EMPTY, NULL, 0);
   e->md.vars = smd_attr_new("vars", SMD_DTYPE_EMPTY, NULL, 0);
-  e->md.attrs = smd_attr_new("attr", SMD_DTYPE_EMPTY, NULL, 0);
 
   int ret;
   ret = esdm_container_open(cpath, & e->c);
@@ -453,7 +445,7 @@ int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype, size_t
   if(varid == NC_GLOBAL){
     ret = esdm_container_link_attribute(e->c, new);
   }else{
-    if(varid > e->vars.size){
+    if(varid > esdm_container_dataset_count(e->c)){
       smd_attr_destroy(new);
       return NC_EINVAL;
     }
@@ -485,8 +477,6 @@ int ESDM_def_var(int ncid, const char *name, nc_type xtype, int ndims, const int
   md_entity_var_t * evar = malloc(sizeof(md_entity_var_t));
   memset(evar, 0, sizeof(md_entity_var_t));
 
-  evar->type = xtype;
-  evar->ndims = ndims;
   evar->dimidsp = malloc(sizeof(int) * ndims);
 
   int64_t bounds[ndims];
@@ -505,7 +495,7 @@ int ESDM_def_var(int ncid, const char *name, nc_type xtype, int ndims, const int
     return NC_EBADTYPE;
   }
   esdm_dataspace_t *dataspace;
-  esdm_dataspace_create(ndims, bounds, typ, &dataspace);
+  ret = esdm_dataspace_create(ndims, bounds, typ, &dataspace);
 
   esdm_dataset_t *dataset;
   esdm_dataset_create(e->c, name, dataspace, & dataset);
@@ -514,7 +504,6 @@ int ESDM_def_var(int ncid, const char *name, nc_type xtype, int ndims, const int
     return NC_EBADID;
   }
   evar->dset = dataset;
-  evar->space = dataspace;
   insert_md(& e->vars, name, evar);
 
   return NC_NOERR;
@@ -540,13 +529,18 @@ int ESDM_get_vars(int ncid, int varid, const size_t *startp, const size_t *count
   assert(e->vars.size > varid);
   md_entity_var_t * kv = e->vars.kv[varid].value;
   debug("%d type: %d buff: %p %p %p %p\n", ncid, mem_nc_type, data, startp, countp, stridep);
-  if(mem_nc_type != kv->type){
-    return NC_EBADTYPE;
-  }
+
   // check the dimensions we actually want to write
   int access_all = 1;
-  esdm_dataspace_t * space = kv->space;
-  for(int i=0; i < kv->ndims; i++){
+  esdm_dataspace_t * space;
+  int ret = esdm_dataset_get_dataspace(kv->dset, & space);
+
+  if(mem_nc_type != type_esdm_to_nc(space->type)){
+    return NC_EBADTYPE;
+  }
+  int ndims = space->dims;
+
+  for(int i=0; i < ndims; i++){
     printf(" - %zu %zu\n", startp[i], countp[i]);
     if(startp[i] != 0 || countp[i] != space->size[i]){
       access_all = 0;
@@ -559,14 +553,14 @@ int ESDM_get_vars(int ncid, int varid, const size_t *startp, const size_t *count
       return NC_EINVAL;
     }
   }else{
-    int64_t size[kv->ndims];
-    int64_t offset[kv->ndims];
-    for(int i=0; i < kv->ndims; i++){
+    int64_t size[ndims];
+    int64_t offset[ndims];
+    for(int i=0; i < ndims; i++){
       size[i] = countp[i];
       offset[i] = startp[i];
     }
     esdm_dataspace_t *subspace;
-    esdm_dataspace_subspace(space, kv->ndims, size, offset, &subspace);
+    esdm_dataspace_subspace(space, ndims, size, offset, &subspace);
     esdm_status ret = esdm_read(kv->dset, (void *)data, subspace);
     if(ret != ESDM_SUCCESS){
       esdm_dataspace_destroy(subspace);
@@ -592,13 +586,18 @@ int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *count
   assert(e->vars.size > varid);
   md_entity_var_t * kv = e->vars.kv[varid].value;
   debug("%d type: %d buff: %p %p %p %p\n", ncid, mem_nc_type, data, startp, countp, stridep);
-  if(mem_nc_type != kv->type){
-    return NC_EBADTYPE;
-  }
+
   // check the dimensions we actually want to write
   int access_all = 1;
-  esdm_dataspace_t * space = kv->space;
-  for(int i=0; i < kv->ndims; i++){
+  esdm_dataspace_t * space;
+  ret = esdm_dataset_get_dataspace(kv->dset, & space);
+  if(mem_nc_type != type_esdm_to_nc(space->type)){
+    return NC_EBADTYPE;
+  }
+
+  int ndims = space->dims;
+
+  for(int i=0; i < ndims; i++){
     printf(" - %zu %zu\n", startp[i], countp[i]);
     if(startp[i] != 0 || countp[i] != space->size[i]){
       access_all = 0;
@@ -611,14 +610,14 @@ int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *count
       return NC_EINVAL;
     }
   }else{
-    int64_t size[kv->ndims];
-    int64_t offset[kv->ndims];
-    for(int i=0; i < kv->ndims; i++){
+    int64_t size[ndims];
+    int64_t offset[ndims];
+    for(int i=0; i < ndims; i++){
       size[i] = countp[i];
       offset[i] = startp[i];
     }
     esdm_dataspace_t *subspace;
-    esdm_dataspace_subspace(space, kv->ndims, size, offset, &subspace);
+    esdm_dataspace_subspace(space, ndims, size, offset, &subspace);
 
     ret = esdm_write(kv->dset, (void *)data, subspace);
     if(ret != ESDM_SUCCESS){
@@ -648,17 +647,19 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
   md_entity_var_t * evar = (md_entity_var_t *) kv->value;
   assert(evar != NULL);
 
+  esdm_dataspace_t * space;
+  ret = esdm_dataset_get_dataspace(evar->dset, & space);
   if(name != NULL){
     strcpy(name, kv->name);
   }
   if(xtypep){
-    *xtypep = evar->type;
+    *xtypep = type_esdm_to_nc(space->type);
   }
   if(ndimsp){
-    *ndimsp = evar->ndims;
+    *ndimsp = space->dims;
   }
   if(dimidsp){
-    for(int i=0; i < evar->ndims; i++){
+    for(int i=0; i < space->dims; i++){
       dimidsp[i] = evar->dimidsp[i];
     }
   }
