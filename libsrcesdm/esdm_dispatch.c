@@ -17,17 +17,12 @@ typedef struct{
   esdm_dataset_t * dset;
 } md_entity_var_t;
 
-typedef struct{
-  char * name;
-  void * value;
-} md_entity_t;
-
 // This structure contains a flat mday for the metadata name
 // it is used up to a specific size of the metadata table before
 // the hashmap implementation is beneficial
 typedef struct{
   int size;
-  md_entity_t kv[10];
+  md_entity_var_t * kv[10];
 } metadata_t;
 
 typedef struct{
@@ -35,7 +30,6 @@ typedef struct{
   size_t * vals;
   char ** names;
 } nc_dim_tbl_t;
-
 
 typedef struct{
   int ncid;
@@ -92,10 +86,10 @@ static nc_type type_esdm_to_nc(esdm_type_t type){
 }
 
 
-int lookup_md(metadata_t * md, char * name, void ** value, int * pos){
+int lookup_md(metadata_t * md, char * name, md_entity_var_t ** value, int * pos){
   for(int i=0; i < md->size; i++){
-    if(strcmp(name, md->kv[i].name) == 0){
-      *value = & md->kv[i].value;
+    if(strcmp(name, esdm_dataset_name(md->kv[i]->dset)) == 0){
+      *value = md->kv[i];
       *pos = i;
       return NC_NOERR;
     }
@@ -103,10 +97,9 @@ int lookup_md(metadata_t * md, char * name, void ** value, int * pos){
   return NC_EBADID;
 }
 
-int insert_md(metadata_t * md, const char * name, void * value){
+int insert_md(metadata_t * md,  md_entity_var_t * value){
   assert(md->size < 10);
-  md->kv[md->size].name = strdup(name);
-  md->kv[md->size].value = value;
+  md->kv[md->size] = value;
   md->size++;
   return NC_NOERR;
 }
@@ -415,7 +408,7 @@ int ESDM_get_att(int ncid, int varid, const char* name, void* value, nc_type t){
     if(varid > e->vars.size){
       return NC_EACCESS;
     }
-    md_entity_var_t * ev = (md_entity_var_t *) e->vars.kv[varid].value;
+    md_entity_var_t * ev = e->vars.kv[varid];
     status = esdm_dataset_get_attributes(ev->dset, & att);
     if(status != ESDM_SUCCESS){
       smd_attr_destroy(att);
@@ -463,7 +456,7 @@ int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype, size_t
       smd_attr_destroy(new);
       return NC_EINVAL;
     }
-    md_entity_var_t * ev = (md_entity_var_t *) e->vars.kv[varid].value;
+    md_entity_var_t * ev = e->vars.kv[varid];
     ret = esdm_dataset_link_attribute(ev->dset, new);
   }
   if(ret != ESDM_SUCCESS){
@@ -511,7 +504,7 @@ int ESDM_def_var(int ncid, const char *name, nc_type xtype, int ndims, const int
     return NC_EBADID;
   }
   evar->dset = dataset;
-  insert_md(& e->vars, name, evar);
+  insert_md(& e->vars, evar);
 
   return NC_NOERR;
 }
@@ -534,7 +527,7 @@ int ESDM_get_vars(int ncid, int varid, const size_t *startp, const size_t *count
   if((ret_NC = NC_check_id(ncid, (NC**)&ncp)) != NC_NOERR) return (ret_NC);
   nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
   assert(e->vars.size > varid);
-  md_entity_var_t * kv = e->vars.kv[varid].value;
+  md_entity_var_t * kv = e->vars.kv[varid];
   debug("%d type: %d buff: %p %p %p %p\n", ncid, mem_nc_type, data, startp, countp, stridep);
 
   // check the dimensions we actually want to write
@@ -591,7 +584,7 @@ int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *count
   if((ret = NC_check_id(ncid, (NC**)&ncp)) != NC_NOERR) return (ret);
   nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
   assert(e->vars.size > varid);
-  md_entity_var_t * kv = e->vars.kv[varid].value;
+  md_entity_var_t * kv = e->vars.kv[varid];
   debug("%d type: %d buff: %p %p %p %p\n", ncid, mem_nc_type, data, startp, countp, stridep);
 
   // check the dimensions we actually want to write
@@ -649,15 +642,13 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
   nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
   debug("%d %d\n", ncid, varid);
 
-  md_entity_t * kv = & e->vars.kv[varid];
-  assert(kv != NULL);
-  md_entity_var_t * evar = (md_entity_var_t *) kv->value;
+  md_entity_var_t * evar = e->vars.kv[varid];
   assert(evar != NULL);
 
   esdm_dataspace_t * space;
   ret = esdm_dataset_get_dataspace(evar->dset, & space);
   if(name != NULL){
-    strcpy(name, kv->name);
+    strcpy(name, esdm_dataset_name(evar->dset));
   }
   if(xtypep){
     *xtypep = type_esdm_to_nc(space->type);
