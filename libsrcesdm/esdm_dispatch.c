@@ -30,6 +30,12 @@ typedef struct{
   md_entity_t kv[10];
 } metadata_t;
 
+typedef struct{
+  int size;
+  size_t * vals;
+  char ** names;
+} nc_dim_tbl_t;
+
 
 typedef struct{
   int ncid;
@@ -38,7 +44,7 @@ typedef struct{
   // Some attributes provide information about the dataset as a whole and are called
   // global attributes. These are identified by the attribute name together with a blank
   // variable name (in CDL) or a special null "global variable" ID (in C or Fortran).
-  metadata_t dims;
+  nc_dim_tbl_t dimt;
   metadata_t vars;
 } nc_esdm_t;
 
@@ -133,6 +139,13 @@ int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_
   nc_esdm_t * e = malloc(sizeof(nc_esdm_t));
   memset(e, 0, sizeof(nc_esdm_t));
   e->ncid = ncp->ext_ncid;
+
+  // add a sentinel as the VARID = 0 is reserved for global
+  e->dimt.vals = malloc(sizeof(size_t));
+  e->dimt.vals[0] = 0;
+  e->dimt.names = malloc(sizeof(char*));
+  e->dimt.names[0] = "GLOBAL";
+
 
   int ret = esdm_container_create(cpath, & e->c);
   free(cpath);
@@ -302,9 +315,23 @@ int ESDM_def_dim(int ncid, const char *name, size_t len, int *idp){
   int ret = NC_NOERR;
   if((ret = NC_check_id(ncid, (NC**)&ncp)) != NC_NOERR) return (ret);
   nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
-  *idp = e->dims.size;
+
+  // ensure that the name hasn't been defined if it was defined, replace it
+  for(int i=0; i < e->dimt.size; i++){
+    if(strcmp(e->dimt.names[i], name) == 0){
+      e->dimt.vals[i] = len;
+      return ret;
+    }
+  }
+
+  e->dimt.size++;
+  e->dimt.vals = realloc(e->dimt.vals, sizeof(size_t) * e->dimt.size);
+  // TODO check not NULL, assert
+  e->dimt.names = realloc(e->dimt.names, sizeof(char*) * e->dimt.size);
+  e->dimt.names[e->dimt.size - 1] = strdup(name);
+
+  *idp = e->dimt.size;
   debug("%d: %d\n", ncid, *idp);
-  ret = insert_md(& e->dims, name, (size_t*) len);
 
   return NC_NOERR;
 }
@@ -321,14 +348,13 @@ int ESDM_inq_dim(int ncid, int dimid, char *name, size_t *lenp){
   nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
   debug("%d %d %s\n", ncid, dimid, name);
 
-  assert(e->dims.size > dimid);
+  assert(e->dimt.size >= dimid);
 
-  md_entity_t * kv = & e->dims.kv[dimid];
   if(name != NULL){
-    strcpy(name, kv->name);
+    strcpy(name, e->dimt.names[dimid]);
   }
   if(lenp != NULL){
-    *lenp = (size_t) kv->value;
+    *lenp = e->dimt.vals[dimid];
   }
 
   return NC_NOERR;
@@ -464,11 +490,10 @@ int ESDM_def_var(int ncid, const char *name, nc_type xtype, int ndims, const int
   int64_t bounds[ndims];
   for(int i=0; i < ndims; i++){
     int dimid = dimidsp[i];
-    assert(e->dims.size > dimid);
-    md_entity_t * md = & e->dims.kv[dimid];
-    size_t val = (size_t) md->value;
-    evar->dimidsp[i] = dimid;
-    printf("%d %s %zd\n", dimidsp[i], md->name, val);
+    assert(e->dimt.size >= dimid);
+
+    size_t val = e->dimt.vals[dimid];
+    evar->dimidsp[i] = val;
     bounds[i] = val;
   }
 
