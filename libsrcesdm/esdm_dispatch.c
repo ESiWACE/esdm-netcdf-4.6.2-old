@@ -177,11 +177,12 @@ int ESDM_open(const char *path, int mode, int basepe, size_t *chunksizehintp, vo
 
   free(cpath);
 
-  if(status != ESDM_SUCCESS){
-    return NC_EBADID;
-  }
+  if(status != ESDM_SUCCESS) return NC_EBADID;
 
   ncp->dispatchdata = e;
+
+  status = esdm_build_dims_from_dsets (e->c);
+  if(status != ESDM_SUCCESS) return NC_EACCESS;
 
   /*
    * Rebuild the dimension table

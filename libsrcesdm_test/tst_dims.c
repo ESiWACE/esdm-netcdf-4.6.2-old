@@ -13,7 +13,6 @@
 // #define FILE_NAME "tst_select.esdm"
 #define FILE_NAME "tst_dims.nc4"
 #define TEST_FLAGS NC_ESDM
-#define NC_DIMS 4
 
 /* Handle errors by printing an error message and exiting with a
  * non-zero status. */
@@ -31,7 +30,7 @@ int main(int argc, char **argv) {
   /* When we create netCDF variables and dimensions, we get back an
     * ID for each one. */
     write_test ();
-    // read_test ();
+    read_test ();
 
     printf("*** SUCCESS attributes!\n");
     return 0;
@@ -47,12 +46,8 @@ static void write_test ()
   if ((retval = nc_create(FILE_NAME, NC_NOWRITE | TEST_FLAGS, &ncid)))
     ERR(retval);
 
-// This line is an enigma.
-// Without NC_ESDM it makes the file persistent, but nc_put_att_string doesn't work.
-// With NC_ESDM nc_put_att_string works.
+  /* Define the dimensions. NetCDF will hand back an ID for each. */
 
-  /* Define the dimensions. NetCDF will hand back an ID for each. */
-  /* Define the dimensions. NetCDF will hand back an ID for each. */
   if ((retval = nc_def_dim(ncid, "x", 106, &x1_dimid)))
      ERR(retval);
   if ((retval = nc_def_dim(ncid, "y", 110, &x2_dimid)))
@@ -61,31 +56,6 @@ static void write_test ()
      ERR(retval);
   if ((retval = nc_def_dim(ncid, "bounds", 2, &x4_dimid)))
      ERR(retval);
-
-  /* The dimids array is used to pass the IDs of the dimensions of
-    * the variable. */
-  // dimids[0] = x1_dimid;
-  // dimids[1] = x2_dimid;
-  // dimids[2] = x3_dimid;
-  // dimids[3] = x4_dimid;
-
-  // Define the variable.
-
-//     double t ;                                        // Domain axis and dimension coordinate construct  8
-//         t:standard_name = "time" ;                                                                   //  9
-//         t:units = "days since 2016­12­01" ;                                                          // 10
-
-  ndims_var = 0;
-  dimidsp = NULL;
-  if ((retval = nc_def_var(ncid, "t", NC_DOUBLE, ndims_var, dimidsp, &varid))) ERR(retval);
-
-  const char * str1 = "time";
-  if ((retval = nc_put_att_string(ncid, varid, "stardard_name", 1, &str1))) ERR(retval);
-  // nc_free_string(1, (char **)&str1);
-
-  const char * str2 = "days since 2016­12­01";
-  if ((retval = nc_put_att_string(ncid, varid, "units", 1, &str2))) ERR(retval);
-  // nc_free_string(1, (char **)&str2);
 
 //     double z(z) ;                                // Dimension coordinate and domain ancillary construct 13
 //         z:standard_name = "atmosphere_sigma_coordinate" ;                                            // 14
@@ -97,14 +67,15 @@ static void write_test ()
 
   if ((retval = nc_def_var(ncid, "z", NC_DOUBLE, ndims_var, dimidsp, &varid))) ERR(retval);
 
-  const char * str3 = "atmosphere_sigma_coordinate";
-  if ((retval = nc_put_att_string(ncid, varid, "stardard_name", 1, &str3))) ERR(retval);
-  // nc_free_string(1, (char **)&str3);
+  const char * str1 = "atmosphere_sigma_coordinate";
+  if ((retval = nc_put_att_string(ncid, varid, "stardard_name", 1, &str1))) ERR(retval);
+  // free(str2);
 
-  const char * str4 = "down";
-  if ((retval = nc_put_att_string(ncid, varid, "positive", 1, &str4))) ERR(retval);
-  // nc_free_string(1, (char **)&str4);
+  const char * str2 = "down";
+  if ((retval = nc_put_att_string(ncid, varid, "positive", 1, &str2))) ERR(retval);
 
+  const char * name1 = "x";
+  if ((retval = nc_put_att_string(ncid, varid, "dim 1", 1, &name1))) ERR(retval);
 //  double lon(y, x) ;                                                // Auxiliary coordinate construct 27
 //         lon:standard_name = "longitude" ;                                                            // 28
 //         lon:units = "degrees_east" ;                                                                 // 29
@@ -116,13 +87,45 @@ static void write_test ()
 
   if ((retval = nc_def_var(ncid, "lon", NC_DOUBLE, ndims_var, dimidsp, &varid))) ERR(retval);
 
-  const char * str5 = "atmosphere_sigma_coordinate";
+  const char * str3 = "longitude";
   if ((retval = nc_put_att_string(ncid, varid, "stardard_name", 1, &str3))) ERR(retval);
-  // nc_free_string(1, (char **)&str3);
 
-  const char * str6 = "longitude";
+  const char * str4 = "degrees_east";
   if ((retval = nc_put_att_string(ncid, varid, "units", 1, &str4))) ERR(retval);
-  // nc_free_string(1, (char **)&str4);
+
+  const char * name2 = "y";
+  if ((retval = nc_put_att_string(ncid, varid, "dim 1", 1, &name2))) ERR(retval);
+  const char * name3 = "x";
+  if ((retval = nc_put_att_string(ncid, varid, "dim 2", 1, &name3))) ERR(retval);
+
+  // double temp(z, y, x) ;                                                           // Field construct 52
+  //         temp.missing_value = ­1.0e30 ;                                                               // 53
+  //         temp:standard_name = "air_temperature" ;                                                     // 54
+  //         temp:units = "K" ;                                                                           // 55
+
+  ndims_var = 3;
+  dimidsp = malloc(sizeof(int)*ndims_var);
+  dimidsp[0] = x3_dimid;
+  dimidsp[1] = x2_dimid;
+  dimidsp[2] = x1_dimid;
+
+  if ((retval = nc_def_var(ncid, "temp", NC_DOUBLE, ndims_var, dimidsp, &varid))) ERR(retval);
+
+  double v = 1.0e30;
+  if ((retval = nc_put_att_double(ncid, varid, "missing_value", NC_DOUBLE, 1, &v))) ERR(retval);
+
+  const char * str5 = "air_temperature";
+  if ((retval = nc_put_att_string(ncid, varid, "stardard_name", 1, &str5))) ERR(retval);
+
+  const char * name4 = "z";
+  if ((retval = nc_put_att_string(ncid, varid, "dim 1", 1, &name4))) ERR(retval);
+  const char * name5 = "y";
+  if ((retval = nc_put_att_string(ncid, varid, "dim 2", 1, &name5))) ERR(retval);
+  const char * name6 = "z";
+  if ((retval = nc_put_att_string(ncid, varid, "dim 3", 1, &name6))) ERR(retval);
+
+  // nc_free_string(1, (char **)&str);
+  // nc_free_string(3, (char **)names);
 
   if ((retval = nc_enddef(ncid)))
      ERR(retval);
@@ -138,22 +141,22 @@ static void read_test ()
   if ((retval = nc_open(FILE_NAME, NC_CLOBBER | TEST_FLAGS, &ncid)))
     ERR(retval);
 
-  // nc_inq_varid (ncid, "data", &varid);
-  // printf("\n\nvarid = %d", varid);
-  varid = 0;
+  // // nc_inq_varid (ncid, "data", &varid);
+  // // printf("\n\nvarid = %d", varid);
+  // varid = 0;
+  //
+  // char * str_new;
+  //
+  // if ((retval = nc_get_att_string(ncid, varid, "string", & str_new))) ERR(retval);
+  // assert(strcmp("this is test1", str_new) == 0);
+  //
+  // // printf("\n\nstr_new = %s", str_new);
+  //
+  // nc_free_string(1, & str_new);
 
-  char * str_new;
+  // if ((retval = nc_enddef(ncid)))
+  //    ERR(retval);
 
-  if ((retval = nc_get_att_string(ncid, varid, "string", & str_new))) ERR(retval);
-  assert(strcmp("this is test1", str_new) == 0);
-
-  // printf("\n\nstr_new = %s", str_new);
-
-  nc_free_string(1, & str_new);
-
-  if ((retval = nc_enddef(ncid)))
-     ERR(retval);
-
-  if ((retval = nc_close(ncid)))
-    ERR(retval);
+  // if ((retval = nc_close(ncid)))
+  //   ERR(retval);
 }
