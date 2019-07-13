@@ -133,13 +133,6 @@ int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_
   memset(e, 0, sizeof(nc_esdm_t));
   e->ncid = ncp->ext_ncid;
 
-  // add a sentinel as the VARID = 0 is reserved for global
-  e->dimt.vals = malloc(sizeof(size_t));
-  e->dimt.vals[0] = 0;
-  e->dimt.names = malloc(sizeof(char*));
-  e->dimt.names[0] = "GLOBAL";
-
-
   int ret = esdm_container_create(cpath, & e->c);
   free(cpath);
   if(ret != ESDM_SUCCESS){
@@ -329,13 +322,16 @@ int ESDM_def_dim(int ncid, const char *name, size_t len, int *idp){
     }
   }
 
+
+  *idp = e->dimt.size;
+
   e->dimt.size++;
   e->dimt.vals = realloc(e->dimt.vals, sizeof(size_t) * e->dimt.size);
   // TODO check not NULL, assert
   e->dimt.names = realloc(e->dimt.names, sizeof(char*) * e->dimt.size);
-  e->dimt.names[e->dimt.size - 1] = strdup(name);
 
-  *idp = e->dimt.size;
+  e->dimt.names[e->dimt.size - 1] = strdup(name);
+  e->dimt.vals[e->dimt.size - 1] = len;
   debug("%d: %d\n", ncid, *idp);
 
   return NC_NOERR;
@@ -421,6 +417,7 @@ int ESDM_get_att(int ncid, int varid, const char* name, void* value, nc_type t){
       return NC_EACCESS;
     }
     md_entity_var_t * ev = e->vars.kv[varid];
+    assert(ev != NULL);
     status = esdm_dataset_get_attributes(ev->dset, & att);
     if(status != ESDM_SUCCESS){
       smd_attr_destroy(att);
@@ -500,6 +497,7 @@ int ESDM_def_var(int ncid, const char *name, nc_type xtype, int ndims, const int
     size_t val = e->dimt.vals[dimid];
     evar->dimidsp[i] = val;
     bounds[i] = val;
+    printf("%d = %lld\n", dimidsp[i], val);
   }
 
   esdm_type_t typ = type_nc_to_esdm(xtype);
