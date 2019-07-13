@@ -30,7 +30,7 @@ int main(int argc, char **argv) {
   /* When we create netCDF variables and dimensions, we get back an
     * ID for each one. */
     write_test ();
-    read_test ();
+    // read_test ();
 
     printf("*** SUCCESS attributes!\n");
     return 0;
@@ -87,7 +87,7 @@ static void read_test ()
   // nc_inq_varid (ncid, "data", &varid);
   // printf("\n\nvarid = %d", varid);
   varid = 0;
-  
+
   char * str_new;
 
   if ((retval = nc_get_att_string(ncid, varid, "string", & str_new))) ERR(retval);

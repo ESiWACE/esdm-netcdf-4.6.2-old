@@ -271,7 +271,7 @@ int ESDM_inq_format(int ncid, int *formatp){
   debug("%d\n", ncid);
   int status;
   void * nc;
-  status = NC_check_id(ncid, &nc);
+  status = NC_check_id(ncid, (NC**)&nc);
   if(status != NC_NOERR)
     return status;
   if (!formatp)
@@ -497,7 +497,7 @@ int ESDM_def_var(int ncid, const char *name, nc_type xtype, int ndims, const int
     size_t val = e->dimt.vals[dimid];
     evar->dimidsp[i] = val;
     bounds[i] = val;
-    printf("%d = %lld\n", dimidsp[i], val);
+    printf("%d = %ld\n", dimidsp[i], val);
   }
 
   esdm_type_t typ = type_nc_to_esdm(xtype);
@@ -696,139 +696,139 @@ static int ESDM_inq_typeid(int ncid, const char* name, nc_type* t)
 }
 
 int ESDM_show_metadata(){
-  debug("");
+  debug(" ");
   return NC_NOERR;
 }
 int ESDM_inq_unlimdims(){
-  debug("");
+  debug(" ");
   return NC_NOERR;
 }
 int ESDM_inq_ncid(){
-  debug("");
+  debug(" ");
   return NC_NOERR;
 }
 int ESDM_inq_grps(){
-  debug("");
+  debug(" ");
   return NC_NOERR;
 }
 int ESDM_inq_grpname(){
-  debug("");
+  debug(" ");
   return NC_NOERR;
 }
 int ESDM_inq_grpname_full(){
-  debug("");
+  debug(" ");
   return NC_NOERR;
 }
 int ESDM_inq_grp_parent(){
-  debug("");
+  debug(" ");
   return NC_NOERR;
 }
 int ESDM_inq_grp_full_ncid(){
-  debug("");
+  debug(" ");
   return NC_NOERR;
 }
 int ESDM_inq_varids(){
-  debug("");
+  debug(" ");
   return NC_NOERR;
 }
 int ESDM_inq_dimids(){
-  debug("");
+  debug(" ");
   return NC_NOERR;
 }
 int ESDM_inq_type_equal(){
-  debug("");
+  debug(" ");
   return NC_NOERR;
 }
 int ESDM_def_grp(){
-  debug("");
+  debug(" ");
   return NC_NOERR;
 }
 int ESDM_rename_grp(){
-  debug("");
+  debug(" ");
   return NC_NOERR;
 }
 int ESDM_inq_user_type(){
-  debug("");
+  debug(" ");
   return NC_NOERR;
 }
 int ESDM_def_compound(){
-  debug("");
+  debug(" ");
   return NC_NOERR;
 }
 int ESDM_insert_compound(){
-  debug("");
+  debug(" ");
   return NC_NOERR;
 }
 int ESDM_insert_array_compound(){
-  debug("");
+  debug(" ");
   return NC_NOERR;
 }
 int ESDM_inq_compound_field(){
-  debug("");
+  debug(" ");
   return NC_NOERR;
 }
 int ESDM_inq_compound_fieldindex(){
-  debug("");
+  debug(" ");
   return NC_NOERR;
 }
 int ESDM_def_vlen(){
-  debug("");
+  debug(" ");
   return NC_NOERR;
 }
 int ESDM_put_vlen_element(){
-  debug("");
+  debug(" ");
   return NC_NOERR;
 }
 int ESDM_get_vlen_element(){
-  debug("");
+  debug(" ");
   return NC_NOERR;
 }
 int ESDM_def_enum(){
-  debug("");
+  debug(" ");
   return NC_NOERR;
 }
 int ESDM_insert_enum(){
-  debug("");
+  debug(" ");
   return NC_NOERR;
 }
 int ESDM_inq_enum_member(){
-  debug("");
+  debug(" ");
   return NC_NOERR;
 }
 int ESDM_inq_enum_ident(){
-  debug("");
+  debug(" ");
   return NC_NOERR;
 }
 int ESDM_def_opaque(){
-  debug("");
+  debug(" ");
   return NC_NOERR;
 }
 int ESDM_def_var_deflate(){
-  debug("");
+  debug(" ");
   return NC_NOERR;
 }
 int ESDM_def_var_fletcher32(){
-  debug("");
+  debug(" ");
   return NC_NOERR;
 }
 int ESDM_def_var_chunking(){
-  debug("");
+  debug(" ");
   return NC_NOERR;
 }
 int ESDM_def_var_endian(){
-  debug("");
+  debug(" ");
   return NC_NOERR;
 }
 int ESDM_def_var_filter(){
-  debug("");
+  debug(" ");
   return NC_NOERR;
 }
 int ESDM_set_var_chunk_cache(){
-  debug("");
+  debug(" ");
   return NC_NOERR;
 }
 int ESDM_get_var_chunk_cache(){
-  debug("");
+  debug(" ");
   return NC_NOERR;
 }
 
