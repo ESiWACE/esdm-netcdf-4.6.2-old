@@ -133,7 +133,7 @@ int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_
   memset(e, 0, sizeof(nc_esdm_t));
   e->ncid = ncp->ext_ncid;
 
-  int ret = esdm_container_create(cpath, & e->c);
+  int ret = esdm_container_create(cpath, 1, & e->c);
   free(cpath);
   if(ret != ESDM_SUCCESS){
     return NC_EBADID;

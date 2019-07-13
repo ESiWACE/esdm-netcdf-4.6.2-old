@@ -121,7 +121,7 @@ static void write_test ()
   if ((retval = nc_put_att_string(ncid, varid, "dim 1", 1, &name4))) ERR(retval);
   const char * name5 = "y";
   if ((retval = nc_put_att_string(ncid, varid, "dim 2", 1, &name5))) ERR(retval);
-  const char * name6 = "z";
+  const char * name6 = "x";
   if ((retval = nc_put_att_string(ncid, varid, "dim 3", 1, &name6))) ERR(retval);
 
   // nc_free_string(1, (char **)&str);
