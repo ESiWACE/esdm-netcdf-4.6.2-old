@@ -25,9 +25,9 @@ typedef struct{
 // it is used up to a specific size of the metadata table before
 // the hashmap implementation is beneficial
 typedef struct{
-  int size;
-  md_entity_var_t * kv[10];
-} metadata_t;
+  int count;
+  md_entity_var_t ** var;
+} md_vars_t;
 
 typedef struct{
   int count;
@@ -43,7 +43,7 @@ typedef struct{
   // global attributes. These are identified by the attribute name together with a blank
   // variable name (in CDL) or a special null "global variable" ID (in C or Fortran).
   nc_dim_tbl_t dimt;
-  metadata_t vars;
+  md_vars_t vars;
 } nc_esdm_t;
 
 
@@ -89,13 +89,10 @@ static nc_type type_esdm_to_nc(esdm_type_t type){
   }
 }
 
-
-
-
-int lookup_md(metadata_t * md, char * name, md_entity_var_t ** value, int * pos){
-  for(int i=0; i < md->size; i++){
-    if(strcmp(name, esdm_dataset_name(md->kv[i]->dset)) == 0){
-      *value = md->kv[i];
+int lookup_md(md_vars_t * md, char * name, md_entity_var_t ** value, int * pos){
+  for(int i=0; i < md->count; i++){
+    if(strcmp(name, esdm_dataset_name(md->var[i]->dset)) == 0){
+      *value = md->var[i];
       *pos = i;
       return NC_NOERR;
     }
@@ -103,11 +100,13 @@ int lookup_md(metadata_t * md, char * name, md_entity_var_t ** value, int * pos)
   return NC_EBADID;
 }
 
-int insert_md(metadata_t * md,  md_entity_var_t * value){
-  assert(md->size < 10);
-  md->kv[md->size] = value;
-  md->size++;
-  return NC_NOERR;
+void insert_md(md_vars_t * md,  md_entity_var_t * value){
+  md->count++;
+  md->var = realloc(md->var, md->count * sizeof(void*));
+  if( ! md->var ){
+    ERROR("Cannot allocate memory.");
+  }
+  md->var[md->count - 1] = value;
 }
 
 
@@ -149,7 +148,7 @@ int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_
   return NC_NOERR;
 }
 
-static void  add_to_dims_tbl(nc_esdm_t * e, char * name, size_t size){
+static void  add_to_dims_tbl(nc_esdm_t * e, char const * name, size_t size){
   int cur = e->dimt.count;
   e->dimt.count++;
   int new = e->dimt.count;
@@ -228,11 +227,17 @@ int ESDM_open(const char *path, int mode, int basepe, size_t *chunksizehintp, vo
     esdm_dataspace_t * dspace;
     esdm_dataset_get_dataspace(dset, & dspace);
     int ndims = dspace->dims;
-    char * const * names = NULL;
+    char const * const * names = NULL;
     ret = esdm_dataset_get_name_dims(dset, & names);
     if(ret != ESDM_SUCCESS){
       return NC_EINVAL;
     }
+
+
+    md_entity_var_t * evar = malloc(sizeof(md_entity_var_t));
+    evar->dimidsp = malloc(sizeof(int) * ndims);
+    evar->dset = dset;
+
     for (int j = 0; j < ndims; j++){
       // check if the dim already exists in the dim table
       int dim_found = -1;
@@ -248,9 +253,12 @@ int ESDM_open(const char *path, int mode, int basepe, size_t *chunksizehintp, vo
         }
       }
       if(dim_found == -1){
+        dim_found = e->dimt.count;
         add_to_dims_tbl(e, names[j], dspace->size[j]);
       }
+      evar->dimidsp[j] = dim_found;
     }
+    insert_md(& e->vars, evar);
   }
 
   return NC_NOERR;
@@ -400,7 +408,7 @@ int ESDM_inq_dim(int ncid, int dimid, char *name, size_t *lenp){
   nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
   debug("%d %d %s\n", ncid, dimid, name);
 
-  assert(e->dimt.size >= dimid);
+  assert(e->dimt.count > dimid);
 
   if(name != NULL){
     strcpy(name, e->dimt.name[dimid]);
@@ -458,16 +466,16 @@ int ESDM_get_att(int ncid, int varid, const char* name, void* value, nc_type t){
   if((ret = NC_check_id(ncid, (NC**)& ncp)) != NC_NOERR) return (ret);
   nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
   debug("%d %d %s\n", ncid, varid, name);
-  printf("\n\n%d %d %s %d\n", ncid, varid, name, e->vars.size);
+  printf("\n\n%d %d %s %d\n", ncid, varid, name, e->vars.count);
 
   smd_attr_t * att;
   if(varid == NC_GLOBAL){
     status = esdm_container_get_attributes(e->c, & att);
   }else{
-    if(varid > e->vars.size){
+    if(varid > e->vars.count){
       return NC_EACCESS;
     }
-    md_entity_var_t * ev = e->vars.kv[varid];
+    md_entity_var_t * ev = e->vars.var[varid];
     assert(ev != NULL);
     status = esdm_dataset_get_attributes(ev->dset, & att);
     if(status != ESDM_SUCCESS){
@@ -516,7 +524,7 @@ int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype, size_t
       smd_attr_destroy(new);
       return NC_EINVAL;
     }
-    md_entity_var_t * ev = e->vars.kv[varid];
+    md_entity_var_t * ev = e->vars.var[varid];
     ret = esdm_dataset_link_attribute(ev->dset, new);
   }
   if(ret != ESDM_SUCCESS){
@@ -532,19 +540,17 @@ int ESDM_def_var(int ncid, const char *name, nc_type xtype, int ndims, const int
   if((ret = NC_check_id(ncid, (NC**)&ncp)) != NC_NOERR) return (ret);
   nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
 
-  *varidp = e->vars.size;
+  *varidp = e->vars.count;
   debug("%d: varid: %d\n", ncid, *varidp);
 
   md_entity_var_t * evar = malloc(sizeof(md_entity_var_t));
-  memset(evar, 0, sizeof(md_entity_var_t));
-
   evar->dimidsp = malloc(sizeof(int) * ndims);
 
   int64_t bounds[ndims];
   char * names[ndims];
   for(int i=0; i < ndims; i++){
     int dimid = dimidsp[i];
-    assert(e->dimt.size > dimid);
+    assert(e->dimt.count > dimid);
 
     size_t val = e->dimt.size[dimid];
     evar->dimidsp[i] = val;
@@ -591,8 +597,8 @@ int ESDM_get_vars(int ncid, int varid, const size_t *startp, const size_t *count
   int ret_NC = NC_NOERR;
   if((ret_NC = NC_check_id(ncid, (NC**)&ncp)) != NC_NOERR) return (ret_NC);
   nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
-  assert(e->vars.size > varid);
-  md_entity_var_t * kv = e->vars.kv[varid];
+  assert(e->vars.count > varid);
+  md_entity_var_t * kv = e->vars.var[varid];
   debug("%d type: %d buff: %p %p %p %p\n", ncid, mem_nc_type, data, startp, countp, stridep);
 
   // check the dimensions we actually want to write
@@ -648,8 +654,8 @@ int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *count
   int ret = NC_NOERR;
   if((ret = NC_check_id(ncid, (NC**)&ncp)) != NC_NOERR) return (ret);
   nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
-  assert(e->vars.size > varid);
-  md_entity_var_t * kv = e->vars.kv[varid];
+  assert(e->vars.count > varid);
+  md_entity_var_t * kv = e->vars.var[varid];
   debug("%d type: %d buff: %p %p %p %p\n", ncid, mem_nc_type, data, startp, countp, stridep);
 
   // check the dimensions we actually want to write
@@ -707,7 +713,7 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
   nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
   debug("%d %d\n", ncid, varid);
 
-  md_entity_var_t * evar = e->vars.kv[varid];
+  md_entity_var_t * evar = e->vars.var[varid];
   assert(evar != NULL);
 
   esdm_dataspace_t * space;

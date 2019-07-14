@@ -94,8 +94,7 @@ static void read_test ()
   assert(strcmp("this is test1", str_new) == 0);
 
   // printf("\n\nstr_new = %s", str_new);
-
-  nc_free_string(1, & str_new);
+  //nc_free_string(1, & str_new);
 
   if ((retval = nc_enddef(ncid)))
      ERR(retval);
