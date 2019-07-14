@@ -12,6 +12,10 @@
 
 #define debug(...) do{printf("called %s: %d ",__func__, __LINE__); printf(__VA_ARGS__); }while(0)
 
+#define WARN(...) do{printf("[ESDM NC] WARN %s: %d ",__func__, __LINE__); printf(__VA_ARGS__); }while(0)
+
+#define ERROR(...) do{printf("[ESDM NC] ERROR %s: %d ",__func__, __LINE__); printf(__VA_ARGS__); exit(1); }while(0)
+
 typedef struct{
   int *dimidsp;
   esdm_dataset_t * dset;
@@ -26,9 +30,9 @@ typedef struct{
 } metadata_t;
 
 typedef struct{
-  int size;
-  size_t * vals;
-  char ** names;
+  int count;
+  size_t * size;
+  char ** name;
 } nc_dim_tbl_t;
 
 typedef struct{
@@ -84,6 +88,8 @@ static nc_type type_esdm_to_nc(esdm_type_t type){
       return 0;
   }
 }
+
+
 
 
 int lookup_md(metadata_t * md, char * name, md_entity_var_t ** value, int * pos){
@@ -143,6 +149,21 @@ int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_
   return NC_NOERR;
 }
 
+static void  add_to_dims_tbl(nc_esdm_t * e, char * name, size_t size){
+  int cur = e->dimt.count;
+  e->dimt.count++;
+  int new = e->dimt.count;
+  e->dimt.name = realloc(e->dimt.name, new * sizeof(void*));
+  e->dimt.size = realloc(e->dimt.size, new * sizeof(size_t));
+
+  if( ! e->dimt.name || ! e->dimt.size ){
+    ERROR("Cannot allocate memory.");
+  }
+
+  e->dimt.name[cur] = strdup(name);
+  e->dimt.size[cur] = size;
+}
+
 int ESDM_open(const char *path, int mode, int basepe, size_t *chunksizehintp, void* parameters, struct NC_Dispatch* table, NC* ncp){
   const char * realpath = path;
 
@@ -172,17 +193,13 @@ int ESDM_open(const char *path, int mode, int basepe, size_t *chunksizehintp, vo
   memset(e, 0, sizeof(nc_esdm_t));
   e->ncid = ncp->ext_ncid;
 
-  esdm_status status;
-  status = esdm_container_open(cpath, & e->c);
-
+  esdm_status ret;
+  ret = esdm_container_open(cpath, & e->c);
   free(cpath);
 
-  if(status != ESDM_SUCCESS) return NC_EBADID;
+  if(ret != ESDM_SUCCESS) return NC_EBADID;
 
   ncp->dispatchdata = e;
-
-  status = esdm_build_dims_from_dsets (e->c);
-  if(status != ESDM_SUCCESS) return NC_EACCESS;
 
   /*
    * Rebuild the dimension table
@@ -195,6 +212,46 @@ int ESDM_open(const char *path, int mode, int basepe, size_t *chunksizehintp, vo
    *    search the dataset number (new function) in the container and put it into the mapping
    *    Allow for same name with different dimensions if needed (can happen when compiling a container on the fly)
    */
+
+  // now build the dim table
+  esdm_container_t * c = e->c;
+  int ndsets = esdm_container_dataset_count(c);
+  // open all ESDM datasets, find the names
+  for (int i = 0; i < ndsets; i++){
+    esdm_dataset_t *dset = esdm_container_dataset_from_array (c, i);
+
+    ret = esdm_dataset_ref(dset);
+    if(ret != ESDM_SUCCESS){
+      return NC_EINVAL;
+    }
+
+    esdm_dataspace_t * dspace;
+    esdm_dataset_get_dataspace(dset, & dspace);
+    int ndims = dspace->dims;
+    char * const * names = NULL;
+    ret = esdm_dataset_get_name_dims(dset, & names);
+    if(ret != ESDM_SUCCESS){
+      return NC_EINVAL;
+    }
+    for (int j = 0; j < ndims; j++){
+      // check if the dim already exists in the dim table
+      int dim_found = -1;
+      for(int k = 0; k < e->dimt.count; k++){
+        if(strcmp(e->dimt.name[k], names[j]) == 0){
+          // found it!
+          if(e->dimt.size[k] != dspace->size[j]){
+            WARN("Dimensions are not matching for %s", names[j]);
+            return NC_EINVAL;
+          }
+          dim_found = k;
+          break;
+        }
+      }
+      if(dim_found == -1){
+        add_to_dims_tbl(e, names[j], dspace->size[j]);
+      }
+    }
+  }
 
   return NC_NOERR;
 }
@@ -316,23 +373,16 @@ int ESDM_def_dim(int ncid, const char *name, size_t len, int *idp){
   nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
 
   // ensure that the name hasn't been defined if it was defined, replace it
-  for(int i=0; i < e->dimt.size; i++){
-    if(strcmp(e->dimt.names[i], name) == 0){
-      e->dimt.vals[i] = len;
+  for(int i=0; i < e->dimt.count; i++){
+    if(strcmp(e->dimt.name[i], name) == 0){
+      e->dimt.size[i] = len;
       return ret;
     }
   }
 
-
-  *idp = e->dimt.size;
-
-  e->dimt.size++;
-  e->dimt.vals = realloc(e->dimt.vals, sizeof(size_t) * e->dimt.size);
-  // TODO check not NULL, assert
-  e->dimt.names = realloc(e->dimt.names, sizeof(char*) * e->dimt.size);
-
-  e->dimt.names[e->dimt.size - 1] = strdup(name);
-  e->dimt.vals[e->dimt.size - 1] = len;
+  int cnt = e->dimt.count;
+  *idp = cnt;
+  add_to_dims_tbl(e, name, len);
   debug("%d: %d\n", ncid, *idp);
 
   return NC_NOERR;
@@ -353,10 +403,10 @@ int ESDM_inq_dim(int ncid, int dimid, char *name, size_t *lenp){
   assert(e->dimt.size >= dimid);
 
   if(name != NULL){
-    strcpy(name, e->dimt.names[dimid]);
+    strcpy(name, e->dimt.name[dimid]);
   }
   if(lenp != NULL){
-    *lenp = e->dimt.vals[dimid];
+    *lenp = e->dimt.size[dimid];
   }
 
   return NC_NOERR;
@@ -491,12 +541,14 @@ int ESDM_def_var(int ncid, const char *name, nc_type xtype, int ndims, const int
   evar->dimidsp = malloc(sizeof(int) * ndims);
 
   int64_t bounds[ndims];
+  char * names[ndims];
   for(int i=0; i < ndims; i++){
     int dimid = dimidsp[i];
-    assert(e->dimt.size >= dimid);
+    assert(e->dimt.size > dimid);
 
-    size_t val = e->dimt.vals[dimid];
+    size_t val = e->dimt.size[dimid];
     evar->dimidsp[i] = val;
+    names[i] = e->dimt.name[dimid];
     bounds[i] = val;
     printf("%d = %ld\n", dimidsp[i], val);
   }
@@ -508,13 +560,15 @@ int ESDM_def_var(int ncid, const char *name, nc_type xtype, int ndims, const int
   esdm_dataspace_t *dataspace;
   ret = esdm_dataspace_create(ndims, bounds, typ, &dataspace);
 
-  esdm_dataset_t *dataset;
-  esdm_dataset_create(e->c, name, dataspace, & dataset);
+  esdm_dataset_t *d;
+  ret = esdm_dataset_create(e->c, name, dataspace, & d);
 
-  if(dataset == NULL){
+  if(ret != ESDM_SUCCESS){
     return NC_EBADID;
   }
-  evar->dset = dataset;
+  ret = esdm_dataset_name_dims(d, names);
+
+  evar->dset = d;
   insert_md(& e->vars, evar);
 
   return NC_NOERR;

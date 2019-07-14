@@ -30,7 +30,7 @@ int main(int argc, char **argv) {
   /* When we create netCDF variables and dimensions, we get back an
     * ID for each one. */
     write_test ();
-    // read_test ();
+    read_test ();
 
     printf("*** SUCCESS attributes!\n");
     return 0;
