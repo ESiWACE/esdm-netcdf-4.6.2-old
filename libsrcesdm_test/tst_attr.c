@@ -66,6 +66,8 @@ int main (int argc, char ** argv){
 
    nc_free_string(1, & str_new);
 
+   nc_finalize();
+
    printf("*** SUCCESS attributes!\n");
    return 0;
 }

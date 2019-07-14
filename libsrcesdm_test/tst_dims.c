@@ -32,6 +32,8 @@ int main(int argc, char **argv) {
     write_test ();
     read_test ();
 
+    nc_finalize();
+
     printf("*** SUCCESS attributes!\n");
     return 0;
 }

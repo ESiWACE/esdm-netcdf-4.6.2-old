@@ -22,9 +22,13 @@ static void write_test();
 static void read_test();
 
 int main (int argc, char ** argv){
+  nc_initialize();
+  
   write_test();
   read_test();
   // printf("OK\n");
+
+  nc_finalize();
   printf("*** SUCCESS attributes!\n");
   return 0;
 }

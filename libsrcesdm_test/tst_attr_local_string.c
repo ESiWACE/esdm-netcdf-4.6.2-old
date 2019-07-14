@@ -27,10 +27,14 @@ static void write_test ();
 static void read_test ();
 
 int main(int argc, char **argv) {
+    nc_initialize();
+
   /* When we create netCDF variables and dimensions, we get back an
     * ID for each one. */
     write_test ();
     read_test ();
+
+    nc_finalize();
 
     printf("*** SUCCESS attributes!\n");
     return 0;
