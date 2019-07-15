@@ -86,6 +86,14 @@ static nc_type type_esdm_to_nc(esdm_type_t type){
   }
 }
 
+static inline nc_esdm_t * ESDM_nc_get_esdm_struct(int ncid){
+  NC * ncp;
+  if(NC_check_id(ncid, (NC**)&ncp) != NC_NOERR) return NULL;
+  nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
+  if(e->ncid != ncid) return NULL;
+  return e;
+}
+
 int lookup_md(md_vars_t * md, char * name, md_var_t ** value, int * pos){
   for(int i=0; i < md->count; i++){
     if(strcmp(name, esdm_dataset_name(md->var[i]->dset)) == 0){
@@ -267,11 +275,10 @@ int ESDM_redef(int ncid){
 }
 
 int ESDM__enddef(int ncid, size_t h_minfree, size_t v_align, size_t v_minfree, size_t r_align){
-  NC * ncp;
+
   int ret = NC_NOERR;
-  if((ret = NC_check_id(ncid, (NC**)&ncp)) != NC_NOERR) return (ret);
-  nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
-  debug("%d\n", ncid);
+  nc_esdm_t * e = ESDM_nc_get_esdm_struct(ncid);
+  if(e == NULL) return NC_EBADID;
 
   ret = esdm_container_commit(e->c);
   if(ret != ESDM_SUCCESS){
@@ -291,11 +298,10 @@ int ESDM_abort(int ncid){
 }
 
 int ESDM_close(int ncid, void * b){
-  NC * ncp;
+
   int ret = NC_NOERR;
-  if((ret = NC_check_id(ncid, (NC**)&ncp)) != NC_NOERR) return (ret);
-  nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
-  debug("%d\n", ncid);
+  nc_esdm_t * e = ESDM_nc_get_esdm_struct(ncid);
+  if(e == NULL) return NC_EBADID;
 
   esdm_container_commit(e->c);
   //esdm_container_destroy(e->c); // TODO disable for now, as we want to reread the file
@@ -332,11 +338,9 @@ int ESDM_set_base_pe(int ncid, int pe){ // for parallel execution
 
 int ESDM_inq_format(int ncid, int *formatp){
   debug("%d\n", ncid);
-  int status;
-  void * nc;
-  status = NC_check_id(ncid, (NC**)&nc);
-  if(status != NC_NOERR)
-    return status;
+  nc_esdm_t * e = ESDM_nc_get_esdm_struct(ncid);
+  if(e == NULL) return NC_EBADID;
+
   if (!formatp)
     return NC_NOERR;
 
@@ -372,10 +376,10 @@ int ESDM_inq_type(int ncid, nc_type xtype, char *name, size_t *size){
 }
 
 int ESDM_def_dim(int ncid, const char *name, size_t len, int *idp){
-  NC * ncp;
   int ret = NC_NOERR;
-  if((ret = NC_check_id(ncid, (NC**)&ncp)) != NC_NOERR) return (ret);
-  nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
+
+  nc_esdm_t * e = ESDM_nc_get_esdm_struct(ncid);
+  if(e == NULL) return NC_EBADID;
 
   // ensure that the name hasn't been defined if it was defined, replace it
   for(int i=0; i < e->dimt.count; i++){
@@ -399,11 +403,10 @@ int ESDM_inq_dimid(int ncid, const char *name, int *idp){
 }
 
 int ESDM_inq_dim(int ncid, int dimid, char *name, size_t *lenp){
-  NC * ncp;
   int ret = NC_NOERR;
-  if((ret = NC_check_id(ncid, (NC**)&ncp)) != NC_NOERR) return (ret);
-  nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
-  debug("%d %d %s\n", ncid, dimid, name);
+
+  nc_esdm_t * e = ESDM_nc_get_esdm_struct(ncid);
+  if(e == NULL) return NC_EBADID;
 
   assert(e->dimt.count > dimid);
 
@@ -459,11 +462,9 @@ int ESDM_get_att(int ncid, int varid, const char* name, void* value, nc_type t){
   }
   esdm_status status;
   int ret;
-  NC * ncp;
-  if((ret = NC_check_id(ncid, (NC**)& ncp)) != NC_NOERR) return (ret);
-  nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
-  debug("%d %d %s\n", ncid, varid, name);
-  printf("\n\n%d %d %s %d\n", ncid, varid, name, e->vars.count);
+
+  nc_esdm_t * e = ESDM_nc_get_esdm_struct(ncid);
+  if(e == NULL) return NC_EBADID;
 
   smd_attr_t * att;
   if(varid == NC_GLOBAL){
@@ -500,10 +501,9 @@ int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype, size_t
     return NC_EINVAL;
   }
   int ret;
-  NC * ncp;
-  if((ret = NC_check_id(ncid, (NC**)& ncp)) != NC_NOERR) return (ret);
-  nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
-  debug("%d %d %s\n", ncid, varid, name);
+
+  nc_esdm_t * e = ESDM_nc_get_esdm_struct(ncid);
+  if(e == NULL) return NC_EBADID;
 
   smd_attr_t * new;
   if(datatype == NC_STRING){
@@ -532,10 +532,11 @@ int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype, size_t
 }
 
 int ESDM_def_var(int ncid, const char *name, nc_type xtype, int ndims, const int *dimidsp, int *varidp){
-  NC * ncp;
+
   int ret = NC_NOERR;
-  if((ret = NC_check_id(ncid, (NC**)&ncp)) != NC_NOERR) return (ret);
-  nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
+
+  nc_esdm_t * e = ESDM_nc_get_esdm_struct(ncid);
+  if(e == NULL) return NC_EBADID;
 
   *varidp = e->vars.count;
   debug("%d: varid: %d\n", ncid, *varidp);
@@ -590,10 +591,11 @@ int ESDM_rename_var(int ncid, int varid, const char *name){
 int ESDM_get_vars(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const void *data, nc_type mem_nc_type){
   debug("%d\n", ncid);
 
-  NC * ncp;
   int ret_NC = NC_NOERR;
-  if((ret_NC = NC_check_id(ncid, (NC**)&ncp)) != NC_NOERR) return (ret_NC);
-  nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
+
+  nc_esdm_t * e = ESDM_nc_get_esdm_struct(ncid);
+  if(e == NULL) return NC_EBADID;
+
   assert(e->vars.count > varid);
   md_var_t * kv = e->vars.var[varid];
   debug("%d type: %d buff: %p %p %p %p\n", ncid, mem_nc_type, data, startp, countp, stridep);
@@ -647,10 +649,12 @@ int ESDM_get_vara(int ncid, int varid, const size_t *startp, const size_t *count
 }
 
 int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const void *data, nc_type mem_nc_type){
-  NC * ncp;
+
   int ret = NC_NOERR;
-  if((ret = NC_check_id(ncid, (NC**)&ncp)) != NC_NOERR) return (ret);
-  nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
+
+  nc_esdm_t * e = ESDM_nc_get_esdm_struct(ncid);
+  if(e == NULL) return NC_EBADID;
+
   assert(e->vars.count > varid);
   md_var_t * kv = e->vars.var[varid];
   debug("%d type: %d buff: %p %p %p %p\n", ncid, mem_nc_type, data, startp, countp, stridep);
@@ -704,10 +708,12 @@ int ESDM_put_vara(int ncid, int varid, const size_t *startp, const size_t *count
 }
 
 int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndimsp, int *dimidsp, int *nattsp, int *shufflep, int *deflatep, int *deflate_levelp, int *fletcher32p, int *contiguousp, size_t *chunksizesp, int *no_fill, void *fill_valuep, int *endiannessp, unsigned int* idp, size_t* nparamsp, unsigned int* params){
-  NC * ncp;
+
   int ret = NC_NOERR;
-  if((ret = NC_check_id(ncid, (NC**)&ncp)) != NC_NOERR) return (ret);
-  nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
+
+  nc_esdm_t * e = ESDM_nc_get_esdm_struct(ncid);
+  if(e == NULL) return NC_EBADID;
+
   debug("%d %d\n", ncid, varid);
 
   md_var_t * evar = e->vars.var[varid];
@@ -735,22 +741,19 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
 
 static int ESDM_inq_typeids(int ncid, int *ntypes, int* p) {
   debug("%d\n", ncid);
-  NC * ncp;
-  int ret = NC_NOERR;
-  if((ret = NC_check_id(ncid, (NC**)&ncp)) != NC_NOERR) return ret;
-  nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
 
-  return ret;
+  nc_esdm_t * e = ESDM_nc_get_esdm_struct(ncid);
+  if(e == NULL) return NC_EBADID;
+
+  return NC_NOERR; //check it later
 }
 
 static int ESDM_inq_typeid(int ncid, const char* name, nc_type* t)
 {
-  NC* ncp;
-  int ret = NC_NOERR;
-  if((ret = NC_check_id(ncid, (NC**)&ncp)) != NC_NOERR) return ret;
-  nc_esdm_t * e = (nc_esdm_t *) ncp->dispatchdata;
+  nc_esdm_t * e = ESDM_nc_get_esdm_struct(ncid);
+  if(e == NULL) return NC_EBADID;
 
-  return ret;
+  return NC_NOERR; //check it later
 }
 
 int ESDM_show_metadata(){

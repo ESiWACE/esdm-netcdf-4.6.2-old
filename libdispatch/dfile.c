@@ -2014,6 +2014,9 @@ int NC_create(const char *path0, int cmode, size_t initialsz, int basepe, size_t
 #ifdef USE_ESDM
     if (model == NC_FORMATX_UNDEFINED && (cmode & NC_ESDM))
         model = NC_FORMATX_ESDM;
+    if(getenv("NC_ESDM_FORCEESDM")){
+        model = NC_FORMATX_ESDM;
+    }
 #else
     if (model == NC_FORMATX_UNDEFINED && (cmode & NC_ESDM))
         return NC_ENOTBUILT;
@@ -2205,6 +2208,9 @@ int NC_open(const char *path0, int omode, int basepe, size_t *chunksizehintp, in
 #ifdef USE_ESDM
     if (model == NC_FORMATX_UNDEFINED && (omode & NC_ESDM))
         model = NC_FORMATX_ESDM;
+    if(getenv("NC_ESDM_FORCEESDM")){
+        model = NC_FORMATX_ESDM;
+    }
 #else
     if (model == NC_FORMATX_UNDEFINED && (omode & NC_ESDM))
         return NC_ENOTBUILT;
