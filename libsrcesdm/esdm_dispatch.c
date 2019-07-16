@@ -10,11 +10,14 @@
 
 #define NOT_IMPLEMENTED assert(0 && "NOT IMPLEMENTED");
 
-#define debug(...) do{printf("called %s: %d ",__func__, __LINE__); printf(__VA_ARGS__); }while(0)
+#define ERROR(...) do{printf("[ESDM NC] ERROR %s:%d ",__func__, __LINE__); printf(__VA_ARGS__); exit(1); }while(0)
 
-#define WARN(...) do{printf("[ESDM NC] WARN %s: %d ",__func__, __LINE__); printf(__VA_ARGS__); }while(0)
+#define DEBUG(str) do{printf("[ESDM NC] DEBUG %s:%d %s\n",__func__, __LINE__, str);}while(0)
+#define DEBUG_ENTER(...) do{printf("[ESDM NC] called %s:%d ",__func__, __LINE__); printf(__VA_ARGS__); }while(0)
+#define WARN(...) do{printf("[ESDM NC] WARN %s:%d ",__func__, __LINE__); printf(__VA_ARGS__); }while(0)
 
-#define ERROR(...) do{printf("[ESDM NC] ERROR %s: %d ",__func__, __LINE__); printf(__VA_ARGS__); exit(1); }while(0)
+#define WARN_NOT_IMPLEMENTED do{printf("[ESDM NC] WARN %s():%d NOT IMPLEMENTED\n",__func__, __LINE__); }while(0)
+#define WARN_NOT_SUPPORTED do{printf("[ESDM NC] WARN %s():%d. NetCDF Feature not supported with ESDM!\n",__func__, __LINE__); }while(0)
 
 typedef struct{
   int *dimidsp;
@@ -137,7 +140,7 @@ int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_
     }
     cpath[pos] = '\0';
   }
-  debug("%s %d %d %s\n", cpath, ncp->ext_ncid, ncp->int_ncid, ncp->path);
+  DEBUG_ENTER("%s %d %d %s\n", cpath, ncp->ext_ncid, ncp->int_ncid, ncp->path);
 
   nc_esdm_t * e = malloc(sizeof(nc_esdm_t));
   memset(e, 0, sizeof(nc_esdm_t));
@@ -191,7 +194,7 @@ int ESDM_open(const char *path, int mode, int basepe, size_t *chunksizehintp, vo
   }
   //const char * base = basename(realpath);
 
-  debug("%s %d %d %s\n", cpath, ncp->ext_ncid, ncp->int_ncid, ncp->path);
+  DEBUG_ENTER("%s %d %d %s\n", cpath, ncp->ext_ncid, ncp->int_ncid, ncp->path);
 
   nc_esdm_t * e = malloc(sizeof(nc_esdm_t));
   memset(e, 0, sizeof(nc_esdm_t));
@@ -270,7 +273,7 @@ int ESDM_open(const char *path, int mode, int basepe, size_t *chunksizehintp, vo
 }
 
 int ESDM_redef(int ncid){
-  debug("%d\n", ncid);
+  DEBUG_ENTER("%d\n", ncid);
   return NC_NOERR;
 }
 
@@ -288,12 +291,12 @@ int ESDM__enddef(int ncid, size_t h_minfree, size_t v_align, size_t v_minfree, s
 }
 
 int ESDM_sync(int ncid){
-  debug("%d\n", ncid);
+  DEBUG_ENTER("%d\n", ncid);
   return NC_NOERR;
 }
 
 int ESDM_abort(int ncid){
-  debug("%d\n", ncid);
+  DEBUG_ENTER("%d\n", ncid);
   return NC_NOERR;
 }
 
@@ -309,35 +312,35 @@ int ESDM_close(int ncid, void * b){
 }
 
 int ESDM_set_fill(int ncid, int fillmode, int *old_modep){
-  debug("%d %d\n", ncid, fillmode);
+  DEBUG_ENTER("%d %d\n", ncid, fillmode);
   *old_modep = NC_NOFILL;
   return NC_NOERR;
 }
 
 int ESDM_def_var_fill(int ncid, int varid, int no_fill, const void *fill_value){
-  debug("%d %d\n", ncid, no_fill);
+  DEBUG_ENTER("%d %d\n", ncid, no_fill);
   return NC_NOERR;
 }
 
 
 int ESDM_var_par_access(int ncid, int varid, int access){
-  debug("%d: var:%d access:%d\n", ncid, varid, access);
+  DEBUG_ENTER("%d: var:%d access:%d\n", ncid, varid, access);
   return NC_NOERR;
 }
 
 
 int ESDM_inq_base_pe(int ncid, int *pe){ // for parallel execution
-  debug("%d\n", ncid);
+  DEBUG_ENTER("%d\n", ncid);
   return NC_NOERR;
 }
 
 int ESDM_set_base_pe(int ncid, int pe){ // for parallel execution
-  debug("%d\n", ncid);
+  DEBUG_ENTER("%d\n", ncid);
   return NC_NOERR;
 }
 
 int ESDM_inq_format(int ncid, int *formatp){
-  debug("%d\n", ncid);
+  DEBUG_ENTER("%d\n", ncid);
   nc_esdm_t * e = ESDM_nc_get_esdm_struct(ncid);
   if(e == NULL) return NC_EBADID;
 
@@ -349,12 +352,12 @@ int ESDM_inq_format(int ncid, int *formatp){
 }
 
 int ESDM_inq_format_extended(int ncid, int *formatp, int* modep){
-  debug("%d\n", ncid);
+  DEBUG_ENTER("%d\n", ncid);
   return NC_NOERR;
 }
 
 int ESDM_inq(int ncid, int *ndimsp, int *nvarsp, int *nattsp, int *unlimdimidp){
-  debug("%d\n", ncid);
+  DEBUG_ENTER("%d\n", ncid);
   if(ndimsp){
     *ndimsp = 0;
   }
@@ -371,7 +374,7 @@ int ESDM_inq(int ncid, int *ndimsp, int *nvarsp, int *nattsp, int *unlimdimidp){
 }
 
 int ESDM_inq_type(int ncid, nc_type xtype, char *name, size_t *size){
-  debug("%d\n", ncid);
+  DEBUG_ENTER("%d\n", ncid);
   return NC_NOERR;
 }
 
@@ -392,13 +395,13 @@ int ESDM_def_dim(int ncid, const char *name, size_t len, int *idp){
   int cnt = e->dimt.count;
   *idp = cnt;
   add_to_dims_tbl(e, name, len);
-  debug("%d: %d\n", ncid, *idp);
+  DEBUG_ENTER("%d: %d\n", ncid, *idp);
 
   return NC_NOERR;
 }
 
 int ESDM_inq_dimid(int ncid, const char *name, int *idp){
-  debug("%d\n", ncid);
+  DEBUG_ENTER("%d\n", ncid);
   return NC_NOERR;
 }
 
@@ -421,37 +424,37 @@ int ESDM_inq_dim(int ncid, int dimid, char *name, size_t *lenp){
 }
 
 int ESDM_inq_unlimdim(int ncid, int *unlimdimidp){
-  debug("%d\n", ncid);
+  DEBUG_ENTER("%d\n", ncid);
   return NC_NOERR;
 }
 
 int ESDM_rename_dim(int ncid, int dimid, const char *name){
-  debug("%d\n", ncid);
+  DEBUG_ENTER("%d\n", ncid);
   return NC_NOERR;
 }
 
 int ESDM_inq_att(int ncid, int varid, const char *name, nc_type *datatypep, size_t *lenp){
-  debug("%d\n", ncid);
+  DEBUG_ENTER("%d\n", ncid);
   return NC_NOERR;
 }
 
 int ESDM_inq_attid(int ncid, int varid, const char *name, int *attnump){
-  debug("%d\n", ncid);
+  DEBUG_ENTER("%d\n", ncid);
   return NC_NOERR;
 }
 
 int ESDM_inq_attname(int ncid, int varid, int attnum, char *name){
-  debug("%d\n", ncid);
+  DEBUG_ENTER("%d\n", ncid);
   return NC_NOERR;
 }
 
 int ESDM_rename_att(int ncid, int varid, const char *name, const char *newname){
-  debug("%d\n", ncid);
+  DEBUG_ENTER("%d\n", ncid);
   return NC_NOERR;
 }
 
 int ESDM_del_att(int ncid, int varid, const char *name){
-  debug("%d\n", ncid);
+  DEBUG_ENTER("%d\n", ncid);
   return NC_NOERR;
 }
 
@@ -539,7 +542,7 @@ int ESDM_def_var(int ncid, const char *name, nc_type xtype, int ndims, const int
   if(e == NULL) return NC_EBADID;
 
   *varidp = e->vars.count;
-  debug("%d: varid: %d\n", ncid, *varidp);
+  DEBUG_ENTER("%d: varid: %d\n", ncid, *varidp);
 
   md_var_t * evar = malloc(sizeof(md_var_t));
   evar->dimidsp = malloc(sizeof(int) * ndims);
@@ -579,17 +582,17 @@ int ESDM_def_var(int ncid, const char *name, nc_type xtype, int ndims, const int
 }
 
 int ESDM_inq_varid(int ncid, const char *name, int *varidp){
-  debug("%d\n", ncid);
+  DEBUG_ENTER("%d\n", ncid);
   return NC_NOERR;
 }
 
 int ESDM_rename_var(int ncid, int varid, const char *name){
-  debug("%d\n", ncid);
+  DEBUG_ENTER("%d\n", ncid);
   return NC_NOERR;
 }
 
 int ESDM_get_vars(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const void *data, nc_type mem_nc_type){
-  debug("%d\n", ncid);
+  DEBUG_ENTER("%d\n", ncid);
 
   int ret_NC = NC_NOERR;
 
@@ -598,7 +601,7 @@ int ESDM_get_vars(int ncid, int varid, const size_t *startp, const size_t *count
 
   assert(e->vars.count > varid);
   md_var_t * kv = e->vars.var[varid];
-  debug("%d type: %d buff: %p %p %p %p\n", ncid, mem_nc_type, data, startp, countp, stridep);
+  DEBUG_ENTER("%d type: %d buff: %p %p %p %p\n", ncid, mem_nc_type, data, startp, countp, stridep);
 
   // check the dimensions we actually want to write
   int access_all = 1;
@@ -644,7 +647,7 @@ int ESDM_get_vars(int ncid, int varid, const size_t *startp, const size_t *count
 
 int ESDM_get_vara(int ncid, int varid, const size_t *startp, const size_t *countp, void *ip, int memtype)
 {
-  debug("%d\n", ncid);
+  DEBUG_ENTER("%d\n", ncid);
   return ESDM_get_vars(ncid, varid, startp, countp, NULL, ip, memtype);
 }
 
@@ -657,7 +660,7 @@ int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *count
 
   assert(e->vars.count > varid);
   md_var_t * kv = e->vars.var[varid];
-  debug("%d type: %d buff: %p %p %p %p\n", ncid, mem_nc_type, data, startp, countp, stridep);
+  DEBUG_ENTER("%d type: %d buff: %p %p %p %p\n", ncid, mem_nc_type, data, startp, countp, stridep);
 
   // check the dimensions we actually want to write
   int access_all = 1;
@@ -703,7 +706,7 @@ int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *count
 }
 
 int ESDM_put_vara(int ncid, int varid, const size_t *startp, const size_t *countp, const void *op, int memtype){
-  debug("%d\n", ncid);
+  DEBUG_ENTER("%d\n", ncid);
   return ESDM_put_vars(ncid, varid, startp, countp, NULL, op, memtype);
 }
 
@@ -714,7 +717,7 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
   nc_esdm_t * e = ESDM_nc_get_esdm_struct(ncid);
   if(e == NULL) return NC_EBADID;
 
-  debug("%d %d\n", ncid, varid);
+  DEBUG_ENTER("%d %d\n", ncid, varid);
 
   md_var_t * evar = e->vars.var[varid];
   assert(evar != NULL);
@@ -740,7 +743,7 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
 }
 
 static int ESDM_inq_typeids(int ncid, int *ntypes, int* p) {
-  debug("%d\n", ncid);
+  DEBUG_ENTER("%d\n", ncid);
 
   nc_esdm_t * e = ESDM_nc_get_esdm_struct(ncid);
   if(e == NULL) return NC_EBADID;
@@ -757,140 +760,207 @@ static int ESDM_inq_typeid(int ncid, const char* name, nc_type* t)
 }
 
 int ESDM_show_metadata(){
-  debug(" ");
+  DEBUG("");
+  WARN_NOT_IMPLEMENTED;
   return NC_NOERR;
 }
+
 int ESDM_inq_unlimdims(){
-  debug(" ");
+  DEBUG("");
+  WARN_NOT_IMPLEMENTED;
   return NC_NOERR;
 }
+
 int ESDM_inq_ncid(){
-  debug(" ");
+  DEBUG("");
+  WARN_NOT_IMPLEMENTED;
   return NC_NOERR;
 }
+
 int ESDM_inq_grps(){
-  debug(" ");
+  DEBUG("");
+  WARN_NOT_IMPLEMENTED;
   return NC_NOERR;
 }
+
 int ESDM_inq_grpname(){
-  debug(" ");
+  DEBUG("");
+  WARN_NOT_IMPLEMENTED;
   return NC_NOERR;
 }
+
 int ESDM_inq_grpname_full(){
-  debug(" ");
+  DEBUG("");
+  WARN_NOT_IMPLEMENTED;
   return NC_NOERR;
 }
+
 int ESDM_inq_grp_parent(){
-  debug(" ");
+  DEBUG("");
+  WARN_NOT_IMPLEMENTED;
   return NC_NOERR;
 }
+
 int ESDM_inq_grp_full_ncid(){
-  debug(" ");
+  DEBUG("");
+  WARN_NOT_IMPLEMENTED;
   return NC_NOERR;
 }
+
 int ESDM_inq_varids(){
-  debug(" ");
+  DEBUG("");
+  WARN_NOT_IMPLEMENTED;
   return NC_NOERR;
 }
+
 int ESDM_inq_dimids(){
-  debug(" ");
+  DEBUG("");
+  WARN_NOT_IMPLEMENTED;
   return NC_NOERR;
 }
+
 int ESDM_inq_type_equal(){
-  debug(" ");
+  DEBUG("");
+  WARN_NOT_IMPLEMENTED;
   return NC_NOERR;
 }
+
 int ESDM_def_grp(){
-  debug(" ");
+  DEBUG("");
+  WARN_NOT_IMPLEMENTED;
   return NC_NOERR;
 }
+
 int ESDM_rename_grp(){
-  debug(" ");
+  DEBUG("");
+  WARN_NOT_IMPLEMENTED;
   return NC_NOERR;
 }
+
 int ESDM_inq_user_type(){
-  debug(" ");
+  DEBUG("");
+  WARN_NOT_IMPLEMENTED;
   return NC_NOERR;
 }
+
 int ESDM_def_compound(){
-  debug(" ");
+  DEBUG("");
+  WARN_NOT_IMPLEMENTED;
   return NC_NOERR;
 }
+
 int ESDM_insert_compound(){
-  debug(" ");
+  DEBUG("");
+  WARN_NOT_IMPLEMENTED;
   return NC_NOERR;
 }
+
 int ESDM_insert_array_compound(){
-  debug(" ");
+  DEBUG("");
+  WARN_NOT_IMPLEMENTED;
   return NC_NOERR;
 }
+
 int ESDM_inq_compound_field(){
-  debug(" ");
+  DEBUG("");
+  WARN_NOT_IMPLEMENTED;
   return NC_NOERR;
 }
+
 int ESDM_inq_compound_fieldindex(){
-  debug(" ");
+  DEBUG("");
+  WARN_NOT_IMPLEMENTED;
   return NC_NOERR;
 }
+
 int ESDM_def_vlen(){
-  debug(" ");
+  DEBUG("");
+  WARN_NOT_IMPLEMENTED;
   return NC_NOERR;
 }
+
 int ESDM_put_vlen_element(){
-  debug(" ");
+  DEBUG("");
+  WARN_NOT_IMPLEMENTED;
   return NC_NOERR;
 }
+
 int ESDM_get_vlen_element(){
-  debug(" ");
+  DEBUG("");
+  WARN_NOT_IMPLEMENTED;
   return NC_NOERR;
 }
+
 int ESDM_def_enum(){
-  debug(" ");
+  DEBUG("");
+  WARN_NOT_IMPLEMENTED;
   return NC_NOERR;
 }
+
 int ESDM_insert_enum(){
-  debug(" ");
+  DEBUG("");
+  WARN_NOT_IMPLEMENTED;
   return NC_NOERR;
 }
+
 int ESDM_inq_enum_member(){
-  debug(" ");
+  DEBUG("");
+  WARN_NOT_IMPLEMENTED;
   return NC_NOERR;
 }
+
 int ESDM_inq_enum_ident(){
-  debug(" ");
+  DEBUG("");
+  WARN_NOT_IMPLEMENTED;
   return NC_NOERR;
 }
+
 int ESDM_def_opaque(){
-  debug(" ");
+  DEBUG("");
+  WARN_NOT_IMPLEMENTED;
   return NC_NOERR;
 }
+
 int ESDM_def_var_deflate(){
-  debug(" ");
-  return NC_NOERR;
+  DEBUG("");
+  WARN_NOT_SUPPORTED;
+  return NC_EINVAL;
 }
+
 int ESDM_def_var_fletcher32(){
-  debug(" ");
-  return NC_NOERR;
+  DEBUG("");
+  WARN_NOT_SUPPORTED;
+  return NC_EINVAL;
 }
+
 int ESDM_def_var_chunking(){
-  debug(" ");
-  return NC_NOERR;
+  DEBUG("");
+  WARN_NOT_SUPPORTED;
+  return NC_EINVAL;
 }
+
 int ESDM_def_var_endian(){
-  debug(" ");
-  return NC_NOERR;
+  DEBUG("");
+  WARN_NOT_IMPLEMENTED;
+  return NC_EINVAL;
 }
+
 int ESDM_def_var_filter(){
-  debug(" ");
-  return NC_NOERR;
+  DEBUG("");
+  WARN_NOT_SUPPORTED;
+  return NC_EINVAL;
 }
+
 int ESDM_set_var_chunk_cache(){
-  debug(" ");
-  return NC_NOERR;
+  DEBUG("");
+  WARN_NOT_SUPPORTED;
+  return NC_EINVAL;
 }
+
 int ESDM_get_var_chunk_cache(){
-  debug(" ");
-  return NC_NOERR;
+  DEBUG("");
+  WARN_NOT_SUPPORTED;
+  return NC_EINVAL;
 }
 
 static NC_Dispatch esdm_dispatcher = {
