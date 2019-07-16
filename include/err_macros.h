@@ -77,6 +77,7 @@ int ERR_report(int stat, const char* file, int line)
       return 2; \
    } \
    printf("*** Tests successful!\n"); \
+   nc_finalize(); \
    return 0; \
 } while (0)
 
