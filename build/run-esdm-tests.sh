@@ -6,6 +6,8 @@ done
 
 
 export NC_ESDM_FORCEESDM=1
+export ESDM_LOGLEVEL_BUFFER=10
+
 for I in $(ls ../../nc_test4/ | grep "\.c$") ; do
   I=${I%%.c}
   if [[ -e $I ]] ; then
