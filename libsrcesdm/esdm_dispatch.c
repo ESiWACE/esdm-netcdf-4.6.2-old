@@ -241,7 +241,6 @@ int ESDM_open(const char *path, int mode, int basepe, size_t *chunksizehintp, vo
       return NC_EINVAL;
     }
 
-
     md_var_t * evar = malloc(sizeof(md_var_t));
     evar->dimidsp = malloc(sizeof(int) * ndims);
     evar->dset = dset;
@@ -466,6 +465,17 @@ int ESDM_get_att(int ncid, int varid, const char* name, void* value, nc_type t){
   esdm_status status;
   int ret;
 
+// Conflict for git commit that I am not prepared to handle yet.
+// -    size_t val = e->dimt.size[dimid];
+// -    evar->dimidsp[i] = val;
+// -    names[i] = e->dimt.name[dimid];
+// -    bounds[i] = val;
+// -    printf("%d = %ld\n", dimidsp[i], val);
+// +    evar->dimidsp[i] = dimid;
+// +    names[i]  = e->dimt.name[dimid];
+// +    bounds[i] = e->dimt.size[dimid];
+// +    // printf("%d = %ld\n", dimidsp[i], val);
+
   nc_esdm_t * e = ESDM_nc_get_esdm_struct(ncid);
   if(e == NULL) return NC_EBADID;
 
@@ -614,7 +624,7 @@ int ESDM_get_vars(int ncid, int varid, const size_t *startp, const size_t *count
   int ndims = space->dims;
 
   for(int i=0; i < ndims; i++){
-    printf(" - %zu %zu\n", startp[i], countp[i]);
+    // printf(" - %zu %zu\n", startp[i], countp[i]);
     if(startp[i] != 0 || countp[i] != space->size[i]){
       access_all = 0;
       break;
@@ -673,7 +683,7 @@ int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *count
   int ndims = space->dims;
 
   for(int i=0; i < ndims; i++){
-    printf(" - %zu %zu\n", startp[i], countp[i]);
+    // printf(" - %zu %zu\n", startp[i], countp[i]);
     if(startp[i] != 0 || countp[i] != space->size[i]){
       access_all = 0;
       break;
@@ -719,6 +729,12 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
 
   DEBUG_ENTER("%d %d\n", ncid, varid);
 
+// +  // varid check
+// +  // if global again otherwise dataset
+// +  if(varid == NC_GLOBAL){
+// +
+// +  }
+
   md_var_t * evar = e->vars.var[varid];
   assert(evar != NULL);
 
@@ -726,6 +742,11 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
   ret = esdm_dataset_get_dataspace(evar->dset, & space);
   if(name != NULL){
     strcpy(name, esdm_dataset_name(evar->dset));
+  }
+  if(nattsp){ // the number of attributes
+    smd_attr_t * attr = NULL;
+    ret = esdm_dataset_get_attributes(evar->dset, & attr);
+    *nattsp = smd_attr_count(attr);
   }
   if(xtypep){
     *xtypep = type_esdm_to_nc(space->type);
@@ -747,6 +768,13 @@ static int ESDM_inq_typeids(int ncid, int *ntypes, int* p) {
 
   nc_esdm_t * e = ESDM_nc_get_esdm_struct(ncid);
   if(e == NULL) return NC_EBADID;
+
+  if(ntypes){
+    *ntypes = 0;
+  }
+  if(p){
+    *p = 0;
+  }
 
   return NC_NOERR; //check it later
 }
