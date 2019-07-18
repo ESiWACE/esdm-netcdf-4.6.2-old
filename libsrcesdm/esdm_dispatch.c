@@ -362,17 +362,42 @@ int ESDM_inq_format_extended(int ncid, int *formatp, int* modep){
 
 int ESDM_inq(int ncid, int *ndimsp, int *nvarsp, int *nattsp, int *unlimdimidp){
   DEBUG_ENTER("%d\n", ncid);
+
+  esdm_status status;
+  nc_esdm_t * e = ESDM_nc_get_esdm_struct(ncid);
+  if(e == NULL) return NC_EBADID;
+
+  // varid == NC_GLOBAL
+  smd_attr_t * attr1;
+  status = esdm_container_get_attributes(e->c, & attr1);
+  if(status != ESDM_SUCCESS) return NC_EACCESS;
+
+  *nattsp = attr1->children;
+
+  int count = esdm_container_dataset_count(e->c);
+  smd_attr_t * attr2[count];
+
+  for (int i=0; i < count; i++){
+    md_var_t * ev = e->vars.var[i];
+    assert(ev != NULL);
+    status = esdm_dataset_get_attributes(ev->dset, & attr2[i]);
+    if(status != ESDM_SUCCESS){
+      return NC_EACCESS;
+    }
+  }
+
+  for (int i=0; i < count; i++){
+    *nattsp += attr2[i]->children;
+  }
+
   if(ndimsp){
-    *ndimsp = 0;
+    *ndimsp = e->dimt.count;
   }
   if(nvarsp){
-    *nvarsp = 0;
-  }
-  if(nattsp){
-    *nattsp = 0;
+    *nvarsp = count;
   }
   if(unlimdimidp){
-    *unlimdimidp = 0;
+    *unlimdimidp = -1; //TODO
   }
   return NC_NOERR;
 }
