@@ -466,7 +466,8 @@ int ESDM_inq_attid(int ncid, int varid, const char *name, int *attnump){
 
   int i;
   for (i = 0; i < attr->children; i++)
-    strcmp(name, attr->childs[i]->name);
+    if (strcmp(name, attr->childs[i]->name) == 0)
+      break;
 
   *attnump = i;
 
