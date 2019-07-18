@@ -234,7 +234,7 @@ int ESDM_open(const char *path, int mode, int basepe, size_t *chunksizehintp, vo
 
     esdm_dataspace_t * dspace;
     esdm_dataset_get_dataspace(dset, & dspace);
-    int ndims = dspace->dims;
+    int ndims = esdm_dataspace_get_dims(dspace);
     char const * const * names = NULL;
     ret = esdm_dataset_get_name_dims(dset, & names);
     if(ret != ESDM_SUCCESS){
@@ -244,6 +244,7 @@ int ESDM_open(const char *path, int mode, int basepe, size_t *chunksizehintp, vo
     md_var_t * evar = malloc(sizeof(md_var_t));
     evar->dimidsp = malloc(sizeof(int) * ndims);
     evar->dset = dset;
+    int64_t const * dspace_size = esdm_dataspace_get_size(dspace);
 
     for (int j = 0; j < ndims; j++){
       // check if the dim already exists in the dim table
@@ -251,7 +252,7 @@ int ESDM_open(const char *path, int mode, int basepe, size_t *chunksizehintp, vo
       for(int k = 0; k < e->dimt.count; k++){
         if(strcmp(e->dimt.name[k], names[j]) == 0){
           // found it!
-          if(e->dimt.size[k] != dspace->size[j]){
+          if(e->dimt.size[k] != dspace_size[j]){
             WARN("Dimensions are not matching for %s", names[j]);
             return NC_EINVAL;
           }
@@ -261,7 +262,7 @@ int ESDM_open(const char *path, int mode, int basepe, size_t *chunksizehintp, vo
       }
       if(dim_found == -1){
         dim_found = e->dimt.count;
-        add_to_dims_tbl(e, names[j], dspace->size[j]);
+        add_to_dims_tbl(e, names[j], dspace_size[j]);
       }
       evar->dimidsp[j] = dim_found;
     }
@@ -528,8 +529,8 @@ int ESDM_rename_att(int ncid, int varid, const char *name, const char *newname){
 
   int attnum;
   int ret = ESDM_inq_attid(ncid, varid, name, &attnum);
-
-  strcpy(attr->childs[attnum]->name, newname);
+  free((void*)attr->childs[attnum]->name);
+  attr->childs[attnum]->name = strdup(newname);
 
   return NC_NOERR;
 }
@@ -702,14 +703,15 @@ int ESDM_get_vars(int ncid, int varid, const size_t *startp, const size_t *count
   esdm_dataspace_t * space;
   int ret = esdm_dataset_get_dataspace(kv->dset, & space);
 
-  if(mem_nc_type != type_esdm_to_nc(space->type)){
+  if(mem_nc_type != type_esdm_to_nc(esdm_dataspace_get_type(space))){
     return NC_EBADTYPE;
   }
-  int ndims = space->dims;
+  int ndims = esdm_dataspace_get_dims(space);
+  int64_t const* spacesize = esdm_dataspace_get_size(space);
 
   for(int i=0; i < ndims; i++){
     // printf(" - %zu %zu\n", startp[i], countp[i]);
-    if(startp[i] != 0 || countp[i] != space->size[i]){
+    if(startp[i] != 0 || countp[i] != spacesize[i]){
       access_all = 0;
       break;
     }
@@ -760,15 +762,16 @@ int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *count
   int access_all = 1;
   esdm_dataspace_t * space;
   ret = esdm_dataset_get_dataspace(kv->dset, & space);
-  if(mem_nc_type != type_esdm_to_nc(space->type)){
+  if(mem_nc_type != type_esdm_to_nc(esdm_dataspace_get_type(space))){
     return NC_EBADTYPE;
   }
 
-  int ndims = space->dims;
+  int ndims = esdm_dataspace_get_dims(space);
+  int64_t const* spacesize = esdm_dataspace_get_size(space);
 
   for(int i=0; i < ndims; i++){
     // printf(" - %zu %zu\n", startp[i], countp[i]);
-    if(startp[i] != 0 || countp[i] != space->size[i]){
+    if(startp[i] != 0 || countp[i] != spacesize[i]){
       access_all = 0;
       break;
     }
@@ -840,13 +843,14 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
     *nattsp = smd_attr_count(attr);
   }
   if(xtypep){
-    *xtypep = type_esdm_to_nc(space->type);
+    *xtypep = type_esdm_to_nc(esdm_dataspace_get_type(space));
   }
   if(ndimsp){
-    *ndimsp = space->dims;
+    *ndimsp = esdm_dataspace_get_dims(space);
   }
   if(dimidsp){
-    for(int i=0; i < space->dims; i++){
+    int ndims = esdm_dataspace_get_dims(space);
+    for(int i=0; i < ndims; i++){
       dimidsp[i] = evar->dimidsp[i];
     }
   }
