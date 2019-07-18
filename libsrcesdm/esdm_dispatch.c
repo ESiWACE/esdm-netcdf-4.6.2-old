@@ -368,27 +368,22 @@ int ESDM_inq(int ncid, int *ndimsp, int *nvarsp, int *nattsp, int *unlimdimidp){
   if(e == NULL) return NC_EBADID;
 
   // varid == NC_GLOBAL
-  smd_attr_t * attr1;
-  status = esdm_container_get_attributes(e->c, & attr1);
+  smd_attr_t * attr;
+  status = esdm_container_get_attributes(e->c, & attr);
   if(status != ESDM_SUCCESS) return NC_EACCESS;
 
-  *nattsp = attr1->children;
+  *nattsp = attr->children;
 
   int count = esdm_container_dataset_count(e->c);
-  smd_attr_t * attr2[count];
-
-  for (int i=0; i < count; i++){
-    md_var_t * ev = e->vars.var[i];
-    assert(ev != NULL);
-    status = esdm_dataset_get_attributes(ev->dset, & attr2[i]);
-    if(status != ESDM_SUCCESS){
-      return NC_EACCESS;
-    }
-  }
-
-  for (int i=0; i < count; i++){
-    *nattsp += attr2[i]->children;
-  }
+  // for (int i=0; i < count; i++){
+  //   md_var_t * ev = e->vars.var[i];
+  //   assert(ev != NULL);
+  //   status = esdm_dataset_get_attributes(ev->dset, & attr);
+  //   *nattsp += attr->children;
+  //   if(status != ESDM_SUCCESS){
+  //     return NC_EACCESS;
+  //   }
+  // }
 
   if(ndimsp){
     *ndimsp = e->dimt.count;
@@ -399,6 +394,9 @@ int ESDM_inq(int ncid, int *ndimsp, int *nvarsp, int *nattsp, int *unlimdimidp){
   if(unlimdimidp){
     *unlimdimidp = -1; //TODO
   }
+
+  // Add a test with multiple variables and attributes
+
   return NC_NOERR;
 }
 
