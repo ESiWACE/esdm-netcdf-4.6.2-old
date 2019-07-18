@@ -465,7 +465,8 @@ int ESDM_inq_attid(int ncid, int varid, const char *name, int *attnump){
     }
   }
 
-  for (int i=0; i < attr->children)
+  // for (int i=0; i < attr->children)
+
 
   return NC_NOERR;
 }
@@ -527,9 +528,9 @@ int ESDM_rename_att(int ncid, int varid, const char *name, const char *newname){
   }
 
   int *attnump;
-  int ret = ESDM_inq_attid(ncid, varid, name, &attnump){
+  // int ret = ESDM_inq_attid(ncid, varid, name, &attnump){
 
-  strcpy(attr->childs[attnump]->name, newname);
+  // strcpy(attr->childs[attnump]->name, newname);
 
   smd_attr_destroy(attr);
 
