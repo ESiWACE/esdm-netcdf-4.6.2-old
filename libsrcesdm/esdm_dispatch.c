@@ -464,14 +464,14 @@ int ESDM_inq_attid(int ncid, int varid, const char *name, int *attnump){
     }
   }
 
-  int i;
-  for (i = 0; i < attr->children; i++)
-    if (strcmp(name, attr->childs[i]->name) == 0)
-      break;
+  for (int i = 0; i < attr->children; i++){
+    if (strcmp(name, attr->childs[i]->name) == 0){
+      *attnump = i;
+      return NC_NOERR;
+    }
+  }
 
-  *attnump = i;
-
-  return NC_NOERR;
+  return NC_EINVAL;
 }
 
 int ESDM_inq_attname(int ncid, int varid, int attnum, char *name){
