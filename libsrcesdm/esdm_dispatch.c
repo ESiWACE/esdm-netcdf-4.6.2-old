@@ -313,6 +313,10 @@ int ESDM_close(int ncid, void * b){
 int ESDM_set_fill(int ncid, int fillmode, int *old_modep){
   DEBUG_ENTER("%d %d\n", ncid, fillmode);
   *old_modep = NC_NOFILL;
+
+  // find the proper output for old_modep using fillmode
+  // not clue why is returning segfault
+
   return NC_NOERR;
 }
 
@@ -439,16 +443,96 @@ int ESDM_inq_att(int ncid, int varid, const char *name, nc_type *datatypep, size
 
 int ESDM_inq_attid(int ncid, int varid, const char *name, int *attnump){
   DEBUG_ENTER("%d\n", ncid);
+  esdm_status status;
+
+  nc_esdm_t * e = ESDM_nc_get_esdm_struct(ncid);
+  if(e == NULL) return NC_EBADID;
+
+  smd_attr_t * attr;
+  if(varid == NC_GLOBAL){
+    status = esdm_container_get_attributes(e->c, & attr);
+    if(status != ESDM_SUCCESS) return NC_EACCESS;
+  }else{
+    if(varid > e->vars.count){
+      return NC_EACCESS;
+    }
+    md_var_t * ev = e->vars.var[varid];
+    assert(ev != NULL);
+    status = esdm_dataset_get_attributes(ev->dset, & attr);
+    if(status != ESDM_SUCCESS){
+      smd_attr_destroy(attr);
+      return NC_EACCESS;
+    }
+  }
+
+  for (int i=0; i < attr->children)
+
   return NC_NOERR;
 }
 
 int ESDM_inq_attname(int ncid, int varid, int attnum, char *name){
   DEBUG_ENTER("%d\n", ncid);
+
+  esdm_status status;
+
+  nc_esdm_t * e = ESDM_nc_get_esdm_struct(ncid);
+  if(e == NULL) return NC_EBADID;
+
+  smd_attr_t * attr;
+  if(varid == NC_GLOBAL){
+    status = esdm_container_get_attributes(e->c, & attr);
+    if(status != ESDM_SUCCESS) return NC_EACCESS;
+  }else{
+    if(varid > e->vars.count){
+      return NC_EACCESS;
+    }
+    md_var_t * ev = e->vars.var[varid];
+    assert(ev != NULL);
+    status = esdm_dataset_get_attributes(ev->dset, & attr);
+    if(status != ESDM_SUCCESS){
+      smd_attr_destroy(attr);
+      return NC_EACCESS;
+    }
+  }
+
+  strcpy(name, attr->childs[attnum]->name);
+
+  smd_attr_destroy(attr);
+
   return NC_NOERR;
 }
 
 int ESDM_rename_att(int ncid, int varid, const char *name, const char *newname){
   DEBUG_ENTER("%d\n", ncid);
+  esdm_status status;
+
+  nc_esdm_t * e = ESDM_nc_get_esdm_struct(ncid);
+  if(e == NULL) return NC_EBADID;
+
+  smd_attr_t * attr;
+  if(varid == NC_GLOBAL){
+    status = esdm_container_get_attributes(e->c, & attr);
+    if(status != ESDM_SUCCESS) return NC_EACCESS;
+  }else{
+    if(varid > e->vars.count){
+      return NC_EACCESS;
+    }
+    md_var_t * ev = e->vars.var[varid];
+    assert(ev != NULL);
+    status = esdm_dataset_get_attributes(ev->dset, & attr);
+    if(status != ESDM_SUCCESS){
+      smd_attr_destroy(attr);
+      return NC_EACCESS;
+    }
+  }
+
+  int *attnump;
+  int ret = ESDM_inq_attid(ncid, varid, name, &attnump){
+
+  strcpy(attr->childs[attnump]->name, newname);
+
+  smd_attr_destroy(attr);
+
   return NC_NOERR;
 }
 
@@ -482,6 +566,7 @@ int ESDM_get_att(int ncid, int varid, const char* name, void* value, nc_type t){
   smd_attr_t * att;
   if(varid == NC_GLOBAL){
     status = esdm_container_get_attributes(e->c, & att);
+    if(status != ESDM_SUCCESS) return NC_EACCESS;
   }else{
     if(varid > e->vars.count){
       return NC_EACCESS;
@@ -702,7 +787,14 @@ int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *count
       offset[i] = startp[i];
     }
     esdm_dataspace_t *subspace;
-    esdm_dataspace_subspace(space, ndims, size, offset, &subspace);
+    ret = esdm_dataspace_subspace(space, ndims, size, offset, &subspace);
+    if(ret != ESDM_SUCCESS){
+      return NC_EACCESS;
+    }
+
+    // assert(subspace->size);
+
+    // 1097	        ESDM_LOG_FMT(ESDM_LOGLEVEL_DEBUG, "invalid arguments to `%s()` detected: `offset[%"PRId64"] + size[%"PRId64"] = %"PRId64" + %"PRId64" = %"PRId64"` is outside of the valid range for the dataspaces' dimension (offset %"PRId64", size %"PRId64")\n", __func__, i, i, offset[i], size[i], offset[i] + size[i], dataspace->offset[i], dataspace->size[i]);
 
     ret = esdm_write(kv->dset, (void *)data, subspace);
     if(ret != ESDM_SUCCESS){
