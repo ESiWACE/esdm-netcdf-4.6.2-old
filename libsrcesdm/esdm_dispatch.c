@@ -840,38 +840,115 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
 
   DEBUG_ENTER("%d %d\n", ncid, varid);
 
-// +  // varid check
-// +  // if global again otherwise dataset
-// +  if(varid == NC_GLOBAL){
-// +
-// +  }
+  smd_attr_t * attr;
 
-  md_var_t * evar = e->vars.var[varid];
-  assert(evar != NULL);
+  if(varid == NC_GLOBAL){
+    ret = esdm_container_link_attribute(e->c, attr);
 
-  esdm_dataspace_t * space;
-  ret = esdm_dataset_get_dataspace(evar->dset, & space);
-  if(name != NULL){
-    strcpy(name, esdm_dataset_name(evar->dset));
-  }
-  if(nattsp){ // the number of attributes
-    smd_attr_t * attr = NULL;
-    ret = esdm_dataset_get_attributes(evar->dset, & attr);
-    *nattsp = smd_attr_count(attr);
-  }
-  if(xtypep){
-    *xtypep = type_esdm_to_nc(esdm_dataspace_get_type(space));
-  }
-  if(ndimsp){
-    *ndimsp = esdm_dataspace_get_dims(space);
-  }
-  if(dimidsp){
-    int ndims = esdm_dataspace_get_dims(space);
-    for(int i=0; i < ndims; i++){
-      dimidsp[i] = evar->dimidsp[i];
+    if (name){
+      name = strdup(e->dimt.name);
     }
-  }
-  // esdm_dataset_t * dataset
+
+    if (xtypep){
+      *xtypep = type_esdm_to_nc(attr->type);
+    }
+
+    if (ndimsp){
+      *ndimsp = e->dimt.size;
+    }
+
+    if (dimidsp){
+      *dimidsp = e->dimt.count;
+    }
+
+    if (nattsp){
+      *nattsp = attr->children;
+    }
+
+    // if (shufflep)
+    //
+    // if (deflatep)
+    //
+    // if (deflate_levelp)
+    //
+    // if (fletcher32p)
+    //
+    // if (contiguousp)
+    //
+    // if (chunksizesp)
+    //
+    // if (no_fill)
+    //
+    // if (fill_valuep)
+    //
+    // if (endiannessp)
+    //
+    // if (idp)
+    //
+    // if (nparamsp)
+    //
+    // if (params)
+
+  }else{
+
+      md_var_t * evar = e->vars.var[varid];
+      assert(evar != NULL);
+
+      esdm_dataspace_t * space;
+      ret = esdm_dataset_get_dataspace(evar->dset, & space);
+
+      if (name){
+        strcpy(name, esdm_dataset_name(evar->dset));
+        //name = strdup(esdm_dataset_name(evar->dset));
+      }
+
+      if(xtypep){
+        *xtypep = type_esdm_to_nc(esdm_dataspace_get_type(space));
+      }
+
+      if(ndimsp){
+        *ndimsp = esdm_dataspace_get_dims(space);
+      }
+
+      if(dimidsp){
+        int ndims = esdm_dataspace_get_dims(space);
+        for(int i=0; i < ndims; i++){
+          dimidsp[i] = evar->dimidsp[i];
+        }
+      }
+
+      if(nattsp){ // the number of attributes
+        smd_attr_t * attr = NULL;
+        ret = esdm_dataset_get_attributes(evar->dset, & attr);
+        *nattsp = smd_attr_count(attr);
+      }
+
+      // if (shufflep)
+      //
+      // if (deflatep)
+      //
+      // if (deflate_levelp)
+      //
+      // if (fletcher32p)
+      //
+      // if (contiguousp)
+      //
+      // if (chunksizesp)
+      //
+      // if (no_fill)
+      //
+      // if (fill_valuep)
+      //
+      // if (endiannessp)
+      //
+      // if ( idp)
+      //
+      // if ( nparamsp)
+      //
+      // if ( params)
+
+    }
+
   return NC_NOERR;
 }
 
