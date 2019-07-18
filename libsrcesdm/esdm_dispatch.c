@@ -499,8 +499,6 @@ int ESDM_inq_attname(int ncid, int varid, int attnum, char *name){
 
   strcpy(name, attr->childs[attnum]->name);
 
-  // free(attr);
-
   return NC_NOERR;
 }
 
