@@ -460,13 +460,15 @@ int ESDM_inq_attid(int ncid, int varid, const char *name, int *attnump){
     assert(ev != NULL);
     status = esdm_dataset_get_attributes(ev->dset, & attr);
     if(status != ESDM_SUCCESS){
-      smd_attr_destroy(attr);
       return NC_EACCESS;
     }
   }
 
-  // for (int i=0; i < attr->children)
+  int i;
+  for (i = 0; i < attr->children; i++)
+    strcmp(name, attr->childs[i]->name);
 
+  *attnump = i;
 
   return NC_NOERR;
 }
@@ -491,14 +493,13 @@ int ESDM_inq_attname(int ncid, int varid, int attnum, char *name){
     assert(ev != NULL);
     status = esdm_dataset_get_attributes(ev->dset, & attr);
     if(status != ESDM_SUCCESS){
-      smd_attr_destroy(attr);
       return NC_EACCESS;
     }
   }
 
   strcpy(name, attr->childs[attnum]->name);
 
-  smd_attr_destroy(attr);
+  // free(attr);
 
   return NC_NOERR;
 }
@@ -522,17 +523,14 @@ int ESDM_rename_att(int ncid, int varid, const char *name, const char *newname){
     assert(ev != NULL);
     status = esdm_dataset_get_attributes(ev->dset, & attr);
     if(status != ESDM_SUCCESS){
-      smd_attr_destroy(attr);
       return NC_EACCESS;
     }
   }
 
-  int *attnump;
-  // int ret = ESDM_inq_attid(ncid, varid, name, &attnump){
+  int attnum;
+  int ret = ESDM_inq_attid(ncid, varid, name, &attnum);
 
-  // strcpy(attr->childs[attnump]->name, newname);
-
-  smd_attr_destroy(attr);
+  strcpy(attr->childs[attnum]->name, newname);
 
   return NC_NOERR;
 }
@@ -628,6 +626,7 @@ int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype, size_t
     return NC_EACCESS;
   }
   return NC_NOERR;
+  // return NC_ESTRICTNC3;
 }
 
 int ESDM_def_var(int ncid, const char *name, nc_type xtype, int ndims, const int *dimidsp, int *varidp){
