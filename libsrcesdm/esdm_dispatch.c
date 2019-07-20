@@ -467,6 +467,10 @@ int ESDM_inq_attid(int ncid, int varid, const char *name, int *attnump){
   DEBUG_ENTER("%d\n", ncid);
   esdm_status status;
 
+  if (attnump == NULL) return NC_NOERR;
+
+  if (name == NULL) return NC_NOERR;
+
   nc_esdm_t * e = ESDM_nc_get_esdm_struct(ncid);
   if(e == NULL) return NC_EBADID;
 
@@ -488,17 +492,23 @@ int ESDM_inq_attid(int ncid, int varid, const char *name, int *attnump){
 
   for (int i = 0; i < attr->children; i++){
     if (strcmp(name, attr->childs[i]->name) == 0){
-      *attnump = i;
+      // *attnump = i;
+      *attnump = attr->childs[i]->id;
+
+      // The return for attnump is i or attr->childs[i]->id?!
+
       return NC_NOERR;
     }
   }
 
-  return NC_EINVAL;
 }
 
 int ESDM_inq_attname(int ncid, int varid, int attnum, char *name){
   DEBUG_ENTER("%d\n", ncid);
 
+  if (name == NULL) return NC_NOERR;
+
+  assert(attnum >= 0);
   esdm_status status;
 
   nc_esdm_t * e = ESDM_nc_get_esdm_struct(ncid);
@@ -599,10 +609,22 @@ int ESDM_del_att(int ncid, int varid, const char *name){
   return NC_NOERR;
 }
 
-int ESDM_get_att(int ncid, int varid, const char* name, void* value, nc_type t){
-  esdm_type_t etype = type_nc_to_esdm(t);
+int ESDM_get_att(int ncid, int varid, const char* name, void* value, nc_type type){
+
+  // if(type == NC_CHAR && strlen(value) > 0){
+  //   etype = SMD_DTYPE_STRING;
+  // }else{
+  //   etype = type_nc_to_esdm(type);
+  // }
+
+  esdm_type_t etype;
+  etype = type_nc_to_esdm(type);
+
   if(etype == NULL) {
     return NC_EINVAL;
+  }
+  if(name == NULL) {
+    return NC_EACCESS;
   }
   esdm_status status;
   int ret;
@@ -639,9 +661,20 @@ int ESDM_get_att(int ncid, int varid, const char* name, void* value, nc_type t){
   }
 
   smd_attr_t * child = smd_attr_get_child_by_name(att, name);
-  if(etype->type != child->type->type) return NC_EINVAL;
-  smd_attr_copy_value(child, value);
-  return NC_NOERR;
+  if (child != NULL){
+    smd_attr_copy_value(child, value);
+
+    if(type == NC_CHAR && strlen(value) > 0){
+      etype = SMD_DTYPE_STRING;
+    }
+
+    if(etype->type != child->type->type){
+      return NC_EACCESS;
+    }
+    return NC_NOERR;
+  }
+
+  return NC_EACCESS;
 }
 
 int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype, size_t len, void const *value, nc_type type){
@@ -654,36 +687,37 @@ int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype, size_t
     etype = type_nc_to_esdm(datatype);
   }
   if(etype == NULL) {
-    return NC_EINVAL;
+    return NC_EACCESS;
   }
+
   int ret;
 
   nc_esdm_t * e = ESDM_nc_get_esdm_struct(ncid);
   if(e == NULL) return NC_EBADID;
 
-  if(type != datatype && len > 0){
-    // convert it to the right datatype on the fly, check if it exceeds the limits of the intended datatype
-    // if it does fire NC_ERANGE
-    // change value to new temporary value
-    switch(datatype){
-      case(NC_INT):{
-          switch(type){
-            case(NC_UINT):{
-              int32_t *p = malloc(sizeof(int32_t) * len);
-              uint32_t * o = (uint32_t*) value;
-              value = p;
-              for(int i=0; i < len; i++){
-                p[i] = o[i];
-                if(o[i] < 0 || o[i] > NC_MAX_INT){
-                  free(p);
-                  return NC_ERANGE;
-                }
-              }
-            }
-          }
-      }
-    }
-  }
+  // if(type != datatype && len > 0){
+  //   // convert it to the right datatype on the fly, check if it exceeds the limits of the intended datatype
+  //   // if it does fire NC_ERANGE
+  //   // change value to new temporary value
+  //   switch(datatype){
+  //     case(NC_INT):{
+  //         switch(type){
+  //           case(NC_UINT):{
+  //             int32_t *p = malloc(sizeof(int32_t) * len);
+  //             uint32_t * o = (uint32_t*) value;
+  //             value = p;
+  //             for(int i=0; i < len; i++){
+  //               p[i] = o[i];
+  //               if(o[i] < 0 || o[i] > NC_MAX_INT){
+  //                 free(p);
+  //                 return NC_ERANGE;
+  //               }
+  //             }
+  //           }
+  //         }
+  //     }
+  //   }
+  // }
 
   smd_attr_t * new;
   if(len > 1){
@@ -709,7 +743,7 @@ int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype, size_t
   }else{
     if(varid > esdm_container_dataset_count(e->c)){
       smd_attr_destroy(new);
-      return NC_EINVAL;
+      return NC_EACCESS;
     }
     md_var_t * ev = e->vars.var[varid];
     ret = esdm_dataset_link_attribute(ev->dset, new);
@@ -729,8 +763,10 @@ int ESDM_def_var(int ncid, const char *name, nc_type xtype, int ndims, const int
   nc_esdm_t * e = ESDM_nc_get_esdm_struct(ncid);
   if(e == NULL) return NC_EBADID;
 
-  *varidp = e->vars.count;
-  DEBUG_ENTER("%d: varid: %d\n", ncid, *varidp);
+  if (varidp){
+    *varidp = e->vars.count;
+    DEBUG_ENTER("%d: varid: %d\n", ncid, *varidp);
+  }
 
   md_var_t * evar = malloc(sizeof(md_var_t));
   evar->dimidsp = malloc(sizeof(int) * ndims);
