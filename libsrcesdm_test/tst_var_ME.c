@@ -21,6 +21,8 @@
 static void write_test ();
 static void read_test ();
 
+
+
 // /*
 // * Tries to test the function nc_inq_var_all, which in fact is the function NC_inq_var_all and works like our dispatch function.
 // * I don't know how to construct the test. You don't need to fix the function nc_inq_var_all, I just need to know how to run.
@@ -85,12 +87,30 @@ static void read_test ()
     ERR(retval);
 
   char *str_new;
-  if ((retval = nc_inq_varid (ncid, "z", &varid))) ERR(retval);
+  if ((retval = nc_inq_varid (ncid, "z", & varid))) ERR(retval);
   if ((retval = nc_get_att_string(ncid, varid, "stardard_name", & str_new))) ERR(retval);
   assert(strcmp(str_new, "atmosphere_sigma_coordinate") == 0);
 
-  // if ((retval = nc_inq_var_all(ncid, varid))) ERR(retval);
-  if ((retval = NC_inq_var_all(ncid, varid))) ERR(retval);
+  char	name[255];
+  nc_type 	xtypep;
+  int 	ndimsp;
+  int 	dimidsp;
+  int 	nattsp;
+  int 	shufflep;
+  int 	deflatep;
+  int 	deflate_levelp;
+  int 	fletcher32p;
+  int 	contiguousp;
+  size_t 	chunksizesp;
+  int 	no_fill;
+  void* 	fill_valuep;
+  int 	endiannessp;
+  unsigned int 	idp;
+  size_t 	nparamsp;
+  unsigned int 	params;
+
+
+  if ((retval = NC_inq_var_all(ncid, varid, name, & xtypep, & ndimsp, & dimidsp, & nattsp, & shufflep, & deflatep, & deflate_levelp, & fletcher32p, & contiguousp, & chunksizesp, & no_fill, & fill_valuep, & endiannessp, & idp, & nparamsp, & params))) ERR(retval);
 
   // char *name;
   // nc_type *xtypep;

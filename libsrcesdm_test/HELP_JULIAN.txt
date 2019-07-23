@@ -4,6 +4,9 @@ Function nc_show_metadata
 
 https://www.unidata.ucar.edu/software/netcdf/docs/group__groups.html#ga3ab8d9d14985a08ddd45150afe785479
 
+## JK: We do not need to show any metadata, that is quite an optional function.
+## I would omit, but just output "ESDM Dataset" or something and done...
+
 int ESDM_show_metadata(int ncid){
   DEBUG("");
 
@@ -27,9 +30,11 @@ int ESDM_show_metadata(int ncid){
 
 *****************************************************************************************************************************
 
-File libsrcesdm_test/tst_var.c
+File libsrcesdm_test/tst_var_ME.c
 
 - I couldn't find a proper way to deal with the strings. Why do they have to be const? Why free doesn't work? Why I cannot use one string over and over again with a (const) cast? It's not nice, but it does work.
+
+# JK File fixed. Problem: Not defined prototype.
 
 *****************************************************************************************************************************
 
@@ -40,6 +45,8 @@ https://www.unidata.ucar.edu/software/netcdf/docs/group__attributes.html#ga9757d
 The function nc_inq_att returns the attribute's type and length.
 
 - It's not clear for me what is lengh in this context.
+
+# JK it is the number of elements in the array, it is the number of elements stored when calling put_attr(). With SMD, we store an array, if len != 1.
 
 lenp	Pointer to location for returned number of values currently stored in the attribute. For attributes of type NC_CHAR, you should not assume that this includes a trailing zero byte; it doesn't if the attribute was stored without a trailing zero byte, for example from a FORTRAN program. Before using the value as a C string, make sure it is null-terminated. Ignored if NULL.
 
@@ -53,6 +60,8 @@ And valid_range is an attribute for the variable rh that has length 2 and values
 *****************************************************************************************************************************
 
 Function nc_inq_type_equal
+
+# JK: User-defined datatype to be tested if equal. For later, if at all. SMD.
 
 https://www.unidata.ucar.edu/software/netcdf/docs/group__user__types.html#ga1edf6802ee9236d58c8917994f77865f
 
