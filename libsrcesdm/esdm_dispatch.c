@@ -489,7 +489,7 @@ int ESDM_inq_dimid(int ncid, const char *name, int *idp){
 
   for(int i=0; i < e->dimt.count; i++){
     if(strcmp(e->dimt.name[i], name) == 0){
-      *idp = i;
+      *idp = e->dimt.size[i];
     }
   }
 
@@ -575,9 +575,7 @@ int ESDM_rename_dim(int ncid, int dimid, const char *name){
  * @return
  */
 
-// Tested and working
-
-// missing lenp return
+// Tested and working ==> missing lenp return
 
 int ESDM_inq_att(int ncid, int varid, const char *name, nc_type *datatypep, size_t *lenp){
   DEBUG_ENTER("%d\n", ncid);
@@ -972,10 +970,6 @@ int ESDM_def_var(int ncid, const char *name, nc_type xtype, int ndims, const int
  * @return
  */
 
- // Can we have global and local variables with the same name?
-
- // Not tested yet
-
 int ESDM_inq_varid(int ncid, const char *name, int *varidp){
   DEBUG_ENTER("%d\n", ncid);
 
@@ -1033,8 +1027,6 @@ int ESDM_inq_varid(int ncid, const char *name, int *varidp){
  * @param name	New name of the variable.
  * @return
  */
-
- // Not tested yet
 
 int ESDM_rename_var(int ncid, int varid, const char *name){
   DEBUG_ENTER("%d\n", ncid);
