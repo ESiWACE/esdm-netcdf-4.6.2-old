@@ -10,7 +10,9 @@ valgrind .libs/tst_dim_ME
 // /*
 // * Creates the dimension, but it does not reconstruct the dimension table
 // *
-//
+
+JK: Intended behavior. Without a single dataset using the dimension, it will go away.
+
 // tst_dim_ME: ../../libsrcesdm_test/tst_dim_ME.c:70: read_test: Assertion `idp == 0' failed.
 //
 // [ESDM NC] called ESDM_inq_dimid:483 65536
@@ -23,6 +25,8 @@ valgrind .libs/tst_dim_ME
 // */
 
 *****************************************************************************************************************************
+
+# JK Sorted in HELP_JULIAN.txt
 
 tst_var_ME
 
