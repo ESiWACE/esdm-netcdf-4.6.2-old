@@ -1,0 +1,63 @@
+*****************************************************************************************************************************
+
+Function nc_show_metadata
+
+https://www.unidata.ucar.edu/software/netcdf/docs/group__groups.html#ga3ab8d9d14985a08ddd45150afe785479
+
+int ESDM_show_metadata(int ncid){
+  DEBUG("");
+
+  int ret = NC_NOERR;
+
+  nc_esdm_t * e = ESDM_nc_get_esdm_struct(ncid);
+  if(e == NULL) return NC_EBADID;
+
+  // Should be something like this, but I don't know how to call this function here...
+
+  // smd_string_stream_t * s = smd_string_stream_create();
+  // esdmI_container_metadata_create(e->c, s);
+  //
+  // if (s->string != NULL){
+  //   printf("\nMetadata:\n\n%s", s->string);
+  //   return NC_NOERR;
+  // }
+
+  return NC_EACCESS;
+}
+
+*****************************************************************************************************************************
+
+File libsrcesdm_test/tst_var.c
+
+- I couldn't find a proper way to deal with the strings. Why do they have to be const? Why free doesn't work? Why I cannot use one string over and over again with a (const) cast? It's not nice, but it does work.
+
+*****************************************************************************************************************************
+
+Function nc_inq_att
+
+https://www.unidata.ucar.edu/software/netcdf/docs/group__attributes.html#ga9757db7370e0e2e8c23ed1139a6ce6eb
+
+The function nc_inq_att returns the attribute's type and length.
+
+- It's not clear for me what is lengh in this context.
+
+lenp	Pointer to location for returned number of values currently stored in the attribute. For attributes of type NC_CHAR, you should not assume that this includes a trailing zero byte; it doesn't if the attribute was stored without a trailing zero byte, for example from a FORTRAN program. Before using the value as a C string, make sure it is null-terminated. Ignored if NULL.
+
+Example: https://www.unidata.ucar.edu/software/netcdf/netcdf/The-NetCDF-Data-Model.html#The-NetCDF-Data-Model
+
+rh:valid_range = 0.0, 1.0;      // min and max
+And valid_range is an attribute for the variable rh that has length 2 and values '0.0' and '1.0'.
+
+- It should be something like the size of the string, the size of the vector and 1 if it's an scalar? Short and double would have the same size then, 1? It's confusing.
+
+*****************************************************************************************************************************
+
+Function nc_inq_type_equal
+
+https://www.unidata.ucar.edu/software/netcdf/docs/group__user__types.html#ga1edf6802ee9236d58c8917994f77865f
+
+- I have no idea what this function should do with those parameters.
+
+- I tried to check the NC implementation, but I couldn't find the actual function.
+
+*****************************************************************************************************************************

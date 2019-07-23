@@ -202,7 +202,7 @@ int ESDM_open(const char *path, int mode, int basepe, size_t *chunksizehintp, vo
   e->ncid = ncp->ext_ncid;
 
   esdm_status ret;
-  ret = esdm_container_open(cpath, & e->c);
+  ret = esdm_container_open(cpath, 0, & e->c);
   free(cpath);
 
   if(ret != ESDM_SUCCESS) return NC_EBADID;
@@ -477,7 +477,7 @@ int ESDM_def_dim(int ncid, const char *name, size_t len, int *idp){
  * @return
  */
 
-// Not tested yet
+// Not tested yet ==> not working, see test tst_dim_ME
 
 int ESDM_inq_dimid(int ncid, const char *name, int *idp){
   DEBUG_ENTER("%d\n", ncid);
@@ -544,7 +544,7 @@ int ESDM_inq_unlimdim(int ncid, int *unlimdimidp){
 
  // It won't work if we have unlimited dimensions. It might work automatically if dimt.count is updated.
 
- // Not tested yet
+ // Not tested yet ==>> same problem as ESDM_inq_dimid
 
 int ESDM_rename_dim(int ncid, int dimid, const char *name){
   DEBUG_ENTER("%d\n", ncid);
@@ -575,7 +575,7 @@ int ESDM_rename_dim(int ncid, int dimid, const char *name){
  * @return
  */
 
- // Not tested yet
+// Tested and working
 
 // missing lenp return
 
@@ -609,7 +609,7 @@ int ESDM_inq_att(int ncid, int varid, const char *name, nc_type *datatypep, size
   a = smd_attr_get_child_by_name(attr, name);
 
   if(*datatypep){
-    datatypep = type_esdm_to_nc(a->type);
+    *datatypep = type_esdm_to_nc(a->type);
   }
 
   // if(*lenp){
@@ -752,7 +752,7 @@ int ESDM_del_att(int ncid, int varid, const char *name){
 
   smd_attr_t * attr;
   if(varid == NC_GLOBAL){
-    status = esdm_container_delete_attribute(e->c, & attr, name);
+    status = esdm_container_delete_attribute(e->c, attr, name);
     if(status != ESDM_SUCCESS) return NC_EACCESS;
   }else{
     if(varid > e->vars.count){
@@ -760,7 +760,7 @@ int ESDM_del_att(int ncid, int varid, const char *name){
     }
     md_var_t * ev = e->vars.var[varid];
     assert(ev != NULL);
-    status = esdm_dataset_delete_attribute(ev->dset, & attr, name);
+    status = esdm_dataset_delete_attribute(ev->dset, attr, name);
     if(status != ESDM_SUCCESS) return NC_EACCESS;
   }
 
@@ -898,14 +898,14 @@ int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype, size_t
   esdm_status status;
 
   if(varid == NC_GLOBAL){
-    ret = esdm_container_link_attribute(e->c, new);
+    ret = esdm_container_link_attribute(e->c, 0, new);
   }else{
     if(varid > esdm_container_dataset_count(e->c)){
       smd_attr_destroy(new);
       return NC_EACCESS;
     }
     md_var_t * ev = e->vars.var[varid];
-    ret = esdm_dataset_link_attribute(ev->dset, new);
+    ret = esdm_dataset_link_attribute(ev->dset, 0, new);
   }
   if(ret != ESDM_SUCCESS){
     smd_attr_destroy(new);
@@ -988,18 +988,21 @@ int ESDM_inq_varid(int ncid, const char *name, int *varidp){
 
   smd_attr_t *attr;
 
-// find the id if the variable is global
-
-  status = esdm_container_get_attributes(e->c, & attr);
-  if(status != ESDM_SUCCESS) return NC_EACCESS;
-
-  smd_attr_t *a;
-  a = smd_attr_get_child_by_name(attr, name);
-  if (a != NULL){
-    *varidp = a->id;
-    return NC_NOERR;
-  }
-
+// // find the id if the variable is global
+//
+//   status = esdm_container_get_attributes(e->c, & attr);
+//   if(status != ESDM_SUCCESS) return NC_EACCESS;
+//   esdm_container_t *c = e->c;
+//
+//   if (attr->children > 0){
+//     smd_attr_t *a;
+//     a = smd_attr_get_child_by_name(attr, name);
+//     if (a != NULL){
+//       *varidp = a->id; // should it be just -1?!
+//       return NC_NOERR;
+//     }
+//   }
+//
   // find the id if the variable is local
 
   esdm_container_t *c = e->c;
@@ -1009,19 +1012,16 @@ int ESDM_inq_varid(int ncid, const char *name, int *varidp){
     esdm_dataset_t *dset = esdm_container_dataset_from_array (c, i);
     if (dset == NULL) return NC_EACCESS;
 
-    status = esdm_dataset_get_attributes(dset, &attr);
-    if(status != ESDM_SUCCESS) return NC_EACCESS;
+    char const *dname = esdm_dataset_name(dset);
 
-    smd_attr_t *a;
-    a = smd_attr_get_child_by_name(attr, name);
-    if (a != NULL){
-      *varidp = a->id;
+    if (dname == NULL) return NC_NOERR;
+
+    if (strcmp(dname, name) == 0){
+      *varidp = i;
       return NC_NOERR;
     }
-
   }
-
-  return NC_NOERR;
+  return NC_EACCESS;
 }
 
 // we may have sealed containers, that won't allow rename
@@ -1047,22 +1047,16 @@ int ESDM_rename_var(int ncid, int varid, const char *name){
   if(e == NULL) return NC_EBADID;
 
   smd_attr_t *attr;
-  if(varid == NC_GLOBAL){
-    status = esdm_container_get_attributes(e->c, & attr);
-    if(status != ESDM_SUCCESS) return NC_EACCESS;
-  }else{
-    if(varid > e->vars.count){
-      return NC_EACCESS;
-    }
-    md_var_t * ev = e->vars.var[varid];
-    assert(ev != NULL);
-    status = esdm_dataset_get_attributes(ev->dset, & attr);
-    if(status != ESDM_SUCCESS){
-      return NC_EACCESS;
-    }
+  if(varid > e->vars.count){
+    return NC_EACCESS;
   }
+  md_var_t * ev = e->vars.var[varid];
+  assert(ev != NULL);
 
-  attr->name = strdup(name);
+  // TODO test to avoid using the same name
+
+  status = esdm_dataset_rename(ev->dset, name);
+  if(status != ESDM_SUCCESS) return NC_EACCESS;
 
   return NC_NOERR;
 }
@@ -1210,15 +1204,18 @@ int ESDM_put_vara(int ncid, int varid, const size_t *startp, const size_t *count
 * @param[out]	ndimsp	Pointer to memory to store the number of associated dimensions for the variable.
 * @param[out]	dimidsp	Pointer to memory to store the dimids associated with the variable.
 * @param[out]	nattsp	Pointer to memory to store the number of attributes associated with the variable.
+* @param[out]	no_fill	Pointer to memory to store whether or not there is a fill value associated with the variable.
+* @param[out]	fill_valuep	Pointer to memory to store the fill value (if one exists) for the variable.
+* @param[out]	contiguousp	Pointer to memory to store contiguous-data information associated with the variable.
+* @param[out]	endiannessp	Pointer to memory to store endianness value. One of NC_ENDIAN_BIG NC_ENDIAN_LITTLE NC_ENDIAN_NATIVE
+
+// About compression, not supported.
+
 * @param[out]	shufflep	Pointer to memory to store shuffle information associated with the variable.
 * @param[out]	deflatep	Pointer to memory to store compression type associated with the variable.
 * @param[out]	deflate_levelp	Pointer to memory to store compression level associated with the variable.
 * @param[out]	fletcher32p	Pointer to memory to store compression information associated with the variable.
-* @param[out]	contiguousp	Pointer to memory to store contiguous-data information associated with the variable.
 * @param[out]	chunksizesp	Pointer to memory to store chunksize information associated with the variable.
-* @param[out]	no_fill	Pointer to memory to store whether or not there is a fill value associated with the variable.
-* @param[out]	fill_valuep	Pointer to memory to store the fill value (if one exists) for the variable.
-* @param[out]	endiannessp	Pointer to memory to store endianness value. One of NC_ENDIAN_BIG NC_ENDIAN_LITTLE NC_ENDIAN_NATIVE
 * @param[out]	idp	Pointer to memory to store filter id.
 * @param[out]	nparamsp	Pointer to memory to store filter parameter count.
 * @param[out]	params	Pointer to vector of unsigned integers into which to store filter parameters.
@@ -1238,7 +1235,7 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
   smd_attr_t * attr;
 
   if(varid == NC_GLOBAL){
-    ret = esdm_container_link_attribute(e->c, attr);
+    ret = esdm_container_link_attribute(e->c, 0, attr);
 
     if (name){
       name = strdup(e->dimt.name);
@@ -1355,7 +1352,7 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
 
  // Not working with groups yet.
 
-static int ESDM_inq_typeids(int ncid, int *ntypes, int* p) {
+static int ESDM_inq_typeids(int ncid, int *ntypes, int *p) {
   DEBUG_ENTER("%d\n", ncid);
 
   nc_esdm_t * e = ESDM_nc_get_esdm_struct(ncid);

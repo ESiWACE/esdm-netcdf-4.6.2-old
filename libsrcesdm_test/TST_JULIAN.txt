@@ -1,0 +1,77 @@
+*****************************************************************************************************************************
+
+tst_dim_ME
+
+make tst_dim_ME
+./tst_dim_ME
+gdb --args .libs/tst_dim_ME
+valgrind .libs/tst_dim_ME
+
+// /*
+// * Creates the dimension, but it does not reconstruct the dimension table
+// *
+//
+// tst_dim_ME: ../../libsrcesdm_test/tst_dim_ME.c:70: read_test: Assertion `idp == 0' failed.
+//
+// [ESDM NC] called ESDM_inq_dimid:483 65536
+// 485	  nc_esdm_t * e = ESDM_nc_get_esdm_struct(ncid);
+// (gdb)
+// 486	  if(e == NULL) return NC_EBADID;
+// (gdb) p *e
+// $1 = {ncid = 65536, idp = 0, c = 0x55555579f1f0, dimt = {count = 0, size = 0x0, name = 0x0}, vars = {count = 0, var = 0x0}}
+// *
+// */
+
+*****************************************************************************************************************************
+
+tst_var_ME
+
+make tst_var_ME
+./tst_var_ME
+gdb --args .libs/tst_var_ME
+valgrind .libs/tst_var_ME
+
+// /*
+// * Tries to test the function nc_inq_var_all, which in fact is the function NC_inq_var_all and works like our dispatch function.
+// * I don't know how to construct the test. You don't need to fix the function nc_inq_var_all, I just need to know how to run.
+// *
+// *  https://www.unidata.ucar.edu/software/netcdf/docs/group__variables.html#ga92f1cd76496cbbf5f9c1aaa82e787f81
+// *
+// * Note
+// * Expose access to nc_inq_var_all().
+// *
+// lucy@lucy-GS70-2PC-Stealth:~/esiwace/esdm-netcdf/build/libsrcesdm_test$ make tst_var_ME
+// ../../libsrcesdm_test/tst_var_ME.c:93:17: warning: implicit declaration of function ‘nc_inq_var_all’; did you mean ‘nc_inq_var_fill’? [-Wimplicit-function-declaration]
+//    if ((retval = nc_inq_var_all(ncid, varid))) ERR(retval);
+//                  ^~~~~~~~~~~~~~
+//                  nc_inq_var_fill
+//
+// lucy@lucy-GS70-2PC-Stealth:~/esiwace/esdm-netcdf/build/libsrcesdm_test$ make tst_var_ME
+// ../../libsrcesdm_test/tst_var_ME.c:94:17: warning: implicit declaration of function ‘NC_inq_var_all’; did you mean ‘nc_inq_var_fill’? [-Wimplicit-function-declaration]
+//    if ((retval = NC_inq_var_all(ncid, varid))) ERR(retval);
+//                  ^~~~~~~~~~~~~~
+//                  nc_inq_var_fill
+// */
+
+*****************************************************************************************************************************
+
+tst_printmd_ME
+
+make tst_dim_ME
+./tst_dim_ME
+gdb --args .libs/tst_dim_ME
+valgrind .libs/tst_dim_ME
+
+// /*
+// * Creates the dimension, but it does not reconstruct the dimension table
+// *
+// [ESDM NC] called ESDM_inq_dimid:483 65536
+// 485	  nc_esdm_t * e = ESDM_nc_get_esdm_struct(ncid);
+// (gdb)
+// 486	  if(e == NULL) return NC_EBADID;
+// (gdb) p *e
+// $1 = {ncid = 65536, idp = 0, c = 0x55555579f1f0, dimt = {count = 0, size = 0x0, name = 0x0}, vars = {count = 0, var = 0x0}}
+// *
+// */
+
+*****************************************************************************************************************************
