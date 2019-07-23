@@ -477,8 +477,6 @@ int ESDM_def_dim(int ncid, const char *name, size_t len, int *idp){
  * @return
  */
 
-// Not tested yet ==> not working, see test tst_dim_ME
-
 int ESDM_inq_dimid(int ncid, const char *name, int *idp){
   DEBUG_ENTER("%d\n", ncid);
 
@@ -544,8 +542,6 @@ int ESDM_inq_unlimdim(int ncid, int *unlimdimidp){
 
  // It won't work if we have unlimited dimensions. It might work automatically if dimt.count is updated.
 
- // Not tested yet ==>> same problem as ESDM_inq_dimid
-
 int ESDM_rename_dim(int ncid, int dimid, const char *name){
   DEBUG_ENTER("%d\n", ncid);
 
@@ -606,16 +602,18 @@ int ESDM_inq_att(int ncid, int varid, const char *name, nc_type *datatypep, size
   smd_attr_t *a;
   a = smd_attr_get_child_by_name(attr, name);
 
-  if(*datatypep){
-    *datatypep = type_esdm_to_nc(a->type);
+  if(datatypep){
+    if (a->type->type == SMD_TYPE_ARRAY)
+      *datatypep = type_esdm_to_nc(a->type->specifier.u.arr.base);
+    else
+      *datatypep = type_esdm_to_nc(a->type);
   }
 
-  // if(*lenp){
-
-// https://www.unidata.ucar.edu/software/netcdf/netcdf/Attributes.html
-// The type and length of each attribute are not explicitly declared in CDL; they are derived from the values assigned to the attribute.
-
-  // }
+  if(lenp){
+    if (a->type->type == SMD_TYPE_ARRAY)
+      *lenp = a->type->specifier.u.arr.count;
+    else *lenp = 1; // Can I do this automatically? The field in the structure has value 0
+  }
 
   return NC_NOERR;
 }
@@ -1380,27 +1378,10 @@ static int ESDM_inq_typeid(int ncid, const char* name, nc_type* t)
  * @return
  */
 
-// Printing the metadata for the container. Check it.
-
-// Not tested yet
-
 int ESDM_show_metadata(int ncid){
-  DEBUG("");
+  DEBUG_ENTER("%d\n", ncid);
 
-  int ret = NC_NOERR;
-
-  nc_esdm_t * e = ESDM_nc_get_esdm_struct(ncid);
-  if(e == NULL) return NC_EBADID;
-
-  // Should not call this function here...
-
-  // smd_string_stream_t * s = smd_string_stream_create();
-  // esdmI_container_metadata_create(e->c, s);
-  //
-  // if (s->string != NULL){
-  //   printf("\nMetadata:\n\n%s", s->string);
-  //   return NC_NOERR;
-  // }
+  printf("\n\nESDM Dataset\n\n%s");
 
   return NC_EACCESS;
 }
@@ -1414,7 +1395,7 @@ int ESDM_show_metadata(int ncid){
  */
 
 int ESDM_inq_unlimdims(){
-  DEBUG("");
+  // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_IMPLEMENTED;
 
 // Same idea of ESDM_inq_unlimdim, but returning a list
@@ -1431,7 +1412,7 @@ int ESDM_inq_unlimdims(){
  */
 
 int ESDM_inq_ncid(){
-  DEBUG("");
+  // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_IMPLEMENTED;
 
 // Function using groups
@@ -1446,7 +1427,7 @@ int ESDM_inq_ncid(){
  */
 
 int ESDM_inq_grps(){
-  DEBUG("");
+  // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_IMPLEMENTED;
 
   // Function using groups
@@ -1461,7 +1442,7 @@ int ESDM_inq_grps(){
  */
 
 int ESDM_inq_grpname(){
-  DEBUG("");
+  // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_IMPLEMENTED;
 
   // Function using groups
@@ -1476,7 +1457,7 @@ int ESDM_inq_grpname(){
  */
 
 int ESDM_inq_grpname_full(){
-  DEBUG("");
+  // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_IMPLEMENTED;
 
   // Function using groups
@@ -1491,7 +1472,7 @@ int ESDM_inq_grpname_full(){
  */
 
 int ESDM_inq_grp_parent(){
-  DEBUG("");
+  // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_IMPLEMENTED;
 
   // Function using groups
@@ -1506,7 +1487,7 @@ int ESDM_inq_grp_parent(){
  */
 
 int ESDM_inq_grp_full_ncid(){
-  DEBUG("");
+  // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_IMPLEMENTED;
 
   // Function using groups
@@ -1521,7 +1502,7 @@ int ESDM_inq_grp_full_ncid(){
  */
 
 int ESDM_inq_varids(){
-  DEBUG("");
+  // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_IMPLEMENTED;
 
   // Function using groups
@@ -1536,7 +1517,7 @@ int ESDM_inq_varids(){
  */
 
 int ESDM_inq_dimids(){
-  DEBUG("");
+  // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_IMPLEMENTED;
 
   // Function using groups
@@ -1556,8 +1537,10 @@ int ESDM_inq_dimids(){
 
  // Not tested yet
 
+ // # JK: User-defined datatype to be tested if equal. For later, if at all. SMD.
+
 int ESDM_inq_type_equal(int ncid1, nc_type typeid1, int ncid2, nc_type typeid2, int *equal){
-  DEBUG("");
+  // DEBUG_ENTER("%d\n", ncid);
 
   nc_esdm_t * e1 = ESDM_nc_get_esdm_struct(ncid1);
   if(e1 == NULL) return NC_EBADID;
@@ -1581,7 +1564,7 @@ int ESDM_inq_type_equal(int ncid1, nc_type typeid1, int ncid2, nc_type typeid2, 
  */
 
 int ESDM_def_grp(){
-  DEBUG("");
+  // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_IMPLEMENTED;
 
   // Function using groups
@@ -1596,7 +1579,7 @@ int ESDM_def_grp(){
  */
 
 int ESDM_rename_grp(){
-  DEBUG("");
+  // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_IMPLEMENTED;
 
   // Function using groups
@@ -1617,7 +1600,7 @@ int ESDM_rename_grp(){
  */
 
 int ESDM_inq_user_type(int ncid, nc_type xtype, char *name, size_t *size, nc_type *base_nc_typep, size_t *nfieldsp, int *classp){
-  DEBUG("");
+  DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_IMPLEMENTED;
 
 // I'm not sure what to do
@@ -1632,7 +1615,7 @@ int ESDM_inq_user_type(int ncid, nc_type xtype, char *name, size_t *size, nc_typ
  */
 
 int ESDM_def_compound(){
-  DEBUG("");
+  // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED;
   return NC_NOERR;
 }
@@ -1644,7 +1627,7 @@ int ESDM_def_compound(){
  */
 
 int ESDM_insert_compound(){
-  DEBUG("");
+  // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED;
   return NC_NOERR;
 }
@@ -1656,7 +1639,7 @@ int ESDM_insert_compound(){
  */
 
 int ESDM_insert_array_compound(){
-  DEBUG("");
+  // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED;
   return NC_NOERR;
 }
@@ -1668,7 +1651,7 @@ int ESDM_insert_array_compound(){
  */
 
 int ESDM_inq_compound_field(){
-  DEBUG("");
+  // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED;
   return NC_NOERR;
 }
@@ -1680,7 +1663,7 @@ int ESDM_inq_compound_field(){
  */
 
 int ESDM_inq_compound_fieldindex(){
-  DEBUG("");
+  // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED;
   return NC_NOERR;
 }
@@ -1692,7 +1675,7 @@ int ESDM_inq_compound_fieldindex(){
  */
 
 int ESDM_def_vlen(){
-  DEBUG("");
+  // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_IMPLEMENTED;
 
   // I don't think ESDM support this like that.
@@ -1707,7 +1690,7 @@ int ESDM_def_vlen(){
  */
 
 int ESDM_put_vlen_element(){
-  DEBUG("");
+  // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_IMPLEMENTED;
 
   // I don't think ESDM support this like that.
@@ -1722,7 +1705,7 @@ int ESDM_put_vlen_element(){
  */
 
 int ESDM_get_vlen_element(){
-  DEBUG("");
+  // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_IMPLEMENTED;
 
   // I don't think ESDM support this like that.
@@ -1737,7 +1720,7 @@ int ESDM_get_vlen_element(){
  */
 
 int ESDM_def_enum(){
-  DEBUG("");
+  // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_IMPLEMENTED;
 
   // I don't know what to do
@@ -1752,7 +1735,7 @@ int ESDM_def_enum(){
  */
 
 int ESDM_insert_enum(){
-  DEBUG("");
+  // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_IMPLEMENTED;
 
   // I don't know what to do
@@ -1767,7 +1750,7 @@ int ESDM_insert_enum(){
  */
 
 int ESDM_inq_enum_member(){
-  DEBUG("");
+  // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_IMPLEMENTED;
 
   // I don't know what to do
@@ -1782,7 +1765,7 @@ int ESDM_inq_enum_member(){
  */
 
 int ESDM_inq_enum_ident(){
-  DEBUG("");
+  // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_IMPLEMENTED;
 
   // I don't know what to do
@@ -1797,7 +1780,7 @@ int ESDM_inq_enum_ident(){
  */
 
 int ESDM_def_opaque(){
-  DEBUG("");
+  // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_IMPLEMENTED;
 
   // I don't know what to do
@@ -1812,7 +1795,7 @@ int ESDM_def_opaque(){
  */
 
 int ESDM_def_var_deflate(){
-  DEBUG("");
+  // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED;
 
   // I don't know what to do
@@ -1827,7 +1810,7 @@ int ESDM_def_var_deflate(){
  */
 
 int ESDM_def_var_fletcher32(){
-  DEBUG("");
+  // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED;
 
   // I don't know what to do
@@ -1842,7 +1825,7 @@ int ESDM_def_var_fletcher32(){
  */
 
 int ESDM_def_var_chunking(){
-  DEBUG("");
+  // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED;
 
   // I don't know what to do
@@ -1857,7 +1840,7 @@ int ESDM_def_var_chunking(){
  */
 
 int ESDM_def_var_endian(){
-  DEBUG("");
+  // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_IMPLEMENTED;
 
   // I don't know what to do
@@ -1872,7 +1855,7 @@ int ESDM_def_var_endian(){
  */
 
 int ESDM_def_var_filter(){
-  DEBUG("");
+  // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED;
 
   // I don't know what to do
@@ -1887,7 +1870,7 @@ int ESDM_def_var_filter(){
  */
 
 int ESDM_set_var_chunk_cache(){
-  DEBUG("");
+  // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED;
 
   // I don't know what to do
@@ -1902,7 +1885,7 @@ int ESDM_set_var_chunk_cache(){
  */
 
 int ESDM_get_var_chunk_cache(){
-  DEBUG("");
+  // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED;
 
   // I don't know what to do
