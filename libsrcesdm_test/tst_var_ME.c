@@ -12,16 +12,14 @@
 /* Handle errors by printing an error message and exiting with a
  * non-zero status. */
 #define ERRCODE 2
-#define ERR(e)                             \
-  {                                        \
+#define ERR(e)                                          \
+  {                                                     \
     printf("Error: %d %s\n", __LINE__, nc_strerror(e)); \
-    exit(ERRCODE);                         \
+    exit(ERRCODE);                                      \
   }
 
-static void write_test ();
-static void read_test ();
-
-
+static void write_test();
+static void read_test();
 
 // /*
 // * Tries to test the function nc_inq_var_all, which in fact is the function NC_inq_var_all and works like our dispatch function.
@@ -41,17 +39,16 @@ static void read_test ();
 // */
 
 int main(int argc, char **argv) {
-    write_test ();
-    read_test ();
+  write_test();
+  read_test();
 
-    nc_finalize();
+  nc_finalize();
 
-    printf("*** SUCCESS attributes!\n");
-    return 0;
+  printf("*** SUCCESS attributes!\n");
+  return 0;
 }
 
-static void write_test ()
-{
+static void write_test() {
   int ncid, x1_dimid, x2_dimid, x3_dimid;
   int *dimidsp, ndims_var, varid;
 
@@ -61,56 +58,54 @@ static void write_test ()
     ERR(retval);
 
   if ((retval = nc_def_dim(ncid, "z", 20, &x3_dimid)))
-     ERR(retval);
+    ERR(retval);
 
   ndims_var = 1;
-  dimidsp = malloc(sizeof(int)*ndims_var);
+  dimidsp = malloc(sizeof(int) * ndims_var);
   dimidsp[0] = x3_dimid;
 
   if ((retval = nc_def_var(ncid, "z", NC_DOUBLE, ndims_var, dimidsp, &varid))) ERR(retval);
 
-  const char * str1 = "atmosphere_sigma_coordinate";
+  const char *str1 = "atmosphere_sigma_coordinate";
   if ((retval = nc_put_att_string(ncid, varid, "stardard_name", 1, &str1))) ERR(retval);
 
   if ((retval = nc_enddef(ncid)))
-     ERR(retval);
+    ERR(retval);
 
   if (retval = nc_close(ncid))
     ERR(retval);
 }
 
-static void read_test ()
-{
+static void read_test() {
   int ncid, varid, retval;
 
   if ((retval = nc_open(FILE_NAME, NC_CLOBBER | TEST_FLAGS, &ncid)))
     ERR(retval);
 
   char *str_new;
-  if ((retval = nc_inq_varid (ncid, "z", & varid))) ERR(retval);
-  if ((retval = nc_get_att_string(ncid, varid, "stardard_name", & str_new))) ERR(retval);
+  if ((retval = nc_inq_varid(ncid, "z", &varid))) ERR(retval);
+  if ((retval = nc_get_att_string(ncid, varid, "stardard_name", &str_new))) ERR(retval);
   assert(strcmp(str_new, "atmosphere_sigma_coordinate") == 0);
 
-  char	name[255];
-  nc_type 	xtypep;
-  int 	ndimsp;
-  int 	dimidsp;
-  int 	nattsp;
-  int 	shufflep;
-  int 	deflatep;
-  int 	deflate_levelp;
-  int 	fletcher32p;
-  int 	contiguousp;
-  size_t 	chunksizesp;
-  int 	no_fill;
-  void* 	fill_valuep;
-  int 	endiannessp;
-  unsigned int 	idp;
-  size_t 	nparamsp;
-  unsigned int 	params;
+  char name[255];
+  nc_type xtypep;
+  int ndimsp;
+  int dimidsp;
+  int nattsp;
+  int shufflep;
+  int deflatep;
+  int deflate_levelp;
+  int fletcher32p;
+  int contiguousp;
+  size_t chunksizesp;
+  int no_fill;
+  void *fill_valuep;
+  int endiannessp;
+  unsigned int idp;
+  size_t nparamsp;
+  unsigned int params;
 
-
-  if ((retval = NC_inq_var_all(ncid, varid, name, & xtypep, & ndimsp, & dimidsp, & nattsp, & shufflep, & deflatep, & deflate_levelp, & fletcher32p, & contiguousp, & chunksizesp, & no_fill, & fill_valuep, & endiannessp, & idp, & nparamsp, & params))) ERR(retval);
+  if ((retval = NC_inq_var_all(ncid, varid, name, &xtypep, &ndimsp, &dimidsp, &nattsp, &shufflep, &deflatep, &deflate_levelp, &fletcher32p, &contiguousp, &chunksizesp, &no_fill, &fill_valuep, &endiannessp, &idp, &nparamsp, &params))) ERR(retval);
 
   // char *name;
   // nc_type *xtypep;

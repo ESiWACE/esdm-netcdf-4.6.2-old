@@ -16,14 +16,18 @@
 /* Handle errors by printing an error message and exiting with a
  * non-zero status. */
 #define ERRCODE 2
-#define ERR(e) {printf("Error: %s\n", nc_strerror(e)); exit(ERRCODE);}
+#define ERR(e)                             \
+  {                                        \
+    printf("Error: %s\n", nc_strerror(e)); \
+    exit(ERRCODE);                         \
+  }
 
 static void write_test();
 static void read_test();
 
-int main (int argc, char ** argv){
+int main(int argc, char **argv) {
   nc_initialize();
-  
+
   write_test();
   read_test();
   // printf("OK\n");
@@ -33,31 +37,31 @@ int main (int argc, char ** argv){
   return 0;
 }
 
-static void write_test(){
+static void write_test() {
   int ncid;
   int retval;
   if ((retval = nc_create(FILE_NAME, NC_CLOBBER | TEST_FLAGS, &ncid)))
-     ERR(retval);
+    ERR(retval);
 
   short s = 32;
-  if ((retval = nc_put_att_short(ncid, NC_GLOBAL, "short", NC_SHORT, 1, & s))) ERR(retval);
+  if ((retval = nc_put_att_short(ncid, NC_GLOBAL, "short", NC_SHORT, 1, &s))) ERR(retval);
 
   if ((retval = nc_enddef(ncid)))
-     ERR(retval);
+    ERR(retval);
 
   if ((retval = nc_close(ncid)))
     ERR(retval);
 }
 
-static void read_test(){
+static void read_test() {
   int ncid;
   int retval;
-  if ((retval = nc_open(FILE_NAME, NC_NOWRITE | TEST_FLAGS, & ncid)))
-     ERR(retval);
+  if ((retval = nc_open(FILE_NAME, NC_NOWRITE | TEST_FLAGS, &ncid)))
+    ERR(retval);
   short s = 1;
-  if ((retval = nc_get_att_short(ncid, NC_GLOBAL, "short", & s))) ERR(retval);
-  assert( s == 32 );
+  if ((retval = nc_get_att_short(ncid, NC_GLOBAL, "short", &s))) ERR(retval);
+  assert(s == 32);
 
   if ((retval = nc_close(ncid)))
-     ERR(retval);
+    ERR(retval);
 }

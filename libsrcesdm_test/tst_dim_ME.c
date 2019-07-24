@@ -10,14 +10,14 @@
 #define TEST_FLAGS NC_ESDM
 
 #define ERRCODE 2
-#define ERR(e)                             \
-  {                                        \
+#define ERR(e)                                          \
+  {                                                     \
     printf("Error: %d %s\n", __LINE__, nc_strerror(e)); \
-    exit(ERRCODE);                         \
+    exit(ERRCODE);                                      \
   }
 
-static void write_test ();
-static void read_test ();
+static void write_test();
+static void read_test();
 
 // /*
 // * Creates the dimension, but it does not reconstruct the dimension table
@@ -35,36 +35,34 @@ static void read_test ();
 // */
 
 int main(int argc, char **argv) {
-    nc_initialize();
+  nc_initialize();
 
-    write_test ();
-    read_test ();
+  write_test();
+  read_test();
 
-    nc_finalize();
+  nc_finalize();
 
-    printf("*** SUCCESS attributes!\n");
-    return 0;
+  printf("*** SUCCESS attributes!\n");
+  return 0;
 }
 
-static void write_test ()
-{
+static void write_test() {
   int ncid, x_dimid, retval;
 
   if ((retval = nc_create(FILE_NAME, NC_NOWRITE | TEST_FLAGS, &ncid)))
     ERR(retval);
 
   if ((retval = nc_def_dim(ncid, "x", 106, &x_dimid)))
-     ERR(retval);
+    ERR(retval);
 
   if ((retval = nc_enddef(ncid)))
-     ERR(retval);
+    ERR(retval);
 
   if (retval = nc_close(ncid))
     ERR(retval);
 }
 
-static void read_test ()
-{
+static void read_test() {
   int ncid, retval;
 
   if ((retval = nc_open(FILE_NAME, NC_CLOBBER | TEST_FLAGS, &ncid)))

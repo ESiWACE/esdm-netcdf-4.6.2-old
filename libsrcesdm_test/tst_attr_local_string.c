@@ -23,25 +23,24 @@
     exit(ERRCODE);                         \
   }
 
-static void write_test ();
-static void read_test ();
+static void write_test();
+static void read_test();
 
 int main(int argc, char **argv) {
-    nc_initialize();
+  nc_initialize();
 
   /* When we create netCDF variables and dimensions, we get back an
     * ID for each one. */
-    write_test ();
-    read_test ();
+  write_test();
+  read_test();
 
-    nc_finalize();
+  nc_finalize();
 
-    printf("*** SUCCESS attributes!\n");
-    return 0;
+  printf("*** SUCCESS attributes!\n");
+  return 0;
 }
 
-static void write_test ()
-{
+static void write_test() {
   int ncid, x_dimid, y_dimid, varid;
   int dimids[2];
   /* Loop indexes, and error handling. */
@@ -50,9 +49,9 @@ static void write_test ()
   if ((retval = nc_create(FILE_NAME, NC_NOWRITE | TEST_FLAGS, &ncid)))
     ERR(retval);
 
-// This line is an enigma.
-// Without NC_ESDM it makes the file persistent, but nc_put_att_string doesn't work.
-// With NC_ESDM nc_put_att_string works.
+  // This line is an enigma.
+  // Without NC_ESDM it makes the file persistent, but nc_put_att_string doesn't work.
+  // With NC_ESDM nc_put_att_string works.
 
   /* Define the dimensions. NetCDF will hand back an ID for each. */
   if ((retval = nc_def_dim(ncid, "x", 2, &x_dimid)))
@@ -69,20 +68,19 @@ static void write_test ()
     * NC_INT (4-byte integer). */
   if ((retval = nc_def_var(ncid, "data", NC_INT, 2, dimids, &varid))) ERR(retval);
 
-  const char * str = "this is test1";
+  const char *str = "this is test1";
 
-  if ((retval = nc_put_att_string(ncid, varid, "string", 1, & str))) ERR(retval);
+  if ((retval = nc_put_att_string(ncid, varid, "string", 1, &str))) ERR(retval);
   printf("\n\nvarid = %d", varid);
 
   if ((retval = nc_enddef(ncid)))
-     ERR(retval);
+    ERR(retval);
 
   if (retval = nc_close(ncid))
     ERR(retval);
 }
 
-static void read_test ()
-{
+static void read_test() {
   int ncid, varid, retval;
 
   if ((retval = nc_open(FILE_NAME, NC_CLOBBER | TEST_FLAGS, &ncid)))
@@ -92,16 +90,16 @@ static void read_test ()
   // printf("\n\nvarid = %d", varid);
   varid = 0;
 
-  char * str_new;
+  char *str_new;
 
-  if ((retval = nc_get_att_string(ncid, varid, "string", & str_new))) ERR(retval);
+  if ((retval = nc_get_att_string(ncid, varid, "string", &str_new))) ERR(retval);
   assert(strcmp("this is test1", str_new) == 0);
 
   // printf("\n\nstr_new = %s", str_new);
   //nc_free_string(1, & str_new);
 
   if ((retval = nc_enddef(ncid)))
-     ERR(retval);
+    ERR(retval);
 
   if ((retval = nc_close(ncid)))
     ERR(retval);
