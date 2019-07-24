@@ -40,6 +40,14 @@
   do {                                                                                               \
     printf("[ESDM NC] WARN %s():%d. NetCDF Feature not supported with ESDM!\n", __func__, __LINE__); \
   } while (0)
+#define WARN_NOT_SUPPORTED_COMPOUND                                                                  \
+  do {                                                                                               \
+    printf("[ESDM NC] WARN %s():%d. ESDM does not support compound datatypes from NetCDF!\n", __func__, __LINE__); \
+  } while (0)
+#define WARN_NOT_SUPPORTED_COMPRESSION                                                               \
+  do {                                                                                               \
+    printf("[ESDM NC] WARN %s():%d. ESDM does not support compression from NetCDF!\n", __func__, __LINE__); \
+  } while (0)
 
 typedef struct {
   int *dimidsp;
@@ -413,6 +421,18 @@ int ESDM_inq_format_extended(int ncid, int *formatp, int *modep) {
   return NC_NOERR;
 }
 
+/**
+ * @brief Inquire about a file or group.
+ * @param ncid	NetCDF ID, from a previous call to nc_open() or nc_create().
+ * @param formatp	Pointer to location for returned true format.
+ * @param modep	Pointer to location for returned mode flags.
+ * @param ndimsp	Pointer to location for returned number of dimensions defined for this netCDF dataset. Ignored if NULL.
+ * @param nvarsp	Pointer to location for returned number of variables defined for this netCDF dataset. Ignored if NULL.
+ * @param nattsp	Pointer to location for returned number of global attributes defined for this netCDF dataset. Ignored if NULL.
+ * @param unlimdimidp	Pointer to location for returned ID of the unlimited dimension, if there is one for this netCDF dataset. If no unlimited length dimension has been defined, -1 is returned. Ignored if NULL. If there are multiple unlimited dimensions (possible only for netCDF-4 files), only a pointer to the first is returned, for backward compatibility. If you want them all, use nc_inq_unlimids().
+  * @return
+ */
+
 int ESDM_inq(int ncid, int *ndimsp, int *nvarsp, int *nattsp, int *unlimdimidp) {
   DEBUG_ENTER("%d\n", ncid);
 
@@ -434,14 +454,13 @@ int ESDM_inq(int ncid, int *ndimsp, int *nvarsp, int *nattsp, int *unlimdimidp) 
     *nvarsp = count;
   }
   if (unlimdimidp) {
-    int ulimdim = -1;
-    for (int i = 0; e->dimt.count; i++) {
+    *unlimdimidp = -1;
+    for (int i = 0; i < e->dimt.count; i++) {
       if (e->dimt.size[i] == 0) {
-        ulimdim = i;
-        break;
+        *unlimdimidp = i;
+        return NC_NOERR;
       }
     }
-    *unlimdimidp = ulimdim;
   }
 
   return NC_NOERR;
@@ -489,8 +508,8 @@ int ESDM_def_dim(int ncid, const char *name, size_t len, int *idp) {
 /**
  * @brief Find the ID of a dimension from the name.
  * @param ncid	NetCDF or group ID, from a previous call to nc_open(), nc_create(), nc_def_grp(), or associated inquiry functions such as nc_inq_ncid().
-* @param name	Name of the dimension.
-* @param idp	Pointer where dimension ID will be stored.
+ * @param name	Name of the dimension.
+ * @param idp	Pointer where dimension ID will be stored.
  * @return
  */
 
@@ -504,12 +523,21 @@ int ESDM_inq_dimid(int ncid, const char *name, int *idp) {
 
   for (int i = 0; i < e->dimt.count; i++) {
     if (strcmp(e->dimt.name[i], name) == 0) {
-      *idp = e->dimt.size[i];
+      *idp = i;
     }
   }
 
   return NC_NOERR;
 }
+
+/**
+ * @brief Find the name and length of a dimension. The length for the unlimited dimension, if any, is the number of records written so far.
+ * @param ncid	NetCDF or group ID, from a previous call to nc_open(), nc_create(), nc_def_grp(), or associated inquiry functions such as nc_inq_ncid().
+ * @param dimid	Dimension ID, from a previous call to nc_inq_dimid() or nc_def_dim().
+ * @param name	Returned dimension name. The caller must allocate space for the returned name. The maximum possible length, in characters, of a dimension name is given by the predefined constant NC_MAX_NAME. (This doesn't include the null terminator, so declare your array to be size NC_MAX_NAME+1). The returned character array will be null-terminated.
+ * @param lenp	Pointer to location for returned length of dimension. For the unlimited dimension, this is the number of records written so far.
+ * @return
+ */
 
 int ESDM_inq_dim(int ncid, int dimid, char *name, size_t *lenp) {
   int ret = NC_NOERR;
@@ -1235,110 +1263,49 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
 
   smd_attr_t *attr;
 
-  if (varid == NC_GLOBAL) {
-    ret = esdm_container_link_attribute(e->c, 0, attr);
+  md_var_t *evar = e->vars.var[varid];
+  assert(evar != NULL);
 
-    if (name) {
-      name = strdup(e->dimt.name);
-    }
+  esdm_dataspace_t *space;
+  ret = esdm_dataset_get_dataspace(evar->dset, &space);
 
-    if (xtypep) {
-      *xtypep = type_esdm_to_nc(attr->type);
-    }
-
-    if (ndimsp) {
-      *ndimsp = e->dimt.size;
-    }
-
-    if (dimidsp) {
-      *dimidsp = e->dimt.count;
-    }
-
-    if (nattsp) {
-      *nattsp = attr->children;
-    }
-
-    // if (shufflep)
-    //
-    // if (deflatep)
-    //
-    // if (deflate_levelp)
-    //
-    // if (fletcher32p)
-    //
-    // if (contiguousp)
-    //
-    // if (chunksizesp)
-    //
-    // if (no_fill)
-    //
-    // if (fill_valuep)
-    //
-    // if (endiannessp)
-    //
-    // if (idp)
-    //
-    // if (nparamsp)
-    //
-    // if (params)
-
-  } else {
-    md_var_t *evar = e->vars.var[varid];
-    assert(evar != NULL);
-
-    esdm_dataspace_t *space;
-    ret = esdm_dataset_get_dataspace(evar->dset, &space);
-
-    if (name) {
-      strcpy(name, esdm_dataset_name(evar->dset));
-      //name = strdup(esdm_dataset_name(evar->dset));
-    }
-
-    if (xtypep) {
-      *xtypep = type_esdm_to_nc(esdm_dataspace_get_type(space));
-    }
-
-    if (ndimsp) {
-      *ndimsp = esdm_dataspace_get_dims(space);
-    }
-
-    if (dimidsp) {
-      int ndims = esdm_dataspace_get_dims(space);
-      for (int i = 0; i < ndims; i++) {
-        dimidsp[i] = evar->dimidsp[i];
-      }
-    }
-
-    if (nattsp) { // the number of attributes
-      smd_attr_t *attr = NULL;
-      ret = esdm_dataset_get_attributes(evar->dset, &attr);
-      *nattsp = smd_attr_count(attr);
-    }
-
-    // if (shufflep)
-    //
-    // if (deflatep)
-    //
-    // if (deflate_levelp)
-    //
-    // if (fletcher32p)
-    //
-    // if (contiguousp)
-    //
-    // if (chunksizesp)
-    //
-    // if (no_fill)
-    //
-    // if (fill_valuep)
-    //
-    // if (endiannessp)
-    //
-    // if ( idp)
-    //
-    // if ( nparamsp)
-    //
-    // if ( params)
+  if (name) {
+    strcpy(name, esdm_dataset_name(evar->dset));
+    //name = strdup(esdm_dataset_name(evar->dset));
   }
+
+  if (xtypep) {
+    *xtypep = type_esdm_to_nc(esdm_dataspace_get_type(space));
+  }
+
+  if (ndimsp) {
+    *ndimsp = esdm_dataspace_get_dims(space);
+  }
+
+  if (dimidsp) {
+    int ndims = esdm_dataspace_get_dims(space);
+    for (int i = 0; i < ndims; i++) {
+      dimidsp[i] = evar->dimidsp[i];
+    }
+  }
+
+  if (nattsp) { // the number of attributes
+    smd_attr_t *attr = NULL;
+    ret = esdm_dataset_get_attributes(evar->dset, &attr);
+    *nattsp = smd_attr_count(attr);
+  }
+
+  // if (no_fill)
+  //
+  // if (fill_valuep)
+  //
+  // if (endiannessp)
+  //
+  // if ( idp)
+  //
+  // if ( nparamsp)
+  //
+  // if ( params)
 
   return NC_NOERR;
 }
@@ -1625,7 +1592,7 @@ int ESDM_inq_user_type(int ncid, nc_type xtype, char *name, size_t *size, nc_typ
 
 int ESDM_def_compound() {
   // DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_SUPPORTED;
+  WARN_NOT_SUPPORTED_COMPOUND;
   return NC_NOERR;
 }
 
@@ -1637,7 +1604,7 @@ int ESDM_def_compound() {
 
 int ESDM_insert_compound() {
   // DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_SUPPORTED;
+  WARN_NOT_SUPPORTED_COMPOUND;
   return NC_NOERR;
 }
 
@@ -1649,7 +1616,7 @@ int ESDM_insert_compound() {
 
 int ESDM_insert_array_compound() {
   // DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_SUPPORTED;
+  WARN_NOT_SUPPORTED_COMPOUND;
   return NC_NOERR;
 }
 
@@ -1661,7 +1628,7 @@ int ESDM_insert_array_compound() {
 
 int ESDM_inq_compound_field() {
   // DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_SUPPORTED;
+  WARN_NOT_SUPPORTED_COMPOUND;
   return NC_NOERR;
 }
 
@@ -1673,7 +1640,7 @@ int ESDM_inq_compound_field() {
 
 int ESDM_inq_compound_fieldindex() {
   // DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_SUPPORTED;
+  WARN_NOT_SUPPORTED_COMPOUND;
   return NC_NOERR;
 }
 
@@ -1805,10 +1772,7 @@ int ESDM_def_opaque() {
 
 int ESDM_def_var_deflate() {
   // DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_SUPPORTED;
-
-  // I don't know what to do
-
+  WARN_NOT_SUPPORTED_COMPRESSION;
   return NC_EINVAL;
 }
 
@@ -1820,7 +1784,7 @@ int ESDM_def_var_deflate() {
 
 int ESDM_def_var_fletcher32() {
   // DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_SUPPORTED;
+  WARN_NOT_SUPPORTED_COMPRESSION;
 
   // I don't know what to do
 
@@ -1835,9 +1799,7 @@ int ESDM_def_var_fletcher32() {
 
 int ESDM_def_var_chunking() {
   // DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_SUPPORTED;
-
-  // I don't know what to do
+  WARN_NOT_SUPPORTED_COMPRESSION;
 
   return NC_EINVAL;
 }
@@ -1880,9 +1842,7 @@ int ESDM_def_var_filter() {
 
 int ESDM_set_var_chunk_cache() {
   // DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_SUPPORTED;
-
-  // I don't know what to do
+  WARN_NOT_SUPPORTED_COMPRESSION;
 
   return NC_EINVAL;
 }
@@ -1895,9 +1855,7 @@ int ESDM_set_var_chunk_cache() {
 
 int ESDM_get_var_chunk_cache() {
   // DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_SUPPORTED;
-
-  // I don't know what to do
+  WARN_NOT_SUPPORTED_COMPRESSION;
 
   return NC_EINVAL;
 }

@@ -6,10 +6,10 @@
 \hline
 Filename & Compatible & Almost      & Not Compatible  & Almost        & Incompatible \\
          &            & Compatible  & Yet             & Incompatible  &               \\ \hline \hline
-cdm\_sea\_soundings.c   &   &   &   &   &   \\ \hline
-test\_szip.c   &   &   &   &   &   \\ \hline
+cdm\_sea\_soundings.c   &   &   &   &   &  $\checkmark$ \\ \hline
+test\_szip.c   &   &   &   &   & $\checkmark$  \\ \hline
 tst\_atts1.c   &   &   &   &   &   \\ \hline
-tst\_atts2.c   &   &   &   &   &   \\ \hline
+tst\_atts2.c   &   &   &   &   & $\checkmark$  \\ \hline
 tst\_atts3.c   &   &   &   &   &   \\ \hline
 tst\_atts.c   &   &   &   &   &   \\ \hline
 tst\_attsperf.c   &   &   &   &   &   \\ \hline
@@ -105,15 +105,15 @@ Filename & Justification \\ \hline \hline
 cdm\_sea\_soundings.c   & ESDM does not support compound datatypes from NetCDF          \\ \hline
 test\_szip.c   &  NetCDF Feature not supported with ESDM         \\ \hline
 tst\_atts1.c   &           \\ \hline
-tst\_atts2.c   &           \\ \hline
+tst\_atts2.c   &  ESDM does not support compound datatypes from NetCDF         \\ \hline
 tst\_atts3.c   &           \\ \hline
 tst\_atts.c   &           \\ \hline
 tst\_attsperf.c   &           \\ \hline
 tst\_bug324.c   &           \\ \hline
 tst\_camrun.c   &           \\ \hline
-tst\_chunks2.c   &  NetCDF Feature not supported with ESDM         \\ \hline
-tst\_chunks3.c   &  NetCDF Feature not supported with ESDM         \\ \hline
-tst\_chunks.c   &  NetCDF Feature not supported with ESDM         \\ \hline
+tst\_chunks2.c   &  ESDM does not support chunks from NetCDF         \\ \hline
+tst\_chunks3.c   & ESDM does not support chunks from NetCDF       \\ \hline
+tst\_chunks.c   &  ESDM does not support chunks from NetCDF       \\ \hline
 tst\_compounds2.c   &  ESDM does not support compound datatypes from NetCDF         \\ \hline
 tst\_compounds3.c   &  ESDM does not support compound datatypes from NetCDF         \\ \hline
 tst\_converts2.c   &           \\ \hline
