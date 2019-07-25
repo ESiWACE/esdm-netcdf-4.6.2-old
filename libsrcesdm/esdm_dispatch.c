@@ -2632,9 +2632,10 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
   esdm_dataspace_t *space;
   ret = esdm_dataset_get_dataspace(evar->dset, &space);
 
-  // if (name) {
-  //   name = strdup(esdm_dataset_name(evar->dset));
-  // }
+  if (name) {
+    name = strcpy(name, esdm_dataset_name(evar->dset));
+    // name = strdup(esdm_dataset_name(evar->dset));
+  }
 
   if (xtypep) {
     *xtypep = type_esdm_to_nc(esdm_dataspace_get_type(space));
@@ -2644,13 +2645,13 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
     *ndimsp = esdm_dataspace_get_dims(space);
   }
 
-  // if (dimidsp) {
-  //   int ndims = esdm_dataspace_get_dims(space);
-  //   dimidsp = malloc(ndims * sizeof(int));
-  //   for (int i = 0; i < ndims; i++) {
-  //     dimidsp[i] = evar->dimidsp[i];
-  //   }
-  // }
+  if (dimidsp) {
+    int ndims = esdm_dataspace_get_dims(space);
+    dimidsp = malloc(ndims * sizeof(int));
+    for (int i = 0; i < ndims; i++) {
+      dimidsp[i] = evar->dimidsp[i];
+    }
+  }
 
   if (nattsp) { // the number of attributes
     smd_attr_t *attr = NULL;
