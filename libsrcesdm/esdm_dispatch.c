@@ -2624,7 +2624,7 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
 
   DEBUG_ENTER("%d %d\n", ncid, varid);
 
-  smd_attr_t *attr;
+  if(varid >= e->vars.count) return NC_EINVAL;
 
   md_var_t *evar = e->vars.var[varid];
   assert(evar != NULL);
@@ -2634,7 +2634,6 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
 
   if (name) {
     name = strcpy(name, esdm_dataset_name(evar->dset));
-    // name = strdup(esdm_dataset_name(evar->dset));
   }
 
   if (xtypep) {
@@ -2659,65 +2658,61 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
     *nattsp = smd_attr_count(attr);
   }
 
-  // if (shufflep){
-  //   WARN_NOT_SUPPORTED_COMPRESSION;
-  //   return NC_EACCESS;
-  // }
-  //
-  // if (deflatep){
-  //   WARN_NOT_SUPPORTED_COMPRESSION;
-  //   return NC_EACCESS;
-  // }
-  //
-  // if (deflate_levelp){
-  //   WARN_NOT_SUPPORTED_COMPRESSION;
-  //   return NC_EACCESS;
-  // }
-  //
-  // if (fletcher32p){
-  //   WARN_NOT_SUPPORTED_COMPRESSION;
-  //   return NC_EACCESS;
-  // }
-  //
-  // if (contiguousp){
-  //   WARN_NOT_SUPPORTED_COMPRESSION;
-  //   return NC_EACCESS;
-  // }
-  //
-  // if (chunksizesp){
-  //   WARN_NOT_SUPPORTED_COMPRESSION;
-  //   return NC_EACCESS;
-  // }
-  //
-  // if (no_fill){
-  //   *no_fill = 0;
-  //   WARN_NOT_IMPLEMENTED;
-  // }
-  //
-  // if (fill_valuep){
-  //   // *fill_valuep = 0;
-  //   WARN_NOT_IMPLEMENTED;
-  // }
-  //
-  // if (endiannessp){
-  //   *endiannessp = 0;
-  //   WARN_NOT_IMPLEMENTED;
-  // }
-  //
-  // if (idp){
-  //   *idp = 0;
-  //   WARN_NOT_IMPLEMENTED;
-  // }
-  //
-  // if (nparamsp){
-  //   *nparamsp = 0;
-  //   WARN_NOT_IMPLEMENTED;
-  // }
-  //
-  // if (params){
-  //   *params = 0;
-  //   WARN_NOT_IMPLEMENTED;
-  // }
+  if (no_fill){
+    // TODO
+   *no_fill = 0;
+   WARN_NOT_IMPLEMENTED;
+  }
+
+  if (fill_valuep){
+    // TODO
+   // *fill_valuep = 0;
+    WARN_NOT_IMPLEMENTED;
+  }
+
+  if (idp){
+    *idp = 0;
+    WARN_NOT_IMPLEMENTED;
+  }
+
+  if (endiannessp){
+   *endiannessp = 0;
+   WARN_NOT_IMPLEMENTED;
+  }
+
+  if (shufflep){
+   WARN_NOT_SUPPORTED_COMPRESSION;
+  }
+
+  if (deflatep){
+   WARN_NOT_SUPPORTED_COMPRESSION;
+  }
+
+  if (deflate_levelp){
+   WARN_NOT_SUPPORTED_COMPRESSION;
+  }
+
+  if (fletcher32p){
+   WARN_NOT_SUPPORTED_COMPRESSION;
+  }
+
+  if (contiguousp){
+   WARN_NOT_SUPPORTED_COMPRESSION;
+  }
+
+  if (chunksizesp){
+   WARN_NOT_SUPPORTED_COMPRESSION;
+  }
+
+  if (nparamsp){
+   *nparamsp = 0;
+   WARN_NOT_IMPLEMENTED;
+  }
+
+  if (params){
+   *params = 0;
+   WARN_NOT_IMPLEMENTED;
+  }
 
   return NC_NOERR;
 }
