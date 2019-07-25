@@ -23,6 +23,27 @@
     exit(ERRCODE);                                      \
   }
 
+//   int NC_inq_var_all	(	int 	ncid,
+//   int 	varid,
+//   char * 	name,
+//   nc_type * 	xtypep,
+//   int * 	ndimsp,
+//   int * 	dimidsp,
+//   int * 	nattsp,
+//   int * 	shufflep,
+//   int * 	deflatep,
+//   int * 	deflate_levelp,
+//   int * 	fletcher32p,
+//   int * 	contiguousp,
+//   size_t * 	chunksizesp,
+//   int * 	no_fill,
+//   void * 	fill_valuep,
+//   int * 	endiannessp,
+//   unsigned int * 	idp,
+//   size_t * 	nparamsp,
+//   unsigned int * 	params
+// );
+
 static void write_test();
 static void read_test();
 
@@ -130,8 +151,6 @@ static void read_test() {
   assert(strcmp(str_new, "air_temperature") == 0);
   if ((retval = nc_free_string(1, &str_new))) ERR(retval);
 
-  // if ((retval = nc_inq_varid (ncid, "z", &varid))) ERR(retval); it should not find it
-
   if ((retval = nc_inq_varid(ncid, "new_z", &varid))) ERR(retval);
   if ((retval = nc_get_att_string(ncid, varid, "positive", &str_new))) ERR(retval);
 
@@ -140,43 +159,37 @@ static void read_test() {
   if ((retval = nc_get_att_double(ncid, varid, "missing_value", &v))) ERR(retval);
   assert(v == 1.0e30);
 
-  // if ((retval = nc_inq_varid (ncid, "short", &varid))) ERR(retval);
-
-  // if ((retval = NC_inq_var_all(ncid, varid))) ERR(retval);
-  //
   char *name;
-  nc_type *xtypep;
-  int *ndimsp;
+  nc_type xtypep;
+  int ndimsp;
   int *dimidsp;
-  int *nattsp;
-  int *shufflep;
-  int *deflatep;
-  int *deflate_levelp;
-  int *fletcher32p;
-  int *contiguousp;
-  size_t *chunksizesp;
-  int *no_fill;
+  int nattsp;
+
+  // Check the definitions when implementing the function
+
+  int shufflep;
+  int deflatep;
+  int deflate_levelp;
+  int fletcher32p;
+  int contiguousp;
+  size_t chunksizesp;
+  int no_fill;
   void *fill_valuep;
-  int *endiannessp;
-  unsigned int *idp;
-  size_t *nparamsp;
-  unsigned int *params;
+  int endiannessp;
+  unsigned int idp;
+  size_t nparamsp;
+  unsigned int params;
 
-  //
-  if ((retval = NC_inq_var_all(ncid, varid, name, &xtypep, &ndimsp, &dimidsp, &nattsp, &shufflep,
-       &deflatep,
-       &deflate_levelp,
-       &fletcher32p,
-       &contiguousp,
-       chunksizesp,
-       &no_fill,
-       &fill_valuep,
-       &endiannessp,
-       *idp,
-       nparamsp,
-       &params))) ERR(retval);
+  if ((retval = NC_inq_var_all(ncid, varid, name, &xtypep, &ndimsp, &dimidsp, &nattsp, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL))) ERR(retval);
+  // assert(strcmp(name, "temp") == 0);
+  assert(xtypep == NC_DOUBLE);
+  assert(ndimsp == 3);
+  // assert(dimidsp[0] == 2);
+  // assert(dimidsp[1] == 1);
+  // assert(dimidsp[2] == 0);
+  assert(nattsp == 2);
 
-  // ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndimsp, int *dimidsp, int *nattsp, int *shufflep, int *deflatep, int *deflate_levelp, int *fletcher32p, int *contiguousp, size_t *chunksizesp, int *no_fill, void *fill_valuep, int *endiannessp, unsigned int* idp, size_t* nparamsp, unsigned int* params){
+  // if ((retval = NC_inq_var_all(ncid, varid, name, &xtypep, &ndimsp, &dimidsp, &nattsp, &shufflep, &deflatep, &deflate_levelp, &fletcher32p, &contiguousp, chunksizesp, &no_fill, &fill_valuep, &endiannessp, idp, nparamsp, &params))) ERR(retval);
 
   if ((retval = nc_enddef(ncid)))
     ERR(retval);
