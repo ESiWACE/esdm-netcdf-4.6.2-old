@@ -207,9 +207,9 @@ main(int argc, char **argv)
 
                if (buildfile(num_vars, num_atts, ATT_LEN, file_name)) ERR;
                if (readfile(file_name, &nc4_open_time, do_inq, num_vars)) ERR;
-               if (readfile_hdf5(file_name, &hdf5_open_time, do_inq, num_vars)) ERR;
+               //if (readfile_hdf5(file_name, &hdf5_open_time, do_inq, num_vars)) ERR;
                tot_nc4 += nc4_open_time;
-               tot_hdf5 += hdf5_open_time;
+               //tot_hdf5 += hdf5_open_time;
             }
 
             /* Print average results to the millisec */

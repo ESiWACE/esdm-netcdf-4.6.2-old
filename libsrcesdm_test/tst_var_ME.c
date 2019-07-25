@@ -18,30 +18,8 @@
    exit(ERRCODE);                                      \
  }
 
-int NC_inq_var_all	(	int 	ncid,
- int 	varid,
- char * 	name,  nc_type * 	xtypep,  int * 	ndimsp,  int * 	dimidsp,  int * 	nattsp,  int * 	shufflep,  int * 	deflatep,  int * 	deflate_levelp,  int * 	fletcher32p,  int * 	contiguousp,  size_t * 	chunksizesp,  int * 	no_fill,  void * 	fill_valuep,  int * 	endiannessp,  unsigned int * 	idp,  size_t * 	nparamsp,  unsigned int * 	params
-);
-
 static void write_test();
 static void read_test();
-
-// /*
-// * Tries to test the function nc_inq_var_all, which in fact is the function NC_inq_var_all and works like our dispatch function.
-// * I don't know how to construct the test. You don't need to fix the function nc_inq_var_all, I just need to know how to run.
-// *
-// lucy@lucy-GS70-2PC-Stealth:~/esiwace/esdm-netcdf/build/libsrcesdm_test$ make tst_var_ME
-// ../../libsrcesdm_test/tst_var_ME.c:93:17: warning: implicit declaration of function ‘nc_inq_var_all’; did you mean ‘nc_inq_var_fill’? [-Wimplicit-function-declaration]
-//    if ((retval = nc_inq_var_all(ncid, varid))) ERR(retval);
-//                  ^~~~~~~~~~~~~~
-//                  nc_inq_var_fill
-//
-// lucy@lucy-GS70-2PC-Stealth:~/esiwace/esdm-netcdf/build/libsrcesdm_test$ make tst_var_ME
-// ../../libsrcesdm_test/tst_var_ME.c:94:17: warning: implicit declaration of function ‘NC_inq_var_all’; did you mean ‘nc_inq_var_fill’? [-Wimplicit-function-declaration]
-//    if ((retval = NC_inq_var_all(ncid, varid))) ERR(retval);
-//                  ^~~~~~~~~~~~~~
-//                  nc_inq_var_fill
-// */
 
 int main(int argc, char **argv) {
   write_test();
@@ -102,12 +80,10 @@ static void read_test() {
   // assert(ndimsp == 1);
   // assert(nattsp == 1);
 
-  // char *name;
-  char *name;
-  // int *dimidsp;
+  char name[255];
   int dimidsp[10];
 
-  if ((retval = NC_inq_var_all(ncid, varid, &name, &xtypep, &ndimsp, dimidsp, &nattsp, NULL , NULL , NULL , NULL , NULL , NULL , NULL , NULL , NULL , NULL , NULL , NULL))) ERR(retval);
+  if ((retval = NC_inq_var_all(ncid, varid, name, &xtypep, &ndimsp, dimidsp, &nattsp, NULL , NULL , NULL , NULL , NULL , NULL , NULL , NULL , NULL , NULL , NULL , NULL))) ERR(retval);
   assert(strcmp(name, "temp") == 0);
   assert(xtypep == NC_DOUBLE);
   assert(ndimsp == 1);

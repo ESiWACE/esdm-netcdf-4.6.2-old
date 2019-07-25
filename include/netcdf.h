@@ -1448,3 +1448,26 @@ EXTERNL int nc_finalize(void);
 #define NC_HAVE_META_H
 
 #endif /* _NETCDF_ */
+
+/* Missing prototype */
+
+int NC_inq_var_all	(	int 	ncid,
+                      int 	varid,
+                      char * 	name,
+                      nc_type * 	xtypep,
+                      int * 	ndimsp,
+                      int * 	dimidsp,
+                      int * 	nattsp,
+                      int * 	shufflep,
+                      int * 	deflatep,
+                      int * 	deflate_levelp,
+                      int * 	fletcher32p,
+                      int * 	contiguousp,
+                      size_t * 	chunksizesp,
+                      int * 	no_fill,
+                      void * 	fill_valuep,
+                      int * 	endiannessp,
+                      unsigned int * 	idp,
+                      size_t * 	nparamsp,
+                      unsigned int * 	params
+);
