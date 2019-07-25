@@ -13,10 +13,10 @@
  * non-zero status. */
 #define ERRCODE 2
 #define ERR(e)                                          \
-  {                                                     \
-    printf("Error: %d %s\n", __LINE__, nc_strerror(e)); \
-    exit(ERRCODE);                                      \
-  }
+ {                                                     \
+   printf("Error: %d %s\n", __LINE__, nc_strerror(e)); \
+   exit(ERRCODE);                                      \
+ }
 
 static void write_test();
 static void read_test();
@@ -82,39 +82,10 @@ static void read_test() {
   if ((retval = nc_open(FILE_NAME, NC_CLOBBER | TEST_FLAGS, &ncid)))
     ERR(retval);
 
-  char *str_new;
-  if ((retval = nc_inq_varid(ncid, "z", &varid))) ERR(retval);
-  if ((retval = nc_get_att_string(ncid, varid, "stardard_name", &str_new))) ERR(retval);
-  assert(strcmp(str_new, "atmosphere_sigma_coordinate") == 0);
-
   char name[255];
-  nc_type xtypep;
-  int ndimsp;
-  int dimidsp;
-  int nattsp;
-  int shufflep;
-  int deflatep;
-  int deflate_levelp;
-  int fletcher32p;
-  int contiguousp;
-  size_t chunksizesp;
-  int no_fill;
-  void *fill_valuep;
-  int endiannessp;
-  unsigned int idp;
-  size_t nparamsp;
-  unsigned int params;
 
-  if ((retval = NC_inq_var_all(ncid, varid, name, &xtypep, &ndimsp, &dimidsp, &nattsp, &shufflep, &deflatep, &deflate_levelp, &fletcher32p, &contiguousp, &chunksizesp, &no_fill, &fill_valuep, &endiannessp, &idp, &nparamsp, &params))) ERR(retval);
-
-  // char *name;
-  // nc_type *xtypep;
-  // int *ndimsp;
-  // int *dimidsp;
-  // int *nattsp;
-  //
-  // // if ((retval = nc_inq_var_all(ncid, varid, name, &xtypep, &ndimsp, &dimidsp, &nattsp))) ERR(retval);
-  // if ((retval = NC_inq_var_all(ncid, varid, name, &xtypep, &ndimsp, &dimidsp, &nattsp))) ERR(retval);
+  if ((retval = NC_inq_var_all(ncid, varid, name))) ERR(retval);
+  assert(strcmp(name, "temp") == 0);
 
   if ((retval = nc_enddef(ncid))) ERR(retval);
   if ((retval = nc_close(ncid))) ERR(retval);

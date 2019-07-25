@@ -1270,42 +1270,90 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
   ret = esdm_dataset_get_dataspace(evar->dset, &space);
 
   if (name) {
-    strcpy(name, esdm_dataset_name(evar->dset));
-    //name = strdup(esdm_dataset_name(evar->dset));
+    name = strdup(esdm_dataset_name(evar->dset));
   }
 
-  if (xtypep) {
-    *xtypep = type_esdm_to_nc(esdm_dataspace_get_type(space));
-  }
-
-  if (ndimsp) {
-    *ndimsp = esdm_dataspace_get_dims(space);
-  }
-
-  if (dimidsp) {
-    int ndims = esdm_dataspace_get_dims(space);
-    for (int i = 0; i < ndims; i++) {
-      dimidsp[i] = evar->dimidsp[i];
-    }
-  }
-
-  if (nattsp) { // the number of attributes
-    smd_attr_t *attr = NULL;
-    ret = esdm_dataset_get_attributes(evar->dset, &attr);
-    *nattsp = smd_attr_count(attr);
-  }
-
-  // if (no_fill)
+  // if (xtypep) {
+  //   *xtypep = type_esdm_to_nc(esdm_dataspace_get_type(space));
+  // }
   //
-  // if (fill_valuep)
+  // if (ndimsp) {
+  //   *ndimsp = esdm_dataspace_get_dims(space);
+  // }
   //
-  // if (endiannessp)
+  // if (dimidsp) {
+  //   int ndims = esdm_dataspace_get_dims(space);
+  //   dimidsp = malloc(ndims * sizeof(int));
+  //   for (int i = 0; i < ndims; i++) {
+  //     dimidsp[i] = evar->dimidsp[i];
+  //   }
+  // }
   //
-  // if ( idp)
+  // if (nattsp) { // the number of attributes
+  //   smd_attr_t *attr = NULL;
+  //   ret = esdm_dataset_get_attributes(evar->dset, &attr);
+  //   *nattsp = smd_attr_count(attr);
+  // }
   //
-  // if ( nparamsp)
+  // if (shufflep){
+  //   WARN_NOT_SUPPORTED_COMPRESSION;
+  //   return NC_EACCESS;
+  // }
   //
-  // if ( params)
+  // if (deflatep){
+  //   WARN_NOT_SUPPORTED_COMPRESSION;
+  //   return NC_EACCESS;
+  // }
+  //
+  // if (deflate_levelp){
+  //   WARN_NOT_SUPPORTED_COMPRESSION;
+  //   return NC_EACCESS;
+  // }
+  //
+  // if (fletcher32p){
+  //   WARN_NOT_SUPPORTED_COMPRESSION;
+  //   return NC_EACCESS;
+  // }
+  //
+  // if (contiguousp){
+  //   WARN_NOT_SUPPORTED_COMPRESSION;
+  //   return NC_EACCESS;
+  // }
+  //
+  // if (chunksizesp){
+  //   WARN_NOT_SUPPORTED_COMPRESSION;
+  //   return NC_EACCESS;
+  // }
+  //
+  // if (no_fill){
+  //   *no_fill = 0;
+  //   WARN_NOT_IMPLEMENTED;
+  // }
+  //
+  // if (fill_valuep){
+  //   // *fill_valuep = 0;
+  //   WARN_NOT_IMPLEMENTED;
+  // }
+  //
+  // if (endiannessp){
+  //   *endiannessp = 0;
+  //   WARN_NOT_IMPLEMENTED;
+  // }
+  //
+  // if (idp){
+  //   *idp = 0;
+  //   WARN_NOT_IMPLEMENTED;
+  // }
+  //
+  // if (nparamsp){
+  //   *nparamsp = 0;
+  //   WARN_NOT_IMPLEMENTED;
+  // }
+  //
+  // if (params){
+  //   *params = 0;
+  //   WARN_NOT_IMPLEMENTED;
+  // }
 
   return NC_NOERR;
 }
