@@ -2644,13 +2644,13 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
     *ndimsp = esdm_dataspace_get_dims(space);
   }
 
-  if (dimidsp) {
-    int ndims = esdm_dataspace_get_dims(space);
-    dimidsp = malloc(ndims * sizeof(int));
-    for (int i = 0; i < ndims; i++) {
-      dimidsp[i] = evar->dimidsp[i];
-    }
-  }
+  // if (dimidsp) {
+  //   int ndims = esdm_dataspace_get_dims(space);
+  //   dimidsp = malloc(ndims * sizeof(int));
+  //   for (int i = 0; i < ndims; i++) {
+  //     dimidsp[i] = evar->dimidsp[i];
+  //   }
+  // }
 
   if (nattsp) { // the number of attributes
     smd_attr_t *attr = NULL;

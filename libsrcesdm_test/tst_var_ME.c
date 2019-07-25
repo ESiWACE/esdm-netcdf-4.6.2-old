@@ -82,10 +82,20 @@ static void read_test() {
   if ((retval = nc_open(FILE_NAME, NC_CLOBBER | TEST_FLAGS, &ncid)))
     ERR(retval);
 
-  char name[255];
+  char *name;
+  nc_type xtypep;
+  int ndimsp;
+  int *dimidsp;
+  int nattsp;
 
-  if ((retval = NC_inq_var_all(ncid, varid, name))) ERR(retval);
-  assert(strcmp(name, "temp") == 0);
+  // if ((retval = NC_inq_var_all(ncid, varid, name))) ERR(retval);
+
+  varid = 0;
+  if ((retval = NC_inq_var_all(ncid, varid, name, &xtypep, &ndimsp, dimidsp, &nattsp))) ERR(retval);
+  // assert(strcmp(name, "temp") == 0);
+  assert(xtypep == NC_DOUBLE);
+  assert(ndimsp == 1);
+  assert(nattsp == 1);
 
   if ((retval = nc_enddef(ncid))) ERR(retval);
   if ((retval = nc_close(ncid))) ERR(retval);
