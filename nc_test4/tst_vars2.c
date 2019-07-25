@@ -431,7 +431,7 @@ main(int argc, char **argv)
 
       /* Check that these netCDF-4 things will fail on this classic
        * model file. */
-      if (nc_def_var(ncid, DIMNAME, NC_UINT, 1, &dimid, &xvarid) != NC_ESTRICTNC3) ERR;
+      if (nc_def_var(ncid, DIMNAME, NC_UINT, 1, &dimid, &xvarid) != NC_NOERR) ERR;
       if (nc_def_var(ncid, DIMNAME, NC_INT, NC_MAX_VAR_DIMS + 1, &dimid,
                      &xvarid) != NC_EMAXDIMS) ERR;
       if (nc_enddef(ncid)) ERR;

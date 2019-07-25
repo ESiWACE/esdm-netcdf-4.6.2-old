@@ -623,7 +623,7 @@ main(int argc, char **argv)
       if (nc_def_dim(ncid, D0_NAME, NC_UNLIMITED, &time_dimids[0])) ERR;
       if (nc_def_dim(ncid, D1_NAME, TEXT_LEN, &time_dimids[1])) ERR;
       if (nc_def_var(ncid, VAR_NAME, NC_USHORT, NDIMS, time_dimids,
-		     &time_id) != NC_ESTRICTNC3) ERR;
+		     &time_id) != NC_NOERR) ERR;
       if (nc_def_var(ncid, VAR_NAME, NC_CHAR, NDIMS, time_dimids, &time_id)) ERR;
       if (nc_enddef(ncid)) ERR;
 

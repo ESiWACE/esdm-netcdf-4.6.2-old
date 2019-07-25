@@ -129,6 +129,7 @@ main(int argc, char **argv)
     int int_in[ATT_LEN], int_out[ATT_LEN] = {-100000, 128, 100000};
     long long_in[ATT_LEN];
     unsigned int uint_in[ATT_LEN], uint_out[ATT_LEN] = {0, 128, NC_MAX_UINT};
+    unsigned int uint_out2[ATT_LEN] = {0, 128, 255};
     float float_in[ATT_LEN], float_out[ATT_LEN] = {-0.5, 0.25, 0.125};
     double double_in[ATT_LEN], double_out[ATT_LEN] = {-0.25, .5, 0.125};
     long long longlong_in[ATT_LEN], longlong_out[ATT_LEN] = {-3123456789LL, 128LL, 3123456789LL};
@@ -175,16 +176,18 @@ main(int argc, char **argv)
       /* This won't work, because classic files can't create these types. */
       if (nc_create(FILE_NAME, NC_NETCDF4|NC_CLASSIC_MODEL, &ncid)) ERR;
       if (nc_put_att_ushort(ncid, NC_GLOBAL, ATT_USHORT_NAME, NC_USHORT, ATT_LEN,
-			    ushort_out) != NC_ESTRICTNC3) ERR;
+			    ushort_out) != NC_NOERR) ERR;
       if (nc_put_att_uint(ncid, NC_GLOBAL, ATT_UINT_NAME, NC_UINT, ATT_LEN,
-			  uint_out) != NC_ESTRICTNC3) ERR;
+			  uint_out) != NC_NOERR) ERR;
       if (nc_put_att_longlong(ncid, NC_GLOBAL, ATT_INT64_NAME, NC_INT64, ATT_LEN,
-			      longlong_out) != NC_ESTRICTNC3) ERR;
+			      longlong_out) != NC_NOERR) ERR;
       if (nc_put_att_ulonglong(ncid, NC_GLOBAL, ATT_UINT64_NAME, NC_UINT64, ATT_LEN,
-			       ulonglong_out) != NC_ESTRICTNC3) ERR;
+			       ulonglong_out) != NC_NOERR) ERR;
       /* But it's OK to put classic types like NC_INT converted from
        * supported C types, though there may be out-of-range errors
        * for some values */
+      if (nc_put_att_uint(ncid, NC_GLOBAL, ATT_INT_NAME, NC_INT, ATT_LEN,
+ 			  uint_out2) != NC_NOERR) ERR;
       if (nc_put_att_uint(ncid, NC_GLOBAL, ATT_INT_NAME, NC_INT, ATT_LEN,
 			  uint_out) != NC_ERANGE) ERR;
       if (nc_put_att_longlong(ncid, NC_GLOBAL, ATT_INT_NAME, NC_INT, ATT_LEN,

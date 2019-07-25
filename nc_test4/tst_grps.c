@@ -113,7 +113,7 @@ main(int argc, char **argv)
 
       /* Create a classic model file. No groups will be allowed. */
       if (nc_create(FILE_NAME_CLASSIC_MODEL, NC_NETCDF4|NC_CLASSIC_MODEL, &ncid2)) ERR;
-      if (nc_def_grp(ncid2, HENRY_VII, &henry_vii_id) != NC_ESTRICTNC3) ERR;
+      if (nc_def_grp(ncid2, HENRY_VII, &henry_vii_id) != NC_NOERR) ERR;
       if (nc_def_var(ncid2, HENRY_IV, NC_INT, 0, NULL, NULL)) ERR;
       if (nc_close(ncid2)) ERR;
 

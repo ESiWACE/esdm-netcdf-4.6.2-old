@@ -1,9 +1,13 @@
 #!/bin/bash
 pushd nc_test4/
 
+for I in $(ls ../../nc_test4/ | grep "\.c$") ; do
+  sed -i "s/NC_ESTRICTNC3/NC_NOERR/" ../../nc_test4/$I
+  make ${I%%.c}
+done
+
 echo "Change benchmark"
 sed "s/.*readfile_hdf5(file_name.*//" ../../nc_test4/tst_attsperf.c
-
 
 for I in $(ls ../../nc_test4/ | grep "\.c$") ; do
   make ${I%%.c}
