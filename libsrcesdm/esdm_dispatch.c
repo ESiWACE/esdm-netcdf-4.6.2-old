@@ -2633,7 +2633,7 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
   ret = esdm_dataset_get_dataspace(evar->dset, &space);
 
   if (name) {
-    name = strdup(esdm_dataset_name(evar->dset));
+    strcpy(name, esdm_dataset_name(evar->dset));
   }
 
   // if (xtypep) {

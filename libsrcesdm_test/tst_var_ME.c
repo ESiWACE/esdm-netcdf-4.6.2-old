@@ -64,7 +64,7 @@ static void write_test() {
   dimidsp = malloc(sizeof(int) * ndims_var);
   dimidsp[0] = x3_dimid;
 
-  if ((retval = nc_def_var(ncid, "z", NC_DOUBLE, ndims_var, dimidsp, &varid))) ERR(retval);
+  if ((retval = nc_def_var(ncid, "temp", NC_DOUBLE, ndims_var, dimidsp, &varid))) ERR(retval);
 
   const char *str1 = "atmosphere_sigma_coordinate";
   if ((retval = nc_put_att_string(ncid, varid, "stardard_name", 1, &str1))) ERR(retval);
@@ -76,15 +76,22 @@ static void write_test() {
     ERR(retval);
 }
 
+int NC_inq_var_all	(	int 	ncid,
+  int 	varid,
+  char * 	name,  nc_type * 	xtypep,  int * 	ndimsp,  int * 	dimidsp,  int * 	nattsp,  int * 	shufflep,  int * 	deflatep,  int * 	deflate_levelp,  int * 	fletcher32p,  int * 	contiguousp,  size_t * 	chunksizesp,  int * 	no_fill,  void * 	fill_valuep,  int * 	endiannessp,  unsigned int * 	idp,  size_t * 	nparamsp,  unsigned int * 	params
+);
+
+
 static void read_test() {
-  int ncid, varid, retval;
+  int ncid, varid = 0, retval;
 
   if ((retval = nc_open(FILE_NAME, NC_CLOBBER | TEST_FLAGS, &ncid)))
     ERR(retval);
 
   char name[255];
 
-  if ((retval = NC_inq_var_all(ncid, varid, name))) ERR(retval);
+  if ((retval = NC_inq_var_all(ncid, varid, name, NULL , NULL , NULL , NULL , NULL , NULL , NULL , NULL , NULL , NULL , NULL , NULL , NULL , NULL , NULL , NULL))) ERR(retval);
+  printf("%s\n", name);
   assert(strcmp(name, "temp") == 0);
 
   if ((retval = nc_enddef(ncid))) ERR(retval);
