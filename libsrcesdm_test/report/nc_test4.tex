@@ -50,6 +50,7 @@ tst\_interops6.c   &   &   &   &   &   \\ \hline
 tst\_interops.c   &   &   &   &   &   \\ \hline
 tst\_large2.c   &   &   &   &   &   \\ \hline
 tst\_large.c   &   &   &   &   &   \\ \hline
+\hline
 \end{tabular}
 \caption{}
 \end{table}
@@ -93,6 +94,7 @@ tst\_filterparser.c   & $\checkmark$  &   &   &   &   \\ \hline
 tst\_mpi\_parallel.c   & $\checkmark$  &   &   &   &   \\ \hline
 tst\_rehash.c   & $\checkmark$  &   &   &   &   \\ \hline
 t\_type.c   & $\checkmark$ &   &   &   &   \\ \hline
+\hline
 \end{tabular}
 \caption{}
 \end{table}
@@ -103,40 +105,40 @@ t\_type.c   & $\checkmark$ &   &   &   &   \\ \hline
 \hline
 Filename & Justification \\ \hline \hline
 cdm\_sea\_soundings.c   & ESDM does not support compound datatypes from NetCDF          \\ \hline
-test\_szip.c   &  NetCDF Feature not supported with ESDM         \\ \hline
+test\_szip.c   &  ESDM does not support compression from NetCDF         \\ \hline
 tst\_atts1.c   &           \\ \hline
 tst\_atts2.c   &  ESDM does not support compound datatypes from NetCDF         \\ \hline
 tst\_atts3.c   &           \\ \hline
 tst\_atts.c   &           \\ \hline
 tst\_attsperf.c   &           \\ \hline
-tst\_bug324.c   &           \\ \hline
+tst\_bug324.c   &  ESDM does not support classic format from NetCDF         \\ \hline
 tst\_camrun.c   &           \\ \hline
-tst\_chunks2.c   &  ESDM does not support chunks from NetCDF         \\ \hline
-tst\_chunks3.c   & ESDM does not support chunks from NetCDF       \\ \hline
-tst\_chunks.c   &  ESDM does not support chunks from NetCDF       \\ \hline
+tst\_chunks2.c   &  ESDM does not support compression from NetCDF         \\ \hline
+tst\_chunks3.c   & ESDM does not support compression from NetCDF       \\ \hline
+tst\_chunks.c   &  ESDM does not support compression from NetCDF       \\ \hline
 tst\_compounds2.c   &  ESDM does not support compound datatypes from NetCDF         \\ \hline
 tst\_compounds3.c   &  ESDM does not support compound datatypes from NetCDF         \\ \hline
 tst\_converts2.c   &           \\ \hline
 tst\_converts.c   &           \\ \hline
-tst\_coords2.c   &           \\ \hline
-tst\_coords3.c   &           \\ \hline
-tst\_coords.c   &           \\ \hline
+tst\_coords2.c   &   Using functions for groups, NOT IMPLEMENTED YET        \\ \hline
+tst\_coords3.c   &  Using functions for groups, NOT IMPLEMENTED YET         \\ \hline
+tst\_coords.c   &  Using functions for groups, NOT IMPLEMENTED YET         \\ \hline
 tst\_create\_files.c   &           \\ \hline
 tst\_dims2.c   &       \\ \hline
-tst\_dims3.c   &       \\ \hline
-tst\_empty\_vlen\_unlim.c   &       \\ \hline
-tst\_endian\_fill.c   &       \\ \hline
-tst\_enums.c   &       \\ \hline
-tst\_files4.c   &       \\ \hline
+tst\_dims3.c   & Using functions for groups, NOT IMPLEMENTED YET      \\ \hline
+tst\_empty\_vlen\_unlim.c   &   WARN ESDM\_def\_vlen():1703 NOT IMPLEMENTED    \\ \hline
+tst\_endian\_fill.c   &    [ESDM NC] WARN ESDM\_def\_var\_endian():1863 NOT IMPLEMENTED   \\ \hline
+tst\_enums.c   &   [ESDM NC] WARN ESDM\_def\_enum():924 NOT IMPLEMENTED    \\ \hline
+tst\_files4.c   &   Using functions for groups, NOT IMPLEMENTED YET.    \\ \hline
 tst\_files6.c   &       \\ \hline
 tst\_files.c   &       \\ \hline
-tst\_fill\_attr\_vanish.c   &       \\ \hline
+tst\_fill\_attr\_vanish.c   &   WARN ESDM\_set\_fill():370 NOT IMPLEMENTED    \\ \hline
 tst\_fillbug.c   &       \\ \hline
 tst\_fills2.c   &       \\ \hline
 tst\_fills.c   &       \\ \hline
-tst\_grps2.c   &   NOT IMPLEMENTED YET    \\ \hline
-tst\_grps.c   &    NOT IMPLEMENTED YET   \\ \hline
-tst\_h5\_endians.c   &   NOT IMPLEMENTED YET    \\ \hline
+tst\_grps2.c   &   Using functions for groups, NOT IMPLEMENTED YET.    \\ \hline
+tst\_grps.c   &    Using functions for groups, NOT IMPLEMENTED YET.   \\ \hline
+tst\_h5\_endians.c   &   [ESDM NC] WARN ESDM\_def\_var\_endian():972 NOT IMPLEMENTED    \\ \hline
 tst\_hdf5\_file\_compat.c   &       \\ \hline
 tst\_h\_refs.c   &       \\ \hline
 tst\_h\_scalar.c   &       \\ \hline
@@ -144,8 +146,9 @@ tst\_h\_strbug.c   &       \\ \hline
 tst\_interops5.c   &       \\ \hline
 tst\_interops6.c   &       \\ \hline
 tst\_interops.c   &       \\ \hline
-tst\_large2.c   &       \\ \hline
-tst\_large.c   &       \\ \hline
+tst\_large2.c   &   Broke my computer    \\ \hline
+tst\_large.c   &    Tests successful!   \\ \hline
+\hline
 \end{tabular}
 \caption{}
 \end{table}
@@ -157,37 +160,38 @@ tst\_large.c   &       \\ \hline
 \begin{tabular}{|l|l|}
 \hline
 Filename & Justification \\ \hline \hline
-tst\_mem.c   &       \\ \hline
-tst\_mode.c   &   NOT IMPLEMENTED YET    \\ \hline
-tst\_opaques.c   &  NOT IMPLEMENTED YET     \\ \hline
-tst\_parallel.c   &       \\ \hline
-tst\_put\_vars.c   &       \\ \hline
+tst\_mem.c   &    Tests successful!   \\ \hline
+tst\_mode.c   &   Tests successful!    \\ \hline
+tst\_opaques.c   &  [ESDM NC] WARN ESDM\_def\_opaque():948 NOT IMPLEMENTED     \\ \hline
+tst\_parallel.c   &   Does it work? (See output in gdocs)    \\ \hline
+tst\_put\_vars.c   &   Does it work? (See output in gdocs)    \\ \hline
 tst\_rename2.c   &       \\ \hline
 tst\_rename.c   &       \\ \hline
 tst\_simplerw\_coll\_r.c   &       \\ \hline
-tst\_strings2.c   &       \\ \hline
+tst\_strings2.c   &   Tests successful!    \\ \hline
 tst\_strings.c   &       \\ \hline
 tst\_sync.c   &       \\ \hline
-tst\_types.c   &  NOT IMPLEMENTED YET     \\ \hline
+tst\_types.c   &  WARN ESDM\_def\_enum():924 NOT IMPLEMENTED     \\ \hline
 tst\_udf.c   &       \\ \hline
 tst\_unlim\_vars.c   &       \\ \hline
-tst\_utf8.c   &       \\ \hline
-tst\_v2.c   &       \\ \hline
+tst\_utf8.c   &   ESDM does not support utf8!  \\ \hline
+tst\_v2.c   &    Tests successful!   \\ \hline
 tst\_varms.c   &       \\ \hline
 tst\_vars2.c   &       \\ \hline
 tst\_vars3.c   &       \\ \hline
 tst\_vars4.c   &       \\ \hline
-tst\_vars.c   &       \\ \hline
-tst\_vl.c   &   NOT IMPLEMENTED YET    \\ \hline
-h5testszip.c   & Working   \\ \hline
-tst\_atts\_string\_rewrite.c   & Working   \\ \hline
-tst\_elatefill.c   & Working   \\ \hline
-tst\_files3.c   & Working   \\ \hline
-tst\_files5.c   & Working   \\ \hline
-tst\_filterparser.c   & Working   \\ \hline
-tst\_mpi\_parallel.c   & Working   \\ \hline
-tst\_rehash.c   & Working   \\ \hline
-t\_type.c   & Working   \\ \hline
+tst\_vars.c   &    Using functions for groups, NOT IMPLEMENTED YET   \\ \hline
+tst\_vl.c   &   [ESDM NC] WARN ESDM\_def\_vlen():906 NOT IMPLEMENTED    \\ \hline
+h5testszip.c   & ***PASS   \\ \hline
+tst\_atts\_string\_rewrite.c   & Tests successful!  \\ \hline
+tst\_elatefill.c   & line 41 expecting NC\_ELATEFILL but got 0   \\ \hline
+tst\_files3.c   & Working ESDM does not support compression from NetCDF   \\ \hline
+tst\_files5.c   & Tests successful!  \\ \hline
+tst\_filterparser.c   & SUCCESS!!   \\ \hline
+tst\_mpi\_parallel.c   & Tests successful!   \\ \hline
+tst\_rehash.c   & ???   \\ \hline
+t\_type.c   & Tests successful!   \\ \hline
+\hline
 \end{tabular}
 \caption{Additional comments on ESDM and NETCDF compatibility}
 \end{table}
@@ -223,6 +227,7 @@ tst\_parallel4.c   &  &   &  $\checkmark$ &    \\ \hline
 tst\_parallel5.c   &  &   &  $\checkmark$ &    \\ \hline
 tst\_xplatform2.c   &  &   &  $\checkmark$ &    \\ \hline
 tst\_xplatform.c   &  &   &  $\checkmark$ &    \\ \hline
+\hline
 \end{tabular}
 \caption{List of nc\_test4 files.}
 \end{table}
@@ -282,6 +287,7 @@ tst\_interops.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_large2.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_large.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_mem.c   &  &   &   & $\checkmark$    \\ \hline
+\hline
 \end{tabular}
 \caption{List of nc\_test4 files.}
 \end{table}
@@ -315,6 +321,7 @@ tst\_vars4.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_vars.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_vl.c   &  &   &   & $\checkmark$    \\ \hline
 t\_type.c   &  &   &   & $\checkmark$    \\ \hline
+\hline
 \end{tabular}
 \caption{List of nc\_test4 files.}
 \end{table}
@@ -338,6 +345,7 @@ NC\_INT64      &  10  & SMD\_DTYPE\_INT64    & int64\_t    \\ \hline
 NC\_UINT64     &  5   & SMD\_DTYPE\_UINT64   & uint64\_t    \\ \hline
 NC\_FLOAT      &  11  & SMD\_DTYPE\_FLOAT    & 32 bits    \\ \hline
 NC\_DOUBLE     &  6   & SMD\_DTYPE\_DOUBLE   & 64 bits    \\ \hline
+\hline
 \end{tabular}
 \caption{Convertion between ESDM and NetCDF4 datatypes -- Datatypes sorted by size.}
 \end{table}
@@ -359,6 +367,7 @@ NC\_USHORT     &  8   & SMD\_DTYPE\_UINT16   & uint16\_t    \\ \hline
 NC\_UINT       &  9   & SMD\_DTYPE\_UINT32   & uint32\_t    \\ \hline
 NC\_INT64      &  10  & SMD\_DTYPE\_INT64    & int64\_t    \\ \hline
 NC\_FLOAT      &  11  & SMD\_DTYPE\_FLOAT    & 32 bits    \\ \hline
+\hline
 \end{tabular}
 \caption{Convertion between ESDM and NetCDF4 datatypes -- Datatypes sorted by NETCDF4 description.}
 \end{table}
@@ -368,35 +377,54 @@ NC\_FLOAT      &  11  & SMD\_DTYPE\_FLOAT    & 32 bits    \\ \hline
 \begin{tabular}{|l|l|l|}
 \hline
 Functionality & NetCDF Supported & ESDM Supported \\ \hline \hline
-Datatypes &
 
-NC\_FLOAT      &  11  & SMD\_DTYPE\_FLOAT    & float    \\ \hline
+& & \\
+& \large{Datatypes} & \\
+& & \\ \hline \hline
 
-NC_NAT # NAT = 'Not A Type' (c.f. NaN)
-NC_BYTE # signed 1 byte integer
-NC_CHAR # ISO/ASCII character
-NC_SHORT # signed 2 byte integer
-NC_INT # signed 4 byte integer
-NC_LONG # deprecated, but required for backward compatibility.
-NC_FLOAT # single precision floating point number
-NC_DOUBLE # double precision floating point number
-NC_UBYTE # unsigned 1 byte int
-NC_USHORT # unsigned 2-byte int
-NC_UINT # unsigned 4-byte int
-NC_INT64 # signed 8-byte int
-NC_UINT64 # unsigned 8-byte int
-NC_STRING # string
-NC_VLEN # used internally for vlen types
-NC_OPAQUE # used internally for opaque types
-NC_COMPOUND # used internally for compound types
-NC_ENUM # used internally for enum types.
+NC Data Type  &  NC Description  & ESDM Data Type  \\ \hline
+
+NC\_NAT & NAT = Not A Type (c.f. NaN) &     NOT SUPPORTED        \\ \hline
+NC\_BYTE & signed 1 byte integer &     SMD\_DTYPE\_INT8        \\ \hline
+NC\_CHAR & ISO/ASCII character &      SMD\_DTYPE\_CHAR       \\ \hline
+NC\_SHORT & signed 2 byte integer &   SMD\_DTYPE\_INT16          \\ \hline
+NC\_INT & signed 4 byte integer &     SMD\_DTYPE\_INT32        \\ \hline
+NC\_LONG & deprecated, but required for backward compatibility &    SMD\_DTYPE\_INT32         \\ \hline
+NC\_FLOAT & single precision floating point number &   SMD\_DTYPE\_FLOAT           \\ \hline
+NC\_DOUBLE & double precision floating point number &   SMD\_DTYPE\_DOUBLE          \\ \hline
+NC\_UBYTE & unsigned 1 byte int &     SMD\_DTYPE\_UINT8        \\ \hline
+NC\_USHORT & unsigned 2-byte int &    SMD\_DTYPE\_UINT16         \\ \hline
+NC\_UINT & unsigned 4-byte int &   SMD\_DTYPE\_UINT32          \\ \hline
+NC\_INT64 & signed 8-byte int &    SMD\_DTYPE\_INT64         \\ \hline
+NC\_UINT64 & unsigned 8-byte int &    SMD\_DTYPE\_UINT64         \\ \hline
+NC\_STRING & string &    SMD\_DTYPE\_STRING         \\ \hline
+NC\_VLEN & used internally for vlen types &      NOT SUPPORTED YET       \\ \hline
+NC\_OPAQUE & used internally for opaque types &     NOT SUPPORTED YET        \\ \hline
+NC\_COMPOUND & used internally for compound types &    NOT SUPPORTED YET         \\ \hline
+NC\_ENUM & used internally for enum types &       NOT SUPPORTED YET      \\ \hline \hline
+
+& & \\
+& \large{Modes} & \\
+& & \\ \hline \hline
+
+NC\_CLOBBER & Overwrite existing file &  ESDM\_CLOBBER       \\ \hline
+NC\_NOCLOBBER & Do not overwrite existing file &  ESDM\_NOCLOBBER       \\ \hline
+NC\_SHARE & Limit write caching - netcdf classic files only &  NOT SUPPORTED       \\ \hline
+NC\_64BIT\_OFFSET & Create 64-bit offset file &    NOT SUPPORTED     \\ \hline
+NC\_64BIT\_DATA  & Create CDF-5 file (alias NC\_CDF5) &   NOT SUPPORTED      \\ \hline
+NC\_NETCDF4 & Create netCDF-4/HDF5 file &         \\ \hline
+NC\_CLASSIC\_MODEL & Enforce netCDF classic mode on netCDF-4/HDF5 files &   NOT SUPPORTED      \\ \hline
+NC\_DISKLESS & Store data in memory &    NOT SUPPORTED     \\ \hline
+NC\_PERSIST & Force the NC\_DISKLESS data from memory to a file &  NOT SUPPORTED       \\ \hline
+\hline
+
+%& & \\
+%& \large{Modes} & \\
+%& & \\ \hline \hline
 
 \end{tabular}
-\caption{Convertion between ESDM and NetCDF4 datatypes -- Datatypes sorted by NETCDF4 description.}
+\caption{Functionality Supported by NetCDF and ESDM.}
 \end{table}
-
-
-
 
 \begin{comment}
 

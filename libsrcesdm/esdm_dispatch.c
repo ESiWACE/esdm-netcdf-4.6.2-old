@@ -366,8 +366,8 @@ int ESDM_close(int ncid, void *b) {
 
 int ESDM_set_fill(int ncid, int fillmode, int *old_modep) {
   DEBUG_ENTER("%d %d\n", ncid, fillmode);
-  *old_modep = NC_NOFILL;
-
+  // *old_modep = NC_NOFILL;
+  WARN_NOT_IMPLEMENTED;
   // find the proper output for old_modep using fillmode
   // not clue why is returning segfault
 
@@ -866,9 +866,18 @@ int ESDM_get_att(int ncid, int varid, const char *name, void *value, nc_type typ
       etype = SMD_DTYPE_STRING;
     }
 
-    if (etype->type != child->type->type) {
-      return NC_EACCESS;
-    }
+    // if (etype->type != child->type->type) {
+    //   return NC_EACCESS;
+
+// It's generating problem with this combination...
+// (gdb) p etype->type
+// $19 = SMD_TYPE_STRING
+// (gdb) p child->type->type
+// $20 = SMD_TYPE_ARRAY
+
+// The previous test tries to convert a vector of char in string, but in this case the entrance is already a string. I'm not sure how ESDM is (should be) handling string cases.
+
+    // }
     return NC_NOERR;
   }
 
@@ -2385,23 +2394,6 @@ int ESDM_inq_varid(int ncid, const char *name, int *varidp) {
 
   smd_attr_t *attr;
 
-  // // find the id if the variable is global
-  //
-  //   status = esdm_container_get_attributes(e->c, & attr);
-  //   if(status != ESDM_SUCCESS) return NC_EACCESS;
-  //   esdm_container_t *c = e->c;
-  //
-  //   if (attr->children > 0){
-  //     smd_attr_t *a;
-  //     a = smd_attr_get_child_by_name(attr, name);
-  //     if (a != NULL){
-  //       *varidp = a->id; // should it be just -1?!
-  //       return NC_NOERR;
-  //     }
-  //   }
-  //
-  // find the id if the variable is local
-
   esdm_container_t *c = e->c;
   int ndsets = esdm_container_dataset_count(c);
   // open all ESDM datasets, find the names
@@ -2410,7 +2402,6 @@ int ESDM_inq_varid(int ncid, const char *name, int *varidp) {
     if (dset == NULL) return NC_EACCESS;
 
     char const *dname = esdm_dataset_name(dset);
-
     if (dname == NULL) return NC_NOERR;
 
     if (strcmp(dname, name) == 0) {
@@ -2614,7 +2605,7 @@ int ESDM_put_vara(int ncid, int varid, const size_t *startp, const size_t *count
 * @param[out]	params	Pointer to vector of unsigned integers into which to store filter parameters.
 */
 
-// Not tested yet
+// Not fully implemented and tested yet
 
 int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndimsp, int *dimidsp, int *nattsp, int *shufflep, int *deflatep, int *deflate_levelp, int *fletcher32p, int *contiguousp, size_t *chunksizesp, int *no_fill, void *fill_valuep, int *endiannessp, unsigned int *idp, size_t *nparamsp, unsigned int *params) {
   int ret = NC_NOERR;
@@ -2646,7 +2637,6 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
 
   if (dimidsp) {
     int ndims = esdm_dataspace_get_dims(space);
-    dimidsp = malloc(ndims * sizeof(int));
     for (int i = 0; i < ndims; i++) {
       dimidsp[i] = evar->dimidsp[i];
     }
