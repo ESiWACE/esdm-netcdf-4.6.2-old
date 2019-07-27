@@ -2453,7 +2453,7 @@ int ESDM_def_var(int ncid, const char *name, nc_type xtype, int ndims, const int
   }
 
   esdm_type_t typ = type_nc_to_esdm(xtype);
-  if (typ == SMD_DTYPE_UNKNOWN) {
+  if (typ == SMD_DTYPE_UNKNOWN || typ == SMD_DTYPE_STRING) {
     return NC_EBADTYPE;
   }
   esdm_dataspace_t *dataspace;
