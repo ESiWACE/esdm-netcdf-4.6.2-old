@@ -61,7 +61,7 @@ typedef struct {
 
 typedef struct {
   int count;
-  size_t *size;
+  uint64_t *size;
   char **name;
 } nc_dim_tbl_t;
 
@@ -359,8 +359,19 @@ int ESDM_close(int ncid, void *b) {
   nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
   if (e == NULL) return NC_EBADID;
 
+  // store the dimension table
+  int len = e->dimt.count;
+  smd_dtype_t * arr_type = smd_type_array(SMD_DTYPE_STRING, len);
+  esdm_attr_t * new = smd_attr_new("_nc_dims", arr_type, e->dimt.name, 0);
+  esdm_container_link_attribute(e->c, 1, new);
+
+  arr_type = smd_type_array(SMD_DTYPE_INT64, len);
+  new = smd_attr_new("_nc_sizes", arr_type, e->dimt.size, 0);
+  esdm_container_link_attribute(e->c, 1, new);
+
   esdm_container_commit(e->c);
-  //esdm_container_destroy(e->c); // TODO disable for now, as we want to reread the file
+  esdm_container_close(e->c);
+  // TODO CLOSE the container properly
   return NC_NOERR;
 }
 
