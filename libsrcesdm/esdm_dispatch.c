@@ -2362,6 +2362,8 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
 }
 
 int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype, size_t len, void const *value, nc_type type) {
+  DEBUG_ENTER("%d\n", ncid);
+
   esdm_type_t etype;
 
   if (type == NC_CHAR && len > 1) {
@@ -2378,21 +2380,6 @@ int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype, size_t
 
   nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
   if (e == NULL) return NC_EBADID;
-
-  // switch(datatype){
-  //   case(NC_INT):{
-  //       switch(type){
-  //         case(NC_UINT):{
-  //           int32_t *p = malloc(sizeof(int32_t) * len);
-  //           uint32_t * o = (uint32_t*) value;
-  //           value = p;
-  //           for(int i=0; i < len; i++){
-  //             p[i] = o[i];
-  //             if(o[i] < 0 || o[i] > NC_MAX_INT){
-  //               free(p);
-  //               return NC_ERANGE;
-  //             }
-  //           }
 
   if (type != datatype && len > 0) {
     // convert it to the right datatype on the fly, check if it exceeds the limits of the intended datatype
@@ -2421,14 +2408,14 @@ int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype, size_t
   esdm_status status;
 
   if (varid == NC_GLOBAL) {
-    ret = esdm_container_link_attribute(e->c, 0, new);
+    ret = esdm_container_link_attribute(e->c, 1, new);
   } else {
     if (varid > esdm_container_dataset_count(e->c)) {
       smd_attr_destroy(new);
       return NC_EACCESS;
     }
     md_var_t *ev = e->vars.var[varid];
-    ret = esdm_dataset_link_attribute(ev->dset, 0, new);
+    ret = esdm_dataset_link_attribute(ev->dset, 1, new);
   }
   if (ret != ESDM_SUCCESS) {
     smd_attr_destroy(new);
