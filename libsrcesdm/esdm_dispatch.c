@@ -592,8 +592,9 @@ int ESDM_rename_dim(int ncid, int dimid, const char *name) {
 
   nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
   if (e == NULL) return NC_EBADID;
-
   if (name == NULL) return NC_EACCESS;
+
+  if(dimid >= e->dimt.count) return NC_EINVAL;
 
   for (int i = 0; i < e->dimt.count; i++) {
     if (strcmp(e->dimt.name[i], name) == 0) {
@@ -601,7 +602,12 @@ int ESDM_rename_dim(int ncid, int dimid, const char *name) {
     }
   }
 
+  free(e->dimt.name[dimid]);
   e->dimt.name[dimid] = strdup(name);
+
+  // must update the existing names inside ALL ESDM datatsets that use this variable
+  // TODO find out which datatsets use it, then build new name list, then call:
+  // ret = esdm_dataset_name_dims(d, names);
 
   return NC_NOERR;
 }
@@ -2533,7 +2539,7 @@ int ESDM_rename_var(int ncid, int varid, const char *name) {
 
   smd_attr_t *attr;
   if (varid > e->vars.count) {
-    return NC_EACCESS;
+    return NC_EINVAL;
   }
   md_var_t *ev = e->vars.var[varid];
   assert(ev != NULL);
