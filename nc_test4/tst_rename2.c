@@ -23,7 +23,7 @@
 int
 main(int argc, char **argv)
 {
-#define NUM_FORMATS 2
+#define NUM_FORMATS 1
    int formats[NUM_FORMATS] = {NC_FORMAT_NETCDF4, NC_FORMAT_NETCDF4_CLASSIC};
    int format;
 
@@ -46,7 +46,7 @@ main(int argc, char **argv)
          {
             sprintf(filename, "%s_%d_%d.nc", TEST_NAME, formats[format],
                     enddef_setting);
-            
+
             /* Create file with three dims. */
             if (nc_create(filename, 0, &ncid)) ERR;
             if (nc_def_dim(ncid, LAT, DIM1_LEN, &dimid[0])) ERR;
@@ -58,15 +58,15 @@ main(int argc, char **argv)
                if (nc_enddef(ncid)) ERR;
                if (nc_redef(ncid)) ERR;
             }
-            
+
             /* Rename the dimensions. */
             if (nc_rename_dim(ncid, 0, DIM_X)) ERR;
             if (nc_rename_dim(ncid, 1, DIM_Y)) ERR;
             if (nc_rename_dim(ncid, 2, DIM_Z)) ERR;
-            
+
             /* Close the file. */
             if (nc_close(ncid)) ERR;
-            
+
             /* Reopen the file and check. */
             if (nc_open(filename, NC_NOWRITE, &ncid)) ERR;
             if (nc_inq_dimid(ncid, DIM_X, &dimid_in)) ERR;
@@ -93,7 +93,7 @@ main(int argc, char **argv)
          if (nc_set_default_format(formats[format], NULL)) ERR;
 
          sprintf(filename, "%s_data_%d.nc", TEST_NAME, formats[format]);
-         
+
          /* Create file with three dims. */
          if (nc_create(filename, 0, &ncid)) ERR;
          if (nc_def_dim(ncid, LAT, DIM1_LEN, &dimid[0])) ERR;
@@ -114,15 +114,15 @@ main(int argc, char **argv)
          if (nc_close(ncid)) ERR;
          if (nc_open(filename, NC_WRITE, &ncid)) ERR;
          if (nc_redef(ncid)) ERR;
-         
+
          /* Rename the dimensions. */
          if (nc_rename_dim(ncid, 0, DIM_X)) ERR;
          if (nc_rename_dim(ncid, 1, DIM_Y)) ERR;
          if (nc_rename_dim(ncid, 2, DIM_Z)) ERR;
-         
+
          /* Close the file. */
          if (nc_close(ncid)) ERR;
-         
+
          /* Reopen the file and check. */
          if (nc_open(filename, NC_NOWRITE, &ncid)) ERR;
          if (nc_inq_dimid(ncid, DIM_X, &dimid_in)) ERR;
@@ -134,7 +134,7 @@ main(int argc, char **argv)
          if (nc_close(ncid)) ERR;
       }
       SUMMARIZE_ERR;
-      
+
    } /* next format */
    FINAL_RESULTS;
 }

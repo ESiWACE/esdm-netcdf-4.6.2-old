@@ -67,7 +67,6 @@ typedef struct {
 
 typedef struct {
   int ncid;
-  int idp;
   esdm_container_t *c;
   // Some attributes provide information about the dataset as a whole and are called
   // global attributes. These are identified by the attribute name together with a blank

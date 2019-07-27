@@ -124,7 +124,7 @@ check_charlies_no_enddef_file(int ncid, char *dim_name, char *var_name)
 int
 main(int argc, char **argv)
 {
-#define NUM_FORMATS 2
+#define NUM_FORMATS 1
    int formats[NUM_FORMATS] = {NC_FORMAT_NETCDF4, NC_FORMAT_NETCDF4_CLASSIC};
    char *fmt_names[] = {"netCDF-4", "netCDF-4 classic model"};
    char *file_names[] = {FILE_NAME3, FILE_NAME4};
