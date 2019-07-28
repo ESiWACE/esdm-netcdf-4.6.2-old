@@ -2491,9 +2491,9 @@ int ESDM_def_var(int ncid, const char *name, nc_type xtype, int ndims, const int
     assert(e->dimt.count > dimid);
 
     size_t val = e->dimt.size[dimid];
-    evar->dimidsp[i] = val;
     names[i] = e->dimt.name[dimid];
     bounds[i] = val;
+    evar->dimidsp[i] = dimid;
     printf("%d = %ld\n", dimidsp[i], val);
   }
 
