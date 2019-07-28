@@ -329,6 +329,11 @@ int ESDM_open(const char *path, int mode, int basepe, size_t *chunksizehintp, vo
     else{
       WARN("stored only dimensions or sizes, will ignore them");
     }
+
+    esdm_status status;
+    status = esdm_container_delete_attribute(e->c, "_nc_dims");
+    status = esdm_container_delete_attribute(e->c, "_nc_sizes");
+
   }
   return NC_NOERR;
 }
@@ -646,6 +651,7 @@ int ESDM_rename_dim(int ncid, int dimid, const char *name) {
 
   free(e->dimt.name[dimid]);
   e->dimt.name[dimid] = strdup(name);
+//  d->container->status = ESDM_DATA_DIRTY;
 
   // must update the existing names inside ALL ESDM datatsets that use this variable
   // TODO find out which datatsets use it, then build new name list, then call:
@@ -835,9 +841,8 @@ int ESDM_del_att(int ncid, int varid, const char *name) {
   nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
   if (e == NULL) return NC_EBADID;
 
-  smd_attr_t *attr;
   if (varid == NC_GLOBAL) {
-    status = esdm_container_delete_attribute(e->c, attr, name);
+    status = esdm_container_delete_attribute(e->c, name);
     if (status != ESDM_SUCCESS) return NC_EACCESS;
   } else {
     if (varid > e->vars.count) {
@@ -845,7 +850,7 @@ int ESDM_del_att(int ncid, int varid, const char *name) {
     }
     md_var_t *ev = e->vars.var[varid];
     assert(ev != NULL);
-    status = esdm_dataset_delete_attribute(ev->dset, attr, name);
+    status = esdm_dataset_delete_attribute(ev->dset, name);
     if (status != ESDM_SUCCESS) return NC_EACCESS;
   }
 
