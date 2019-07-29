@@ -117,6 +117,8 @@ static nc_type type_esdm_to_nc(esdm_type_t type) {
   }
 }
 
+int ESDM_inq_dimid(int ncid, const char *name, int *idp);
+
 static inline nc_esdm_t *ESDM_nc_get_esdm_struct(int ncid) {
   NC *ncp;
   if (NC_check_id(ncid, (NC **)&ncp) != NC_NOERR) return NULL;
@@ -197,6 +199,13 @@ static void add_to_dims_tbl(nc_esdm_t *e, char const *name, size_t size) {
   e->dimt.name[cur] = strdup(name);
   e->dimt.size[cur] = size;
 }
+
+// static void update_dims_tbl(nc_esdm_t *e, char const *name, int actual_size, int dimid) {
+//   if(strcmp(name, e->dimt.name[dimid]) != 0)
+//     return NC_EBADID; // Name of the dimension doesn't match (extra test)
+//
+//   e->dimt.size[dimid] = actual_size;
+// }
 
 int ESDM_open(const char *path, int mode, int basepe, size_t *chunksizehintp, void *parameters, struct NC_Dispatch *table, NC *ncp) {
   const char *realpath = path;
@@ -332,7 +341,10 @@ int ESDM_open(const char *path, int mode, int basepe, size_t *chunksizehintp, vo
 
     esdm_status status;
     status = esdm_container_delete_attribute(e->c, "_nc_dims");
+    if (status != ESDM_SUCCESS) return NC_EACCESS;
+
     status = esdm_container_delete_attribute(e->c, "_nc_sizes");
+    if (status != ESDM_SUCCESS) return NC_EACCESS;
 
   }
   return NC_NOERR;
@@ -505,6 +517,19 @@ int ESDM_inq(int ncid, int *ndimsp, int *nvarsp, int *nattsp, int *unlimdimidp) 
     for (int i = 0; i < e->dimt.count; i++) {
       if (e->dimt.size[i] == 0) {
         *unlimdimidp = i;
+
+        // int dimid;
+        // status = ESDM_inq_dimid(ncid, e->dimt.name[i], &dimid);
+        // if (status != ESDM_SUCCESS) return NC_EACCESS;
+        //
+        // // it need to change to find the first dataset with that dimension
+        // esdm_dataset_t *dset = esdm_container_dataset_from_array(e->c, 0);
+        // if (status != ESDM_SUCCESS) return NC_EACCESS;
+        // // *unlimdimidp = dset->actual_size[dimid];
+        // // *unlimdimidp = dset->actual_size[dimid];
+        //
+        // *unlimdimidp = esdm_container_dataset_get_actual_size(e->c, e->dimt.name[i]);
+        //
         return NC_NOERR;
       }
     }
@@ -599,6 +624,15 @@ int ESDM_inq_dim(int ncid, int dimid, char *name, size_t *lenp) {
   }
   if (lenp != NULL) {
     *lenp = e->dimt.size[dimid];
+    if (*lenp == 0){
+
+        // it need to change to find the first dataset with that dimension
+        esdm_dataset_t *dset = esdm_container_dataset_from_array(e->c, 0);
+        // *unlimdimidp = dset->actual_size[dimid];
+        // *unlimdimidp = dset->actual_size[dimid];
+
+        *lenp = esdm_container_dataset_get_actual_size(e->c, name);
+    }
   }
 
   return NC_NOERR;
@@ -2676,6 +2710,19 @@ int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *count
 
   int ndims = esdm_dataspace_get_dims(space);
   int64_t const *spacesize = esdm_dataspace_get_size(space);
+
+  esdm_status status;
+
+  for (int i = 0; i < ndims; i++) {
+    if (spacesize[i] == 0) {
+      status = ESDM_dimension_update_actual_size (kv->dset, i, countp[i]);
+      if (status != ESDM_SUCCESS) return NC_EACCESS;
+      // update_dims_tbl(e, "time", countp[i], i);
+    }
+    else if (spacesize[i] != countp[i]) {
+          return NC_EBADID; // You can only change the size of an unlimited dimension
+        }
+  }
 
   for (int i = 0; i < ndims; i++) {
     // printf(" - %zu %zu\n", startp[i], countp[i]);
