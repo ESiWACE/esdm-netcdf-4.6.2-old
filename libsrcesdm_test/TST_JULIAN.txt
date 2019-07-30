@@ -1,29 +1,12 @@
 *************************************************************************************************************
 
-file: tst_var_ME
+file: tst_rename2_ME
 
-make tst_var_ME
-./tst_var_ME
-gdb --args .libs/tst_var_ME
-valgrind .libs/tst_var_ME
+make tst_rename2_ME
+./tst_rename2_ME
+gdb --args .libs/tst_rename2_ME
+valgrind .libs/tst_rename2_ME
 
-Problem: the name is being copied, but it's not being passed to the function.
-
-- - -
-
-Thread 1 "tst_var" hit Breakpoint 1, NC_inq_var_all (ncid=65536, varid=2, name=0x7fffffffdbb0 "", xtypep=0x7fffffffdb88, ESDM_inq_var_all (ncid=65536, varid=2, name=0x7fffffffdbb0 "", xtypep=0x7fffffffdb88, ndimsp=0x7fffffffdb8c, dimidsp=0x160c31f01b866900, 1272	  if (name) {
-(gdb)
-1273	    name = strdup(esdm_dataset_name(evar->dset));
-(gdb)
-(gdb) p name
-$1 = 0x555555822c10 "temp"
-(gdb) n
-NC_inq_var_all (ncid=65536, varid=2, name=0x7fffffffdbb0 "", xtypep=0x7fffffffdb88, ndimsp=0x7fffffffdb8c, dimidsp=0x160c31f01b866900, nattsp=0x7fffffffdb90, shufflep=0x555555555957 <read_test+776>,
-    deflatep=0x200010000, deflate_levelp=0x0, fletcher32p=0x0, contiguousp=0x5555558220f0, chunksizesp=0x46293e5939a08cea, no_fill=0x160c31f01b866900, fill_valuep=0x0, endiannessp=0x0,
-    idp=0x7fffffffdc00, nparamsp=0x555555554dc0 <_start>, params=0x7fffffffddc0) at ../../libdispatch/dvarinq.c:824
-824	}
-
-- - -
 
 *************************************************************************************************************
 

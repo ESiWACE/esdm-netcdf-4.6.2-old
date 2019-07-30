@@ -119,6 +119,8 @@ static nc_type type_esdm_to_nc(esdm_type_t type) {
 
 int ESDM_inq_dimid(int ncid, const char *name, int *idp);
 
+int64_t esdm_container_dataset_get_actual_size(int ncid, esdm_container_t *c, char *name);
+
 static inline nc_esdm_t *ESDM_nc_get_esdm_struct(int ncid) {
   NC *ncp;
   if (NC_check_id(ncid, (NC **)&ncp) != NC_NOERR) return NULL;
@@ -145,6 +147,51 @@ void insert_md(md_vars_t *md, md_var_t *value) {
     ERROR("Cannot allocate memory.");
   }
   md->var[md->count - 1] = value;
+}
+
+int64_t esdm_container_dataset_get_actual_size(int ncid, esdm_container_t *c, char *name){
+
+  nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
+  if (e == NULL) return NC_EBADID;
+
+  md_var_t *ev;
+
+  int count = esdm_container_dataset_count(e->c);
+  int pos = -1;
+  esdm_dataset_t *dset;
+
+  for(int i = 0; i < count; i++){
+    dset = esdm_container_dataset_from_array(e->c, i);
+    // md_var_t *ev = e->vars.var[i];
+    // assert(ev != NULL);
+
+    int ndims = esdm_dataspace_get_dims(dset);
+
+    if (ndims <= 0)
+      return ESDM_ERROR;
+
+    char const *const *names = NULL;
+    esdm_status status = esdm_dataset_get_name_dims(dset, &names);
+    if(status != ESDM_SUCCESS) return(ESDM_ERROR);
+
+    if (names == NULL)
+      return ESDM_ERROR;
+
+    for(int j = 0; j < ndims; j++){
+      if (strcmp(names[j],name) == 0){
+        pos = j;
+        break;
+      }
+    }
+
+    if (pos != -1)
+      i = count + 1; // for exiting the main loop
+  }
+
+  if (pos == -1)
+    return(ESDM_ERROR);
+  else return esdm_dataset_get_actual_size(dset);
+
 }
 
 int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_t *chunksizehintp, void *parameters, struct NC_Dispatch *table, NC *ncp) {
@@ -435,6 +482,9 @@ int ESDM_set_fill(int ncid, int fillmode, int *old_modep) {
 
 int ESDM_def_var_fill(int ncid, int varid, int no_fill, const void *fill_value) {
   DEBUG_ENTER("%d %d\n", ncid, no_fill);
+
+  WARN_NOT_IMPLEMENTED;
+
   return NC_NOERR;
 }
 
@@ -631,7 +681,9 @@ int ESDM_inq_dim(int ncid, int dimid, char *name, size_t *lenp) {
         // *unlimdimidp = dset->actual_size[dimid];
         // *unlimdimidp = dset->actual_size[dimid];
 
-        *lenp = esdm_container_dataset_get_actual_size(e->c, name);
+        int64_t *sizes = esdm_container_dataset_get_actual_size(ncid, e->c, name);
+        *lenp = sizes[dimid];
+
     }
   }
 
@@ -685,7 +737,11 @@ int ESDM_rename_dim(int ncid, int dimid, const char *name) {
 
   free(e->dimt.name[dimid]);
   e->dimt.name[dimid] = strdup(name);
-//  d->container->status = ESDM_DATA_DIRTY;
+  // d->container->status = ESDM_DATA_DIRTY;
+
+
+
+
 
   // must update the existing names inside ALL ESDM datatsets that use this variable
   // TODO find out which datatsets use it, then build new name list, then call:
@@ -2715,9 +2771,8 @@ int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *count
 
   for (int i = 0; i < ndims; i++) {
     if (spacesize[i] == 0) {
-      status = ESDM_dimension_update_actual_size (kv->dset, i, countp[i]);
+      status = esdmNetcdf_dataset_update_dim (kv->dset, i, countp[i]);
       if (status != ESDM_SUCCESS) return NC_EACCESS;
-      // update_dims_tbl(e, "time", countp[i], i);
     }
     else if (spacesize[i] != countp[i]) {
           return NC_EBADID; // You can only change the size of an unlimited dimension
