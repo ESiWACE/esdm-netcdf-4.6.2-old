@@ -385,14 +385,6 @@ int ESDM_open(const char *path, int mode, int basepe, size_t *chunksizehintp, vo
     else{
       WARN("stored only dimensions or sizes, will ignore them");
     }
-
-    esdm_status status;
-    status = esdm_container_delete_attribute(e->c, "_nc_dims");
-    if (status != ESDM_SUCCESS) return NC_EACCESS;
-
-    status = esdm_container_delete_attribute(e->c, "_nc_sizes");
-    if (status != ESDM_SUCCESS) return NC_EACCESS;
-
   }
   return NC_NOERR;
 }
