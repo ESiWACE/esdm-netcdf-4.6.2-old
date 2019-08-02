@@ -329,38 +329,6 @@ int ESDM_open(const char *path, int mode, int basepe, size_t *chunksizehintp, vo
       return NC_EINVAL;
     }
 
-    esdm_attr_t* attrs;
-    ret = esdm_container_get_attributes(e->c, & attrs);
-    smd_attr_t * dims = smd_attr_get_child_by_name(attrs, "_nc_dims");
-    smd_attr_t * sizes = smd_attr_get_child_by_name(attrs, "_nc_sizes");
-    if(dims || sizes){
-      if(dims && sizes){
-        uint64_t count = smd_attr_elems(dims);
-        if(smd_attr_elems(sizes) != count){
-          WARN("stored dimensions and sizes do not match, will ignore them");
-        }else{
-          char const ** names = smd_attr_get_value(dims);
-          uint64_t * dim_sizes = smd_attr_get_value(sizes);
-          for(uint64_t i = 0; i < count; i++){
-            int dim_found = -1;
-            for (int k = 0; k < e->dimt.count; k++) {
-              if (strcmp(e->dimt.name[k], names[i]) == 0) {
-                dim_found = k;
-                break;
-              }
-            }
-            if (dim_found == -1) {
-              dim_found = e->dimt.count;
-              WARN("Adding unused dim: %s %lld", names[i], dim_sizes[i]);
-              add_to_dims_tbl(e, names[i], dim_sizes[i]);
-            }
-          }
-        }
-      }
-      else{
-        WARN("stored only dimensions or sizes, will ignore them");
-      }
-
     md_var_t *evar = malloc(sizeof(md_var_t));
     evar->dimidsp = malloc(sizeof(int) * ndims);
     evar->dset = dset;
@@ -389,13 +357,47 @@ int ESDM_open(const char *path, int mode, int basepe, size_t *chunksizehintp, vo
     insert_md(&e->vars, evar);
   }
 
-    esdm_status status;
 
-    status = esdm_container_delete_attribute(e->c, "_nc_dims");
-    if (status != ESDM_SUCCESS) return NC_EACCESS;
+  esdm_attr_t* attrs;
+  ret = esdm_container_get_attributes(e->c, & attrs);
+  int dims_pos = smd_find_position_by_name(attrs, "_nc_dims");
+  int sizes_pos = smd_find_position_by_name(attrs, "_nc_sizes");
+  if(dims_pos >= 0 || sizes_pos >= 0){
+    if(dims_pos >= 0 && sizes_pos >= 0){
+      smd_attr_t * dims =  smd_attr_get_child(attrs, dims_pos);
+      smd_attr_t * sizes = smd_attr_get_child(attrs, sizes_pos);
 
-    status = esdm_container_delete_attribute(e->c, "_nc_sizes");
-    if (status != ESDM_SUCCESS) return NC_EACCESS;
+      uint64_t count = smd_attr_elems(dims);
+      if(smd_attr_elems(sizes) != count){
+        WARN("stored dimensions and sizes do not match, will ignore them");
+      }else{
+        char const ** names = smd_attr_get_value(dims);
+        uint64_t * dim_sizes = smd_attr_get_value(sizes);
+        for(uint64_t i = 0; i < count; i++){
+          int dim_found = -1;
+          for (int k = 0; k < e->dimt.count; k++) {
+            if (strcmp(e->dimt.name[k], names[i]) == 0) {
+              dim_found = k;
+              break;
+            }
+          }
+          if (dim_found == -1) {
+            dim_found = e->dimt.count;
+            WARN("Adding unused dim: %s %lld", names[i], dim_sizes[i]);
+            add_to_dims_tbl(e, names[i], dim_sizes[i]);
+          }
+        }
+      }
+    }else{
+      WARN("stored only dimensions or sizes, will ignore them");
+    }
+    if(dims_pos > sizes_pos){
+      if(dims_pos >= 0) smd_attr_unlink_pos(attrs, dims_pos);
+      if(sizes_pos >= 0) smd_attr_unlink_pos(attrs, sizes_pos);
+    }else{
+      if(sizes_pos >= 0) smd_attr_unlink_pos(attrs, sizes_pos);
+      if(dims_pos >= 0) smd_attr_unlink_pos(attrs, dims_pos);
+    }
 
   }
   return NC_NOERR;
@@ -415,16 +417,30 @@ int ESDM_redef(int ncid) {
   return NC_NOERR;
 }
 
+static int ncesdm_container_commit(nc_esdm_t * e){
+    int ret;
+    // store the dimension table
+    int len = e->dimt.count;
+    smd_dtype_t * arr_type = smd_type_array(SMD_DTYPE_STRING, len);
+    esdm_attr_t * new = smd_attr_new("_nc_dims", arr_type, e->dimt.name, 0);
+    esdm_container_link_attribute(e->c, 1, new);
+
+    arr_type = smd_type_array(SMD_DTYPE_INT64, len);
+    new = smd_attr_new("_nc_sizes", arr_type, e->dimt.size, 0);
+    esdm_container_link_attribute(e->c, 1, new);
+
+    ret = esdm_container_commit(e->c);
+    if (ret != ESDM_SUCCESS) {
+      return NC_EBADID;
+    }
+    return NC_NOERR;
+}
+
 int ESDM__enddef(int ncid, size_t h_minfree, size_t v_align, size_t v_minfree, size_t r_align) {
-  int ret = NC_NOERR;
   nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
   if (e == NULL) return NC_EBADID;
 
-  ret = esdm_container_commit(e->c);
-  if (ret != ESDM_SUCCESS) {
-    return NC_EBADID;
-  }
-  return NC_NOERR;
+  return ncesdm_container_commit(e);
 }
 
 /**
@@ -454,24 +470,15 @@ int ESDM_abort(int ncid) {
 }
 
 int ESDM_close(int ncid, void *b) {
-  int ret = NC_NOERR;
+  int ret;
   nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
   if (e == NULL) return NC_EBADID;
 
-  // store the dimension table
-  int len = e->dimt.count;
-  smd_dtype_t * arr_type = smd_type_array(SMD_DTYPE_STRING, len);
-  esdm_attr_t * new = smd_attr_new("_nc_dims", arr_type, e->dimt.name, 0);
-  esdm_container_link_attribute(e->c, 1, new);
-
-  arr_type = smd_type_array(SMD_DTYPE_INT64, len);
-  new = smd_attr_new("_nc_sizes", arr_type, e->dimt.size, 0);
-  esdm_container_link_attribute(e->c, 1, new);
-
-  esdm_container_commit(e->c);
+  ret = ncesdm_container_commit(e);
   esdm_container_close(e->c);
   // TODO CLOSE the container properly
-  return NC_NOERR;
+  free(e);
+  return ret;
 }
 
 int ESDM_set_fill(int ncid, int fillmode, int *old_modep) {
