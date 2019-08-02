@@ -190,7 +190,10 @@ int64_t esdm_container_dataset_get_actual_size(int ncid, esdm_container_t *c, ch
 
   if (pos == -1)
     return(ESDM_ERROR);
-  else return esdm_dataset_get_actual_size(dset);
+  else {
+    int64_t const * sizes = esdm_dataset_get_actual_size(dset);
+    return sizes[pos];
+  }
 
 }
 
@@ -385,6 +388,15 @@ int ESDM_open(const char *path, int mode, int basepe, size_t *chunksizehintp, vo
     else{
       WARN("stored only dimensions or sizes, will ignore them");
     }
+
+    esdm_status status;
+
+    status = esdm_container_delete_attribute(e->c, "_nc_dims");
+    if (status != ESDM_SUCCESS) return NC_EACCESS;
+
+    status = esdm_container_delete_attribute(e->c, "_nc_sizes");
+    if (status != ESDM_SUCCESS) return NC_EACCESS;
+
   }
   return NC_NOERR;
 }
@@ -559,19 +571,6 @@ int ESDM_inq(int ncid, int *ndimsp, int *nvarsp, int *nattsp, int *unlimdimidp) 
     for (int i = 0; i < e->dimt.count; i++) {
       if (e->dimt.size[i] == 0) {
         *unlimdimidp = i;
-
-        // int dimid;
-        // status = ESDM_inq_dimid(ncid, e->dimt.name[i], &dimid);
-        // if (status != ESDM_SUCCESS) return NC_EACCESS;
-        //
-        // // it need to change to find the first dataset with that dimension
-        // esdm_dataset_t *dset = esdm_container_dataset_from_array(e->c, 0);
-        // if (status != ESDM_SUCCESS) return NC_EACCESS;
-        // // *unlimdimidp = dset->actual_size[dimid];
-        // // *unlimdimidp = dset->actual_size[dimid];
-        //
-        // *unlimdimidp = esdm_container_dataset_get_actual_size(e->c, e->dimt.name[i]);
-        //
         return NC_NOERR;
       }
     }
@@ -667,15 +666,7 @@ int ESDM_inq_dim(int ncid, int dimid, char *name, size_t *lenp) {
   if (lenp != NULL) {
     *lenp = e->dimt.size[dimid];
     if (*lenp == 0){
-
-        // it need to change to find the first dataset with that dimension
-        esdm_dataset_t *dset = esdm_container_dataset_from_array(e->c, 0);
-        // *unlimdimidp = dset->actual_size[dimid];
-        // *unlimdimidp = dset->actual_size[dimid];
-
-        int64_t *sizes = esdm_container_dataset_get_actual_size(ncid, e->c, name);
-        *lenp = sizes[dimid];
-
+        *lenp = esdm_container_dataset_get_actual_size(ncid, e->c, name);
     }
   }
 
@@ -730,8 +721,6 @@ int ESDM_rename_dim(int ncid, int dimid, const char *name) {
   free(e->dimt.name[dimid]);
   e->dimt.name[dimid] = strdup(name);
   // d->container->status = ESDM_DATA_DIRTY;
-
-
 
 
 
@@ -2760,16 +2749,6 @@ int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *count
   int64_t const *spacesize = esdm_dataspace_get_size(space);
 
   esdm_status status;
-
-  for (int i = 0; i < ndims; i++) {
-    if (spacesize[i] == 0) {
-      status = esdmNetcdf_dataset_update_dim (kv->dset, i, countp[i]);
-      if (status != ESDM_SUCCESS) return NC_EACCESS;
-    }
-    else if (spacesize[i] != countp[i]) {
-          return NC_EBADID; // You can only change the size of an unlimited dimension
-        }
-  }
 
   for (int i = 0; i < ndims; i++) {
     // printf(" - %zu %zu\n", startp[i], countp[i]);
