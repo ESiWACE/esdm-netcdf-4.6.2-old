@@ -329,6 +329,38 @@ int ESDM_open(const char *path, int mode, int basepe, size_t *chunksizehintp, vo
       return NC_EINVAL;
     }
 
+    esdm_attr_t* attrs;
+    ret = esdm_container_get_attributes(e->c, & attrs);
+    smd_attr_t * dims = smd_attr_get_child_by_name(attrs, "_nc_dims");
+    smd_attr_t * sizes = smd_attr_get_child_by_name(attrs, "_nc_sizes");
+    if(dims || sizes){
+      if(dims && sizes){
+        uint64_t count = smd_attr_elems(dims);
+        if(smd_attr_elems(sizes) != count){
+          WARN("stored dimensions and sizes do not match, will ignore them");
+        }else{
+          char const ** names = smd_attr_get_value(dims);
+          uint64_t * dim_sizes = smd_attr_get_value(sizes);
+          for(uint64_t i = 0; i < count; i++){
+            int dim_found = -1;
+            for (int k = 0; k < e->dimt.count; k++) {
+              if (strcmp(e->dimt.name[k], names[i]) == 0) {
+                dim_found = k;
+                break;
+              }
+            }
+            if (dim_found == -1) {
+              dim_found = e->dimt.count;
+              WARN("Adding unused dim: %s %lld", names[i], dim_sizes[i]);
+              add_to_dims_tbl(e, names[i], dim_sizes[i]);
+            }
+          }
+        }
+      }
+      else{
+        WARN("stored only dimensions or sizes, will ignore them");
+      }
+
     md_var_t *evar = malloc(sizeof(md_var_t));
     evar->dimidsp = malloc(sizeof(int) * ndims);
     evar->dset = dset;
@@ -356,38 +388,6 @@ int ESDM_open(const char *path, int mode, int basepe, size_t *chunksizehintp, vo
     }
     insert_md(&e->vars, evar);
   }
-
-  esdm_attr_t* attrs;
-  ret = esdm_container_get_attributes(e->c, & attrs);
-  smd_attr_t * dims = smd_attr_get_child_by_name(attrs, "_nc_dims");
-  smd_attr_t * sizes = smd_attr_get_child_by_name(attrs, "_nc_sizes");
-  if(dims || sizes){
-    if(dims && sizes){
-      uint64_t count = smd_attr_elems(dims);
-      if(smd_attr_elems(sizes) != count){
-        WARN("stored dimensions and sizes do not match, will ignore them");
-      }else{
-        char const ** names = smd_attr_get_value(dims);
-        uint64_t * dim_sizes = smd_attr_get_value(sizes);
-        for(uint64_t i = 0; i < count; i++){
-          int dim_found = -1;
-          for (int k = 0; k < e->dimt.count; k++) {
-            if (strcmp(e->dimt.name[k], names[i]) == 0) {
-              dim_found = k;
-              break;
-            }
-          }
-          if (dim_found == -1) {
-            dim_found = e->dimt.count;
-            WARN("Adding unused dim: %s %lld", names[i], dim_sizes[i]);
-            add_to_dims_tbl(e, names[i], dim_sizes[i]);
-          }
-        }
-      }
-    }
-    else{
-      WARN("stored only dimensions or sizes, will ignore them");
-    }
 
     esdm_status status;
 
