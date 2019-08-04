@@ -124,7 +124,7 @@ tst\_coords2.c   &   Using functions for groups, NOT IMPLEMENTED YET        \\ \
 tst\_coords3.c   &  Using functions for groups, NOT IMPLEMENTED YET         \\ \hline
 tst\_coords.c   &  Using functions for groups, NOT IMPLEMENTED YET         \\ \hline
 tst\_create\_files.c   &           \\ \hline
-tst\_dims2.c   &       \\ \hline
+tst\_dims2.c   & Tests successful!      \\ \hline
 tst\_dims3.c   & Using functions for groups, NOT IMPLEMENTED YET      \\ \hline
 tst\_empty\_vlen\_unlim.c   &   WARN ESDM\_def\_vlen():1703 NOT IMPLEMENTED    \\ \hline
 tst\_endian\_fill.c   &    [ESDM NC] WARN ESDM\_def\_var\_endian():1863 NOT IMPLEMENTED   \\ \hline
@@ -376,7 +376,7 @@ NC\_FLOAT      &  11  & SMD\_DTYPE\_FLOAT    & 32 bits    \\ \hline
 \centering
 \begin{tabular}{|l|l|l|}
 \hline
-Functionality & NetCDF Supported & ESDM Supported \\ \hline \hline
+Functionality & NetCDF Support & ESDM Support \\ \hline \hline
 
 & & \\
 & \large{Datatypes} & \\
@@ -404,7 +404,7 @@ NC\_COMPOUND & used internally for compound types &    NOT SUPPORTED YET        
 NC\_ENUM & used internally for enum types &       NOT SUPPORTED YET      \\ \hline \hline
 
 & & \\
-& \large{Modes} & \\
+& \large{Modes -- Creating a file} & \\
 & & \\ \hline \hline
 
 NC\_CLOBBER & Overwrite existing file &  ESDM\_CLOBBER       \\ \hline
@@ -412,8 +412,21 @@ NC\_NOCLOBBER & Do not overwrite existing file &  ESDM\_NOCLOBBER       \\ \hlin
 NC\_SHARE & Limit write caching - netcdf classic files only &  NOT SUPPORTED       \\ \hline
 NC\_64BIT\_OFFSET & Create 64-bit offset file &    NOT SUPPORTED     \\ \hline
 NC\_64BIT\_DATA  & Create CDF-5 file (alias NC\_CDF5) &   NOT SUPPORTED      \\ \hline
-NC\_NETCDF4 & Create netCDF-4/HDF5 file &         \\ \hline
+NC\_NETCDF4 & Create netCDF-4/HDF5 file &  NOT SUPPORTED       \\ \hline
 NC\_CLASSIC\_MODEL & Enforce netCDF classic mode on netCDF-4/HDF5 files &   NOT SUPPORTED      \\ \hline
+NC\_DISKLESS & Store data in memory &    NOT SUPPORTED     \\ \hline
+NC\_PERSIST & Force the NC\_DISKLESS data from memory to a file &  NOT SUPPORTED       \\ \hline
+\hline
+
+& & \\
+& \large{Modes -- Opening a file} & \\
+& & \\ \hline \hline
+
+NC\_NOWRITE & Open the dataset with read-only access &  ESDM\_NOWRITE       \\ \hline
+NC\_WRITE & Open the dataset with read-write access &  ESDM\_WRITE       \\ \hline
+NC\_SHARE & Share updates, limit caching &  NOT SUPPORTED       \\ \hline
+NC\_WRITE|NC\_SHARE & Open the dataset with read-write access &    NOT SUPPORTED     \\
+ & Share updates, limit caching &    \\ \hline
 NC\_DISKLESS & Store data in memory &    NOT SUPPORTED     \\ \hline
 NC\_PERSIST & Force the NC\_DISKLESS data from memory to a file &  NOT SUPPORTED       \\ \hline
 \hline
@@ -426,73 +439,50 @@ NC\_PERSIST & Force the NC\_DISKLESS data from memory to a file &  NOT SUPPORTED
 \caption{Functionality Supported by NetCDF and ESDM.}
 \end{table}
 
+/* Define the ioflags bits for nc_create and nc_open.
+   currently unused:
+        0x0002
+   and the whole upper 16 bits
+*/
+
 \begin{comment}
 
-\section{Introduction}
+#define NC_NOWRITE       0x0000
+#define NC_WRITE         0x0001
+#define NC_CLOBBER       0x0000
+#define NC_NOCLOBBER     0x0004
+#define NC_DISKLESS      0x0008
+#define NC_MMAP          0x0010
+#define NC_64BIT_DATA    0x0020
+#define NC_CDF5          NC_64BIT_DATA
+#define NC_UDF0          0x0040
+#define NC_UDF1          0x0080
+#define NC_CLASSIC_MODEL 0x0100
+#define NC_64BIT_OFFSET  0x0200
+#define NC_LOCK          0x0400
 
-\tab
-The Earth System Data Middleware (ESDM) has been designed to deal with the fact that existing data libraries for standardised data description and optimised I/O, such as NetCDF, HDF5 and GRIB, do not have suitable performance-portable optimisations for large-scale simulation workflows in climate and weather.
+#define NC_SHARE         0x0800
 
-This text provides an overview of the developed prototype for ESDM. From the application perspective, ESDM provides a data model that manages datasets in virtual containers with their metadata. Datasets are partitioned into fragments, that are stored via various data backends. The middleware operates these data autonomously, i.e., decides on the storage backend and exposes characterisations of the data centres, that are then used by backend plugins to perform the fitting segmentation and distribution of data to storage objects and fragments.
+#define NC_NETCDF4       0x1000
+#define NC_MPIIO         0x2000
+#define NC_MPIPOSIX      NC_MPIIO
+#define NC_PNETCDF       (NC_MPIIO)
+#define NC_PERSIST       0x4000
+#define NC_INMEMORY      0x8000
+#define NC_MAX_MAGIC_NUMBER_LEN 8
+#define NC_FORMAT_CLASSIC         (1)
+/* After adding CDF5 support, the NC_FORMAT_64BIT
+   flag is somewhat confusing. So, it is renamed.
+   Note that the name in the contributed code
+   NC_FORMAT_64BIT was renamed to NC_FORMAT_CDF2
+*/
+#define NC_FORMAT_64BIT_OFFSET    (2)
+#define NC_FORMAT_64BIT           (NC_FORMAT_64BIT_OFFSET)
+#define NC_FORMAT_NETCDF4         (3)
+#define NC_FORMAT_NETCDF4_CLASSIC (4)
+#define NC_FORMAT_64BIT_DATA      (5)
 
-The developed prototype, which has a refined architecture design from the previous Deliverable (D4.2), implements the following key features:
-
-\begin{itemize}
-
-\item provides relaxed access semantics, tailored to scientific data generation for independent writes;
-
-\item yields better performance via optimised data layout schemes;
-
-\item understands application data structures and scientific metadata;
-
-\item maps data structures flexibly to multiple storage backends with different performance characteristics based on site-specific configuration;
-
-\item separates file metadata operations from data access, which enables the exploitation of acceleration techniques. With traditional NetCDF and GRIB data, the relevant application metadata and much of the information about actual data layout is invisible to the file system (whether parallel or serial); and
-
-\item integrates with the NetCDF API as a subcomponent which allows applications to replace the standard NetCDF library with the ESDM supported library. By utilising standard tools belonging to the ESDM library, import/export files application between ESDM and NetCDF are now possible.
-
-\end{itemize}
-
-\begin{framed}
-
-\# Run the project
-
-\texttt{cd build}
-
-\texttt{make -j 4 install}
-
-\end{framed}
-
-File \texttt{\_esdm.conf} has the configurations for the backends in ESDM.
-
-\begin{framed}
-
-Path: \texttt{esdm/src/test}
-
-\begin{verbatim}
-{
-  "esdm":    {
-     "backends": [
-        {
-           "type": "POSIX",
-           "id": "p1",
-           "target": "./_posix1"
-        },
-        {
-           "type": "POSIX",
-           "id": "p2",
-           "target": "./_posix2"
-        }
-     ],
-     "metadata": {
-     "type": "metadummy",
-     "name": "md",
-     "target": "./_metadummy"
-     }
-  }
-}
-\end{verbatim}
-
-\end{framed}
+/* Alias */
+#define NC_FORMAT_CDF5    NC_FORMAT_64BIT_DATA
 
 \end{comment}

@@ -21,11 +21,13 @@
   do {                                                             \
     printf("[ESDM NC] DEBUG %s:%d %s\n", __func__, __LINE__, str); \
   } while (0)
+
 #define DEBUG_ENTER(...)                                   \
   do {                                                     \
     printf("[ESDM NC] called %s:%d ", __func__, __LINE__); \
     printf(__VA_ARGS__);                                   \
   } while (0)
+
 #define WARN(...)                                        \
   do {                                                   \
     printf("[ESDM NC] WARN %s:%d ", __func__, __LINE__); \
@@ -36,18 +38,28 @@
   do {                                                                      \
     printf("[ESDM NC] WARN %s():%d NOT IMPLEMENTED\n", __func__, __LINE__); \
   } while (0)
+
 #define WARN_NOT_SUPPORTED                                                                           \
   do {                                                                                               \
     printf("[ESDM NC] WARN %s():%d. NetCDF Feature not supported with ESDM!\n", __func__, __LINE__); \
   } while (0)
+
 #define WARN_NOT_SUPPORTED_COMPOUND                                                                                \
   do {                                                                                                             \
     printf("[ESDM NC] WARN %s():%d. ESDM does not support compound datatypes from NetCDF!\n", __func__, __LINE__); \
   } while (0)
+
 #define WARN_NOT_SUPPORTED_COMPRESSION                                                                      \
   do {                                                                                                      \
     printf("[ESDM NC] WARN %s():%d. ESDM does not support compression from NetCDF!\n", __func__, __LINE__); \
   } while (0)
+
+  typedef enum {
+    ESDM_NC_CLOBBER = 0,     // nc_create
+    ESDM_NC_NOCLOBBER = 4,   // nc_create
+    ESDM_NC_NOWRITE = 0,     // nc_open
+    ESDM_NC_WRITE = 1        // nc_open
+  } esdm_nc_mode_flags;
 
 typedef struct {
   int *dimidsp;
@@ -225,11 +237,25 @@ int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_
   memset(e, 0, sizeof(nc_esdm_t));
   e->ncid = ncp->ext_ncid;
 
-  int ret = esdm_container_create(cpath, 1, &e->c);
-  free(cpath);
-  if (ret != ESDM_SUCCESS) {
-    return NC_EBADID;
+  esdm_status status;
+  // if (cmode == NC_CLOBBER){
+  //   status = esdm_container_create(cpath, ESDM_NC_CLOBBER, &e->c);
+  // }
+  // else if (cmode == NC_NOCLOBBER){
+  //         status = esdm_container_create(cpath, ESDM_NC_NOCLOBBER, &e->c);
+  //       }
+  //       else {
+  //         WARN_NOT_SUPPORTED;
+  //         return NC_EACCESS;
+  //       }
+
+  status = esdm_container_create(cpath, 0, &e->c);
+
+  if (status != ESDM_SUCCESS) {
+    return NC_EACCESS;
   }
+
+  free(cpath);
   ncp->dispatchdata = e;
 
   return NC_NOERR;
@@ -250,14 +276,7 @@ static void add_to_dims_tbl(nc_esdm_t *e, char const *name, size_t size) {
   e->dimt.size[cur] = size;
 }
 
-// static void update_dims_tbl(nc_esdm_t *e, char const *name, int actual_size, int dimid) {
-//   if(strcmp(name, e->dimt.name[dimid]) != 0)
-//     return NC_EBADID; // Name of the dimension doesn't match (extra test)
-//
-//   e->dimt.size[dimid] = actual_size;
-// }
-
-int ESDM_open(const char *path, int mode, int basepe, size_t *chunksizehintp, void *parameters, struct NC_Dispatch *table, NC *ncp) {
+int ESDM_open(const char *path, int cmode, int basepe, size_t *chunksizehintp, void *parameters, struct NC_Dispatch *table, NC *ncp) {
   const char *realpath = path;
 
   // We never use the variable mode!
@@ -288,11 +307,25 @@ int ESDM_open(const char *path, int mode, int basepe, size_t *chunksizehintp, vo
   memset(e, 0, sizeof(nc_esdm_t));
   e->ncid = ncp->ext_ncid;
 
-  esdm_status ret;
-  ret = esdm_container_open(cpath, 0, &e->c);
-  free(cpath);
+  esdm_status status;
+  // if (cmode == NC_WRITE){
+  //   status = esdm_container_open(cpath, ESDM_NC_WRITE, &e->c);
+  // }
+  // else if (cmode == NC_NOWRITE){
+  //         status = esdm_container_open(cpath, ESDM_NC_NOWRITE, &e->c);
+  //       }
+  //       else {
+  //         WARN_NOT_SUPPORTED;
+  //         return NC_EACCESS;
+  //       }
 
-  if (ret != ESDM_SUCCESS) return NC_EBADID;
+  status = esdm_container_open(cpath, 0, &e->c);
+
+  if (status != ESDM_SUCCESS) {
+    return NC_EACCESS;
+  }
+
+  free(cpath);
 
   ncp->dispatchdata = e;
 
@@ -315,8 +348,8 @@ int ESDM_open(const char *path, int mode, int basepe, size_t *chunksizehintp, vo
   for (int i = 0; i < ndsets; i++) {
     esdm_dataset_t *dset = esdm_container_dataset_from_array(c, i);
 
-    ret = esdm_dataset_ref(dset);
-    if (ret != ESDM_SUCCESS) {
+    status = esdm_dataset_ref(dset);
+    if (status != ESDM_SUCCESS) {
       return NC_EINVAL;
     }
 
@@ -324,8 +357,8 @@ int ESDM_open(const char *path, int mode, int basepe, size_t *chunksizehintp, vo
     esdm_dataset_get_dataspace(dset, &dspace);
     int ndims = esdm_dataspace_get_dims(dspace);
     char const *const *names = NULL;
-    ret = esdm_dataset_get_name_dims(dset, &names);
-    if (ret != ESDM_SUCCESS) {
+    status = esdm_dataset_get_name_dims(dset, &names);
+    if (status != ESDM_SUCCESS) {
       return NC_EINVAL;
     }
 
@@ -359,7 +392,7 @@ int ESDM_open(const char *path, int mode, int basepe, size_t *chunksizehintp, vo
 
 
   esdm_attr_t* attrs;
-  ret = esdm_container_get_attributes(e->c, & attrs);
+  status = esdm_container_get_attributes(e->c, & attrs);
   int dims_pos = smd_find_position_by_name(attrs, "_nc_dims");
   int sizes_pos = smd_find_position_by_name(attrs, "_nc_sizes");
   if(dims_pos >= 0 || sizes_pos >= 0){
@@ -698,8 +731,6 @@ int ESDM_inq_unlimdim(int ncid, int *unlimdimidp) {
   return NC_NOERR;
 }
 
-// we may have sealed containers, that won't allow rename
-
 /**
  * @brief Rename a dimension.
  * @param ncid	NetCDF or group ID, from a previous call to nc_open(), nc_create(), nc_def_grp(), or associated inquiry functions such as nc_inq_ncid().
@@ -708,7 +739,8 @@ int ESDM_inq_unlimdim(int ncid, int *unlimdimidp) {
  * @return
  */
 
-// It won't work if we have unlimited dimensions. It might work automatically if dimt.count is updated.
+ // we may have sealed containers, that won't allow rename
+ // hot to control if the file was opened as read/write here?
 
 int ESDM_rename_dim(int ncid, int dimid, const char *name) {
   DEBUG_ENTER("%d\n", ncid);
@@ -719,17 +751,47 @@ int ESDM_rename_dim(int ncid, int dimid, const char *name) {
 
   if(dimid >= e->dimt.count) return NC_EINVAL;
 
+  // Check if the name is taken
+
   for (int i = 0; i < e->dimt.count; i++) {
     if (strcmp(e->dimt.name[i], name) == 0) {
-      return NC_EACCESS; // Check if the name is taken
+      return NC_EACCESS;
+    }
+  }
+
+  esdm_status status;
+  esdm_container_t *c = e->c;
+  int ndsets = esdm_container_dataset_count(c);
+  // open all ESDM datasets, find the names
+  for (int i = 0; i < ndsets; i++) {
+    esdm_dataset_t *dset = esdm_container_dataset_from_array(c, i);
+    if (dset == NULL) return NC_EACCESS;
+
+    char const *const **names;
+    status = esdm_dataset_get_name_dims(dset, &names);
+    if (status != ESDM_SUCCESS) return NC_EACCESS;
+    if (names == NULL) return NC_EACCESS;
+
+    // find the dimensions and the position the specific dimension has to change
+
+    esdm_dataspace_t *space;
+    status = esdm_dataset_get_dataspace(dset, &space);
+    if (status != ESDM_SUCCESS) return NC_EACCESS;
+
+    int64_t ndims = esdm_dataspace_get_dims(space);
+    for (int j = 0; j < ndims; j++) {
+      if (strcmp(names[j], e->dimt.name[dimid]) == 0) {
+        // free(names[j]);
+        // names[j] = strdup(name);
+        status = esdm_dataset_rename_dim(dset, name, j);
+        if (status != ESDM_SUCCESS) return NC_EACCESS;
+      }
     }
   }
 
   free(e->dimt.name[dimid]);
   e->dimt.name[dimid] = strdup(name);
   // d->container->status = ESDM_DATA_DIRTY;
-
-
 
   // must update the existing names inside ALL ESDM datatsets that use this variable
   // TODO find out which datatsets use it, then build new name list, then call:
@@ -1027,7 +1089,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_CHAR): {
           int8_t *p = malloc(sizeof(int8_t) * len);
@@ -1040,7 +1102,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_SHORT): {
           int8_t *p = malloc(sizeof(int8_t) * len);
@@ -1053,7 +1115,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_USHORT): {
           int8_t *p = malloc(sizeof(int8_t) * len);
@@ -1066,7 +1128,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_INT): {
           int8_t *p = malloc(sizeof(int8_t) * len);
@@ -1079,7 +1141,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_UINT): {
           int8_t *p = malloc(sizeof(int8_t) * len);
@@ -1092,7 +1154,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_INT64): {
           int8_t *p = malloc(sizeof(int8_t) * len);
@@ -1105,7 +1167,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_UINT64): {
           int8_t *p = malloc(sizeof(int8_t) * len);
@@ -1118,7 +1180,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_FLOAT): {
           int8_t *p = malloc(sizeof(int8_t) * len);
@@ -1131,7 +1193,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_DOUBLE): {
           int8_t *p = malloc(sizeof(int8_t) * len);
@@ -1146,7 +1208,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
           }
         }
       }
-      return value;
+      return ((void *) value);
     }
 
     case (NC_UBYTE): {
@@ -1162,7 +1224,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_CHAR): {
           uint8_t *p = malloc(sizeof(uint8_t) * len);
@@ -1175,7 +1237,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_SHORT): {
           uint8_t *p = malloc(sizeof(uint8_t) * len);
@@ -1188,7 +1250,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_USHORT): {
           uint8_t *p = malloc(sizeof(uint8_t) * len);
@@ -1201,7 +1263,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_INT): {
           uint8_t *p = malloc(sizeof(uint8_t) * len);
@@ -1214,7 +1276,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_UINT): {
           uint8_t *p = malloc(sizeof(uint8_t) * len);
@@ -1227,7 +1289,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_INT64): {
           uint8_t *p = malloc(sizeof(uint8_t) * len);
@@ -1240,7 +1302,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_UINT64): {
           uint8_t *p = malloc(sizeof(uint8_t) * len);
@@ -1253,7 +1315,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_FLOAT): {
           uint8_t *p = malloc(sizeof(uint8_t) * len);
@@ -1266,7 +1328,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_DOUBLE): {
           uint8_t *p = malloc(sizeof(uint8_t) * len);
@@ -1281,7 +1343,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
           }
         }
       }
-      return value;
+      return ((void *) value);
     }
 
     case (NC_CHAR): {
@@ -1297,7 +1359,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_SHORT): {
           char *p = malloc(sizeof(char) * len);
@@ -1310,7 +1372,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_USHORT): {
           char *p = malloc(sizeof(char) * len);
@@ -1323,7 +1385,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_INT): {
           char *p = malloc(sizeof(char) * len);
@@ -1336,7 +1398,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_UINT): {
           char *p = malloc(sizeof(char) * len);
@@ -1349,7 +1411,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_INT64): {
           char *p = malloc(sizeof(char) * len);
@@ -1362,7 +1424,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_UINT64): {
           char *p = malloc(sizeof(char) * len);
@@ -1375,7 +1437,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_FLOAT): {
           char *p = malloc(sizeof(char) * len);
@@ -1388,7 +1450,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_DOUBLE): {
           char *p = malloc(sizeof(char) * len);
@@ -1403,7 +1465,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
           }
         }
       }
-      return value;
+      return ((void *) value);
     }
 
     case (NC_SHORT): {
@@ -1419,7 +1481,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_UBYTE): {
           int16_t *p = malloc(sizeof(int16_t) * len);
@@ -1432,7 +1494,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_CHAR): {
           int8_t *p = malloc(sizeof(int8_t) * len);
@@ -1445,7 +1507,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_SHORT): {
           int8_t *p = malloc(sizeof(int8_t) * len);
@@ -1458,7 +1520,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_INT): {
           int16_t *p = malloc(sizeof(int16_t) * len);
@@ -1471,7 +1533,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_UINT): {
           int16_t *p = malloc(sizeof(int16_t) * len);
@@ -1484,7 +1546,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_INT64): {
           int16_t *p = malloc(sizeof(int16_t) * len);
@@ -1497,7 +1559,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_UINT64): {
           int16_t *p = malloc(sizeof(int16_t) * len);
@@ -1510,7 +1572,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_FLOAT): {
           int16_t *p = malloc(sizeof(int16_t) * len);
@@ -1523,7 +1585,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_DOUBLE): {
           int16_t *p = malloc(sizeof(int16_t) * len);
@@ -1538,7 +1600,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
           }
         }
       }
-      return value;
+      return ((void *) value);
     }
 
     case (NC_USHORT): {
@@ -1554,7 +1616,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_UBYTE): {
           uint16_t *p = malloc(sizeof(uint16_t) * len);
@@ -1567,7 +1629,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_CHAR): {
           uint16_t *p = malloc(sizeof(uint16_t) * len);
@@ -1580,7 +1642,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_SHORT): {
           uint16_t *p = malloc(sizeof(uint16_t) * len);
@@ -1593,7 +1655,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_INT): {
           uint16_t *p = malloc(sizeof(uint16_t) * len);
@@ -1606,7 +1668,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_UINT): {
           uint16_t *p = malloc(sizeof(uint16_t) * len);
@@ -1619,7 +1681,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_INT64): {
           uint16_t *p = malloc(sizeof(uint16_t) * len);
@@ -1632,7 +1694,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_UINT64): {
           uint16_t *p = malloc(sizeof(uint16_t) * len);
@@ -1645,7 +1707,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_FLOAT): {
           uint16_t *p = malloc(sizeof(uint16_t) * len);
@@ -1658,7 +1720,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_DOUBLE): {
           uint16_t *p = malloc(sizeof(uint16_t) * len);
@@ -1673,7 +1735,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
           }
         }
       }
-      return value;
+      return ((void *) value);
     }
 
     case (NC_INT): {
@@ -1689,7 +1751,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_UBYTE): {
           int32_t *p = malloc(sizeof(int32_t) * len);
@@ -1702,7 +1764,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_CHAR): {
           int32_t *p = malloc(sizeof(int32_t) * len);
@@ -1715,7 +1777,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_SHORT): {
           int32_t *p = malloc(sizeof(int32_t) * len);
@@ -1728,7 +1790,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_USHORT): {
           int32_t *p = malloc(sizeof(int32_t) * len);
@@ -1741,7 +1803,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_UINT): {
           int32_t *p = malloc(sizeof(int32_t) * len);
@@ -1754,7 +1816,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_INT64): {
           int32_t *p = malloc(sizeof(int32_t) * len);
@@ -1767,7 +1829,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_UINT64): {
           int32_t *p = malloc(sizeof(int32_t) * len);
@@ -1780,7 +1842,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_FLOAT): {
           int32_t *p = malloc(sizeof(int32_t) * len);
@@ -1793,7 +1855,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_DOUBLE): {
           int32_t *p = malloc(sizeof(int32_t) * len);
@@ -1808,7 +1870,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
           }
         }
       }
-      return value;
+      return ((void *) value);
     }
 
     case (NC_UINT): {
@@ -1824,7 +1886,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_UBYTE): {
           uint32_t *p = malloc(sizeof(uint32_t) * len);
@@ -1837,7 +1899,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_CHAR): {
           uint32_t *p = malloc(sizeof(uint32_t) * len);
@@ -1850,7 +1912,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_SHORT): {
           uint32_t *p = malloc(sizeof(uint32_t) * len);
@@ -1863,7 +1925,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_USHORT): {
           uint32_t *p = malloc(sizeof(uint32_t) * len);
@@ -1876,7 +1938,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_INT): {
           uint32_t *p = malloc(sizeof(uint32_t) * len);
@@ -1889,7 +1951,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_INT64): {
           uint32_t *p = malloc(sizeof(uint32_t) * len);
@@ -1902,7 +1964,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_UINT64): {
           uint32_t *p = malloc(sizeof(uint32_t) * len);
@@ -1915,7 +1977,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_FLOAT): {
           uint32_t *p = malloc(sizeof(uint32_t) * len);
@@ -1928,7 +1990,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_DOUBLE): {
           uint32_t *p = malloc(sizeof(uint32_t) * len);
@@ -1943,7 +2005,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
           }
         }
       }
-      return value;
+      return ((void *) value);
     }
 
     case (NC_INT64): {
@@ -1959,7 +2021,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_UBYTE): {
           int64_t *p = malloc(sizeof(int64_t) * len);
@@ -1972,7 +2034,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_CHAR): {
           int64_t *p = malloc(sizeof(int64_t) * len);
@@ -1985,7 +2047,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_SHORT): {
           int64_t *p = malloc(sizeof(int64_t) * len);
@@ -1998,7 +2060,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_USHORT): {
           int64_t *p = malloc(sizeof(int64_t) * len);
@@ -2011,7 +2073,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_INT): {
           int64_t *p = malloc(sizeof(int64_t) * len);
@@ -2024,7 +2086,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_UINT): {
           int64_t *p = malloc(sizeof(int64_t) * len);
@@ -2037,7 +2099,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_UINT64): {
           int64_t *p = malloc(sizeof(int64_t) * len);
@@ -2050,7 +2112,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_FLOAT): {
           int64_t *p = malloc(sizeof(int64_t) * len);
@@ -2063,7 +2125,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_DOUBLE): {
           int64_t *p = malloc(sizeof(int64_t) * len);
@@ -2078,7 +2140,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
           }
         }
       }
-      return value;
+      return ((void *) value);
     }
 
     case (NC_UINT64): {
@@ -2094,7 +2156,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_UBYTE): {
           uint64_t *p = malloc(sizeof(uint64_t) * len);
@@ -2107,7 +2169,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_CHAR): {
           uint64_t *p = malloc(sizeof(uint64_t) * len);
@@ -2120,7 +2182,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_SHORT): {
           uint64_t *p = malloc(sizeof(uint64_t) * len);
@@ -2133,7 +2195,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_USHORT): {
           uint64_t *p = malloc(sizeof(uint64_t) * len);
@@ -2146,7 +2208,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_INT): {
           uint64_t *p = malloc(sizeof(uint64_t) * len);
@@ -2159,7 +2221,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_UINT): {
           uint64_t *p = malloc(sizeof(uint64_t) * len);
@@ -2172,7 +2234,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_INT64): {
           uint64_t *p = malloc(sizeof(uint64_t) * len);
@@ -2185,7 +2247,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_FLOAT): {
           uint64_t *p = malloc(sizeof(uint64_t) * len);
@@ -2198,7 +2260,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_DOUBLE): {
           uint64_t *p = malloc(sizeof(uint64_t) * len);
@@ -2213,7 +2275,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
           }
         }
       }
-      return value;
+      return ((void *) value);
     }
 
     case (NC_FLOAT): {
@@ -2229,7 +2291,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_UBYTE): {
           float *p = malloc(sizeof(float) * len);
@@ -2242,7 +2304,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_CHAR): {
           float *p = malloc(sizeof(float) * len);
@@ -2255,7 +2317,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_SHORT): {
           float *p = malloc(sizeof(float) * len);
@@ -2268,7 +2330,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_USHORT): {
           float *p = malloc(sizeof(float) * len);
@@ -2281,7 +2343,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_INT): {
           float *p = malloc(sizeof(float) * len);
@@ -2294,7 +2356,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_UINT): {
           float *p = malloc(sizeof(float) * len);
@@ -2307,7 +2369,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_INT64): {
           float *p = malloc(sizeof(float) * len);
@@ -2320,7 +2382,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_UINT64): {
           float *p = malloc(sizeof(float) * len);
@@ -2333,7 +2395,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_DOUBLE): {
           float *p = malloc(sizeof(float) * len);
@@ -2348,7 +2410,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
           }
         }
       }
-      return value;
+      return ((void *) value);
     }
 
     case (NC_DOUBLE): {
@@ -2364,7 +2426,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_UBYTE): {
           double *p = malloc(sizeof(double) * len);
@@ -2377,7 +2439,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_CHAR): {
           double *p = malloc(sizeof(double) * len);
@@ -2390,7 +2452,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_SHORT): {
           double *p = malloc(sizeof(double) * len);
@@ -2403,7 +2465,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_USHORT): {
           double *p = malloc(sizeof(double) * len);
@@ -2416,7 +2478,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_INT): {
           double *p = malloc(sizeof(double) * len);
@@ -2429,7 +2491,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_UINT): {
           double *p = malloc(sizeof(double) * len);
@@ -2442,7 +2504,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_INT64): {
           double *p = malloc(sizeof(double) * len);
@@ -2455,7 +2517,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_UINT64): {
           double *p = malloc(sizeof(double) * len);
@@ -2468,7 +2530,7 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
               return NULL;
             }
           }
-          return value;
+          return ((void *) value);
         }
         case (NC_FLOAT): {
           double *p = malloc(sizeof(double) * len);
@@ -2483,9 +2545,9 @@ void * enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void con
           }
         }
       }
-      return value;
+      return ((void *) value);
     }
-    return value;
+    return ((void *) value);
   }
 }
 
