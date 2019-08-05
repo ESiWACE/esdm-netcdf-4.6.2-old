@@ -238,6 +238,11 @@ int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_
   e->ncid = ncp->ext_ncid;
 
   esdm_status status;
+  if(cmode & NC_CLOBBER)
+    printf("\nHello!");
+
+  printf("\nHello! %d %d", cmode, NC_CLOBBER);
+
   // if (cmode == NC_CLOBBER){
   //   status = esdm_container_create(cpath, ESDM_NC_CLOBBER, &e->c);
   // }
@@ -362,49 +367,6 @@ int ESDM_open(const char *path, int cmode, int basepe, size_t *chunksizehintp, v
       return NC_EINVAL;
     }
 
-    esdm_attr_t* attrs;
-    status = esdm_container_get_attributes(e->c, & attrs);
-    int dims_pos = smd_find_position_by_name(attrs, "_nc_dims");
-    int sizes_pos = smd_find_position_by_name(attrs, "_nc_sizes");
-    if(dims_pos >= 0 || sizes_pos >= 0){
-      if(dims_pos >= 0 && sizes_pos >= 0){
-        smd_attr_t * dims =  smd_attr_get_child(attrs, dims_pos);
-        smd_attr_t * sizes = smd_attr_get_child(attrs, sizes_pos);
-
-        uint64_t count = smd_attr_elems(dims);
-        if(smd_attr_elems(sizes) != count){
-          WARN("stored dimensions and sizes do not match, will ignore them");
-        }else{
-          char const ** names = smd_attr_get_value(dims);
-          uint64_t * dim_sizes = smd_attr_get_value(sizes);
-          for(uint64_t i = 0; i < count; i++){
-            int dim_found = -1;
-            for (int k = 0; k < e->dimt.count; k++) {
-              if (strcmp(e->dimt.name[k], names[i]) == 0) {
-                dim_found = k;
-                break;
-              }
-            }
-            if (dim_found == -1) {
-              dim_found = e->dimt.count;
-              WARN("Adding unused dim: %s %lld", names[i], dim_sizes[i]);
-              add_to_dims_tbl(e, names[i], dim_sizes[i]);
-            }
-          }
-        }
-      }else{
-        WARN("stored only dimensions or sizes, will ignore them");
-      }
-      if(dims_pos > sizes_pos){
-        if(dims_pos >= 0) smd_attr_unlink_pos(attrs, dims_pos);
-        if(sizes_pos >= 0) smd_attr_unlink_pos(attrs, sizes_pos);
-      }else{
-        if(sizes_pos >= 0) smd_attr_unlink_pos(attrs, sizes_pos);
-        if(dims_pos >= 0) smd_attr_unlink_pos(attrs, dims_pos);
-      }
-
-    }
-
     md_var_t *evar = malloc(sizeof(md_var_t));
     evar->dimidsp = malloc(sizeof(int) * ndims);
     evar->dset = dset;
@@ -431,6 +393,49 @@ int ESDM_open(const char *path, int cmode, int basepe, size_t *chunksizehintp, v
       evar->dimidsp[j] = dim_found;
     }
     insert_md(&e->vars, evar);
+  }
+
+  esdm_attr_t* attrs;
+  status = esdm_container_get_attributes(e->c, & attrs);
+  int dims_pos = smd_find_position_by_name(attrs, "_nc_dims");
+  int sizes_pos = smd_find_position_by_name(attrs, "_nc_sizes");
+  if(dims_pos >= 0 || sizes_pos >= 0){
+    if(dims_pos >= 0 && sizes_pos >= 0){
+      smd_attr_t * dims =  smd_attr_get_child(attrs, dims_pos);
+      smd_attr_t * sizes = smd_attr_get_child(attrs, sizes_pos);
+
+      uint64_t count = smd_attr_elems(dims);
+      if(smd_attr_elems(sizes) != count){
+        WARN("stored dimensions and sizes do not match, will ignore them");
+      }else{
+        char const ** names = smd_attr_get_value(dims);
+        uint64_t * dim_sizes = smd_attr_get_value(sizes);
+        for(uint64_t i = 0; i < count; i++){
+          int dim_found = -1;
+          for (int k = 0; k < e->dimt.count; k++) {
+            if (strcmp(e->dimt.name[k], names[i]) == 0) {
+              dim_found = k;
+              break;
+            }
+          }
+          if (dim_found == -1) {
+            dim_found = e->dimt.count;
+            WARN("Adding unused dim: %s %lld", names[i], dim_sizes[i]);
+            add_to_dims_tbl(e, names[i], dim_sizes[i]);
+          }
+        }
+      }
+    }else{
+      WARN("stored only dimensions or sizes, will ignore them");
+    }
+    if(dims_pos > sizes_pos){
+      if(dims_pos >= 0) smd_attr_unlink_pos(attrs, dims_pos);
+      if(sizes_pos >= 0) smd_attr_unlink_pos(attrs, sizes_pos);
+    }else{
+      if(sizes_pos >= 0) smd_attr_unlink_pos(attrs, sizes_pos);
+      if(dims_pos >= 0) smd_attr_unlink_pos(attrs, dims_pos);
+    }
+
   }
 
   return NC_NOERR;
