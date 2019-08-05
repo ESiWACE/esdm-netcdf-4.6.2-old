@@ -456,10 +456,12 @@ static int ncesdm_container_commit(nc_esdm_t * e){
     smd_dtype_t * arr_type = smd_type_array(SMD_DTYPE_STRING, len);
     esdm_attr_t * new = smd_attr_new("_nc_dims", arr_type, e->dimt.name, 0);
     esdm_container_link_attribute(e->c, 1, new);
+    //smd_type_unref(arr_type);
 
-    arr_type = smd_type_array(SMD_DTYPE_INT64, len);
+    arr_type = smd_type_array(SMD_DTYPE_UINT64, len);
     new = smd_attr_new("_nc_sizes", arr_type, e->dimt.size, 0);
     esdm_container_link_attribute(e->c, 1, new);
+    //smd_type_unref(arr_type);
 
     ret = esdm_container_commit(e->c);
     if (ret != ESDM_SUCCESS) {
