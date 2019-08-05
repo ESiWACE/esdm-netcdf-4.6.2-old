@@ -107,9 +107,9 @@ main(int argc, char **argv)
 
          if (nc_enddef(ncid)) ERR;
 
-         if (nc_put_var(ncid, 0, lat_data)) ERR;
-         if (nc_put_var(ncid, 1, lon_data)) ERR;
-         if (nc_put_var(ncid, 2, lev_data)) ERR;
+         // if (nc_put_var(ncid, 0, lat_data)) ERR;
+         // if (nc_put_var(ncid, 1, lon_data)) ERR;
+         // if (nc_put_var(ncid, 2, lev_data)) ERR;
 
          if (nc_close(ncid)) ERR;
          if (nc_open(filename, NC_WRITE, &ncid)) ERR;
