@@ -241,7 +241,7 @@ int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_
   status = esdm_container_create(cpath, cmode & NC_NOCLOBBER ? 0 : 1, &e->c);
 
   if (status != ESDM_SUCCESS) {
-    return NC_EACCESS;
+    return NC_EEXIST;
   }
 
   free(cpath);
