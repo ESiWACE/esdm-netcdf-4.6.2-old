@@ -242,35 +242,6 @@ int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_
     return NC_EEXIST;
   }
 
-  printf("\nHello NC_CLOBBER! %d %d %d %d\n", cmode, NC_CLOBBER, cmode & NC_CLOBBER, cmode | NC_CLOBBER);
-  printf("\nHello NC_NOCLOBBER! %d %d %d %d\n\n", cmode, NC_NOCLOBBER, cmode & NC_NOCLOBBER, cmode | NC_NOCLOBBER);
-
-  // typedef enum {
-  //   ESDM_MODE_FLAG_WRITE = 1,
-  //   ESDM_MODE_FLAG_READ = 2
-  // } esdm_mode_flags_e;
-
-  // the parameter allow_replace here is not predefined in ESDM and the values are 0 or 1
-
-  // if (cmode | NC_CLOBBER == cmode){
-  //   status = esdm_container_create(cpath, 1, &e->c);
-  //   if (status != ESDM_SUCCESS) {
-  //     return NC_EACCESS;
-  //   }
-  // }
-  // else if (cmode | NC_NOCLOBBER == cmode){ // test it!
-  //         status = esdm_container_create(cpath, 0, &e->c);
-  //         if (status != ESDM_SUCCESS) {
-  //           return NC_EEXIST;
-  //         }
-  //       }
-  //       else {
-  //         WARN_NOT_SUPPORTED;
-  //         return NC_EACCESS;
-  //       }
-
-  //  status = esdm_container_create(cpath, 1, &e->c);
-
   free(cpath);
   ncp->dispatchdata = e;
 
@@ -294,11 +265,6 @@ static void add_to_dims_tbl(nc_esdm_t *e, char const *name, size_t size) {
 
 int ESDM_open(const char *path, int cmode, int basepe, size_t *chunksizehintp, void *parameters, struct NC_Dispatch *table, NC *ncp) {
   const char *realpath = path;
-
-  // We never use the variable mode!
-
-  printf("\nHello NC_WRITE! %d %d %d %d\n", cmode, NC_WRITE, cmode & NC_WRITE, cmode | NC_WRITE);
-  printf("\nHello NC_NOWRITE! %d %d %d %d\n\n", cmode, NC_NOWRITE, cmode & NC_NOWRITE, cmode | NC_NOWRITE);
 
   if (strncmp(path, "esdm:", 5) == 0) {
     realpath = &path[5];
@@ -2845,6 +2811,7 @@ int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *count
     if (data == NULL){
       return NC_ERANGE;
     }
+    // Should we change the type inside the space?!
     // return NC_EBADTYPE;
   }
 
