@@ -1098,6 +1098,8 @@ int ESDM_get_att(int ncid, int varid, const char *name, void *value, nc_type typ
   return NC_EACCESS;
 }
 
+// Enter as datatype and returns as type
+
 void *enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void const *value) {
   switch (datatype) {
     case (NC_BYTE): {
@@ -2600,6 +2602,9 @@ int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype, size_t
     // if it does fire NC_ERANGE
     // change value to new temporary value
     value = enc_realloc_datatype(type, datatype, len, value);
+    if (value == NULL){
+      return NC_ERANGE;
+    }
   }
 
   smd_attr_t *new;
@@ -2834,9 +2839,13 @@ int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *count
   int access_all = 1;
   esdm_dataspace_t *space;
   ret = esdm_dataset_get_dataspace(kv->dset, &space);
-  if (mem_nc_type != type_esdm_to_nc(esdm_dataspace_get_type(space))) {
-    // TODO insert the conversion function here!
-    return NC_EBADTYPE;
+  nc_type datatype = type_esdm_to_nc(esdm_dataspace_get_type(space));
+  if (mem_nc_type != datatype) {
+    data = enc_realloc_datatype(mem_nc_type, datatype, 1, data);
+    if (data == NULL){
+      return NC_ERANGE;
+    }
+    // return NC_EBADTYPE;
   }
 
   int ndims = esdm_dataspace_get_dims(space);
