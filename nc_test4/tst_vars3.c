@@ -267,7 +267,7 @@ main(int argc, char **argv)
       /* These will not work due to bad parameters. */
       if (nc_get_vara(ncid + MILLION, 1, cor, edg, P_data) != NC_EBADID) ERR;
       if (nc_get_vara(ncid + TEST_VAL_42, 1, cor, edg, P_data) != NC_EBADID) ERR;
-      
+
       /* Read the record of non-existent data. */
       if (nc_get_vara(ncid, 1, cor, edg, P_data)) ERR;
       for (i = 0; i < LEN; i++)
