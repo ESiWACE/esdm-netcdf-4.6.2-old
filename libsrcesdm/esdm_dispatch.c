@@ -238,23 +238,7 @@ int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_
   e->ncid = ncp->ext_ncid;
 
   esdm_status status;
-  if(cmode & NC_CLOBBER)
-    printf("\nHello!");
-
-  printf("\nHello! %d %d", cmode, NC_CLOBBER);
-
-  // if (cmode == NC_CLOBBER){
-  //   status = esdm_container_create(cpath, ESDM_NC_CLOBBER, &e->c);
-  // }
-  // else if (cmode == NC_NOCLOBBER){
-  //         status = esdm_container_create(cpath, ESDM_NC_NOCLOBBER, &e->c);
-  //       }
-  //       else {
-  //         WARN_NOT_SUPPORTED;
-  //         return NC_EACCESS;
-  //       }
-
-  status = esdm_container_create(cpath, 0, &e->c);
+  status = esdm_container_create(cpath, cmode & NC_NOCLOBBER ? 0 : 1, &e->c);
 
   if (status != ESDM_SUCCESS) {
     return NC_EACCESS;
