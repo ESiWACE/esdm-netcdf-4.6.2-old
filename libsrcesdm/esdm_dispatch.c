@@ -44,9 +44,14 @@
     printf("[ESDM NC] WARN %s():%d. NetCDF Feature not supported with ESDM!\n", __func__, __LINE__); \
   } while (0)
 
-#define WARN_NOT_SUPPORTED_COMPOUND                                                                                \
+#define WARN_NOT_SUPPORTED_TYPES                                                                                \
+do {                                                                                                             \
+  printf("[ESDM NC] WARN %s():%d. ESDM does not support user defined datatypes from NetCDF!\n", __func__, __LINE__); \
+} while (0)
+
+#define WARN_NOT_SUPPORTED_GROUPS                                                                                \
   do {                                                                                                             \
-    printf("[ESDM NC] WARN %s():%d. ESDM does not support compound datatypes from NetCDF!\n", __func__, __LINE__); \
+    printf("[ESDM NC] WARN %s():%d. ESDM does not support groups from NetCDF!\n", __func__, __LINE__); \
   } while (0)
 
 #define WARN_NOT_SUPPORTED_COMPRESSION                                                                      \
@@ -302,17 +307,6 @@ int ESDM_open(const char *path, int cmode, int basepe, size_t *chunksizehintp, v
   e->ncid = ncp->ext_ncid;
 
   esdm_status status;
-  // if (cmode == NC_WRITE){
-  //   status = esdm_container_open(cpath, ESDM_NC_WRITE, &e->c);
-  // }
-  // else if (cmode == NC_NOWRITE){
-  //         status = esdm_container_open(cpath, ESDM_NC_NOWRITE, &e->c);
-  //       }
-  //       else {
-  //         WARN_NOT_SUPPORTED;
-  //         return NC_EACCESS;
-  //       }
-
   status = esdm_container_open(cpath, 0, &e->c);
 
   if (status != ESDM_SUCCESS) {
@@ -322,18 +316,6 @@ int ESDM_open(const char *path, int cmode, int basepe, size_t *chunksizehintp, v
   free(cpath);
 
   ncp->dispatchdata = e;
-
-  /*
-   * Rebuild the dimension table
-   * Algorithm:
-   * for each dataset:
-   *   open_dataset <= just leave it open
-   *   inquire dataspace_named_dimensions()
-   *   create a mapping from name to ID (ID == the new spot in the table); add the names => we do not know the dataset variable ID yet that implements it.
-   * for each name in mapping:
-   *    search the dataset number (new function) in the container and put it into the mapping
-   *    Allow for same name with different dimensions if needed (can happen when compiling a container on the fly)
-   */
 
   // now build the dim table
   esdm_container_t *c = e->c;
@@ -359,7 +341,7 @@ int ESDM_open(const char *path, int cmode, int basepe, size_t *chunksizehintp, v
     md_var_t *evar = malloc(sizeof(md_var_t));
     evar->dimidsp = malloc(sizeof(int) * ndims);
     evar->dset = dset;
-    int64_t const *dspace_size = esdm_dataspace_get_size(dspace);
+    int64_t const *dspace_size = esdm_dataset_get_size(dset);
 
     for (int j = 0; j < ndims; j++) {
       // check if the dim already exists in the dim table
@@ -431,8 +413,11 @@ int ESDM_open(const char *path, int cmode, int basepe, size_t *chunksizehintp, v
 
 // I don't think we are dealing with modes yet.
 
+//TODO
+
 int ESDM_redef(int ncid) {
   DEBUG_ENTER("%d\n", ncid);
+
   return NC_NOERR;
 }
 
@@ -491,7 +476,7 @@ int ESDM_sync(int ncid) {
  * @return
  */
 
-// I don't think we are dealing with this yet.
+// TODO
 
 int ESDM_abort(int ncid) {
   DEBUG_ENTER("%d\n", ncid);
@@ -510,6 +495,8 @@ int ESDM_close(int ncid, void *b) {
   return ret;
 }
 
+//TODO
+
 int ESDM_set_fill(int ncid, int fillmode, int *old_modep) {
   DEBUG_ENTER("%d %d\n", ncid, fillmode);
   // *old_modep = NC_NOFILL;
@@ -520,26 +507,29 @@ int ESDM_set_fill(int ncid, int fillmode, int *old_modep) {
   return NC_NOERR;
 }
 
+//TODO
+
 int ESDM_def_var_fill(int ncid, int varid, int no_fill, const void *fill_value) {
   DEBUG_ENTER("%d %d\n", ncid, no_fill);
-
   WARN_NOT_IMPLEMENTED;
-
   return NC_NOERR;
 }
 
-int ESDM_var_par_access(int ncid, int varid, int access) {
+int ESDM_var_par_access(int ncid, int varid, int access) { // for parallel execution
   DEBUG_ENTER("%d: var:%d access:%d\n", ncid, varid, access);
+  WARN_NOT_IMPLEMENTED;
   return NC_NOERR;
 }
 
 int ESDM_inq_base_pe(int ncid, int *pe) { // for parallel execution
   DEBUG_ENTER("%d\n", ncid);
+  WARN_NOT_IMPLEMENTED;
   return NC_NOERR;
 }
 
 int ESDM_set_base_pe(int ncid, int pe) { // for parallel execution
   DEBUG_ENTER("%d\n", ncid);
+  WARN_NOT_IMPLEMENTED;
   return NC_NOERR;
 }
 
@@ -563,7 +553,7 @@ int ESDM_inq_format(int ncid, int *formatp) {
  * @return
  */
 
-// I don't think we are dealing with this yet.
+// TODO
 
 int ESDM_inq_format_extended(int ncid, int *formatp, int *modep) {
   DEBUG_ENTER("%d\n", ncid);
@@ -716,7 +706,7 @@ int ESDM_inq_dim(int ncid, int dimid, char *name, size_t *lenp) {
  * @return
  */
 
-// To be able to do this function, the unlimited dimensions have to be in the dimensions table. It may be already there, I have to check.
+// TODO
 
 int ESDM_inq_unlimdim(int ncid, int *unlimdimidp) {
   DEBUG_ENTER("%d\n", ncid);
@@ -805,8 +795,6 @@ int ESDM_rename_dim(int ncid, int dimid, const char *name) {
  * @paramlenp	Pointer to location for returned number of values currently stored in the attribute. For attributes of type NC_CHAR, you should not assume that this includes a trailing zero byte; it doesn't if the attribute was stored without a trailing zero byte, for example from a FORTRAN program. Before using the value as a C string, make sure it is null-terminated. Ignored if NULL.
  * @return
  */
-
-// Tested and working ==> missing lenp return
 
 int ESDM_inq_att(int ncid, int varid, const char *name, nc_type *datatypep, size_t *lenp) {
   DEBUG_ENTER("%d\n", ncid);
@@ -995,11 +983,6 @@ int ESDM_del_att(int ncid, int varid, const char *name) {
 }
 
 int ESDM_get_att(int ncid, int varid, const char *name, void *value, nc_type type) {
-  // if(type == NC_CHAR && strlen(value) > 0){
-  //   etype = SMD_DTYPE_STRING;
-  // }else{
-  //   etype = type_nc_to_esdm(type);
-  // }
 
   esdm_type_t etype;
   etype = type_nc_to_esdm(type);
@@ -1072,1481 +1055,10 @@ int ESDM_get_att(int ncid, int varid, const char *name, void *value, nc_type typ
 
 // Enter as datatype and returns as type
 
+// TODO call the smd functions here
+
 void *enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void const *value) {
-  switch (datatype) {
-    case (NC_BYTE): {
-      switch (type) {
-        case (NC_UBYTE): {
-          int8_t *p = malloc(sizeof(int8_t) * len);
-          uint8_t *o = (uint8_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_BYTE) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_CHAR): {
-          int8_t *p = malloc(sizeof(int8_t) * len);
-          char *o = (char *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_BYTE) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_SHORT): {
-          int8_t *p = malloc(sizeof(int8_t) * len);
-          int16_t *o = (int16_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_BYTE) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_USHORT): {
-          int8_t *p = malloc(sizeof(int8_t) * len);
-          uint16_t *o = (uint16_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_BYTE) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_INT): {
-          int8_t *p = malloc(sizeof(int8_t) * len);
-          int32_t *o = (int32_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_BYTE) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_UINT): {
-          int8_t *p = malloc(sizeof(int8_t) * len);
-          uint32_t *o = (uint32_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_BYTE) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_INT64): {
-          int8_t *p = malloc(sizeof(int8_t) * len);
-          int64_t *o = (int64_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_BYTE) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_UINT64): {
-          int8_t *p = malloc(sizeof(int8_t) * len);
-          uint64_t *o = (uint64_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_BYTE) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_FLOAT): {
-          int8_t *p = malloc(sizeof(int8_t) * len);
-          float *o = (float *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_BYTE) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_DOUBLE): {
-          int8_t *p = malloc(sizeof(int8_t) * len);
-          double *o = (double *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_BYTE) {
-              free(p);
-              return NULL;
-            }
-          }
-        }
-      }
-      return ((void *)value);
-    }
-
-    case (NC_UBYTE): {
-      switch (type) {
-        case (NC_BYTE): {
-          uint8_t *p = malloc(sizeof(uint8_t) * len);
-          int8_t *o = (int8_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_UBYTE) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_CHAR): {
-          uint8_t *p = malloc(sizeof(uint8_t) * len);
-          char *o = (char *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_UBYTE) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_SHORT): {
-          uint8_t *p = malloc(sizeof(uint8_t) * len);
-          int16_t *o = (int16_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_UBYTE) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_USHORT): {
-          uint8_t *p = malloc(sizeof(uint8_t) * len);
-          uint16_t *o = (uint16_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_UBYTE) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_INT): {
-          uint8_t *p = malloc(sizeof(uint8_t) * len);
-          int32_t *o = (int32_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_UBYTE) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_UINT): {
-          uint8_t *p = malloc(sizeof(uint8_t) * len);
-          uint32_t *o = (uint32_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_UBYTE) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_INT64): {
-          uint8_t *p = malloc(sizeof(uint8_t) * len);
-          int64_t *o = (int64_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_UBYTE) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_UINT64): {
-          uint8_t *p = malloc(sizeof(uint8_t) * len);
-          uint64_t *o = (uint64_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_UBYTE) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_FLOAT): {
-          uint8_t *p = malloc(sizeof(uint8_t) * len);
-          float *o = (float *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_UBYTE) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_DOUBLE): {
-          uint8_t *p = malloc(sizeof(uint8_t) * len);
-          double *o = (double *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_UBYTE) {
-              free(p);
-              return NULL;
-            }
-          }
-        }
-      }
-      return ((void *)value);
-    }
-
-    case (NC_CHAR): {
-      switch (type) {
-        case (NC_UBYTE): {
-          char *p = malloc(sizeof(char) * len);
-          uint8_t *o = (uint8_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_CHAR) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_SHORT): {
-          char *p = malloc(sizeof(char) * len);
-          int16_t *o = (int16_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_CHAR) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_USHORT): {
-          char *p = malloc(sizeof(char) * len);
-          uint16_t *o = (uint16_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_CHAR) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_INT): {
-          char *p = malloc(sizeof(char) * len);
-          int32_t *o = (int32_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_CHAR) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_UINT): {
-          char *p = malloc(sizeof(char) * len);
-          uint32_t *o = (uint32_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_CHAR) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_INT64): {
-          char *p = malloc(sizeof(char) * len);
-          int64_t *o = (int64_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_CHAR) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_UINT64): {
-          char *p = malloc(sizeof(char) * len);
-          uint64_t *o = (uint64_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_CHAR) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_FLOAT): {
-          char *p = malloc(sizeof(char) * len);
-          float *o = (float *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_CHAR) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_DOUBLE): {
-          char *p = malloc(sizeof(char) * len);
-          double *o = (double *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_CHAR) {
-              free(p);
-              return NULL;
-            }
-          }
-        }
-      }
-      return ((void *)value);
-    }
-
-    case (NC_SHORT): {
-      switch (type) {
-        case (NC_BYTE): {
-          int16_t *p = malloc(sizeof(int16_t) * len);
-          int8_t *o = (int8_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_UBYTE) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_UBYTE): {
-          int16_t *p = malloc(sizeof(int16_t) * len);
-          uint8_t *o = (uint8_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_SHORT) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_CHAR): {
-          int8_t *p = malloc(sizeof(int8_t) * len);
-          char *o = (char *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_SHORT) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_SHORT): {
-          int8_t *p = malloc(sizeof(int8_t) * len);
-          int16_t *o = (int16_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_SHORT) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_INT): {
-          int16_t *p = malloc(sizeof(int16_t) * len);
-          int32_t *o = (int32_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_SHORT) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_UINT): {
-          int16_t *p = malloc(sizeof(int16_t) * len);
-          uint32_t *o = (uint32_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_SHORT) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_INT64): {
-          int16_t *p = malloc(sizeof(int16_t) * len);
-          int64_t *o = (int64_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_SHORT) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_UINT64): {
-          int16_t *p = malloc(sizeof(int16_t) * len);
-          uint64_t *o = (uint64_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_SHORT) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_FLOAT): {
-          int16_t *p = malloc(sizeof(int16_t) * len);
-          float *o = (float *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_SHORT) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_DOUBLE): {
-          int16_t *p = malloc(sizeof(int16_t) * len);
-          double *o = (double *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_SHORT) {
-              free(p);
-              return NULL;
-            }
-          }
-        }
-      }
-      return ((void *)value);
-    }
-
-    case (NC_USHORT): {
-      switch (type) {
-        case (NC_BYTE): {
-          uint16_t *p = malloc(sizeof(uint16_t) * len);
-          int8_t *o = (int8_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_UBYTE) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_UBYTE): {
-          uint16_t *p = malloc(sizeof(uint16_t) * len);
-          uint8_t *o = (uint8_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_USHORT) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_CHAR): {
-          uint16_t *p = malloc(sizeof(uint16_t) * len);
-          char *o = (char *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_USHORT) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_SHORT): {
-          uint16_t *p = malloc(sizeof(uint16_t) * len);
-          int16_t *o = (int16_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_USHORT) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_INT): {
-          uint16_t *p = malloc(sizeof(uint16_t) * len);
-          int32_t *o = (int32_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_USHORT) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_UINT): {
-          uint16_t *p = malloc(sizeof(uint16_t) * len);
-          uint32_t *o = (uint32_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_USHORT) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_INT64): {
-          uint16_t *p = malloc(sizeof(uint16_t) * len);
-          int64_t *o = (int64_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_USHORT) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_UINT64): {
-          uint16_t *p = malloc(sizeof(uint16_t) * len);
-          uint64_t *o = (uint64_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_USHORT) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_FLOAT): {
-          uint16_t *p = malloc(sizeof(uint16_t) * len);
-          float *o = (float *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_USHORT) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_DOUBLE): {
-          uint16_t *p = malloc(sizeof(uint16_t) * len);
-          double *o = (double *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_USHORT) {
-              free(p);
-              return NULL;
-            }
-          }
-        }
-      }
-      return ((void *)value);
-    }
-
-    case (NC_INT): {
-      switch (type) {
-        case (NC_BYTE): {
-          int32_t *p = malloc(sizeof(int32_t) * len);
-          int8_t *o = (int8_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_UBYTE) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_UBYTE): {
-          int32_t *p = malloc(sizeof(int32_t) * len);
-          uint8_t *o = (uint8_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_INT) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_CHAR): {
-          int32_t *p = malloc(sizeof(int32_t) * len);
-          char *o = (char *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_INT) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_SHORT): {
-          int32_t *p = malloc(sizeof(int32_t) * len);
-          int16_t *o = (int16_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_INT) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_USHORT): {
-          int32_t *p = malloc(sizeof(int32_t) * len);
-          uint16_t *o = (uint16_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_INT) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_UINT): {
-          int32_t *p = malloc(sizeof(int32_t) * len);
-          uint32_t *o = (uint32_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_INT) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_INT64): {
-          int32_t *p = malloc(sizeof(int32_t) * len);
-          int64_t *o = (int64_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_INT) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_UINT64): {
-          int32_t *p = malloc(sizeof(int32_t) * len);
-          uint64_t *o = (uint64_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_INT) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_FLOAT): {
-          int32_t *p = malloc(sizeof(int32_t) * len);
-          float *o = (float *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_INT) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_DOUBLE): {
-          int32_t *p = malloc(sizeof(int32_t) * len);
-          double *o = (double *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_INT) {
-              free(p);
-              return NULL;
-            }
-          }
-        }
-      }
-      return ((void *)value);
-    }
-
-    case (NC_UINT): {
-      switch (type) {
-        case (NC_BYTE): {
-          uint32_t *p = malloc(sizeof(uint32_t) * len);
-          int8_t *o = (int8_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_UBYTE) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_UBYTE): {
-          uint32_t *p = malloc(sizeof(uint32_t) * len);
-          uint8_t *o = (uint8_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_UINT) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_CHAR): {
-          uint32_t *p = malloc(sizeof(uint32_t) * len);
-          char *o = (char *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_UINT) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_SHORT): {
-          uint32_t *p = malloc(sizeof(uint32_t) * len);
-          int16_t *o = (int16_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_UINT) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_USHORT): {
-          uint32_t *p = malloc(sizeof(uint32_t) * len);
-          uint16_t *o = (uint16_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_UINT) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_INT): {
-          uint32_t *p = malloc(sizeof(uint32_t) * len);
-          int32_t *o = (int32_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_UINT) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_INT64): {
-          uint32_t *p = malloc(sizeof(uint32_t) * len);
-          int64_t *o = (int64_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_UINT) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_UINT64): {
-          uint32_t *p = malloc(sizeof(uint32_t) * len);
-          uint64_t *o = (uint64_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_UINT) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_FLOAT): {
-          uint32_t *p = malloc(sizeof(uint32_t) * len);
-          float *o = (float *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_UINT) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_DOUBLE): {
-          uint32_t *p = malloc(sizeof(uint32_t) * len);
-          double *o = (double *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_UINT) {
-              free(p);
-              return NULL;
-            }
-          }
-        }
-      }
-      return ((void *)value);
-    }
-
-    case (NC_INT64): {
-      switch (type) {
-        case (NC_BYTE): {
-          int64_t *p = malloc(sizeof(int64_t) * len);
-          int8_t *o = (int8_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_UBYTE) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_UBYTE): {
-          int64_t *p = malloc(sizeof(int64_t) * len);
-          uint8_t *o = (uint8_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_INT64) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_CHAR): {
-          int64_t *p = malloc(sizeof(int64_t) * len);
-          char *o = (char *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_INT64) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_SHORT): {
-          int64_t *p = malloc(sizeof(int64_t) * len);
-          int16_t *o = (int16_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_INT64) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_USHORT): {
-          int64_t *p = malloc(sizeof(int64_t) * len);
-          uint16_t *o = (uint16_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_INT64) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_INT): {
-          int64_t *p = malloc(sizeof(int64_t) * len);
-          int32_t *o = (int32_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_INT64) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_UINT): {
-          int64_t *p = malloc(sizeof(int64_t) * len);
-          uint32_t *o = (uint32_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_INT64) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_UINT64): {
-          int64_t *p = malloc(sizeof(int64_t) * len);
-          uint64_t *o = (uint64_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_INT64) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_FLOAT): {
-          int64_t *p = malloc(sizeof(int64_t) * len);
-          float *o = (float *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_INT64) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_DOUBLE): {
-          int64_t *p = malloc(sizeof(int64_t) * len);
-          double *o = (double *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_INT64) {
-              free(p);
-              return NULL;
-            }
-          }
-        }
-      }
-      return ((void *)value);
-    }
-
-    case (NC_UINT64): {
-      switch (type) {
-        case (NC_BYTE): {
-          uint64_t *p = malloc(sizeof(uint64_t) * len);
-          int8_t *o = (int8_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_UBYTE) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_UBYTE): {
-          uint64_t *p = malloc(sizeof(uint64_t) * len);
-          uint8_t *o = (uint8_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_UINT64) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_CHAR): {
-          uint64_t *p = malloc(sizeof(uint64_t) * len);
-          char *o = (char *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_UINT64) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_SHORT): {
-          uint64_t *p = malloc(sizeof(uint64_t) * len);
-          int16_t *o = (int16_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_UINT64) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_USHORT): {
-          uint64_t *p = malloc(sizeof(uint64_t) * len);
-          uint16_t *o = (uint16_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_UINT64) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_INT): {
-          uint64_t *p = malloc(sizeof(uint64_t) * len);
-          int32_t *o = (int32_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_UINT64) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_UINT): {
-          uint64_t *p = malloc(sizeof(uint64_t) * len);
-          uint32_t *o = (uint32_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_UINT64) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_INT64): {
-          uint64_t *p = malloc(sizeof(uint64_t) * len);
-          int64_t *o = (int64_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_UINT64) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_FLOAT): {
-          uint64_t *p = malloc(sizeof(uint64_t) * len);
-          float *o = (float *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_UINT64) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_DOUBLE): {
-          uint64_t *p = malloc(sizeof(uint64_t) * len);
-          double *o = (double *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_UINT64) {
-              free(p);
-              return NULL;
-            }
-          }
-        }
-      }
-      return ((void *)value);
-    }
-
-    case (NC_FLOAT): {
-      switch (type) {
-        case (NC_BYTE): {
-          float *p = malloc(sizeof(float) * len);
-          int8_t *o = (int8_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_UBYTE) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_UBYTE): {
-          float *p = malloc(sizeof(float) * len);
-          uint8_t *o = (uint8_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_FLOAT) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_CHAR): {
-          float *p = malloc(sizeof(float) * len);
-          char *o = (char *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_FLOAT) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_SHORT): {
-          float *p = malloc(sizeof(float) * len);
-          int16_t *o = (int16_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_FLOAT) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_USHORT): {
-          float *p = malloc(sizeof(float) * len);
-          uint16_t *o = (uint16_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_FLOAT) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_INT): {
-          float *p = malloc(sizeof(float) * len);
-          int32_t *o = (int32_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_FLOAT) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_UINT): {
-          float *p = malloc(sizeof(float) * len);
-          uint32_t *o = (uint32_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_FLOAT) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_INT64): {
-          float *p = malloc(sizeof(float) * len);
-          int64_t *o = (int64_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_FLOAT) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_UINT64): {
-          float *p = malloc(sizeof(float) * len);
-          uint64_t *o = (uint64_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_FLOAT) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_DOUBLE): {
-          float *p = malloc(sizeof(float) * len);
-          double *o = (double *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_FLOAT) {
-              free(p);
-              return NULL;
-            }
-          }
-        }
-      }
-      return ((void *)value);
-    }
-
-    case (NC_DOUBLE): {
-      switch (type) {
-        case (NC_BYTE): {
-          double *p = malloc(sizeof(double) * len);
-          int8_t *o = (int8_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_UBYTE) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_UBYTE): {
-          double *p = malloc(sizeof(double) * len);
-          uint8_t *o = (uint8_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_DOUBLE) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_CHAR): {
-          double *p = malloc(sizeof(double) * len);
-          char *o = (char *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_DOUBLE) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_SHORT): {
-          double *p = malloc(sizeof(double) * len);
-          int16_t *o = (int16_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_DOUBLE) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_USHORT): {
-          double *p = malloc(sizeof(double) * len);
-          uint16_t *o = (uint16_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_DOUBLE) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_INT): {
-          double *p = malloc(sizeof(double) * len);
-          int32_t *o = (int32_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_DOUBLE) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_UINT): {
-          double *p = malloc(sizeof(double) * len);
-          uint32_t *o = (uint32_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_DOUBLE) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_INT64): {
-          double *p = malloc(sizeof(double) * len);
-          int64_t *o = (int64_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_DOUBLE) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_UINT64): {
-          double *p = malloc(sizeof(double) * len);
-          uint64_t *o = (uint64_t *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_DOUBLE) {
-              free(p);
-              return NULL;
-            }
-          }
-          return ((void *)value);
-        }
-        case (NC_FLOAT): {
-          double *p = malloc(sizeof(double) * len);
-          float *o = (float *)value;
-          value = p;
-          for (int i = 0; i < len; i++) {
-            p[i] = o[i];
-            if (o[i] < 0 || o[i] > NC_MAX_DOUBLE) {
-              free(p);
-              return NULL;
-            }
-          }
-        }
-      }
-      return ((void *)value);
-    }
-      return ((void *)value);
-  }
+  return value;
 }
 
 int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype, size_t len, void const *value, nc_type type) {
@@ -2758,7 +1270,7 @@ int ESDM_get_vars(int ncid, int varid, const size_t *startp, const size_t *count
     return NC_EBADTYPE;
   }
   int ndims = esdm_dataspace_get_dims(space);
-  int64_t const *spacesize = esdm_dataspace_get_size(space);
+  int64_t const *spacesize = esdm_dataset_get_size(kv->dset);
 
   for (int i = 0; i < ndims; i++) {
     // printf(" - %zu %zu\n", startp[i], countp[i]);
@@ -2822,7 +1334,7 @@ int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *count
   }
 
   int ndims = esdm_dataspace_get_dims(space);
-  int64_t const *spacesize = esdm_dataspace_get_size(space);
+  int64_t const *spacesize = esdm_dataset_get_size(kv->dset);
 
   esdm_status status;
 
@@ -3009,22 +1521,20 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
  * @return
  */
 
-// Not working with groups yet.
-
 static int ESDM_inq_typeids(int ncid, int *ntypes, int *p) {
   DEBUG_ENTER("%d\n", ncid);
-
-  nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
-  if (e == NULL) return NC_EBADID;
-
-  if (ntypes) {
-    *ntypes = 0;
-  }
-  if (p) {
-    *p = 0;
-  }
-
-  return NC_NOERR; //check it later
+  WARN_NOT_SUPPORTED_GROUPS;
+  // nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
+  // if (e == NULL) return NC_EBADID;
+  //
+  // if (ntypes) {
+  //   *ntypes = 0;
+  // }
+  // if (p) {
+  //   *p = 0;
+  // }
+  //
+  return NC_EACCESS; //check it later
 }
 
 /**
@@ -3036,8 +1546,8 @@ static int ESDM_inq_typeids(int ncid, int *ntypes, int *p) {
 static int ESDM_inq_typeid(int ncid, const char *name, nc_type *t) {
   nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
   if (e == NULL) return NC_EBADID;
-
-  return NC_NOERR; //check it later
+  WARN_NOT_IMPLEMENTED;
+  return NC_EACCESS; //check it later
 }
 
 /**
@@ -3062,13 +1572,13 @@ int ESDM_show_metadata(int ncid) {
  * @return
  */
 
+// TODO
+
 int ESDM_inq_unlimdims() {
   // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_IMPLEMENTED;
-
   // Same idea of ESDM_inq_unlimdim, but returning a list
-
-  return NC_NOERR;
+  return NC_EACCESS;
 }
 
 /**
@@ -3079,10 +1589,11 @@ int ESDM_inq_unlimdims() {
  * @return
  */
 
+//TODO
+
 int ESDM_inq_ncid() {
   // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_IMPLEMENTED;
-
   // Function using groups
 
   return NC_NOERR;
@@ -3096,11 +1607,8 @@ int ESDM_inq_ncid() {
 
 int ESDM_inq_grps() {
   // DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_IMPLEMENTED;
-
-  // Function using groups
-
-  return NC_NOERR;
+  WARN_NOT_SUPPORTED_GROUPS;
+  return NC_EACCESS;
 }
 
 /**
@@ -3111,11 +1619,8 @@ int ESDM_inq_grps() {
 
 int ESDM_inq_grpname() {
   // DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_IMPLEMENTED;
-
-  // Function using groups
-
-  return NC_NOERR;
+  WARN_NOT_SUPPORTED_GROUPS;
+  return NC_EACCESS;
 }
 
 /**
@@ -3126,11 +1631,8 @@ int ESDM_inq_grpname() {
 
 int ESDM_inq_grpname_full() {
   // DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_IMPLEMENTED;
-
-  // Function using groups
-
-  return NC_NOERR;
+  WARN_NOT_SUPPORTED_GROUPS;
+  return NC_EACCESS;
 }
 
 /**
@@ -3141,11 +1643,8 @@ int ESDM_inq_grpname_full() {
 
 int ESDM_inq_grp_parent() {
   // DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_IMPLEMENTED;
-
-  // Function using groups
-
-  return NC_NOERR;
+  WARN_NOT_SUPPORTED_GROUPS;
+  return NC_EACCESS;
 }
 
 /**
@@ -3156,11 +1655,8 @@ int ESDM_inq_grp_parent() {
 
 int ESDM_inq_grp_full_ncid() {
   // DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_IMPLEMENTED;
-
-  // Function using groups
-
-  return NC_NOERR;
+  WARN_NOT_SUPPORTED_GROUPS;
+  return NC_EACCESS;
 }
 
 /**
@@ -3171,11 +1667,8 @@ int ESDM_inq_grp_full_ncid() {
 
 int ESDM_inq_varids() {
   // DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_IMPLEMENTED;
-
-  // Function using groups
-
-  return NC_NOERR;
+  WARN_NOT_SUPPORTED_GROUPS;
+  return NC_EACCESS;
 }
 
 /**
@@ -3186,11 +1679,8 @@ int ESDM_inq_varids() {
 
 int ESDM_inq_dimids() {
   // DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_IMPLEMENTED;
-
-  // Function using groups
-
-  return NC_NOERR;
+  WARN_NOT_SUPPORTED_GROUPS;
+  return NC_EACCESS;
 }
 
 /**
@@ -3203,27 +1693,25 @@ int ESDM_inq_dimids() {
  * @return
  */
 
-// Not tested yet
-
 // # JK: User-defined datatype to be tested if equal. For later, if at all. SMD.
 
 int ESDM_inq_type_equal(int ncid1, nc_type typeid1, int ncid2, nc_type typeid2, int *equal) {
   // DEBUG_ENTER("%d\n", ncid);
-
-  nc_esdm_t *e1 = ESDM_nc_get_esdm_struct(ncid1);
-  if (e1 == NULL) return NC_EBADID;
-
-  nc_esdm_t *e2 = ESDM_nc_get_esdm_struct(ncid2);
-  if (e2 == NULL) return NC_EBADID;
-
-  // It must probably not be this
-
-  if (typeid1 == typeid2)
-    *equal = 1;
-  else
-    *equal = 0;
-
-  return NC_NOERR;
+  WARN_NOT_SUPPORTED_TYPES;
+  // nc_esdm_t *e1 = ESDM_nc_get_esdm_struct(ncid1);
+  // if (e1 == NULL) return NC_EBADID;
+  //
+  // nc_esdm_t *e2 = ESDM_nc_get_esdm_struct(ncid2);
+  // if (e2 == NULL) return NC_EBADID;
+  //
+  // // It must probably not be this
+  //
+  // if (typeid1 == typeid2)
+  //   *equal = 1;
+  // else
+  //   *equal = 0;
+  //
+  return NC_EACCESS;
 }
 
 /**
@@ -3234,11 +1722,8 @@ int ESDM_inq_type_equal(int ncid1, nc_type typeid1, int ncid2, nc_type typeid2, 
 
 int ESDM_def_grp() {
   // DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_IMPLEMENTED;
-
-  // Function using groups
-
-  return NC_NOERR;
+  WARN_NOT_SUPPORTED_GROUPS;
+  return NC_EACCESS;
 }
 
 /**
@@ -3249,11 +1734,8 @@ int ESDM_def_grp() {
 
 int ESDM_rename_grp() {
   // DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_IMPLEMENTED;
-
-  // Function using groups
-
-  return NC_NOERR;
+  WARN_NOT_SUPPORTED_GROUPS;
+  return NC_EACCESS;
 }
 
 /**
@@ -3269,12 +1751,9 @@ int ESDM_rename_grp() {
  */
 
 int ESDM_inq_user_type(int ncid, nc_type xtype, char *name, size_t *size, nc_type *base_nc_typep, size_t *nfieldsp, int *classp) {
-  DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_IMPLEMENTED;
-
-  // I'm not sure what to do
-
-  return NC_NOERR;
+  // DEBUG_ENTER("%d\n", ncid);
+  WARN_NOT_SUPPORTED_TYPES;
+  return NC_EACCESS;
 }
 
 /**
@@ -3285,8 +1764,8 @@ int ESDM_inq_user_type(int ncid, nc_type xtype, char *name, size_t *size, nc_typ
 
 int ESDM_def_compound() {
   // DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_SUPPORTED_COMPOUND;
-  return NC_NOERR;
+  WARN_NOT_SUPPORTED_TYPES;
+  return NC_EACCESS;
 }
 
 /**
@@ -3297,8 +1776,8 @@ int ESDM_def_compound() {
 
 int ESDM_insert_compound() {
   // DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_SUPPORTED_COMPOUND;
-  return NC_NOERR;
+  WARN_NOT_SUPPORTED_TYPES;
+  return NC_EACCESS;
 }
 
 /**
@@ -3309,8 +1788,8 @@ int ESDM_insert_compound() {
 
 int ESDM_insert_array_compound() {
   // DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_SUPPORTED_COMPOUND;
-  return NC_NOERR;
+  WARN_NOT_SUPPORTED_TYPES;
+  return NC_EACCESS;
 }
 
 /**
@@ -3321,8 +1800,8 @@ int ESDM_insert_array_compound() {
 
 int ESDM_inq_compound_field() {
   // DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_SUPPORTED_COMPOUND;
-  return NC_NOERR;
+  WARN_NOT_SUPPORTED_TYPES;
+  return NC_EACCESS;
 }
 
 /**
@@ -3333,8 +1812,8 @@ int ESDM_inq_compound_field() {
 
 int ESDM_inq_compound_fieldindex() {
   // DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_SUPPORTED_COMPOUND;
-  return NC_NOERR;
+  WARN_NOT_SUPPORTED_TYPES;
+  return NC_EACCESS;
 }
 
 /**
@@ -3345,11 +1824,8 @@ int ESDM_inq_compound_fieldindex() {
 
 int ESDM_def_vlen() {
   // DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_IMPLEMENTED;
-
-  // I don't think ESDM support this like that.
-
-  return NC_NOERR;
+  WARN_NOT_SUPPORTED_TYPES;
+  return NC_EACCESS;
 }
 
 /**
@@ -3360,11 +1836,8 @@ int ESDM_def_vlen() {
 
 int ESDM_put_vlen_element() {
   // DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_IMPLEMENTED;
-
-  // I don't think ESDM support this like that.
-
-  return NC_NOERR;
+  WARN_NOT_SUPPORTED_TYPES;
+  return NC_EACCESS;
 }
 
 /**
@@ -3375,11 +1848,8 @@ int ESDM_put_vlen_element() {
 
 int ESDM_get_vlen_element() {
   // DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_IMPLEMENTED;
-
-  // I don't think ESDM support this like that.
-
-  return NC_NOERR;
+  WARN_NOT_SUPPORTED_TYPES;
+  return NC_EACCESS;
 }
 
 /**
@@ -3390,11 +1860,8 @@ int ESDM_get_vlen_element() {
 
 int ESDM_def_enum() {
   // DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_IMPLEMENTED;
-
-  // I don't know what to do
-
-  return NC_NOERR;
+  WARN_NOT_SUPPORTED_TYPES;
+  return NC_EACCESS;
 }
 
 /**
@@ -3405,11 +1872,8 @@ int ESDM_def_enum() {
 
 int ESDM_insert_enum() {
   // DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_IMPLEMENTED;
-
-  // I don't know what to do
-
-  return NC_NOERR;
+  WARN_NOT_SUPPORTED_TYPES;
+  return NC_EACCESS;
 }
 
 /**
@@ -3420,11 +1884,8 @@ int ESDM_insert_enum() {
 
 int ESDM_inq_enum_member() {
   // DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_IMPLEMENTED;
-
-  // I don't know what to do
-
-  return NC_NOERR;
+  WARN_NOT_SUPPORTED_TYPES;
+  return NC_EACCESS;
 }
 
 /**
@@ -3435,11 +1896,8 @@ int ESDM_inq_enum_member() {
 
 int ESDM_inq_enum_ident() {
   // DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_IMPLEMENTED;
-
-  // I don't know what to do
-
-  return NC_NOERR;
+  WARN_NOT_SUPPORTED_TYPES;
+  return NC_EACCESS;
 }
 
 /**
@@ -3450,11 +1908,8 @@ int ESDM_inq_enum_ident() {
 
 int ESDM_def_opaque() {
   // DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_IMPLEMENTED;
-
-  // I don't know what to do
-
-  return NC_NOERR;
+  WARN_NOT_SUPPORTED_TYPES;
+  return NC_EACCESS;
 }
 
 /**
@@ -3466,7 +1921,7 @@ int ESDM_def_opaque() {
 int ESDM_def_var_deflate() {
   // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED_COMPRESSION;
-  return NC_EINVAL;
+  return NC_EACCESS;
 }
 
 /**
@@ -3478,10 +1933,7 @@ int ESDM_def_var_deflate() {
 int ESDM_def_var_fletcher32() {
   // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED_COMPRESSION;
-
-  // I don't know what to do
-
-  return NC_EINVAL;
+  return NC_EACCESS;
 }
 
 /**
@@ -3493,8 +1945,7 @@ int ESDM_def_var_fletcher32() {
 int ESDM_def_var_chunking() {
   // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED_COMPRESSION;
-
-  return NC_EINVAL;
+  return NC_EACCESS;
 }
 
 /**
@@ -3505,11 +1956,8 @@ int ESDM_def_var_chunking() {
 
 int ESDM_def_var_endian() {
   // DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_IMPLEMENTED;
-
-  // I don't know what to do
-
-  return NC_EINVAL;
+  WARN_NOT_SUPPORTED;
+  return NC_EACCESS;
 }
 
 /**
@@ -3521,10 +1969,7 @@ int ESDM_def_var_endian() {
 int ESDM_def_var_filter() {
   // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED;
-
-  // I don't know what to do
-
-  return NC_EINVAL;
+  return NC_EACCESS;
 }
 
 /**
@@ -3536,8 +1981,7 @@ int ESDM_def_var_filter() {
 int ESDM_set_var_chunk_cache() {
   // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED_COMPRESSION;
-
-  return NC_EINVAL;
+  return NC_EACCESS;
 }
 
 /**
@@ -3549,8 +1993,7 @@ int ESDM_set_var_chunk_cache() {
 int ESDM_get_var_chunk_cache() {
   // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED_COMPRESSION;
-
-  return NC_EINVAL;
+  return NC_EACCESS;
 }
 
 static NC_Dispatch esdm_dispatcher = {
