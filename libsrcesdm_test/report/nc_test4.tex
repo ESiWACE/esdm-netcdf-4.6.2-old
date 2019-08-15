@@ -31,7 +31,7 @@ This test program is only built if netCDF-4 is disabled. It tests
 Example illustrates the use of SZIP compression in netCDF5.
 Taken from HDF5 example.
 
-ESDM does not support compression from NetCDF!
+ESDM does not support compression!
 
 Remove lines 67-88. Specific to compression.
 
@@ -63,7 +63,7 @@ Expected error: NC\_EBADNAME
 
 Remove lines 235-242. Testing invalid parameters as input.
 
-Remove lines 243-269. Check that the reserved words (NC\_GLOBAL) are rejected. ESDM doesn't have this limitation.
+Remove lines 243-269. Check that the reserved words (NC\_GLOBAL) are rejected. ESDM does not have this limitation.
 
 Remove lines 280-317, 327-335, 341-343, 353-355, 365-367. Testing invalid parameters as input.
 
@@ -153,7 +153,7 @@ tst\_camrun: /home/lucy/esiwace/esdm/src/esdm-datatypes.c:959: esdmI\_dataset\_m
 
 Test netcdf-4 variables.
 
-ESDM does not support compression from NetCDF!
+ESDM does not support compression!
 
 {\bf \large Status: } FAILURE!
 
@@ -161,9 +161,9 @@ ESDM does not support compression from NetCDF!
 
 Test netcdf-4 chunking.
 
-ESDM does not support compression from NetCDF!
+ESDM does not support compression!
 
-Remove lines 106, 102-121, 137-140, 170-176, 208-214, 246-252, 287-293, 327-333, 369-375, 408-414, 447-453. Specfific to chunking.
+Remove lines 106, 102-121, 137-140, 170-176, 208-214, 246-252, 287-293, 327-333, 369-375, 408-414, 447-453. ESDM does not support compression!.
 
 *** Tests successful!
 
@@ -173,9 +173,9 @@ Remove lines 106, 102-121, 137-140, 170-176, 208-214, 246-252, 287-293, 327-333,
 
 Runs benchmarks on different chunking sizes.
 
-ESDM does not support compression from NetCDF!
+ESDM does not support compression!
 
-Remove lines 283-296. Specfific to chunking.
+Remove lines 283-296. ESDM does not support compression!
 
 Too long to run.
 
@@ -235,43 +235,31 @@ Test netcdf-4 coordinate variables and dimensions.
 
 ESDM does not support groups from NetCDF!
 
-Remove lines 75-76, 89-90. NC\_inq\_varids not implemented yet.
+Remove lines 92-93. ESDM does not keep the same order for dimids.
 
-Sorry! Unexpected result, ../../NC\_test4/tst\_coords.c, line: 93
+Remove lines 115, 122. ESDM does not support compression!
 
-// if (strcmp(var\_name\_in, LON\_NAME) || xtype\_in != NC\_FLOAT || ndims\_in != 1 ||
-// dimids\_in[0] != 1 || natts\_in != 0) ERR;
+Remove lines 157, 505. it's not working due to a problem in smd\_attr\_copy\_value and strings.
 
-//TODO This is a problem that needs to be checked and fixed.
+Remove lines 488, 490, 492, 494. ESDM does not keep the same order for dimids.
 
-Remove lines 115, 122. Specific to chunking.
+Remove lines 537, 539. ESDM does not keep the same order for dimids.
 
-Remove lines 155-157.
+Remove line 583-602. ESDM does not work with groups.
 
-// if (strcmp(att\_in\_classic, INSTITUTION) || strcmp(att\_in\_nc4, INSTITUTION) ||
-// strcmp(att\_in\_classic, att\_in\_nc4)) ERR;
+Remove line 606-647. This is actually an interesting problem.
 
-//TODO This is a problem that needs to be checked and fixed.
+NetCDF inserts two variables with the same name, different type, and that will have the same id.
 
-Remove lines 488, 490, 492, 494. ESDM doesn't keep the same order for dimids.
+//       if (nc\_def\_var(ncid, VAR\_NAME, NC\_USHORT, NDIMS, time\_dimids, \&time\_id) != NC\_NOERR) ERR;
 
-Remove line 497-499. NC\_inq\_dimids not implemented yet.
+//       if (nc\_def\_var(ncid, VAR\_NAME, NC\_CHAR, NDIMS, time\_dimids, \&time\_id)) ERR;
 
-Remove line 504.
+ESDM does not allow two variables with the same name. This might be a big restriction.
 
-// if (strncmp(institution\_att\_in, INSTITUTION, strlen(INSTITUTION))) ERR;
+tst\_coords: /home/lucy/esiwace/esdm/src/esdm-datatypes.c:382: esdmI\_fragment\_create: Assertion `sspace->size[i] > 0' failed.
 
-//TODO This is a problem that needs to be checked and fixed.
-
-Remove lines 537, 539. ESDM doesn't keep the same order for dimids.
-
-Remove line 583-602. ESDM doesn't work with groups.
-
-Sorry! Unexpected result, ../../NC\_test4/tst\_coords.c, line: 627
-
-testing 2D non-coordinate variable / testing 2D coordinate variable
-
-//TODO This is a problem that needs to be understood and fixed.
+//TODO This error is out of my league.
 
 {\bf \large Status: } INCONCLUSIVE!
 
@@ -295,15 +283,9 @@ Remove line 121.
 
 Test netcdf-4 coordinate variables and dimensions with an example from the CF conventions.
 
-ESDM does not support groups from NetCDF!
+Remove lines 136, 138, 140, 144-145, 155-156, 177-178, 186-187, 195-196. ESDM does not keep the same order for dimids.
 
-Remove lines 125-132. NC\_inq\_varids not implemented yet.
-
-Remove lines 147, 149, 151, 160, 171, 180, 182, 189, 191, 198, 200.
-
-//TODO This is a problem that needs to be understood and fixed.
-
-Something seems to be really wrong with the metadata.
+Remove lines 147, 149, 151, 158, 160, 162, 171, 173, 180, 182, 189, 191, 198, 200. Same problem with smd\_attr\_copy\_value and strings.
 
 *** Tests successful!
 
@@ -327,10 +309,6 @@ Test netcdf-4 dimensions.
 
 ESDM does not support groups from NetCDF!
 
-//TODO NC\_inq\_dimids
-
-//TODO NC\_inq\_varids
-
 //TODO NC\_inq\_unlimdims
 
 Testing invalid parameters as input. (Several lines)
@@ -345,7 +323,7 @@ tst\_dims: ../../libsrcesdm/esdm\_dispatch.c:687: ESDM\_inq\_dim: Assertion `e->
 
 Test netcdf-4 dimensions some more.
 
-Remove lines 58-59. ESDM doesn't keep the same order for dimids.
+Remove lines 58-59. ESDM does not keep the same order for dimids.
 
 tst\_dims: ../../libsrcesdm/esdm\_dispatch.c:687: ESDM\_inq\_dim: Assertion `e->dimt.count > dimid' failed.
 
@@ -384,7 +362,7 @@ ESDM does not support user defined datatypes from NetCDF!
 
 Create a test file with fill values for a variable of specified endianness.
 
-Feature not supported with ESDM!
+ESDM does not support endianness!
 
 {\bf \large Status: } FAILURE!
 
@@ -412,7 +390,7 @@ tst\_files: ../../libsrcesdm/esdm\_dispatch.c:1149: ESDM\_def\_var: Assertion `e
 
 This is a benchmark program which tests file writes with compressed data.
 
-ESDM does not support compression from NetCDF!
+ESDM does not support compression!
 
 Too long to test.
 
@@ -545,7 +523,9 @@ ESDM does not support HDF5!
 
 No description.
 
-Feature not supported with ESDM!
+ESDM does not support HDF5!
+
+ESDM does not support endianness!
 
 {\bf \large Status: } FAILURE!
 
@@ -601,7 +581,7 @@ Test internal netcdf-4 file code.
 
 Test some illegal mode combinations
 
-ESDM does not support compression from NetCDF!
+ESDM does not support compression!
 
 Remove line 27. Expected error: NC\_EINVAL
 
@@ -611,7 +591,7 @@ Remove line 27. Expected error: NC\_EINVAL
 
 \section{Test tst\_mpi\_parallel.c}
 
-This just excersizes MPI file I/O to make sure everything's working properly. If this doesn't work, netcdf/HDF5 parallel I/O also won't work.
+This just excersizes MPI file I/O to make sure everything's working properly. If this does not work, netcdf/HDF5 parallel I/O also won't work.
 
 *** Tests successful!
 
@@ -681,7 +661,7 @@ WARN ESDM\_var\_par\_access():520 NOT IMPLEMENTED
 
 Test netcdf-4 string types.
 
-ESDM doesn't support NC\_STRING!
+ESDM does not support NC\_STRING!
 
 {\bf \large Status: } FAILURE!
 
@@ -691,7 +671,7 @@ Test netcdf-4 string types.
 
 *** Tests successful!
 
-How is this test successful if ESDM doesn't support NC\_STRING?
+How is this test successful if ESDM does not support NC\_STRING?
 
 {\bf \large Status: } SUCCESS!
 
@@ -727,7 +707,7 @@ Test netcdf-4 variables with unlimited dimensions.
 
 Sorry! Unexpected result, ../../nc\_test4/tst\_unlim\_vars.c, line: 70
 
-Works, doesn't work. Who knows...
+Works, does not work. Who knows...
 
 {\bf \large Status: } INCONCLUSIVE!
 
@@ -793,39 +773,44 @@ tst\_vars2: ../../libsrcesdm/esdm\_dispatch.c:1149: ESDM\_def\_var: Assertion `e
 
 Test netcdf-4 variables.
 
-ESDM does not support groups from NetCDF!
+Remove lines 115, 117, 119, 123-124, 126-127, 140, 142, 144, 149-150, 152-153, 285. ESDM does not keep the same order for dimids.
 
-/TODO Fix bug in ESDM\_inq\_dim!
+Remove lines 159-197. ESDM does not support endianness!
 
-690	    strcpy(name, e->dimt.name[dimid]);
+Remove lines 219. ESDM does not support endianness!
 
-(gdb) bt
+Remove lines 229-230, 447. ESDM does not support compression!
 
-0  0x00007ffff7b481a5 in ESDM\_inq\_dim (ncid=65536, dimid=-1692496275, name=0x7fffffffdbe0 "D2", lenp=0x7fffffffaff0) at ../../libsrcesdm/esdm\_dispatch.c:690
+Remove lines 269-276. Testing invalid parameters as input.
 
-1  0x00007ffff7ada869 in NC\_inq\_dim (ncid=65536, dimid=-1692496275, name=0x7fffffffdbe0 "D2", lenp=0x7fffffffaff0) at ../../libdispatch/ddim.c:218
+Remove lines 274-276, 286-288. Expected error: NC\_FILL\_FLOAT.
 
-2  0x00005555555560ac in main (argc=1, argv=0x7fffffffddd8) at ../../NC\_test4/tst\_vars3.c:116
+/** Default fill value. This is used unless \_FillValue attribute
+ * is set.  These values are stuffed into newly allocated space as
+ * appropriate.  The hope is that one might use these to notice that a
+ * particular datum has not been set. */
 
-{\bf \large Status: } INCONCLUSIVE!
+Remove lines 311. ESDM does not support compression!
+
+Remove lines 322-363. ESDM does not support groups from NetCDF!
+
+Remove lines 409-558. ESDM does not support szip filter.
+
+*** Tests successful!
+
+{\bf \large Status: } PARTIAL SUCCESS!
 
 \section{Test tst\_vars4.c}
 
 Test netcdf-4 variables.
 
-ESDM does not support compression from NetCDF!
+ESDM does not support compression!
 
-/TODO Fix bug in ESDM\_inq\_dim!
+Remove lines 74-76, 81-82, 96-98, 103-104. ESDM does not support compression!
 
-1  0x00007ffff7b46c65 in esdm\_container\_dataset\_get\_actual\_size (ncid=65536, c=0x5555557a5bf0, name=0x0) at ../../libsrcesdm/esdm\_dispatch.c:197
+*** Tests successful!
 
-2  0x00007ffff7b48202 in ESDM\_inq\_dim (ncid=65536, dimid=0, name=0x0, lenp=0x7fffffffdbb8) at ../../libsrcesdm/esdm\_dispatch.c:695
-
-3  0x00007ffff7ada869 in NC\_inq\_dim (ncid=65536, dimid=0, name=0x0, lenp=0x7fffffffdbb8) at ../../libdispatch/ddim.c:218
-
-4  0x00005555555566c7 in main (argc=1, argv=0x7fffffffddd8) at ../../NC\_test4/tst\_vars4.c:133
-
-{\bf \large Status: } INCONCLUSIVE!
+{\bf \large Status: } PARTIAL SUCCESS!
 
 \section{Test tst\_vl.c}
 
@@ -1045,7 +1030,7 @@ t\_type.c   & $\checkmark$ &   &   &   &   \\ \hline
 \hline
 Filename & Justification \\ \hline \hline
 cdm\_sea\_soundings.c   & ESDM does not support user defined datatypes from NetCDF!          \\ \hline
-test\_szip.c   &  ESDM does not support compression from NetCDF!         \\ \hline
+test\_szip.c   &  ESDM does not support compression!         \\ \hline
 tst\_atts1.c   &           \\ \hline
 tst\_atts2.c   &  ESDM does not support user defined datatypes from NetCDF!         \\ \hline
 tst\_atts3.c   &           \\ \hline
@@ -1053,9 +1038,9 @@ tst\_atts.c   &           \\ \hline
 tst\_attsperf.c   &  Too long to test now.         \\ \hline
 tst\_bug324.c   &  ESDM does not support classic format from NetCDF!         \\ \hline
 tst\_camrun.c   &           \\ \hline
-tst\_chunks2.c   &  ESDM does not support compression from NetCDF!         \\ \hline
-tst\_chunks3.c   & ESDM does not support compression from NetCDF!       \\ \hline
-tst\_chunks.c   &  ESDM does not support compression from NetCDF!       \\ \hline
+tst\_chunks2.c   &  ESDM does not support compression!         \\ \hline
+tst\_chunks3.c   & ESDM does not support compression!       \\ \hline
+tst\_chunks.c   &  ESDM does not support compression!       \\ \hline
 tst\_compounds2.c   &  ESDM does not support user defined datatypes from NetCDF!         \\ \hline
 tst\_compounds3.c   &  ESDM does not support user defined datatypes from NetCDF!         \\ \hline
 tst\_converts2.c   &           \\ \hline
@@ -1101,7 +1086,7 @@ tst\_large.c   &   WARN ESDM\_set\_fill():526 NOT IMPLEMENTED (Tests successful!
 \hline
 Filename & Justification \\ \hline \hline
 tst\_mem.c   &    Tests successful!   \\ \hline
-tst\_mode.c   &   ESDM does not support compression from NetCDF! (Tests successful!)    \\ \hline
+tst\_mode.c   &   ESDM does not support compression! (Tests successful!)    \\ \hline
 tst\_opaques.c   &  ESDM does not support user-defined datatypes from NetCDF!     \\ \hline
 tst\_parallel.c   &   Not tested yet.    \\ \hline
 tst\_put\_vars.c   &   SUCCESS writing example file!    \\ \hline
@@ -1113,19 +1098,19 @@ tst\_strings.c   &  ESDM does not support NC\_STRING from NetCDF!     \\ \hline
 tst\_sync.c   &  It does not work just because ESDM does not use the NC\_EINDEFINE flag!  \\ \hline
 tst\_types.c   &  ESDM does not support user-defined datatypes from NetCDF!     \\ \hline
 tst\_udf.c   &   ESDM does not support user-defined formats from NetCDF!   \\ \hline
-tst\_unlim\_vars.c   &   Soometimes works, sometimes doesn't work!    \\ \hline
+tst\_unlim\_vars.c   &   Soometimes works, sometimes does not work!    \\ \hline
 tst\_utf8.c   &   ESDM does not support Unicode names encoded with UTF-8!  \\ \hline
 tst\_v2.c   &    Tests successful!   \\ \hline
 tst\_varms.c   &   ESDM does not support mapped var operations!  \\ \hline
 tst\_vars2.c   &  ESDM does not support NC\_NAT from NetCDF!  \\ \hline
 tst\_vars3.c   &       \\ \hline
-tst\_vars4.c   &  ESDM does not support compression from NetCDF!     \\ \hline
+tst\_vars4.c   &  ESDM does not support compression!     \\ \hline
 tst\_vars.c   &    ESDM does not support groups from NetCDF!   \\ \hline
 tst\_vl.c   &   ESDM does not support user-defined datatypes from NetCDF!    \\ \hline
 h5testszip.c   & PASS   \\ \hline
 tst\_atts\_string\_rewrite.c   & Tests successful!  \\ \hline
 tst\_elatefill.c   & line 41 expecting NC\_ELATEFILL but got 0   \\ \hline
-tst\_files3.c   & Working ESDM does not support compression from NetCDF!   \\ \hline
+tst\_files3.c   & Working ESDM does not support compression!   \\ \hline
 tst\_files5.c   & Not working anymore (Tests successful!)  \\ \hline
 tst\_filterparser.c   & SUCCESS!!   \\ \hline
 tst\_mpi\_parallel.c   & Tests successful!   \\ \hline

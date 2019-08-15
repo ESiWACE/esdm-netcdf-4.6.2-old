@@ -136,7 +136,7 @@ static nc_type type_esdm_to_nc(esdm_type_t type) {
 
 int ESDM_inq_dimid(int ncid, const char *name, int *idp);
 
-int64_t esdm_container_dataset_get_actual_size(int ncid, esdm_container_t *c, char *name);
+int64_t esdm_container_dataset_get_actual_size(int ncid, int dimid);
 
 static inline nc_esdm_t *ESDM_nc_get_esdm_struct(int ncid) {
   NC *ncp;
@@ -166,50 +166,39 @@ void insert_md(md_vars_t *md, md_var_t *value) {
   md->var[md->count - 1] = value;
 }
 
-int64_t esdm_container_dataset_get_actual_size(int ncid, esdm_container_t *c, char *name) {
+int64_t esdm_container_dataset_get_actual_size(int ncid, int dimid) {
   nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
   if (e == NULL) return NC_EBADID;
 
+  // it should be easier to get the actual size
+
+  int nvars = e->vars.count;
+  int pos = -1;
   md_var_t *ev;
 
-  int count = esdm_container_dataset_count(e->c);
-  int pos = -1;
-  esdm_dataset_t *dset;
+  // find a dataset that contains the dimension
+  for (int varid = 0; varid < nvars; varid++) {
+    ev = e->vars.var[varid];
+    int64_t ndims = esdm_dataspace_get_dims(ev->dset);
 
-  for (int i = 0; i < count; i++) {
-    dset = esdm_container_dataset_from_array(e->c, i);
-    // md_var_t *ev = e->vars.var[i];
-    // assert(ev != NULL);
-
-    int ndims = esdm_dataspace_get_dims(dset);
-
-    if (ndims <= 0)
-      return ESDM_ERROR;
-
-    char const *const *names = NULL;
-    esdm_status status = esdm_dataset_get_name_dims(dset, &names);
-    if (status != ESDM_SUCCESS) return (ESDM_ERROR);
-
-    if (names == NULL)
-      return ESDM_ERROR;
-
-    for (int j = 0; j < ndims; j++) {
-      if (strcmp(names[j], name) == 0) {
-        pos = j;
+    for (int i = 0; i < ndims; i++) {
+      if (dimid == ev->dimidsp[i])
+        pos = i;
         break;
-      }
     }
 
     if (pos != -1)
-      i = count + 1; // for exiting the main loop
+      break;
+
   }
 
   if (pos == -1)
     return (ESDM_ERROR);
   else {
-    int64_t const *sizes = esdm_dataset_get_actual_size(dset);
+    int64_t const *sizes = esdm_dataset_get_actual_size(ev->dset);
     return sizes[pos];
   }
+
 }
 
 int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_t *chunksizehintp, void *parameters, struct NC_Dispatch *table, NC *ncp) {
@@ -686,13 +675,17 @@ int ESDM_inq_dim(int ncid, int dimid, char *name, size_t *lenp) {
 
   assert(e->dimt.count > dimid);
 
-  if (name != NULL) {
+  if (name) {
     strcpy(name, e->dimt.name[dimid]);
   }
-  if (lenp != NULL) {
+
+  if (lenp) {
     *lenp = e->dimt.size[dimid];
     if (*lenp == 0) {
-      *lenp = esdm_container_dataset_get_actual_size(ncid, e->c, name);
+
+      // this function cannot rely on the name
+
+      *lenp = esdm_container_dataset_get_actual_size(ncid, dimid);
     }
   }
 
@@ -1661,26 +1654,66 @@ int ESDM_inq_grp_full_ncid() {
 
 /**
  * @brief Get a list of varids associated with a group given a group ID.
- * @param
+ * @param	ncid	The ncid of the group in question.
+ * @param	nvars	Pointer to memory to hold the number of variables in the group in question.
+ * @param	varids	Pointer to memory to hold the variable ids contained by the group in question.
  * @return
  */
 
-int ESDM_inq_varids() {
-  // DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_SUPPORTED_GROUPS;
-  return NC_EACCESS;
+int ESDM_inq_varids(int ncid, int *nvars, int *varids) {
+  DEBUG_ENTER("%d\n", ncid);
+
+  nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
+  if (e == NULL) return NC_EBADID;
+
+  if (nvars)
+    *nvars = e->vars.count;
+
+  if (varids){
+    for (int i = 0; i < *nvars; i++) {
+      varids[i] = i;
+    }
+  }
+
+  return NC_NOERR;
 }
 
 /**
  * @brief Retrieve a list of dimension ids associated with a group.
- * @param
+ * @param 	ncid	The ncid of the group in question.
+ * @param 	ndims	Pointer to memory to contain the number of dimids associated with the group.
+ * @param 	dimids	Pointer to memory to contain the number of dimensions associated with the group.
+ * @param 	include_parents	If non-zero, parent groups are also traversed.
  * @return
  */
 
-int ESDM_inq_dimids() {
+// Not implemented considering groups. Parameter include_parents = 0
+
+int ESDM_inq_dimids(int	ncid, int *ndims, int *dimids, int include_parents){
   // DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_SUPPORTED_GROUPS;
-  return NC_EACCESS;
+
+  // if (include_parents){
+  //   WARN_NOT_SUPPORTED_GROUPS;
+  //   return NC_EACCESS;
+  // }
+
+  nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
+  if (e == NULL) return NC_EBADID;
+
+  if (ndims)
+    *ndims = e->dimt.count;
+
+  if (dimids){
+    for (int i = 0; i < *ndims; i++) {
+      dimids[i] = i;
+    }
+  }
+
+  // It seems there is not enough information to retrieve the dimension's previous smd_find_position_by_name
+
+  // It's intentional that ESDM doesn't keep the position in which the dimensions were inserted, as long as the variables and their dimensions are coherent. Considering that, the answer seems to be right, but no usufel information is retrieved here.
+
+  return NC_NOERR;
 }
 
 /**
