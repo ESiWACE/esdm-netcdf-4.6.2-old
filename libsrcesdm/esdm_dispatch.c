@@ -192,8 +192,10 @@ int64_t esdm_container_dataset_get_actual_size(int ncid, int dimid) {
 
   }
 
-  if (pos == -1)
-    return (ESDM_ERROR);
+  if (pos == -1){
+  // there is no dataset containing the dimension
+    return (e->dimt.size[dimid]);
+  }
   else {
     int64_t const *sizes = esdm_dataset_get_actual_size(ev->dset);
     return sizes[pos];
@@ -574,13 +576,16 @@ int ESDM_inq(int ncid, int *ndimsp, int *nvarsp, int *nattsp, int *unlimdimidp) 
     if (status != ESDM_SUCCESS) return NC_EACCESS;
     *nattsp = attr->children;
   }
+
   if (ndimsp) {
     *ndimsp = e->dimt.count;
   }
+
   if (nvarsp) {
     int count = esdm_container_dataset_count(e->c);
     *nvarsp = count;
   }
+
   if (unlimdimidp) {
     *unlimdimidp = -1;
     for (int i = 0; i < e->dimt.count; i++) {
@@ -683,8 +688,6 @@ int ESDM_inq_dim(int ncid, int dimid, char *name, size_t *lenp) {
     *lenp = e->dimt.size[dimid];
     if (*lenp == 0) {
 
-      // this function cannot rely on the name
-
       *lenp = esdm_container_dataset_get_actual_size(ncid, dimid);
     }
   }
@@ -699,13 +702,21 @@ int ESDM_inq_dim(int ncid, int dimid, char *name, size_t *lenp) {
  * @return
  */
 
-// TODO
-
 int ESDM_inq_unlimdim(int ncid, int *unlimdimidp) {
   DEBUG_ENTER("%d\n", ncid);
 
   nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
   if (e == NULL) return NC_EBADID;
+
+  if (unlimdimidp) {
+    *unlimdimidp = -1;
+    for (int i = 0; i < e->dimt.count; i++) {
+      if (e->dimt.size[i] == 0) {
+        *unlimdimidp = i;
+        return NC_NOERR;
+      }
+    }
+  }
 
   return NC_NOERR;
 }
@@ -1358,8 +1369,6 @@ int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *count
 
     // assert(subspace->size);
 
-    // 1097	        ESDM_LOG_FMT(ESDM_LOGLEVEL_DEBUG, "invalid arguments to `%s()` detected: `offset[%"PRId64"] + size[%"PRId64"] = %"PRId64" + %"PRId64" = %"PRId64"` is outside of the valid range for the dataspaces' dimension (offset %"PRId64", size %"PRId64")\n", __func__, i, i, offset[i], size[i], offset[i] + size[i], dataspace->offset[i], dataspace->size[i]);
-
     ret = esdm_write(kv->dset, (void *)data, subspace);
     if (ret != ESDM_SUCCESS) {
       esdm_dataspace_destroy(subspace);
@@ -1565,13 +1574,27 @@ int ESDM_show_metadata(int ncid) {
  * @return
  */
 
-// TODO
+int ESDM_inq_unlimdims(int ncid, int *nunlimdimsp, int *unlimdimidsp) {
+  DEBUG_ENTER("%d\n", ncid);
 
-int ESDM_inq_unlimdims() {
-  // DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_IMPLEMENTED;
-  // Same idea of ESDM_inq_unlimdim, but returning a list
-  return NC_EACCESS;
+  esdm_status status;
+  nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
+  if (e == NULL) return NC_EBADID;
+
+  int ndims = 0;
+  if (unlimdimidsp) {
+    for (int i = 0; i < e->dimt.count; i++) {
+      if (e->dimt.size[i] == 0) {
+        unlimdimidsp[ndims++] = i;
+      }
+    }
+  }
+
+  if (nunlimdimsp) {
+    *nunlimdimsp = ndims;
+  }
+
+  return NC_NOERR;
 }
 
 /**
