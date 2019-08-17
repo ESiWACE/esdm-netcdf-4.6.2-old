@@ -179,12 +179,18 @@ int64_t esdm_container_dataset_get_actual_size(int ncid, int dimid) {
   // find a dataset that contains the dimension
   for (int varid = 0; varid < nvars; varid++) {
     ev = e->vars.var[varid];
-    int64_t ndims = esdm_dataspace_get_dims(ev->dset);
+
+    esdm_dataspace_t *space;
+    esdm_status status = esdm_dataset_get_dataspace(ev->dset, &space);
+    if (status != ESDM_SUCCESS) return NC_EACCESS;
+
+    int64_t ndims = esdm_dataspace_get_dims(space);
 
     for (int i = 0; i < ndims; i++) {
-      if (dimid == ev->dimidsp[i])
+      if (dimid == ev->dimidsp[i]){
         pos = i;
         break;
+      }
     }
 
     if (pos != -1)
@@ -321,7 +327,8 @@ int ESDM_open(const char *path, int cmode, int basepe, size_t *chunksizehintp, v
     }
 
     esdm_dataspace_t *dspace;
-    esdm_dataset_get_dataspace(dset, &dspace);
+    status = esdm_dataset_get_dataspace(dset, &dspace);
+    if (status != ESDM_SUCCESS) return NC_EACCESS;
     int ndims = esdm_dataspace_get_dims(dspace);
     char const *const *names = NULL;
     status = esdm_dataset_get_name_dims(dset, &names);
@@ -1518,25 +1525,35 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
 }
 
 /**
- * @brief
- * @param
+ * @brief Retrieve a list of types associated with a group.
+ * @param [in]	ncid	The ncid for the group in question.
+ * @param [out]	ntypes	Pointer to memory to hold the number of typeids contained by the group in question.
+ * @param [out]	typeids	Pointer to memory to hold the typeids contained by the group in question.
  * @return
  */
 
-static int ESDM_inq_typeids(int ncid, int *ntypes, int *p) {
+//TODO
+
+static int ESDM_inq_typeids(int ncid, int *ntypes, int *typeids) {
   DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_SUPPORTED_GROUPS;
-  // nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
-  // if (e == NULL) return NC_EBADID;
-  //
-  // if (ntypes) {
-  //   *ntypes = 0;
-  // }
-  // if (p) {
-  //   *p = 0;
-  // }
-  //
-  return NC_EACCESS; //check it later
+
+  nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
+  if (e == NULL) return NC_EBADID;
+
+  // Check for types inside the global attributes (e->c->attr)
+
+  // Check for types of the variables (e->dsets->dset)
+
+  // Check for types of the attributes inside the variables (e->dsets->dset->attr)
+
+  if (ntypes) {
+
+  }
+  if (typeids) {
+
+  }
+
+  return NC_NOERR;
 }
 
 /**

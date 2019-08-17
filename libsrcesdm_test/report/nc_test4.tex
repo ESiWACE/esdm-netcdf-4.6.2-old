@@ -199,7 +199,7 @@ ESDM does not support compression!
 
 Remove lines 283-296. ESDM does not support compression!
 
-Too long to run.
+Too long to run!
 
 {\bf \large Status: } INCONCLUSIVE!
 
@@ -335,7 +335,7 @@ tst\_create\_files: /home/lucy/esiwace/esdm/src/esdm-scheduler.c:125: backend\_t
 
 //TODO This error is out of my league.
 
-Too long to run.
+Too long to run!
 
 {\bf \large Status: } INCONCLUSIVE!
 
@@ -470,11 +470,11 @@ Test netcdf-4 dimensions some more.
 
 Remove lines 58-59. ESDM does not keep the same order for dimids.
 
-tst\_dims: ../../libsrcesdm/esdm\_dispatch.c:687: ESDM\_inq\_dim: Assertion `e->dimt.count > dimid' failed.
+Remove lines 440-441. Testing invalid parameters as input.
 
-//TODO This error is out of my league.
+*** Tests successful!
 
-{\bf \large Status: } INCONCLUSIVE!
+{\bf \large Status: } PARTIAL SUCCESS!
 
 \section{Test tst\_dims3.c}
 
@@ -525,11 +525,25 @@ Test netcdf-4 file code.
 
 Remove line 131. Expected error: NC\_ERANGE
 
-tst\_files: ../../libsrcesdm/esdm\_dispatch.c:1149: ESDM\_def\_var: Assertion `e->dimt.count > dimid' failed.
+Remove line 189. Expected error: NC\_ENOTINDEFINE
 
-//TODO This error is out of my league.
+Remove line 279, 303. Expected error: NC\_FORMAT\_CLASSIC
 
-{\bf \large Status: } INCONCLUSIVE!
+Remove line 285, 309. Expected error: NC\_FORMAT\_64BIT\_OFFSET
+
+Remove line 291. Expected error: NC\_FORMAT\_NETCDF4
+
+Remove lines 336-337. ESDM does not support compression!
+
+Remove lines 251-269, 519-527. Expected errors related to the format.
+
+Remove line 534. Expected error: NC\_EPERM
+
+Remove lines 479-481, 517-518, 529-530. Testing invalid parameters as input.
+
+*** Tests successful!
+
+{\bf \large Status: } PARTIAL SUCCESS!
 
 \section{Test tst\_files3.c}
 
@@ -537,7 +551,7 @@ This is a benchmark program which tests file writes with compressed data.
 
 ESDM does not support compression!
 
-Too long to test.
+Too long to run!
 
 {\bf \large Status: } INCONCLUSIVE!
 
@@ -710,7 +724,7 @@ WARN ESDM\_set\_fill():503 NOT IMPLEMENTED
 
 Test large file problems reported by user.
 
-Too large to test.
+Too long to run!
 
 {\bf \large Status: } INCONCLUSIVE!
 
@@ -902,17 +916,29 @@ Great test for the conversions.
 
 Test netcdf-4 variables.
 
-ESDM does not support groups from NetCDF!
-
 //TODO Understand and implement the fill value.
 
 Remove line 148. Expected error: NC\_EPERM
 
-tst\_vars2: ../../libsrcesdm/esdm\_dispatch.c:1149: ESDM\_def\_var: Assertion `e->dimt.count > dimid' failed.
+Remove lines 434-439, 522-524, 530-535, 541, 544-551, 638-639, 644-646, 652, 716-725, 744-745, 1060-1062, 1079-1083, 1107-1111, 1232-1259, 1242-1243, 1274-1275, 1291-1318, 1457-1458. Testing invalid parameters as input.
 
-//TODO This error is out of my league.
+Remove lines 649, 671-672. Conversion.
 
-{\bf \large Status: } INCONCLUSIVE!
+Remove lines 703, 732-733, 757-758. ESDM does not support endianness!
+
+Remove lines 767-1032, 1145, 1158-1159, 1179-1180. ESDM does not support compression!
+
+Remove line 1270. ESDM does not support user defined datatypes from NetCDF!
+
+Remove lines 1190-1228. ERROR dimension zero.
+
+Remove lines 1284-1285. ESDM does not support groups from NetCDF!
+
+Remove lines 1286-1287. //TODO Implement function nc\_inq\_typeids.
+
+*** Tests successful!
+
+{\bf \large Status: } PARTIAL SUCCESS!
 
 \section{Test tst\_vars3.c}
 
@@ -1180,7 +1206,7 @@ tst\_atts1.c   &           \\ \hline
 tst\_atts2.c   &  ESDM does not support user defined datatypes from NetCDF!         \\ \hline
 tst\_atts3.c   &           \\ \hline
 tst\_atts.c   &           \\ \hline
-tst\_attsperf.c   &  Too long to test now.         \\ \hline
+tst\_attsperf.c   &  Too long to run!         \\ \hline
 tst\_bug324.c   &  ESDM does not support classic format from NetCDF!         \\ \hline
 tst\_camrun.c   &           \\ \hline
 tst\_chunks2.c   &  ESDM does not support compression!         \\ \hline
