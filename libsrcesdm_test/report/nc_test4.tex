@@ -13,7 +13,7 @@ Example illustrates the use of SZIP compression in HDF5.
 The cdm tests confirm complience with the Common Data Model. This
 file creates some sample data structures to hold sea soundings.
 
-ESDM does not support user defined datatypes from NetCDF!
+ESDM does not support user-defined datatypes from NetCDF!
 
 {\bf \large Status: } FAILURE!
 
@@ -69,7 +69,7 @@ Remove lines 280-317, 327-335, 341-343, 353-355, 365-367, 375. Testing invalid p
 
 Remove lines 372, 383, 414, 423. Same problem with smd\_attr\_copy\_value and strings.
 
-tst\_atts: /home/lucy/esiwace/esdm/src/esdm-datatypes.c:959: esdmI\_dataset\_metadata\_create: Assertion `d->dataspace->size != ((void *)0)' failed.
+tst\_atts: /home/lucy/esiwace/esdm/src/esdm-datatypes.c:959: esdmI\_dataset\_metadata\_create: Assertion `d-$>$dataspace-$>$size != ((void *)0)' failed.
 
 //TODO This error is out of my league.
 
@@ -91,7 +91,7 @@ Test attributes.
 
 Test copy of attributes.
 
-ESDM does not support user defined datatypes from NetCDF!
+ESDM does not support user-defined datatypes from NetCDF!
 
 Remove lines 57-78, 157-212. Specific to compound type.
 
@@ -111,7 +111,7 @@ of tst\_unicode.c
 
 Remove lines 2393-2404. Testing invalid parameters as input.
 
-tst\_atts3: /home/lucy/esiwace/esdm/src/esdm-datatypes.c:959: esdmI\_dataset\_metadata\_create: Assertion `d->dataspace->size != ((void *)0)' failed.
+tst\_atts3: /home/lucy/esiwace/esdm/src/esdm-datatypes.c:959: esdmI\_dataset\_metadata\_create: Assertion `d-$>$dataspace-$>$size != ((void *)0)' failed.
 
 //TODO This error is out of my league.
 
@@ -157,7 +157,7 @@ Remove line 71. Expected error: NC\_FORMAT\_NETCDF4\_CLASSIC.
 
 This program writes a data file from the CAM model run.
 
-tst\_camrun: /home/lucy/esiwace/esdm/src/esdm-datatypes.c:959: esdmI\_dataset\_metadata\_create: Assertion `d->dataspace->size != ((void *)0)' failed.
+tst\_camrun: /home/lucy/esiwace/esdm/src/esdm-datatypes.c:959: esdmI\_dataset\_metadata\_create: Assertion `d-$>$dataspace-$>$size != ((void *)0)' failed.
 
 //TODO This error is out of my league.
 
@@ -207,7 +207,7 @@ Too long to run!
 
 Test netcdf-4 compound type feature.
 
-ESDM does not support user defined datatypes from NetCDF!
+ESDM does not support user-defined datatypes from NetCDF!
 
 {\bf \large Status: } FAILURE!
 
@@ -215,7 +215,7 @@ ESDM does not support user defined datatypes from NetCDF!
 
 Test netcdf-4 compound type feature.
 
-ESDM does not support user defined datatypes from NetCDF!
+ESDM does not support user-defined datatypes from NetCDF!
 
 {\bf \large Status: } FAILURE!
 
@@ -223,7 +223,7 @@ ESDM does not support user defined datatypes from NetCDF!
 
 Test netcdf-4 compound type feature, even more.
 
-ESDM does not support user defined datatypes from NetCDF!
+ESDM does not support user-defined datatypes from NetCDF!
 
 {\bf \large Status: } FAILURE!
 
@@ -285,7 +285,7 @@ NetCDF inserts two variables with the same name, different type, and that will h
 
 ESDM does not allow two variables with the same name. This might be a big restriction.
 
-tst\_coords: /home/lucy/esiwace/esdm/src/esdm-datatypes.c:382: esdmI\_fragment\_create: Assertion `sspace->size[i] > 0' failed.
+tst\_coords: /home/lucy/esiwace/esdm/src/esdm-datatypes.c:382: esdmI\_fragment\_create: Assertion `sspace-$>$size[i] $>$ 0' failed.
 
 //TODO This error is out of my league.
 
@@ -331,7 +331,7 @@ This program creates a test file.
 
 ESDM does not support groups from NetCDF!
 
-tst\_create\_files: /home/lucy/esiwace/esdm/src/esdm-scheduler.c:125: backend\_thread: Assertion `status->pending\_ops >= 0' failed.
+tst\_create\_files: /home/lucy/esiwace/esdm/src/esdm-scheduler.c:125: backend\_thread: Assertion `status-$>$pending\_ops $>$= 0' failed.
 
 //TODO This error is out of my league.
 
@@ -363,7 +363,9 @@ if (nc_put_var_float(ncid, lat_varid, lat)) ERR;
 if (nc_put_var_float(ncid, lon_varid, lon)) ERR;
 \end{verbatim}
 
-After that, the values are retrieved. When using the specific function $nc\_get\_var\_float$, it works. When using the general function $nc\_get\_var$, this function calls $NC\_get\_var(ncid, varid, ip, NC\_NAT)$ with the NC\_NAT parameter.
+After that, the values are retrieved.
+
+When using the specific function nc\_get\_var\_float, it works. When using the general function nc\_get\_var, this function calls NC\_get\_var(ncid, varid, ip, NC\_NAT) with the NC\_NAT parameter.
 
 \begin{verbatim}
 if (nc_get_var(ncid, lat_varid, lat_in)) ERR;
@@ -376,7 +378,9 @@ esdm\_dispatch.c:1273: if (mem\_nc\_type != type\_esdm\_to\_nc(esdm\_dataspace\_
 
 Eventually this test will change, but even then will not be compatible with NC\_NAT. For NetCDF, this is transparent.
 
-tst\_dims: /home/lucy/esiwace/esdm/src/esdm-scheduler.c:456: esdm\_scheduler\_makeSplitRecommendation: Assertion `splitFactors[i] >= 1' failed.
+tst\_dims: /home/lucy/esiwace/esdm/src/esdm-scheduler.c:456:
+
+esdm\_scheduler\_makeSplitRecommendation: Assertion `splitFactors[i] $>$= 1' failed.
 
 //TODO This error is out of my league.
 
@@ -410,10 +414,12 @@ Remove lines 1157-1162. For some reason, the double variable is turning into (in
 
 \begin{verbatim}
 (gdb) p pres
-$1 = {{{{1013.1, 1013.1, 1013.1, 1013.1}, {1013.1, 1013.1, 1013.1, 1013.1}, {1013.1, 1013.1, 1013.1, 1013.1}}, {{1014.1, 1014.1, 1014.1, 1014.1}, {1014.1, 1014.1, 1014.1, 1014.1}, {1014.1, 1014.1,
-        1014.1, 1014.1}}}}
+$1 = {{{{1013.1, 1013.1, 1013.1, 1013.1}, {1013.1, 1013.1, 1013.1, 1013.1},
+{1013.1, 1013.1, 1013.1, 1013.1}}, {{1014.1, 1014.1, 1014.1, 1014.1},
+{1014.1, 1014.1, 1014.1, 1014.1}, {1014.1, 1014.1, 1014.1, 1014.1}}}}
 (gdb) p pres_in
-$2 = {{{{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}}, {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}}}}
+$2 = {{{{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}},
+{{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}}}}
 \end{verbatim}
 
 Remove lines 1165-1168. Conversion from INT64 to UINT64. Eventually it will work.
@@ -430,10 +436,12 @@ $2 = 10
 
 Remove lines 1171-1175. For some reason, the ushort variable is turning into zero.
 
+\begin{verbatim}
 (gdb) p hp
 $1 = {{{100, 101, 102, 103}, {100, 101, 102, 103}}}
 (gdb) p hp_in
 $2 = {{{0, 0, 0, 0}, {0, 0, 0, 0}}}
+\end{verbatim}
 
 Remove lines 1257-1258. ESDM does not keep the same order for dimids.
 
@@ -499,7 +507,7 @@ Expected error: NC\_ELATEFILL
 
 This program excersizes HDF5 variable length array code.
 
-ESDM does not support user defined datatypes from NetCDF!
+ESDM does not support user-defined datatypes from NetCDF!
 
 {\bf \large Status: } FAILURE!
 
@@ -515,7 +523,7 @@ ESDM does not support endianness!
 
 Test netcdf-4 enum types.
 
-ESDM does not support user defined datatypes from NetCDF!
+ESDM does not support user-defined datatypes from NetCDF!
 
 {\bf \large Status: } FAILURE!
 
@@ -622,7 +630,7 @@ Test using fill values. I don't understand yet.
 
 Create a test file with default fill values for variables of each type.
 
-ESDM does not support NC\_STRING.
+ESDM does not support NC\_STRING from NetCDF!
 
 {\bf \large Status: } FAILURE!
 
@@ -654,7 +662,7 @@ ESDM does not support groups from NetCDF!
 
 This program tests fixes for reading netCDF-4 files that contain datasets with reference datatypes.  The netCDF-4 library should ignore the datasets and attributes that have reference datatypes and allow the rest of the file to be accessed.
 
-ESDM does not support HDF5!
+ESDM does not support HDF5 format!
 
 // if (NC\_open(FILE\_NAME, NC\_NOWRITE, \&ncid)) ERR;
 
@@ -666,7 +674,7 @@ ESDM does not support HDF5!
 
 This program tests reading HDF5 files that contain scalar attributes and variables, of both string and numeric datatypes.  The netCDF-4 library should allow access to all of these.
 
-ESDM does not support HDF5!
+ESDM does not support HDF5 format!
 
 {\bf \large Status: } FAILURE!
 
@@ -674,7 +682,7 @@ ESDM does not support HDF5!
 
 This program tests fixes for bugs reported with accessing fixed-length scalar string variables and variable-length scalar string attributes from HDF5 files through the netCDF-4 API.
 
-ESDM does not support HDF5!
+ESDM does not support HDF5 format!
 
 {\bf \large Status: } FAILURE!
 
@@ -682,25 +690,17 @@ ESDM does not support HDF5!
 
 No description.
 
-ESDM does not support HDF5!
+ESDM does not support HDF5 format!
 
 ESDM does not support endianness!
 
 {\bf \large Status: } FAILURE!
 
-\section{Test tst\_interops5.c}
+\section{Test tst\_hdf5\_file\_compat.c}
 
-Test that HDF5 and NetCDF-4 can read and write the same file.
+Tests library ability to open files generated by a netcdf instance linked against libhdf5 1.10.0.
 
-ESDM does not support HDF5!
-
-{\bf \large Status: } FAILURE!
-
-\section{Test tst\_interops6.c}
-
-Test that HDF5 and NetCDF-4 can read and write the same file.
-
-ESDM does not support HDF5!
+ESDM does not support HDF5 format!
 
 {\bf \large Status: } FAILURE!
 
@@ -708,7 +708,23 @@ ESDM does not support HDF5!
 
 Test that HDF5 and NetCDF-4 can read and write the same file.
 
-ESDM does not support HDF5!
+ESDM does not support HDF5 format!
+
+{\bf \large Status: } FAILURE!
+
+\section{Test tst\_interops5.c}
+
+Test that HDF5 and NetCDF-4 can read and write the same file.
+
+ESDM does not support HDF5 format!
+
+{\bf \large Status: } FAILURE!
+
+\section{Test tst\_interops6.c}
+
+Test that HDF5 and NetCDF-4 can read and write the same file.
+
+ESDM does not support HDF5 format!
 
 {\bf \large Status: } FAILURE!
 
@@ -760,7 +776,7 @@ This just excersizes MPI file I/O to make sure everything's working properly. If
 
 Test netcdf-4 opaque types.
 
-ESDM does not support user defined datatypes from NetCDF!
+ESDM does not support user-defined datatypes from NetCDF!
 
 {\bf \large Status: } FAILURE!
 
@@ -820,7 +836,7 @@ WARN ESDM\_var\_par\_access():520 NOT IMPLEMENTED
 
 Test netcdf-4 string types.
 
-ESDM does not support NC\_STRING!
+ESDM does not support NC\_STRING from NetCDF!
 
 {\bf \large Status: } FAILURE!
 
@@ -848,7 +864,7 @@ Remove line 128. Expected error: NC\_EINDEFINE
 
 Test netcdf-4 types.
 
-ESDM does not support user defined datatypes from NetCDF!
+ESDM does not support user-defined datatypes from NetCDF!
 
 {\bf \large Status: } FAILURE!
 
@@ -856,7 +872,7 @@ ESDM does not support user defined datatypes from NetCDF!
 
 Test user-defined formats.
 
-ESDM does not support user defined datatypes from NetCDF!
+ESDM does not support user-defined datatypes from NetCDF!
 
 {\bf \large Status: } FAILURE!
 
@@ -928,7 +944,7 @@ Remove lines 703, 732-733, 757-758. ESDM does not support endianness!
 
 Remove lines 767-1032, 1145, 1158-1159, 1179-1180. ESDM does not support compression!
 
-Remove line 1270. ESDM does not support user defined datatypes from NetCDF!
+Remove line 1270. ESDM does not support user-defined datatypes from NetCDF!
 
 Remove lines 1190-1228. ERROR dimension zero.
 
@@ -987,7 +1003,7 @@ Remove lines 74-76, 81-82, 96-98, 103-104. ESDM does not support compression!
 
 Test netcdf-4 variable length code.
 
-ESDM does not support user defined datatypes from NetCDF!
+ESDM does not support user-defined datatypes from NetCDF!
 
 {\bf \large Status: } FAILURE!
 
@@ -995,301 +1011,202 @@ ESDM does not support user defined datatypes from NetCDF!
 
 \begin{table}[H]
 \centering
-\begin{tabular}{|m{2cm}|m{3cm}|m{3cm}|m{3cm}|m{3cm}|m{2cm}|}
-\hline
-Test & Test       & Steps   & Expected  & Actual & Status\\
-Name & Objective  &         & Output    & Output &               \\ \hline \hline
-h5testszip.c   &   &   &   &   &   \\ \hline
-cdm\_sea\_soundings.c   &   &   &   &   &   \\ \hline
-test\_szip.c   &   &   &   &   &   \\ \hline
-tst\_atts1.c   &   &   &   &   &   \\ \hline
-tst\_atts2.c   &   &   &   &   &   \\ \hline
-tst\_atts3.c   &   &   &   &   &   \\ \hline
-tst\_atts.c   &   &   &   &   &   \\ \hline
-tst\_atts\_string\_rewrite.c   &   &   &   &   &   \\ \hline
-tst\_attsperf.c   &   &   &   &   &   \\ \hline
-tst\_bug324.c   &   &   &   &   &   \\ \hline
-tst\_camrun.c   &   &   &   &   &   \\ \hline
-tst\_chunks2.c   &   &   &   &   &   \\ \hline
-tst\_chunks3.c   &   &   &   &   &   \\ \hline
-tst\_chunks.c   &   &   &   &   &   \\ \hline
-tst\_compounds2.c   &   &   &   &   &   \\ \hline
-tst\_compounds3.c   &   &   &   &   &   \\ \hline
-tst\_converts2.c   &   &   &   &   &   \\ \hline
-tst\_converts.c   &   &   &   &   &   \\ \hline
-tst\_coords2.c   &   &   &   &   &   \\ \hline
-tst\_coords3.c   &   &   &   &   &   \\ \hline
-tst\_coords.c   &   &   &   &   &   \\ \hline
-tst\_create\_files.c   &   &   &   &   &   \\ \hline
-tst\_dims2.c   &   &   &   &   &   \\ \hline
-tst\_dims3.c   &   &   &   &   &   \\ \hline
-tst\_elatefill.c   &   &   &   &   &   \\ \hline
-tst\_empty\_vlen\_unlim.c   &   &   &   &   &   \\ \hline
-tst\_endian\_fill.c   &   &   &   &   &   \\ \hline
-tst\_enums.c   &   &   &   &   &   \\ \hline
-tst\_files3.c   &   &   &   &   &   \\ \hline
-tst\_files5.c   &   &   &   &   &   \\ \hline
-tst\_files4.c   &   &   &   &   &   \\ \hline
-tst\_files6.c   &   &   &   &   &   \\ \hline
-tst\_files.c   &   &   &   &   &   \\ \hline
-tst\_fill\_attr\_vanish.c   &   &   &   &   &   \\ \hline
-tst\_fillbug.c   &   &   &   &   &   \\ \hline
-tst\_fills2.c   &   &   &   &   &   \\ \hline
-tst\_fills.c   &   &   &   &   &   \\ \hline
-tst\_filterparser.c   &   &   &   &   &   \\ \hline
-tst\_grps2.c   &   &   &   &   &   \\ \hline
-tst\_grps.c   &   &   &   &   &   \\ \hline
-tst\_h5\_endians.c   &   &   &   &   &   \\ \hline
-tst\_hdf5\_file\_compat.c   &   &   &   &   &   \\ \hline
-tst\_h\_refs.c   &   &   &   &   &   \\ \hline
-tst\_h\_scalar.c   &   &   &   &   &   \\ \hline
-tst\_h\_strbug.c   &   &   &   &   &   \\ \hline
-tst\_interops5.c   &   &   &   &   &   \\ \hline
-tst\_interops6.c   &   &   &   &   &   \\ \hline
-tst\_interops.c   &   &   &   &   &   \\ \hline
-tst\_large2.c   &   &   &   &   &   \\ \hline
-tst\_large.c   &   &   &   &   &   \\ \hline
-\hline
-\end{tabular}
-\caption{Test Case Report: ESDM and NetCDF compatibility}
-\end{table}
-
-\clearpage
-
-\begin{table}[H]
-\centering
 \begin{tabular}{|l|c|c|c|c|c|}
 \hline
-Filename & Compatible & Almost      & Not Compatible  & Almost        & Incompatible \\
-         &            & Compatible  & Yet             & Incompatible  &               \\ \hline \hline
-tst\_mem.c   &   &   &   &   &   \\ \hline
-tst\_mode.c   &   &   &   &   &   \\ \hline
-tst\_mpi\_parallel.c   &   &   &   &   &   \\ \hline
-tst\_opaques.c   &   &   &   &   &   \\ \hline
-tst\_parallel.c   &   &   &   &   &   \\ \hline
-tst\_put\_vars.c   &   &   &   &   &   \\ \hline
-tst\_rehash.c   &   &   &   &   &   \\ \hline
-tst\_rename2.c   &   &   &   &   &   \\ \hline
-tst\_rename.c   &   &   &   &   &   \\ \hline
-tst\_simplerw\_coll\_r.c   &   &   &   &   &   \\ \hline
-tst\_strings2.c   &   &   &   &   &   \\ \hline
-tst\_strings.c   &   &   &   &   &   \\ \hline
-tst\_sync.c   &   &   &   &   &   \\ \hline
-tst\_types.c   &   &   &   &   &   \\ \hline
-tst\_udf.c   &   &   &   &   &   \\ \hline
-tst\_unlim\_vars.c   &   &   &   &   &   \\ \hline
-tst\_utf8.c   &   &   &   &   &   \\ \hline
-tst\_v2.c   &   &   &   &   &   \\ \hline
-tst\_varms.c   &   &   &   &   &   \\ \hline
-tst\_vars2.c   &   &   &   &   &   \\ \hline
-tst\_vars3.c   &   &   &   &   &   \\ \hline
-tst\_vars4.c   &   &   &   &   &   \\ \hline
-tst\_vars.c   &   &   &   &   &   \\ \hline
-tst\_vl.c   &   &   &   &   &   \\ \hline
-t\_type.c   &  &   &   &   &   \\ \hline
-\hline
-\end{tabular}
-\caption{Test Case Report: ESDM and NetCDF compatibility}
-\end{table}
-
-
-
-
-
-\begin{table}[H]
-\centering
-\begin{tabular}{|l|c|c|c|c|c|}
-\hline
-Filename & Compatible & Almost      & Not Compatible  & Almost        & Incompatible \\
-         &            & Compatible  & Yet             & Incompatible  &               \\ \hline \hline
-cdm\_sea\_soundings.c   &   &   &   &   &  $\checkmark$ \\ \hline
-test\_szip.c   &   &   &   &   & $\checkmark$  \\ \hline
-tst\_atts1.c   &   &   &   &   &   \\ \hline
-tst\_atts2.c   &   &   &   &   & $\checkmark$  \\ \hline
-tst\_atts3.c   &   &   &   &   &   \\ \hline
-tst\_atts.c   &   &   &   &   &   \\ \hline
-tst\_attsperf.c   &   &   &   &   &   \\ \hline
-tst\_bug324.c   &   &   &   &   &   \\ \hline
-tst\_camrun.c   &   &   &   &   &   \\ \hline
-tst\_chunks2.c   &   &   &   &   &   \\ \hline
-tst\_chunks3.c   &   &   &   &   &   \\ \hline
-tst\_chunks.c   &   &   &   &   &   \\ \hline
-tst\_compounds2.c   &   &   &   &   &   \\ \hline
-tst\_compounds3.c   &   &   &   &   &   \\ \hline
-tst\_converts2.c   &   &   &   &   &   \\ \hline
-tst\_converts.c   &   &   &   &   &   \\ \hline
-tst\_coords2.c   &   &   &   &   &   \\ \hline
-tst\_coords3.c   &   &   &   &   &   \\ \hline
-tst\_coords.c   &   &   &   &   &   \\ \hline
-tst\_create\_files.c   &   &   &   &   &   \\ \hline
-tst\_dims2.c   &   &   &   &   &   \\ \hline
-tst\_dims3.c   &   &   &   &   &   \\ \hline
-tst\_empty\_vlen\_unlim.c   &   &   &   &   &   \\ \hline
-tst\_endian\_fill.c   &   &   &   &   &   \\ \hline
-tst\_enums.c   &   &   &   &   &   \\ \hline
-tst\_files4.c   &   &   &   &   &   \\ \hline
-tst\_files6.c   &   &   &   &   &   \\ \hline
-tst\_files.c   &   &   &   &   &   \\ \hline
-tst\_fill\_attr\_vanish.c   &   &   &   &   &   \\ \hline
-tst\_fillbug.c   &   &   &   &   &   \\ \hline
-tst\_fills2.c   &   &   &   &   &   \\ \hline
-tst\_fills.c   &   &   &   &   &   \\ \hline
-tst\_grps2.c   &   &   &   &   &   \\ \hline
-tst\_grps.c   &   &   &   &   &   \\ \hline
-tst\_h5\_endians.c   &   &   &   &   &   \\ \hline
-tst\_hdf5\_file\_compat.c   &   &   &   &   &   \\ \hline
-tst\_h\_refs.c   &   &   &   &   &   \\ \hline
-tst\_h\_scalar.c   &   &   &   &   &   \\ \hline
-tst\_h\_strbug.c   &   &   &   &   &   \\ \hline
-tst\_interops5.c   &   &   &   &   &   \\ \hline
-tst\_interops6.c   &   &   &   &   &   \\ \hline
-tst\_interops.c   &   &   &   &   &   \\ \hline
-tst\_large2.c   &   &   &   &   &   \\ \hline
-tst\_large.c   &   &   &   &   &   \\ \hline
-\hline
-\end{tabular}
-\caption{}
-\end{table}
-
-\clearpage
-
-\begin{table}[H]
-\centering
-\begin{tabular}{|l|c|c|c|c|c|}
-\hline
-Filename & Compatible & Almost      & Not Compatible  & Almost        & Incompatible \\
-         &            & Compatible  & Yet             & Incompatible  &               \\ \hline \hline
-tst\_mem.c   &   &   &   &   &   \\ \hline
-tst\_mode.c   &   &   &   &   &   \\ \hline
-tst\_opaques.c   &   &   &   &   &   \\ \hline
-tst\_parallel.c   &   &   &   &   &   \\ \hline
-tst\_put\_vars.c   &   &   &   &   &   \\ \hline
-tst\_rename2.c   &   &   &   &   &   \\ \hline
-tst\_rename.c   &   &   &   &   &   \\ \hline
-tst\_simplerw\_coll\_r.c   &   &   &   &   &   \\ \hline
-tst\_strings2.c   &   &   &   &   &   \\ \hline
-tst\_strings.c   &   &   &   &   &   \\ \hline
-tst\_sync.c   &   &   &   &   &   \\ \hline
-tst\_types.c   &   &   &   &   &   \\ \hline
-tst\_udf.c   &   &   &   &   &   \\ \hline
-tst\_unlim\_vars.c   &   &   &   &   &   \\ \hline
-tst\_utf8.c   &   &   &   &   &   \\ \hline
-tst\_v2.c   &   &   &   &   &   \\ \hline
-tst\_varms.c   &   &   &   &   &   \\ \hline
-tst\_vars2.c   &   &   &   &   &   \\ \hline
-tst\_vars3.c   &   &   &   &   &   \\ \hline
-tst\_vars4.c   &   &   &   &   &   \\ \hline
-tst\_vars.c   &   &   &   &   &   \\ \hline
-tst\_vl.c   &   &   &   &   &   \\ \hline
-h5testszip.c   & $\checkmark$  &   &   &   &   \\ \hline
+Filename & Success & Partial & Inconclusive  & Failure  & Not Tested \\
+         &        & Success  &              &               & Yet        \\ \hline \hline
+h5testszip.c            & $\checkmark$  &   &   &   &   \\ \hline
+cdm\_sea\_soundings.c   &   &   &   & $\checkmark$  &   \\ \hline
+t\_type.c         & $\checkmark$ &   &   &   &   \\ \hline
+test\_szip.c      &   & $\checkmark$  &   &   &   \\ \hline
+tst\_atts.c       &   & $\checkmark$  &   &   &   \\ \hline
+tst\_atts1.c      &   &   & $\checkmark$  &   &   \\ \hline
+tst\_atts2.c      &   & $\checkmark$  &   &   & $\checkmark$  \\ \hline
+tst\_atts3.c      &   & $\checkmark$  &   &   &   \\ \hline
 tst\_atts\_string\_rewrite.c   & $\checkmark$  &   &   &   &   \\ \hline
-tst\_elatefill.c   & $\checkmark$  &   &   &   &   \\ \hline
-tst\_files3.c   & $\checkmark$  &   &   &   &   \\ \hline
+tst\_attsperf.c   &   &   &   &   & $\checkmark$  \\ \hline
+tst\_bug324.c     &   & $\checkmark$  &   &   &   \\ \hline
+tst\_camrun.c     &   & $\checkmark$  &   &   &   \\ \hline
+tst\_chunks.c     &   &   &   & $\checkmark$  &   \\ \hline
+tst\_chunks2.c    &   &   &   & $\checkmark$  &   \\ \hline
+tst\_chunks3.c    &   &   &   & $\checkmark$  &   \\ \hline
+tst\_compounds.c  &   &   &   & $\checkmark$  &   \\ \hline
+tst\_compounds2.c &   &   &   & $\checkmark$  &   \\ \hline
+tst\_compounds3.c &   &   &   & $\checkmark$  &   \\ \hline
+tst\_converts.c   &   &   & $\checkmark$  &   &   \\ \hline
+tst\_converts2.c  &   &   & $\checkmark$  &   &   \\ \hline
+tst\_coords.c     &   & $\checkmark$  &   &   &   \\ \hline
+tst\_coords2.c    &   & $\checkmark$  &   &   &   \\ \hline
+tst\_coords3.c    &   & $\checkmark$  &   &   &   \\ \hline
+tst\_create\_files.c   &   &   & $\checkmark$  &   &   \\ \hline
+tst\_dims.c       &   & $\checkmark$  &   &   &   \\ \hline
+tst\_dims2.c      &   & $\checkmark$  &   &   &   \\ \hline
+tst\_dims3.c      &   &   &   & $\checkmark$  &   \\ \hline
+tst\_elatefill.c  &   &   & $\checkmark$  &   &   \\ \hline
+tst\_empty\_vlen\_unlim.c   &   &   &   & $\checkmark$  &   \\ \hline
+tst\_endian\_fill.c   &   &   &   & $\checkmark$  &   \\ \hline
+tst\_enums.c   &   &   &   &  $\checkmark$ &   \\ \hline
+tst\_files.c   &   & $\checkmark$  &   &   &   \\ \hline
+tst\_files3.c   &   &   &   &   &  $\checkmark$ \\ \hline
+tst\_files4.c   &   &   &   & $\checkmark$  &   \\ \hline
 tst\_files5.c   & $\checkmark$  &   &   &   &   \\ \hline
+tst\_files6.c   &   & $\checkmark$  &   &   &   \\ \hline
+tst\_fill\_attr\_vanish.c   &   & $\checkmark$  &   &   &   \\ \hline
+tst\_fillbug.c   &   & $\checkmark$  &   &   &   \\ \hline
+tst\_fills.c   &   &   &  $\checkmark$ &   &   \\ \hline
+tst\_fills2.c   &   &   &   & $\checkmark$  &   \\ \hline
 tst\_filterparser.c   & $\checkmark$  &   &   &   &   \\ \hline
-tst\_mpi\_parallel.c   & $\checkmark$  &   &   &   &   \\ \hline
-tst\_rehash.c   & $\checkmark$  &   &   &   &   \\ \hline
-t\_type.c   & $\checkmark$ &   &   &   &   \\ \hline
+tst\_grps.c   &   &   &   &  $\checkmark$ &   \\ \hline
+tst\_grps2.c   &   &   &   & $\checkmark$  &   \\ \hline
 \hline
 \end{tabular}
-\caption{}
+\caption{Status -- Part I}
+\end{table}
+
+\clearpage
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|c|c|c|c|}
+\hline
+Filename & Success & Partial & Inconclusive  & Failure  & Not Tested \\
+         &        & Success  &              &               & Yet        \\ \hline \hline
+tst\_h\_refs.c   &   &   &   &  $\checkmark$ &   \\ \hline
+tst\_h\_scalar.c   &   &   &   & $\checkmark$  &   \\ \hline
+tst\_h\_strbug.c   &   &   &   & $\checkmark$  &   \\ \hline
+tst\_h5\_endians.c   &   &   &   &  $\checkmark$ &   \\ \hline
+tst\_hdf5\_file\_compat.c   &   &   &   &  $\checkmark$ &   \\ \hline
+tst\_interops.c   &   &   &   & $\checkmark$  &   \\ \hline
+tst\_interops5.c   &   &   &   & $\checkmark$  &   \\ \hline
+tst\_interops6.c   &   &   &   & $\checkmark$  &   \\ \hline
+tst\_large.c   &   &   &   &  $\checkmark$ &   \\ \hline
+tst\_large2.c   &   &   &   &   &  $\checkmark$ \\ \hline
+tst\_mem.c   & $\checkmark$  &   &   &   &   \\ \hline
+tst\_mode.c   &   & $\checkmark$  &   &   &   \\ \hline
+tst\_mpi\_parallel.c   & $\checkmark$  &   &   &   &   \\ \hline
+tst\_opaques.c   &   &   &   & $\checkmark$  &   \\ \hline
+tst\_parallel.c   &   &   & $\checkmark$  &   &   \\ \hline
+tst\_put\_vars.c   &  $\checkmark$ &   &   &   &   \\ \hline
+tst\_rehash.c   & $\checkmark$  &   &   &   &   \\ \hline
+tst\_rename.c   &   &  $\checkmark$ &   &   &   \\ \hline
+tst\_rename2.c   & $\checkmark$  &   &   &   &   \\ \hline
+tst\_simplerw\_coll\_r.c   &   &   & $\checkmark$  &   &   \\ \hline
+tst\_strings.c   &   &   &   & $\checkmark$  &   \\ \hline
+tst\_strings2.c   & $\checkmark$  &   &   &   &   \\ \hline
+tst\_sync.c   &   & $\checkmark$  &   &   &   \\ \hline
+tst\_types.c   &   &   &   & $\checkmark$  &   \\ \hline
+tst\_udf.c   &   &   &   &  $\checkmark$ &   \\ \hline
+tst\_unlim\_vars.c   &   &   &  $\checkmark$ &   &   \\ \hline
+tst\_utf8.c   &   &   &   & $\checkmark$  &   \\ \hline
+tst\_v2.c   & $\checkmark$  &   &   &   &   \\ \hline
+tst\_varms.c   &  $\checkmark$ &   &   &   &   \\ \hline
+tst\_vars.c   &   &   & $\checkmark$  &   &   \\ \hline
+tst\_vars2.c   &   & $\checkmark$  &   &   &   \\ \hline
+tst\_vars3.c   &   & $\checkmark$  &   &   &   \\ \hline
+tst\_vars4.c   &   & $\checkmark$  &   &   &   \\ \hline
+tst\_vl.c   &   &   &   & $\checkmark$  &   \\ \hline
+\hline
+\end{tabular}
+\caption{Status -- Part II}
 \end{table}
 
 \begin{table}[H]
 \centering
 \begin{tabular}{|l|l|}
 \hline
-Filename & Justification \\ \hline \hline
-cdm\_sea\_soundings.c   & ESDM does not support user defined datatypes from NetCDF!          \\ \hline
+Filename & Output \\ \hline \hline
+h5testszip.c   & PASS   \\ \hline
+cdm\_sea\_soundings.c   & ESDM does not support user-defined datatypes from NetCDF!          \\ \hline
+t\_type.c   & Tests successful!   \\ \hline
 test\_szip.c   &  ESDM does not support compression!         \\ \hline
+tst\_atts.c   &   Tests successful!        \\ \hline
 tst\_atts1.c   &           \\ \hline
-tst\_atts2.c   &  ESDM does not support user defined datatypes from NetCDF!         \\ \hline
-tst\_atts3.c   &           \\ \hline
-tst\_atts.c   &           \\ \hline
+tst\_atts2.c   &  Tests successful!         \\ \hline
+tst\_atts3.c   &  Tests successful!         \\ \hline
+tst\_atts\_string\_rewrite.c   & Tests successful!  \\ \hline
 tst\_attsperf.c   &  Too long to run!         \\ \hline
-tst\_bug324.c   &  ESDM does not support classic format from NetCDF!         \\ \hline
-tst\_camrun.c   &           \\ \hline
+tst\_bug324.c   &  Tests successful!         \\ \hline
+tst\_camrun.c   &  Tests successful!         \\ \hline
+tst\_chunks.c   &  ESDM does not support compression!       \\ \hline
 tst\_chunks2.c   &  ESDM does not support compression!         \\ \hline
 tst\_chunks3.c   & ESDM does not support compression!       \\ \hline
-tst\_chunks.c   &  ESDM does not support compression!       \\ \hline
-tst\_compounds2.c   &  ESDM does not support user defined datatypes from NetCDF!         \\ \hline
-tst\_compounds3.c   &  ESDM does not support user defined datatypes from NetCDF!         \\ \hline
-tst\_converts2.c   &           \\ \hline
+tst\_compounds.c   &  ESDM does not support user-defined datatypes from NetCDF!         \\ \hline
+tst\_compounds2.c   &  ESDM does not support user-defined datatypes from NetCDF!         \\ \hline
+tst\_compounds3.c   &  ESDM does not support user-defined datatypes from NetCDF!         \\ \hline
 tst\_converts.c   &           \\ \hline
-tst\_coords2.c   &   ESDM does not support groups from NetCDF!       \\ \hline
-tst\_coords3.c   &  ESDM does not support groups from NetCDF!         \\ \hline
-tst\_coords.c   &  ESDM does not support groups from NetCDF!         \\ \hline
-tst\_create\_files.c   &   ESDM does not support groups from NetCDF!        \\ \hline
-tst\_dims2.c   & ESDM does not preserve the ID of the dimensions once it is closed!       \\ \hline
+tst\_converts2.c   &           \\ \hline
+tst\_coords.c   &  Tests successful!         \\ \hline
+tst\_coords2.c   &  Tests successful!        \\ \hline
+tst\_coords3.c   &  Tests successful!         \\ \hline
+tst\_create\_files.c   &  Too long to run!        \\ \hline
+tst\_dims.c   &  Tests successful!      \\ \hline
+tst\_dims2.c   & Tests successful!       \\ \hline
 tst\_dims3.c   & ESDM does not support groups from NetCDF!      \\ \hline
+tst\_elatefill.c   & line 41 expecting NC\_ELATEFILL but got 0   \\ \hline
 tst\_empty\_vlen\_unlim.c   &  ESDM does not support user-defined datatypes from NetCDF!    \\ \hline
-tst\_endian\_fill.c   &    ESDM does not support endianness from NetCDF! \\ \hline
+tst\_endian\_fill.c   &    ESDM does not support endianness! \\ \hline
 tst\_enums.c   &   ESDM does not support user-defined datatypes from NetCDF!   \\ \hline
+tst\_files.c   &  Tests successful!     \\ \hline
+tst\_files3.c   &  Too long to run!  \\ \hline
 tst\_files4.c   &   ESDM does not support groups from NetCDF!    \\ \hline
-tst\_files6.c   &  ESDM does not support HDF5 file with circular group structure!    \\ \hline
-tst\_files.c   &       \\ \hline
-tst\_fill\_attr\_vanish.c   &   WARN ESDM\_set\_fill():370 NOT IMPLEMENTED    \\ \hline
-tst\_fillbug.c   &  WARN\_NOT\_IMPLEMENTED     \\ \hline
-tst\_fills2.c   &   WARN\_NOT\_IMPLEMENTED    \\ \hline
-tst\_fills.c   &    WARN\_NOT\_IMPLEMENTED   \\ \hline
-tst\_grps2.c   &   ESDM does not support groups from NetCDF!    \\ \hline
+tst\_files5.c   & Tests successful!  \\ \hline
+tst\_files6.c   &  Tests successful!    \\ \hline
+tst\_fill\_attr\_vanish.c   &  Tests successful! \\ \hline
+tst\_fillbug.c   & Tests successful!      \\ \hline
+tst\_fills.c   &       \\ \hline
+tst\_fills2.c   &   ESDM does not support NC\_STRING from NetCDF!   \\ \hline
+tst\_filterparser.c   & SUCCESS!!   \\ \hline
 tst\_grps.c   &    ESDM does not support groups from NetCDF!   \\ \hline
-tst\_h5\_endians.c   &   ESDM does not support endianness from NetCDF!  \\ \hline
-tst\_hdf5\_file\_compat.c   &  ESDM does not support HDF5 format!     \\ \hline
+tst\_grps2.c   &   ESDM does not support groups from NetCDF!    \\ \hline
+\hline
+\end{tabular}
+\caption{Output -- Part I}
+\end{table}
+
+\clearpage
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+Filename & Justification \\ \hline \hline
 tst\_h\_refs.c   &   ESDM does not support HDF5 format!    \\ \hline
 tst\_h\_scalar.c   &  ESDM does not support HDF5 format!    \\ \hline
 tst\_h\_strbug.c   &  ESDM does not support HDF5 format!     \\ \hline
+tst\_h5\_endians.c   &   ESDM does not support endianness!  \\ \hline
+tst\_hdf5\_file\_compat.c   &  ESDM does not support HDF5 format!     \\ \hline
+tst\_interops.c   &   ESDM does not support HDF5 format!    \\ \hline
 tst\_interops5.c   &   ESDM does not support HDF5 format!    \\ \hline
 tst\_interops6.c   &   ESDM does not support HDF5 format!    \\ \hline
-tst\_interops.c   &   ESDM does not support HDF5 format!    \\ \hline
-tst\_large2.c   &   Broke my computer    \\ \hline
-tst\_large.c   &   WARN ESDM\_set\_fill():526 NOT IMPLEMENTED (Tests successful!)   \\ \hline
-\hline
-\end{tabular}
-\caption{}
-\end{table}
-
-\clearpage
-
-\begin{table}[H]
-\centering
-\begin{tabular}{|l|l|}
-\hline
-Filename & Justification \\ \hline \hline
+tst\_large.c   &      \\ \hline
+tst\_large2.c   &  Too long to run! \\ \hline
 tst\_mem.c   &    Tests successful!   \\ \hline
-tst\_mode.c   &   ESDM does not support compression! (Tests successful!)    \\ \hline
+tst\_mode.c   &   Tests successful!    \\ \hline
+tst\_mpi\_parallel.c   & Tests successful!   \\ \hline
 tst\_opaques.c   &  ESDM does not support user-defined datatypes from NetCDF!     \\ \hline
-tst\_parallel.c   &   Not tested yet.    \\ \hline
+tst\_parallel.c   &       \\ \hline
 tst\_put\_vars.c   &   SUCCESS writing example file!    \\ \hline
-tst\_rename2.c   &  ESDM does not support NC\_NAT from NetCDF!     \\ \hline
-tst\_rename.c   &   It works until get to a function requiring groups!  \\ \hline
-tst\_simplerw\_coll\_r.c   &   ESDM does not support collective access of metadata with HDF5!  \\ \hline
-tst\_strings2.c   &   Tests successful!    \\ \hline
+tst\_rehash.c   & Tests successful!  \\ \hline
+tst\_rename.c   &  Tests successful!  \\ \hline
+tst\_rename2.c   & Tests successful!    \\ \hline
+tst\_simplerw\_coll\_r.c   &     \\ \hline
 tst\_strings.c   &  ESDM does not support NC\_STRING from NetCDF!     \\ \hline
-tst\_sync.c   &  It does not work just because ESDM does not use the NC\_EINDEFINE flag!  \\ \hline
+tst\_strings2.c   &   Tests successful!    \\ \hline
+tst\_sync.c   &   Tests successful! \\ \hline
 tst\_types.c   &  ESDM does not support user-defined datatypes from NetCDF!     \\ \hline
 tst\_udf.c   &   ESDM does not support user-defined formats from NetCDF!   \\ \hline
-tst\_unlim\_vars.c   &   Soometimes works, sometimes does not work!    \\ \hline
+tst\_unlim\_vars.c   &       \\ \hline
 tst\_utf8.c   &   ESDM does not support Unicode names encoded with UTF-8!  \\ \hline
 tst\_v2.c   &    Tests successful!   \\ \hline
-tst\_varms.c   &   ESDM does not support mapped var operations!  \\ \hline
-tst\_vars2.c   &  ESDM does not support NC\_NAT from NetCDF!  \\ \hline
-tst\_vars3.c   &       \\ \hline
-tst\_vars4.c   &  ESDM does not support compression!     \\ \hline
-tst\_vars.c   &    ESDM does not support groups from NetCDF!   \\ \hline
+tst\_varms.c   &  Tests successful!    \\ \hline
+tst\_vars.c   &      \\ \hline
+tst\_vars2.c   &  Tests successful!  \\ \hline
+tst\_vars3.c   &  Tests successful!     \\ \hline
+tst\_vars4.c   &  Tests successful!     \\ \hline
 tst\_vl.c   &   ESDM does not support user-defined datatypes from NetCDF!    \\ \hline
-h5testszip.c   & PASS   \\ \hline
-tst\_atts\_string\_rewrite.c   & Tests successful!  \\ \hline
-tst\_elatefill.c   & line 41 expecting NC\_ELATEFILL but got 0   \\ \hline
-tst\_files3.c   & Working ESDM does not support compression!   \\ \hline
-tst\_files5.c   & Not working anymore (Tests successful!)  \\ \hline
-tst\_filterparser.c   & SUCCESS!!   \\ \hline
-tst\_mpi\_parallel.c   & Tests successful!   \\ \hline
-tst\_rehash.c   & Tests successful!  \\ \hline
-t\_type.c   & Tests successful!   \\ \hline
 \hline
 \end{tabular}
-\caption{Additional comments on ESDM and NETCDF compatibility}
+\caption{Output -- Part II}
 \end{table}
 
 \begin{table}[H]
@@ -1304,36 +1221,9 @@ bm\_many\_atts.c   &  & $\checkmark$  &   &    \\ \hline
 bm\_many\_objs.c   &  & $\checkmark$  &   &    \\ \hline
 bm\_netcdf4\_recs.c   &  & $\checkmark$  &   &    \\ \hline
 ref\_bzip2.c   &  & $\checkmark$  &   &    \\ \hline
+renamegroup.c   &  &   &   & $\checkmark$    \\ \hline
 test\_filter.c   &  & $\checkmark$  &   &    \\ \hline
 test\_filter\_misc.c   &  & $\checkmark$  &   &    \\ \hline
-tst\_ar4\_3d.c   &  & $\checkmark$  &   &    \\ \hline
-tst\_ar4\_4d.c   &  & $\checkmark$  &   &    \\ \hline
-tst\_ar4.c   &  & $\checkmark$  &   &    \\ \hline
-tst\_files2.c   &  & $\checkmark$  &   &    \\ \hline
-tst\_h\_many\_atts.c   &  & $\checkmark$  &   &    \\ \hline
-tst\_knmi.c   &  & $\checkmark$  &   &    \\ \hline
-tst\_put\_vars\_two\_unlim\_dim.c   &  & $\checkmark$  &   &    \\ \hline
-tst\_utils.c   &  & $\checkmark$  &   &    \\ \hline
-tst\_compounds.c   &  &   &  $\checkmark$ &    \\ \hline
-tst\_dims.c   &  &   &  $\checkmark$ &    \\ \hline
-tst\_interops4.c   &  &   &  $\checkmark$ &    \\ \hline
-tst\_nc4perf.c   &  &   &  $\checkmark$ &    \\ \hline
-tst\_parallel3.c   &  &   &  $\checkmark$ &    \\ \hline
-tst\_parallel4.c   &  &   &  $\checkmark$ &    \\ \hline
-tst\_parallel5.c   &  &   &  $\checkmark$ &    \\ \hline
-tst\_xplatform2.c   &  &   &  $\checkmark$ &    \\ \hline
-tst\_xplatform.c   &  &   &  $\checkmark$ &    \\ \hline
-\hline
-\end{tabular}
-\caption{List of nc\_test4 files.}
-\end{table}
-
-\begin{table}[H]
-\centering
-\begin{tabular}{|l|c|c|c|c|}
-\hline
-File & Not Tested & Not Working Build & Not Working Run & Working \\ \hline \hline
-renamegroup.c   &  &   &   & $\checkmark$    \\ \hline
 test\_szip.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_atts1.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_atts2.c   &  &   &   & $\checkmark$    \\ \hline
@@ -1341,51 +1231,70 @@ tst\_atts3.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_atts.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_attsperf.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_atts\_string\_rewrite.c   &  &   &   & $\checkmark$    \\ \hline
+tst\_ar4\_3d.c   &  & $\checkmark$  &   &    \\ \hline
+tst\_ar4\_4d.c   &  & $\checkmark$  &   &    \\ \hline
+tst\_ar4.c   &  & $\checkmark$  &   &    \\ \hline
 tst\_bug324.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_camrun.c   &  &   &   & $\checkmark$    \\ \hline
+tst\_chunks.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_chunks2.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_chunks3.c   &  &   &   & $\checkmark$    \\ \hline
-tst\_chunks.c   &  &   &   & $\checkmark$    \\ \hline
+tst\_compounds.c   &  &   &  $\checkmark$ &    \\ \hline
 tst\_compounds2.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_compounds3.c   &  &   &   & $\checkmark$    \\ \hline
-tst\_converts2.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_converts.c   &  &   &   & $\checkmark$    \\ \hline
+tst\_converts2.c   &  &   &   & $\checkmark$    \\ \hline
+tst\_coords.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_coords2.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_coords3.c   &  &   &   & $\checkmark$    \\ \hline
-tst\_coords.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_create\_files.c   &  &   &   & $\checkmark$    \\ \hline
+\hline
+\end{tabular}
+\caption{List of nc\_test4 files -- Part I}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+File & Not Tested & Not Working Build & Not Working Run & Working \\ \hline \hline
+tst\_dims.c   &  &   &  $\checkmark$ &    \\ \hline
 tst\_dims2.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_dims3.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_elatefill.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_empty\_vlen\_unlim.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_endian\_fill.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_enums.c   &  &   &   & $\checkmark$    \\ \hline
+tst\_files.c   &  &   &   & $\checkmark$    \\ \hline
+tst\_files2.c   &  & $\checkmark$  &   &    \\ \hline
 tst\_files3.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_files4.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_files5.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_files6.c   &  &   &   & $\checkmark$    \\ \hline
-tst\_files.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_fill\_attr\_vanish.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_fillbug.c   &  &   &   & $\checkmark$    \\ \hline
-tst\_fills2.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_fills.c   &  &   &   & $\checkmark$    \\ \hline
+tst\_fills2.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_filterparser.c   &  &   &   & $\checkmark$    \\ \hline
-tst\_grps2.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_grps.c   &  &   &   & $\checkmark$    \\ \hline
-tst\_h5\_endians.c   &  &   &   & $\checkmark$    \\ \hline
-tst\_hdf5\_file\_compat.c   &  &   &   & $\checkmark$    \\ \hline
+tst\_grps2.c   &  &   &   & $\checkmark$    \\ \hline
+tst\_h\_many\_atts.c   &  & $\checkmark$  &   &    \\ \hline
 tst\_h\_refs.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_h\_scalar.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_h\_strbug.c   &  &   &   & $\checkmark$    \\ \hline
+tst\_h5\_endians.c   &  &   &   & $\checkmark$    \\ \hline
+tst\_hdf5\_file\_compat.c   &  &   &   & $\checkmark$    \\ \hline
+tst\_interops.c   &  &   &   & $\checkmark$    \\ \hline
+tst\_interops4.c   &  &   &  $\checkmark$ &    \\ \hline
 tst\_interops5.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_interops6.c   &  &   &   & $\checkmark$    \\ \hline
-tst\_interops.c   &  &   &   & $\checkmark$    \\ \hline
-tst\_large2.c   &  &   &   & $\checkmark$    \\ \hline
+tst\_knmi.c   &  & $\checkmark$  &   &    \\ \hline
 tst\_large.c   &  &   &   & $\checkmark$    \\ \hline
+tst\_large2.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_mem.c   &  &   &   & $\checkmark$    \\ \hline
 \hline
 \end{tabular}
-\caption{List of nc\_test4 files.}
+\caption{List of nc\_test4 files -- Part II}
 \end{table}
 
 \begin{table}[H]
@@ -1395,9 +1304,14 @@ tst\_mem.c   &  &   &   & $\checkmark$    \\ \hline
 File & Not Tested & Not Working Build & Not Working Run & Working \\ \hline \hline
 tst\_mode.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_mpi\_parallel.c   &  &   &   & $\checkmark$    \\ \hline
+tst\_nc4perf.c   &  &   &  $\checkmark$ &    \\ \hline
 tst\_opaques.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_parallel.c   &  &   &   & $\checkmark$    \\ \hline
+tst\_parallel3.c   &  &   &  $\checkmark$ &    \\ \hline
+tst\_parallel4.c   &  &   &  $\checkmark$ &    \\ \hline
+tst\_parallel5.c   &  &   &  $\checkmark$ &    \\ \hline
 tst\_put\_vars.c   &  &   &   & $\checkmark$    \\ \hline
+{\footnotesize tst\_put\_vars\_two\_unlim\_dim.c}   &  & $\checkmark$  &   &    \\ \hline
 tst\_rehash.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_rename2.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_rename.c   &  &   &   & $\checkmark$    \\ \hline
@@ -1409,6 +1323,7 @@ tst\_types.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_udf.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_unlim\_vars.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_utf8.c   &  &   &   & $\checkmark$    \\ \hline
+tst\_utils.c   &  & $\checkmark$  &   &    \\ \hline
 tst\_v2.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_varms.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_vars2.c   &  &   &   & $\checkmark$    \\ \hline
@@ -1416,10 +1331,12 @@ tst\_vars3.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_vars4.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_vars.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_vl.c   &  &   &   & $\checkmark$    \\ \hline
+tst\_xplatform2.c   &  &   &  $\checkmark$ &    \\ \hline
+tst\_xplatform.c   &  &   &  $\checkmark$ &    \\ \hline
 t\_type.c   &  &   &   & $\checkmark$    \\ \hline
 \hline
 \end{tabular}
-\caption{List of nc\_test4 files.}
+\caption{List of nc\_test4 files -- Part III}
 \end{table}
 
 \clearpage
@@ -1470,12 +1387,12 @@ NC\_FLOAT      &  11  & SMD\_DTYPE\_FLOAT    & 32 bits    \\ \hline
 
 \begin{table}[H]
 \centering
-\begin{tabular}{|l|l|l|}
+\begin{tabular}{|l|m{6cm}|l|}
 \hline
 Functionality & NetCDF Support & ESDM Support \\ \hline \hline
 
 & & \\
-& \large{Datatypes} & \\
+& \large{Datatypes Support} & \\
 & & \\ \hline \hline
 
 NC Data Type  &  NC Description  & ESDM Data Type  \\ \hline
@@ -1498,7 +1415,15 @@ NC\_VLEN & used internally for vlen types &      NOT SUPPORTED YET       \\ \hli
 NC\_OPAQUE & used internally for opaque types &     NOT SUPPORTED YET        \\ \hline
 NC\_COMPOUND & used internally for compound types &    NOT SUPPORTED YET         \\ \hline
 NC\_ENUM & used internally for enum types &       NOT SUPPORTED YET      \\ \hline \hline
+\end{tabular}
+\caption{Functionalities -- NetCDF and ESDM -- Datatypes Support.}
+\end{table}
 
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|m{6cm}|l|}
+\hline
+Functionality & NetCDF Support & ESDM Support \\ \hline \hline
 & & \\
 & \large{Modes -- Creating a file} & \\
 & & \\ \hline \hline
@@ -1513,7 +1438,15 @@ NC\_CLASSIC\_MODEL & Enforce netCDF classic mode on netCDF-4/HDF5 files &   NOT 
 NC\_DISKLESS & Store data in memory &    NOT SUPPORTED     \\ \hline
 NC\_PERSIST & Force the NC\_DISKLESS data from memory to a file &  NOT SUPPORTED       \\ \hline
 \hline
+\end{tabular}
+\caption{Functionalities -- NetCDF and ESDM -- Modes -- Creating a file.}
+\end{table}
 
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|m{8cm}|l|}
+\hline
+Functionality & NetCDF Support & ESDM Support \\ \hline \hline
 & & \\
 & \large{Modes -- Opening a file} & \\
 & & \\ \hline \hline
@@ -1521,16 +1454,127 @@ NC\_PERSIST & Force the NC\_DISKLESS data from memory to a file &  NOT SUPPORTED
 NC\_NOWRITE & Open the dataset with read-only access &  ESDM\_NOWRITE       \\ \hline
 NC\_WRITE & Open the dataset with read-write access &  ESDM\_WRITE       \\ \hline
 NC\_SHARE & Share updates, limit caching &  NOT SUPPORTED       \\ \hline
-NC\_WRITE|NC\_SHARE & Open the dataset with read-write access &    NOT SUPPORTED     \\
- & Share updates, limit caching &    \\ \hline
 NC\_DISKLESS & Store data in memory &    NOT SUPPORTED     \\ \hline
 NC\_PERSIST & Force the NC\_DISKLESS data from memory to a file &  NOT SUPPORTED       \\ \hline
 \hline
+\end{tabular}
+\caption{Functionalities -- NetCDF and ESDM -- Modes -- Opening a file.}
+\end{table}
 
+\begin{comment}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|m{6cm}|l|}
+\hline
+Functionality & NetCDF Support & ESDM Support \\ \hline \hline
 %& & \\
 %& \large{Modes} & \\
 %& & \\ \hline \hline
 
 \end{tabular}
-\caption{Functionality Supported by NetCDF and ESDM.}
+\caption{Functionalities -- NetCDF and ESDM.}
 \end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|m{2cm}|m{3cm}|m{3cm}|m{3cm}|m{3cm}|m{2cm}|}
+\hline
+Test & Test       & Steps   & Expected  & Actual & Status\\
+Name & Objective  &         & Output    & Output &               \\ \hline \hline
+h5testszip.c   &   &   &   &   &   \\ \hline
+cdm\_sea\_soundings.c   &   &   &   &   &   \\ \hline
+test\_szip.c   &   &   &   &   &   \\ \hline
+tst\_atts.c   &   &   &   &   &   \\ \hline
+tst\_atts1.c   &   &   &   &   &   \\ \hline
+tst\_atts2.c   &   &   &   &   &   \\ \hline
+tst\_atts3.c   &   &   &   &   &   \\ \hline
+tst\_atts\_string\_rewrite.c   &   &   &   &   &   \\ \hline
+tst\_attsperf.c   &   &   &   &   &   \\ \hline
+tst\_bug324.c   &   &   &   &   &   \\ \hline
+tst\_camrun.c   &   &   &   &   &   \\ \hline
+tst\_chunks.c   &   &   &   &   &   \\ \hline
+tst\_chunks2.c   &   &   &   &   &   \\ \hline
+tst\_chunks3.c   &   &   &   &   &   \\ \hline
+tst\_compounds.c   &   &   &   &   &   \\ \hline
+tst\_compounds2.c   &   &   &   &   &   \\ \hline
+tst\_compounds3.c   &   &   &   &   &   \\ \hline
+tst\_converts2.c   &   &   &   &   &   \\ \hline
+tst\_converts.c   &   &   &   &   &   \\ \hline
+tst\_coords.c   &   &   &   &   &   \\ \hline
+tst\_coords2.c   &   &   &   &   &   \\ \hline
+tst\_coords3.c   &   &   &   &   &   \\ \hline
+tst\_create\_files.c   &   &   &   &   &   \\ \hline
+tst\_dims.c   &   &   &   &   &   \\ \hline
+tst\_dims2.c   &   &   &   &   &   \\ \hline
+tst\_dims3.c   &   &   &   &   &   \\ \hline
+tst\_elatefill.c   &   &   &   &   &   \\ \hline
+tst\_empty\_vlen\_unlim.c   &   &   &   &   &   \\ \hline
+tst\_endian\_fill.c   &   &   &   &   &   \\ \hline
+tst\_enums.c   &   &   &   &   &   \\ \hline
+tst\_files.c   &   &   &   &   &   \\ \hline
+tst\_files3.c   &   &   &   &   &   \\ \hline
+tst\_files5.c   &   &   &   &   &   \\ \hline
+tst\_files4.c   &   &   &   &   &   \\ \hline
+tst\_files6.c   &   &   &   &   &   \\ \hline
+tst\_fill\_attr\_vanish.c   &   &   &   &   &   \\ \hline
+tst\_fillbug.c   &   &   &   &   &   \\ \hline
+tst\_fills.c   &   &   &   &   &   \\ \hline
+tst\_fills2.c   &   &   &   &   &   \\ \hline
+tst\_filterparser.c   &   &   &   &   &   \\ \hline
+tst\_grps2.c   &   &   &   &   &   \\ \hline
+tst\_grps.c   &   &   &   &   &   \\ \hline
+tst\_h5\_endians.c   &   &   &   &   &   \\ \hline
+tst\_hdf5\_file\_compat.c   &   &   &   &   &   \\ \hline
+tst\_h\_refs.c   &   &   &   &   &   \\ \hline
+tst\_h\_scalar.c   &   &   &   &   &   \\ \hline
+tst\_h\_strbug.c   &   &   &   &   &   \\ \hline
+tst\_interops.c   &   &   &   &   &   \\ \hline
+tst\_interops5.c   &   &   &   &   &   \\ \hline
+tst\_interops6.c   &   &   &   &   &   \\ \hline
+tst\_large.c   &   &   &   &   &   \\ \hline
+tst\_large2.c   &   &   &   &   &   \\ \hline
+\hline
+\end{tabular}
+\caption{Test Case Report: ESDM and NetCDF Compatibility -- Part I}
+\end{table}
+
+\clearpage
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|c|c|c|c|}
+\hline
+Test & Test       & Steps   & Expected  & Actual & Status\\
+Name & Objective  &         & Output    & Output &               \\ \hline \hline
+tst\_mem.c   &   &   &   &   &   \\ \hline
+tst\_mode.c   &   &   &   &   &   \\ \hline
+tst\_mpi\_parallel.c   &   &   &   &   &   \\ \hline
+tst\_opaques.c   &   &   &   &   &   \\ \hline
+tst\_parallel.c   &   &   &   &   &   \\ \hline
+tst\_put\_vars.c   &   &   &   &   &   \\ \hline
+tst\_rehash.c   &   &   &   &   &   \\ \hline
+tst\_rename.c   &   &   &   &   &   \\ \hline
+tst\_rename2.c   &   &   &   &   &   \\ \hline
+tst\_simplerw\_coll\_r.c   &   &   &   &   &   \\ \hline
+tst\_strings.c   &   &   &   &   &   \\ \hline
+tst\_strings2.c   &   &   &   &   &   \\ \hline
+tst\_sync.c   &   &   &   &   &   \\ \hline
+tst\_types.c   &   &   &   &   &   \\ \hline
+tst\_udf.c   &   &   &   &   &   \\ \hline
+tst\_unlim\_vars.c   &   &   &   &   &   \\ \hline
+tst\_utf8.c   &   &   &   &   &   \\ \hline
+tst\_v2.c   &   &   &   &   &   \\ \hline
+tst\_varms.c   &   &   &   &   &   \\ \hline
+tst\_vars.c   &   &   &   &   &   \\ \hline
+tst\_vars2.c   &   &   &   &   &   \\ \hline
+tst\_vars3.c   &   &   &   &   &   \\ \hline
+tst\_vars4.c   &   &   &   &   &   \\ \hline
+tst\_vl.c   &   &   &   &   &   \\ \hline
+t\_type.c   &  &   &   &   &   \\ \hline
+\hline
+\end{tabular}
+\caption{Test Case Report: ESDM and NetCDF Compatibility -- Part II}
+\end{table}
+
+\end{comment}
