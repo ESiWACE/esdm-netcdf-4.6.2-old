@@ -1,0 +1,1010 @@
+\chapter{Files From Directory {\textit{nc\_test4}}}
+
+\section{h5testszip.c}
+
+Example illustrates the use of SZIP compression in HDF5.
+
+***PASS
+
+{\bf \large Status: } SUCCESS!
+
+\section{Test cdm\_sea\_soundings.c}
+
+The cdm tests confirm complience with the Common Data Model. This
+file creates some sample data structures to hold sea soundings.
+
+ESDM does not support user-defined datatypes from NetCDF!
+
+{\bf \large Status: } FAILURE!
+
+\section{Test t\_type.c}
+
+This test program is only built if netCDF-4 is disabled. It tests
+   the netCDF-3 version of NC\_inq\_type().
+
+*** Tests successful!
+
+{\bf \large Status: } SUCCESS!
+
+\section{Test test\_szip.c}
+
+Example illustrates the use of SZIP compression in netCDF5.
+Taken from HDF5 example.
+
+ESDM does not support compression!
+
+Remove lines 67-88. Specific to compression.
+
+*** Tests successful!
+
+{\bf \large Status: } PARTIAL SUCCESS!
+
+\section{Test tst\_atts.c}
+
+Test the netCDF-4 attribute code.
+
+//TODO Testing the permission and reserved words before name/rename.
+
+Remove lines 90-98. Expected error: NC\_EPERM
+
+Remove lines 116, 118, 234. Expected error: NC\_ENOTVAR
+
+Remove line 117. Expected error: NC\_EINVAL
+
+Remove lines 148, 180, 186. Expected error: NC\_ENOTINDEFINE
+
+Remove line 207, because the test works with ESDM.
+
+tst\_atts: /home/lucy/esiwace/esdm/deps/smd/src/smd-core.c:2619: smd\_attr\_new\_usertype: Assertion `name != NULL' failed.
+
+//TODO Change the function from assertion to returning something meaninful
+
+Expected error: NC\_EBADNAME
+
+Remove lines 235-242. Testing invalid parameters as input.
+
+Remove lines 243-269. Check that the reserved words (NC\_GLOBAL) are rejected. ESDM does not have this limitation.
+
+Remove lines 280-317, 327-335, 341-343, 353-355, 365-367, 375. Testing invalid parameters as input.
+
+Remove lines 372, 383, 414, 423. Same problem with smd\_attr\_copy\_value and strings.
+
+tst\_atts: /home/lucy/esiwace/esdm/src/esdm-datatypes.c:959: esdmI\_dataset\_metadata\_create: Assertion `d-$>$dataspace-$>$size != ((void *)0)' failed.
+
+//TODO This error is out of my league.
+
+Remove lines 376-385, 415-424. NetCDF is creating a file with one variable and one attribute. The variable has zero dimensions. ESDM doesn't handle it. So it cannot close and reopen the file. ERROR dimension zero.
+
+*** Tests successful!
+
+{\bf \large Status: } PARTIAL SUCCESS!
+
+\section{Test tst\_atts1.c}
+
+Test attributes.
+
+// TODO This test deals with the conversion of types. It needs to be tested later.
+
+{\bf \large Status: } INCONCLUSIVE!
+
+\section{Test tst\_atts2.c}
+
+Test copy of attributes.
+
+ESDM does not support user-defined datatypes from NetCDF!
+
+Remove lines 57-78, 157-212. Specific to compound type.
+
+Remove lines 101-105. Testing invalid parameters as input.
+
+Remove lines 214-259. Specific to enum type.
+
+*** Tests successful!
+
+{\bf \large Status: } PARTIAL SUCCESS!
+
+\section{Test tst\_atts3.c}
+
+This is a very simple example which writes a netCDF file with
+Unicode names encoded with UTF-8. It is the NETCDF3 equivalent
+of tst\_unicode.c
+
+Remove lines 2393-2404. Testing invalid parameters as input.
+
+tst\_atts3: /home/lucy/esiwace/esdm/src/esdm-datatypes.c:959: esdmI\_dataset\_metadata\_create: Assertion `d-$>$dataspace-$>$size != ((void *)0)' failed.
+
+//TODO This error is out of my league.
+
+Remove lines 2407-2427. ERROR dimension zero.
+
+//TODO Find file nc\_test
+
+Remove lines 2431-2488. NetCDF calls create\_file() with no parameters at all. ESDM does not handle it.
+
+*** Tests successful!
+
+{\bf \large Status: } PARTIAL SUCCESS!
+
+\section{Test tst\_atts\_string\_rewrite.c}
+
+This test was provided by Jeff Whitaker as an example of a bug,
+specifically a segfault when re-writing an NC\_CHAR attribute as
+an NC\_STRING attribute.
+
+*** Tests successful!
+
+{\bf \large Status: } SUCCESS!
+
+\section{Test tst\_attsperf.c}
+
+Test the netCDF-4 attribute code.
+
+Too long to run!
+
+{\bf \large Status: } INCONCLUSIVE!
+
+\section{Test tst\_bug324.c}
+
+No description.
+
+Remove line 71. Expected error: NC\_FORMAT\_NETCDF4\_CLASSIC.
+
+*** Tests successful!
+
+{\bf \large Status: } PARTIAL SUCCESS!
+
+\section{Test tst\_camrun.c}
+
+This program writes a data file from the CAM model run.
+
+tst\_camrun: /home/lucy/esiwace/esdm/src/esdm-datatypes.c:959: esdmI\_dataset\_metadata\_create: Assertion `d-$>$dataspace-$>$size != ((void *)0)' failed.
+
+//TODO This error is out of my league.
+
+/* rank (number of dimensions) for each variable */
+
+\#   define RANK\_P0 0
+
+Remove lines 7390, 7396. ERROR dimension zero.
+
+*** Tests successful!
+
+{\bf \large Status: } PARTIAL SUCCESS!
+
+\section{Test tst\_chunks.c}
+
+Test netcdf-4 variables.
+
+ESDM does not support compression!
+
+{\bf \large Status: } FAILURE!
+
+\section{Test tst\_chunks2.c}
+
+Test netcdf-4 chunking.
+
+ESDM does not support compression!
+
+Remove lines 106, 102-121, 137-140, 170-176, 208-214, 246-252, 287-293, 327-333, 369-375, 408-414, 447-453. ESDM does not support compression!.
+
+*** Tests successful!
+
+{\bf \large Status: } PARTIAL SUCCESS!
+
+\section{Test tst\_chunks3.c}
+
+Runs benchmarks on different chunking sizes.
+
+ESDM does not support compression!
+
+Remove lines 283-296. ESDM does not support compression!
+
+Too long to run!
+
+{\bf \large Status: } INCONCLUSIVE!
+
+\section{Test tst\_compounds.c}
+
+Test netcdf-4 compound type feature.
+
+ESDM does not support user-defined datatypes from NetCDF!
+
+{\bf \large Status: } FAILURE!
+
+\section{Test tst\_compounds2.c}
+
+Test netcdf-4 compound type feature.
+
+ESDM does not support user-defined datatypes from NetCDF!
+
+{\bf \large Status: } FAILURE!
+
+\section{Test tst\_compounds3.c}
+
+Test netcdf-4 compound type feature, even more.
+
+ESDM does not support user-defined datatypes from NetCDF!
+
+{\bf \large Status: } FAILURE!
+
+\section{Test tst\_converts.c}
+
+Test data conversions and fill value handling.
+
+//TODO once the smd tests are finished
+
+Sorry! Unexpected result, ../../nc\_test4/tst\_converts.c, line: 147
+
+2 failures
+
+7 errors detected! Sorry!
+
+{\bf \large Status: } INCONCLUSIVE!
+
+\section{Test tst\_converts2.c}
+
+tst\_converts2: /home/lucy/esiwace/esdm/src/hypercube.c:62: esdmI\_hypercube\_make: Assertion `offset' failed.
+
+//TODO This error is out of my league.
+
+Remove lines 31-51. ERROR dimension zero.
+
+if (mem\_nc\_type != type\_esdm\_to\_nc(esdm\_dataspace\_get\_type(space)))
+
+//TODO once the smd tests are finished
+
+{\bf \large Status: } INCONCLUSIVE!
+
+\section{Test tst\_coords.c}
+
+Test netcdf-4 coordinate variables and dimensions.
+
+//TODO This is a test I would like to make it work.
+
+ESDM does not support groups from NetCDF!
+
+Remove lines 92-93. ESDM does not keep the same order for dimids.
+
+Remove lines 115, 122. ESDM does not support compression!
+
+Remove lines 157, 505. It's not working due to a problem in smd\_attr\_copy\_value and strings.
+
+Remove lines 488, 490, 492, 494. ESDM does not keep the same order for dimids.
+
+Remove lines 537, 539, 781, 785, 786, 790, 792. ESDM does not keep the same order for dimids.
+
+Remove line 583-602. ESDM does not work with groups.
+
+Remove line 606-647. This is actually an interesting problem.
+
+NetCDF inserts two variables with the same name, different type, and that will have the same id.
+
+//       if (nc\_def\_var(ncid, VAR\_NAME, NC\_USHORT, NDIMS, time\_dimids, \&time\_id) != NC\_NOERR) ERR;
+
+//       if (nc\_def\_var(ncid, VAR\_NAME, NC\_CHAR, NDIMS, time\_dimids, \&time\_id)) ERR;
+
+ESDM does not allow two variables with the same name. This might be a big restriction.
+
+tst\_coords: /home/lucy/esiwace/esdm/src/esdm-datatypes.c:382: esdmI\_fragment\_create: Assertion `sspace-$>$size[i] $>$ 0' failed.
+
+//TODO This error is out of my league.
+
+Remove lines 711-738. NetCDF is creating a file with one unlimited dimension and one variable. Then a value is assigned to the variable without an update in the dimension (currently zero). ESDM doesn't handle it. ERROR dimension zero.
+
+I was assuming that before using an unlimited dimension its value should be defined. Clearly I was wrong.
+
+*** Tests successful!
+
+{\bf \large Status: } PARTIAL SUCCESS!
+
+\section{Test tst\_coords2.c}
+
+Test netcdf-4 coordinate variables and dimensions.
+
+ESDM does not support groups from NetCDF!
+
+Remove line 121.
+
+// if (ndims\_in != NDIMS) ERR;
+
+//TODO This is a problem that needs to be understood it and fixed.
+
+*** Tests successful!
+
+{\bf \large Status: } PARTIAL SUCCESS!
+
+\section{Test tst\_coords3.c}
+
+Test netcdf-4 coordinate variables and dimensions with an example from the CF conventions.
+
+Remove lines 136, 138, 140, 144-145, 155-156, 177-178, 186-187, 195-196. ESDM does not keep the same order for dimids.
+
+Remove lines 147, 149, 151, 158, 160, 162, 171, 173, 180, 182, 189, 191, 198, 200. Same problem with smd\_attr\_copy\_value and strings.
+
+*** Tests successful!
+
+{\bf \large Status: } PARTIAL SUCCESS!
+
+\section{Test tst\_create\_files.c}
+
+This program creates a test file.
+
+ESDM does not support groups from NetCDF!
+
+tst\_create\_files: /home/lucy/esiwace/esdm/src/esdm-scheduler.c:125: backend\_thread: Assertion `status-$>$pending\_ops $>$= 0' failed.
+
+//TODO This error is out of my league.
+
+Too long to run!
+
+{\bf \large Status: } INCONCLUSIVE!
+
+\section{Test tst\_dims.c}
+
+Test netcdf-4 dimensions.
+
+ESDM does not support groups from NetCDF!
+
+Remove lines 104-106, 115-120, 136-138, 141, 150, 163-164, 190-200, 216-217, 225-227, 225-227, 260-263, 466. Testing invalid parameters as input.
+
+Remove lines 907-909, 947-949, 1106-1108. This is an interesting error related to NC\_NAT.
+
+Two float variables were defined.
+
+\begin{verbatim}
+if (nc_def_var(ncid, LAT_NAME, NC_FLOAT, 1, dimids, &lat_varid)) ERR;
+if (nc_def_var(ncid, LON_NAME, NC_FLOAT, 1, dimids, &lon_varid)) ERR;
+\end{verbatim}
+
+Then, some values with the correct type are attributed.
+
+\begin{verbatim}
+if (nc_put_var_float(ncid, lat_varid, lat)) ERR;
+if (nc_put_var_float(ncid, lon_varid, lon)) ERR;
+\end{verbatim}
+
+After that, the values are retrieved.
+
+When using the specific function nc\_get\_var\_float, it works. When using the general function nc\_get\_var, this function calls NC\_get\_var(ncid, varid, ip, NC\_NAT) with the NC\_NAT parameter.
+
+\begin{verbatim}
+if (nc_get_var(ncid, lat_varid, lat_in)) ERR;
+if (nc_get_var_float(ncid, lon_varid, lon_in)) ERR;
+\end{verbatim}
+
+ESDM cannot understand that the type is correct, because ESDM\_get\_vars has the following test.
+
+esdm\_dispatch.c:1273: if (mem\_nc\_type != type\_esdm\_to\_nc(esdm\_dataspace\_get\_type(space)))
+
+Eventually this test will change, but even then will not be compatible with NC\_NAT. For NetCDF, this is transparent.
+
+tst\_dims: /home/lucy/esiwace/esdm/src/esdm-scheduler.c:456:
+
+esdm\_scheduler\_makeSplitRecommendation: Assertion `splitFactors[i] $>$= 1' failed.
+
+//TODO This error is out of my league.
+
+Remove lines 1101-1103. ERROR dimension zero.
+
+\begin{verbatim}
+455	    splitFactors[i] = (int64_t)ceil(space->size[i]/targetEdgeLength);
+(gdb)
+456	    eassert(splitFactors[i] >= 1);
+(gdb) p splitFactors[i]
+$8 = 0
+(gdb) p space->size[i]
+$9 = 0
+(gdb) p i
+$10 = 3
+(gdb) p targetEdgeLength
+$11 = 11.445523142259598
+(gdb) p space->dims
+$12 = 4
+\end{verbatim}
+
+NetCDF defines an unlimited dimension and does not fill its value.
+
+/* Write our 4D pressure, elevation, and hp data. But this
+ * should do nothing for pressure and hp, because these are
+ * record vars, and nc\_put\_var\_* doesn't do anything to record
+ * vars, because it doesn't know how big the var is supposed to
+ * be. */
+
+Remove lines 1157-1162. For some reason, the double variable is turning into (int) zero.
+
+\begin{verbatim}
+(gdb) p pres
+$1 = {{{{1013.1, 1013.1, 1013.1, 1013.1}, {1013.1, 1013.1, 1013.1, 1013.1},
+{1013.1, 1013.1, 1013.1, 1013.1}}, {{1014.1, 1014.1, 1014.1, 1014.1},
+{1014.1, 1014.1, 1014.1, 1014.1}, {1014.1, 1014.1, 1014.1, 1014.1}}}}
+(gdb) p pres_in
+$2 = {{{{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}},
+{{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}}}}
+\end{verbatim}
+
+Remove lines 1165-1168. Conversion from INT64 to UINT64. Eventually it will work.
+
+\begin{verbatim}
+1273	  if (mem_nc_type != type_esdm_to_nc(esdm_dataspace_get_type(space))) {
+(gdb)
+1274	    return NC_EBADTYPE;
+(gdb) p mem_nc_type
+$1 = 11
+(gdb) p type_esdm_to_nc(esdm_dataspace_get_type(space))
+$2 = 10
+\end{verbatim}
+
+Remove lines 1171-1175. For some reason, the ushort variable is turning into zero.
+
+\begin{verbatim}
+(gdb) p hp
+$1 = {{{100, 101, 102, 103}, {100, 101, 102, 103}}}
+(gdb) p hp_in
+$2 = {{{0, 0, 0, 0}, {0, 0, 0, 0}}}
+\end{verbatim}
+
+Remove lines 1257-1258. ESDM does not keep the same order for dimids.
+
+Remove lines 1326-1356. Creates a new file name (file\_in) and tries to open it.
+
+\begin{verbatim}
+strcpy(file_in, "");
+if (getenv("srcdir"))
+{
+   strcat(file_in, getenv("srcdir"));
+   strcat(file_in, "/");
+}
+strcat(file_in, REF_FILE_NAME);
+
+if (nc_open(file_in, NC_NOWRITE, &ncid)) ERR;
+\end{verbatim}
+
+ESDM does not recognize the metadata and cannot open the container.
+
+\begin{verbatim}
+301	  status = esdm_container_open(cpath, 0, &e->c);
+303	  if (status != ESDM_SUCCESS) {
+(gdb) p status
+$1 = ESDM_ERROR
+\end{verbatim}
+
+*** Tests successful!
+
+{\bf \large Status: } PARTIAL SUCCESS!
+
+\section{Test tst\_dims2.c}
+
+Test netcdf-4 dimensions some more.
+
+Remove lines 58-59. ESDM does not keep the same order for dimids.
+
+Remove lines 440-441. Testing invalid parameters as input.
+
+*** Tests successful!
+
+{\bf \large Status: } PARTIAL SUCCESS!
+
+\section{Test tst\_dims3.c}
+
+Test netcdf-4 dimensions inheritance.
+
+ESDM does not support groups from NetCDF!
+
+{\bf \large Status: } FAILURE!
+
+\section{Test tst\_elatefill.c}
+
+Test proper elatefill return when fillvalue is assigned outside of
+the initial define.
+
+line 41 expecting NC\_ELATEFILL but got 0
+
+Expected error: NC\_ELATEFILL
+
+{\bf \large Status: } INCONCLUSIVE!
+
+\section{Test tst\_empty\_vlen\_unlim.c}
+
+This program excersizes HDF5 variable length array code.
+
+ESDM does not support user-defined datatypes from NetCDF!
+
+{\bf \large Status: } FAILURE!
+
+\section{Test tst\_endian\_fill.c}
+
+Create a test file with fill values for a variable of specified endianness.
+
+ESDM does not support endianness!
+
+{\bf \large Status: } FAILURE!
+
+\section{Test tst\_enums.c}
+
+Test netcdf-4 enum types.
+
+ESDM does not support user-defined datatypes from NetCDF!
+
+{\bf \large Status: } FAILURE!
+
+\section{Test tst\_files.c}
+
+Test netcdf-4 file code.
+
+Remove line 131. Expected error: NC\_ERANGE
+
+Remove line 189. Expected error: NC\_ENOTINDEFINE
+
+Remove line 279, 303. Expected error: NC\_FORMAT\_CLASSIC
+
+Remove line 285, 309. Expected error: NC\_FORMAT\_64BIT\_OFFSET
+
+Remove line 291. Expected error: NC\_FORMAT\_NETCDF4
+
+Remove lines 336-337. ESDM does not support compression!
+
+Remove lines 251-269, 519-527. Expected errors related to the format.
+
+Remove line 534. Expected error: NC\_EPERM
+
+Remove lines 479-481, 517-518, 529-530. Testing invalid parameters as input.
+
+*** Tests successful!
+
+{\bf \large Status: } PARTIAL SUCCESS!
+
+\section{Test tst\_files3.c}
+
+This is a benchmark program which tests file writes with compressed data.
+
+ESDM does not support compression!
+
+Too long to run!
+
+{\bf \large Status: } INCONCLUSIVE!
+
+\section{Test tst\_files4.c}
+
+Test netcdf-4 file from user-reported error. This code based on an ncgen output.
+
+ESDM does not support groups from NetCDF!
+
+{\bf \large Status: } FAILURE!
+
+\section{Test tst\_files5.c}
+
+Test netcdf files a bit.
+
+*** Tests successful!
+
+{\bf \large Status: } SUCCESS!
+
+\section{Test tst\_files6.c}
+
+Test netcdf files a bit.
+
+Remove line 86. Expected error: NC\_EHDFERR
+
+*** Tests successful!
+
+{\bf \large Status: } PARTIAL SUCCESS!
+
+\section{Test tst\_fill\_attr\_vanish.c}
+
+Based on tst\_fillbug.c
+
+Remove lines 91-97. Expected error: NC\_ELATEFILL
+
+*** Tests successful!
+
+{\bf \large Status: } PARTIAL SUCCESS!
+
+\section{Test tst\_fillbug.c}
+
+Test for a bug that Russ found testing fill values.
+
+Remove lines 64-67. Expected error: NC\_EINVAL / NC\_EBADTYPE
+
+Remove lines 72-74, 83-86. Expected error: NC\_FILL\_FLOAT
+
+*** Tests successful!
+
+{\bf \large Status: } PARTIAL SUCCESS!
+
+\section{Test tst\_fills.c}
+
+Create a test file with default fill values for variables of each type.
+
+Remove line 59.
+
+// if (NC\_def\_var(ncid, STRING\_var\_NAME, NC\_STRING, 0, NULL, \&varid)) ERR;
+
+Create file with a 1D string var. Set its fill value to the empty string.
+I'm not sure this should work with ESDM.
+
+Test using fill values. I don't understand yet.
+
+{\bf \large Status: } INCONCLUSIVE!
+
+\section{Test tst\_fills2.c}
+
+Create a test file with default fill values for variables of each type.
+
+ESDM does not support NC\_STRING from NetCDF!
+
+{\bf \large Status: } FAILURE!
+
+\section{Test tst\_filterparser.c}
+
+No description.
+
+SUCCESS!!
+
+{\bf \large Status: } SUCCESS!
+
+\section{Test tst\_grps.c}
+
+Test netcdf-4 group code.
+
+ESDM does not support groups from NetCDF!
+
+{\bf \large Status: } FAILURE!
+
+\section{Test tst\_grps2.c}
+
+Test netcdf-4 group code some more.
+
+ESDM does not support groups from NetCDF!
+
+{\bf \large Status: } FAILURE!
+
+\section{Test tst\_h\_refs.c}
+
+This program tests fixes for reading netCDF-4 files that contain datasets with reference datatypes.  The netCDF-4 library should ignore the datasets and attributes that have reference datatypes and allow the rest of the file to be accessed.
+
+ESDM does not support HDF5 format!
+
+// if (NC\_open(FILE\_NAME, NC\_NOWRITE, \&ncid)) ERR;
+
+//TODO Insert a condition in FILE\_NAME if the file is .h5
+
+{\bf \large Status: } FAILURE!
+
+\section{Test tst\_h\_scalar.c}
+
+This program tests reading HDF5 files that contain scalar attributes and variables, of both string and numeric datatypes.  The netCDF-4 library should allow access to all of these.
+
+ESDM does not support HDF5 format!
+
+{\bf \large Status: } FAILURE!
+
+\section{Test tst\_h\_strbug.c}
+
+This program tests fixes for bugs reported with accessing fixed-length scalar string variables and variable-length scalar string attributes from HDF5 files through the netCDF-4 API.
+
+ESDM does not support HDF5 format!
+
+{\bf \large Status: } FAILURE!
+
+\section{Test tst\_h5\_endians.c}
+
+No description.
+
+ESDM does not support HDF5 format!
+
+ESDM does not support endianness!
+
+{\bf \large Status: } FAILURE!
+
+\section{Test tst\_hdf5\_file\_compat.c}
+
+Tests library ability to open files generated by a netcdf instance linked against libhdf5 1.10.0.
+
+ESDM does not support HDF5 format!
+
+{\bf \large Status: } FAILURE!
+
+\section{Test tst\_interops.c}
+
+Test that HDF5 and NetCDF-4 can read and write the same file.
+
+ESDM does not support HDF5 format!
+
+{\bf \large Status: } FAILURE!
+
+\section{Test tst\_interops5.c}
+
+Test that HDF5 and NetCDF-4 can read and write the same file.
+
+ESDM does not support HDF5 format!
+
+{\bf \large Status: } FAILURE!
+
+\section{Test tst\_interops6.c}
+
+Test that HDF5 and NetCDF-4 can read and write the same file.
+
+ESDM does not support HDF5 format!
+
+{\bf \large Status: } FAILURE!
+
+\section{Test tst\_large.c}
+
+Test netcdf-4 large file fill values.
+
+WARN ESDM\_set\_fill():503 NOT IMPLEMENTED
+
+{\bf \large Status: } INCONCLUSIVE!
+
+\section{Test tst\_large2.c}
+
+Test large file problems reported by user.
+
+Too long to run!
+
+{\bf \large Status: } INCONCLUSIVE!
+
+\section{Test tst\_mem.c}
+
+Test internal netcdf-4 file code.
+
+*** Tests successful!
+
+{\bf \large Status: } SUCCESS!
+
+\section{Test tst\_mode.c}
+
+Test some illegal mode combinations
+
+ESDM does not support compression!
+
+Remove line 27. Expected error: NC\_EINVAL
+
+*** Tests successful!
+
+{\bf \large Status: } PARTIAL SUCCESS!
+
+\section{Test tst\_mpi\_parallel.c}
+
+This just excersizes MPI file I/O to make sure everything's working properly. If this does not work, netcdf/HDF5 parallel I/O also won't work.
+
+*** Tests successful!
+
+{\bf \large Status: } SUCCESS!
+
+\section{Test tst\_opaques.c}
+
+Test netcdf-4 opaque types.
+
+ESDM does not support user-defined datatypes from NetCDF!
+
+{\bf \large Status: } FAILURE!
+
+\section{Test tst\_parallel.c}
+
+This program tests netcdf-4 parallel I/O.
+
+WARN ESDM\_var\_par\_access():520 NOT IMPLEMENTED
+
+{\bf \large Status: } INCONCLUSIVE!
+
+\section{Test tst\_put\_vars.c}
+
+No description.
+
+*** SUCCESS writing example file tst\_put\_vars.nc!
+
+{\bf \large Status: } SUCCESS!
+
+\section{Test tst\_rehash.c}
+
+Tests to see if the hashmap is being properly updated.
+
+Tests successful!
+
+{\bf \large Status: } SUCCESS!
+
+\section{Test tst\_rename.c}
+
+Test renames of vars and dims.
+
+ESDM does not support groups from NetCDF!
+
+Remove lines 482-555. Specific to groups.
+
+*** Tests successful!
+
+{\bf \large Status: } PARTIAL SUCCESS!
+
+\section{Test tst\_rename2.c}
+
+Test more renames of vars and dims.
+
+Remove lines 110-112. ESDM currently does not work with NC_NAT.
+
+*** Tests successful!
+
+{\bf \large Status: } SUCCESS!
+
+\section{Test tst\_simplerw\_coll\_r.c}
+
+This test is for parallel IO and the collective access of metadata with HDF5.
+
+WARN ESDM\_var\_par\_access():520 NOT IMPLEMENTED
+
+{\bf \large Status: } INCONCLUSIVE!
+
+\section{Test tst\_strings.c}
+
+Test netcdf-4 string types.
+
+ESDM does not support NC\_STRING from NetCDF!
+
+{\bf \large Status: } FAILURE!
+
+\section{Test tst\_strings2.c}
+
+Test netcdf-4 string types.
+
+*** Tests successful!
+
+How is this test successful if ESDM does not support NC\_STRING?
+
+{\bf \large Status: } SUCCESS!
+
+\section{Test tst\_sync.c}
+
+Test netcdf-4 syncs.
+
+Remove line 128. Expected error: NC\_EINDEFINE
+
+*** Tests successful!
+
+{\bf \large Status: } PARTIAL SUCCESS!
+
+\section{Test tst\_types.c}
+
+Test netcdf-4 types.
+
+ESDM does not support user-defined datatypes from NetCDF!
+
+{\bf \large Status: } FAILURE!
+
+\section{Test tst\_udf.c}
+
+Test user-defined formats.
+
+ESDM does not support user-defined datatypes from NetCDF!
+
+{\bf \large Status: } FAILURE!
+
+\section{Test tst\_unlim\_vars.c}
+
+Test netcdf-4 variables with unlimited dimensions.
+
+Sorry! Unexpected result, ../../nc\_test4/tst\_unlim\_vars.c, line: 70
+
+Works, does not work. Who knows...
+
+{\bf \large Status: } INCONCLUSIVE!
+
+\section{Test tst\_utf8.c}
+
+This is a very simple example which writes a netCDF file with Unicode names encoded with UTF-8. It is the NETCDF3 equivalent of tst\_unicode.c
+
+ESDM does not support Unicode names encoded with UTF-8!
+
+//TODO Insert in the function that does this test this message.
+
+{\bf \large Status: } FAILURE!
+
+\section{Test tst\_v2.c}
+
+Test internal netcdf-4 file code.
+
+*** Tests successful!
+
+{\bf \large Status: } SUCCESS!
+
+\section{Test tst\_varms.c}
+
+Test netcdf-4 mapped var operations.
+
+*** Tests successful!
+
+{\bf \large Status: } SUCCESS!
+
+\section{Test tst\_vars.c}
+
+Test netcdf-4 variables.
+
+ESDM does not support groups from NetCDF!
+
+//TODO WARN ESDM\_inq\_typeid():1549 NOT IMPLEMENTED
+
+/* Open the file and read everything as double. */
+
+Why does this not work?
+
+Great test for the conversions.
+
+{\bf \large Status: } INCONCLUSIVE!
+
+\section{Test tst\_vars2.c}
+
+Test netcdf-4 variables.
+
+//TODO Understand and implement the fill value.
+
+Remove line 148. Expected error: NC\_EPERM
+
+Remove lines 434-439, 522-524, 530-535, 541, 544-551, 638-639, 644-646, 652, 716-725, 744-745, 1060-1062, 1079-1083, 1107-1111, 1232-1259, 1242-1243, 1274-1275, 1291-1318, 1457-1458. Testing invalid parameters as input.
+
+Remove lines 649, 671-672. Conversion.
+
+Remove lines 703, 732-733, 757-758. ESDM does not support endianness!
+
+Remove lines 767-1032, 1145, 1158-1159, 1179-1180. ESDM does not support compression!
+
+Remove line 1270. ESDM does not support user-defined datatypes from NetCDF!
+
+Remove lines 1190-1228. ERROR dimension zero.
+
+Remove lines 1284-1285. ESDM does not support groups from NetCDF!
+
+Remove lines 1286-1287. //TODO Implement function nc\_inq\_typeids.
+
+*** Tests successful!
+
+{\bf \large Status: } PARTIAL SUCCESS!
+
+\section{Test tst\_vars3.c}
+
+Test netcdf-4 variables.
+
+Remove lines 115, 117, 119, 123-124, 126-127, 140, 142, 144, 149-150, 152-153, 285. ESDM does not keep the same order for dimids.
+
+Remove lines 159-197. ESDM does not support endianness!
+
+Remove lines 219. ESDM does not support endianness!
+
+Remove lines 229-230, 447. ESDM does not support compression!
+
+Remove lines 269-276. Testing invalid parameters as input.
+
+Remove lines 274-276, 286-288. Expected error: NC\_FILL\_FLOAT.
+
+/** Default fill value. This is used unless \_FillValue attribute
+ * is set.  These values are stuffed into newly allocated space as
+ * appropriate.  The hope is that one might use these to notice that a
+ * particular datum has not been set. */
+
+Remove lines 311. ESDM does not support compression!
+
+Remove lines 322-363. ESDM does not support groups from NetCDF!
+
+Remove lines 409-558. ESDM does not support szip filter.
+
+*** Tests successful!
+
+{\bf \large Status: } PARTIAL SUCCESS!
+
+\section{Test tst\_vars4.c}
+
+Test netcdf-4 variables.
+
+ESDM does not support compression!
+
+Remove lines 74-76, 81-82, 96-98, 103-104. ESDM does not support compression!
+
+*** Tests successful!
+
+{\bf \large Status: } PARTIAL SUCCESS!
+
+\section{Test tst\_vl.c}
+
+Test netcdf-4 variable length code.
+
+ESDM does not support user-defined datatypes from NetCDF!
+
+{\bf \large Status: } FAILURE!

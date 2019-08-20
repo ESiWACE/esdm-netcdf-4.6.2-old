@@ -63,4 +63,6 @@ int main(int argc, char **argv) {
 
   if (nc_close(ncid))
     ERR;
+
+   FINAL_RESULTS;
 }

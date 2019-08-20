@@ -1,0 +1,132 @@
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|l|l|}
+\hline
+NetCDF TYPE & Number & ESDM Type & ESDM Representation \\ \hline \hline
+NC\_BYTE       &  1   & SMD\_DTYPE\_INT8     & int8\_t    \\ \hline
+NC\_UBYTE      &  7   & SMD\_DTYPE\_UINT8    & uint8\_t    \\ \hline
+NC\_CHAR       &  2   & SMD\_DTYPE\_CHAR     & char    \\ \hline
+NC\_SHORT      &  3   & SMD\_DTYPE\_INT16    & int16\_t    \\ \hline
+NC\_USHORT     &  8   & SMD\_DTYPE\_UINT16   & uint16\_t    \\ \hline
+NC\_INT        &  4   & SMD\_DTYPE\_INT32    & int32\_t    \\ \hline
+NC\_LONG       &  4   & SMD\_DTYPE\_INT32    & int32\_t    \\ \hline
+NC\_UINT       &  9   & SMD\_DTYPE\_UINT32   & uint32\_t    \\ \hline
+NC\_INT64      &  10  & SMD\_DTYPE\_INT64    & int64\_t    \\ \hline
+NC\_UINT64     &  5   & SMD\_DTYPE\_UINT64   & uint64\_t    \\ \hline
+NC\_FLOAT      &  11  & SMD\_DTYPE\_FLOAT    & 32 bits    \\ \hline
+NC\_DOUBLE     &  6   & SMD\_DTYPE\_DOUBLE   & 64 bits    \\ \hline
+\hline
+\end{tabular}
+\caption{Convertion between ESDM and NetCDF4 datatypes -- Datatypes sorted by size.}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|l|l|}
+\hline
+NetCDF TYPE & Number & ESDM Type & ESDM Representation \\ \hline \hline
+NC\_BYTE       &  1   & SMD\_DTYPE\_INT8     & int8\_t    \\ \hline
+NC\_CHAR       &  2   & SMD\_DTYPE\_CHAR     & char    \\ \hline
+NC\_SHORT      &  3   & SMD\_DTYPE\_INT16    & int16\_t    \\ \hline
+NC\_INT        &  4   & SMD\_DTYPE\_INT32    & int32\_t    \\ \hline
+NC\_LONG       &  4   & SMD\_DTYPE\_INT32    & int32\_t    \\ \hline
+NC\_UINT64     &  5   & SMD\_DTYPE\_UINT64   & uint64\_t    \\ \hline
+NC\_DOUBLE     &  6   & SMD\_DTYPE\_DOUBLE   & 64 bits    \\ \hline
+NC\_UBYTE      &  7   & SMD\_DTYPE\_UINT8    & uint8\_t    \\ \hline
+NC\_USHORT     &  8   & SMD\_DTYPE\_UINT16   & uint16\_t    \\ \hline
+NC\_UINT       &  9   & SMD\_DTYPE\_UINT32   & uint32\_t    \\ \hline
+NC\_INT64      &  10  & SMD\_DTYPE\_INT64    & int64\_t    \\ \hline
+NC\_FLOAT      &  11  & SMD\_DTYPE\_FLOAT    & 32 bits    \\ \hline
+\hline
+\end{tabular}
+\caption{Convertion between ESDM and NetCDF4 datatypes -- Datatypes sorted by NETCDF4 description.}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|m{6cm}|l|}
+\hline
+Functionality & NetCDF Support & ESDM Support \\ \hline \hline
+
+& & \\
+& \large{Datatypes Support} & \\
+& & \\ \hline \hline
+
+NC Data Type  &  NC Description  & ESDM Data Type  \\ \hline
+
+NC\_NAT & NAT = Not A Type (c.f. NaN) &     NOT SUPPORTED        \\ \hline
+NC\_BYTE & signed 1 byte integer &     SMD\_DTYPE\_INT8        \\ \hline
+NC\_CHAR & ISO/ASCII character &      SMD\_DTYPE\_CHAR       \\ \hline
+NC\_SHORT & signed 2 byte integer &   SMD\_DTYPE\_INT16          \\ \hline
+NC\_INT & signed 4 byte integer &     SMD\_DTYPE\_INT32        \\ \hline
+NC\_LONG & deprecated, but required for backward compatibility &    SMD\_DTYPE\_INT32         \\ \hline
+NC\_FLOAT & single precision floating point number &   SMD\_DTYPE\_FLOAT           \\ \hline
+NC\_DOUBLE & double precision floating point number &   SMD\_DTYPE\_DOUBLE          \\ \hline
+NC\_UBYTE & unsigned 1 byte int &     SMD\_DTYPE\_UINT8        \\ \hline
+NC\_USHORT & unsigned 2-byte int &    SMD\_DTYPE\_UINT16         \\ \hline
+NC\_UINT & unsigned 4-byte int &   SMD\_DTYPE\_UINT32          \\ \hline
+NC\_INT64 & signed 8-byte int &    SMD\_DTYPE\_INT64         \\ \hline
+NC\_UINT64 & unsigned 8-byte int &    SMD\_DTYPE\_UINT64         \\ \hline
+NC\_STRING & string &    SMD\_DTYPE\_STRING         \\ \hline
+NC\_VLEN & used internally for vlen types &      NOT SUPPORTED YET       \\ \hline
+NC\_OPAQUE & used internally for opaque types &     NOT SUPPORTED YET        \\ \hline
+NC\_COMPOUND & used internally for compound types &    NOT SUPPORTED YET         \\ \hline
+NC\_ENUM & used internally for enum types &       NOT SUPPORTED YET      \\ \hline \hline
+\end{tabular}
+\caption{Functionalities -- NetCDF and ESDM -- Datatypes Support.}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|m{6cm}|l|}
+\hline
+Functionality & NetCDF Support & ESDM Support \\ \hline \hline
+& & \\
+& \large{Modes -- Creating a file} & \\
+& & \\ \hline \hline
+
+NC\_CLOBBER & Overwrite existing file &  ESDM\_CLOBBER       \\ \hline
+NC\_NOCLOBBER & Do not overwrite existing file &  ESDM\_NOCLOBBER       \\ \hline
+NC\_SHARE & Limit write caching - netcdf classic files only &  NOT SUPPORTED       \\ \hline
+NC\_64BIT\_OFFSET & Create 64-bit offset file &    NOT SUPPORTED     \\ \hline
+NC\_64BIT\_DATA  & Create CDF-5 file (alias NC\_CDF5) &   NOT SUPPORTED      \\ \hline
+NC\_NETCDF4 & Create netCDF-4/HDF5 file &  NOT SUPPORTED       \\ \hline
+NC\_CLASSIC\_MODEL & Enforce netCDF classic mode on netCDF-4/HDF5 files &   NOT SUPPORTED      \\ \hline
+NC\_DISKLESS & Store data in memory &    NOT SUPPORTED     \\ \hline
+NC\_PERSIST & Force the NC\_DISKLESS data from memory to a file &  NOT SUPPORTED       \\ \hline
+\hline
+\end{tabular}
+\caption{Functionalities -- NetCDF and ESDM -- Modes -- Creating a file.}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|m{8cm}|l|}
+\hline
+Functionality & NetCDF Support & ESDM Support \\ \hline \hline
+& & \\
+& \large{Modes -- Opening a file} & \\
+& & \\ \hline \hline
+
+NC\_NOWRITE & Open the dataset with read-only access &  ESDM\_NOWRITE       \\ \hline
+NC\_WRITE & Open the dataset with read-write access &  ESDM\_WRITE       \\ \hline
+NC\_SHARE & Share updates, limit caching &  NOT SUPPORTED       \\ \hline
+NC\_DISKLESS & Store data in memory &    NOT SUPPORTED     \\ \hline
+NC\_PERSIST & Force the NC\_DISKLESS data from memory to a file &  NOT SUPPORTED       \\ \hline
+\hline
+\end{tabular}
+\caption{Functionalities -- NetCDF and ESDM -- Modes -- Opening a file.}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|m{6cm}|l|}
+\hline
+Functionality & NetCDF Support & ESDM Support \\ \hline \hline
+%& & \\
+%& \large{Modes} & \\
+%& & \\ \hline \hline
+
+\end{tabular}
+\caption{Functionalities -- NetCDF and ESDM.}
+\end{table}

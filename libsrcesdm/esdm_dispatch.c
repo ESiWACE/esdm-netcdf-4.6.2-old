@@ -495,21 +495,42 @@ int ESDM_close(int ncid, void *b) {
 
 //TODO
 
+/**
+ * @brief Change the fill-value mode to improve write performance.
+ * @param ncid	NetCDF ID, from a previous call to nc_open() or nc_create().
+ * @param fillmode	Desired fill mode for the dataset, either NC_NOFILL or NC_FILL.
+ * @param old_modep	Pointer to location for returned current fill mode of the dataset before this call, either NC_NOFILL or NC_FILL.
+ * @return
+ */
+
 int ESDM_set_fill(int ncid, int fillmode, int *old_modep) {
   DEBUG_ENTER("%d %d\n", ncid, fillmode);
-  // *old_modep = NC_NOFILL;
-  WARN_NOT_IMPLEMENTED;
-  // find the proper output for old_modep using fillmode
-  // not clue why is returning segfault
+
+  *old_modep = fillmode;
 
   return NC_NOERR;
 }
 
-//TODO
+/**
+ * @brief Set the fill value for a variable.
+ * @param ncid	NetCDF ID, from a previous call to nc_open() or nc_create().
+ * @param varid	Variable ID.
+ * @param no_fill	Set to NC_NOFILL to turn off fill mode for this variable. Set to NC_FILL (the default) to turn on fill mode for the variable.
+ * @param fill_value	the fill value to be used for this variable. Must be the same type as the variable. This must point to enough free memory to hold one element of the data type of the variable. (For example, an NC_INT will require 4 bytes for it's fill value, which is also an NC_INT.)
+ * @return
+ */
 
 int ESDM_def_var_fill(int ncid, int varid, int no_fill, const void *fill_value) {
   DEBUG_ENTER("%d %d\n", ncid, no_fill);
-  WARN_NOT_IMPLEMENTED;
+
+  // void esdm_dataset_init(esdm_container_t *c, const char *name, esdm_dataspace_t *dspace, esdm_dataset_t **out_dataset){
+  //   esdm_dataset_t *d = (esdm_dataset_t *)malloc(sizeof(esdm_dataset_t));
+  //
+  //   d->dims_dset_id = NULL;
+  //   d->name = strdup(name);
+  //   d->id = NULL; // to be filled by the metadata backend
+  //   d->fill_value = NULL;
+
   return NC_NOERR;
 }
 
@@ -1046,18 +1067,6 @@ int ESDM_get_att(int ncid, int varid, const char *name, void *value, nc_type typ
       etype = SMD_DTYPE_STRING;
     }
 
-    // if (etype->type != child->type->type) {
-    //   return NC_EACCESS;
-
-    // It's generating problem with this combination...
-    // (gdb) p etype->type
-    // $19 = SMD_TYPE_STRING
-    // (gdb) p child->type->type
-    // $20 = SMD_TYPE_ARRAY
-
-    // The previous test tries to convert a vector of char in string, but in this case the entrance is already a string. I'm not sure how ESDM is (should be) handling string cases.
-
-    // }
     return NC_NOERR;
   }
 
