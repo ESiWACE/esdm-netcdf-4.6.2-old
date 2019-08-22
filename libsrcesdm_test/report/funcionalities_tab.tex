@@ -1,5 +1,29 @@
 \begin{table}[H]
 \centering
+\begin{tabular}{|l|l|l|}
+\hline
+NetCDF ERROR                  &  Description                                                                        & ESDM ERROR \\ \hline\hline
+NC\_EBADNAME                  &  Attribute or variable name contains illegal characters.                            &      \\ \hline
+NC\_EHDFERR                   &  Error at HDF5 layer.                                                               &      \\ \hline
+NC\_EINDEFINE                 &  Operation not allowed in define mode.                                              &      \\ \hline
+NC\_EINVAL                    &  Invalid Argument.                                                                  &      \\ \hline
+NC\_ELATEFILL                 &  Attempt to define fill value when data already exists.                             &      \\ \hline
+NC\_ENOTINDEFINE              &  Operation not allowed in data mode.                                                &      \\ \hline
+NC\_ENOTVAR                   &  Variable not found.                                                                &      \\ \hline
+NC\_EPERM                     &  Write to read only.                                                                &      \\ \hline
+NC\_ERANGE                    &  Math result not representable.                                                     &      \\ \hline
+NC\_FILL\_FLOAT               &  Default fill value.                                                                &      \\ \hline
+NC\_FORMAT\_64BIT\_OFFSET     &  Format specifier for nc\_set\_default\_format() and returned by nc\_inq\_format.   &      \\ \hline
+NC\_FORMAT\_CLASSIC           &  Format specifier for nc\_set\_default\_format() and returned by nc\_inq\_format.   &      \\ \hline
+NC\_FORMAT\_NETCDF4           &  Format specifier for nc\_set\_default\_format() and returned by nc\_inq\_format.   &      \\ \hline
+NC\_FORMAT\_NETCDF4\_CLASSIC  &  Format specifier for nc\_set\_default\_format() and returned by nc\_inq\_format.   &      \\ \hline
+\hline
+\end{tabular}
+\caption{Convertion between ESDM and NetCDF4 Erros.}
+\end{table}
+
+\begin{table}[H]
+\centering
 \begin{tabular}{|l|c|l|l|}
 \hline
 NetCDF TYPE & Number & ESDM Type & ESDM Representation \\ \hline \hline
@@ -54,7 +78,7 @@ Functionality & NetCDF Support & ESDM Support \\ \hline \hline
 
 NC Data Type  &  NC Description  & ESDM Data Type  \\ \hline
 
-NC\_NAT & NAT = Not A Type (c.f. NaN) &     NOT SUPPORTED        \\ \hline
+NC\_NAT & NAT = Not A Type (c.f. NaN) &    SMD\_TYPE\_AS\_EXPECTED        \\ \hline
 NC\_BYTE & signed 1 byte integer &     SMD\_DTYPE\_INT8        \\ \hline
 NC\_CHAR & ISO/ASCII character &      SMD\_DTYPE\_CHAR       \\ \hline
 NC\_SHORT & signed 2 byte integer &   SMD\_DTYPE\_INT16          \\ \hline
