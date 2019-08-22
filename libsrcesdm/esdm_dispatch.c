@@ -266,7 +266,7 @@ static void add_to_dims_tbl(nc_esdm_t *e, char const *name, size_t size) {
 }
 
 static void ncesdm_remove_attr(esdm_container_t *c){
-  esdm_attr_t *attrs;
+  smd_attr_t *attrs;
   int ret = esdm_container_get_attributes(c, &attrs);
   int dims_pos = smd_find_position_by_name(attrs, "_nc_dims");
   if (dims_pos >= 0) smd_attr_unlink_pos(attrs, dims_pos);
@@ -364,7 +364,7 @@ int ESDM_open(const char *path, int cmode, int basepe, size_t *chunksizehintp, v
     insert_md(&e->vars, evar);
   }
 
-  esdm_attr_t *attrs;
+  smd_attr_t *attrs;
   status = esdm_container_get_attributes(e->c, &attrs);
   int dims_pos = smd_find_position_by_name(attrs, "_nc_dims");
   int sizes_pos = smd_find_position_by_name(attrs, "_nc_sizes");
@@ -424,7 +424,7 @@ static int ncesdm_container_commit(nc_esdm_t *e) {
   // store the dimension table
   int len = e->dimt.count;
   smd_dtype_t *arr_type = smd_type_array(SMD_DTYPE_STRING, len);
-  esdm_attr_t *new = smd_attr_new("_nc_dims", arr_type, e->dimt.name, 0);
+  smd_attr_t *new = smd_attr_new("_nc_dims", arr_type, e->dimt.name, 0);
   esdm_container_link_attribute(e->c, 1, new);
   //smd_type_unref(arr_type);
 
