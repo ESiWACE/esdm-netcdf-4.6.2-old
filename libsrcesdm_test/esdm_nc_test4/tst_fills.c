@@ -56,30 +56,30 @@ main(int argc, char **argv)
       /* Create file with a 1D string var. Set its fill value to the
        * empty string. */
       if (nc_create(FILE_NAME, NC_NETCDF4, &ncid)) ERR;
-      // if (nc_def_var(ncid, STRING_VAR_NAME, NC_STRING, 0, NULL, &varid)) ERR;
+      if (nc_def_var(ncid, STRING_VAR_NAME, NC_STRING, 0, NULL, &varid)) ERR;
 
       /* Check it out. */
-      // if (nc_inq_varid(ncid, STRING_VAR_NAME, &varid_in)) ERR;
-      // if (varid_in != varid) ERR;
-      //
-      // /* Write string. */
-      // if (nc_put_var1_string(ncid, varid_in, index1, data_out)) ERR;
-      //
-      // /* Get the string, check it, and free it. */
-      // if (nc_get_var_string(ncid, varid_in, data_in)) ERR;
-      // if (strcmp(data_in[0], data_out[0])) ERR;
-      // if (nc_free_string(1, data_in)) ERR;
-      //
-      // /* Close the file. */
-      // if (nc_close(ncid)) ERR;
-      //
-      // /* Now re-open file, read data, and check values again. */
-      // if (nc_open(FILE_NAME, NC_NOWRITE, &ncid)) ERR;
-      //
-      // /* Get the string, check it, and free it. */
-      // if (nc_get_var_string(ncid, varid_in, data_in)) ERR;
-      // if (strcmp(data_in[0], data_out[0])) ERR;
-      // if (nc_free_string(1, data_in)) ERR;
+      if (nc_inq_varid(ncid, STRING_VAR_NAME, &varid_in)) ERR;
+      if (varid_in != varid) ERR;
+
+      /* Write string. */
+      if (nc_put_var1_string(ncid, varid_in, index1, data_out)) ERR;
+
+      /* Get the string, check it, and free it. */
+      if (nc_get_var_string(ncid, varid_in, data_in)) ERR;
+      if (strcmp(data_in[0], data_out[0])) ERR;
+      if (nc_free_string(1, data_in)) ERR;
+
+      /* Close the file. */
+      if (nc_close(ncid)) ERR;
+
+      /* Now re-open file, read data, and check values again. */
+      if (nc_open(FILE_NAME, NC_NOWRITE, &ncid)) ERR;
+
+      /* Get the string, check it, and free it. */
+      if (nc_get_var_string(ncid, varid_in, data_in)) ERR;
+      if (strcmp(data_in[0], data_out[0])) ERR;
+      if (nc_free_string(1, data_in)) ERR;
 
       /* Close the file. */
       if (nc_close(ncid)) ERR;

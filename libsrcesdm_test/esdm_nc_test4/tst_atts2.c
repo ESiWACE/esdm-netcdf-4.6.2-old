@@ -179,7 +179,7 @@ main(int argc, char **argv)
 // 	 data[i].i1 = 5;
 // 	 data[i].i2 = 10;
 //       }
-
+      
       /* Create two files with the same compound type. */
       // for (i = 0; i < NUM_FILES; i++)
       // {

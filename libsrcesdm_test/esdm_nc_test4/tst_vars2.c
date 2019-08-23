@@ -97,8 +97,8 @@ main(int argc, char **argv)
 
          /* Open the file and check. */
          if (nc_open(FILE_NAME2, NC_WRITE, &ncid)) ERR;
-         // if (nc_inq_varids(ncid, &nvars_in, varids_in)) ERR;
-         // if (nvars_in != 1 || varids_in[0] != 0) ERR;
+         if (nc_inq_varids(ncid, &nvars_in, varids_in)) ERR;
+         if (nvars_in != 1 || varids_in[0] != 0) ERR;
          if (nc_inq_varname(ncid, 0, name_in)) ERR;
          if (strcmp(name_in, VAR_NAME)) ERR;
          // if (nc_inq_att(ncid, varid, _FillValue, &xtype_in, &len_in)) ERR;
@@ -148,8 +148,8 @@ main(int argc, char **argv)
           // if (nc_rename_var(ncid, 0, "something_very_new") != NC_EPERM) ERR;
 
          /* Check metadata. */
-         // if (nc_inq_varids(ncid, &nvars_in, varids_in)) ERR;
-         // if (nvars_in != 1 || varids_in[0] != 0) ERR;
+         if (nc_inq_varids(ncid, &nvars_in, varids_in)) ERR;
+         if (nvars_in != 1 || varids_in[0] != 0) ERR;
          if (nc_inq_varname(ncid, 0, name_in)) ERR;
          if (strcmp(name_in, VAR_NAME)) ERR;
 
@@ -708,9 +708,9 @@ main(int argc, char **argv)
       if (nc_inq(ncid, &ndims, &nvars, &natts, &unlimdimid)) ERR;
       if (ndims != NDIMS4 || nvars != 1 || natts != 0 ||
           unlimdimid != -1) ERR;
-      // if (nc_inq_varids(ncid, &nvars, varids_in)) ERR;
-      // if (nvars != 1) ERR;
-      // if (varids_in[0] != 0) ERR;
+      if (nc_inq_varids(ncid, &nvars, varids_in)) ERR;
+      if (nvars != 1) ERR;
+      if (varids_in[0] != 0) ERR;
 
       /* Test some bad parameter values. */
       // if (nc_inq_var(ncid + MILLION, 0, name_in, &xtype_in, &ndims,
@@ -747,9 +747,9 @@ main(int argc, char **argv)
       if (nc_inq(ncid, &ndims, &nvars, &natts, &unlimdimid)) ERR;
       if (ndims != NDIMS4 || nvars != 1 || natts != 0 ||
           unlimdimid != -1) ERR;
-      // if (nc_inq_varids(ncid, &nvars, varids_in)) ERR;
-      // if (nvars != 1) ERR;
-      // if (varids_in[0] != 0) ERR;
+      if (nc_inq_varids(ncid, &nvars, varids_in)) ERR;
+      if (nvars != 1) ERR;
+      if (varids_in[0] != 0) ERR;
       if (nc_inq_var(ncid, 0, name_in, &xtype_in, &ndims,
                      dimids_in, &natts)) ERR;
       if (strcmp(name_in, VAR_NAME4) || xtype_in != NC_INT ||
@@ -1350,9 +1350,9 @@ main(int argc, char **argv)
       if (nc_inq(ncid, &ndims, &nvars, &natts, &unlimdimid)) ERR;
       if (ndims != NDIMS17 || nvars != 1 || natts != 0 ||
           unlimdimid != -1) ERR;
-      // if (nc_inq_varids(ncid, &nvars, varids_in)) ERR;
-      // if (nvars != 1) ERR;
-      // if (varids_in[0] != 0) ERR;
+      if (nc_inq_varids(ncid, &nvars, varids_in)) ERR;
+      if (nvars != 1) ERR;
+      if (varids_in[0] != 0) ERR;
       if (nc_inq_var(ncid, 0, name_in, &xtype_in, &ndims, dimids_in, &natts)) ERR;
       if (strcmp(name_in, VAR_NAME17) || xtype_in != NC_UINT64 || ndims != 2 || natts != 0 ||
 	  dimids_in[0] != 0 || dimids_in[1] != 1) ERR;
@@ -1369,9 +1369,9 @@ main(int argc, char **argv)
       if (nc_inq(ncid, &ndims, &nvars, &natts, &unlimdimid)) ERR;
       if (ndims != NDIMS17 || nvars != 1 || natts != 0 ||
           unlimdimid != -1) ERR;
-      // if (nc_inq_varids(ncid, &nvars, varids_in)) ERR;
-      // if (nvars != 1) ERR;
-      // if (varids_in[0] != 0) ERR;
+      if (nc_inq_varids(ncid, &nvars, varids_in)) ERR;
+      if (nvars != 1) ERR;
+      if (varids_in[0] != 0) ERR;
       if (nc_inq_var(ncid, 0, name_in, &xtype_in, &ndims, dimids_in, &natts)) ERR;
       if (strcmp(name_in, VAR_NAME17) || xtype_in != NC_UINT64 || ndims != 2 || natts != 0 ||
 	  dimids_in[0] != 0 || dimids_in[1] != 1) ERR;

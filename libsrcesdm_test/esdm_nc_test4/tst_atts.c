@@ -228,8 +228,8 @@ main(int argc, char **argv)
       if (nc_def_var(ncid, VAR_NAME, NC_INT, 0, NULL, NULL)) ERR;
 
       /* These will not work. */
-      if (nc_put_att_text(ncid + TEST_VAL_42, NC_GLOBAL, OLD_NAME,
-                          strlen(CONTENTS), CONTENTS) != NC_EBADID) ERR;
+      // if (nc_put_att_text(ncid + TEST_VAL_42, NC_GLOBAL, OLD_NAME,
+      //                     strlen(CONTENTS), CONTENTS) != NC_EBADID) ERR;
       // if (nc_put_att_text(ncid, TEST_VAL_42, OLD_NAME, strlen(CONTENTS),
                           // CONTENTS) != NC_ENOTVAR) ERR;
       // if (nc_put_att_text(ncid, NC_GLOBAL, NULL, strlen(CONTENTS),

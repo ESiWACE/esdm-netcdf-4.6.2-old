@@ -2401,7 +2401,7 @@ main(int argc, char **argv)
 // 	  /* This also should return error, because types don't match */
 // 	  if (nc_put_att_float(ncid, varid, "_FillValue", NC_FLOAT, 1, &var_FillValue_att)
 // 	      != NC_EBADTYPE) ERR;
-// 	  /* This should succeed, _FillValue is valid */
+	  /* This should succeed, _FillValue is valid */
 	  if (nc_put_att_int(ncid, varid, "_FillValue", NC_INT, 1, var_FillValue_atts)) ERR;
       }
 

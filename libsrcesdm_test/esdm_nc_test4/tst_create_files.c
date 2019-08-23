@@ -117,8 +117,8 @@ main(int argc, char **argv)
        if (nc_open(FILE_NAME, 0, &ncid)) ERR;
        if (nc_inq(ncid, &ndims, &nvars, &natts, &unlimdimid)) ERR;
        if (ndims != NUMDIMS || nvars != 1 || natts != 0 || unlimdimid != -1) ERR;
-       // if (nc_inq_dimids(ncid, &ndims, dimids, 1)) ERR;
-       // if (ndims != 1 || dimids[0] != 0) ERR;
+       if (nc_inq_dimids(ncid, &ndims, dimids, 1)) ERR;
+       if (ndims != 1 || dimids[0] != 0) ERR;
        if (nc_inq_dim(ncid, 0, name_in, &len)) ERR;
        if (strcmp(name_in, DIM_NAME) || len != DIMLEN) ERR;
        if (nc_inq_var(ncid, 0, name_in, &xtype, &ndims, dimids, &natts)) ERR;

@@ -46,11 +46,11 @@ main(int argc, char **argv)
 
       /* Add three vars, with filters to force chunking. */
       if (nc_def_var(ncid, V_SMALL, NC_INT64, NDIMS1, &small_dimid, &small_varid)) ERR;
-      // if (nc_def_var_deflate(ncid, small_varid, 0, 1, 4)) ERR;
+      if (nc_def_var_deflate(ncid, small_varid, 0, 1, 4)) ERR;
       if (nc_def_var(ncid, V_MEDIUM, NC_INT64, NDIMS1, &medium_dimid, &medium_varid)) ERR;
-      // if (nc_def_var_deflate(ncid, medium_varid, 1, 0, 0)) ERR;
+      if (nc_def_var_deflate(ncid, medium_varid, 1, 0, 0)) ERR;
       if (nc_def_var(ncid, V_LARGE, NC_INT64, NDIMS1, &large_dimid, &large_varid)) ERR;
-      // if (nc_def_var_fletcher32(ncid, large_varid, 1)) ERR;
+      if (nc_def_var_fletcher32(ncid, large_varid, 1)) ERR;
       if (nc_close(ncid)) ERR;
 
       /* Open the file and check. */
