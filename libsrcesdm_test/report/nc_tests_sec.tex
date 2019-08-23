@@ -1,11 +1,5 @@
 \chapter{Files From Directory {\textit{nc\_test4}}}
 
-\section{h5testszip.c}
-
-Example illustrates the use of SZIP compression in HDF5.
-
-***PASS
-
 {\bf \large Status: } SUCCESS!
 
 \section{Test cdm\_sea\_soundings.c}
@@ -17,14 +11,11 @@ ESDM does not support user-defined datatypes from NetCDF!
 
 {\bf \large Status: } FAILURE!
 
-\section{Test t\_type.c}
+\section{Test h5testszip.c}
 
-This test program is only built if netCDF-4 is disabled. It tests
-   the netCDF-3 version of NC\_inq\_type().
+Example illustrates the use of SZIP compression in HDF5.
 
-*** Tests successful!
-
-{\bf \large Status: } SUCCESS!
+***PASS
 
 \section{Test test\_szip.c}
 
@@ -33,7 +24,7 @@ Taken from HDF5 example.
 
 ESDM does not support compression!
 
-Remove lines 67-88. Specific to compression.
+Remove lines 70-88. Specific to compression.
 
 *** Tests successful!
 
@@ -45,15 +36,15 @@ Test the netCDF-4 attribute code.
 
 //TODO Testing the permission and reserved words before name/rename.
 
-Remove lines 90-98. Expected error: NC\_EPERM
+Remove lines 91, 94-95, 98. Expected error: NC\_EPERM
 
 Remove lines 116, 118, 234. Expected error: NC\_ENOTVAR
 
 Remove line 117. Expected error: NC\_EINVAL
 
-Remove lines 148, 180, 186. Expected error: NC\_ENOTINDEFINE
+Remove lines 148, 180, 185-186. Expected error: NC\_ENOTINDEFINE
 
-Remove line 207, because the test works with ESDM.
+Remove lines 204, 207. The test works with ESDM.
 
 tst\_atts: /home/lucy/esiwace/esdm/deps/smd/src/smd-core.c:2619: smd\_attr\_new\_usertype: Assertion `name != NULL' failed.
 
@@ -61,17 +52,13 @@ tst\_atts: /home/lucy/esiwace/esdm/deps/smd/src/smd-core.c:2619: smd\_attr\_new\
 
 Expected error: NC\_EBADNAME
 
-Remove lines 235-242. Testing invalid parameters as input.
+Remove lines 231-242. Testing invalid parameters as input.
 
 Remove lines 243-269. Check that the reserved words (NC\_GLOBAL) are rejected. ESDM does not have this limitation.
 
-Remove lines 280-317, 327-335, 341-343, 353-355, 365-367, 375. Testing invalid parameters as input.
+Remove lines 280-317, 328-335, 341-343, 353-355, 365-367, 375. Testing invalid parameters as input.
 
-Remove lines 372, 383, 414, 423. Same problem with smd\_attr\_copy\_value and strings.
-
-tst\_atts: /home/lucy/esiwace/esdm/src/esdm-datatypes.c:959: esdmI\_dataset\_metadata\_create: Assertion `d-$>$dataspace-$>$size != ((void *)0)' failed.
-
-//TODO This error is out of my league.
+Remove lines 370, 372, 383, 414, 423. Same problem with smd\_attr\_copy\_value and strings.
 
 Remove lines 376-385, 415-424. NetCDF is creating a file with one variable and one attribute. The variable has zero dimensions. ESDM doesn't handle it. So it cannot close and reopen the file. ERROR dimension zero.
 
@@ -109,21 +96,27 @@ This is a very simple example which writes a netCDF file with
 Unicode names encoded with UTF-8. It is the NETCDF3 equivalent
 of tst\_unicode.c
 
-Remove lines 2393-2404. Testing invalid parameters as input.
-
-tst\_atts3: /home/lucy/esiwace/esdm/src/esdm-datatypes.c:959: esdmI\_dataset\_metadata\_create: Assertion `d-$>$dataspace-$>$size != ((void *)0)' failed.
+Remove lines 2393-2403. Testing invalid parameters as input.
 
 //TODO This error is out of my league.
 
-Remove lines 2407-2427. ERROR dimension zero.
+Remove lines 2408-2427. ERROR dimension zero.
 
 //TODO Find file nc\_test
 
-Remove lines 2431-2488. NetCDF calls create\_file() with no parameters at all. ESDM does not handle it.
+Remove lines 2431-2489. NetCDF calls create\_file() with no parameters at all. ESDM does not handle it.
 
 *** Tests successful!
 
 {\bf \large Status: } PARTIAL SUCCESS!
+
+\section{Test tst\_attsperf.c}
+
+Test the netCDF-4 attribute code.
+
+Too long to run!
+
+{\bf \large Status: } INCONCLUSIVE!
 
 \section{Test tst\_atts\_string\_rewrite.c}
 
@@ -134,14 +127,6 @@ an NC\_STRING attribute.
 *** Tests successful!
 
 {\bf \large Status: } SUCCESS!
-
-\section{Test tst\_attsperf.c}
-
-Test the netCDF-4 attribute code.
-
-Too long to run!
-
-{\bf \large Status: } INCONCLUSIVE!
 
 \section{Test tst\_bug324.c}
 
@@ -185,7 +170,7 @@ Test netcdf-4 chunking.
 
 ESDM does not support compression!
 
-Remove lines 106, 102-121, 137-140, 170-176, 208-214, 246-252, 287-293, 327-333, 369-375, 408-414, 447-453. ESDM does not support compression!.
+Remove lines 106, 102-121, 137-139, 170, 173-175, 208, 211-213, 246-252, 287-292, 327-332, 369-375, 408-414, 447-453. ESDM does not support compression!
 
 *** Tests successful!
 
@@ -243,10 +228,6 @@ Sorry! Unexpected result, ../../nc\_test4/tst\_converts.c, line: 147
 
 \section{Test tst\_converts2.c}
 
-tst\_converts2: /home/lucy/esiwace/esdm/src/hypercube.c:62: esdmI\_hypercube\_make: Assertion `offset' failed.
-
-//TODO This error is out of my league.
-
 Remove lines 31-51. ERROR dimension zero.
 
 if (mem\_nc\_type != type\_esdm\_to\_nc(esdm\_dataspace\_get\_type(space)))
@@ -267,15 +248,17 @@ Remove lines 92-93. ESDM does not keep the same order for dimids.
 
 Remove lines 115, 122. ESDM does not support compression!
 
+Remove lines 134, 137, 141, 145, 149, 153, 155-156, 158, 161. ESDM does not support NC\_CLASSIC\_MODEL!
+
 Remove lines 157, 505. It's not working due to a problem in smd\_attr\_copy\_value and strings.
 
-Remove lines 488, 490, 492, 494. ESDM does not keep the same order for dimids.
+Remove lines 489, 491, 493, 495. ESDM does not keep the same order for dimids.
 
-Remove lines 537, 539, 781, 785, 786, 790, 792. ESDM does not keep the same order for dimids.
+Remove lines 538, 540, 781, 785, 786, 790, 792. ESDM does not keep the same order for dimids.
 
-Remove line 583-602. ESDM does not work with groups.
+Remove line 584-603. ESDM does not work with groups.
 
-Remove line 606-647. This is actually an interesting problem.
+Remove line 606, 608-648. This is actually an interesting problem.
 
 NetCDF inserts two variables with the same name, different type, and that will have the same id.
 
@@ -345,7 +328,7 @@ Test netcdf-4 dimensions.
 
 ESDM does not support groups from NetCDF!
 
-Remove lines 104-106, 115-120, 136-138, 141, 150, 163-164, 190-200, 216-217, 225-227, 225-227, 260-263, 466. Testing invalid parameters as input.
+Remove lines 104-106, 116, 119-120, 136-138, 141, 150, 164, 190-200, 217, 226, 261-263, 466. Testing invalid parameters as input.
 
 Remove lines 907-909, 947-949, 1106-1108. This is an interesting error related to NC\_NAT.
 
@@ -384,7 +367,7 @@ esdm\_scheduler\_makeSplitRecommendation: Assertion `splitFactors[i] $>$= 1' fai
 
 //TODO This error is out of my league.
 
-Remove lines 1101-1103. ERROR dimension zero.
+Remove lines 1101, 1103. ERROR dimension zero.
 
 \begin{verbatim}
 455	    splitFactors[i] = (int64_t)ceil(space->size[i]/targetEdgeLength);
@@ -535,9 +518,9 @@ Remove line 131. Expected error: NC\_ERANGE
 
 Remove line 189. Expected error: NC\_ENOTINDEFINE
 
-Remove line 279, 303. Expected error: NC\_FORMAT\_CLASSIC
+Remove lines 279, 303. Expected error: NC\_FORMAT\_CLASSIC
 
-Remove line 285, 309. Expected error: NC\_FORMAT\_64BIT\_OFFSET
+Remove lines 285, 309. Expected error: NC\_FORMAT\_64BIT\_OFFSET
 
 Remove line 291. Expected error: NC\_FORMAT\_NETCDF4
 
@@ -557,7 +540,7 @@ Remove lines 479-481, 517-518, 529-530. Testing invalid parameters as input.
 
 This is a benchmark program which tests file writes with compressed data.
 
-ESDM does not support compression!
+Remove lines 87-88. ESDM does not support compression!
 
 Too long to run!
 
@@ -603,9 +586,11 @@ Remove lines 91-97. Expected error: NC\_ELATEFILL
 
 Test for a bug that Russ found testing fill values.
 
-Remove lines 64-67. Expected error: NC\_EINVAL / NC\_EBADTYPE
+Remove lines 64, 66. Testing invalid parameters as input.
 
-Remove lines 72-74, 83-86. Expected error: NC\_FILL\_FLOAT
+Remove line 83. ESDM does not keep the same order for dimids.
+
+Remove lines 72-74, 84-86. Expected error: NC\_FILL\_FLOAT
 
 *** Tests successful!
 
@@ -658,6 +643,24 @@ ESDM does not support groups from NetCDF!
 
 {\bf \large Status: } FAILURE!
 
+\section{Test tst\_h5\_endians.c}
+
+No description.
+
+ESDM does not support HDF5 format!
+
+ESDM does not support endianness!
+
+{\bf \large Status: } FAILURE!
+
+\section{Test tst\_hdf5\_file\_compat.c}
+
+Tests library ability to open files generated by a netcdf instance linked against libhdf5 1.10.0.
+
+ESDM does not support HDF5 format!
+
+{\bf \large Status: } FAILURE!
+
 \section{Test tst\_h\_refs.c}
 
 This program tests fixes for reading netCDF-4 files that contain datasets with reference datatypes.  The netCDF-4 library should ignore the datasets and attributes that have reference datatypes and allow the rest of the file to be accessed.
@@ -681,24 +684,6 @@ ESDM does not support HDF5 format!
 \section{Test tst\_h\_strbug.c}
 
 This program tests fixes for bugs reported with accessing fixed-length scalar string variables and variable-length scalar string attributes from HDF5 files through the netCDF-4 API.
-
-ESDM does not support HDF5 format!
-
-{\bf \large Status: } FAILURE!
-
-\section{Test tst\_h5\_endians.c}
-
-No description.
-
-ESDM does not support HDF5 format!
-
-ESDM does not support endianness!
-
-{\bf \large Status: } FAILURE!
-
-\section{Test tst\_hdf5\_file\_compat.c}
-
-Tests library ability to open files generated by a netcdf instance linked against libhdf5 1.10.0.
 
 ESDM does not support HDF5 format!
 
@@ -758,7 +743,7 @@ Test some illegal mode combinations
 
 ESDM does not support compression!
 
-Remove line 27. Expected error: NC\_EINVAL
+Remove lines 27, 34. Expected error: NC\_EINVAL
 
 *** Tests successful!
 
@@ -928,6 +913,16 @@ Why does this not work?
 
 Great test for the conversions.
 
+Remove lines 354-369. Testing invalid parameters as input.
+
+Remove lines 454-477. ESDM\_inq\_typeid() NOT IMPLEMENTED
+
+Remove lines 527-564. Conversion to double.
+
+Remove lines 834-835, 848-851, 872-875, 930-933, 953-956, 997-998, 1015-1019, 1039-1044, 1087-1091, 1129-1133. ESDM does not support user-defined datatypes from NetCDF!
+
+Remove lines 1092-1093, 1097-1098, 1155-1157, 1160-1162, 1165-1167, 1171, 1174-1177, 1194-1195, 1227-1228. Fill value.
+
 {\bf \large Status: } INCONCLUSIVE!
 
 \section{Test tst\_vars2.c}
@@ -936,7 +931,13 @@ Test netcdf-4 variables.
 
 //TODO Understand and implement the fill value.
 
+Remove lines 94-95. Conversion. Fill value.
+
+Remove lines 104-107, 132-133, 164-165. Fill value.
+
 Remove line 148. Expected error: NC\_EPERM
+
+Remove line 204, 240, 300, 312, 321, 323, 386, 397, 399, 408, 410. I think it's because the att was not inserted.
 
 Remove lines 434-439, 522-524, 530-535, 541, 544-551, 638-639, 644-646, 652, 716-725, 744-745, 1060-1062, 1079-1083, 1107-1111, 1232-1259, 1242-1243, 1274-1275, 1291-1318, 1457-1458. Testing invalid parameters as input.
 
@@ -944,15 +945,17 @@ Remove lines 649, 671-672. Conversion.
 
 Remove lines 703, 732-733, 757-758. ESDM does not support endianness!
 
-Remove lines 767-1032, 1145, 1158-1159, 1179-1180. ESDM does not support compression!
+Remove lines 767-768, 777-782, 784-1032, 1145, 1158-1159, 1179-1180, 1346-1347, 1359-1362, 1378-1381, 1465, 1469-1470, 1473, 1490, 1499, 1505, 1532-1542, 1566-1574. ESDM does not support compression!
 
-Remove line 1270. ESDM does not support user-defined datatypes from NetCDF!
+Remove line 1270, 1407-1426, 1468, 1476-1487, 1493-1496, 1502, 1529. ESDM does not support user-defined datatypes from NetCDF!
 
-Remove lines 1190-1228. ERROR dimension zero.
+Remove lines 1457-1458. Expected error: NC\_EBADDIM.
 
 Remove lines 1284-1285. ESDM does not support groups from NetCDF!
 
 Remove lines 1286-1287. //TODO Implement function nc\_inq\_typeids.
+
+Remove lines 1190-1228. ERROR dimension zero.
 
 *** Tests successful!
 
@@ -964,13 +967,11 @@ Test netcdf-4 variables.
 
 Remove lines 115, 117, 119, 123-124, 126-127, 140, 142, 144, 149-150, 152-153, 285. ESDM does not keep the same order for dimids.
 
-Remove lines 159-197. ESDM does not support endianness!
+Remove lines 159-197, 219. ESDM does not support endianness!
 
-Remove lines 219. ESDM does not support endianness!
+Remove lines 229-230, 311, 447. ESDM does not support compression!
 
-Remove lines 229-230, 447. ESDM does not support compression!
-
-Remove lines 269-276. Testing invalid parameters as input.
+Remove lines 270-271. Testing invalid parameters as input.
 
 Remove lines 274-276, 286-288. Expected error: NC\_FILL\_FLOAT.
 
@@ -978,8 +979,6 @@ Remove lines 274-276, 286-288. Expected error: NC\_FILL\_FLOAT.
  * is set.  These values are stuffed into newly allocated space as
  * appropriate.  The hope is that one might use these to notice that a
  * particular datum has not been set. */
-
-Remove lines 311. ESDM does not support compression!
 
 Remove lines 322-363. ESDM does not support groups from NetCDF!
 
@@ -1008,3 +1007,12 @@ Test netcdf-4 variable length code.
 ESDM does not support user-defined datatypes from NetCDF!
 
 {\bf \large Status: } FAILURE!
+
+\section{Test t\_type.c}
+
+This test program is only built if netCDF-4 is disabled. It tests
+   the netCDF-3 version of NC\_inq\_type().
+
+*** Tests successful!
+
+{\bf \large Status: } SUCCESS!
