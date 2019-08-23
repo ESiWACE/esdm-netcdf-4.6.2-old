@@ -6,6 +6,4 @@ TESTS = $(ESDMTESTS)
 AM_LDFLAGS += ${top_builddir}/liblib/libnetcdf.la
 LDADD = ${top_builddir}/liblib/libnetcdf.la
 
-SUBDIRS = esdm_nc_test4
-
 CLEANFILES = tst_*.esdm
