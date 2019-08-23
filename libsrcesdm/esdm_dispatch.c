@@ -1015,13 +1015,6 @@ int ESDM_del_att(int ncid, int varid, const char *name) {
 }
 
 int ESDM_get_att(int ncid, int varid, const char *name, void *value, nc_type type) {
-
-  esdm_type_t etype;
-  etype = type_nc_to_esdm(type);
-
-  if (etype == NULL) {
-    return NC_EINVAL;
-  }
   if (name == NULL) {
     return NC_EACCESS;
   }
@@ -1061,10 +1054,12 @@ int ESDM_get_att(int ncid, int varid, const char *name, void *value, nc_type typ
 
   smd_attr_t *child = smd_attr_get_child_by_name(att, name);
   if (child != NULL) {
-    smd_attr_copy_value(child, value);
-
-    if (type == NC_CHAR && strlen(value) > 0) {
-      etype = SMD_DTYPE_STRING;
+    if (child->type->type == SMD_TYPE_STRING) {
+      char const * str;
+      smd_attr_copy_value(child, & str);
+      strcpy(value, str);
+    }else{
+      smd_attr_copy_value(child, value);
     }
 
     return NC_NOERR;
