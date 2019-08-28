@@ -1187,45 +1187,45 @@ main(int argc, char **argv)
 
    SUMMARIZE_ERR;
    printf("**** testing extreme numbers dude...");
-//    {
-// #define VAR_NAME7 "V5"
-// #define DIM6_LEN 100
-//
-//       int varid;
-//       int ndims, nvars, natts, unlimdimid;
-//       nc_type xtype_in;
-//       char name_in[NC_MAX_NAME + 1];
-// /*      unsigned long long data = 9223372036854775807ull, data_in;*/
-//       unsigned long long data = 9223372036854775817ull, data_in;
-//
-//       /* Create a netcdf-4 file with scalar var. */
-//       if (nc_create(FILE_NAME, NC_NETCDF4, &ncid)) ERR;
-//       if (nc_def_var(ncid, VAR_NAME7, NC_UINT64, 0, NULL, &varid)) ERR;
-//       if (nc_put_var_ulonglong(ncid, varid, &data)) ERR;
-//
-//       /* Check stuff. */
-//       if (nc_inq(ncid, &ndims, &nvars, &natts, &unlimdimid)) ERR;
-//       if (ndims != 0 || nvars != 1 || natts != 0 || unlimdimid != -1) ERR;
-//       if (nc_inq_varids(ncid, &nvars, varids_in)) ERR;
-//       if (nvars != 1 || varids_in[0] != 0) ERR;
-//       if (nc_inq_var(ncid, 0, name_in, &xtype_in, &ndims, NULL, &natts)) ERR;
-//       if (strcmp(name_in, VAR_NAME7) || xtype_in != NC_UINT64 || ndims != 0 || natts != 0) ERR;
-//       if (nc_get_var_ulonglong(ncid, varid, &data_in)) ERR;
-//       if (data_in != data) ERR;
-//       if (nc_close(ncid)) ERR;
-//
-//       /* Open the file and check the same stuff. */
-//       if (nc_open(FILE_NAME, NC_NOWRITE, &ncid)) ERR;
-//       if (nc_inq(ncid, &ndims, &nvars, &natts, &unlimdimid)) ERR;
-//       if (ndims != 0 || nvars != 1 || natts != 0 || unlimdimid != -1) ERR;
-//       if (nc_inq_varids(ncid, &nvars, varids_in)) ERR;
-//       if (nvars != 1 || varids_in[0] != 0) ERR;
-//       if (nc_inq_var(ncid, 0, name_in, &xtype_in, &ndims, NULL, &natts)) ERR;
-//       if (strcmp(name_in, VAR_NAME7) || xtype_in != NC_UINT64 || ndims != 0 || natts != 0) ERR;
-//       if (nc_get_var_ulonglong(ncid, varid, &data_in)) ERR;
-//       if (data_in != data) ERR;
-//       if (nc_close(ncid)) ERR;
-//    }
+   {
+#define VAR_NAME7 "V5"
+#define DIM6_LEN 100
+
+      int varid;
+      int ndims, nvars, natts, unlimdimid;
+      nc_type xtype_in;
+      char name_in[NC_MAX_NAME + 1];
+/*      unsigned long long data = 9223372036854775807ull, data_in;*/
+      unsigned long long data = 9223372036854775817ull, data_in;
+
+      /* Create a netcdf-4 file with scalar var. */
+      if (nc_create(FILE_NAME, NC_NETCDF4, &ncid)) ERR;
+      if (nc_def_var(ncid, VAR_NAME7, NC_UINT64, 0, NULL, &varid)) ERR;
+      if (nc_put_var_ulonglong(ncid, varid, &data)) ERR;
+
+      /* Check stuff. */
+      if (nc_inq(ncid, &ndims, &nvars, &natts, &unlimdimid)) ERR;
+      if (ndims != 0 || nvars != 1 || natts != 0 || unlimdimid != -1) ERR;
+      if (nc_inq_varids(ncid, &nvars, varids_in)) ERR;
+      if (nvars != 1 || varids_in[0] != 0) ERR;
+      if (nc_inq_var(ncid, 0, name_in, &xtype_in, &ndims, NULL, &natts)) ERR;
+      if (strcmp(name_in, VAR_NAME7) || xtype_in != NC_UINT64 || ndims != 0 || natts != 0) ERR;
+      if (nc_get_var_ulonglong(ncid, varid, &data_in)) ERR;
+      if (data_in != data) ERR;
+      if (nc_close(ncid)) ERR;
+
+      /* Open the file and check the same stuff. */
+      // if (nc_open(FILE_NAME, NC_NOWRITE, &ncid)) ERR;
+      // if (nc_inq(ncid, &ndims, &nvars, &natts, &unlimdimid)) ERR;
+      // if (ndims != 0 || nvars != 1 || natts != 0 || unlimdimid != -1) ERR;
+      // if (nc_inq_varids(ncid, &nvars, varids_in)) ERR;
+      // if (nvars != 1 || varids_in[0] != 0) ERR;
+      // if (nc_inq_var(ncid, 0, name_in, &xtype_in, &ndims, NULL, &natts)) ERR;
+      // if (strcmp(name_in, VAR_NAME7) || xtype_in != NC_UINT64 || ndims != 0 || natts != 0) ERR;
+      // if (nc_get_var_ulonglong(ncid, varid, &data_in)) ERR;
+      // if (data_in != data) ERR;
+      // if (nc_close(ncid)) ERR;
+   }
 
    SUMMARIZE_ERR;
    printf("**** testing error codes for name clashes...");

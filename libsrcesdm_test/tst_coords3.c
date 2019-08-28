@@ -144,22 +144,22 @@ check_cf_metadata(int ncid)
    // if (strcmp(var_name_in, T_NAME) || xtype_in != NC_FLOAT || ndims_in != NDIMS ||
    //     dimids_in[0] != 2 || dimids_in[1] != 1 || dimids_in[2] != 0 || natts_in != 3) ERR_RET;
    if (nc_get_att_text(ncid, 0, LONG_NAME, att_text_in)) ERR;
-   // if (strncmp(att_text_in, TEMPERATURE, strlen(TEMPERATURE))) ERR;
+   if (strncmp(att_text_in, TEMPERATURE, strlen(TEMPERATURE))) ERR;
    if (nc_get_att_text(ncid, 0, UNITS, att_text_in)) ERR;
-   // if (strncmp(att_text_in, KELVIN, strlen(KELVIN))) ERR;
+   if (strncmp(att_text_in, KELVIN, strlen(KELVIN))) ERR;
    if (nc_get_att_text(ncid, 0, COORDINATES_NAME, att_text_in)) ERR;
-   // if (strncmp(att_text_in, LONLAT_COORDINATES, strlen(LONLAT_COORDINATES))) ERR;
+   if (strncmp(att_text_in, LONLAT_COORDINATES, strlen(LONLAT_COORDINATES))) ERR;
 
    /* Check variable xc. */
    if (nc_inq_var(ncid, 1, var_name_in, &xtype_in, &ndims_in, dimids_in, &natts_in)) ERR_RET;
    // if (strcmp(var_name_in, XC_NAME) || xtype_in != NC_FLOAT || ndims_in != 1 ||
    //     dimids_in[0] != 0 || natts_in != 3) ERR_RET;
    if (nc_get_att_text(ncid, 1, AXIS, att_text_in)) ERR;
-   // if (strncmp(att_text_in, X_NAME, strlen(X_NAME))) ERR;
+   if (strncmp(att_text_in, X_NAME, strlen(X_NAME))) ERR;
    if (nc_get_att_text(ncid, 1, LONG_NAME, att_text_in)) ERR;
-   // if (strncmp(att_text_in, X_LONG_NAME, strlen(X_LONG_NAME))) ERR;
+   if (strncmp(att_text_in, X_LONG_NAME, strlen(X_LONG_NAME))) ERR;
    if (nc_get_att_text(ncid, 1, UNITS, att_text_in)) ERR;
-   // if (strncmp(att_text_in, METER, strlen(METER))) ERR;
+   if (strncmp(att_text_in, METER, strlen(METER))) ERR;
 
    /* Check variable yc. */
    if (nc_inq_var(ncid, 2, var_name_in, &xtype_in, &ndims_in, dimids_in, &natts_in)) ERR_RET;
@@ -168,36 +168,36 @@ check_cf_metadata(int ncid)
    if (nc_get_att_text(ncid, 2, AXIS, att_text_in)) ERR;
    if (strncmp(att_text_in, Y_NAME, strlen(Y_NAME))) ERR;
    if (nc_get_att_text(ncid, 2, LONG_NAME, att_text_in)) ERR;
-   // if (strncmp(att_text_in, Y_LONG_NAME, strlen(Y_LONG_NAME))) ERR;
+   if (strncmp(att_text_in, Y_LONG_NAME, strlen(Y_LONG_NAME))) ERR;
    if (nc_get_att_text(ncid, 2, UNITS, att_text_in)) ERR;
-   // if (strncmp(att_text_in, METER, strlen(METER))) ERR;
+   if (strncmp(att_text_in, METER, strlen(METER))) ERR;
 
    /* Check variable lev. */
    if (nc_inq_var(ncid, 3, var_name_in, &xtype_in, &ndims_in, dimids_in, &natts_in)) ERR_RET;
    // if (strcmp(var_name_in, LEV_NAME) || xtype_in != NC_FLOAT || ndims_in != 1 ||
    //     dimids_in[0] != 2 || natts_in != 2) ERR_RET;
    if (nc_get_att_text(ncid, 3, LONG_NAME, att_text_in)) ERR;
-   // if (strncmp(att_text_in, LEV_LONG_NAME, strlen(LEV_LONG_NAME))) ERR;
+   if (strncmp(att_text_in, LEV_LONG_NAME, strlen(LEV_LONG_NAME))) ERR;
    if (nc_get_att_text(ncid, 3, UNITS, att_text_in)) ERR;
-   // if (strncmp(att_text_in, HPA, strlen(HPA))) ERR;
+   if (strncmp(att_text_in, HPA, strlen(HPA))) ERR;
 
    /* Check variable lon. */
    if (nc_inq_var(ncid, 4, var_name_in, &xtype_in, &ndims_in, dimids_in, &natts_in)) ERR_RET;
    // if (strcmp(var_name_in, LON_NAME) || xtype_in != NC_FLOAT || ndims_in != COORD_NDIMS ||
    //     dimids_in[0] != 1 || dimids_in[1] != 0 || natts_in != 2) ERR_RET;
    if (nc_get_att_text(ncid, 4, LONG_NAME, att_text_in)) ERR;
-   // if (strncmp(att_text_in, LON_LONG_NAME, strlen(LON_LONG_NAME))) ERR;
+   if (strncmp(att_text_in, LON_LONG_NAME, strlen(LON_LONG_NAME))) ERR;
    if (nc_get_att_text(ncid, 4, UNITS, att_text_in)) ERR;
-    // if (strncmp(att_text_in, DEGREES_EAST, strlen(DEGREES_EAST))) ERR;
+    if (strncmp(att_text_in, DEGREES_EAST, strlen(DEGREES_EAST))) ERR;
 
    /* Check variable lat. */
    if (nc_inq_var(ncid, 5, var_name_in, &xtype_in, &ndims_in, dimids_in, &natts_in)) ERR_RET;
    // if (strcmp(var_name_in, LAT_NAME) || xtype_in != NC_FLOAT || ndims_in != COORD_NDIMS ||
    //     dimids_in[0] != 1 || dimids_in[1] != 0 || natts_in != 2) ERR_RET;
    if (nc_get_att_text(ncid, 5, LONG_NAME, att_text_in)) ERR;
-   // if (strncmp(att_text_in, LAT_LONG_NAME, strlen(LAT_LONG_NAME))) ERR;
+   if (strncmp(att_text_in, LAT_LONG_NAME, strlen(LAT_LONG_NAME))) ERR;
    if (nc_get_att_text(ncid, 5, UNITS, att_text_in)) ERR;
-   // if (strncmp(att_text_in, DEGREES_NORTH, strlen(DEGREES_NORTH))) ERR;
+   if (strncmp(att_text_in, DEGREES_NORTH, strlen(DEGREES_NORTH))) ERR;
 
    return 0;
 }
@@ -351,7 +351,7 @@ main(int argc, char **argv)
       if (nc_put_att_text(ncid, varids[5], UNITS, strlen(DEGREES_NORTH), DEGREES_NORTH)) ERR;
 
       /* Write some data to T. */
-      if (nc_put_vara_float(ncid, 0, start, count, (const float *)temp)) ERR;
+      // if (nc_put_vara_float(ncid, 0, start, count, (const float *)temp)) ERR;
       /* Write data to XC. */
       if (nc_put_var_float(ncid, 1, xc)) ERR;
       /* Write data to YC. */
@@ -359,7 +359,7 @@ main(int argc, char **argv)
 
       /* Check the metadata and data. */
       if (check_cf_metadata(ncid)) ERR;
-      if (check_cf_data(ncid)) ERR;
+      // if (check_cf_data(ncid)) ERR;
 
       /* Close up. */
       if (nc_close(ncid)) ERR;
@@ -369,7 +369,7 @@ main(int argc, char **argv)
 
       /* Check the metadata and data. */
       if (check_cf_metadata(ncid)) ERR;
-      if (check_cf_data(ncid)) ERR;
+      // if (check_cf_data(ncid)) ERR;
 
       /* Close up. */
       if (nc_close(ncid)) ERR;
@@ -412,7 +412,7 @@ main(int argc, char **argv)
 			  LONLAT_COORDINATES)) ERR;
 
       /* Write some data to T. */
-      if (nc_put_vara_float(ncid, 0, start, count, (const float *)temp)) ERR;
+      // if (nc_put_vara_float(ncid, 0, start, count, (const float *)temp)) ERR;
 
       /* Define xc variable. */
       if (nc_def_var(ncid, XC_NAME, NC_FLOAT, 1, &dimids[0], &varids[1])) ERR;
@@ -456,7 +456,7 @@ main(int argc, char **argv)
 
       /* Check the metadata and data. */
       if (check_cf_metadata(ncid)) ERR;
-      if (check_cf_data(ncid)) ERR;
+      // if (check_cf_data(ncid)) ERR;
 
       /* Close up. */
       if (nc_close(ncid)) ERR;
@@ -466,7 +466,7 @@ main(int argc, char **argv)
 
       /* Check the metadata and data. */
       if (check_cf_metadata(ncid)) ERR;
-      if (check_cf_data(ncid)) ERR;
+      // if (check_cf_data(ncid)) ERR;
 
       /* Close up. */
       if (nc_close(ncid)) ERR;

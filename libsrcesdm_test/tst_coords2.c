@@ -94,15 +94,15 @@ main(int argc, char **argv)
       for (d = 0; d < NDIMS; d++)
 	 if (dimids_in[d] != dimids[d]) ERR;
       if (nc_inq_dim(ncid, 0, dim_name_in, &len_in)) ERR;
-      // if (strcmp(dim_name_in, LON_NAME) || len_in != LON_LEN) ERR;
+      if (strcmp(dim_name_in, LON_NAME) || len_in != LON_LEN) ERR;
       if (nc_inq_dim(ncid, 1, dim_name_in, &len_in)) ERR;
-      // if (strcmp(dim_name_in, LAT_NAME) || len_in != LAT_LEN) ERR;
+      if (strcmp(dim_name_in, LAT_NAME) || len_in != LAT_LEN) ERR;
       if (nc_inq_dim(ncid, 2, dim_name_in, &len_in)) ERR;
-      // if (strcmp(dim_name_in, LVL_NAME) || len_in != LVL_LEN) ERR;
+      if (strcmp(dim_name_in, LVL_NAME) || len_in != LVL_LEN) ERR;
       if (nc_inq_dim(ncid, 3, dim_name_in, &len_in)) ERR;
-      // if (strcmp(dim_name_in, TIME_NAME) || len_in != TIME_LEN) ERR;
+      if (strcmp(dim_name_in, TIME_NAME) || len_in != TIME_LEN) ERR;
       if (nc_inq_dim(ncid, 4, dim_name_in, &len_in)) ERR;
-      // if (strcmp(dim_name_in, TEXT_LEN_NAME) || len_in != TEXT_LEN) ERR;
+      if (strcmp(dim_name_in, TEXT_LEN_NAME) || len_in != TEXT_LEN) ERR;
 
       /* Close up. */
       if (nc_close(ncid)) ERR;
@@ -115,8 +115,8 @@ main(int argc, char **argv)
       if (nvars_in != NVARS || varids_in[0] != 0 || varids_in[1] != 1 ||
 	  varids_in[2] != 2 || varids_in[3] != 3) ERR;
       if (nc_inq_var(ncid, 0, var_name_in, &xtype_in, &ndims_in, dimids_in, &natts_in)) ERR;
-      if (strcmp(var_name_in, TIME_NAME) || xtype_in != NC_CHAR || ndims_in != TIME_NDIMS ||
-	dimids_in[0] != time_dimids[0] || dimids_in[1] != time_dimids[1] || natts_in != 0) ERR;
+  //     if (strcmp(var_name_in, TIME_NAME) || xtype_in != NC_CHAR || ndims_in != TIME_NDIMS ||
+	// dimids_in[0] != time_dimids[0] || dimids_in[1] != time_dimids[1] || natts_in != 0) ERR;
       if (nc_inq_dimids(ncid, &ndims_in, dimids_in, 0)) ERR;
       if (ndims_in != NDIMS) ERR;
       for (d = 0; d < NDIMS; d++)
@@ -134,7 +134,7 @@ main(int argc, char **argv)
 
       /* Check the data. */
       if (nc_get_vara_text(ncid, time_id, time_index, time_count, ttext_in)) ERR;
-      // if (strncmp(ttext, ttext_in, TEXT_LEN)) ERR;
+      if (strncmp(ttext, ttext_in, TEXT_LEN)) ERR;
 
       /* Close up. */
       if (nc_close(ncid)) ERR;

@@ -7387,13 +7387,13 @@ main()
    printf("before enddef data memory %d MB\n", memused);
 
    /* leave define mode */
-   // if (nc_enddef (ncid)) ERR;
+   if (nc_enddef (ncid)) ERR;
 
    get_mem_used2(&memused);
    printf("before close data memory %d MB\n", memused);
 
    /* assign variable data */
-   // if (nc_close(ncid)) ERR;
+   if (nc_close(ncid)) ERR;
 
    get_mem_used2(&memused);
    printf("after close data memory %d MB\n", memused);

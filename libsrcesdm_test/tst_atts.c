@@ -367,22 +367,22 @@ main(int argc, char **argv)
       // if (nc_get_att_text(ncid, NC_GLOBAL, NULL, data_in) != NC_EBADNAME) ERR;
 
       /* Get the attribute at last. */
-      // if (nc_get_att_text(ncid, NC_GLOBAL, NEW_NAME, data_in)) ERR;
+      if (nc_get_att_text(ncid, NC_GLOBAL, NEW_NAME, data_in)) ERR;
 
-      // if (strncmp(CONTENTS, data_in, strlen(CONTENTS))) ERR;
+      if (strncmp(CONTENTS, data_in, strlen(CONTENTS))) ERR;
 
       /* This also works. */
       // if (nc_get_att_text(ncid, NC_GLOBAL, NEW_NAME, NULL)) ERR;
-      // if (nc_close(ncid)) ERR;
-      //
-      // /* Reopen the file and check again. */
-      // if (nc_open(FILE_NAME, NC_NOWRITE, &ncid)) ERR;
-      //
-      // if (nc_inq_attid(ncid, NC_GLOBAL, NEW_NAME, &attid)) ERR;
-      // if (attid != 0) ERR;
-      // // if (nc_get_att_text(ncid, NC_GLOBAL, NEW_NAME, data_in)) ERR;
-      // if (strncmp(CONTENTS, data_in, strlen(CONTENTS))) ERR;
-      // if (nc_close(ncid)) ERR;
+      if (nc_close(ncid)) ERR;
+
+      /* Reopen the file and check again. */
+      if (nc_open(FILE_NAME, NC_NOWRITE, &ncid)) ERR;
+
+      if (nc_inq_attid(ncid, NC_GLOBAL, NEW_NAME, &attid)) ERR;
+      if (attid != 0) ERR;
+      if (nc_get_att_text(ncid, NC_GLOBAL, NEW_NAME, data_in)) ERR;
+      if (strncmp(CONTENTS, data_in, strlen(CONTENTS))) ERR;
+      if (nc_close(ncid)) ERR;
 
       free(data_in);
    }
@@ -411,17 +411,17 @@ main(int argc, char **argv)
       if (nc_inq_attid(ncid, varid, NEW_NAME1, &attid)) ERR;
       if (attid != 0) ERR;
       if (nc_get_att_text(ncid, varid, NEW_NAME1, data_in)) ERR;
-      // if (strncmp(CONTENTS1, data_in, strlen(CONTENTS1))) ERR;
-      // if (nc_close(ncid)) ERR;
-      //
-      // /* Reopen the file and check again. */
-      // if (nc_open(FILE_NAME, NC_NOWRITE, &ncid)) ERR;
-      //
-      // if (nc_inq_attid(ncid, varid, NEW_NAME1, &attid)) ERR;
-      // if (attid != 0) ERR;
-      // if (nc_get_att_text(ncid, varid, NEW_NAME1, data_in)) ERR;
-      // // if (strncmp(CONTENTS1, data_in, strlen(CONTENTS1))) ERR;
-      // if (nc_close(ncid)) ERR;
+      if (strncmp(CONTENTS1, data_in, strlen(CONTENTS1))) ERR;
+      if (nc_close(ncid)) ERR;
+
+      /* Reopen the file and check again. */
+      if (nc_open(FILE_NAME, NC_NOWRITE, &ncid)) ERR;
+
+      if (nc_inq_attid(ncid, varid, NEW_NAME1, &attid)) ERR;
+      if (attid != 0) ERR;
+      if (nc_get_att_text(ncid, varid, NEW_NAME1, data_in)) ERR;
+      if (strncmp(CONTENTS1, data_in, strlen(CONTENTS1))) ERR;
+      if (nc_close(ncid)) ERR;
 
       free(data_in);
    }

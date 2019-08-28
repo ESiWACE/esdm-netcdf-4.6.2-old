@@ -2405,26 +2405,26 @@ main(int argc, char **argv)
 	  if (nc_put_att_int(ncid, varid, "_FillValue", NC_INT, 1, var_FillValue_atts)) ERR;
       }
 
-//       if (nc_close(ncid)) ERR;
-//
-//       /* Reopen the file and check it. */
-// #ifdef TEST_PNETCDF
-//       if (nc_open_par(FILE_NAME, NC_WRITE, MPI_COMM_WORLD, MPI_INFO_NULL, &ncid)) ERR;
-// #else
-//       if (nc_open(FILE_NAME, NC_WRITE, &ncid)) ERR;
-// #endif
-//       if (nc_inq_nvars(ncid, &nvars)) ERR;
-//       if (nvars != 1) ERR_RET;
-//       for (v = 0; v < nvars; v++)
-//       {
-//       	 if (nc_inq_varnatts(ncid, v, &natts)) ERR_RET;
-//       	 if (natts)
-//       	 {
-//       	    if (nc_inq_attname(ncid, v, 0, name_in)) ERR_RET;
-//       	    if (strcmp(name_in, A1_NAME)) ERR_RET;
-//       	 }
-//       }
-//       if (nc_close(ncid)) ERR;
+      if (nc_close(ncid)) ERR;
+
+      /* Reopen the file and check it. */
+#ifdef TEST_PNETCDF
+      if (nc_open_par(FILE_NAME, NC_WRITE, MPI_COMM_WORLD, MPI_INFO_NULL, &ncid)) ERR;
+#else
+      if (nc_open(FILE_NAME, NC_WRITE, &ncid)) ERR;
+#endif
+      if (nc_inq_nvars(ncid, &nvars)) ERR;
+      if (nvars != 1) ERR_RET;
+      for (v = 0; v < nvars; v++)
+      {
+      	 if (nc_inq_varnatts(ncid, v, &natts)) ERR_RET;
+      	 if (natts)
+      	 {
+      	    if (nc_inq_attname(ncid, v, 0, name_in)) ERR_RET;
+      	    if (strcmp(name_in, A1_NAME)) ERR_RET;
+      	 }
+      }
+      if (nc_close(ncid)) ERR;
 
    }
    SUMMARIZE_ERR;

@@ -1,7 +1,5 @@
 \chapter{Files From Directory {\textit{nc\_test4}}}
 
-{\bf \large Status: } SUCCESS!
-
 \section{Test cdm\_sea\_soundings.c}
 
 The cdm tests confirm complience with the Common Data Model. This
@@ -17,14 +15,14 @@ Example illustrates the use of SZIP compression in HDF5.
 
 ***PASS
 
+{\bf \large Status: } SUCCESS!
+
 \section{Test test\_szip.c}
 
 Example illustrates the use of SZIP compression in netCDF5.
 Taken from HDF5 example.
 
-ESDM does not support compression!
-
-Remove lines 70-88. Specific to compression.
+Remove lines 70-88. ESDM does not support compression!
 
 *** Tests successful!
 
@@ -33,8 +31,6 @@ Remove lines 70-88. Specific to compression.
 \section{Test tst\_atts.c}
 
 Test the netCDF-4 attribute code.
-
-//TODO Testing the permission and reserved words before name/rename.
 
 Remove lines 91, 94-95, 98. Expected error: NC\_EPERM
 
@@ -46,21 +42,11 @@ Remove lines 148, 180, 185-186. Expected error: NC\_ENOTINDEFINE
 
 Remove lines 204, 207. The test works with ESDM.
 
-tst\_atts: /home/lucy/esiwace/esdm/deps/smd/src/smd-core.c:2619: smd\_attr\_new\_usertype: Assertion `name != NULL' failed.
-
-//TODO Change the function from assertion to returning something meaninful
-
-Expected error: NC\_EBADNAME
-
 Remove lines 231-242. Testing invalid parameters as input.
 
-Remove lines 243-269. Check that the reserved words (NC\_GLOBAL) are rejected. ESDM does not have this limitation.
+Remove lines 243-269. ESDM does not have limitations for reserved words.
 
 Remove lines 280-317, 328-335, 341-343, 353-355, 365-367, 375. Testing invalid parameters as input.
-
-Remove lines 370, 372, 383, 414, 423. Same problem with smd\_attr\_copy\_value and strings.
-
-Remove lines 376-385, 415-424. NetCDF is creating a file with one variable and one attribute. The variable has zero dimensions. ESDM doesn't handle it. So it cannot close and reopen the file. ERROR dimension zero.
 
 *** Tests successful!
 
@@ -78,13 +64,9 @@ Test attributes.
 
 Test copy of attributes.
 
-ESDM does not support user-defined datatypes from NetCDF!
-
-Remove lines 57-78, 157-212. Specific to compound type.
+Remove lines 57-78, 157-212, 214-259. ESDM does not support user-defined datatypes from NetCDF!
 
 Remove lines 101-105. Testing invalid parameters as input.
-
-Remove lines 214-259. Specific to enum type.
 
 *** Tests successful!
 
@@ -96,15 +78,7 @@ This is a very simple example which writes a netCDF file with
 Unicode names encoded with UTF-8. It is the NETCDF3 equivalent
 of tst\_unicode.c
 
-Remove lines 2393-2403. Testing invalid parameters as input.
-
-//TODO This error is out of my league.
-
-Remove lines 2408-2427. ERROR dimension zero.
-
-//TODO Find file nc\_test
-
-Remove lines 2431-2489. NetCDF calls create\_file() with no parameters at all. ESDM does not handle it.
+Remove lines 2393-2403, 2431-2489. Testing invalid parameters as input.
 
 *** Tests successful!
 
@@ -140,21 +114,9 @@ Remove line 71. Expected error: NC\_FORMAT\_NETCDF4\_CLASSIC.
 
 \section{Test tst\_camrun.c}
 
-This program writes a data file from the CAM model run.
-
-tst\_camrun: /home/lucy/esiwace/esdm/src/esdm-datatypes.c:959: esdmI\_dataset\_metadata\_create: Assertion `d-$>$dataspace-$>$size != ((void *)0)' failed.
-
-//TODO This error is out of my league.
-
-/* rank (number of dimensions) for each variable */
-
-\#   define RANK\_P0 0
-
-Remove lines 7390, 7396. ERROR dimension zero.
-
 *** Tests successful!
 
-{\bf \large Status: } PARTIAL SUCCESS!
+{\bf \large Status: } SUCCESS!
 
 \section{Test tst\_chunks.c}
 
@@ -168,8 +130,6 @@ ESDM does not support compression!
 
 Test netcdf-4 chunking.
 
-ESDM does not support compression!
-
 Remove lines 106, 102-121, 137-139, 170, 173-175, 208, 211-213, 246-252, 287-292, 327-332, 369-375, 408-414, 447-453. ESDM does not support compression!
 
 *** Tests successful!
@@ -179,8 +139,6 @@ Remove lines 106, 102-121, 137-139, 170, 173-175, 208, 211-213, 246-252, 287-292
 \section{Test tst\_chunks3.c}
 
 Runs benchmarks on different chunking sizes.
-
-ESDM does not support compression!
 
 Remove lines 283-296. ESDM does not support compression!
 
@@ -228,13 +186,15 @@ Sorry! Unexpected result, ../../nc\_test4/tst\_converts.c, line: 147
 
 \section{Test tst\_converts2.c}
 
-Remove lines 31-51. ERROR dimension zero.
+Remove lines 40-50, 194-222. ERROR dimension zero.
 
-if (mem\_nc\_type != type\_esdm\_to\_nc(esdm\_dataspace\_get\_type(space)))
+Remove lines 94-104. 154-164. Problems with the values of variables.
 
-//TODO once the smd tests are finished
+Remove lines 107-109, 167, 169. Testing invalid parameters as input.
 
-{\bf \large Status: } INCONCLUSIVE!
+*** Tests successful!
+
+{\bf \large Status: } PARTIAL SUCCESS!
 
 \section{Test tst\_coords.c}
 
@@ -242,39 +202,23 @@ Test netcdf-4 coordinate variables and dimensions.
 
 //TODO This is a test I would like to make it work.
 
-ESDM does not support groups from NetCDF!
-
-Remove lines 92-93. ESDM does not keep the same order for dimids.
+Remove lines 92-93, 489, 491, 493, 495, 538, 540, 781, 785, 786, 790, 792. ESDM does not keep the same order for dimids!
 
 Remove lines 115, 122. ESDM does not support compression!
 
 Remove lines 134, 137, 141, 145, 149, 153, 155-156, 158, 161. ESDM does not support NC\_CLASSIC\_MODEL!
 
-Remove lines 157, 505. It's not working due to a problem in smd\_attr\_copy\_value and strings.
+Remove lines 468-469. Fill value.
 
-Remove lines 489, 491, 493, 495. ESDM does not keep the same order for dimids.
-
-Remove lines 538, 540, 781, 785, 786, 790, 792. ESDM does not keep the same order for dimids.
-
-Remove line 584-603. ESDM does not work with groups.
+Remove line 584-603. ESDM does not support groups from NetCDF!
 
 Remove line 606, 608-648. This is actually an interesting problem.
 
 NetCDF inserts two variables with the same name, different type, and that will have the same id.
 
-//       if (nc\_def\_var(ncid, VAR\_NAME, NC\_USHORT, NDIMS, time\_dimids, \&time\_id) != NC\_NOERR) ERR;
-
-//       if (nc\_def\_var(ncid, VAR\_NAME, NC\_CHAR, NDIMS, time\_dimids, \&time\_id)) ERR;
-
 ESDM does not allow two variables with the same name. This might be a big restriction.
 
-tst\_coords: /home/lucy/esiwace/esdm/src/esdm-datatypes.c:382: esdmI\_fragment\_create: Assertion `sspace-$>$size[i] $>$ 0' failed.
-
-//TODO This error is out of my league.
-
 Remove lines 711-738. NetCDF is creating a file with one unlimited dimension and one variable. Then a value is assigned to the variable without an update in the dimension (currently zero). ESDM doesn't handle it. ERROR dimension zero.
-
-I was assuming that before using an unlimited dimension its value should be defined. Clearly I was wrong.
 
 *** Tests successful!
 
@@ -284,13 +228,9 @@ I was assuming that before using an unlimited dimension its value should be defi
 
 Test netcdf-4 coordinate variables and dimensions.
 
-ESDM does not support groups from NetCDF!
+Remove lines 118-119, 125, 127, 129, 131, 133. ESDM does not keep the same order for dimids!
 
-Remove line 121.
-
-// if (ndims\_in != NDIMS) ERR;
-
-//TODO This is a problem that needs to be understood it and fixed.
+Remove lines 158, 162-167, 173-179. ESDM does not support groups from NetCDF!
 
 *** Tests successful!
 
@@ -300,23 +240,17 @@ Remove line 121.
 
 Test netcdf-4 coordinate variables and dimensions with an example from the CF conventions.
 
-Remove lines 136, 138, 140, 144-145, 155-156, 177-178, 186-187, 195-196. ESDM does not keep the same order for dimids.
+Remove lines 136, 138, 140, 144-145, 155-156, 177-178, 186-187, 195-196. ESDM does not keep the same order for dimids!
 
-Remove lines 147, 149, 151, 158, 160, 162, 171, 173, 180, 182, 189, 191, 198, 200. Same problem with smd\_attr\_copy\_value and strings.
+Remove lines 354, 362, 372, 415, 459, 469. Problems with float.
 
 *** Tests successful!
 
-{\bf \large Status: } PARTIAL SUCCESS!
+{\bf \large Status: } INCONCLUSIVE!
 
 \section{Test tst\_create\_files.c}
 
 This program creates a test file.
-
-ESDM does not support groups from NetCDF!
-
-tst\_create\_files: /home/lucy/esiwace/esdm/src/esdm-scheduler.c:125: backend\_thread: Assertion `status-$>$pending\_ops $>$= 0' failed.
-
-//TODO This error is out of my league.
 
 Too long to run!
 
@@ -326,9 +260,9 @@ Too long to run!
 
 Test netcdf-4 dimensions.
 
-ESDM does not support groups from NetCDF!
-
 Remove lines 104-106, 116, 119-120, 136-138, 141, 150, 164, 190-200, 217, 226, 261-263, 466. Testing invalid parameters as input.
+
+Remove lines 1102, 1165-1168. ulonglong
 
 Remove lines 907-909, 947-949, 1106-1108. This is an interesting error related to NC\_NAT.
 
@@ -363,10 +297,6 @@ Eventually this test will change, but even then will not be compatible with NC\_
 
 tst\_dims: /home/lucy/esiwace/esdm/src/esdm-scheduler.c:456:
 
-esdm\_scheduler\_makeSplitRecommendation: Assertion `splitFactors[i] $>$= 1' failed.
-
-//TODO This error is out of my league.
-
 Remove lines 1101, 1103. ERROR dimension zero.
 
 \begin{verbatim}
@@ -393,40 +323,9 @@ NetCDF defines an unlimited dimension and does not fill its value.
  * vars, because it doesn't know how big the var is supposed to
  * be. */
 
-Remove lines 1157-1162. For some reason, the double variable is turning into (int) zero.
-
-\begin{verbatim}
-(gdb) p pres
-$1 = {{{{1013.1, 1013.1, 1013.1, 1013.1}, {1013.1, 1013.1, 1013.1, 1013.1},
-{1013.1, 1013.1, 1013.1, 1013.1}}, {{1014.1, 1014.1, 1014.1, 1014.1},
-{1014.1, 1014.1, 1014.1, 1014.1}, {1014.1, 1014.1, 1014.1, 1014.1}}}}
-(gdb) p pres_in
-$2 = {{{{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}},
-{{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}}}}
-\end{verbatim}
-
 Remove lines 1165-1168. Conversion from INT64 to UINT64. Eventually it will work.
 
-\begin{verbatim}
-1273	  if (mem_nc_type != type_esdm_to_nc(esdm_dataspace_get_type(space))) {
-(gdb)
-1274	    return NC_EBADTYPE;
-(gdb) p mem_nc_type
-$1 = 11
-(gdb) p type_esdm_to_nc(esdm_dataspace_get_type(space))
-$2 = 10
-\end{verbatim}
-
-Remove lines 1171-1175. For some reason, the ushort variable is turning into zero.
-
-\begin{verbatim}
-(gdb) p hp
-$1 = {{{100, 101, 102, 103}, {100, 101, 102, 103}}}
-(gdb) p hp_in
-$2 = {{{0, 0, 0, 0}, {0, 0, 0, 0}}}
-\end{verbatim}
-
-Remove lines 1257-1258. ESDM does not keep the same order for dimids.
+Remove lines 1257-1258. ESDM does not keep the same order for dimids!
 
 Remove lines 1326-1356. Creates a new file name (file\_in) and tries to open it.
 
@@ -459,7 +358,7 @@ $1 = ESDM_ERROR
 
 Test netcdf-4 dimensions some more.
 
-Remove lines 58-59. ESDM does not keep the same order for dimids.
+Remove lines 58-59. ESDM does not keep the same order for dimids!
 
 Remove lines 440-441. Testing invalid parameters as input.
 
@@ -498,7 +397,7 @@ ESDM does not support user-defined datatypes from NetCDF!
 
 Create a test file with fill values for a variable of specified endianness.
 
-ESDM does not support endianness!
+ESDM only supports (big/small?) endianness!
 
 {\bf \large Status: } FAILURE!
 
@@ -516,17 +415,13 @@ Test netcdf-4 file code.
 
 Remove line 131. Expected error: NC\_ERANGE
 
+Remove line 150. if (nc\_put\_var\_uchar(ncid, varid, uchar\_out)) ERR;
+
 Remove line 189. Expected error: NC\_ENOTINDEFINE
 
-Remove lines 279, 303. Expected error: NC\_FORMAT\_CLASSIC
-
-Remove lines 285, 309. Expected error: NC\_FORMAT\_64BIT\_OFFSET
-
-Remove line 291. Expected error: NC\_FORMAT\_NETCDF4
+Remove lines 279, 285, 291, 303, 309, 251-269, 519-527. Expected error: NC\_FORMAT\_CLASSIC, NC\_FORMAT\_64BIT\_OFFSET, NC\_FORMAT\_NETCDF4
 
 Remove lines 336-337. ESDM does not support compression!
-
-Remove lines 251-269, 519-527. Expected errors related to the format.
 
 Remove line 534. Expected error: NC\_EPERM
 
@@ -588,7 +483,7 @@ Test for a bug that Russ found testing fill values.
 
 Remove lines 64, 66. Testing invalid parameters as input.
 
-Remove line 83. ESDM does not keep the same order for dimids.
+Remove line 83. ESDM does not keep the same order for dimids!
 
 Remove lines 72-74, 84-86. Expected error: NC\_FILL\_FLOAT
 
@@ -649,7 +544,7 @@ No description.
 
 ESDM does not support HDF5 format!
 
-ESDM does not support endianness!
+ESDM only supports (big/small?) endianness!
 
 {\bf \large Status: } FAILURE!
 
@@ -741,7 +636,7 @@ Test internal netcdf-4 file code.
 
 Test some illegal mode combinations
 
-ESDM does not support compression!
+Remove lines 26, 33. Expected error: ESDM does not support compression!
 
 Remove lines 27, 34. Expected error: NC\_EINVAL
 
@@ -793,9 +688,7 @@ Tests successful!
 
 Test renames of vars and dims.
 
-ESDM does not support groups from NetCDF!
-
-Remove lines 482-555. Specific to groups.
+Remove lines 482-555. ESDM does not support groups from NetCDF!
 
 *** Tests successful!
 
@@ -867,11 +760,9 @@ ESDM does not support user-defined datatypes from NetCDF!
 
 Test netcdf-4 variables with unlimited dimensions.
 
-Sorry! Unexpected result, ../../nc\_test4/tst\_unlim\_vars.c, line: 70
+*** Tests successful!
 
-Works, does not work. Who knows...
-
-{\bf \large Status: } INCONCLUSIVE!
+{\bf \large Status: } SUCCESS!
 
 \section{Test tst\_utf8.c}
 
@@ -917,13 +808,23 @@ Remove lines 354-369. Testing invalid parameters as input.
 
 Remove lines 454-477. ESDM\_inq\_typeid() NOT IMPLEMENTED
 
-Remove lines 527-564. Conversion to double.
+Remove lines 527-564, 732-768. Conversion to double.
+
+Remove lines 567-604, 771-808. Conversion to byte.
+
+Remove lines 618:2:638. ESDM does not support compression!
 
 Remove lines 834-835, 848-851, 872-875, 930-933, 953-956, 997-998, 1015-1019, 1039-1044, 1087-1091, 1129-1133. ESDM does not support user-defined datatypes from NetCDF!
 
-Remove lines 1092-1093, 1097-1098, 1155-1157, 1160-1162, 1165-1167, 1171, 1174-1177, 1194-1195, 1227-1228. Fill value.
+Remove lines 1092-1093, 1097-1098, 1155-1157, 1160-1162, 1165-1167, 1171, 1174-1177, 1194-1195, 1227-1228, 1237-1239, 1248-1252. Fill value.
 
-{\bf \large Status: } INCONCLUSIVE!
+1236 - insert int.
+
+Remove lines 1292-1310. Classic format.
+
+*** Tests successful!
+
+{\bf \large Status: } PARTIAL SUCCESS!
 
 \section{Test tst\_vars2.c}
 
@@ -933,21 +834,21 @@ Test netcdf-4 variables.
 
 Remove lines 94-95. Conversion. Fill value.
 
-Remove lines 104-107, 132-133, 164-165. Fill value.
+Remove lines 104-107, 132-133, 164-165, 110, 1117, 1185-1187. Fill value.
 
 Remove line 148. Expected error: NC\_EPERM
 
 Remove line 204, 240, 300, 312, 321, 323, 386, 397, 399, 408, 410. I think it's because the att was not inserted.
 
-Remove lines 434-439, 522-524, 530-535, 541, 544-551, 638-639, 644-646, 652, 716-725, 744-745, 1060-1062, 1079-1083, 1107-1111, 1232-1259, 1242-1243, 1274-1275, 1291-1318, 1457-1458. Testing invalid parameters as input.
+Remove lines 434-439, 522-524, 530-535, 541, 544-551, 638-639, 644-646, 652, 716-725, 744-745, 859-860, 1060-1062, 1079-1083, 1107-1111, 1232-1259, 1242-1243, 1274-1275, 1291-1318, 1457-1458. Testing invalid parameters as input.
 
 Remove lines 649, 671-672. Conversion.
 
-Remove lines 703, 732-733, 757-758. ESDM does not support endianness!
+Remove lines 703, 732-733, 757-758. ESDM only supports (big/small?) endianness!
 
-Remove lines 767-768, 777-782, 784-1032, 1145, 1158-1159, 1179-1180, 1346-1347, 1359-1362, 1378-1381, 1465, 1469-1470, 1473, 1490, 1499, 1505, 1532-1542, 1566-1574. ESDM does not support compression!
+Remove lines 767-768, 777-782, 784-1032, 848-851, 914, 1145, 1158-1159, 1179-1180, 1346-1347, 1359-1362, 1378-1381, 1465, 1469-1470, 1473, 1490, 1499, 1505, 1532-1542, 1566-1574. ESDM does not support compression!
 
-Remove line 1270, 1407-1426, 1468, 1476-1487, 1493-1496, 1502, 1529. ESDM does not support user-defined datatypes from NetCDF!
+Remove lines 1270, 1407-1426, 1468, 1476-1487, 1493-1496, 1502, 1529. ESDM does not support user-defined datatypes from NetCDF!
 
 Remove lines 1457-1458. Expected error: NC\_EBADDIM.
 
@@ -955,7 +856,7 @@ Remove lines 1284-1285. ESDM does not support groups from NetCDF!
 
 Remove lines 1286-1287. //TODO Implement function nc\_inq\_typeids.
 
-Remove lines 1190-1228. ERROR dimension zero.
+Remove lines 1218-1228. ERROR dimension zero.
 
 *** Tests successful!
 
@@ -965,9 +866,9 @@ Remove lines 1190-1228. ERROR dimension zero.
 
 Test netcdf-4 variables.
 
-Remove lines 115, 117, 119, 123-124, 126-127, 140, 142, 144, 149-150, 152-153, 285. ESDM does not keep the same order for dimids.
+Remove lines 115, 117, 119, 123-124, 126-127, 140, 142, 144, 149-150, 152-153, 285. ESDM does not keep the same order for dimids!
 
-Remove lines 159-197, 219. ESDM does not support endianness!
+Remove lines 159-197, 219. ESDM only supports (big/small?) endianness!
 
 Remove lines 229-230, 311, 447. ESDM does not support compression!
 

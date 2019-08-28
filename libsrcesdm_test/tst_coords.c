@@ -154,7 +154,7 @@ main(int argc, char **argv)
       if (nc_get_att_text(ncid_nc4, NC_GLOBAL, INST_NAME, att_in_nc4)) ERR;
       // if (strcmp(att_in_classic, INSTITUTION) || strcmp(att_in_nc4, INSTITUTION) ||
 	  // strcmp(att_in_classic, att_in_nc4)) ERR;
-      // if (strcmp(att_in_nc4, INSTITUTION)) ERR;
+      if (strcmp(att_in_nc4, INSTITUTION)) ERR;
       // if (memcmp(att_in_classic, att_in_nc4, strlen(INSTITUTION) + 1)) ERR;
 
       /* Close them. */
@@ -465,8 +465,8 @@ main(int argc, char **argv)
       }
 
       /* don't initialize variables with fill values */
-      stat = nc_set_fill(root_grp, NC_NOFILL, 0);
-      check_err(stat,__LINE__,__FILE__);
+      // stat = nc_set_fill(root_grp, NC_NOFILL, 0);
+      // check_err(stat,__LINE__,__FILE__);
 
       /* leave define mode */
       stat = nc_enddef (root_grp);
@@ -502,7 +502,7 @@ main(int argc, char **argv)
 	 /* Check attribute with line breaks. */
 	 if (nc_get_att_text(ncid, NC_GLOBAL, INST_NAME,
 			     institution_att_in)) ERR;
-	 // if (strncmp(institution_att_in, INSTITUTION, strlen(INSTITUTION))) ERR;
+	 if (strncmp(institution_att_in, INSTITUTION, strlen(INSTITUTION))) ERR;
 
 	 if (nc_close(ncid)) ERR;
       }
@@ -723,19 +723,19 @@ main(int argc, char **argv)
     //   if (nc_inq_var(ncid, 0, var_name_in, &xtype_in, &ndims_in, dimids_in, &natts_in)) ERR;
     //   if (strcmp(var_name_in, VAR_NAME) || xtype_in != NC_INT || ndims_in != 1 ||
 	  // dimids_in[0] != 0 || natts_in != 0) ERR;
-    //
+
     //   if (nc_close(ncid)) ERR;
-   //
-   //    /* Open the file and check. */
-   //    if (nc_open(FILE_NAME, NC_WRITE, &ncid)) ERR;
-   //    if (nc_inq(ncid, &ndims, &nvars, &ngatts, &unlimdimid)) ERR;
-   //    if (nvars != 2 || ndims != 1 || ngatts != 0 || unlimdimid != 0) ERR;
-   //    if (nc_inq_varids(ncid, &nvars_in, varids_in)) ERR;
-   //    if (nvars_in != 2 || varids_in[0] != 0 || varids_in[1] != 1) ERR;
-   //    if (nc_inq_var(ncid, 0, var_name_in, &xtype_in, &ndims_in, dimids_in, &natts_in)) ERR;
-   //    if (strcmp(var_name_in, VAR_NAME) || xtype_in != NC_INT || ndims_in != 1 ||
-	 //  dimids_in[0] != 0 || natts_in != 0) ERR;
-   //    if (nc_close(ncid)) ERR;
+    //
+    //   /* Open the file and check. */
+    //   if (nc_open(FILE_NAME, NC_WRITE, &ncid)) ERR;
+    //   if (nc_inq(ncid, &ndims, &nvars, &ngatts, &unlimdimid)) ERR;
+    //   if (nvars != 2 || ndims != 1 || ngatts != 0 || unlimdimid != 0) ERR;
+    //   if (nc_inq_varids(ncid, &nvars_in, varids_in)) ERR;
+    //   if (nvars_in != 2 || varids_in[0] != 0 || varids_in[1] != 1) ERR;
+    //   if (nc_inq_var(ncid, 0, var_name_in, &xtype_in, &ndims_in, dimids_in, &natts_in)) ERR;
+    //   if (strcmp(var_name_in, VAR_NAME) || xtype_in != NC_INT || ndims_in != 1 ||
+	  // dimids_in[0] != 0 || natts_in != 0) ERR;
+    //   if (nc_close(ncid)) ERR;
    }
    SUMMARIZE_ERR;
    printf("**** testing 2D coordinate variable with dimensions defined in different order...");

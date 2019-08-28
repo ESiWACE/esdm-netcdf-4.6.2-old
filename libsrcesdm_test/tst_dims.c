@@ -904,9 +904,9 @@ main(int argc, char **argv)
       if (nc_put_var_double(ncid, pres_varid, (double *)pres)) ERR;
 
       /* Check our latitude and longitude values. */
-      // if (nc_get_var(ncid, lat_varid, lat_in)) ERR;
-      // for (i = 0; i < LAT_LEN; i++)
-      //    if (lat[i] != lat_in[i]) ERR;
+      if (nc_get_var(ncid, lat_varid, lat_in)) ERR;
+      for (i = 0; i < LAT_LEN; i++)
+         if (lat[i] != lat_in[i]) ERR;
       if (nc_get_var_float(ncid, lon_varid, lon_in)) ERR;
       for (i = 0; i < LON_LEN; i++)
          if (lon[i] != lon_in[i]) ERR;
@@ -1099,7 +1099,7 @@ main(int argc, char **argv)
        * vars, because it doesn't know how big the var is supposed to
        * be. */
       // if (nc_put_var_double(ncid, pres_varid, (double *)pres)) ERR;
-      if (nc_put_var_ulonglong(ncid, elev_varid, (unsigned long long *)elev)) ERR;
+      // if (nc_put_var_ulonglong(ncid, elev_varid, (unsigned long long *)elev)) ERR;
       // if (nc_put_var_ushort(ncid, hp_varid, (unsigned short *)hp)) ERR;
 
       /* Check our latitude and longitude values. */
@@ -1154,12 +1154,12 @@ main(int argc, char **argv)
                       (double *)hp)) ERR;
 
       /* Check our pressure values. */
-      // if (nc_get_var_double(ncid, pres_varid, (double *)pres_in)) ERR;
-      // for (i = 0; i < LAT_LEN; i++)
-      //    for (j = 0; j < LON_LEN; j++)
-      //       for (k = 0; k < LEVEL_LEN; k++)
-      //          for (l = 0; l <TIME_LEN; l++)
-      //             if (pres[i][j][k][l] != pres_in[i][j][k][l]) ERR;
+      if (nc_get_var_double(ncid, pres_varid, (double *)pres_in)) ERR;
+      for (i = 0; i < LAT_LEN; i++)
+         for (j = 0; j < LON_LEN; j++)
+            for (k = 0; k < LEVEL_LEN; k++)
+               for (l = 0; l <TIME_LEN; l++)
+                  if (pres[i][j][k][l] != pres_in[i][j][k][l]) ERR;
 
       /* Check our elevation values. */
       // if (nc_get_var_ulonglong(ncid, elev_varid, (unsigned long long *)elev_in)) ERR;
@@ -1168,11 +1168,11 @@ main(int argc, char **argv)
       //       if (elev[i][j] != elev_in[i][j]) ERR;
 
       /* Check our hp values. */
-      // if (nc_get_var_ushort(ncid, hp_varid, (unsigned short *)hp_in)) ERR;
-      // for (i = 0; i < LAT_LEN; i++)
-      //    for (j = 0; j < LON_LEN; j++)
-      //       for (l = 0; l <TIME_LEN; l++)
-      //          if (hp[i][j][l] != hp_in[i][j][l]) ERR;
+      if (nc_get_var_ushort(ncid, hp_varid, (unsigned short *)hp_in)) ERR;
+      for (i = 0; i < LAT_LEN; i++)
+         for (j = 0; j < LON_LEN; j++)
+            for (l = 0; l <TIME_LEN; l++)
+               if (hp[i][j][l] != hp_in[i][j][l]) ERR;
 
       /* Close the file. */
       if (nc_close(ncid)) ERR;
