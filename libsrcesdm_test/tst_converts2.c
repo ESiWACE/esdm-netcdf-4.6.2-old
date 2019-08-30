@@ -106,7 +106,7 @@ main(int argc, char **argv)
       /* This should fail. */
       // coord[0] = 5;
       // if (nc_get_var1_ushort(ncid, varid, coord,
-			//      &ushort_in) != NC_EINVALCOORDS) ERR;
+			//      &ushort_in) != NC_EACCESSCOORDS) ERR;
 
       if (nc_close(ncid)) ERR;
    }
@@ -166,7 +166,7 @@ main(int argc, char **argv)
       /* This should fail. */
       // coord[0] = 5;
       // if (nc_get_var1_ushort(ncid, varid, coord,
-			//      &ushort_in) != NC_EINVALCOORDS) ERR;
+			//      &ushort_in) != NC_EACCESSCOORDS) ERR;
 
       if (nc_close(ncid)) ERR;
    }
@@ -195,13 +195,13 @@ main(int argc, char **argv)
     //   if (nc_inq_var(ncid, 0, var_name, &var_type, &ndims, NULL, &natts)) ERR;
     //   if (strcmp(var_name, VAR_NAME) || natts !=0 || ndims != 0 ||
 	  // var_type != NC_INT) ERR;
-    //   if (nc_get_var_schar(ncid, varid, &schar_in) != NC_ERANGE) ERR;
+    //   if (nc_get_var_schar(ncid, varid, &schar_in) != NC_EACCESS) ERR;
     //   if (schar_in != (signed char)ivalue) ERR;
-    //   if (nc_get_var_uchar(ncid, varid, &uchar_in) != NC_ERANGE) ERR;
+    //   if (nc_get_var_uchar(ncid, varid, &uchar_in) != NC_EACCESS) ERR;
     //   if (uchar_in != (unsigned char)ivalue) ERR;
-    //   if (nc_get_var_short(ncid, varid, &svalue_in) != NC_ERANGE) ERR;
+    //   if (nc_get_var_short(ncid, varid, &svalue_in) != NC_EACCESS) ERR;
     //   if (svalue_in != (short)ivalue) ERR;
-    //   if (nc_get_var_ushort(ncid, varid, &usvalue_in) != NC_ERANGE) ERR;
+    //   if (nc_get_var_ushort(ncid, varid, &usvalue_in) != NC_EACCESS) ERR;
     //   if (usvalue_in != (unsigned short)ivalue) ERR;
     //   if (nc_get_var_int(ncid, varid, &ivalue_in)) ERR;
     //   if (ivalue_in != ivalue) ERR;

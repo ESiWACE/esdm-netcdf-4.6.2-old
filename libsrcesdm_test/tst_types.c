@@ -152,7 +152,7 @@ int main(int argc, char *argv[])
       /* These will fail. */
       if (nc_def_enum(ncid2, NC_INT, ENUM_TYPE_NAME, &typeid3) != NC_ENAMEINUSE) ERR;
       if (nc_def_enum(ncid2 + TEST_VAL_42, NC_INT, ENUM_UNEQUAL_TYPE_NAME_3, &typeid3) != NC_EBADID) ERR;
-      if (nc_def_enum(ncid2, NC_INT, NULL, &typeid3) != NC_EINVAL) ERR;
+      if (nc_def_enum(ncid2, NC_INT, NULL, &typeid3) != NC_EACCESS) ERR;
       if (nc_def_enum(ncid3, NC_SHORT, ENUM_UNEQUAL_TYPE_NAME_3, &typeid3) != NC_ENOTNC4) ERR;
       if (nc_def_enum(ncid4, NC_SHORT, ENUM_UNEQUAL_TYPE_NAME_3, &typeid3) != NC_NOERR) ERR;
       if (nc_def_opaque(ncid4, TEST_VAL_42, A_NAME, &typeid3) != NC_NOERR) ERR;
@@ -164,7 +164,7 @@ int main(int argc, char *argv[])
       if (nc_insert_enum(ncid2, typeid3, ENUM_FIELD1_NAME, &enum_value)) ERR;
 
       /* This will fail because types are not yet committed. */
-      if (nc_inq_type_equal(ncid1, typeid1, ncid2, typeid2, &equal) != NC_EHDFERR) ERR;
+      if (nc_inq_type_equal(ncid1, typeid1, ncid2, typeid2, &equal) != !NC_NOERR) ERR;
 
       /* Commit the types to the file. */
       if (nc_enddef(ncid1)) ERR;
@@ -174,10 +174,10 @@ int main(int argc, char *argv[])
       if (nc_inq_type_equal(ncid1, typeid1, ncid2, typeid2, NULL)) ERR;
 
       /* These will fail. */
-      if (nc_inq_type_equal(ncid1, 0, ncid2, typeid2, &equal) != NC_EINVAL) ERR;
-      if (nc_inq_type_equal(ncid1, typeid1, ncid2, 0, &equal) != NC_EINVAL) ERR;
-      if (nc_inq_type_equal(ncid1, -TEST_VAL_42, ncid2, typeid2, &equal) != NC_EINVAL) ERR;
-      if (nc_inq_type_equal(ncid1, typeid1, ncid2, -TEST_VAL_42, &equal) != NC_EINVAL) ERR;
+      if (nc_inq_type_equal(ncid1, 0, ncid2, typeid2, &equal) != NC_EACCESS) ERR;
+      if (nc_inq_type_equal(ncid1, typeid1, ncid2, 0, &equal) != NC_EACCESS) ERR;
+      if (nc_inq_type_equal(ncid1, -TEST_VAL_42, ncid2, typeid2, &equal) != NC_EACCESS) ERR;
+      if (nc_inq_type_equal(ncid1, typeid1, ncid2, -TEST_VAL_42, &equal) != NC_EACCESS) ERR;
       if (nc_inq_type_equal(ncid1 + TEST_VAL_42, typeid1, ncid2, typeid2, &equal) != NC_EBADID) ERR;
       if (nc_inq_type_equal(ncid1, typeid1 + TEST_VAL_42, ncid2, typeid2, &equal) != NC_EBADTYPE) ERR;
       if (nc_inq_type_equal(ncid1, typeid1, ncid2 + TEST_VAL_42, typeid2, &equal) != NC_EBADID) ERR;
@@ -229,14 +229,14 @@ int main(int argc, char *argv[])
 
       /* This will not work. */
       if (nc_put_vara_uchar(ncid, varid[0], NULL, count, ubyte_data_out) !=
-          NC_EINVALCOORDS) ERR;
+          NC_EACCESSCOORDS) ERR;
 
       /* This will work. */
       if (nc_put_vara_uchar(ncid, varid[0], start, count, ubyte_data_out)) ERR;
 
       /* This will not work. */
       if (nc_get_vara_uchar(ncid, varid[0], NULL, count, ubyte_data_in) !=
-          NC_EINVALCOORDS) ERR;
+          NC_EACCESSCOORDS) ERR;
 
       /* This will work. */
       if (nc_get_vara_uchar(ncid, varid[0], start, NULL, ubyte_data_in)) ERR;
@@ -291,7 +291,7 @@ int main(int argc, char *argv[])
 
       /* This will not work. */
       if (nc_get_vars_uchar(ncid, varid[0], NULL, count, stride,
-                            ubyte_data_in) != NC_EINVALCOORDS) ERR;
+                            ubyte_data_in) != NC_EACCESSCOORDS) ERR;
 
       /* This will work. */
       if (nc_get_vars_uchar(ncid, varid[0], start, count, stride,
@@ -301,7 +301,7 @@ int main(int argc, char *argv[])
 
       /* This will not work. */
       if (nc_put_vars_ushort(ncid, varid[1], NULL, count, stride,
-                             ushort_data_out) != NC_EINVALCOORDS) ERR;
+                             ushort_data_out) != NC_EACCESSCOORDS) ERR;
 
       /* This will work. */
       if (nc_put_vars_ushort(ncid, varid[1], start, count, stride,
@@ -348,13 +348,13 @@ int main(int argc, char *argv[])
 
       /* This will not work. */
       if (nc_put_var1_uchar(ncid, varid[0], NULL, ubyte_data_out) !=
-          NC_EINVALCOORDS) ERR;
+          NC_EACCESSCOORDS) ERR;
 
       /* This will work. */
       if (nc_put_var1_uchar(ncid, varid[0], index1, ubyte_data_out)) ERR;
 
       /* This will not work. */
-      if (nc_get_var1_uchar(ncid, varid[0], NULL, ubyte_data_in) != NC_EINVALCOORDS) ERR;
+      if (nc_get_var1_uchar(ncid, varid[0], NULL, ubyte_data_in) != NC_EACCESSCOORDS) ERR;
 
       /* This will work. */
       if (nc_get_var1_uchar(ncid, varid[0], index1, ubyte_data_in)) ERR;
@@ -396,7 +396,7 @@ int main(int argc, char *argv[])
 
       /* This will not work. */
       if (nc_put_varm_ubyte(ncid, varid[0], NULL, count, stride, imap,
-                            ubyte_data_out) != NC_EINVALCOORDS) ERR;
+                            ubyte_data_out) != NC_EACCESSCOORDS) ERR;
 
       /* This will work. */
       if (nc_put_varm_ubyte(ncid, varid[0], start, count, stride, imap,
@@ -404,7 +404,7 @@ int main(int argc, char *argv[])
 
       /* This will not work. */
       if (nc_get_varm_ubyte(ncid, varid[0], NULL, count, stride, imap,
-                            ubyte_data_in) != NC_EINVALCOORDS) ERR;
+                            ubyte_data_in) != NC_EACCESSCOORDS) ERR;
 
       /* This will work. */
       if (nc_get_varm_ubyte(ncid, varid[0], start, count, stride, imap,

@@ -81,7 +81,7 @@ main(int argc, char **argv)
       for (t = 0; t < NUM_TYPES_TO_CHECK; t++)
       {
 	 int err = nc_get_var_longlong(ncid, varid[t], &data_in);
-	 if(err && err != NC_ERANGE)
+	 if(err && err != NC_EACCESS)
 	   ERR;
 	 if (data_in != fill_value[t])
 	   ERR;

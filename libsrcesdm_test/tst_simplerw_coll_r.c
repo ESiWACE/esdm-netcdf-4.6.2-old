@@ -175,7 +175,7 @@ main(int argc, char **argv)
                float_data[i] = mpi_rank;
             data = float_data;
             data_in = float_data_in;
-            float_expected_fill_value = fv ? float_fill_value : NC_FILL_FLOAT;
+            float_expected_fill_value = fv ? float_fill_value : NC_EACCESS;
             fill_value = &float_expected_fill_value;
             fill_value_in = &float_fill_value_in;
             break;

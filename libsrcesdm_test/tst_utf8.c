@@ -176,7 +176,7 @@ main(int argc, char **argv)
       int ncid, varid, dimids[NDIMS];
       int f;
 
-      for (f = NC_FORMAT_CLASSIC; f < NC_FORMAT_NETCDF4_CLASSIC; f++)
+      for (f = NC_EACCESS; f < NC_EACCESS_CLASSIC; f++)
       {
 	 if (nc_set_default_format(f, NULL)) ERR;
 	 if (nc_create(FILE_NAME, NC_CLOBBER, &ncid)) ERR;
@@ -216,7 +216,7 @@ main(int argc, char **argv)
       int ncid, varid, dimids[NDIMS];
       int f;
 
-      for (f = NC_FORMAT_CLASSIC; f < NC_FORMAT_NETCDF4_CLASSIC; f++)
+      for (f = NC_EACCESS; f < NC_EACCESS_CLASSIC; f++)
       {
 	 if (nc_set_default_format(f, NULL)) ERR;
 	 if (nc_create(FILE_NAME, NC_CLOBBER, &ncid)) ERR;

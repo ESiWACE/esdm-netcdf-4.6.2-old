@@ -16,7 +16,7 @@
 int main(int argc, char **argv)
 {
    int ncid, varid;
-   signed char schar = 2;
+   signed char schar = 2, schar2;
 
   /* Write a scalar NC_BYTE with value 2. */
   if (nc_create(FILE_NAME, NC_NETCDF4, &ncid)) ERR;
@@ -26,7 +26,10 @@ int main(int argc, char **argv)
 
   /* Now open the file and check it. */
   if (nc_open(FILE_NAME, NC_NOWRITE, &ncid)) ERR;
+  if (nc_get_var_schar(ncid, varid, &schar2)) ERR;
   if (nc_close(ncid)) ERR;
+  printf("%d %d\n", schar, schar2);
+  assert(schar == schar2);
 
   FINAL_RESULTS;
 }

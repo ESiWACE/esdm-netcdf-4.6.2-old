@@ -41,8 +41,8 @@ int main(int argc, char **argv)
       if (nc_def_var(ncid, T_NAME, NC_FLOAT, DATA_NDIMS, data_dimids, &varids[0])) ERR;
       if (nc_def_var(ncid, XC_NAME, NC_FLOAT, 1, &dimids[0], &varids[1])) ERR;
 
-      if (nc_put_vara_float(ncid, 0, start, count, (const float *)temp)) ERR;
-      if (nc_put_var_float(ncid, 1, xc)) ERR;
+      if (nc_put_vara_float(ncid, varids[0], start, count, (const float *)temp)) ERR;
+      if (nc_put_var_float(ncid, varids[1], xc)) ERR;
       if (nc_close(ncid)) ERR;
 
    FINAL_RESULTS;

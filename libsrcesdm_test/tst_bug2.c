@@ -25,7 +25,8 @@ int main(int argc, char **argv)
       if (nc_create(FILE_NAME, NC_NETCDF4, &ncid)) ERR;
       if (nc_def_dim(ncid, WINSTON_CHURCHILL, NC_UNLIMITED, &dimid)) ERR;
       if (nc_def_var(ncid, VAR_NAME, NC_INT, NDIMS_1, &dimid, &varid)) ERR;
-      // if (nc_put_var_int(ncid, varid, data)) ERR;
+      size_t start[1] = {0}, count[1] = {1};
+      if (nc_put_vara_int(ncid, varid, start, count, data)) ERR;
       if (nc_put_var(ncid, varid, data)) ERR;
       if (nc_close(ncid)) ERR;
 

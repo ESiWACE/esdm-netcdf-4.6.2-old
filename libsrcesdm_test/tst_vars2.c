@@ -80,7 +80,7 @@ main(int argc, char **argv)
          if (cmode == 0 || cmode == NC_64BIT_OFFSET)
             expected_ret = NC_NOERR;
          else
-            expected_ret = NC_ELATEFILL;
+            expected_ret = NC_EACCESS;
 
          /* Create a netcdf-4 file with one scalar var. Add fill
           * value. */
@@ -145,7 +145,7 @@ main(int argc, char **argv)
          if (nc_open(FILE_NAME, NC_NOWRITE, &ncid)) ERR;
 
          /* This will not work because file was opened read-only. */
-          // if (nc_rename_var(ncid, 0, "something_very_new") != NC_EPERM) ERR;
+          // if (nc_rename_var(ncid, 0, "something_very_new") != NC_EACCESS) ERR;
 
          /* Check metadata. */
          if (nc_inq_varids(ncid, &nvars_in, varids_in)) ERR;
@@ -435,7 +435,7 @@ main(int argc, char **argv)
       // if (nc_def_var(ncid, DIMNAME, NC_INT, NC_MAX_VAR_DIMS + 1, &dimid,
       //                &xvarid) != NC_EMAXDIMS) ERR;
       // if (nc_enddef(ncid)) ERR;
-      // if (nc_def_var(ncid, DIMNAME, NC_INT, 1, &dimid, &xvarid) != NC_ENOTINDEFINE) ERR;
+      // if (nc_def_var(ncid, DIMNAME, NC_INT, 1, &dimid, &xvarid) != NC_EACCESS) ERR;
       // if (nc_redef(ncid)) ERR;
 
       /* Define the variable for the test. */
@@ -457,7 +457,7 @@ main(int argc, char **argv)
       size_t lat_len = 73, time_len = 10, lon_len = 145;
       int cdf_goober[1];
 
-/*      if (nc_set_default_format(NC_FORMAT_NETCDF4, NULL)) ERR;*/
+/*      if (nc_set_default_format(NC_EACCESS, NULL)) ERR;*/
       if (nc_create(FILE_NAME, NC_NETCDF4, &ncid)) ERR;
 
       /* define dimensions */
@@ -521,7 +521,7 @@ main(int argc, char **argv)
       /* THese won't work due to bad params. */
       // if (nc_rename_dim(ncid + MILLION, lon_dim, "longitude") != NC_EBADID) ERR;
       // if (nc_rename_dim(ncid + TEST_VAL_42, lon_dim, "longitude") != NC_EBADID) ERR;
-      // if (nc_rename_dim(ncid, lon_dim, NULL) != NC_EINVAL) ERR;
+      // if (nc_rename_dim(ncid, lon_dim, NULL) != NC_EACCESS) ERR;
 
       /* rename dimension */
       if (nc_rename_dim(ncid, lon_dim, "longitude")) ERR;
@@ -529,9 +529,9 @@ main(int argc, char **argv)
       /* These will fail due to bad params. */
       // if (nc_inq_varid(ncid + MILLION, "temp", &wind_id) != NC_EBADID) ERR;
       // if (nc_inq_varid(ncid + TEST_VAL_42, "temp", &wind_id) != NC_EBADID) ERR;
-      // if (nc_inq_varid(ncid, NULL, &wind_id) != NC_EINVAL) ERR;
-      // if (nc_inq_varid(ncid, "not_a_real_name", &wind_id) != NC_ENOTVAR) ERR;
-      // if (nc_inq_varid(ncid, BAD_NAME, &wind_id) != NC_ENOTVAR) ERR;
+      // if (nc_inq_varid(ncid, NULL, &wind_id) != NC_EACCESS) ERR;
+      // if (nc_inq_varid(ncid, "not_a_real_name", &wind_id) != NC_EACCESS) ERR;
+      // if (nc_inq_varid(ncid, BAD_NAME, &wind_id) != NC_EACCESS) ERR;
       // if (nc_inq_varid(ncid, too_long_name, &wind_id) != NC_EMAXNAME) ERR;
 
       /* Now get the variable ID. */
@@ -542,13 +542,13 @@ main(int argc, char **argv)
 
       /* These won't work due to bad parameters. */
       // if (nc_rename_var(ncid + MILLION, wind_id, "wind") != NC_EBADID) ERR;
-      // if (nc_rename_var(ncid, wind_id + TEST_VAL_42, "wind") != NC_ENOTVAR) ERR;
-      // if (nc_rename_var(ncid, -TEST_VAL_42, "wind") != NC_ENOTVAR) ERR;
-      // if (nc_rename_var(ncid, wind_id, BAD_NAME) != NC_EBADNAME) ERR;
+      // if (nc_rename_var(ncid, wind_id + TEST_VAL_42, "wind") != NC_EACCESS) ERR;
+      // if (nc_rename_var(ncid, -TEST_VAL_42, "wind") != NC_EACCESS) ERR;
+      // if (nc_rename_var(ncid, wind_id, BAD_NAME) != NC_EACCESS) ERR;
       // if (nc_rename_var(ncid, wind_id, too_long_name) != NC_EMAXNAME) ERR;
       // if (nc_rename_var(ncid, wind_id, "temp2") != NC_ENAMEINUSE) ERR;
-      // if (nc_rename_var(ncid, wind_id, "windy") != NC_ENOTINDEFINE) ERR;
-      // if (nc_rename_var(ncid, wind_id, NULL) != NC_EINVAL) ERR;
+      // if (nc_rename_var(ncid, wind_id, "windy") != NC_EACCESS) ERR;
+      // if (nc_rename_var(ncid, wind_id, NULL) != NC_EACCESS) ERR;
 
       /* rename variable */
       if (nc_rename_var(ncid, wind_id, "wind")) ERR;
@@ -636,20 +636,20 @@ main(int argc, char **argv)
 
       /* Define dimensions. Funny names are rejected, serious names work. */
       // for (i = 0; i < NDIMS; i++)
-      // 	 if (nc_def_dim(ncid, funny_name[i], len[i], &dimids[i]) != NC_EBADNAME) ERR;
+      // 	 if (nc_def_dim(ncid, funny_name[i], len[i], &dimids[i]) != NC_EACCESS) ERR;
       for (i = 0; i < NDIMS; i++)
       	 if (nc_def_dim(ncid, serious_name[i], len[i], &dimids[i])) ERR;
 
       /* Write some global atts. Funny names are rejected, serious names work. */
       // if (nc_put_att_string(ncid, NC_GLOBAL, funny_name[0], NLINES,
-			//     (const char **)speech) != NC_EBADNAME) ERR;
-      // if (nc_put_att_ushort(ncid, NC_GLOBAL, funny_name[1], NC_UINT, 1, &nlines) != NC_EBADNAME) ERR;
+			//     (const char **)speech) != NC_EACCESS) ERR;
+      // if (nc_put_att_ushort(ncid, NC_GLOBAL, funny_name[1], NC_UINT, 1, &nlines) != NC_EACCESS) ERR;
       if (nc_put_att_string(ncid, NC_GLOBAL, serious_name[0], NLINES,
 			    (const char **)speech)) ERR;
       // if (nc_put_att_ushort(ncid, NC_GLOBAL, serious_name[1], NC_UINT, 1, &nlines)) ERR;
 
       /* Define variables. Funny name fails, seriousness wins the day! */
-      // if (nc_def_var(ncid, funny_name[3], NC_INT64, NDIMS, dimids, &wind_id) != NC_EBADNAME) ERR;
+      // if (nc_def_var(ncid, funny_name[3], NC_INT64, NDIMS, dimids, &wind_id) != NC_EACCESS) ERR;
       if (nc_def_var(ncid, serious_name[3], NC_INT64, NDIMS, dimids, &wind_id)) ERR;
 
       if (nc_close(ncid)) ERR;
@@ -718,11 +718,11 @@ main(int argc, char **argv)
       // if (nc_inq_var(ncid + TEST_VAL_42, 0, name_in, &xtype_in, &ndims,
       //                dimids_in, &natts) != NC_EBADID) ERR;
       // if (nc_inq_var(ncid, -TEST_VAL_42, name_in, &xtype_in, &ndims,
-      //                dimids_in, &natts) != NC_ENOTVAR) ERR;
+      //                dimids_in, &natts) != NC_EACCESS) ERR;
       // if (nc_inq_var(ncid, 1, name_in, &xtype_in, &ndims,
-      //                dimids_in, &natts) != NC_ENOTVAR) ERR;
+      //                dimids_in, &natts) != NC_EACCESS) ERR;
       // if (nc_inq_var(ncid, TEST_VAL_42, name_in, &xtype_in, &ndims,
-      //                dimids_in, &natts) != NC_ENOTVAR) ERR;
+      //                dimids_in, &natts) != NC_EACCESS) ERR;
 
       /* Now pass correct parameters. */
       if (nc_inq_var(ncid, 0, name_in, &xtype_in, &ndims,
@@ -742,7 +742,7 @@ main(int argc, char **argv)
 
       /* This won't work. */
       // if (nc_def_var(ncid, "this_wont_work", NC_BYTE, NDIMS4, dimids,
-      //                &varid1) != NC_EPERM) ERR;
+      //                &varid1) != NC_EACCESS) ERR;
 
       if (nc_inq(ncid, &ndims, &nvars, &natts, &unlimdimid)) ERR;
       if (ndims != NDIMS4 || nvars != 1 || natts != 0 ||
@@ -821,11 +821,11 @@ main(int argc, char **argv)
 //       // if (nc_def_var_chunking(ncid + TEST_VAL_42, varid, NC_CHUNKED,
 //       //                         chunksize) != NC_EBADID) ERR;
 //       // if (nc_def_var_chunking(ncid, varid + TEST_VAL_42, NC_CHUNKED,
-//       //                         chunksize) != NC_ENOTVAR) ERR;
+//       //                         chunksize) != NC_EACCESS) ERR;
 //       // if (nc_def_var_chunking(ncid, varid + 1, NC_CHUNKED,
-//       //                         chunksize) != NC_ENOTVAR) ERR;
+//       //                         chunksize) != NC_EACCESS) ERR;
 //       // if (nc_def_var_chunking(ncid, -1, NC_CHUNKED,
-//       //                         chunksize) != NC_ENOTVAR) ERR;
+//       //                         chunksize) != NC_EACCESS) ERR;
 //       // if (nc_def_var_chunking(ncid, varid, NC_CHUNKED, bad_chunksize) !=
 //       //     NC_EBADCHUNK) ERR;
 //       //
@@ -839,15 +839,15 @@ main(int argc, char **argv)
 //       // if (nc_set_var_chunk_cache(ncid + 1, varid, CACHE_SIZE, CACHE_NELEMS,
 //       //                            CACHE_PREEMPTION) != NC_EBADID) ERR;
 //       // if (nc_set_var_chunk_cache(ncid, varid + TEST_VAL_42, CACHE_SIZE, CACHE_NELEMS,
-//       //                            CACHE_PREEMPTION) != NC_ENOTVAR) ERR;
+//       //                            CACHE_PREEMPTION) != NC_EACCESS) ERR;
 //       // if (nc_set_var_chunk_cache(ncid, -TEST_VAL_42, CACHE_SIZE, CACHE_NELEMS,
-//       //                            CACHE_PREEMPTION) != NC_ENOTVAR) ERR;
+//       //                            CACHE_PREEMPTION) != NC_EACCESS) ERR;
 //       // if (nc_set_var_chunk_cache(ncid, varid + 1, CACHE_SIZE, CACHE_NELEMS,
-//       //                            CACHE_PREEMPTION) != NC_ENOTVAR) ERR;
+//       //                            CACHE_PREEMPTION) != NC_EACCESS) ERR;
 //       // if (nc_set_var_chunk_cache(ncid, varid, CACHE_SIZE, CACHE_NELEMS,
-//       //                            CACHE_PREEMPTION + TEST_VAL_42) != NC_EINVAL) ERR;
+//       //                            CACHE_PREEMPTION + TEST_VAL_42) != NC_EACCESS) ERR;
 //       // if (nc_set_var_chunk_cache(ncid, varid, CACHE_SIZE, CACHE_NELEMS,
-//       //                            CACHE_PREEMPTION - TEST_VAL_42) != NC_EINVAL) ERR;
+//       //                            CACHE_PREEMPTION - TEST_VAL_42) != NC_EACCESS) ERR;
 //       //
 //       // /* Set the cache. */
 //       // if (nc_set_var_chunk_cache(ncid, varid, CACHE_SIZE, CACHE_NELEMS, CACHE_PREEMPTION)) ERR;
@@ -878,11 +878,11 @@ main(int argc, char **argv)
 //       // if (nc_inq_var_chunking_ints(ncid + TEST_VAL_42, 0, &storage_in,
 //       //                              chunksize_int_in) != NC_EBADID) ERR;
 //       // if (nc_inq_var_chunking_ints(ncid, -1, &storage_in,
-//       //                              chunksize_int_in) != NC_ENOTVAR) ERR;
+//       //                              chunksize_int_in) != NC_EACCESS) ERR;
 //       // if (nc_inq_var_chunking_ints(ncid, varid + 1, &storage_in,
-//       //                              chunksize_int_in) != NC_ENOTVAR) ERR;
+//       //                              chunksize_int_in) != NC_EACCESS) ERR;
 //       // if (nc_inq_var_chunking_ints(ncid, varid + TEST_VAL_42, &storage_in,
-//       //                              chunksize_int_in) != NC_ENOTVAR) ERR;
+//       //                              chunksize_int_in) != NC_EACCESS) ERR;
 //
 //       /* Now check with the fortran versions of the var_chunking. */
 //    //    if (nc_inq_var_chunking_ints(ncid, 0, &storage_in, chunksize_int_in)) ERR;
@@ -900,11 +900,11 @@ main(int argc, char **argv)
 //       // if (nc_def_var_chunking_ints(ncid + TEST_VAL_42, varid, NC_CHUNKED,
 //       //                              chunksize_int) != NC_EBADID) ERR;
 //       // if (nc_def_var_chunking_ints(ncid, -1, NC_CHUNKED,
-//       //                              chunksize_int) != NC_ENOTVAR) ERR;
+//       //                              chunksize_int) != NC_EACCESS) ERR;
 //       // if (nc_def_var_chunking_ints(ncid, varid + 1, NC_CHUNKED,
-//       //                              chunksize_int) != NC_ENOTVAR) ERR;
+//       //                              chunksize_int) != NC_EACCESS) ERR;
 //       // if (nc_def_var_chunking_ints(ncid, varid + TEST_VAL_42, NC_CHUNKED,
-//       //                              chunksize_int) != NC_ENOTVAR) ERR;
+//       //                              chunksize_int) != NC_EACCESS) ERR;
 //       //
 //       // if (nc_def_var_chunking_ints(ncid, varid, NC_CHUNKED, chunksize_int) != NC_ELATEDEF) ERR;
 //       if (nc_redef(ncid)) ERR;
@@ -935,11 +935,11 @@ main(int argc, char **argv)
 //       // if (nc_get_var_chunk_cache(ncid + 1, -TEST_VAL_42, &cache_size_in, &cache_nelems_in,
 // 			// 	 &cache_preemption_in) != NC_EBADID) ERR;
 //       // if (nc_get_var_chunk_cache(ncid, varid + TEST_VAL_42, &cache_size_in, &cache_nelems_in,
-// 			// 	 &cache_preemption_in) != NC_ENOTVAR) ERR;
+// 			// 	 &cache_preemption_in) != NC_EACCESS) ERR;
 //       // if (nc_get_var_chunk_cache(ncid, varid4 + 1, &cache_size_in, &cache_nelems_in,
-// 			// 	 &cache_preemption_in) != NC_ENOTVAR) ERR;
+// 			// 	 &cache_preemption_in) != NC_EACCESS) ERR;
 //       // if (nc_get_var_chunk_cache(ncid, -TEST_VAL_42, &cache_size_in, &cache_nelems_in,
-// 			// 	 &cache_preemption_in) != NC_ENOTVAR) ERR;
+// 			// 	 &cache_preemption_in) != NC_EACCESS) ERR;
 //
 //       /* Get the var chunk cache settings. */
 //     //   if (nc_get_var_chunk_cache(ncid, varid, &cache_size_in, &cache_nelems_in,
@@ -1405,18 +1405,18 @@ main(int argc, char **argv)
 
       /* These will fail due to bad parameters. */
       // if (nc_def_var_deflate(ncid, varid2, 0, 1,
-      //                        NC_MIN_DEFLATE_LEVEL - 1) != NC_EINVAL) ERR;
+      //                        NC_MIN_DEFLATE_LEVEL - 1) != NC_EACCESS) ERR;
       // if (nc_def_var_deflate(ncid, varid2, 0, 1,
-      //                        NC_MAX_DEFLATE_LEVEL + 1) != NC_EINVAL) ERR;
+      //                        NC_MAX_DEFLATE_LEVEL + 1) != NC_EACCESS) ERR;
       //
       // /* This will work. */
       // if (nc_def_var_deflate(ncid, varid2, 0, 1, 4)) ERR;
       //
       // /* This won't work because of the umlimited dimension. */
-      // if (nc_def_var_chunking(ncid, varid, NC_CONTIGUOUS, NULL) != NC_EINVAL) ERR;
+      // if (nc_def_var_chunking(ncid, varid, NC_CONTIGUOUS, NULL) != NC_EACCESS) ERR;
       //
       // /* This won't work because of the deflate filter. */
-      // if (nc_def_var_chunking(ncid, varid2, NC_CONTIGUOUS, NULL) != NC_EINVAL) ERR;
+      // if (nc_def_var_chunking(ncid, varid2, NC_CONTIGUOUS, NULL) != NC_EACCESS) ERR;
       //
       // /* Storage must be chunked because of unlimited dimension and
       //  * the deflate filter. */
@@ -1455,7 +1455,7 @@ main(int argc, char **argv)
 
          /* This won't work. */
          // if (nc_def_var(ncid, VAR_NAME8, NC_INT, NDIMS1, bad_dimids,
-                        // &varid) != NC_EBADDIM) ERR;
+                        // &varid) != NC_EACCESS) ERR;
 
          /* This will work. */
          if (nc_def_var(ncid, VAR_NAME8, NC_INT, NDIMS1, dimids, &varid)) ERR;
@@ -1470,7 +1470,7 @@ main(int argc, char **argv)
          // if (contiguous_in) ERR;
          //
          // /* Now I can't turn contiguous on, because deflate is on. */
-         // if (nc_def_var_chunking(ncid, varid, NC_CONTIGUOUS, NULL) != NC_EINVAL) ERR;
+         // if (nc_def_var_chunking(ncid, varid, NC_CONTIGUOUS, NULL) != NC_EACCESS) ERR;
          //
          // /* Turn off deflation. */
          // if (nc_def_var_deflate(ncid, varid, 0, 0, 0)) ERR;
@@ -1487,7 +1487,7 @@ main(int argc, char **argv)
          // if (nc_def_var_deflate(ncid, varid, 1, 0, 0)) ERR;
          //
          // /* Now I can't turn contiguous on, because shuffle is on. */
-         // if (nc_def_var_chunking(ncid, varid, NC_CONTIGUOUS, NULL) != NC_EINVAL) ERR;
+         // if (nc_def_var_chunking(ncid, varid, NC_CONTIGUOUS, NULL) != NC_EACCESS) ERR;
          //
          // /* Turn off shuffle. */
          // if (nc_def_var_deflate(ncid, varid, 0, 0, 0)) ERR;
@@ -1496,7 +1496,7 @@ main(int argc, char **argv)
          // if (nc_def_var_fletcher32(ncid, varid, 1)) ERR;
          //
          // /* Now I can't turn contiguous on, because fletcher32 is on. */
-         // if (nc_def_var_chunking(ncid, varid, NC_CONTIGUOUS, NULL) != NC_EINVAL) ERR;
+         // if (nc_def_var_chunking(ncid, varid, NC_CONTIGUOUS, NULL) != NC_EACCESS) ERR;
          //
          // /* Turn off fletcher32. */
          // if (nc_def_var_fletcher32(ncid, varid, 0)) ERR;
@@ -1529,10 +1529,10 @@ main(int argc, char **argv)
       // if (nc_def_var_deflate(ncid, varid2, 0, 1, 4)) ERR;
       //
       // /* This won't work because of the umlimited dimension. */
-      // if (nc_def_var_chunking(ncid, varid, NC_CONTIGUOUS, NULL) != NC_EINVAL) ERR;
+      // if (nc_def_var_chunking(ncid, varid, NC_CONTIGUOUS, NULL) != NC_EACCESS) ERR;
       //
       // /* This won't work because of the deflate filter. */
-      // if (nc_def_var_chunking(ncid, varid2, NC_CONTIGUOUS, NULL) != NC_EINVAL) ERR;
+      // if (nc_def_var_chunking(ncid, varid2, NC_CONTIGUOUS, NULL) != NC_EACCESS) ERR;
       //
       // /* Storage must be chunked because of unlimited dimension and
       //  * the deflate filter. */
@@ -1571,7 +1571,7 @@ main(int argc, char **argv)
       // if (nc_inq_var_chunking(ncid, varid, &storage_in, chunksize_in)) ERR;
       // if (storage_in != NC_CHUNKED) ERR;
       // if (chunksize_in[0] != chunksize[0] || chunksize_in[1] != chunksize[1]) ERR;
-      // if (nc_inq_var_chunking_ints(ncid, varid, &storage_in, chunksize_int_in) != NC_ERANGE) ERR;
+      // if (nc_inq_var_chunking_ints(ncid, varid, &storage_in, chunksize_int_in) != NC_EACCESS) ERR;
 
       /* Close the file. */
       if (nc_close(ncid)) ERR;

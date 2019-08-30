@@ -24,7 +24,7 @@ int
 main(int argc, char **argv)
 {
 #define NUM_FORMATS 2
-   int formats[NUM_FORMATS] = {NC_FORMAT_NETCDF4, NC_FORMAT_NETCDF4_CLASSIC};
+   int formats[NUM_FORMATS] = {NC_EACCESS, NC_EACCESS};
    int format;
 
    fprintf(stderr,"*** Testing more renames\n");

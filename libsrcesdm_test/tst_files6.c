@@ -83,7 +83,7 @@ main(int argc, char **argv)
       H5Eset_auto2(H5E_DEFAULT, NULL, NULL);
 
       /* Now try and open it with netCDF. It will not work. */
-      // if (nc_open(HDF5_FILE_NAME, NC_NOWRITE, &ncid) != NC_EHDFERR) ERR;
+      if (nc_open(HDF5_FILE_NAME, NC_NOWRITE, &ncid) != NC_EACCESS) ERR;
    }
    SUMMARIZE_ERR;
    FINAL_RESULTS;

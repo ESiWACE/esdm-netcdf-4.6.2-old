@@ -356,17 +356,17 @@ main(int argc, char **argv)
       // if (nc_def_var(ncid + TEST_VAL_42, VAR_BYTE_NAME, NC_BYTE, 2, dimids,
       //                &byte_varid) != NC_EBADID) ERR;
       // if (nc_def_var(ncid, BAD_NAME, NC_BYTE, 2, dimids,
-      //                &byte_varid) != NC_EBADNAME) ERR;
+      //                &byte_varid) != NC_EACCESS) ERR;
       // if (nc_def_var(ncid, VAR_BYTE_NAME, 0, 2, dimids,
       //                &byte_varid) != NC_EBADTYPE) ERR;
       // if (nc_def_var(ncid, VAR_BYTE_NAME, TEST_VAL_42, 2, dimids,
       //                &byte_varid) != NC_EBADTYPE) ERR;
       // if (nc_def_var(ncid, VAR_BYTE_NAME, NC_BYTE, -2, dimids,
-      //                &byte_varid) != NC_EINVAL) ERR;
+      //                &byte_varid) != NC_EACCESS) ERR;
       // if (nc_def_var(ncid, VAR_BYTE_NAME, NC_BYTE, 2, NULL,
-      //                &byte_varid) != NC_EINVAL) ERR;
+      //                &byte_varid) != NC_EACCESS) ERR;
       // if (nc_def_var(ncid, VAR_BYTE_NAME, NC_BYTE, 3, bad_dimids,
-      //                &byte_varid) != NC_EBADDIM) ERR;
+      //                &byte_varid) != N!NC_NOERR) ERR;
 
       /* Now create our variables. */
       if (nc_def_var(ncid, VAR_BYTE_NAME, NC_BYTE, 2, dimids, &byte_varid)) ERR;
@@ -569,35 +569,35 @@ main(int argc, char **argv)
    //    for (i = 0; i < DIM1_LEN; i++)
 	 // for (j = 0; j < DIM2_LEN; j++)
 	 //    if (byte_in[i][j] != (signed char)byte_out[i][j]) ERR;
-   //    if (nc_get_var_schar(ncid, ubyte_varid, (signed char *)byte_in) != NC_ERANGE) ERR;
+   //    if (nc_get_var_schar(ncid, ubyte_varid, (signed char *)byte_in) != NC_EACCESS) ERR;
    //    for (i = 0; i < DIM1_LEN; i++)
 	 // for (j = 0; j < DIM2_LEN; j++)
 	 //    if (byte_in[i][j] != (signed char)ubyte_out[i][j]) ERR;
-   //    if (nc_get_var_schar(ncid, short_varid, (signed char *)byte_in) != NC_ERANGE) ERR;
+   //    if (nc_get_var_schar(ncid, short_varid, (signed char *)byte_in) != NC_EACCESS) ERR;
    //    for (i = 0; i < DIM1_LEN; i++)
 	 // for (j = 0; j < DIM2_LEN; j++)
 	 //    if (byte_in[i][j] != (signed char)short_out[i][j]) ERR;
-   //    if (nc_get_var_schar(ncid, ushort_varid, (signed char *)byte_in) != NC_ERANGE) ERR;
+   //    if (nc_get_var_schar(ncid, ushort_varid, (signed char *)byte_in) != NC_EACCESS) ERR;
    //    for (i = 0; i < DIM1_LEN; i++)
 	 // for (j = 0; j < DIM2_LEN; j++)
 	 //    if (byte_in[i][j] != (signed char)ushort_out[i][j]) ERR;
-   //    if (nc_get_var_schar(ncid, int_varid, (signed char *)byte_in) != NC_ERANGE) ERR;
+   //    if (nc_get_var_schar(ncid, int_varid, (signed char *)byte_in) != NC_EACCESS) ERR;
    //    for (i = 0; i < DIM1_LEN; i++)
 	 // for (j = 0; j < DIM2_LEN; j++)
 	 //    if (byte_in[i][j] != (signed char)int_out[i][j]) ERR;
-   //    if (nc_get_var_schar(ncid, uint_varid, (signed char *)byte_in) != NC_ERANGE) ERR;
+   //    if (nc_get_var_schar(ncid, uint_varid, (signed char *)byte_in) != NC_EACCESS) ERR;
    //    for (i = 0; i < DIM1_LEN; i++)
 	 // for (j = 0; j < DIM2_LEN; j++)
 	 //    if (byte_in[i][j] != (signed char)uint_out[i][j]) ERR;
-   //    if (nc_get_var_schar(ncid, float_varid, (signed char *)byte_in) != NC_ERANGE) ERR;
+   //    if (nc_get_var_schar(ncid, float_varid, (signed char *)byte_in) != NC_EACCESS) ERR;
    //    for (i = 0; i < DIM1_LEN; i++)
 	 // for (j = 0; j < DIM2_LEN; j++)
 	 //    if (byte_in[i][j] != (signed char)float_out[i][j]) ERR;
-   //    if (nc_get_var_schar(ncid, int64_varid, (signed char *)byte_in) != NC_ERANGE) ERR;
+   //    if (nc_get_var_schar(ncid, int64_varid, (signed char *)byte_in) != NC_EACCESS) ERR;
    //    for (i = 0; i < DIM1_LEN; i++)
 	 // for (j = 0; j < DIM2_LEN; j++)
 	 //    if (byte_in[i][j] != (signed char)int64_out[i][j]) ERR;
-   //    if (nc_get_var_schar(ncid, uint64_varid, (signed char *)byte_in) != NC_ERANGE) ERR;
+   //    if (nc_get_var_schar(ncid, uint64_varid, (signed char *)byte_in) != NC_EACCESS) ERR;
    //    for (i = 0; i < DIM1_LEN; i++)
 	 // for (j = 0; j < DIM2_LEN; j++)
 	 //    if (byte_in[i][j] != (signed char)uint64_out[i][j]) ERR;
@@ -773,35 +773,35 @@ main(int argc, char **argv)
    //    for (i = 0; i < DIM1_LEN; i++)
 	 // for (j = 0; j < DIM2_LEN; j++)
 	 //    if (byte_in[i][j] != (signed char)byte_out[i][j]) ERR;
-   //    if (nc_get_var_schar(ncid, ubyte_varid, (signed char *)byte_in) != NC_ERANGE) ERR;
+   //    if (nc_get_var_schar(ncid, ubyte_varid, (signed char *)byte_in) != NC_EACCESS) ERR;
    //    for (i = 0; i < DIM1_LEN; i++)
 	 // for (j = 0; j < DIM2_LEN; j++)
 	 //    if (byte_in[i][j] != (signed char)ubyte_out[i][j]) ERR;
-   //    if (nc_get_var_schar(ncid, short_varid, (signed char *)byte_in) != NC_ERANGE) ERR;
+   //    if (nc_get_var_schar(ncid, short_varid, (signed char *)byte_in) != NC_EACCESS) ERR;
    //    for (i = 0; i < DIM1_LEN; i++)
 	 // for (j = 0; j < DIM2_LEN; j++)
 	 //    if (byte_in[i][j] != (signed char)short_out[i][j]) ERR;
-   //    if (nc_get_var_schar(ncid, ushort_varid, (signed char *)byte_in) != NC_ERANGE) ERR;
+   //    if (nc_get_var_schar(ncid, ushort_varid, (signed char *)byte_in) != NC_EACCESS) ERR;
    //    for (i = 0; i < DIM1_LEN; i++)
 	 // for (j = 0; j < DIM2_LEN; j++)
 	 //    if (byte_in[i][j] != (signed char)ushort_out[i][j]) ERR;
-   //    if (nc_get_var_schar(ncid, int_varid, (signed char *)byte_in) != NC_ERANGE) ERR;
+   //    if (nc_get_var_schar(ncid, int_varid, (signed char *)byte_in) != NC_EACCESS) ERR;
    //    for (i = 0; i < DIM1_LEN; i++)
 	 // for (j = 0; j < DIM2_LEN; j++)
 	 //    if (byte_in[i][j] != (signed char)int_out[i][j]) ERR;
-   //    if (nc_get_var_schar(ncid, uint_varid, (signed char *)byte_in) != NC_ERANGE) ERR;
+   //    if (nc_get_var_schar(ncid, uint_varid, (signed char *)byte_in) != NC_EACCESS) ERR;
    //    for (i = 0; i < DIM1_LEN; i++)
 	 // for (j = 0; j < DIM2_LEN; j++)
 	 //    if (byte_in[i][j] != (signed char)uint_out[i][j]) ERR;
-   //    if (nc_get_var_schar(ncid, float_varid, (signed char *)byte_in) != NC_ERANGE) ERR;
+   //    if (nc_get_var_schar(ncid, float_varid, (signed char *)byte_in) != NC_EACCESS) ERR;
    //    for (i = 0; i < DIM1_LEN; i++)
 	 // for (j = 0; j < DIM2_LEN; j++)
 	 //    if (byte_in[i][j] != (signed char)float_out[i][j]) ERR;
-   //    if (nc_get_var_schar(ncid, int64_varid, (signed char *)byte_in) != NC_ERANGE) ERR;
+   //    if (nc_get_var_schar(ncid, int64_varid, (signed char *)byte_in) != NC_EACCESS) ERR;
    //    for (i = 0; i < DIM1_LEN; i++)
 	 // for (j = 0; j < DIM2_LEN; j++)
 	 //    if (byte_in[i][j] != (signed char)int64_out[i][j]) ERR;
-   //    if (nc_get_var_schar(ncid, uint64_varid, (signed char *)byte_in) != NC_ERANGE) ERR;
+   //    if (nc_get_var_schar(ncid, uint64_varid, (signed char *)byte_in) != NC_EACCESS) ERR;
    //    for (i = 0; i < DIM1_LEN; i++)
 	 // for (j = 0; j < DIM2_LEN; j++)
 	 //    if (byte_in[i][j] != (signed char)uint64_out[i][j]) ERR;
@@ -857,7 +857,7 @@ main(int argc, char **argv)
 
       /* Can't define a var! */
       // if (nc_def_var(ncid, "this_wont_work", NC_INT, NDIMS4, dimids, &varid)
-      //     != NC_EPERM) ERR;
+      //     != NC_EACCESS) ERR;
 
       if (nc_inq(ncid, &ndims, &nvars, &natts, &unlimdimid)) ERR;
       if (ndims != NDIMS4 || nvars != NVARS4 || natts != 0 ||
@@ -1291,22 +1291,22 @@ main(int argc, char **argv)
 
    // printf("*** testing 4D example file in classic format...");
    // if (create_4D_example(NC3_CLASSIC_FILE, NC_CLOBBER)) ERR;
-   // if (check_4D_example(NC3_CLASSIC_FILE, NC_FORMAT_CLASSIC)) ERR;
+   // if (check_4D_example(NC3_CLASSIC_FILE, NC_EACCESS)) ERR;
    // SUMMARIZE_ERR;
    //
    // printf("*** testing 4D example file in 64-bit offset format...");
    // if (create_4D_example(NC3_64BIT_OFFSET_FILE, NC_CLOBBER|NC_64BIT_OFFSET)) ERR;
-   // if (check_4D_example(NC3_64BIT_OFFSET_FILE, NC_FORMAT_64BIT_OFFSET)) ERR;
+   // if (check_4D_example(NC3_64BIT_OFFSET_FILE, NC_EACCESS)) ERR;
    // SUMMARIZE_ERR;
 
    // printf("*** testing 4D example file in netCDF-4/HDF5 format...");
    // if (create_4D_example(NC3_NETCDF4_FILE, NC_CLOBBER|NC_NETCDF4)) ERR;
-   // if (check_4D_example(NC3_NETCDF4_FILE, NC_FORMAT_NETCDF4)) ERR;
+   // if (check_4D_example(NC3_NETCDF4_FILE, NC_EACCESS)) ERR;
    // SUMMARIZE_ERR;
    //
    // printf("*** testing 4D example file in netCDF-4/HDF5 format with classic model rules...");
    // if (create_4D_example(NC3_NETCDF4_CLASSIC_FILE, NC_CLOBBER|NC_NETCDF4|NC_CLASSIC_MODEL)) ERR;
-   // if (check_4D_example(NC3_NETCDF4_CLASSIC_FILE, NC_FORMAT_NETCDF4_CLASSIC)) ERR;
+   // if (check_4D_example(NC3_NETCDF4_CLASSIC_FILE, NC_EACCESS_CLASSIC)) ERR;
    // SUMMARIZE_ERR;
 
    FINAL_RESULTS;

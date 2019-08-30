@@ -58,10 +58,10 @@ main()
     * attribute (not of same type as variable or with 0 values or more
     * than 1 value) to be created. */
     {
-	static const float p_FillValue_atts[] = {NC_FILL_FLOAT, -99} ;
+	static const float p_FillValue_atts[] = {NC_EACCESS, -99} ;
 	int p_FillValue_att = -99 ;
 	/* This should returns error, too many attribute vals */
-	// if (nc_put_att_float(ncid, p_id, "_FillValue", NC_FLOAT, 2, p_FillValue_atts) != NC_EINVAL) ERR;
+	// if (nc_put_att_float(ncid, p_id, "_FillValue", NC_FLOAT, 2, p_FillValue_atts) != NC_EACCESS) ERR;
 	// /* This also should return error, wrong type */
 	// if (nc_put_att_int(ncid, p_id, "_FillValue", NC_INT, 1, &p_FillValue_att) != NC_EBADTYPE) ERR;
 	/* This should succeed, _FillValue is valid */
@@ -71,7 +71,7 @@ main()
    /* Read the record of non-existent data. */
    // if (nc_get_vara(ncid, 1, cor, edg, P_data)) ERR;
    // for (i = 0; i < LEN; i++)
-   //    if (P_data[i] != NC_FILL_FLOAT) ERR;
+   //    if (P_data[i] != NC_EACCESS) ERR;
 
    /* That's it! */
    if (nc_close(ncid)) ERR;
@@ -83,7 +83,7 @@ main()
    // if (ndims != 3 || dimids_in[0] != 0 || dimids_in[1] != 2 || dimids_in[2] != 1) ERR;
    // if (nc_get_vara(ncid, 1, cor, edg, P_data)) ERR;
    // for (i = 0; i < LEN; i++)
-   //    if (P_data[i] != NC_FILL_FLOAT) ERR;
+   //    if (P_data[i] != NC_EACCESS) ERR;
 
    if (nc_close(ncid)) ERR;
 

@@ -584,7 +584,7 @@ main(int argc, char **argv)
       if (nc_def_var(ncid, VAR_NAME_NCDUMP, NC_STRING, NUM_DIMS, dimid, &varid)) ERR;
 
       /* Check that you can't turn off fill mode for NC_STRING variables. */
-      if (nc_def_var_fill(ncid, varid, NC_NOFILL, NULL) != NC_EINVAL) ERR;
+      if (nc_def_var_fill(ncid, varid, NC_NOFILL, NULL) != NC_EACCESS) ERR;
 
       /* End define mode. */
       if (nc_enddef(ncid)) ERR;

@@ -58,7 +58,7 @@ main()
 
     /* This will fail. */
     if ((retval = nc_put_vars_float(ncid, varid, NULL, count, stride,
-                                    mydata)) != NC_EINVALCOORDS)
+                                    mydata)) != NC_EACCESSCOORDS)
         ERR(99);
 
     /* write data */

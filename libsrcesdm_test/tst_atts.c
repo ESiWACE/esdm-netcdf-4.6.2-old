@@ -88,14 +88,14 @@ main(int argc, char **argv)
       if (nc_open(FILE_NAME, NC_NOWRITE, &ncid)) ERR;
 
       /* Try to rename the att, but it won't work. */
-      // if (nc_rename_att(ncid, NC_GLOBAL, OLD_NAME, NEW_NAME) != NC_EPERM) ERR;
+      // if (nc_rename_att(ncid, NC_GLOBAL, OLD_NAME, NEW_NAME) != NC_EACCESS) ERR;
 
       /* Try to create another att, it also won't work. */
       // if (nc_put_att_text(ncid, NC_GLOBAL, OLD_NAME_2, strlen(CONTENTS),
-                          // CONTENTS) != NC_EPERM) ERR;
+                          // CONTENTS) != NC_EACCESS) ERR;
 
       /* Try to delete the att. More failure ensues. */
-      // if (nc_del_att(ncid, NC_GLOBAL, OLD_NAME) != NC_EPERM) ERR;
+      // if (nc_del_att(ncid, NC_GLOBAL, OLD_NAME) != NC_EACCESS) ERR;
 
       if (nc_close(ncid)) ERR;
    }
@@ -113,8 +113,8 @@ main(int argc, char **argv)
 
       /* These will not work. */
       if (nc_del_att(ncid + TEST_VAL_42, NC_GLOBAL, OLD_NAME) != NC_EBADID) ERR;
-      // if (nc_del_att(ncid, TEST_VAL_42, OLD_NAME) != NC_ENOTVAR) ERR;
-      // if (nc_del_att(ncid, NC_GLOBAL, NULL) != NC_EINVAL) ERR;
+      // if (nc_del_att(ncid, TEST_VAL_42, OLD_NAME) != NC_EACCESS) ERR;
+      // if (nc_del_att(ncid, NC_GLOBAL, NULL) != NC_EACCESS) ERR;
       // if (nc_del_att(ncid, NC_GLOBAL, NEW_NAME) != NC_ENOTATT) ERR;
 
       /* End define mode. It redef will be called automatically. */
@@ -145,7 +145,7 @@ main(int argc, char **argv)
       if (nc_enddef(ncid)) ERR;
 
       /* This will not work. */
-      // if (nc_del_att(ncid, NC_GLOBAL, OLD_NAME) != NC_ENOTINDEFINE) ERR;
+      // if (nc_del_att(ncid, NC_GLOBAL, OLD_NAME) != NC_EACCESS) ERR;
 
       /* Delete the attribute. Redef is needed since this is a classic
        * model file. */
@@ -178,12 +178,12 @@ main(int argc, char **argv)
 
       /* Try and write a new att. Won't work. */
       // if (nc_put_att_text(ncid, NC_GLOBAL, OLD_NAME_2, strlen(CONTENTS_2),
-                          // CONTENTS_2) != NC_ENOTINDEFINE) ERR;
+                          // CONTENTS_2) != NC_EACCESS) ERR;
 
       /* This will not work. Overwriting att must be same length or
        * shorter if not in define mode. */
       // if (nc_put_att_text(ncid, NC_GLOBAL, OLD_NAME, strlen(CONTENTS_2),
-      //                     CONTENTS_2) != NC_ENOTINDEFINE) ERR;
+      //                     CONTENTS_2) != NC_EACCESS) ERR;
 
       /* Now overwrite the att. */
       if (nc_put_att_text(ncid, NC_GLOBAL, OLD_NAME, strlen(CONTENTS_3),
@@ -231,15 +231,15 @@ main(int argc, char **argv)
       // if (nc_put_att_text(ncid + TEST_VAL_42, NC_GLOBAL, OLD_NAME,
       //                     strlen(CONTENTS), CONTENTS) != NC_EBADID) ERR;
       // if (nc_put_att_text(ncid, TEST_VAL_42, OLD_NAME, strlen(CONTENTS),
-                          // CONTENTS) != NC_ENOTVAR) ERR;
+                          // CONTENTS) != NC_EACCESS) ERR;
       // if (nc_put_att_text(ncid, NC_GLOBAL, NULL, strlen(CONTENTS),
-                          // CONTENTS) != NC_EBADNAME) ERR;
+                          // CONTENTS) != NC_EACCESS) ERR;
       // if (nc_put_att_text(ncid, NC_GLOBAL, BAD_NAME, strlen(CONTENTS),
-                          // CONTENTS) != NC_EBADNAME) ERR;
+                          // CONTENTS) != NC_EACCESS) ERR;
       // if (nc_put_att_text(ncid, NC_GLOBAL, too_long_name, strlen(CONTENTS),
-                          // CONTENTS) != NC_EBADNAME) ERR;
+                          // CONTENTS) != NC_EACCESS) ERR;
       // if (nc_put_att_text(ncid, NC_GLOBAL, OLD_NAME, strlen(CONTENTS),
-                          // NULL) != NC_EINVAL) ERR;
+                          // NULL) != NC_EACCESS) ERR;
       // {
       //    /* Check that the NC_GLOBAL reserved words are rejected. */
       //    const char** reserved = NC_RESERVED_ATT_LIST;
@@ -278,16 +278,16 @@ main(int argc, char **argv)
 
       /* These will not work. */
       // if (nc_rename_att(ncid + TEST_VAL_42, NC_GLOBAL, OLD_NAME, NEW_NAME) != NC_EBADID) ERR;
-      // if (nc_rename_att(ncid, TEST_VAL_42, OLD_NAME, NEW_NAME) != NC_ENOTVAR) ERR;
-      // if (nc_rename_att(ncid, NC_GLOBAL, OLD_NAME, NULL) != NC_EINVAL) ERR;
-      // if (nc_rename_att(ncid, NC_GLOBAL, NULL, NEW_NAME) != NC_EINVAL) ERR;
-      // if (nc_rename_att(ncid, NC_GLOBAL, NULL, NULL) != NC_EINVAL) ERR;
-      // if (nc_rename_att(ncid, NC_GLOBAL, OLD_NAME, BAD_NAME) != NC_EBADNAME) ERR;
+      // if (nc_rename_att(ncid, TEST_VAL_42, OLD_NAME, NEW_NAME) != NC_EACCESS) ERR;
+      // if (nc_rename_att(ncid, NC_GLOBAL, OLD_NAME, NULL) != NC_EACCESS) ERR;
+      // if (nc_rename_att(ncid, NC_GLOBAL, NULL, NEW_NAME) != NC_EACCESS) ERR;
+      // if (nc_rename_att(ncid, NC_GLOBAL, NULL, NULL) != NC_EACCESS) ERR;
+      // if (nc_rename_att(ncid, NC_GLOBAL, OLD_NAME, BAD_NAME) != NC_EACCESS) ERR;
       // if (nc_rename_att(ncid, NC_GLOBAL, OLD_NAME, too_long_name) != NC_EMAXNAME) ERR;
       // if (nc_rename_att(ncid, NC_GLOBAL, OLD_NAME, OLD_NAME_2) != NC_ENAMEINUSE) ERR;
 
       // if (nc_put_att_text(ncid, NC_GLOBAL, OLD_NAME, strlen(CONTENTS),
-      //                     NULL) != NC_EINVAL) ERR;
+      //                     NULL) != NC_EACCESS) ERR;
       // {
       //    /* Check that the NC_GLOBAL reserved words are rejected. */
       //    const char** reserved = NC_RESERVED_ATT_LIST;
@@ -326,11 +326,11 @@ main(int argc, char **argv)
 
       /* These will not work. */
       // if (nc_rename_att(ncid + TEST_VAL_42, NC_GLOBAL, OLD_NAME, NEW_NAME) != NC_EBADID) ERR;
-      // if (nc_rename_att(ncid, TEST_VAL_42, OLD_NAME, NEW_NAME) != NC_ENOTVAR) ERR;
-      // if (nc_rename_att(ncid, NC_GLOBAL, OLD_NAME, NULL) != NC_EINVAL) ERR;
-      // if (nc_rename_att(ncid, NC_GLOBAL, NULL, NEW_NAME) != NC_EINVAL) ERR;
-      // if (nc_rename_att(ncid, NC_GLOBAL, NULL, NULL) != NC_EINVAL) ERR;
-      // if (nc_rename_att(ncid, NC_GLOBAL, OLD_NAME, BAD_NAME) != NC_EBADNAME) ERR;
+      // if (nc_rename_att(ncid, TEST_VAL_42, OLD_NAME, NEW_NAME) != NC_EACCESS) ERR;
+      // if (nc_rename_att(ncid, NC_GLOBAL, OLD_NAME, NULL) != NC_EACCESS) ERR;
+      // if (nc_rename_att(ncid, NC_GLOBAL, NULL, NEW_NAME) != NC_EACCESS) ERR;
+      // if (nc_rename_att(ncid, NC_GLOBAL, NULL, NULL) != NC_EACCESS) ERR;
+      // if (nc_rename_att(ncid, NC_GLOBAL, OLD_NAME, BAD_NAME) != NC_EACCESS) ERR;
       // if (nc_rename_att(ncid, NC_GLOBAL, OLD_NAME, too_long_name) != NC_EMAXNAME) ERR;
       // if (nc_rename_att(ncid, NC_GLOBAL, OLD_NAME, OLD_NAME_2) != NC_ENAMEINUSE) ERR;
 
@@ -339,8 +339,8 @@ main(int argc, char **argv)
 
       /* These will not work. */
       // if (nc_inq_attid(ncid + TEST_VAL_42, NC_GLOBAL, NEW_NAME, &attid) != NC_EBADID) ERR;
-      // if (nc_inq_attid(ncid, TEST_VAL_42, NEW_NAME, &attid) != NC_ENOTVAR) ERR;
-      // if (nc_inq_attid(ncid, NC_GLOBAL, NULL, &attid) != NC_EBADNAME) ERR;
+      // if (nc_inq_attid(ncid, TEST_VAL_42, NEW_NAME, &attid) != NC_EACCESS) ERR;
+      // if (nc_inq_attid(ncid, NC_GLOBAL, NULL, &attid) != NC_EACCESS) ERR;
 
       /* Check the file. */
       if (nc_inq_attid(ncid, NC_GLOBAL, NEW_NAME, &attid)) ERR;
@@ -351,7 +351,7 @@ main(int argc, char **argv)
 
       /* These won't work. */
       // if (nc_inq_attname(ncid + TEST_VAL_42, NC_GLOBAL, attid, name_in) != NC_EBADID) ERR;
-      // if (nc_inq_attname(ncid, TEST_VAL_42, attid, name_in) != NC_ENOTVAR) ERR;
+      // if (nc_inq_attname(ncid, TEST_VAL_42, attid, name_in) != NC_EACCESS) ERR;
       // if (nc_inq_attname(ncid, NC_GLOBAL, -1, name_in) != NC_ENOTATT) ERR;
 
       /* Get the name from the ID. */
@@ -363,8 +363,8 @@ main(int argc, char **argv)
 
       /* These will not work. */
       // if (nc_get_att_text(ncid + TEST_VAL_42, NC_GLOBAL, NEW_NAME, data_in) != NC_EBADID) ERR;
-      // if (nc_get_att_text(ncid, TEST_VAL_42, NEW_NAME, data_in) != NC_ENOTVAR) ERR;
-      // if (nc_get_att_text(ncid, NC_GLOBAL, NULL, data_in) != NC_EBADNAME) ERR;
+      // if (nc_get_att_text(ncid, TEST_VAL_42, NEW_NAME, data_in) != NC_EACCESS) ERR;
+      // if (nc_get_att_text(ncid, NC_GLOBAL, NULL, data_in) != NC_EACCESS) ERR;
 
       /* Get the attribute at last. */
       if (nc_get_att_text(ncid, NC_GLOBAL, NEW_NAME, data_in)) ERR;

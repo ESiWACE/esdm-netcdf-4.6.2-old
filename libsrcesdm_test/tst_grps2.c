@@ -99,9 +99,9 @@ main(int argc, char **argv)
 
       /* Attempt to read beyond end of dimensions to generate error. */
       index[0] = BABE_LIMIT;
-      if (nc_get_var1_longlong(grpid_in, varid_in1, index, &value_in) != NC_EINVALCOORDS) ERR;
-      if (nc_get_var1_longlong(grpid_in, varid_in2, index, &value_in) != NC_EINVALCOORDS) ERR;
-      if (nc_get_var1_longlong(grpid_in, varid_in3, index, &value_in) != NC_EINVALCOORDS) ERR;
+      if (nc_get_var1_longlong(grpid_in, varid_in1, index, &value_in) != NC_EACCESSCOORDS) ERR;
+      if (nc_get_var1_longlong(grpid_in, varid_in2, index, &value_in) != NC_EACCESSCOORDS) ERR;
+      if (nc_get_var1_longlong(grpid_in, varid_in3, index, &value_in) != NC_EACCESSCOORDS) ERR;
 
       if (nc_close(ncid)) ERR;
 
@@ -147,9 +147,9 @@ main(int argc, char **argv)
 
       /* Attempt to read beyond end of dimensions to generate error. */
       index[0] = BABE_LIMIT;
-      if (nc_get_var1_longlong(grpid_in, varid_in1, index, &value_in) != NC_EINVALCOORDS) ERR;
-      if (nc_get_var1_longlong(grpid_in, varid_in2, index, &value_in) != NC_EINVALCOORDS) ERR;
-      if (nc_get_var1_longlong(grpid_in, varid_in3, index, &value_in) != NC_EINVALCOORDS) ERR;
+      if (nc_get_var1_longlong(grpid_in, varid_in1, index, &value_in) != NC_EACCESSCOORDS) ERR;
+      if (nc_get_var1_longlong(grpid_in, varid_in2, index, &value_in) != NC_EACCESSCOORDS) ERR;
+      if (nc_get_var1_longlong(grpid_in, varid_in3, index, &value_in) != NC_EACCESSCOORDS) ERR;
 
       if (nc_close(ncid)) ERR;
    }

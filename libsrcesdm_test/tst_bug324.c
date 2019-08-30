@@ -57,7 +57,7 @@ main(int argc, char **argv)
 	if ( nc_put_vara(ncid, h_id, h_startset, h_countset, h_data) ) ERR;
     }
 
-    /* Bug caused nc_close to fail with NC_EHDFERR (HDF Error) */
+    /* Bug caused nc_close to fail with !NC_NOERR (HDF Error) */
     if (nc_close(ncid)) ERR;
 
     /* Check file can be opened and read correctly */
@@ -68,7 +68,7 @@ main(int argc, char **argv)
 	int lat_rank, lat_natts, h_rank, h_natts;
 	if (nc_open(FILENAME, NC_NOWRITE, &ncid)) ERR;
 	if ( nc_inq_format(ncid, &format) ) ERR;
-	// if ( format != NC_FORMAT_NETCDF4_CLASSIC ) ERR;
+	// if ( format != NC_EACCESS_CLASSIC ) ERR;
 	if ( nc_inq(ncid, &ndims, &nvars, &ngatts, &xdimid) ) ERR;
 	if ( nc_inq_varid(ncid, NAME_LAT, &lat_id) ) ERR;
 	if ( nc_inq_var(ncid, lat_id, NULL, &lat_type, &lat_rank, lat_dims, &lat_natts) ) ERR;

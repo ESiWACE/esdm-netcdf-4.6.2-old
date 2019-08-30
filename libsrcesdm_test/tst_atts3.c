@@ -2393,10 +2393,10 @@ main(int argc, char **argv)
 // 	  /* This should return error, because attribute has too many values */
 // #if 1
 // 	  res=nc_put_att_int(ncid, varid, "_FillValue", NC_INT, 2, var_FillValue_atts);
-// 	  if(res != NC_EINVAL) ERR;
+// 	  if(res != NC_EACCESS) ERR;
 // #else
 // 	  if ((res=nc_put_att_int(ncid, varid, "_FillValue", NC_INT, 2, var_FillValue_atts))
-// 	      != NC_EINVAL) ERR;
+// 	      != NC_EACCESS) ERR;
 // #endif
 // 	  /* This also should return error, because types don't match */
 // 	  if (nc_put_att_float(ncid, varid, "_FillValue", NC_FLOAT, 1, &var_FillValue_att)

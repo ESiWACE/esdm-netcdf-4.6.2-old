@@ -273,7 +273,7 @@ main(int argc, char **argv)
       /* Read the record of non-existent data. */
    //    if (nc_get_vara(ncid, 1, cor, edg, P_data)) ERR;
    //    for (i = 0; i < LEN; i++)
-	 // if (P_data[i] != NC_FILL_FLOAT) ERR;
+	 // if (P_data[i] != NC_EACCESS) ERR;
 
       /* That's it! */
       if (nc_close(ncid)) ERR;
@@ -285,7 +285,7 @@ main(int argc, char **argv)
       // if (ndims != 3 || dimids_in[0] != 0 || dimids_in[1] != 2 || dimids_in[2] != 1) ERR;
    //    if (nc_get_vara(ncid, 1, cor, edg, P_data)) ERR;
    //    for (i = 0; i < LEN; i++)
-	 // if (P_data[i] != NC_FILL_FLOAT) ERR;
+	 // if (P_data[i] != NC_EACCESS) ERR;
 
       if (nc_close(ncid)) ERR;
    }

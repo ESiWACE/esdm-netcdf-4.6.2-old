@@ -347,7 +347,7 @@ main(int argc, char **argv)
       /* Given this type id, how would we know this is a string
        * attribute? */
       if ((class = H5Tget_class(typeid)) < 0)
-	 return NC_EHDFERR;
+	 return !NC_NOERR;
       if (class != H5T_STRING) ERR;
 /*      if (!(type_size = H5Tget_size(typeid))) ERR;
 	if ((is_str = H5Tis_variable_str(typeid)) < 0) ERR;*/

@@ -243,7 +243,7 @@ main(int argc, char **argv)
             float vals[NVALS];
             if (nc_get_var_float(ncid, varid, vals)) ERR;
             for (i = 0; i < NVALS; i++)
-               if(vals[i] != NC_FILL_FLOAT) ERR;
+               if(vals[i] != NC_EACCESS) ERR;
          }
          break;
          case NC_DOUBLE:
@@ -306,7 +306,7 @@ main(int argc, char **argv)
             float vals[NVALS];
             if (nc_get_vara_float(ncid, varid, start, count, vals)) ERR;
             for (i = 0; i < NVALS; i++)
-               if(vals[i] != NC_FILL_FLOAT) ERR;
+               if(vals[i] != NC_EACCESS) ERR;
          }
          break;
          case NC_DOUBLE:

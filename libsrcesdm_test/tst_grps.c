@@ -61,8 +61,8 @@ main(int argc, char **argv)
 
       /* These will not work. */
       if (nc_def_grp(ncid + TEST_VAL_42, name_out, &henry_vii_id) != NC_EBADID) ERR;
-      if (nc_def_grp(ncid, NULL, &henry_vii_id) != NC_EINVAL) ERR;
-      if (nc_def_grp(ncid, BAD_NAME, &henry_vii_id) != NC_EBADNAME) ERR;
+      if (nc_def_grp(ncid, NULL, &henry_vii_id) != NC_EACCESS) ERR;
+      if (nc_def_grp(ncid, BAD_NAME, &henry_vii_id) != NC_EACCESS) ERR;
 
       /* Define the group. */
       if (nc_def_grp(ncid, name_out, &henry_vii_id)) ERR;
@@ -97,8 +97,8 @@ main(int argc, char **argv)
       if (ncid_in != grpid_in[0]) ERR;
 
       /* These should fail - file is read-only. */
-      if (nc_def_grp(ncid, HENRY_VIII, &henry_viii_id) != NC_EPERM) ERR;
-      if (nc_rename_grp(grpid_in[0], HENRY_VIII) != NC_EPERM) ERR;
+      if (nc_def_grp(ncid, HENRY_VIII, &henry_viii_id) != NC_EACCESS) ERR;
+      if (nc_rename_grp(grpid_in[0], HENRY_VIII) != NC_EACCESS) ERR;
 
       /* Close the file. */
       if (nc_close(ncid)) ERR;
@@ -132,7 +132,7 @@ main(int argc, char **argv)
       if (strcmp(name_in, HENRY_VII)) ERR;
 
       /* These will not work. */
-      if (nc_rename_grp(henry_vii_id, BAD_NAME) != NC_EBADNAME) ERR;
+      if (nc_rename_grp(henry_vii_id, BAD_NAME) != NC_EACCESS) ERR;
       if (nc_rename_grp(henry_vii_id, HENRY_IV) != NC_ENAMEINUSE) ERR;
       if (nc_rename_grp(ncid, HENRY_IV) != NC_EBADGRPID) ERR;
 
@@ -253,9 +253,9 @@ main(int argc, char **argv)
 
       /* Attempt to read beyond end of dimensions to generate error. */
       index[0] = BABE_LIMIT;
-      if (nc_get_var1_longlong(grpid_in, varid_in1, index, &value_in) != NC_EINVALCOORDS) ERR;
-      if (nc_get_var1_longlong(grpid_in, varid_in2, index, &value_in) != NC_EINVALCOORDS) ERR;
-      if (nc_get_var1_longlong(grpid_in, varid_in3, index, &value_in) != NC_EINVALCOORDS) ERR;
+      if (nc_get_var1_longlong(grpid_in, varid_in1, index, &value_in) != NC_EACCESSCOORDS) ERR;
+      if (nc_get_var1_longlong(grpid_in, varid_in2, index, &value_in) != NC_EACCESSCOORDS) ERR;
+      if (nc_get_var1_longlong(grpid_in, varid_in3, index, &value_in) != NC_EACCESSCOORDS) ERR;
 
       if (nc_close(ncid)) ERR;
 
@@ -301,9 +301,9 @@ main(int argc, char **argv)
 
       /* Attempt to read beyond end of dimensions to generate error. */
       index[0] = BABE_LIMIT;
-      if (nc_get_var1_longlong(grpid_in, varid_in1, index, &value_in) != NC_EINVALCOORDS) ERR;
-      if (nc_get_var1_longlong(grpid_in, varid_in2, index, &value_in) != NC_EINVALCOORDS) ERR;
-      if (nc_get_var1_longlong(grpid_in, varid_in3, index, &value_in) != NC_EINVALCOORDS) ERR;
+      if (nc_get_var1_longlong(grpid_in, varid_in1, index, &value_in) != NC_EACCESSCOORDS) ERR;
+      if (nc_get_var1_longlong(grpid_in, varid_in2, index, &value_in) != NC_EACCESSCOORDS) ERR;
+      if (nc_get_var1_longlong(grpid_in, varid_in3, index, &value_in) != NC_EACCESSCOORDS) ERR;
 
       if (nc_close(ncid)) ERR;
    }
@@ -351,7 +351,7 @@ main(int argc, char **argv)
 
       /* These won't work. */
       if (nc_inq_grp_full_ncid(ncid + TEST_VAL_42, full_name, &grp_in) != NC_EBADID) ERR;
-      if (nc_inq_grp_full_ncid(ncid, NULL, &grp_in) != NC_EINVAL) ERR;
+      if (nc_inq_grp_full_ncid(ncid, NULL, &grp_in) != NC_EACCESS) ERR;
       
       /* Get the ncid from the full name. */
       if (nc_inq_grp_full_ncid(ncid, full_name, &grp_in)) ERR;

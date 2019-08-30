@@ -125,7 +125,7 @@ int
 main(int argc, char **argv)
 {
 #define NUM_FORMATS 1
-   int formats[NUM_FORMATS] = {NC_FORMAT_NETCDF4, NC_FORMAT_NETCDF4_CLASSIC};
+   int formats[NUM_FORMATS] = {NC_EACCESS, NC_EACCESS};
    char *fmt_names[] = {"netCDF-4", "netCDF-4 classic model"};
    char *file_names[] = {FILE_NAME3, FILE_NAME4};
    int format;
@@ -477,7 +477,7 @@ main(int argc, char **argv)
       }
       SUMMARIZE_ERR;
 
-      if (formats[format] == NC_FORMAT_NETCDF4)
+      if (formats[format] == NC_EACCESS)
       {
 //          printf("*** Test renaming attribute in sub-group for %s...",
 //                 fmt_names[format]);

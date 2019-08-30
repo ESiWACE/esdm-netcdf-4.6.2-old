@@ -99,10 +99,10 @@ main(int argc, char **argv)
 
       /* These will not work. */
       // if (nc_copy_att(ncid1 + TEST_VAL_42, NC_GLOBAL, ATT_NAME, ncid2, NC_GLOBAL) != NC_EBADID) ERR;
-      // if (nc_copy_att(ncid1, TEST_VAL_42, ATT_NAME, ncid2, NC_GLOBAL) != NC_ENOTVAR) ERR;
-      // if (nc_copy_att(ncid1, NC_GLOBAL, NULL, ncid2, NC_GLOBAL) != NC_EBADNAME) ERR;
+      // if (nc_copy_att(ncid1, TEST_VAL_42, ATT_NAME, ncid2, NC_GLOBAL) != NC_EACCESS) ERR;
+      // if (nc_copy_att(ncid1, NC_GLOBAL, NULL, ncid2, NC_GLOBAL) != NC_EACCESS) ERR;
       // if (nc_copy_att(ncid1, NC_GLOBAL, ATT_NAME, ncid2 + TEST_VAL_42, NC_GLOBAL) != NC_EBADID) ERR;
-      // if (nc_copy_att(ncid1, NC_GLOBAL, ATT_NAME, ncid2, TEST_VAL_42) != NC_ENOTVAR) ERR;
+      // if (nc_copy_att(ncid1, NC_GLOBAL, ATT_NAME, ncid2, TEST_VAL_42) != NC_EACCESS) ERR;
 
       /* Copy the attribute. */
       if (nc_copy_att(ncid1, NC_GLOBAL, ATT_NAME, ncid2, NC_GLOBAL)) ERR;

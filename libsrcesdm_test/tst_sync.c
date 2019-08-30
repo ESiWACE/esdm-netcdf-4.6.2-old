@@ -125,7 +125,7 @@ main(int argc, char **argv)
       if (nc_def_var(ncid, VAR1_NAME, NC_FLOAT, 1, &dimid, &var1_id)) ERR;
       if (nc_def_var(ncid, VAR2_NAME, NC_FLOAT, 1, &dimid, &var2_id)) ERR;
       if (nc_def_var(ncid, DIM_NAME, NC_FLOAT, 1, &dimid, &var3_id)) ERR;
-      // if (nc_sync(ncid) != NC_EINDEFINE) ERR;
+      // if (nc_sync(ncid) != NC_EACCESS) ERR;
       if (nc_enddef(ncid)) ERR;
       if (nc_sync(ncid)) ERR;
       if (nc_close(ncid)) ERR;

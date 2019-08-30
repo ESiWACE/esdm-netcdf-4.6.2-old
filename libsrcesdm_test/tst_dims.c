@@ -102,8 +102,8 @@ main(int argc, char **argv)
 
       /* These will not work. */
       // if (nc_def_dim(ncid + TEST_VAL_42, LAT_NAME, LAT_LEN, &dimid) != NC_EBADID) ERR;
-      // if (nc_def_dim(ncid, NULL, LAT_LEN, &dimid) != NC_EINVAL) ERR;
-      // if (nc_def_dim(ncid, BAD_NAME, LAT_LEN, &dimid) != NC_EBADNAME) ERR;
+      // if (nc_def_dim(ncid, NULL, LAT_LEN, &dimid) != NC_EACCESS) ERR;
+      // if (nc_def_dim(ncid, BAD_NAME, LAT_LEN, &dimid) != NC_EACCESS) ERR;
 
       /* Turn off define mode. It will be turned back on
        * automatically. */
@@ -117,7 +117,7 @@ main(int argc, char **argv)
 
       /* These also won't work. */
       // if (nc_inq_dim(ncid + TEST_VAL_42, dimid, name_in, &len_in) != NC_EBADID) ERR;
-      // if (nc_inq_dim(ncid, -1, name_in, &len_in) != NC_EBADDIM) ERR;
+      // if (nc_inq_dim(ncid, -1, name_in, &len_in) != N!NC_NOERR) ERR;
 
       /* Check out what we've got. */
       if (nc_inq_dim(ncid, dimid, name_in, &len_in)) ERR;
@@ -134,8 +134,8 @@ main(int argc, char **argv)
 
       /* These will not work. */
       // if (nc_inq_dimid(ncid + TEST_VAL_42, LAT_NAME, &dimid_in) != NC_EBADID) ERR;
-      // if (nc_inq_dimid(ncid, NULL, &dimid_in) != NC_EINVAL) ERR;
-      // if (nc_inq_dimid(ncid, LAT_NAME_2, &dimid_in) != NC_EBADDIM) ERR;
+      // if (nc_inq_dimid(ncid, NULL, &dimid_in) != NC_EACCESS) ERR;
+      // if (nc_inq_dimid(ncid, LAT_NAME_2, &dimid_in) != N!NC_NOERR) ERR;
 
       /* This will work. */
       // if (nc_inq_dimid(ncid, LAT_NAME, NULL)) ERR;
@@ -161,7 +161,7 @@ main(int argc, char **argv)
       if (nc_open(FILE_NAME, NC_NOWRITE, &ncid)) ERR;
 
       /* This will not work. */
-      // if (nc_def_dim(ncid, LAT_NAME_2, LAT_LEN, &dimid) != NC_EPERM) ERR;
+      // if (nc_def_dim(ncid, LAT_NAME_2, LAT_LEN, &dimid) != NC_EACCESS) ERR;
 
       if (nc_inq_dim(ncid, dimid, name_in, &len_in)) ERR;
       if (len_in != LAT_LEN || strcmp(name_in, LAT_NAME)) ERR;
@@ -187,17 +187,17 @@ main(int argc, char **argv)
       int dimid_in;
 
       /* Create a file with one dim and nothing else. */
-      // if (nc_create(FILE_NAME, NC_NETCDF4, &ncid)) ERR;
-      // if (nc_def_dim(ncid, LAT_NAME, LAT_LEN, NULL)) ERR;
-      //
-      // /* Check out what we've got. */
-      // if (nc_inq_dim(ncid, 0, name_in, &len_in)) ERR;
-      // if (len_in != LAT_LEN || strcmp(name_in, LAT_NAME)) ERR;
-      // if (nc_inq_dimids(ncid, &ndims_in, dimids_in, 0)) ERR;
-      // if (ndims_in != 1) ERR;
-      // if (nc_inq_dimid(ncid, LAT_NAME, &dimid_in)) ERR;
-      // if (dimid_in != 0) ERR;
-      // if (nc_close(ncid)) ERR;
+      if (nc_create(FILE_NAME, NC_NETCDF4, &ncid)) ERR;
+      if (nc_def_dim(ncid, LAT_NAME, LAT_LEN, NULL)) ERR;
+
+      /* Check out what we've got. */
+      if (nc_inq_dim(ncid, 0, name_in, &len_in)) ERR;
+      if (len_in != LAT_LEN || strcmp(name_in, LAT_NAME)) ERR;
+      if (nc_inq_dimids(ncid, &ndims_in, dimids_in, 0)) ERR;
+      if (ndims_in != 1) ERR;
+      if (nc_inq_dimid(ncid, LAT_NAME, &dimid_in)) ERR;
+      if (dimid_in != 0) ERR;
+      if (nc_close(ncid)) ERR;
    }
    SUMMARIZE_ERR;
    printf("*** Testing classic model file with just one unlimited dimension...");
@@ -214,7 +214,7 @@ main(int argc, char **argv)
       if (nc_enddef(ncid)) ERR;
 
       /* This will not work. */
-      // if (nc_def_dim(ncid, LAT_NAME, NC_UNLIMITED, &dimid) != NC_ENOTINDEFINE) ERR;
+      // if (nc_def_dim(ncid, LAT_NAME, NC_UNLIMITED, &dimid) != NC_EACCESS) ERR;
 
       /* Turn on define mode. */
       if (nc_redef(ncid)) ERR;
@@ -259,8 +259,8 @@ main(int argc, char **argv)
 
       /* These will not work. */
       // if (nc_rename_dim(ncid + TEST_VAL_42, 0, BUBBA) != NC_EBADID) ERR;
-      // if (nc_rename_dim(ncid, TEST_VAL_42, BUBBA) != NC_EBADDIM) ERR;
-      // if (nc_rename_dim(ncid, 0, NULL) != NC_EINVAL) ERR;
+      // if (nc_rename_dim(ncid, TEST_VAL_42, BUBBA) != N!NC_NOERR) ERR;
+      // if (nc_rename_dim(ncid, 0, NULL) != NC_EACCESS) ERR;
 
       /* Rename the dimension. */
       if (nc_rename_dim(ncid, 0, BUBBA)) ERR;
@@ -944,9 +944,9 @@ main(int argc, char **argv)
           dimids_in[0] != lat_dimid || dimids_in[1] != lon_dimid || natts_in != 0) ERR;
 
       /* Check our latitude and longitude values. */
-      // if (nc_get_var(ncid, lat_varid, lat_in)) ERR;
-      // for (i = 0; i < LAT_LEN; i++)
-      //    if (lat[i] != lat_in[i]) ERR;
+      if (nc_get_var(ncid, lat_varid, lat_in)) ERR;
+      for (i = 0; i < LAT_LEN; i++)
+         if (lat[i] != lat_in[i]) ERR;
       if (nc_get_var_float(ncid, lon_varid, lon_in)) ERR;
       for (i = 0; i < LON_LEN; i++)
          if (lon[i] != lon_in[i]) ERR;
@@ -1103,9 +1103,9 @@ main(int argc, char **argv)
       // if (nc_put_var_ushort(ncid, hp_varid, (unsigned short *)hp)) ERR;
 
       /* Check our latitude and longitude values. */
-      // if (nc_get_var(ncid, lat_varid, lat_in)) ERR;
-      // for (i = 0; i < LAT_LEN; i++)
-      //    if (lat[i] != lat_in[i]) ERR;
+      if (nc_get_var(ncid, lat_varid, lat_in)) ERR;
+      for (i = 0; i < LAT_LEN; i++)
+         if (lat[i] != lat_in[i]) ERR;
       if (nc_get_var_float(ncid, lon_varid, lon_in)) ERR;
       for (i = 0; i < LON_LEN; i++)
          if (lon[i] != lon_in[i]) ERR;

@@ -189,11 +189,11 @@ main(int argc, char **argv)
       if (nc_put_att_uint(ncid, NC_GLOBAL, ATT_INT_NAME, NC_INT, ATT_LEN,
  			  uint_out2) != NC_NOERR) ERR;
       if (nc_put_att_uint(ncid, NC_GLOBAL, ATT_INT_NAME, NC_INT, ATT_LEN,
-			  uint_out) != NC_ERANGE) ERR;
+			  uint_out) != NC_EACCESS) ERR;
       if (nc_put_att_longlong(ncid, NC_GLOBAL, ATT_INT_NAME, NC_INT, ATT_LEN,
-			      longlong_out) != NC_ERANGE) ERR;
+			      longlong_out) != NC_EACCESS) ERR;
       if (nc_put_att_ulonglong(ncid, NC_GLOBAL, ATT_INT_NAME, NC_INT, ATT_LEN,
-			       ulonglong_out) != NC_ERANGE) ERR;
+			       ulonglong_out) != NC_EACCESS) ERR;
       if (nc_put_att_ushort(ncid, NC_GLOBAL, ATT_INT_NAME, NC_INT, ATT_LEN,
 			    ushort_out)) ERR;
       /* restore to intended values for subsequent tests */
@@ -202,11 +202,11 @@ main(int argc, char **argv)
       /* It should also be OK to read classic types converted into
        * supported C types. though the conversion may encounter
        * out-of-range values */
-      if (nc_get_att_uchar(ncid, NC_GLOBAL, ATT_INT_NAME, uchar_in) != NC_ERANGE) ERR;
-      if (nc_get_att_ushort(ncid, NC_GLOBAL, ATT_INT_NAME, ushort_in) != NC_ERANGE) ERR;
-      if (nc_get_att_uint(ncid, NC_GLOBAL, ATT_INT_NAME, uint_in) != NC_ERANGE) ERR;
+      if (nc_get_att_uchar(ncid, NC_GLOBAL, ATT_INT_NAME, uchar_in) != NC_EACCESS) ERR;
+      if (nc_get_att_ushort(ncid, NC_GLOBAL, ATT_INT_NAME, ushort_in) != NC_EACCESS) ERR;
+      if (nc_get_att_uint(ncid, NC_GLOBAL, ATT_INT_NAME, uint_in) != NC_EACCESS) ERR;
       if (nc_get_att_longlong(ncid, NC_GLOBAL, ATT_INT_NAME, longlong_in)) ERR;
-      if (nc_get_att_ulonglong(ncid, NC_GLOBAL, ATT_INT_NAME, ulonglong_in) != NC_ERANGE) ERR;
+      if (nc_get_att_ulonglong(ncid, NC_GLOBAL, ATT_INT_NAME, ulonglong_in) != NC_EACCESS) ERR;
 
       if (nc_close(ncid)) ERR;
 
@@ -375,7 +375,7 @@ main(int argc, char **argv)
       if (nc_get_att_int(ncid, NC_GLOBAL, ATT_INT_NAME, int_in)) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	 if (int_in[i] != int_out[i]) ERR;
-      if (nc_get_att_int(ncid, NC_GLOBAL, ATT_UINT_NAME, int_in) != NC_ERANGE) ERR;
+      if (nc_get_att_int(ncid, NC_GLOBAL, ATT_UINT_NAME, int_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	  if (int_in[i] != (int) uint_out[i]) ERR;
       if (nc_get_att_int(ncid, NC_GLOBAL, ATT_FLOAT_NAME, int_in)) ERR;
@@ -384,39 +384,39 @@ main(int argc, char **argv)
       if (nc_get_att_int(ncid, NC_GLOBAL, ATT_DOUBLE_NAME, int_in)) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	  if (int_in[i] != (int) double_out[i]) ERR;
-      if (nc_get_att_int(ncid, NC_GLOBAL, ATT_INT64_NAME, int_in) != NC_ERANGE) ERR;
+      if (nc_get_att_int(ncid, NC_GLOBAL, ATT_INT64_NAME, int_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	  if (int_in[i] != (int) longlong_out[i]) ERR;
-      if (nc_get_att_int(ncid, NC_GLOBAL, ATT_UINT64_NAME, int_in) != NC_ERANGE) ERR;
+      if (nc_get_att_int(ncid, NC_GLOBAL, ATT_UINT64_NAME, int_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	  if (int_in[i] != (int) ulonglong_out[i]) ERR;
 
       /* Read all atts (except text) as uint. */
-      if (nc_get_att_uint(ncid, NC_GLOBAL, ATT_SCHAR_NAME, uint_in) != NC_ERANGE) ERR;
+      if (nc_get_att_uint(ncid, NC_GLOBAL, ATT_SCHAR_NAME, uint_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	 if (uint_in[i] != (unsigned int) schar_out[i]) ERR;
       if (nc_get_att_uint(ncid, NC_GLOBAL, ATT_UCHAR_NAME, uint_in)) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	 if (uint_in[i] != uchar_out[i]) ERR;
-      if (nc_get_att_uint(ncid, NC_GLOBAL, ATT_SHORT_NAME, uint_in) != NC_ERANGE) ERR;
+      if (nc_get_att_uint(ncid, NC_GLOBAL, ATT_SHORT_NAME, uint_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	 if (uint_in[i] != (unsigned int) short_out[i]) ERR;
       if (nc_get_att_uint(ncid, NC_GLOBAL, ATT_USHORT_NAME, uint_in)) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	 if (uint_in[i] != ushort_out[i]) ERR;
-      if (nc_get_att_uint(ncid, NC_GLOBAL, ATT_INT_NAME, uint_in) != NC_ERANGE) ERR;
+      if (nc_get_att_uint(ncid, NC_GLOBAL, ATT_INT_NAME, uint_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	 if (uint_in[i] != (unsigned int) int_out[i]) ERR;
       if (nc_get_att_uint(ncid, NC_GLOBAL, ATT_UINT_NAME, uint_in)) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	 if (uint_in[i] != uint_out[i]) ERR;
-      if (nc_get_att_uint(ncid, NC_GLOBAL, ATT_FLOAT_NAME, uint_in) != NC_ERANGE) ERR;
+      if (nc_get_att_uint(ncid, NC_GLOBAL, ATT_FLOAT_NAME, uint_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	 if (uint_in[i] != (unsigned int) float_out[i]) ERR;
-      if (nc_get_att_uint(ncid, NC_GLOBAL, ATT_DOUBLE_NAME, uint_in) != NC_ERANGE) ERR;
+      if (nc_get_att_uint(ncid, NC_GLOBAL, ATT_DOUBLE_NAME, uint_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	 if (uint_in[i] != (unsigned int) double_out[i]) ERR;
-      if (nc_get_att_uint(ncid, NC_GLOBAL, ATT_INT64_NAME, uint_in) != NC_ERANGE) ERR;
+      if (nc_get_att_uint(ncid, NC_GLOBAL, ATT_INT64_NAME, uint_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	  if (uint_in[i] != (unsigned int) longlong_out[i]) ERR;
       if (nc_get_att_uint(ncid, NC_GLOBAL, ATT_UINT64_NAME, uint_in)) ERR;
@@ -433,13 +433,13 @@ main(int argc, char **argv)
       if (nc_get_att_short(ncid, NC_GLOBAL, ATT_SHORT_NAME, short_in)) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	 if (short_in[i] != short_out[i]) ERR;
-      if (nc_get_att_short(ncid, NC_GLOBAL, ATT_USHORT_NAME, short_in) != NC_ERANGE) ERR;
+      if (nc_get_att_short(ncid, NC_GLOBAL, ATT_USHORT_NAME, short_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	  if (short_in[i] != (short) ushort_out[i]) ERR;
-      if (nc_get_att_short(ncid, NC_GLOBAL, ATT_INT_NAME, short_in) != NC_ERANGE) ERR;
+      if (nc_get_att_short(ncid, NC_GLOBAL, ATT_INT_NAME, short_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	  if (short_in[i] != (short) int_out[i]) ERR;
-      if (nc_get_att_short(ncid, NC_GLOBAL, ATT_UINT_NAME, short_in) != NC_ERANGE) ERR;
+      if (nc_get_att_short(ncid, NC_GLOBAL, ATT_UINT_NAME, short_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	  if (short_in[i] != (short) uint_out[i]) ERR;
       if (nc_get_att_short(ncid, NC_GLOBAL, ATT_FLOAT_NAME, short_in)) ERR;
@@ -448,42 +448,42 @@ main(int argc, char **argv)
       if (nc_get_att_short(ncid, NC_GLOBAL, ATT_DOUBLE_NAME, short_in)) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	  if (short_in[i] != (short) double_out[i]) ERR;
-      if (nc_get_att_short(ncid, NC_GLOBAL, ATT_INT64_NAME, short_in) != NC_ERANGE) ERR;
+      if (nc_get_att_short(ncid, NC_GLOBAL, ATT_INT64_NAME, short_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	  if (short_in[i] != (short) longlong_out[i]) ERR;
-      if (nc_get_att_short(ncid, NC_GLOBAL, ATT_UINT64_NAME, short_in) != NC_ERANGE) ERR;
+      if (nc_get_att_short(ncid, NC_GLOBAL, ATT_UINT64_NAME, short_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	  if (short_in[i] != (short) ulonglong_out[i]) ERR;
 
       /* Read all atts (except text) as ushort. */
-      if (nc_get_att_ushort(ncid, NC_GLOBAL, ATT_SCHAR_NAME, ushort_in) != NC_ERANGE) ERR;
+      if (nc_get_att_ushort(ncid, NC_GLOBAL, ATT_SCHAR_NAME, ushort_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	 if (ushort_in[i] != (unsigned short) schar_out[i]) ERR;
       if (nc_get_att_ushort(ncid, NC_GLOBAL, ATT_UCHAR_NAME, ushort_in)) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	 if (ushort_in[i] != uchar_out[i]) ERR;
-      if (nc_get_att_ushort(ncid, NC_GLOBAL, ATT_SHORT_NAME, ushort_in) != NC_ERANGE) ERR;
+      if (nc_get_att_ushort(ncid, NC_GLOBAL, ATT_SHORT_NAME, ushort_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	 if (ushort_in[i] != (unsigned short) short_out[i]) ERR;
       if (nc_get_att_ushort(ncid, NC_GLOBAL, ATT_USHORT_NAME, ushort_in)) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	 if (ushort_in[i] != ushort_out[i]) ERR;
-      if (nc_get_att_ushort(ncid, NC_GLOBAL, ATT_INT_NAME, ushort_in) != NC_ERANGE) ERR;
+      if (nc_get_att_ushort(ncid, NC_GLOBAL, ATT_INT_NAME, ushort_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	 if (ushort_in[i] != (unsigned short) int_out[i]) ERR;
-      if (nc_get_att_ushort(ncid, NC_GLOBAL, ATT_UINT_NAME, ushort_in) != NC_ERANGE) ERR;
+      if (nc_get_att_ushort(ncid, NC_GLOBAL, ATT_UINT_NAME, ushort_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	 if (ushort_in[i] != (unsigned short) uint_out[i]) ERR;
-      if (nc_get_att_ushort(ncid, NC_GLOBAL, ATT_FLOAT_NAME, ushort_in) != NC_ERANGE) ERR;
+      if (nc_get_att_ushort(ncid, NC_GLOBAL, ATT_FLOAT_NAME, ushort_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	 if (ushort_in[i] != (unsigned short) float_out[i]) ERR;
-      if (nc_get_att_ushort(ncid, NC_GLOBAL, ATT_DOUBLE_NAME, ushort_in) != NC_ERANGE) ERR;
+      if (nc_get_att_ushort(ncid, NC_GLOBAL, ATT_DOUBLE_NAME, ushort_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	 if (ushort_in[i] != (unsigned short) double_out[i]) ERR;
-      if (nc_get_att_ushort(ncid, NC_GLOBAL, ATT_INT64_NAME, ushort_in) != NC_ERANGE) ERR;
+      if (nc_get_att_ushort(ncid, NC_GLOBAL, ATT_INT64_NAME, ushort_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	  if (ushort_in[i] != (unsigned short) longlong_out[i]) ERR;
-      if (nc_get_att_ushort(ncid, NC_GLOBAL, ATT_UINT64_NAME, ushort_in) != NC_ERANGE) ERR;
+      if (nc_get_att_ushort(ncid, NC_GLOBAL, ATT_UINT64_NAME, ushort_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	  if (ushort_in[i] != (unsigned short) ulonglong_out[i]) ERR;
 
@@ -491,19 +491,19 @@ main(int argc, char **argv)
       if (nc_get_att_schar(ncid, NC_GLOBAL, ATT_SCHAR_NAME, schar_in)) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	 if (schar_in[i] != schar_out[i]) ERR;
-      if (nc_get_att_schar(ncid, NC_GLOBAL, ATT_UCHAR_NAME, schar_in) != NC_ERANGE) ERR;
+      if (nc_get_att_schar(ncid, NC_GLOBAL, ATT_UCHAR_NAME, schar_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	  if (schar_in[i] != (signed char) uchar_out[i]) ERR;
-      if (nc_get_att_schar(ncid, NC_GLOBAL, ATT_SHORT_NAME, schar_in) != NC_ERANGE) ERR;
+      if (nc_get_att_schar(ncid, NC_GLOBAL, ATT_SHORT_NAME, schar_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	 if (schar_in[i] != (signed char) short_out[i]) ERR;
-      if (nc_get_att_schar(ncid, NC_GLOBAL, ATT_USHORT_NAME, schar_in) != NC_ERANGE) ERR;
+      if (nc_get_att_schar(ncid, NC_GLOBAL, ATT_USHORT_NAME, schar_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	 if (schar_in[i] != (signed char) ushort_out[i]) ERR;
-      if (nc_get_att_schar(ncid, NC_GLOBAL, ATT_INT_NAME, schar_in) != NC_ERANGE) ERR;
+      if (nc_get_att_schar(ncid, NC_GLOBAL, ATT_INT_NAME, schar_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	 if (schar_in[i] != (signed char) int_out[i]) ERR;
-      if (nc_get_att_schar(ncid, NC_GLOBAL, ATT_UINT_NAME, schar_in) != NC_ERANGE) ERR;
+      if (nc_get_att_schar(ncid, NC_GLOBAL, ATT_UINT_NAME, schar_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	 if (schar_in[i] != (signed char) uint_out[i]) ERR;
       if (nc_get_att_schar(ncid, NC_GLOBAL, ATT_FLOAT_NAME, schar_in)) ERR;
@@ -512,42 +512,42 @@ main(int argc, char **argv)
       if (nc_get_att_schar(ncid, NC_GLOBAL, ATT_DOUBLE_NAME, schar_in)) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	 if (schar_in[i] != (signed char) double_out[i]) ERR;
-      if (nc_get_att_schar(ncid, NC_GLOBAL, ATT_INT64_NAME, schar_in) != NC_ERANGE) ERR;
+      if (nc_get_att_schar(ncid, NC_GLOBAL, ATT_INT64_NAME, schar_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	  if (schar_in[i] != (signed char) longlong_out[i]) ERR;
-      if (nc_get_att_schar(ncid, NC_GLOBAL, ATT_UINT64_NAME, schar_in) != NC_ERANGE) ERR;
+      if (nc_get_att_schar(ncid, NC_GLOBAL, ATT_UINT64_NAME, schar_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	  if (schar_in[i] != (signed char) ulonglong_out[i]) ERR;
 
       /* Read all atts (except text) as uchar. */
-      if (nc_get_att_uchar(ncid, NC_GLOBAL, ATT_SCHAR_NAME, uchar_in) != NC_ERANGE) ERR;
+      if (nc_get_att_uchar(ncid, NC_GLOBAL, ATT_SCHAR_NAME, uchar_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	 if (uchar_in[i] != (unsigned char) schar_out[i]) ERR;
       if (nc_get_att_uchar(ncid, NC_GLOBAL, ATT_UCHAR_NAME, uchar_in)) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	 if (uchar_in[i] != uchar_out[i]) ERR;
-      if (nc_get_att_uchar(ncid, NC_GLOBAL, ATT_SHORT_NAME, uchar_in) != NC_ERANGE) ERR;
+      if (nc_get_att_uchar(ncid, NC_GLOBAL, ATT_SHORT_NAME, uchar_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	 if (uchar_in[i] != (unsigned char) short_out[i]) ERR;
-      if (nc_get_att_uchar(ncid, NC_GLOBAL, ATT_USHORT_NAME, uchar_in) != NC_ERANGE) ERR;
+      if (nc_get_att_uchar(ncid, NC_GLOBAL, ATT_USHORT_NAME, uchar_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	 if (uchar_in[i] != (unsigned char) ushort_out[i]) ERR;
-      if (nc_get_att_uchar(ncid, NC_GLOBAL, ATT_INT_NAME, uchar_in) != NC_ERANGE) ERR;
+      if (nc_get_att_uchar(ncid, NC_GLOBAL, ATT_INT_NAME, uchar_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	 if (uchar_in[i] != (unsigned char) int_out[i]) ERR;
-      if (nc_get_att_uchar(ncid, NC_GLOBAL, ATT_UINT_NAME, uchar_in) != NC_ERANGE) ERR;
+      if (nc_get_att_uchar(ncid, NC_GLOBAL, ATT_UINT_NAME, uchar_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	 if (uchar_in[i] != (unsigned char) uint_out[i]) ERR;
-      if (nc_get_att_uchar(ncid, NC_GLOBAL, ATT_FLOAT_NAME, uchar_in) != NC_ERANGE) ERR;
+      if (nc_get_att_uchar(ncid, NC_GLOBAL, ATT_FLOAT_NAME, uchar_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	 if (uchar_in[i] != (unsigned char) float_out[i]) ERR;
-      if (nc_get_att_uchar(ncid, NC_GLOBAL, ATT_DOUBLE_NAME, uchar_in) != NC_ERANGE) ERR;
+      if (nc_get_att_uchar(ncid, NC_GLOBAL, ATT_DOUBLE_NAME, uchar_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	 if (uchar_in[i] != (unsigned char) double_out[i]) ERR;
-      if (nc_get_att_uchar(ncid, NC_GLOBAL, ATT_INT64_NAME, uchar_in) != NC_ERANGE) ERR;
+      if (nc_get_att_uchar(ncid, NC_GLOBAL, ATT_INT64_NAME, uchar_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	  if (uchar_in[i] != (unsigned char) longlong_out[i]) ERR;
-      if (nc_get_att_uchar(ncid, NC_GLOBAL, ATT_UINT64_NAME, uchar_in) != NC_ERANGE) ERR;
+      if (nc_get_att_uchar(ncid, NC_GLOBAL, ATT_UINT64_NAME, uchar_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	  if (uchar_in[i] != (unsigned char) ulonglong_out[i]) ERR;
 
@@ -584,31 +584,31 @@ main(int argc, char **argv)
 	  if (longlong_in[i] != (unsigned long long) ulonglong_out[i]) ERR;
 
       /* Read all atts (except text) into unsigned long long variable. */
-      if (nc_get_att_ulonglong(ncid, NC_GLOBAL, ATT_SCHAR_NAME, ulonglong_in) != NC_ERANGE) ERR;
+      if (nc_get_att_ulonglong(ncid, NC_GLOBAL, ATT_SCHAR_NAME, ulonglong_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	  if (ulonglong_in[i] != (unsigned long long) schar_out[i]) ERR;
       if (nc_get_att_ulonglong(ncid, NC_GLOBAL, ATT_UCHAR_NAME, ulonglong_in)) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	 if (ulonglong_in[i] != uchar_out[i]) ERR;
-      if (nc_get_att_ulonglong(ncid, NC_GLOBAL, ATT_SHORT_NAME, ulonglong_in) != NC_ERANGE) ERR;
+      if (nc_get_att_ulonglong(ncid, NC_GLOBAL, ATT_SHORT_NAME, ulonglong_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	  if (ulonglong_in[i] != (unsigned long long) short_out[i]) ERR;
       if (nc_get_att_ulonglong(ncid, NC_GLOBAL, ATT_USHORT_NAME, ulonglong_in)) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	 if (ulonglong_in[i] != ushort_out[i]) ERR;
-      if (nc_get_att_ulonglong(ncid, NC_GLOBAL, ATT_INT_NAME, ulonglong_in) != NC_ERANGE) ERR;
+      if (nc_get_att_ulonglong(ncid, NC_GLOBAL, ATT_INT_NAME, ulonglong_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	  if (ulonglong_in[i] != (unsigned long long) int_out[i]) ERR;
       if (nc_get_att_ulonglong(ncid, NC_GLOBAL, ATT_UINT_NAME, ulonglong_in)) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	 if (ulonglong_in[i] != uint_out[i]) ERR;
-      if (nc_get_att_ulonglong(ncid, NC_GLOBAL, ATT_FLOAT_NAME, ulonglong_in) != NC_ERANGE) ERR;
+      if (nc_get_att_ulonglong(ncid, NC_GLOBAL, ATT_FLOAT_NAME, ulonglong_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	 if (ulonglong_in[i] != (unsigned long long) float_out[i]) ERR;
-      if (nc_get_att_ulonglong(ncid, NC_GLOBAL, ATT_DOUBLE_NAME, ulonglong_in) != NC_ERANGE) ERR;
+      if (nc_get_att_ulonglong(ncid, NC_GLOBAL, ATT_DOUBLE_NAME, ulonglong_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	 if (ulonglong_in[i] != (unsigned long long) double_out[i]) ERR;
-      if (nc_get_att_ulonglong(ncid, NC_GLOBAL, ATT_INT64_NAME, ulonglong_in) != NC_ERANGE) ERR;
+      if (nc_get_att_ulonglong(ncid, NC_GLOBAL, ATT_INT64_NAME, ulonglong_in) != NC_EACCESS) ERR;
       for (i = 0; i < ATT_LEN; i++)
 	  if (ulonglong_in[i] != (unsigned long long) longlong_out[i]) ERR;
       if (nc_get_att_ulonglong(ncid, NC_GLOBAL, ATT_UINT64_NAME, ulonglong_in)) ERR;

@@ -40,14 +40,14 @@ determine_test_formats(int *num_formats, int *format)
 
    /* We always have classic and 64-bit offset */
    num = 2;
-   format[ind++] = NC_FORMAT_CLASSIC;
-   format[ind++] = NC_FORMAT_64BIT_OFFSET;
+   format[ind++] = NC_EACCESS;
+   format[ind++] = NC_EACCESS;
 
    /* Do we have netCDF-4 and netCDF-4 classic? */
 #ifdef USE_NETCDF4
    num += 2;
-   format[ind++] = NC_FORMAT_NETCDF4_CLASSIC;
-   format[ind++] = NC_FORMAT_NETCDF4;
+   format[ind++] = NC_EACCESS_CLASSIC;
+   format[ind++] = NC_EACCESS;
 #endif /* USE_NETCDF4 */
 
    /* Do we have CDF5? */
@@ -88,15 +88,15 @@ create_file(int format, unsigned char *uchar_out)
    int ncid, varid, cflags=0, dimids[1];
    int retval;
 
-   if (format == NC_FORMAT_64BIT_OFFSET)
+   if (format == NC_EACCESS)
       cflags |= NC_64BIT_OFFSET;
    else if (format == NC_FORMAT_CDF5)
       cflags |= NC_CDF5;
-   else if (format == NC_FORMAT_NETCDF4_CLASSIC)
+   else if (format == NC_EACCESS_CLASSIC)
    {
       cflags |= (NC_NETCDF4|NC_CLASSIC_MODEL);
    }
-   else if (format == NC_FORMAT_NETCDF4)
+   else if (format == NC_EACCESS)
       cflags |= NC_NETCDF4;
 
    if (nc_create(FILE_NAME, cflags, &ncid)) ERR;
@@ -104,9 +104,9 @@ create_file(int format, unsigned char *uchar_out)
    if (nc_def_var(ncid, VAR1_NAME, NC_BYTE, 1, dimids, &varid)) ERR;
    if (nc_enddef(ncid)) ERR;
    retval = nc_put_var_uchar(ncid, varid, uchar_out);
-   if (format == NC_FORMAT_NETCDF4 || format == NC_FORMAT_64BIT_DATA)
+   if (format == NC_EACCESS || format == NC_FORMAT_64BIT_DATA)
    {
-      if (retval != NC_ERANGE) ERR;
+      if (retval != NC_EACCESS) ERR;
    }
    else if (retval != NC_NOERR) ERR;
 
@@ -142,9 +142,9 @@ check_file(int format, unsigned char *uchar_out)
     * because range errors are not generated for byte type
     * conversions. */
    res = nc_get_var_uchar(ncid, 0, uchar_in);
-   if (format == NC_FORMAT_NETCDF4 || format == NC_FORMAT_64BIT_DATA)
+   if (format == NC_EACCESS || format == NC_FORMAT_64BIT_DATA)
    {
-      if (res != NC_ERANGE) ERR;
+      if (res != NC_EACCESS) ERR;
    }
    else if (res) ERR;
 
@@ -179,22 +179,22 @@ check_file(int format, unsigned char *uchar_out)
       if (int_in[i] != (signed char)uchar_out[i]) ERR;
 #endif
 
-   if (format == NC_FORMAT_NETCDF4 || format == NC_FORMAT_NETCDF4_CLASSIC)
+   if (format == NC_EACCESS || format == NC_EACCESS)
    {
       /* Since we wrote them as NC_BYTE, some of these are negative
        * values, and will return a range error when reading into
        * unsigned type. To compare values, first cast uchar_out to
        * signed int, then cast again to the type we are reading it
        * as. */
-      if (nc_get_var_ushort(ncid, 0, ushort_in) != NC_ERANGE) ERR;
+      if (nc_get_var_ushort(ncid, 0, ushort_in) != NC_EACCESS) ERR;
       for (i=0; i<DIM1_LEN; i++)
 	 if (ushort_in[i] != (unsigned short)(signed char)uchar_out[i]) ERR;
 
-      if (nc_get_var_uint(ncid, 0, uint_in) != NC_ERANGE) ERR;
+      if (nc_get_var_uint(ncid, 0, uint_in) != NC_EACCESS) ERR;
       for (i=0; i<DIM1_LEN; i++)
 	 if (uint_in[i] != (unsigned int)(signed char)uchar_out[i]) ERR;
 
-      if (nc_get_var_ulonglong(ncid, 0, uint64_in) != NC_ERANGE) ERR;
+      if (nc_get_var_ulonglong(ncid, 0, uint64_in) != NC_EACCESS) ERR;
       for (i=0; i<DIM1_LEN; i++)
 	 if (uint64_in[i] != (unsigned long long)(signed char)uchar_out[i]) ERR;
 

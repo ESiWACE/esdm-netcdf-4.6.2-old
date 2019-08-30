@@ -174,7 +174,7 @@ main(int argc, char **argv)
 
       /* This fails because it's not a fully-qualified name. */
       sprintf(full_name, "%s/%s", GROUP2_NAME, TYPE2_NAME);
-      if (nc_inq_typeid(root_grp, full_name, &type2id) != NC_EINVAL) ERR;
+      if (nc_inq_typeid(root_grp, full_name, &type2id) != NC_EACCESS) ERR;
 
       /* Check the type using it's full name. */
       sprintf(full_name, "/%s/%s", GROUP2_NAME, TYPE2_NAME);

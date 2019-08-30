@@ -303,7 +303,7 @@ main(int argc, char **argv)
           num_members != 0) ERR;
 
       /* Close the file. */
-      if (nc_close(ncid) != NC_EINVAL) ERR;
+      if (nc_close(ncid) != NC_EACCESS) ERR;
 
       if (nc_redef(ncid)) ERR;
       if (nc_insert_enum(ncid, typeid, "name", &ubyte_value)) ERR;
