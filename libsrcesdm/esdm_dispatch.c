@@ -659,9 +659,12 @@ int ESDM_def_dim(int ncid, const char *name, size_t len, int *idp) {
   }
 
   int cnt = e->dimt.count;
+  if (idp){
   *idp = cnt;
-  add_to_dims_tbl(e, name, len);
   DEBUG_ENTER("%d: %d\n", ncid, *idp);
+  }
+
+  add_to_dims_tbl(e, name, len);
 
   return NC_NOERR;
 }
@@ -1052,7 +1055,7 @@ int ESDM_get_att(int ncid, int varid, const char *name, void *value, nc_type typ
     }
     return NC_NOERR;
   }
-  
+
   return NC_EACCESS;
 }
 
@@ -1129,25 +1132,29 @@ int ESDM_def_var(int ncid, const char *name, nc_type xtype, int ndims, const int
   }
 
   md_var_t *evar = malloc(sizeof(md_var_t));
-  evar->dimidsp = malloc(sizeof(int) * ndims);
-
-  int64_t bounds[ndims];
   char *names[ndims];
-  for (int i = 0; i < ndims; i++) {
-    int dimid = dimidsp[i];
-    assert(e->dimt.count > dimid);
+  int64_t bounds[ndims];
 
-    size_t val = e->dimt.size[dimid];
-    names[i] = e->dimt.name[dimid];
-    bounds[i] = val;
-    evar->dimidsp[i] = dimid;
-    printf("%d = %ld\n", dimidsp[i], val);
+  if (dimidsp){
+    evar->dimidsp = malloc(sizeof(int) * ndims);
+
+    for (int i = 0; i < ndims; i++) {
+      int dimid = dimidsp[i];
+      assert(e->dimt.count > dimid);
+
+      size_t val = e->dimt.size[dimid];
+      names[i] = e->dimt.name[dimid];
+      bounds[i] = val;
+      evar->dimidsp[i] = dimid;
+      printf("%d = %ld\n", dimidsp[i], val);
+    }
   }
 
   esdm_type_t typ = type_nc_to_esdm(xtype);
   if (typ == SMD_DTYPE_UNKNOWN || typ == SMD_DTYPE_STRING) {
     return NC_EBADTYPE;
   }
+
   esdm_dataspace_t *dataspace;
   ret = esdm_dataspace_create(ndims, bounds, typ, &dataspace);
 
@@ -1251,45 +1258,30 @@ int ESDM_get_vars(int ncid, int varid, const size_t *startp, const size_t *count
   DEBUG_ENTER("%d type: %d buff: %p %p %p %p\n", ncid, mem_nc_type, data, startp, countp, stridep);
 
   // check the dimensions we actually want to write
-  int access_all = 1;
   esdm_dataspace_t *space;
-  int ret = esdm_dataset_get_dataspace(kv->dset, &space);
+  esdm_status ret = esdm_dataset_get_dataspace(kv->dset, &space);
 
-  if (mem_nc_type != type_esdm_to_nc(esdm_dataspace_get_type(space))) {
+  if (mem_nc_type != type_esdm_to_nc(esdm_dataspace_get_type(space)) && mem_nc_type != NC_NAT) {
     // NOT SUPPORTED
-    // return NC_EBADTYPE;
+    return NC_EBADTYPE;
   }
   int ndims = esdm_dataspace_get_dims(space);
-  int64_t const *spacesize = esdm_dataset_get_size(kv->dset);
+  int64_t const *spacesize = esdm_dataset_get_actual_size(kv->dset);
 
+  int64_t size[ndims];
+  int64_t offset[ndims];
   for (int i = 0; i < ndims; i++) {
-    // printf(" - %zu %zu\n", startp[i], countp[i]);
-    if (startp[i] != 0 || countp[i] != spacesize[i]) {
-      access_all = 0;
-      break;
-    }
+    size[i] = countp[i];
+    offset[i] = startp[i];
   }
-  if (access_all) {
-    esdm_status ret = esdm_read(kv->dset, (void *)data, space);
-    if (ret != ESDM_SUCCESS) {
-      return NC_EINVAL;
-    }
-  } else {
-    int64_t size[ndims];
-    int64_t offset[ndims];
-    for (int i = 0; i < ndims; i++) {
-      size[i] = countp[i];
-      offset[i] = startp[i];
-    }
-    esdm_dataspace_t *subspace;
-    esdm_dataspace_subspace(space, ndims, size, offset, &subspace);
-    esdm_status ret = esdm_read(kv->dset, (void *)data, subspace);
-    if (ret != ESDM_SUCCESS) {
-      esdm_dataspace_destroy(subspace);
-      return NC_EINVAL;
-    }
+  esdm_dataspace_t *subspace;
+  esdm_dataspace_subspace(space, ndims, size, offset, &subspace);
+  ret = esdm_read(kv->dset, (void *)data, subspace);
+  if (ret != ESDM_SUCCESS) {
     esdm_dataspace_destroy(subspace);
+    return NC_EINVAL;
   }
+  esdm_dataspace_destroy(subspace);
 
   return NC_NOERR;
 }
@@ -1310,54 +1302,39 @@ int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *count
   DEBUG_ENTER("%d type: %d buff: %p %p %p %p\n", ncid, mem_nc_type, data, startp, countp, stridep);
 
   // check the dimensions we actually want to write
-  int access_all = 1;
   esdm_dataspace_t *space;
   ret = esdm_dataset_get_dataspace(kv->dset, &space);
   nc_type datatype = type_esdm_to_nc(esdm_dataspace_get_type(space));
-  if (mem_nc_type != datatype) {
+  if (mem_nc_type != datatype && mem_nc_type != NC_NAT) {
     // Should we change the type inside the space?!
     return NC_EBADTYPE;
   }
 
   int ndims = esdm_dataspace_get_dims(space);
-  int64_t const *spacesize = esdm_dataset_get_size(kv->dset);
+  int64_t const *spacesize = esdm_dataset_get_actual_size(kv->dset);
 
   esdm_status status;
 
+  int64_t size[ndims];
+  int64_t offset[ndims];
   for (int i = 0; i < ndims; i++) {
-    // printf(" - %zu %zu\n", startp[i], countp[i]);
-    if (startp[i] != 0 || countp[i] != spacesize[i]) {
-      access_all = 0;
-      break;
-    }
+    size[i] = countp[i];
+    offset[i] = startp[i];
   }
-  if (access_all) {
-    ret = esdm_write(kv->dset, (void *)data, space);
-    if (ret != ESDM_SUCCESS) {
-      return NC_EINVAL;
-    }
-  } else {
-    int64_t size[ndims];
-    int64_t offset[ndims];
-    for (int i = 0; i < ndims; i++) {
-      size[i] = countp[i];
-      offset[i] = startp[i];
-    }
-    esdm_dataspace_t *subspace;
-    ret = esdm_dataspace_subspace(space, ndims, size, offset, &subspace);
-    if (ret != ESDM_SUCCESS) {
-      return NC_EACCESS;
-    }
+  esdm_dataspace_t *subspace;
+  ret = esdm_dataspace_subspace(space, ndims, size, offset, &subspace);
+  if (ret != ESDM_SUCCESS) {
+    return NC_EACCESS;
+  }
 
-    // assert(subspace->size);
+  // assert(subspace->size);
 
-    ret = esdm_write(kv->dset, (void *)data, subspace);
-    if (ret != ESDM_SUCCESS) {
-      esdm_dataspace_destroy(subspace);
-      return NC_EINVAL;
-    }
+  ret = esdm_write(kv->dset, (void *)data, subspace);
+  if (ret != ESDM_SUCCESS) {
     esdm_dataspace_destroy(subspace);
+    return NC_EINVAL;
   }
+  esdm_dataspace_destroy(subspace);
 
   return NC_NOERR;
 }
