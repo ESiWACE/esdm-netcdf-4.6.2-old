@@ -1100,7 +1100,7 @@ main(int argc, char **argv)
        * be. */
       // if (nc_put_var_double(ncid, pres_varid, (double *)pres)) ERR;
       // if (nc_put_var_ulonglong(ncid, elev_varid, (unsigned long long *)elev)) ERR;
-      // if (nc_put_var_ushort(ncid, hp_varid, (unsigned short *)hp)) ERR;
+      if (nc_put_var_ushort(ncid, hp_varid, (unsigned short *)hp)) ERR;
 
       /* Check our latitude and longitude values. */
       if (nc_get_var(ncid, lat_varid, lat_in)) ERR;

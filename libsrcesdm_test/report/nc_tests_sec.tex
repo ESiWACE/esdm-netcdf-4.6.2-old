@@ -186,15 +186,9 @@ Sorry! Unexpected result, ../../nc\_test4/tst\_converts.c, line: 147
 
 \section{Test tst\_converts2.c}
 
-Remove lines 40-50, 194-222. ERROR dimension zero.
+ESDM does not support conversion for the variables!
 
-Remove lines 94-104. 154-164. Problems with the values of variables.
-
-Remove lines 107-109, 167, 169. Testing invalid parameters as input.
-
-*** Tests successful!
-
-{\bf \large Status: } PARTIAL SUCCESS!
+{\bf \large Status: } FAILURE!
 
 \section{Test tst\_coords.c}
 
@@ -206,9 +200,13 @@ Remove lines 92-93, 489, 491, 493, 495, 538, 540, 781, 785, 786, 790, 792. ESDM 
 
 Remove lines 115, 122. ESDM does not support compression!
 
+Remove lines 142, 154, 157, 165-511. NC\_STRING and NC\_CHAR.
+
 Remove lines 134, 137, 141, 145, 149, 153, 155-156, 158, 161. ESDM does not support NC\_CLASSIC\_MODEL!
 
 Remove lines 468-469. Fill value.
+
+Remove lines 714, 716. tst\_bug10.
 
 Remove line 584-603. ESDM does not support groups from NetCDF!
 
@@ -217,8 +215,6 @@ Remove line 606, 608-648. This is actually an interesting problem.
 NetCDF inserts two variables with the same name, different type, and that will have the same id.
 
 ESDM does not allow two variables with the same name. This might be a big restriction.
-
-Remove lines 711-738. NetCDF is creating a file with one unlimited dimension and one variable. Then a value is assigned to the variable without an update in the dimension (currently zero). ESDM doesn't handle it. ERROR dimension zero.
 
 *** Tests successful!
 
@@ -260,44 +256,11 @@ Too long to run!
 
 Test netcdf-4 dimensions.
 
-Remove lines 104-106, 116, 119-120, 136-138, 141, 150, 164, 190-200, 217, 226, 261-263, 466. Testing invalid parameters as input.
+Remove lines 104-106, 116, 119-120, 136-138, 141, 150, 164, 217, 226, 261-263, 466. Testing invalid parameters as input.
 
 Remove lines 1102, 1165-1168. ulonglong
 
-Remove lines 907-909, 947-949, 1106-1108. This is an interesting error related to NC\_NAT.
-
-Two float variables were defined.
-
-\begin{verbatim}
-if (nc_def_var(ncid, LAT_NAME, NC_FLOAT, 1, dimids, &lat_varid)) ERR;
-if (nc_def_var(ncid, LON_NAME, NC_FLOAT, 1, dimids, &lon_varid)) ERR;
-\end{verbatim}
-
-Then, some values with the correct type are attributed.
-
-\begin{verbatim}
-if (nc_put_var_float(ncid, lat_varid, lat)) ERR;
-if (nc_put_var_float(ncid, lon_varid, lon)) ERR;
-\end{verbatim}
-
-After that, the values are retrieved.
-
-When using the specific function nc\_get\_var\_float, it works. When using the general function nc\_get\_var, this function calls NC\_get\_var(ncid, varid, ip, NC\_NAT) with the NC\_NAT parameter.
-
-\begin{verbatim}
-if (nc_get_var(ncid, lat_varid, lat_in)) ERR;
-if (nc_get_var_float(ncid, lon_varid, lon_in)) ERR;
-\end{verbatim}
-
-ESDM cannot understand that the type is correct, because ESDM\_get\_vars has the following test.
-
-esdm\_dispatch.c:1273: if (mem\_nc\_type != type\_esdm\_to\_nc(esdm\_dataspace\_get\_type(space)))
-
-Eventually this test will change, but even then will not be compatible with NC\_NAT. For NetCDF, this is transparent.
-
-tst\_dims: /home/lucy/esiwace/esdm/src/esdm-scheduler.c:456:
-
-Remove lines 1101, 1103. ERROR dimension zero.
+Remove lines 1101, 1103. nc\_put\_var\_double. nc\_put\_var\_ushort. tst\_bug10.
 
 \begin{verbatim}
 455	    splitFactors[i] = (int64_t)ceil(space->size[i]/targetEdgeLength);
@@ -734,7 +697,7 @@ How is this test successful if ESDM does not support NC\_STRING?
 
 Test netcdf-4 syncs.
 
-Remove line 128. Expected error: NC\_EINDEFINE
+Remove line 128. ESDM does not support NC\_CLASSIC\_MODEL!
 
 *** Tests successful!
 
@@ -818,9 +781,9 @@ Remove lines 834-835, 848-851, 872-875, 930-933, 953-956, 997-998, 1015-1019, 10
 
 Remove lines 1092-1093, 1097-1098, 1155-1157, 1160-1162, 1165-1167, 1171, 1174-1177, 1194-1195, 1227-1228, 1237-1239, 1248-1252. Fill value.
 
-1236 - insert int.
+1236 - tst\_bug10.
 
-Remove lines 1292-1310. Classic format.
+Remove lines 1292-1310. ESDM does not support NC\_CLASSIC\_MODEL!
 
 *** Tests successful!
 
@@ -840,6 +803,8 @@ Remove line 148. Expected error: NC\_EPERM
 
 Remove line 204, 240, 300, 312, 321, 323, 386, 397, 399, 408, 410. I think it's because the att was not inserted.
 
+Remove lines 254-326, 333-412, 443, 503, 512. New bug with CHAR and STRING.
+
 Remove lines 434-439, 522-524, 530-535, 541, 544-551, 638-639, 644-646, 652, 716-725, 744-745, 859-860, 1060-1062, 1079-1083, 1107-1111, 1232-1259, 1242-1243, 1274-1275, 1291-1318, 1457-1458. Testing invalid parameters as input.
 
 Remove lines 649, 671-672. Conversion.
@@ -855,8 +820,6 @@ Remove lines 1457-1458. Expected error: NC\_EBADDIM.
 Remove lines 1284-1285. ESDM does not support groups from NetCDF!
 
 Remove lines 1286-1287. //TODO Implement function nc\_inq\_typeids.
-
-Remove lines 1218-1228. ERROR dimension zero.
 
 *** Tests successful!
 
@@ -892,8 +855,6 @@ Remove lines 409-558. ESDM does not support szip filter.
 \section{Test tst\_vars4.c}
 
 Test netcdf-4 variables.
-
-ESDM does not support compression!
 
 Remove lines 74-76, 81-82, 96-98, 103-104. ESDM does not support compression!
 

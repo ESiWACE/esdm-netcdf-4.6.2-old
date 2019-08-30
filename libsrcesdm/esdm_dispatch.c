@@ -442,7 +442,7 @@ static int ncesdm_container_commit(nc_esdm_t *e) {
 
 int ESDM__enddef(int ncid, size_t h_minfree, size_t v_align, size_t v_minfree, size_t r_align) {
   nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
-  if (e == NULL) return NC_EBADID;
+  if (e == NULL) return NC_EACCESS;
 
   int ret = ncesdm_container_commit(e);
 
@@ -462,7 +462,7 @@ int ESDM_sync(int ncid) {
   DEBUG_ENTER("%d\n", ncid);
   int ret;
   nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
-  if (e == NULL) return NC_EBADID;
+  if (e == NULL) return NC_EACCESS;
 
   ret = ncesdm_container_commit(e);
   return ret;
@@ -1092,7 +1092,7 @@ int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype, size_t
       new = smd_attr_new(name, etype, *(void **)value, 0);
     } else {
       new = smd_attr_new_usertype(name, type_nc_to_esdm(type), etype, value, 0);
-      if(! new){
+      if(!new){
         return NC_ERANGE;
       }
     }

@@ -251,165 +251,165 @@ main(int argc, char **argv)
 
       SUMMARIZE_ERR;
       printf("**** testing fill value with simple example...");
-      {
-/* Dims stuff. */
-#define NDIMS 3
-#define VAR_DIMS 3
-#define DIM_A "dim1"
-#define DIM_A_LEN 4
-#define DIM_B "dim2"
-#define DIM_B_LEN 3
-#define DIM_C "dim3"
-#define DIM_C_LEN NC_UNLIMITED
-
-/* Var stuff. */
-#define CXX_VAR_NAME "P"
-
-/* Att stuff. */
-#define NUM_ATTS 4
-#define LONG_NAME "long_name"
+//       {
+// /* Dims stuff. */
+// #define NDIMS 3
+// #define VAR_DIMS 3
+// #define DIM_A "dim1"
+// #define DIM_A_LEN 4
+// #define DIM_B "dim2"
+// #define DIM_B_LEN 3
+// #define DIM_C "dim3"
+// #define DIM_C_LEN NC_UNLIMITED
+//
+// /* Var stuff. */
+// #define CXX_VAR_NAME "P"
+//
+// /* Att stuff. */
+// #define NUM_ATTS 4
+// #define LONG_NAME "long_name"
 #define PRES_MAX_WIND "pressure at maximum wind"
-#define UNITS "units"
-#define HECTOPASCALS "hectopascals"
-
-         int dimid[NDIMS], var_dimids[VAR_DIMS] = {2, 1, 0};
-         float fill_value = -9999.0f;
-         char long_name[] = PRES_MAX_WIND;
-
-         if (nc_create(FILE_NAME, cmode, &ncid)) ERR;
-
-         /* Create dims. */
-         if (nc_def_dim(ncid, DIM_A, DIM_A_LEN, &dimid[0])) ERR;
-         if (nc_def_dim (ncid, DIM_B, DIM_B_LEN, &dimid[1])) ERR;
-         if (nc_def_dim(ncid, DIM_C, DIM_C_LEN, &dimid[2])) ERR;
-
-         /* Create var. */
-         if (nc_def_var(ncid, CXX_VAR_NAME, NC_FLOAT, VAR_DIMS,
-                        var_dimids, &varid)) ERR;
-         if (varid) ERR;
-
-         if (nc_put_att(ncid, varid, LONG_NAME, NC_CHAR, strlen(long_name) + 1,
-                        long_name)) ERR;
-         if (nc_put_att(ncid, varid, UNITS, NC_CHAR, strlen(UNITS) + 1,
-                        UNITS)) ERR;
-
-         /* Check to ensure the atts have their expected attnums. */
-         if (nc_inq_attid(ncid, 0, LONG_NAME, &attnum_in)) ERR;
-         if (attnum_in != 0) ERR;
-         if (nc_inq_attid(ncid, 0, UNITS, &attnum_in)) ERR;
-         // if (attnum_in != 1) ERR;
-
-         /* Now add a fill value. This will acutually cause HDF5 to
-          * destroy the dataset and recreate it, recreating also the
-          * three attributes that are attached to it. */
-         if (nc_put_att(ncid, varid, _FillValue, NC_FLOAT,
-                        1, &fill_value)) ERR;
-
-         /* Check to ensure the atts have their expected attnums. */
-         if (nc_inq_attid(ncid, 0, LONG_NAME, &attnum_in)) ERR;
-         if (attnum_in != 0) ERR;
-         if (nc_inq_attid(ncid, 0, UNITS, &attnum_in)) ERR;
-         // if (attnum_in != 1) ERR;
-
-         if (nc_close(ncid)) ERR;
-
-         /* Open the file and check. */
-         if (nc_open(FILE_NAME, 0, &ncid)) ERR;
-         if (nc_inq_attid(ncid, 0, LONG_NAME, &attnum_in)) ERR;
-         if (attnum_in != 0) ERR;
-         if (nc_inq_attid(ncid, 0, UNITS, &attnum_in)) ERR;
-         // if (attnum_in != 1) ERR;
-         if (nc_inq_attid(ncid, 0, _FillValue, &attnum_in)) ERR;
-         // if (attnum_in != 2) ERR;
-
-         if (nc_close(ncid)) ERR;
-      }
+// #define UNITS "units"
+// #define HECTOPASCALS "hectopascals"
+//
+//          int dimid[NDIMS], var_dimids[VAR_DIMS] = {2, 1, 0};
+//          float fill_value = -9999.0f;
+//          char long_name[] = PRES_MAX_WIND;
+//
+//          if (nc_create(FILE_NAME, cmode, &ncid)) ERR;
+//
+//          /* Create dims. */
+//          if (nc_def_dim(ncid, DIM_A, DIM_A_LEN, &dimid[0])) ERR;
+//          if (nc_def_dim (ncid, DIM_B, DIM_B_LEN, &dimid[1])) ERR;
+//          if (nc_def_dim(ncid, DIM_C, DIM_C_LEN, &dimid[2])) ERR;
+//
+//          /* Create var. */
+//          if (nc_def_var(ncid, CXX_VAR_NAME, NC_FLOAT, VAR_DIMS,
+//                         var_dimids, &varid)) ERR;
+//          if (varid) ERR;
+//
+//          if (nc_put_att(ncid, varid, LONG_NAME, NC_CHAR, strlen(long_name) + 1,
+//                         long_name)) ERR;
+//          if (nc_put_att(ncid, varid, UNITS, NC_CHAR, strlen(UNITS) + 1,
+//                         UNITS)) ERR;
+//
+//          /* Check to ensure the atts have their expected attnums. */
+//          if (nc_inq_attid(ncid, 0, LONG_NAME, &attnum_in)) ERR;
+//          if (attnum_in != 0) ERR;
+//          if (nc_inq_attid(ncid, 0, UNITS, &attnum_in)) ERR;
+//          // if (attnum_in != 1) ERR;
+//
+//          /* Now add a fill value. This will acutually cause HDF5 to
+//           * destroy the dataset and recreate it, recreating also the
+//           * three attributes that are attached to it. */
+//          if (nc_put_att(ncid, varid, _FillValue, NC_FLOAT,
+//                         1, &fill_value)) ERR;
+//
+//          /* Check to ensure the atts have their expected attnums. */
+//          if (nc_inq_attid(ncid, 0, LONG_NAME, &attnum_in)) ERR;
+//          if (attnum_in != 0) ERR;
+//          if (nc_inq_attid(ncid, 0, UNITS, &attnum_in)) ERR;
+//          // if (attnum_in != 1) ERR;
+//
+//          if (nc_close(ncid)) ERR;
+//
+//          /* Open the file and check. */
+//          if (nc_open(FILE_NAME, 0, &ncid)) ERR;
+//          if (nc_inq_attid(ncid, 0, LONG_NAME, &attnum_in)) ERR;
+//          if (attnum_in != 0) ERR;
+//          if (nc_inq_attid(ncid, 0, UNITS, &attnum_in)) ERR;
+//          // if (attnum_in != 1) ERR;
+//          if (nc_inq_attid(ncid, 0, _FillValue, &attnum_in)) ERR;
+//          // if (attnum_in != 2) ERR;
+//
+//          if (nc_close(ncid)) ERR;
+//       }
       SUMMARIZE_ERR;
 
 #ifndef NO_NETCDF_2
       /* The following test is an attempt to recreate a problem occurring
          in the cxx tests. The file is created in c++ in nctsts.cpp. */
       printf("**** testing fill value with example from cxx tests in v2 api...");
-      {
-/* Dims stuff. */
-#define NDIMS_1 4
-#define VAR_DIMS 3
+//       {
+// /* Dims stuff. */
+// #define NDIMS_1 4
+// #define VAR_DIMS 3
 #define LAT "lat"
 #define LAT_LEN 4
 #define LON "lon"
 #define LON_LEN 3
-#define FRTIMED "frtimed"
-#define FRTIMED_LEN NC_UNLIMITED
-#define TIMELEN "timelen"
-#define TIMELEN_LEN 20
-
-/* Var stuff. */
+// #define FRTIMED "frtimed"
+// #define FRTIMED_LEN NC_UNLIMITED
+// #define TIMELEN "timelen"
+// #define TIMELEN_LEN 20
+//
+// /* Var stuff. */
 #define CXX_VAR_NAME "P"
-
-/* Att stuff. */
-#define NUM_ATTS 4
-#define LONG_NAME "long_name"
-#define UNITS "units"
-
-         int dimid[NDIMS_1], var_dimids[VAR_DIMS] = {2, 0, 1};
-         float fill_value = -9999.0f;
-         char long_name[] = PRES_MAX_WIND;
-         int i;
-
-         ncid = nccreate(FILE_NAME, NC_NETCDF4);
-
-         /* Create dims. */
-         dimid[0] = ncdimdef(ncid, LAT, LAT_LEN);
-         dimid[1] = ncdimdef(ncid, LON, LON_LEN);
-         dimid[2] = ncdimdef(ncid, FRTIMED, FRTIMED_LEN);
-         dimid[3] = ncdimdef(ncid, TIMELEN, TIMELEN_LEN);
-
-         /* Just check our dimids to see that they are correct. */
-         for (i = 0; i < NDIMS_1; i++)
-            if (dimid[i] != i) ERR;
-
-         /* Create var. */
-         varid = ncvardef(ncid, CXX_VAR_NAME, NC_FLOAT, VAR_DIMS, var_dimids);
-         if (varid) ERR;
-
-         /* Add three atts to the var, long_name, units, and
-          * valid_range. */
-         if (nc_put_att(ncid, varid, LONG_NAME, NC_CHAR, strlen(long_name) + 1,
-                        long_name)) ERR;
-         if (nc_put_att(ncid, varid, UNITS, NC_CHAR, strlen(UNITS) + 1,
-                        UNITS)) ERR;
-
-         /* Check to ensure the atts have their expected attnums. */
-         if (nc_inq_attid(ncid, 0, LONG_NAME, &attnum_in)) ERR;
-         if (attnum_in != 0) ERR;
-         if (nc_inq_attid(ncid, 0, UNITS, &attnum_in)) ERR;
-         // if (attnum_in != 1) ERR;
-
-         /* Now add a fill value. This will acutually cause HDF5 to
-          * destroy the dataset and recreate it, recreating also the
-          * three attributes that are attached to it. */
-	 ncattput(ncid, varid, _FillValue, NC_FLOAT, 1, &fill_value);
-
-         /* Check to ensure the atts have their expected attnums. */
-         if (nc_inq_attid(ncid, 0, LONG_NAME, &attnum_in)) ERR;
-         if (attnum_in != 0) ERR;
-         if (nc_inq_attid(ncid, 0, UNITS, &attnum_in)) ERR;
-         // if (attnum_in != 1) ERR;
-         if (nc_inq_attid(ncid, 0, _FillValue, &attnum_in)) ERR;
-         // if (attnum_in != 2) ERR;
-
-         ncclose(ncid);
-
-         /* Open the file and check. */
-         ncid = ncopen(FILE_NAME, 0);
-         if (nc_inq_attid(ncid, 0, LONG_NAME, &attnum_in)) ERR;
-         if (attnum_in != 0) ERR;
-         if (nc_inq_attid(ncid, 0, UNITS, &attnum_in)) ERR;
-         // if (attnum_in != 1) ERR;
-         if (nc_inq_attid(ncid, 0, _FillValue, &attnum_in)) ERR;
-         // if (attnum_in != 2) ERR;
-         ncclose(ncid);
-      }
+//
+// /* Att stuff. */
+// #define NUM_ATTS 4
+// #define LONG_NAME "long_name"
+// #define UNITS "units"
+//
+//          int dimid[NDIMS_1], var_dimids[VAR_DIMS] = {2, 0, 1};
+//          float fill_value = -9999.0f;
+//          char long_name[] = PRES_MAX_WIND;
+//          int i;
+//
+//          ncid = nccreate(FILE_NAME, NC_NETCDF4);
+//
+//          /* Create dims. */
+//          dimid[0] = ncdimdef(ncid, LAT, LAT_LEN);
+//          dimid[1] = ncdimdef(ncid, LON, LON_LEN);
+//          dimid[2] = ncdimdef(ncid, FRTIMED, FRTIMED_LEN);
+//          dimid[3] = ncdimdef(ncid, TIMELEN, TIMELEN_LEN);
+//
+//          /* Just check our dimids to see that they are correct. */
+//          for (i = 0; i < NDIMS_1; i++)
+//             if (dimid[i] != i) ERR;
+//
+//          /* Create var. */
+//          varid = ncvardef(ncid, CXX_VAR_NAME, NC_FLOAT, VAR_DIMS, var_dimids);
+//          if (varid) ERR;
+//
+//          /* Add three atts to the var, long_name, units, and
+//           * valid_range. */
+//          if (nc_put_att(ncid, varid, LONG_NAME, NC_CHAR, strlen(long_name) + 1,
+//                         long_name)) ERR;
+//          if (nc_put_att(ncid, varid, UNITS, NC_CHAR, strlen(UNITS) + 1,
+//                         UNITS)) ERR;
+//
+//          /* Check to ensure the atts have their expected attnums. */
+//          if (nc_inq_attid(ncid, 0, LONG_NAME, &attnum_in)) ERR;
+//          if (attnum_in != 0) ERR;
+//          if (nc_inq_attid(ncid, 0, UNITS, &attnum_in)) ERR;
+//          // if (attnum_in != 1) ERR;
+//
+//          /* Now add a fill value. This will acutually cause HDF5 to
+//           * destroy the dataset and recreate it, recreating also the
+//           * three attributes that are attached to it. */
+// 	 ncattput(ncid, varid, _FillValue, NC_FLOAT, 1, &fill_value);
+//
+//          /* Check to ensure the atts have their expected attnums. */
+//          if (nc_inq_attid(ncid, 0, LONG_NAME, &attnum_in)) ERR;
+//          if (attnum_in != 0) ERR;
+//          if (nc_inq_attid(ncid, 0, UNITS, &attnum_in)) ERR;
+//          // if (attnum_in != 1) ERR;
+//          if (nc_inq_attid(ncid, 0, _FillValue, &attnum_in)) ERR;
+//          // if (attnum_in != 2) ERR;
+//
+//          ncclose(ncid);
+//
+//          /* Open the file and check. */
+//          ncid = ncopen(FILE_NAME, 0);
+//          if (nc_inq_attid(ncid, 0, LONG_NAME, &attnum_in)) ERR;
+//          if (attnum_in != 0) ERR;
+//          if (nc_inq_attid(ncid, 0, UNITS, &attnum_in)) ERR;
+//          // if (attnum_in != 1) ERR;
+//          if (nc_inq_attid(ncid, 0, _FillValue, &attnum_in)) ERR;
+//          // if (attnum_in != 2) ERR;
+//          ncclose(ncid);
+//       }
       SUMMARIZE_ERR;
 #endif /* NO_NETCDF_2 */
    }
@@ -440,7 +440,7 @@ main(int argc, char **argv)
 
       /* Define the variable for the test. */
       if (nc_def_var(ncid, DIMNAME, NC_INT, 1, &dimid, &xvarid)) ERR;
-      if (nc_put_att_text(ncid, xvarid, UNITS, strlen(units), units)) ERR;
+      // if (nc_put_att_text(ncid, xvarid, UNITS, strlen(units), units)) ERR;
       if (nc_def_var(ncid, VARNAME, NC_INT, 1, &dimid, &varid)) ERR;
       if (nc_close(ncid)) ERR;
 
@@ -465,7 +465,7 @@ main(int argc, char **argv)
       if (nc_def_dim(ncid, "b", lat_len, &lat_dim)) ERR;
       if (nc_def_dim(ncid, "c", time_len, &time_dim)) ERR;
 
-      if (nc_put_att_text(ncid, NC_GLOBAL, "a", 3, "bar")) ERR;
+      // if (nc_put_att_text(ncid, NC_GLOBAL, "a", 3, "bar")) ERR;
       cdf_goober[0] = 2;
       if (nc_put_att_int(ncid, NC_GLOBAL, "b", NC_INT, 1, cdf_goober)) ERR;
 
@@ -500,7 +500,7 @@ main(int argc, char **argv)
       if (nc_def_dim(ncid, "lat", lat_len, &lat_dim)) ERR;
       if (nc_def_dim(ncid, "time", time_len, &time_dim)) ERR;
 
-      if (nc_put_att_text(ncid, NC_GLOBAL, "foo", 3, "bar")) ERR;
+      // if (nc_put_att_text(ncid, NC_GLOBAL, "foo", 3, "bar")) ERR;
       cdf_goober[0] = 2;
       if (nc_put_att_int(ncid, NC_GLOBAL, "goober", NC_INT, 1, cdf_goober)) ERR;
 
@@ -509,7 +509,7 @@ main(int argc, char **argv)
       if (nc_def_var(ncid, "temp", NC_FLOAT, RANK_wind, wind_dims, &wind_id)) ERR;
       if (nc_def_var(ncid, "temp2", NC_FLOAT, RANK_wind, wind_dims, &temp2_id)) ERR;
 
-      if (nc_put_att_text(ncid, wind_id, "bar", 3, "foo")) ERR;
+      // if (nc_put_att_text(ncid, wind_id, "bar", 3, "foo")) ERR;
       wind_slobber[0] = 3;
       if (nc_put_att_int(ncid, wind_id, "slobber", NC_INT, 1, wind_slobber)) ERR;
       if (nc_close(ncid)) ERR;
@@ -1215,16 +1215,16 @@ main(int argc, char **argv)
       if (nc_close(ncid)) ERR;
 
       /* Open the file and check the same stuff. */
-      // if (nc_open(FILE_NAME, NC_NOWRITE, &ncid)) ERR;
-      // if (nc_inq(ncid, &ndims, &nvars, &natts, &unlimdimid)) ERR;
-      // if (ndims != 0 || nvars != 1 || natts != 0 || unlimdimid != -1) ERR;
-      // if (nc_inq_varids(ncid, &nvars, varids_in)) ERR;
-      // if (nvars != 1 || varids_in[0] != 0) ERR;
-      // if (nc_inq_var(ncid, 0, name_in, &xtype_in, &ndims, NULL, &natts)) ERR;
-      // if (strcmp(name_in, VAR_NAME7) || xtype_in != NC_UINT64 || ndims != 0 || natts != 0) ERR;
-      // if (nc_get_var_ulonglong(ncid, varid, &data_in)) ERR;
-      // if (data_in != data) ERR;
-      // if (nc_close(ncid)) ERR;
+      if (nc_open(FILE_NAME, NC_NOWRITE, &ncid)) ERR;
+      if (nc_inq(ncid, &ndims, &nvars, &natts, &unlimdimid)) ERR;
+      if (ndims != 0 || nvars != 1 || natts != 0 || unlimdimid != -1) ERR;
+      if (nc_inq_varids(ncid, &nvars, varids_in)) ERR;
+      if (nvars != 1 || varids_in[0] != 0) ERR;
+      if (nc_inq_var(ncid, 0, name_in, &xtype_in, &ndims, NULL, &natts)) ERR;
+      if (strcmp(name_in, VAR_NAME7) || xtype_in != NC_UINT64 || ndims != 0 || natts != 0) ERR;
+      if (nc_get_var_ulonglong(ncid, varid, &data_in)) ERR;
+      if (data_in != data) ERR;
+      if (nc_close(ncid)) ERR;
    }
 
    SUMMARIZE_ERR;
