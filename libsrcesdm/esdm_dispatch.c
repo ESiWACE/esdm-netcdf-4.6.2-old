@@ -493,8 +493,6 @@ int ESDM_close(int ncid, void *b) {
   return ret;
 }
 
-//TODO
-
 /**
  * @brief Change the fill-value mode to improve write performance.
  * @param ncid	NetCDF ID, from a previous call to nc_open() or nc_create().
@@ -502,11 +500,11 @@ int ESDM_close(int ncid, void *b) {
  * @param old_modep	Pointer to location for returned current fill mode of the dataset before this call, either NC_NOFILL or NC_FILL.
  * @return
  */
-
 int ESDM_set_fill(int ncid, int fillmode, int *old_modep) {
   DEBUG_ENTER("%d %d\n", ncid, fillmode);
 
   *old_modep = fillmode;
+  // TODO
 
   return NC_NOERR;
 }
@@ -523,13 +521,17 @@ int ESDM_set_fill(int ncid, int fillmode, int *old_modep) {
 int ESDM_def_var_fill(int ncid, int varid, int no_fill, const void *fill_value) {
   DEBUG_ENTER("%d %d\n", ncid, no_fill);
 
-  // void esdm_dataset_init(esdm_container_t *c, const char *name, esdm_dataspace_t *dspace, esdm_dataset_t **out_dataset){
-  //   esdm_dataset_t *d = (esdm_dataset_t *)malloc(sizeof(esdm_dataset_t));
-  //
-  //   d->dims_dset_id = NULL;
-  //   d->name = strdup(name);
-  //   d->id = NULL; // to be filled by the metadata backend
-  //   d->fill_value = NULL;
+  nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
+  if (e == NULL) return NC_EBADID;
+  if (varid > e->vars.count) {
+    return NC_EACCESS;
+  }
+  md_var_t *ev = e->vars.var[varid];
+  if(no_fill == NC_NOFILL){
+    esdm_dataset_set_fill_value(ev->dset, NULL);
+  }else{
+    esdm_dataset_set_fill_value(ev->dset, fill_value);
+  }
 
   return NC_NOERR;
 }
