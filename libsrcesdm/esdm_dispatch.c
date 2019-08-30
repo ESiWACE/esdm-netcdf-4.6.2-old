@@ -1021,17 +1021,6 @@ int ESDM_get_att(int ncid, int varid, const char *name, void *value, nc_type typ
   esdm_status status;
   int ret;
 
-  // Conflict for git commit that I am not prepared to handle yet.
-  // -    size_t val = e->dimt.size[dimid];
-  // -    evar->dimidsp[i] = val;
-  // -    names[i] = e->dimt.name[dimid];
-  // -    bounds[i] = val;
-  // -    printf("%d = %ld\n", dimidsp[i], val);
-  // +    evar->dimidsp[i] = dimid;
-  // +    names[i]  = e->dimt.name[dimid];
-  // +    bounds[i] = e->dimt.size[dimid];
-  // +    // printf("%d = %ld\n", dimidsp[i], val);
-
   nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
   if (e == NULL) return NC_EBADID;
 
@@ -1059,35 +1048,14 @@ int ESDM_get_att(int ncid, int varid, const char *name, void *value, nc_type typ
       smd_attr_copy_value(child, & str);
       strcpy(value, str);
     }else{
-      smd_attr_copy_value(child, value);
+      smd_attr_copy_value_usertype(child, type_nc_to_esdm(type), value);
     }
-
     return NC_NOERR;
   }
-
+  
   return NC_EACCESS;
 }
 
-// Enter as datatype and returns as type
-
-// TODO call the smd functions here
-
-void *enc_realloc_datatype(nc_type type, nc_type datatype, size_t len, void const *value) {
-
-  nc_type new_value;
-
-  smd_attr_t *attr1 = smd_attr_new_usertype("conversion", type, datatype, value, 1);
-  if (attr1 != NULL) {
-    return(NC_EACCESS);
-  }
-
-  int ret = smd_attr_copy_value_usertype(attr1, type, &new_value);
-  if (ret) {
-    return(NC_EACCESS);
-  }
-
-  return new_value;
-}
 
 int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype, size_t len, void const *value, nc_type type) {
   DEBUG_ENTER("%d\n", ncid);
@@ -1109,16 +1077,6 @@ int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype, size_t
   nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
   if (e == NULL) return NC_EBADID;
 
-  if (type != datatype && len > 0) {
-    // convert it to the right datatype on the fly, check if it exceeds the limits of the intended datatype
-    // if it does fire NC_ERANGE
-    // change value to new temporary value
-    value = enc_realloc_datatype(type, datatype, len, value);
-    if (value == NULL){
-      return NC_ERANGE;
-    }
-  }
-
   smd_attr_t *new;
   if (len > 1) {
     smd_dtype_t *arr_type = smd_type_array(etype, len);
@@ -1128,7 +1086,10 @@ int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype, size_t
     if (datatype == NC_STRING) {
       new = smd_attr_new(name, etype, *(void **)value, 0);
     } else {
-      new = smd_attr_new(name, etype, value, 0);
+      new = smd_attr_new_usertype(name, type_nc_to_esdm(type), etype, value, 0);
+      if(! new){
+        return NC_ERANGE;
+      }
     }
   }
 
@@ -1295,10 +1256,7 @@ int ESDM_get_vars(int ncid, int varid, const size_t *startp, const size_t *count
   int ret = esdm_dataset_get_dataspace(kv->dset, &space);
 
   if (mem_nc_type != type_esdm_to_nc(esdm_dataspace_get_type(space))) {
-    data = enc_realloc_datatype(mem_nc_type, type_esdm_to_nc(esdm_dataspace_get_type(space)), 1, data);
-    if (data == NULL){
-      return NC_EACCESS;
-    }
+    // NOT SUPPORTED
     // return NC_EBADTYPE;
   }
   int ndims = esdm_dataspace_get_dims(space);
@@ -1357,12 +1315,8 @@ int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *count
   ret = esdm_dataset_get_dataspace(kv->dset, &space);
   nc_type datatype = type_esdm_to_nc(esdm_dataspace_get_type(space));
   if (mem_nc_type != datatype) {
-    data = enc_realloc_datatype(mem_nc_type, datatype, 1, data);
-    if (data == NULL){
-      return NC_EACCESS;
-    }
     // Should we change the type inside the space?!
-    // return NC_EBADTYPE;
+    return NC_EBADTYPE;
   }
 
   int ndims = esdm_dataspace_get_dims(space);
