@@ -37,8 +37,8 @@ main(int argc, char **argv)
     /* try put attribute _FillValue and expect NC_EACCESS */
     fillv = 9;
     err = nc_put_att_int(ncid, varid, _FillValue, NC_INT, 1, &fillv);
-    // if (err != NC_EACCESS)
-    //     printf("line %d expecting NC_EACCESS but got %d\n",__LINE__,err);
+    if (err != NC_EACCESS)
+        printf("line %d expecting NC_EACCESS but got %d\n",__LINE__,err);
     err = nc_close(ncid); ERR_CHK;
     return 0;
 }

@@ -29,35 +29,35 @@ int check_file(int format, unsigned char *uchar_out);
 int create_file(int format, unsigned char *uchar_out);
 
 /* Determine how many formats are available, and what they are. */
-void
-determine_test_formats(int *num_formats, int *format)
-{
-   int ind = 0;
-   int num;
-
-   /* Check inputs. */
-   assert(num_formats && format);
-
-   /* We always have classic and 64-bit offset */
-   num = 2;
-   format[ind++] = NC_EACCESS;
-   format[ind++] = NC_EACCESS;
-
-   /* Do we have netCDF-4 and netCDF-4 classic? */
-#ifdef USE_NETCDF4
-   num += 2;
-   format[ind++] = NC_EACCESS_CLASSIC;
-   format[ind++] = NC_EACCESS;
-#endif /* USE_NETCDF4 */
-
-   /* Do we have CDF5? */
-#ifdef ENABLE_CDF5
-   num++;
-   format[ind++] = NC_FORMAT_CDF5;
-#endif /* ENABLE_CDF5 */
-
-   *num_formats = num;
-}
+// void
+// determine_test_formats(int *num_formats, int *format)
+// {
+//    int ind = 0;
+//    int num;
+//
+//    /* Check inputs. */
+//    assert(num_formats && format);
+//
+//    /* We always have classic and 64-bit offset */
+//    num = 2;
+//    format[ind++] = NC_EACCESS;
+//    format[ind++] = NC_EACCESS;
+//
+//    /* Do we have netCDF-4 and netCDF-4 classic? */
+// #ifdef USE_NETCDF4
+//    num += 2;
+//    format[ind++] = NC_EACCESS_CLASSIC;
+//    format[ind++] = NC_EACCESS;
+// #endif /* USE_NETCDF4 */
+//
+//    /* Do we have CDF5? */
+// #ifdef ENABLE_CDF5
+//    num++;
+//    format[ind++] = NC_FORMAT_CDF5;
+// #endif /* ENABLE_CDF5 */
+//
+//    *num_formats = num;
+// }
 
 int
 main(int argc, char **argv)
@@ -68,7 +68,7 @@ main(int argc, char **argv)
    int f = 0;
 
    printf("\n*** Testing netcdf data conversion.\n");
-   determine_test_formats(&num_formats, format);
+   // determine_test_formats(&num_formats, format);
 
    for (f = 0; f < num_formats; f++)
    {
@@ -88,16 +88,16 @@ create_file(int format, unsigned char *uchar_out)
    int ncid, varid, cflags=0, dimids[1];
    int retval;
 
-   if (format == NC_EACCESS)
-      cflags |= NC_64BIT_OFFSET;
-   else if (format == NC_FORMAT_CDF5)
-      cflags |= NC_CDF5;
-   else if (format == NC_EACCESS_CLASSIC)
-   {
-      cflags |= (NC_NETCDF4|NC_CLASSIC_MODEL);
-   }
-   else if (format == NC_EACCESS)
-      cflags |= NC_NETCDF4;
+   // if (format == NC_EACCESS)
+   //    cflags |= NC_64BIT_OFFSET;
+   // else if (format == NC_FORMAT_CDF5)
+   //    cflags |= NC_CDF5;
+   // else if (format == NC_EACCESS_CLASSIC)
+   // {
+   //    cflags |= (NC_NETCDF4|NC_CLASSIC_MODEL);
+   // }
+   // else if (format == NC_EACCESS)
+   //    cflags |= NC_NETCDF4;
 
    if (nc_create(FILE_NAME, cflags, &ncid)) ERR;
    if (nc_def_dim(ncid, DIM1_NAME, DIM1_LEN, &dimids[0])) ERR;

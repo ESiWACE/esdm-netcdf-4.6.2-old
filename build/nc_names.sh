@@ -14,9 +14,9 @@ for I in $(ls ../libsrcesdm_test/ | grep "\.c$") ; do
   sed -i "s/NC_EPERM/NC_EACCESS/" ../libsrcesdm_test/$I
   sed -i "s/NC_ERANGE/NC_EACCESS/" ../libsrcesdm_test/$I
   sed -i "s/NC_FILL_FLOAT/NC_EACCESS/" ../libsrcesdm_test/$I
-  sed -i "s/NC_FORMAT_64BIT_OFFSET/NC_EACCESS/" ../libsrcesdm_test/$I
-  sed -i "s/NC_FORMAT_CLASSIC/NC_EACCESS/" ../libsrcesdm_test/$I
-  sed -i "s/NC_FORMAT_NETCDF4/NC_EACCESS/" ../libsrcesdm_test/$I
-  sed -i "s/NC_FORMAT_NETCDF4_CLASSIC/NC_EACCESS/" ../libsrcesdm_test/$I
+#  sed -i "s/NC_FORMAT_64BIT_OFFSET/NC_EACCESS/" ../libsrcesdm_test/$I
+#  sed -i "s/NC_FORMAT_CLASSIC/NC_EACCESS/" ../libsrcesdm_test/$I
+#  sed -i "s/NC_FORMAT_NETCDF4/NC_EACCESS/" ../libsrcesdm_test/$I
+#  sed -i "s/NC_FORMAT_NETCDF4_CLASSIC/NC_EACCESS/" ../libsrcesdm_test/$I
   #sed -i "s/NC_EHDFERR/NC_EACCESS/" ../libsrcesdm_test/$I
 done

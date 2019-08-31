@@ -503,6 +503,7 @@ int ESDM_close(int ncid, void *b) {
 int ESDM_set_fill(int ncid, int fillmode, int *old_modep) {
   DEBUG_ENTER("%d %d\n", ncid, fillmode);
 
+  old_modep = malloc(sizeof(int));
   *old_modep = fillmode;
   // TODO
 
@@ -520,6 +521,7 @@ int ESDM_set_fill(int ncid, int fillmode, int *old_modep) {
 
 int ESDM_def_var_fill(int ncid, int varid, int no_fill, const void *fill_value) {
   DEBUG_ENTER("%d %d\n", ncid, no_fill);
+  esdm_status status;
 
   nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
   if (e == NULL) return NC_EBADID;
@@ -528,9 +530,11 @@ int ESDM_def_var_fill(int ncid, int varid, int no_fill, const void *fill_value) 
   }
   md_var_t *ev = e->vars.var[varid];
   if(no_fill == NC_NOFILL){
-    esdm_dataset_set_fill_value(ev->dset, NULL);
+    status = esdm_dataset_set_fill_value(ev->dset, NULL);
+    assert(status == ESDM_SUCCESS);
   }else{
-    esdm_dataset_set_fill_value(ev->dset, fill_value);
+    status = esdm_dataset_set_fill_value(ev->dset, fill_value);
+    assert(status == ESDM_SUCCESS);
   }
 
   return NC_NOERR;
@@ -1093,19 +1097,19 @@ int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype, size_t
     } else if (etype == SMD_DTYPE_STRING) {
           new = smd_attr_new(name, etype, value, 0);
           if(!new){
-            return NC_ERANGE;
+            return NC_EACCESS;
            }
           } else {
                 new = smd_attr_new_usertype(name, type_nc_to_esdm(type), etype, value, 0);
                 if(!new){
-                  return NC_ERANGE;
+                  return NC_EACCESS;
                  }
           }
   }
 
-  if (type != datatype) {
-    free(value);
-  }
+  // if (type != datatype) {
+  //   free(value);
+  // }
 
   esdm_status status;
 
@@ -1158,7 +1162,8 @@ int ESDM_def_var(int ncid, const char *name, nc_type xtype, int ndims, const int
   }
 
   esdm_type_t typ = type_nc_to_esdm(xtype);
-  if (typ == SMD_DTYPE_UNKNOWN || typ == SMD_DTYPE_STRING) {
+  // if (typ == SMD_DTYPE_UNKNOWN || typ == SMD_DTYPE_STRING) {
+  if (typ == SMD_DTYPE_UNKNOWN) {
     return NC_EBADTYPE;
   }
 
@@ -1282,12 +1287,26 @@ int ESDM_get_vars(int ncid, int varid, const size_t *startp, const size_t *count
     offset[i] = startp[i];
   }
   esdm_dataspace_t *subspace;
-  esdm_dataspace_subspace(space, ndims, size, offset, &subspace);
+  ret = esdm_dataspace_subspace(space, ndims, size, offset, &subspace);
+  if (ret != ESDM_SUCCESS) {
+    int count = 0;
+    for(int i = 0; i < ndims; i++)
+      if (size[i] == 0){
+        count++;
+    }
+    if (count != 0){
+      return NC_NOERR;
+    }
+    else {
+      return NC_EACCESS;
+    }
+  }
   ret = esdm_read(kv->dset, (void *)data, subspace);
   if (ret != ESDM_SUCCESS) {
     esdm_dataspace_destroy(subspace);
     return NC_EINVAL;
   }
+
   esdm_dataspace_destroy(subspace);
 
   return NC_NOERR;
@@ -1331,7 +1350,18 @@ int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *count
   esdm_dataspace_t *subspace;
   ret = esdm_dataspace_subspace(space, ndims, size, offset, &subspace);
   if (ret != ESDM_SUCCESS) {
-    return NC_EACCESS;
+    int count = 0;
+    for(int i = 0; i < ndims; i++)
+      if (size[i] == 0){
+        count++;
+    }
+
+    if (count != 0){
+      return NC_NOERR;
+    }
+    else {
+      return NC_EACCESS;
+    }
   }
 
   // assert(subspace->size);
@@ -1384,7 +1414,8 @@ int ESDM_put_vara(int ncid, int varid, const size_t *startp, const size_t *count
 // Not fully implemented and tested yet
 
 int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndimsp, int *dimidsp, int *nattsp, int *shufflep, int *deflatep, int *deflate_levelp, int *fletcher32p, int *contiguousp, size_t *chunksizesp, int *no_fill, void *fill_valuep, int *endiannessp, unsigned int *idp, size_t *nparamsp, unsigned int *params) {
-  int ret = NC_NOERR;
+
+  esdm_status status;
 
   nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
   if (e == NULL) return NC_EBADID;
@@ -1397,7 +1428,8 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
   assert(evar != NULL);
 
   esdm_dataspace_t *space;
-  ret = esdm_dataset_get_dataspace(evar->dset, &space);
+  status = esdm_dataset_get_dataspace(evar->dset, &space);
+  assert(status == ESDM_SUCCESS);
 
   if (name) {
     name = strcpy(name, esdm_dataset_name(evar->dset));
@@ -1420,20 +1452,19 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
 
   if (nattsp) { // the number of attributes
     smd_attr_t *attr = NULL;
-    ret = esdm_dataset_get_attributes(evar->dset, &attr);
+    status = esdm_dataset_get_attributes(evar->dset, &attr);
+    assert(status == ESDM_SUCCESS);
     *nattsp = smd_attr_count(attr);
   }
 
   if (no_fill) {
     // TODO
-    *no_fill = 0;
-    WARN_NOT_IMPLEMENTED;
+    *no_fill = *no_fill;
   }
 
   if (fill_valuep) {
-    // TODO
-    // *fill_valuep = 0;
-    WARN_NOT_IMPLEMENTED;
+    status = esdm_dataset_get_fill_value(evar->dset, fill_valuep);
+    assert(status == ESDM_SUCCESS);
   }
 
   if (idp) {
@@ -1553,7 +1584,6 @@ int ESDM_show_metadata(int ncid) {
 int ESDM_inq_unlimdims(int ncid, int *nunlimdimsp, int *unlimdimidsp) {
   DEBUG_ENTER("%d\n", ncid);
 
-  esdm_status status;
   nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
   if (e == NULL) return NC_EBADID;
 

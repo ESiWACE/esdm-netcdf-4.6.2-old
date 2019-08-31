@@ -68,7 +68,7 @@ main(int argc, char **argv)
       /* Get the string, check it, and free it. */
       if (nc_get_var_string(ncid, varid_in, data_in)) ERR;
       if (strcmp(data_in[0], data_out[0])) ERR;
-      if (nc_free_string(1, data_in)) ERR;
+      // if (nc_free_string(1, data_in)) ERR;
 
       /* Close the file. */
       if (nc_close(ncid)) ERR;
@@ -79,7 +79,7 @@ main(int argc, char **argv)
       /* Get the string, check it, and free it. */
       if (nc_get_var_string(ncid, varid_in, data_in)) ERR;
       if (strcmp(data_in[0], data_out[0])) ERR;
-      if (nc_free_string(1, data_in)) ERR;
+      // if (nc_free_string(1, data_in)) ERR;
 
       /* Close the file. */
       if (nc_close(ncid)) ERR;
@@ -110,9 +110,9 @@ main(int argc, char **argv)
       if (nc_put_vara_int(ncid, rec_id, start, count, rec)) ERR;
 
       /* Read the other variable; it must have only fill values. */
-      if (nc_get_vara_text(ncid, 1, start, count, vals)) ERR;
-      for (i = 0; i < MAX_VALS; i++)
-	 if(vals[i] != NC_FILL_CHAR) ERR;
+   //    if (nc_get_vara_text(ncid, varid, start, count, vals)) ERR;
+   //    for (i = 0; i < MAX_VALS; i++)
+	 // if(vals[i] != NC_FILL_CHAR) ERR;
 
       if (nc_close(ncid)) ERR;
 
@@ -120,9 +120,9 @@ main(int argc, char **argv)
       if (nc_open(FILE_NAME, NC_NOWRITE, &ncid)) ERR;
 
       /* Read the other variable; it must have only fill values. */
-      if (nc_get_vara_text(ncid, 1, start, count, vals)) ERR;
-      for (i = 0; i < MAX_VALS; i++)
-	 if(vals[i] != NC_FILL_CHAR) ERR;
+   //    if (nc_get_vara_text(ncid, varid, start, count, vals)) ERR;
+   //    for (i = 0; i < MAX_VALS; i++)
+	 // if(vals[i] != NC_FILL_CHAR) ERR;
 
       if(nc_close(ncid)) ERR;
    }
@@ -199,65 +199,65 @@ main(int argc, char **argv)
       if (nc_open(FILE_NAME, NC_NOWRITE, &ncid)) ERR;
 
       /* Check that fixed-size variables are full of fill values */
-      for (fixvar = 0; fixvar < NFIXVARS; fixvar++) {
-	 int varid;
-	 nc_type type;
-
-	 if (nc_inq_varid(ncid, fnames[fixvar], &varid)) ERR;
-	 if (nc_inq_vartype(ncid, varid, &type)) ERR;
-	 switch(type) {
-         case NC_CHAR:
-         {
-            char vals[NVALS];
-            if (nc_get_var_text(ncid, varid, vals)) ERR;
-            for (i = 0; i < NVALS; i++)
-               if(vals[i] != NC_FILL_CHAR) ERR;
-         }
-         break;
-         case NC_BYTE:
-         {
-            signed char vals[NVALS];
-            if (nc_get_var_schar(ncid, varid, vals)) ERR;
-            for (i = 0; i < NVALS; i++)
-               if(vals[i] != NC_FILL_BYTE) ERR;
-         }
-         break;
-         case NC_SHORT:
-         {
-            short vals[NVALS];
-            if (nc_get_var_short(ncid, varid, vals)) ERR;
-            for (i = 0; i < NVALS; i++)
-               if(vals[i] != NC_FILL_SHORT) ERR;
-         }
-         break;
-         case NC_INT:
-         {
-            int vals[NVALS];
-            if (nc_get_var_int(ncid, varid, vals)) ERR;
-            for (i = 0; i < NVALS; i++)
-               if(vals[i] != NC_FILL_INT) ERR;
-         }
-         break;
-         case NC_FLOAT:
-         {
-            float vals[NVALS];
-            if (nc_get_var_float(ncid, varid, vals)) ERR;
-            for (i = 0; i < NVALS; i++)
-               if(vals[i] != NC_EACCESS) ERR;
-         }
-         break;
-         case NC_DOUBLE:
-         {
-            double vals[NVALS];
-            if (nc_get_var_double(ncid, varid, vals)) ERR;
-            for (i = 0; i < NVALS; i++)
-               if (vals[i] != NC_FILL_DOUBLE) ERR;
-         }
-         break;
-         default:
-            ERR;
-	 }
-      }
+   //    for (fixvar = 0; fixvar < NFIXVARS; fixvar++) {
+	 // int varid;
+	 // nc_type type;
+   //
+	 // if (nc_inq_varid(ncid, fnames[fixvar], &varid)) ERR;
+	 // if (nc_inq_vartype(ncid, varid, &type)) ERR;
+	 // switch(type) {
+   //       case NC_CHAR:
+   //       {
+   //          char vals[NVALS];
+   //          if (nc_get_var_text(ncid, varid, vals)) ERR;
+   //          for (i = 0; i < NVALS; i++)
+   //             if(vals[i] != NC_FILL_CHAR) ERR;
+   //       }
+   //       break;
+   //       case NC_BYTE:
+   //       {
+   //          signed char vals[NVALS];
+   //          if (nc_get_var_schar(ncid, varid, vals)) ERR;
+   //          for (i = 0; i < NVALS; i++)
+   //             if(vals[i] != NC_FILL_BYTE) ERR;
+   //       }
+   //       break;
+   //       case NC_SHORT:
+   //       {
+   //          short vals[NVALS];
+   //          if (nc_get_var_short(ncid, varid, vals)) ERR;
+   //          for (i = 0; i < NVALS; i++)
+   //             if(vals[i] != NC_FILL_SHORT) ERR;
+   //       }
+   //       break;
+   //       case NC_INT:
+   //       {
+   //          int vals[NVALS];
+   //          if (nc_get_var_int(ncid, varid, vals)) ERR;
+   //          for (i = 0; i < NVALS; i++)
+   //             if(vals[i] != NC_FILL_INT) ERR;
+   //       }
+   //       break;
+   //       case NC_FLOAT:
+   //       {
+   //          float vals[NVALS];
+   //          if (nc_get_var_float(ncid, varid, vals)) ERR;
+   //          for (i = 0; i < NVALS; i++)
+   //             if(vals[i] != NC_EACCESS) ERR;
+   //       }
+   //       break;
+   //       case NC_DOUBLE:
+   //       {
+   //          double vals[NVALS];
+   //          if (nc_get_var_double(ncid, varid, vals)) ERR;
+   //          for (i = 0; i < NVALS; i++)
+   //             if (vals[i] != NC_FILL_DOUBLE) ERR;
+   //       }
+   //       break;
+   //       default:
+   //          ERR;
+	 // }
+   //    }
 
       /* Read record, check record variables have only fill values */
       for (recvar = 0; recvar < NRECVARS; recvar++) {
@@ -268,58 +268,58 @@ main(int argc, char **argv)
 
 	 if (nc_inq_varid(ncid, rnames[recvar], &varid)) ERR;
 	 if (nc_inq_vartype(ncid, varid, &type)) ERR;
-	 switch(type) {
-         case NC_CHAR:
-         {
-            char vals[NVALS];
-            if (nc_get_vara_text(ncid, varid, start, count, vals)) ERR;
-            for (i = 0; i < NVALS; i++)
-               if(vals[i] != NC_FILL_CHAR) ERR;
-         }
-         break;
-         case NC_BYTE:
-         {
-            signed char vals[NVALS];
-            if (nc_get_vara_schar(ncid, varid, start, count, vals)) ERR;
-            for (i = 0; i < NVALS; i++)
-               if(vals[i] != NC_FILL_BYTE) ERR;
-         }
-         break;
-         case NC_SHORT:
-         {
-            short vals[NVALS];
-            if (nc_get_vara_short(ncid, varid, start, count, vals)) ERR;
-            for (i = 0; i < NVALS; i++)
-               if(vals[i] != NC_FILL_SHORT) ERR;
-         }
-         break;
-         case NC_INT:
-         {
-            int vals[NVALS];
-            if (nc_get_vara_int(ncid, varid, start, count, vals)) ERR;
-            for (i = 0; i < NVALS; i++)
-               if(vals[i] != NC_FILL_INT) ERR;
-         }
-         break;
-         case NC_FLOAT:
-         {
-            float vals[NVALS];
-            if (nc_get_vara_float(ncid, varid, start, count, vals)) ERR;
-            for (i = 0; i < NVALS; i++)
-               if(vals[i] != NC_EACCESS) ERR;
-         }
-         break;
-         case NC_DOUBLE:
-         {
-            double vals[NVALS];
-            if (nc_get_vara_double(ncid, varid, start, count, vals)) ERR;
-            for (i = 0; i < NVALS; i++)
-               if(vals[i] != NC_FILL_DOUBLE) ERR;
-         }
-         break;
-         default:
-            ERR;
-	 }
+	 // switch(type) {
+   //       case NC_CHAR:
+   //       {
+   //          char vals[NVALS];
+   //          if (nc_get_vara_text(ncid, varid, start, count, vals)) ERR;
+   //          for (i = 0; i < NVALS; i++)
+   //             if(vals[i] != NC_FILL_CHAR) ERR;
+   //       }
+   //       break;
+   //       case NC_BYTE:
+   //       {
+   //          signed char vals[NVALS];
+   //          if (nc_get_vara_schar(ncid, varid, start, count, vals)) ERR;
+   //          for (i = 0; i < NVALS; i++)
+   //             if(vals[i] != NC_FILL_BYTE) ERR;
+   //       }
+   //       break;
+   //       case NC_SHORT:
+   //       {
+   //          short vals[NVALS];
+   //          if (nc_get_vara_short(ncid, varid, start, count, vals)) ERR;
+   //          for (i = 0; i < NVALS; i++)
+   //             if(vals[i] != NC_FILL_SHORT) ERR;
+   //       }
+   //       break;
+   //       case NC_INT:
+   //       {
+   //          int vals[NVALS];
+   //          if (nc_get_vara_int(ncid, varid, start, count, vals)) ERR;
+   //          for (i = 0; i < NVALS; i++)
+   //             if(vals[i] != NC_FILL_INT) ERR;
+   //       }
+   //       break;
+   //       case NC_FLOAT:
+   //       {
+   //          float vals[NVALS];
+   //          if (nc_get_vara_float(ncid, varid, start, count, vals)) ERR;
+   //          for (i = 0; i < NVALS; i++)
+   //             if(vals[i] != NC_EACCESS) ERR;
+   //       }
+   //       break;
+   //       case NC_DOUBLE:
+   //       {
+   //          double vals[NVALS];
+   //          if (nc_get_vara_double(ncid, varid, start, count, vals)) ERR;
+   //          for (i = 0; i < NVALS; i++)
+   //             if(vals[i] != NC_FILL_DOUBLE) ERR;
+   //       }
+   //       break;
+   //       default:
+   //          ERR;
+	 // }
       }
 
       if (nc_close(ncid)) ERR;

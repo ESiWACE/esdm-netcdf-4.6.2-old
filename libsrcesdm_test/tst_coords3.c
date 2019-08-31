@@ -351,7 +351,7 @@ main(int argc, char **argv)
       if (nc_put_att_text(ncid, varids[5], UNITS, strlen(DEGREES_NORTH), DEGREES_NORTH)) ERR;
 
       /* Write some data to T. */
-      // if (nc_put_vara_float(ncid, 0, start, count, (const float *)temp)) ERR;
+      if (nc_put_vara_float(ncid, 0, start, count, (const float *)temp)) ERR;
       /* Write data to XC. */
       if (nc_put_var_float(ncid, 1, xc)) ERR;
       /* Write data to YC. */
@@ -359,7 +359,7 @@ main(int argc, char **argv)
 
       /* Check the metadata and data. */
       if (check_cf_metadata(ncid)) ERR;
-      // if (check_cf_data(ncid)) ERR;
+      if (check_cf_data(ncid)) ERR;
 
       /* Close up. */
       if (nc_close(ncid)) ERR;
@@ -369,7 +369,7 @@ main(int argc, char **argv)
 
       /* Check the metadata and data. */
       if (check_cf_metadata(ncid)) ERR;
-      // if (check_cf_data(ncid)) ERR;
+      if (check_cf_data(ncid)) ERR;
 
       /* Close up. */
       if (nc_close(ncid)) ERR;
@@ -412,7 +412,7 @@ main(int argc, char **argv)
 			  LONLAT_COORDINATES)) ERR;
 
       /* Write some data to T. */
-      // if (nc_put_vara_float(ncid, 0, start, count, (const float *)temp)) ERR;
+      if (nc_put_vara_float(ncid, 0, start, count, (const float *)temp)) ERR;
 
       /* Define xc variable. */
       if (nc_def_var(ncid, XC_NAME, NC_FLOAT, 1, &dimids[0], &varids[1])) ERR;
@@ -456,7 +456,7 @@ main(int argc, char **argv)
 
       /* Check the metadata and data. */
       if (check_cf_metadata(ncid)) ERR;
-      // if (check_cf_data(ncid)) ERR;
+      if (check_cf_data(ncid)) ERR;
 
       /* Close up. */
       if (nc_close(ncid)) ERR;
@@ -466,7 +466,7 @@ main(int argc, char **argv)
 
       /* Check the metadata and data. */
       if (check_cf_metadata(ncid)) ERR;
-      // if (check_cf_data(ncid)) ERR;
+      if (check_cf_data(ncid)) ERR;
 
       /* Close up. */
       if (nc_close(ncid)) ERR;

@@ -24,7 +24,7 @@ int
 main(int argc, char **argv)
 {
 #define NUM_FORMATS 2
-   int formats[NUM_FORMATS] = {NC_EACCESS, NC_EACCESS};
+   int formats[NUM_FORMATS] = {NC_FORMAT_NETCDF4, NC_FORMAT_NETCDF4_CLASSIC};
    int format;
 
    fprintf(stderr,"*** Testing more renames\n");
@@ -107,9 +107,9 @@ main(int argc, char **argv)
 
          if (nc_enddef(ncid)) ERR;
 
-         // if (nc_put_var(ncid, 0, lat_data)) ERR;
-         // if (nc_put_var(ncid, 1, lon_data)) ERR;
-         // if (nc_put_var(ncid, 2, lev_data)) ERR;
+         if (nc_put_var(ncid, 0, lat_data)) ERR;
+         if (nc_put_var(ncid, 1, lon_data)) ERR;
+         if (nc_put_var(ncid, 2, lev_data)) ERR;
 
          if (nc_close(ncid)) ERR;
          if (nc_open(filename, NC_WRITE, &ncid)) ERR;
