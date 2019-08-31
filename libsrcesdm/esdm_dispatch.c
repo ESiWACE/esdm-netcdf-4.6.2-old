@@ -1090,12 +1090,17 @@ int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype, size_t
   } else {
     if (datatype == NC_STRING) {
       new = smd_attr_new(name, etype, *(void **)value, 0);
-    } else {
-      new = smd_attr_new_usertype(name, type_nc_to_esdm(type), etype, value, 0);
-      if(!new){
-        return NC_ERANGE;
-      }
-    }
+    } else if (etype == SMD_DTYPE_STRING) {
+          new = smd_attr_new(name, etype, value, 0);
+          if(!new){
+            return NC_ERANGE;
+           }
+          } else {
+                new = smd_attr_new_usertype(name, type_nc_to_esdm(type), etype, value, 0);
+                if(!new){
+                  return NC_ERANGE;
+                 }
+          }
   }
 
   if (type != datatype) {
