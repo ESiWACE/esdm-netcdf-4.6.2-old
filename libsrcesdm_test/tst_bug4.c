@@ -13,12 +13,11 @@
 // It cannot insert a variable ulonglong
 // I have no idea what's going on here, too many problems!
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
   int ncid, lat_dimid, elev_varid, dimids[MAX_DIMS];
   int lat_varid, lon_dimid, lon_varid, pres_varid, hp_varid;
   unsigned long long elev, elev_in;
-  char name_in[NC_MAX_NAME + 1];// If remove it, goes to segfault!
+  char name_in[NC_MAX_NAME + 1]; // If remove it, goes to segfault!
 
   /* Some phony elevaton data. */
   elev = 1010101022223333ULL;
@@ -34,6 +33,6 @@ int main(int argc, char **argv)
   if (elev != elev_in) ERR;
   if (nc_close(ncid)) ERR;
 
-   SUMMARIZE_ERR;
-   FINAL_RESULTS;
+  SUMMARIZE_ERR;
+  FINAL_RESULTS;
 }

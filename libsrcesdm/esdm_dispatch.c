@@ -44,13 +44,13 @@
     printf("[ESDM NC] WARN %s():%d. NetCDF Feature not supported with ESDM!\n", __func__, __LINE__); \
   } while (0)
 
-#define WARN_NOT_SUPPORTED_TYPES                                                                                \
-do {                                                                                                             \
-  printf("[ESDM NC] WARN %s():%d. ESDM does not support user defined datatypes from NetCDF!\n", __func__, __LINE__); \
-} while (0)
+#define WARN_NOT_SUPPORTED_TYPES                                                                                       \
+  do {                                                                                                                 \
+    printf("[ESDM NC] WARN %s():%d. ESDM does not support user-defined datatypes from NetCDF!\n", __func__, __LINE__); \
+  } while (0)
 
-#define WARN_NOT_SUPPORTED_GROUPS                                                                                \
-  do {                                                                                                             \
+#define WARN_NOT_SUPPORTED_GROUPS                                                                      \
+  do {                                                                                                 \
     printf("[ESDM NC] WARN %s():%d. ESDM does not support groups from NetCDF!\n", __func__, __LINE__); \
   } while (0)
 
@@ -187,7 +187,7 @@ int64_t esdm_container_dataset_get_actual_size(int ncid, int dimid) {
     int64_t ndims = esdm_dataspace_get_dims(space);
 
     for (int i = 0; i < ndims; i++) {
-      if (dimid == ev->dimidsp[i]){
+      if (dimid == ev->dimidsp[i]) {
         pos = i;
         break;
       }
@@ -195,18 +195,15 @@ int64_t esdm_container_dataset_get_actual_size(int ncid, int dimid) {
 
     if (pos != -1)
       break;
-
   }
 
-  if (pos == -1){
-  // there is no dataset containing the dimension
+  if (pos == -1) {
+    // there is no dataset containing the dimension
     return (e->dimt.size[dimid]);
-  }
-  else {
+  } else {
     int64_t const *sizes = esdm_dataset_get_actual_size(ev->dset);
     return sizes[pos];
   }
-
 }
 
 int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_t *chunksizehintp, void *parameters, struct NC_Dispatch *table, NC *ncp) {
@@ -265,7 +262,7 @@ static void add_to_dims_tbl(nc_esdm_t *e, char const *name, size_t size) {
   e->dimt.size[cur] = size;
 }
 
-static void ncesdm_remove_attr(esdm_container_t *c){
+static void ncesdm_remove_attr(esdm_container_t *c) {
   smd_attr_t *attrs;
   int ret = esdm_container_get_attributes(c, &attrs);
   int dims_pos = smd_find_position_by_name(attrs, "_nc_dims");
@@ -505,7 +502,6 @@ int ESDM_set_fill(int ncid, int fillmode, int *old_modep) {
 
   old_modep = malloc(sizeof(int));
   *old_modep = fillmode;
-  // TODO
 
   return NC_NOERR;
 }
@@ -529,10 +525,10 @@ int ESDM_def_var_fill(int ncid, int varid, int no_fill, const void *fill_value) 
     return NC_EACCESS;
   }
   md_var_t *ev = e->vars.var[varid];
-  if(no_fill == NC_NOFILL){
+  if (no_fill == NC_NOFILL) {
     status = esdm_dataset_set_fill_value(ev->dset, NULL);
     assert(status == ESDM_SUCCESS);
-  }else{
+  } else {
     status = esdm_dataset_set_fill_value(ev->dset, fill_value);
     assert(status == ESDM_SUCCESS);
   }
@@ -665,9 +661,9 @@ int ESDM_def_dim(int ncid, const char *name, size_t len, int *idp) {
   }
 
   int cnt = e->dimt.count;
-  if (idp){
-  *idp = cnt;
-  DEBUG_ENTER("%d: %d\n", ncid, *idp);
+  if (idp) {
+    *idp = cnt;
+    DEBUG_ENTER("%d: %d\n", ncid, *idp);
   }
 
   add_to_dims_tbl(e, name, len);
@@ -724,7 +720,6 @@ int ESDM_inq_dim(int ncid, int dimid, char *name, size_t *lenp) {
   if (lenp) {
     *lenp = e->dimt.size[dimid];
     if (*lenp == 0) {
-
       *lenp = esdm_container_dataset_get_actual_size(ncid, dimid);
     }
   }
@@ -1053,10 +1048,10 @@ int ESDM_get_att(int ncid, int varid, const char *name, void *value, nc_type typ
   smd_attr_t *child = smd_attr_get_child_by_name(att, name);
   if (child != NULL) {
     if (child->type->type == SMD_TYPE_STRING) {
-      char const * str;
-      smd_attr_copy_value(child, & str);
+      char const *str;
+      smd_attr_copy_value(child, &str);
       strcpy(value, str);
-    }else{
+    } else {
       smd_attr_copy_value_usertype(child, type_nc_to_esdm(type), value);
     }
     return NC_NOERR;
@@ -1064,7 +1059,6 @@ int ESDM_get_att(int ncid, int varid, const char *name, void *value, nc_type typ
 
   return NC_EACCESS;
 }
-
 
 int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype, size_t len, void const *value, nc_type type) {
   DEBUG_ENTER("%d\n", ncid);
@@ -1095,16 +1089,16 @@ int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype, size_t
     if (datatype == NC_STRING) {
       new = smd_attr_new(name, etype, *(void **)value, 0);
     } else if (etype == SMD_DTYPE_STRING) {
-          new = smd_attr_new(name, etype, value, 0);
-          if(!new){
-            return NC_EACCESS;
-           }
-          } else {
-                new = smd_attr_new_usertype(name, type_nc_to_esdm(type), etype, value, 0);
-                if(!new){
-                  return NC_EACCESS;
-                 }
-          }
+      new = smd_attr_new(name, etype, value, 0);
+      if (!new) {
+        return NC_EACCESS;
+      }
+    } else {
+      new = smd_attr_new_usertype(name, type_nc_to_esdm(type), etype, value, 0);
+      if (!new) {
+        return NC_EACCESS;
+      }
+    }
   }
 
   // if (type != datatype) {
@@ -1146,7 +1140,7 @@ int ESDM_def_var(int ncid, const char *name, nc_type xtype, int ndims, const int
   char *names[ndims];
   int64_t bounds[ndims];
 
-  if (dimidsp){
+  if (dimidsp) {
     evar->dimidsp = malloc(sizeof(int) * ndims);
 
     for (int i = 0; i < ndims; i++) {
@@ -1290,14 +1284,13 @@ int ESDM_get_vars(int ncid, int varid, const size_t *startp, const size_t *count
   ret = esdm_dataspace_subspace(space, ndims, size, offset, &subspace);
   if (ret != ESDM_SUCCESS) {
     int count = 0;
-    for(int i = 0; i < ndims; i++)
-      if (size[i] == 0){
+    for (int i = 0; i < ndims; i++)
+      if (size[i] == 0) {
         count++;
-    }
-    if (count != 0){
+      }
+    if (count != 0) {
       return NC_NOERR;
-    }
-    else {
+    } else {
       return NC_EACCESS;
     }
   }
@@ -1351,15 +1344,14 @@ int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *count
   ret = esdm_dataspace_subspace(space, ndims, size, offset, &subspace);
   if (ret != ESDM_SUCCESS) {
     int count = 0;
-    for(int i = 0; i < ndims; i++)
-      if (size[i] == 0){
+    for (int i = 0; i < ndims; i++)
+      if (size[i] == 0) {
         count++;
-    }
+      }
 
-    if (count != 0){
+    if (count != 0) {
       return NC_NOERR;
-    }
-    else {
+    } else {
       return NC_EACCESS;
     }
   }
@@ -1414,7 +1406,6 @@ int ESDM_put_vara(int ncid, int varid, const size_t *startp, const size_t *count
 // Not fully implemented and tested yet
 
 int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndimsp, int *dimidsp, int *nattsp, int *shufflep, int *deflatep, int *deflate_levelp, int *fletcher32p, int *contiguousp, size_t *chunksizesp, int *no_fill, void *fill_valuep, int *endiannessp, unsigned int *idp, size_t *nparamsp, unsigned int *params) {
-
   esdm_status status;
 
   nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
@@ -1537,10 +1528,8 @@ static int ESDM_inq_typeids(int ncid, int *ntypes, int *typeids) {
   // Check for types of the attributes inside the variables (e->dsets->dset->attr)
 
   if (ntypes) {
-
   }
   if (typeids) {
-
   }
 
   return NC_NOERR;
@@ -1698,7 +1687,7 @@ int ESDM_inq_varids(int ncid, int *nvars, int *varids) {
   if (nvars)
     *nvars = e->vars.count;
 
-  if (varids){
+  if (varids) {
     for (int i = 0; i < *nvars; i++) {
       varids[i] = i;
     }
@@ -1718,7 +1707,7 @@ int ESDM_inq_varids(int ncid, int *nvars, int *varids) {
 
 // Not implemented considering groups. Parameter include_parents = 0
 
-int ESDM_inq_dimids(int	ncid, int *ndims, int *dimids, int include_parents){
+int ESDM_inq_dimids(int ncid, int *ndims, int *dimids, int include_parents) {
   // DEBUG_ENTER("%d\n", ncid);
 
   // if (include_parents){
@@ -1732,7 +1721,7 @@ int ESDM_inq_dimids(int	ncid, int *ndims, int *dimids, int include_parents){
   if (ndims)
     *ndims = e->dimt.count;
 
-  if (dimids){
+  if (dimids) {
     for (int i = 0; i < *ndims; i++) {
       dimids[i] = i;
     }

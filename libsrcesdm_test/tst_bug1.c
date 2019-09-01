@@ -13,10 +13,9 @@
 //Error: tst_bug1: /home/lucy/esiwace/esdm/src/esdm-datatypes.c:674:
 //esdmI_create_fragment_from_metadata: Assertion `dims > 0' failed.
 
-int main(int argc, char **argv)
-{
-   int ncid, varid;
-   signed char schar = 2, schar2;
+int main(int argc, char **argv) {
+  int ncid, varid;
+  signed char schar = 2, schar2;
 
   /* Write a scalar NC_BYTE with value 2. */
   if (nc_create(FILE_NAME, NC_NETCDF4, &ncid)) ERR;

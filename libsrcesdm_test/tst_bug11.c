@@ -28,34 +28,30 @@
 //   return NC_NOERR;
 // }
 
-int main(int argc, char **argv)
-{
-// #define VERY_LONG_LEN (size_t)4500000000LL
-     #define VERY_LONG_LEN (size_t)450
-      int ncid, dimid;
-      size_t len_in;
-      char name_in[NC_MAX_NAME + 1];
+int main(int argc, char **argv) {
+  // #define VERY_LONG_LEN (size_t)4500000000LL
+#define VERY_LONG_LEN (size_t)450
+  int ncid, dimid;
+  size_t len_in;
+  char name_in[NC_MAX_NAME + 1];
 
-      if (SIZEOF_SIZE_T == 8)
-      {
-         /* Create a file with one dim and nothing else. */
-         if (nc_create(FILE_NAME, NC_NETCDF4, &ncid)) ERR;
-         if (nc_def_dim(ncid, LAT_NAME, VERY_LONG_LEN, &dimid)) ERR;
+  if (SIZEOF_SIZE_T == 8) {
+    /* Create a file with one dim and nothing else. */
+    if (nc_create(FILE_NAME, NC_NETCDF4, &ncid)) ERR;
+    if (nc_def_dim(ncid, LAT_NAME, VERY_LONG_LEN, &dimid)) ERR;
 
-         /* Check it out. */
-         if (nc_inq_dim(ncid, dimid, name_in, &len_in)) ERR;
-         if (len_in != ((SIZEOF_SIZE_T == 8) ? VERY_LONG_LEN : NC_MAX_UINT) ||
-             strcmp(name_in, LAT_NAME)) ERR;
-         if (nc_close(ncid)) ERR;
+    /* Check it out. */
+    if (nc_inq_dim(ncid, dimid, name_in, &len_in)) ERR;
+    if (len_in != ((SIZEOF_SIZE_T == 8) ? VERY_LONG_LEN : NC_MAX_UINT) || strcmp(name_in, LAT_NAME)) ERR;
+    if (nc_close(ncid)) ERR;
 
-         /* Reopen and check it out again. */
-         if (nc_open(FILE_NAME, NC_NOWRITE, &ncid)) ERR;
-         /* Check it out. */
-         if (nc_inq_dim(ncid, dimid, name_in, &len_in)) ERR;
-         if (len_in != ((SIZEOF_SIZE_T == 8) ? VERY_LONG_LEN : NC_MAX_UINT) ||
-             strcmp(name_in, LAT_NAME)) ERR;
-         if (nc_close(ncid)) ERR;
-      }
-   SUMMARIZE_ERR;
-   FINAL_RESULTS;
+    /* Reopen and check it out again. */
+    if (nc_open(FILE_NAME, NC_NOWRITE, &ncid)) ERR;
+    /* Check it out. */
+    if (nc_inq_dim(ncid, dimid, name_in, &len_in)) ERR;
+    if (len_in != ((SIZEOF_SIZE_T == 8) ? VERY_LONG_LEN : NC_MAX_UINT) || strcmp(name_in, LAT_NAME)) ERR;
+    if (nc_close(ncid)) ERR;
+  }
+  SUMMARIZE_ERR;
+  FINAL_RESULTS;
 }

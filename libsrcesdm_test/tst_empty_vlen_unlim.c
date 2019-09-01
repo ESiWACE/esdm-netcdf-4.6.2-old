@@ -13,7 +13,6 @@
  *    * https://github.com/Unidata/netcdf4-python/issues/527
  */
 
-
 #include <nc_tests.h>
 #include "err_macros.h"
 #include <hdf5.h>
@@ -33,7 +32,6 @@
 #define VLEN2 3
 
 int main() {
-
   printf("Testing access to unset entries in VLEN variable, unlimited dimension\n");
   {
     int ncid, typeid, dimid, varid, varid2;
@@ -41,8 +39,8 @@ int main() {
     int stat;
     float *dat0, *dat1, *dat2;
     float *data2;
-    size_t startp[3] = {0,0,0};
-    size_t countp[3] = {VLEN0,VLEN1,VLEN2};
+    size_t startp[3] = {0, 0, 0};
+    size_t countp[3] = {VLEN0, VLEN1, VLEN2};
     size_t startp2[1] = {0};
     size_t countp2[1] = {VLEN2};
     int i = 0;
@@ -75,32 +73,31 @@ int main() {
 
     /* Write out data for w */
     printf("\t* Creating float data for secondary variable.\n");
-    data2 = (float*)malloc(sizeof(float) * VLEN2);
-    for(i = 0; i < VLEN2; i++) {
+    data2 = (float *)malloc(sizeof(float) * VLEN2);
+    for (i = 0; i < VLEN2; i++) {
       data2[i] = (float)i;
     }
 
     printf("\t* Putting data in secondary variable:\tnc_put_vara().\n");
-    if (nc_put_vara(ncid,varid2,startp2,countp2,data2)) ERR;
+    if (nc_put_vara(ncid, varid2, startp2, countp2, data2)) ERR;
     free(data2);
 
     /***********/
     /* Actually unnecessary to recreate the issue. */
     /***********/
 
-
     /* Write out varying-length data for v[0] and v[1]. Leave v[2] empty. */
 
-    dat0 = (float*)malloc(VLEN0 * sizeof(float));
-    for(i = 0; i < VLEN0; i++) {
+    dat0 = (float *)malloc(VLEN0 * sizeof(float));
+    for (i = 0; i < VLEN0; i++) {
       dat0[i] = (float)i;
     }
-    dat1 = (float*)malloc(VLEN1 * sizeof(float));
-    for(i = 0; i < VLEN1; i++) {
+    dat1 = (float *)malloc(VLEN1 * sizeof(float));
+    for (i = 0; i < VLEN1; i++) {
       dat1[i] = (float)i;
     }
-    dat2 = (float*)malloc(VLEN2 * sizeof(float));
-    for(i = 0; i < VLEN2; i++) {
+    dat2 = (float *)malloc(VLEN2 * sizeof(float));
+    for (i = 0; i < VLEN2; i++) {
       dat2[i] = (float)i;
     }
 
@@ -114,8 +111,8 @@ int main() {
     data[2].len = VLEN2;
 
     printf("\t* Putting data in VLEN variable:\tnc_put_vara().\n");
-    stat = nc_put_vara(ncid,varid,startp,countp,data);
-    if(stat) ERR;
+    stat = nc_put_vara(ncid, varid, startp, countp, data);
+    if (stat) ERR;
 
     /* Close File. */
     printf("\t* Closing file:\tnc_close().\n");
@@ -133,8 +130,8 @@ int main() {
     int stat;
     float *dat0, *dat1, *dat2;
     float *data2;
-    size_t startp[3] = {0,0,0};
-    size_t countp[3] = {VLEN0,VLEN1,VLEN2};
+    size_t startp[3] = {0, 0, 0};
+    size_t countp[3] = {VLEN0, VLEN1, VLEN2};
     size_t startp2[1] = {0};
     size_t countp2[1] = {VLEN2};
     int i = 0;
@@ -167,32 +164,31 @@ int main() {
 
     /* Write out data for w */
     printf("\t* Creating float data for secondary variable.\n");
-    data2 = (float*)malloc(sizeof(float) * VLEN2);
-    for(i = 0; i < VLEN2; i++) {
+    data2 = (float *)malloc(sizeof(float) * VLEN2);
+    for (i = 0; i < VLEN2; i++) {
       data2[i] = (float)i;
     }
 
     printf("\t* Putting data in secondary variable:\tnc_put_vara().\n");
-    if (nc_put_vara(ncid,varid2,startp2,countp2,data2)) ERR;
+    if (nc_put_vara(ncid, varid2, startp2, countp2, data2)) ERR;
     free(data2);
 
     /***********/
     /* Actually unnecessary to recreate the issue. */
     /***********/
 
-
     /* Write out varying-length data for v[0] and v[1]. Leave v[2] empty. */
 
-    dat0 = (float*)malloc(VLEN0 * sizeof(float));
-    for(i = 0; i < VLEN0; i++) {
+    dat0 = (float *)malloc(VLEN0 * sizeof(float));
+    for (i = 0; i < VLEN0; i++) {
       dat0[i] = (float)i;
     }
-    dat1 = (float*)malloc(VLEN1 * sizeof(float));
-    for(i = 0; i < VLEN1; i++) {
+    dat1 = (float *)malloc(VLEN1 * sizeof(float));
+    for (i = 0; i < VLEN1; i++) {
       dat1[i] = (float)i;
     }
-    dat2 = (float*)malloc(VLEN2 * sizeof(float));
-    for(i = 0; i < VLEN2; i++) {
+    dat2 = (float *)malloc(VLEN2 * sizeof(float));
+    for (i = 0; i < VLEN2; i++) {
       dat2[i] = (float)i;
     }
 
@@ -206,8 +202,8 @@ int main() {
     data[2].len = VLEN2;
 
     printf("\t* Putting data in VLEN variable:\tnc_put_vara().\n");
-    stat = nc_put_vara(ncid,varid,startp,countp,data);
-    if(stat) ERR;
+    stat = nc_put_vara(ncid, varid, startp, countp, data);
+    if (stat) ERR;
 
     /* Close File. */
     printf("\t* Closing file:\tnc_close().\n");
@@ -219,5 +215,4 @@ int main() {
 
   SUMMARIZE_ERR;
   FINAL_RESULTS;
-
 }

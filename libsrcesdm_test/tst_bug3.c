@@ -13,8 +13,7 @@
 // It cannot insert a variable ulonglong
 // I have no idea what's going on here, too many problems!
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
   int ncid, lat_dimid, lon_dimid, elev_varid, dimids[2];
   unsigned long long elev, elev_in;
 
@@ -32,6 +31,6 @@ int main(int argc, char **argv)
   if (elev != elev_in) ERR;
   if (nc_close(ncid)) ERR;
 
-   SUMMARIZE_ERR;
-   FINAL_RESULTS;
+  SUMMARIZE_ERR;
+  FINAL_RESULTS;
 }

@@ -25,14 +25,12 @@
 #define LEN 4
 
 #define ATTNAME "TextAttribute"
-#define ATTVAL  "This is a text attribute used for testing."
-
+#define ATTVAL "This is a text attribute used for testing."
 
 /*! Main function for tst_fill_attr_vanish.c
  *
  */
-int main()
-{
+int main() {
   int ncid, dimids[RANK_P], time_id, p_id, test_id, status;
   int test_data[1] = {1};
   size_t test_start[1] = {0}, test_count[1] = {1};
@@ -44,7 +42,7 @@ int main()
   printf("*** Creating a file with no _FillValue defined. ***\n");
 
   /* Create a 3D test file. */
-  if (nc_create(FILENAME, NC_CLOBBER|NC_NETCDF4, &ncid)) ERR;
+  if (nc_create(FILENAME, NC_CLOBBER | NC_NETCDF4, &ncid)) ERR;
   if (nc_set_fill(ncid, NC_NOFILL, NULL)) ERR;
 
   /* define dimensions */
@@ -72,7 +70,7 @@ int main()
   /********************************************/
 
   /* Reopen the file, add a fillvalue attribute. */
-  if (nc_open(FILENAME, NC_NOCLOBBER|NC_WRITE, &ncid)) ERR;
+  if (nc_open(FILENAME, NC_NOCLOBBER | NC_WRITE, &ncid)) ERR;
   if (nc_redef(ncid)) ERR;
   if (nc_inq_varid(ncid, "Test", &test_id)) ERR;
 
@@ -80,10 +78,13 @@ int main()
   {
     char *attval = malloc(sizeof(char) * strlen(ATTVAL));
     printf("**** Checking that attribute still exists:\t");
-    if(nc_get_att_text(ncid,test_id,ATTNAME,attval)) {printf("Fail\n"); ERR;}
-    else {printf("%s\n",attval);}
+    if (nc_get_att_text(ncid, test_id, ATTNAME, attval)) {
+      printf("Fail\n");
+      ERR;
+    } else {
+      printf("%s\n", attval);
+    }
     free(attval);
-
   }
 
   printf("**** Expecting NC_EACCESS when adding _FillValue attribute if variable exists.\n");
@@ -100,19 +101,22 @@ int main()
   {
     char *attval = malloc(sizeof(char) * strlen(ATTVAL));
     printf("**** Checking that attribute still exists, pre-write:\t");
-    if(nc_get_att_text(ncid,test_id,ATTNAME,attval)) {printf("Fail\n"); ERR;}
-    else {printf("%s\n",attval);}
+    if (nc_get_att_text(ncid, test_id, ATTNAME, attval)) {
+      printf("Fail\n");
+      ERR;
+    } else {
+      printf("%s\n", attval);
+    }
     free(attval);
-
   }
 
   /* Close file again. */
-  printf( "**** Saving, closing file.\n");
+  printf("**** Saving, closing file.\n");
   if (nc_close(ncid)) ERR;
   /********************************************/
-  printf( "*** Reopening file.\n");
+  printf("*** Reopening file.\n");
   /* Reopen the file, checking that all attributes are preserved. */
-  if (nc_open(FILENAME, NC_NOCLOBBER|NC_WRITE, &ncid)) ERR;
+  if (nc_open(FILENAME, NC_NOCLOBBER | NC_WRITE, &ncid)) ERR;
   if (nc_redef(ncid)) ERR;
   if (nc_inq_varid(ncid, "Test", &test_id)) ERR;
 
@@ -120,10 +124,13 @@ int main()
   {
     char *attval = malloc(sizeof(char) * strlen(ATTVAL));
     printf("**** Checking that attribute still exists:\t");
-    if(nc_get_att_text(ncid,test_id,ATTNAME,attval)) {printf("Fail\n"); ERR;}
-    else {printf("%s\n",attval);}
+    if (nc_get_att_text(ncid, test_id, ATTNAME, attval)) {
+      printf("Fail\n");
+      ERR;
+    } else {
+      printf("%s\n", attval);
+    }
     free(attval);
-
   }
 
   if (nc_close(ncid)) ERR;

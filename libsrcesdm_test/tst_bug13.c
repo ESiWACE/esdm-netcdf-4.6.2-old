@@ -13,8 +13,7 @@
 #define ND1 2
 #define TARGET_VALUE 42
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
   int ncid, dimids[ND1], varid;
   int data = TARGET_VALUE, data_in[D1_LEN][D2_LEN];
   int i, j;
@@ -33,21 +32,21 @@ int main(int argc, char **argv)
   /* Get the data, and check the values. */
   if (nc_get_var_int(ncid, 0, &data_in[0][0])) ERR;
 
-//    for (i = 0; i < D1_TARGET; i++)
-// for (j = 0; j < D2_LEN; j++)
-//    if ((i == D1_TARGET && j == D2_TARGET && data_in[i][j] != TARGET_VALUE) ||
-// data_in[i][j] != NC_FILL_INT) ERR;
-//
-//   if (nc_close(ncid)) ERR;
-//
-//   if (nc_open(FILE_NAME, NC_NOWRITE, &ncid)) ERR;
-//
-//   /* Get the data, and check the values. */
-//   if (nc_get_var_int(ncid, 0, &data_in[0][0])) ERR;
-//    for (i = 0; i < D1_TARGET; i++)
-// for (j = 0; j < D2_LEN; j++)
-//    if ((i == D1_TARGET && j == D2_TARGET && data_in[i][j] != TARGET_VALUE) ||
-// data_in[i][j] != NC_FILL_INT) ERR;
+  //    for (i = 0; i < D1_TARGET; i++)
+  // for (j = 0; j < D2_LEN; j++)
+  //    if ((i == D1_TARGET && j == D2_TARGET && data_in[i][j] != TARGET_VALUE) ||
+  // data_in[i][j] != NC_FILL_INT) ERR;
+  //
+  //   if (nc_close(ncid)) ERR;
+  //
+  //   if (nc_open(FILE_NAME, NC_NOWRITE, &ncid)) ERR;
+  //
+  //   /* Get the data, and check the values. */
+  //   if (nc_get_var_int(ncid, 0, &data_in[0][0])) ERR;
+  //    for (i = 0; i < D1_TARGET; i++)
+  // for (j = 0; j < D2_LEN; j++)
+  //    if ((i == D1_TARGET && j == D2_TARGET && data_in[i][j] != TARGET_VALUE) ||
+  // data_in[i][j] != NC_FILL_INT) ERR;
 
   if (nc_close(ncid)) ERR;
 

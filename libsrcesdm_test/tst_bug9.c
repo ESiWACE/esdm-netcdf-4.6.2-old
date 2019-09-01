@@ -28,22 +28,21 @@
 //   }
 // }
 
-int main(int argc, char **argv)
-{
-   int ncid, dimids[NUM_DIMS];
-   int varid, cmode = 0;
-   int dimid[NDIMS], var_dimids[VAR_DIMS] = {2, 1, 0};
-   char long_name[] = PRES_MAX_WIND;
+int main(int argc, char **argv) {
+  int ncid, dimids[NUM_DIMS];
+  int varid, cmode = 0;
+  int dimid[NDIMS], var_dimids[VAR_DIMS] = {2, 1, 0};
+  char long_name[] = PRES_MAX_WIND;
 
-   if (nc_create(FILE_NAME, cmode, &ncid)) ERR;
-   if (nc_def_dim(ncid, DIM_A, DIM_A_LEN, &dimid[0])) ERR;
-   if (nc_def_dim (ncid, DIM_B, DIM_B_LEN, &dimid[1])) ERR;
-   if (nc_def_dim(ncid, DIM_C, DIM_C_LEN, &dimid[2])) ERR;
-   if (nc_def_var(ncid, CXX_VAR_NAME, NC_FLOAT, VAR_DIMS, var_dimids, &varid)) ERR;
-   if (varid) ERR;
-   if (nc_put_att(ncid, varid, LONG_NAME, NC_CHAR, strlen(long_name) + 1, long_name)) ERR;
-   if (nc_put_att(ncid, varid, UNITS, NC_CHAR, strlen(UNITS) + 1, UNITS)) ERR;
-   if (nc_close(ncid)) ERR;
+  if (nc_create(FILE_NAME, cmode, &ncid)) ERR;
+  if (nc_def_dim(ncid, DIM_A, DIM_A_LEN, &dimid[0])) ERR;
+  if (nc_def_dim(ncid, DIM_B, DIM_B_LEN, &dimid[1])) ERR;
+  if (nc_def_dim(ncid, DIM_C, DIM_C_LEN, &dimid[2])) ERR;
+  if (nc_def_var(ncid, CXX_VAR_NAME, NC_FLOAT, VAR_DIMS, var_dimids, &varid)) ERR;
+  if (varid) ERR;
+  if (nc_put_att(ncid, varid, LONG_NAME, NC_CHAR, strlen(long_name) + 1, long_name)) ERR;
+  if (nc_put_att(ncid, varid, UNITS, NC_CHAR, strlen(UNITS) + 1, UNITS)) ERR;
+  if (nc_close(ncid)) ERR;
 
-   FINAL_RESULTS;
+  FINAL_RESULTS;
 }
