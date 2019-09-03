@@ -68,6 +68,7 @@ typedef enum {
 
 typedef struct {
   int *dimidsp;
+  int fillmode; // remembers if fill mode is on or off, by default fill mode is on, actually, ESDM with NetCDF always has a fill mode, uses the defaults from NetCDF
   esdm_dataset_t *dset;
 } md_var_t;
 
@@ -84,6 +85,7 @@ typedef struct {
 
 typedef struct {
   int ncid;
+  int fillmode; // remembers if fill mode is on or off, by default fill mode is on, actually, ESDM with NetCDF always has a fill mode, uses the defaults from NetCDF
   esdm_container_t *c;
   // Some attributes provide information about the dataset as a whole and are called
   // global attributes. These are identified by the attribute name together with a blank
@@ -247,6 +249,29 @@ int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_
   return NC_NOERR;
 }
 
+static void set_default_fill_mode(esdm_dataset_t * dset){
+  int status;
+  esdm_dataspace_t *space;
+  esdm_status ret = esdm_dataset_get_dataspace(dset, & space);
+  esdm_type_t type = esdm_dataspace_get_type(space);
+  int value[2];
+  switch(type->type){
+    case(SMD_TYPE_INT8):
+      *(int8_t*) value = NC_FILL_BYTE;
+      break;
+    case(SMD_TYPE_INT32):
+      *(int32_t*) value = NC_FILL_INT;
+      break;
+    case(SMD_TYPE_UINT16):
+      *(uint16_t*) value = NC_FILL_USHORT;
+      break;
+    default:
+      assert(0 && "Not supported");
+  }
+  status = esdm_dataset_set_fill_value(dset, & value);
+  assert(status == ESDM_SUCCESS);
+}
+
 static void add_to_dims_tbl(nc_esdm_t *e, char const *name, size_t size) {
   int cur = e->dimt.count;
   e->dimt.count++;
@@ -336,6 +361,8 @@ int ESDM_open(const char *path, int cmode, int basepe, size_t *chunksizehintp, v
     md_var_t *evar = malloc(sizeof(md_var_t));
     evar->dimidsp = malloc(sizeof(int) * ndims);
     evar->dset = dset;
+    evar->fillmode = NC_FILL;
+
     int64_t const *dspace_size = esdm_dataset_get_size(dset);
 
     for (int j = 0; j < ndims; j++) {
@@ -500,8 +527,10 @@ int ESDM_close(int ncid, void *b) {
 int ESDM_set_fill(int ncid, int fillmode, int *old_modep) {
   DEBUG_ENTER("%d %d\n", ncid, fillmode);
 
-  old_modep = malloc(sizeof(int));
-  *old_modep = fillmode;
+  nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
+  if (e == NULL) return NC_EBADID;
+  *old_modep = e->fillmode;
+  e->fillmode = fillmode;
 
   return NC_NOERR;
 }
@@ -525,9 +554,10 @@ int ESDM_def_var_fill(int ncid, int varid, int no_fill, const void *fill_value) 
     return NC_EACCESS;
   }
   md_var_t *ev = e->vars.var[varid];
-  if (no_fill) { // should be NC_NOFILL, but the NetCDF itself is not following this convention, see: https://www.unidata.ucar.edu/software/netcdf/docs/group__variables.html#gabe75b6aa066e6b10a8cf644fb1c55f83
-    status = esdm_dataset_set_fill_value(ev->dset, NULL);
-    assert(status == ESDM_SUCCESS);
+  ev->fillmode = no_fill;
+
+  if (no_fill || no_fill == NC_NOFILL) { // should be NC_NOFILL, but the NetCDF itself is not following this convention, see: https://www.unidata.ucar.edu/software/netcdf/docs/group__variables.html#gabe75b6aa066e6b10a8cf644fb1c55f83
+    set_default_fill_mode(ev->dset);
   } else {
     status = esdm_dataset_set_fill_value(ev->dset, fill_value);
     assert(status == ESDM_SUCCESS);
@@ -1181,6 +1211,7 @@ int ESDM_def_var(int ncid, const char *name, nc_type xtype, int ndims, const int
   }
 
   md_var_t *evar = malloc(sizeof(md_var_t));
+  evar->fillmode = NC_FILL;
   char *names[ndims];
   int64_t bounds[ndims];
 
@@ -1215,6 +1246,7 @@ int ESDM_def_var(int ncid, const char *name, nc_type xtype, int ndims, const int
     return NC_EBADID;
   }
   ret = esdm_dataset_name_dims(d, names);
+  set_default_fill_mode(d);
 
   evar->dset = d;
   insert_md(&e->vars, evar);
@@ -1296,8 +1328,6 @@ int ESDM_rename_var(int ncid, int varid, const char *name) {
 }
 
 int ESDM_get_vars(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const void *data, nc_type mem_nc_type) {
-  DEBUG_ENTER("%d\n", ncid);
-
   int ret_NC = NC_NOERR;
 
   nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
@@ -1493,11 +1523,12 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
   }
 
   if (no_fill) {
-    *no_fill = ! esdm_dataset_is_fill_value_set(evar->dset);
+    *no_fill = evar->fillmode;
   }
 
   if (fill_valuep) {
     status = esdm_dataset_get_fill_value(evar->dset, fill_valuep);
+    assert(status == ESDM_SUCCESS);
   }
 
   if (idp) {

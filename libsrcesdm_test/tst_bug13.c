@@ -24,29 +24,30 @@ int main(int argc, char **argv) {
   if (nc_def_dim(ncid, D1_NAME, NC_UNLIMITED, &dimids[0])) ERR;
   if (nc_def_dim(ncid, D2_NAME, D2_LEN, &dimids[1])) ERR;
   if (nc_def_var(ncid, V1_NAME, NC_INT, ND1, dimids, &varid)) ERR;
-
+  i = NC_FILL_INT;
+  if (nc_def_var_fill(ncid, varid, 0, & i)) ERR;
   index[0] = D1_TARGET;
   index[1] = D2_TARGET;
   if (nc_put_var1_int(ncid, varid, index, &data)) ERR;
 
   /* Get the data, and check the values. */
-  if (nc_get_var_int(ncid, 0, &data_in[0][0])) ERR;
+  if (nc_get_var_int(ncid, varid, &data_in[0][0])) ERR;
 
-  //    for (i = 0; i < D1_TARGET; i++)
-  // for (j = 0; j < D2_LEN; j++)
-  //    if ((i == D1_TARGET && j == D2_TARGET && data_in[i][j] != TARGET_VALUE) ||
-  // data_in[i][j] != NC_FILL_INT) ERR;
-  //
-  //   if (nc_close(ncid)) ERR;
-  //
-  //   if (nc_open(FILE_NAME, NC_NOWRITE, &ncid)) ERR;
-  //
-  //   /* Get the data, and check the values. */
-  //   if (nc_get_var_int(ncid, 0, &data_in[0][0])) ERR;
-  //    for (i = 0; i < D1_TARGET; i++)
-  // for (j = 0; j < D2_LEN; j++)
-  //    if ((i == D1_TARGET && j == D2_TARGET && data_in[i][j] != TARGET_VALUE) ||
-  // data_in[i][j] != NC_FILL_INT) ERR;
+      for (i = 0; i < D1_TARGET; i++)
+   for (j = 0; j < D2_LEN; j++)
+      if ((i == D1_TARGET && j == D2_TARGET && data_in[i][j] != TARGET_VALUE) ||
+   data_in[i][j] != NC_FILL_INT) ERR;
+
+     if (nc_close(ncid)) ERR;
+  
+     if (nc_open(FILE_NAME, NC_NOWRITE, &ncid)) ERR;
+  
+     /* Get the data, and check the values. */
+     if (nc_get_var_int(ncid, 0, &data_in[0][0])) ERR;
+      for (i = 0; i < D1_TARGET; i++)
+   for (j = 0; j < D2_LEN; j++)
+      if ((i == D1_TARGET && j == D2_TARGET && data_in[i][j] != TARGET_VALUE) ||
+   data_in[i][j] != NC_FILL_INT) ERR;
 
   if (nc_close(ncid)) ERR;
 
