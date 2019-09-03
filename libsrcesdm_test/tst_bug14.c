@@ -21,8 +21,14 @@ int main(int argc, char **argv) {
   /* Create a netcdf-4 file with one dim and 1 NC_USHORT var. */
   if (nc_create(FILE_NAME, NC_NETCDF4, &ncid)) ERR;
   if (nc_def_dim(ncid, DIM7_NAME, DIM7_LEN, &dimids[0])) ERR;
-  if (nc_def_var(ncid, VAR7_NAME, NC_USHORT, NDIMS, dimids,
-      &varid)) ERR;
+
+  if (nc_def_var(ncid, VAR7_NAME, NC_USHORT, NDIMS, dimids, &varid)) ERR;
+
+  if (nc_put_att_ushort(ncid, varid, "_FillValue", NC_USHORT, 1, & ushort_data)) ERR;
+  fill_value_in = -1;
+  if (nc_get_att_ushort(ncid, varid, "_FillValue", & fill_value_in)) ERR;
+  assert(ushort_data == fill_value_in);
+  fill_value_in = -1;
 
   /* Turn off fill mode. */
   if (nc_def_var_fill(ncid, varid, 1, NULL)) ERR;
@@ -30,7 +36,8 @@ int main(int argc, char **argv) {
   if (!no_fill) ERR;
 
   /* Turn on fill mode. */
-  if (nc_def_var_fill(ncid, varid, 0, NULL)) ERR;
+
+  if (nc_def_var_fill(ncid, varid, 0, & ushort_data)) ERR;
   if (nc_inq_var_fill(ncid, varid, &no_fill, &fill_value_in)) ERR;
   if (no_fill) ERR;
 

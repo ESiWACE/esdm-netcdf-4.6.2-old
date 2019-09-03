@@ -525,7 +525,7 @@ int ESDM_def_var_fill(int ncid, int varid, int no_fill, const void *fill_value) 
     return NC_EACCESS;
   }
   md_var_t *ev = e->vars.var[varid];
-  if (no_fill == NC_NOFILL) {
+  if (no_fill) { // should be NC_NOFILL, but the NetCDF itself is not following this convention, see: https://www.unidata.ucar.edu/software/netcdf/docs/group__variables.html#gabe75b6aa066e6b10a8cf644fb1c55f83
     status = esdm_dataset_set_fill_value(ev->dset, NULL);
     assert(status == ESDM_SUCCESS);
   } else {
@@ -1028,6 +1028,28 @@ int ESDM_get_att(int ncid, int varid, const char *name, void *value, nc_type typ
   nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
   if (e == NULL) return NC_EBADID;
 
+  if(strcmp(name, "_FillValue") == 0){
+    // special case as NetCDF allows to manipulate a attribute with that name.
+    if(varid == NC_GLOBAL){
+      return NC_EINVAL;
+    }
+    esdm_dataspace_t *space;
+    if (varid > esdm_container_dataset_count(e->c)) {
+      return NC_EBADID;
+    }
+    md_var_t *ev = e->vars.var[varid];
+    ret = esdm_dataset_get_dataspace(ev->dset, &space);
+    nc_type dset_datatype = type_esdm_to_nc(esdm_dataspace_get_type(space));
+    if (dset_datatype != type && type != NC_NAT) {
+      return NC_EBADTYPE;
+    }
+    esdm_status ret = esdm_dataset_get_fill_value(ev->dset, value);
+    if(ret != ESDM_SUCCESS){
+      return NC_EINVAL;
+    }
+    return NC_NOERR;
+  }
+
   smd_attr_t *att;
   if (varid == NC_GLOBAL) {
     status = esdm_container_get_attributes(e->c, &att);
@@ -1079,6 +1101,28 @@ int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype, size_t
 
   nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
   if (e == NULL) return NC_EBADID;
+
+  if(strcmp(name, "_FillValue") == 0){
+    // special case as NetCDF allows to manipulate a attribute with that name.
+    if(len != 1  || varid == NC_GLOBAL){
+      return NC_EINVAL;
+    }
+    esdm_dataspace_t *space;
+    if (varid > esdm_container_dataset_count(e->c)) {
+      return NC_EBADID;
+    }
+    md_var_t *ev = e->vars.var[varid];
+    ret = esdm_dataset_get_dataspace(ev->dset, &space);
+    nc_type dset_datatype = type_esdm_to_nc(esdm_dataspace_get_type(space));
+    if (dset_datatype != datatype && datatype != NC_NAT) {
+      return NC_EBADTYPE;
+    }
+    esdm_status ret = esdm_dataset_set_fill_value(ev->dset, value);
+    if(ret != ESDM_SUCCESS){
+      return NC_EINVAL;
+    }
+    return NC_NOERR;
+  }
 
   smd_attr_t *new;
   if (len > 1) {
@@ -1449,13 +1493,11 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
   }
 
   if (no_fill) {
-    // TODO
-    *no_fill = *no_fill;
+    *no_fill = ! esdm_dataset_is_fill_value_set(evar->dset);
   }
 
   if (fill_valuep) {
     status = esdm_dataset_get_fill_value(evar->dset, fill_valuep);
-    assert(status == ESDM_SUCCESS);
   }
 
   if (idp) {
