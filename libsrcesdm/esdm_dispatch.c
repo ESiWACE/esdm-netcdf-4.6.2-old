@@ -4,6 +4,11 @@
 
 #include <esdm.h>
 
+#define ESDM_PARALLEL
+#ifdef ESDM_PARALLEL
+#include <esdm-mpi.h>
+#endif
+
 #include "config.h"
 #include "nc.h"
 #include "ncdispatch.h"
@@ -92,6 +97,8 @@ typedef struct {
   // variable name (in CDL) or a special null "global variable" ID (in C or Fortran).
   nc_dim_tbl_t dimt;
   md_vars_t vars;
+  int parallel_mode;
+  MPI_Comm comm;
 } nc_esdm_t;
 
 static esdm_type_t type_nc_to_esdm(nc_type type) {
@@ -235,9 +242,21 @@ int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_
   nc_esdm_t *e = malloc(sizeof(nc_esdm_t));
   memset(e, 0, sizeof(nc_esdm_t));
   e->ncid = ncp->ext_ncid;
-
   esdm_status status;
+
+  #ifdef ESDM_PARALLEL
+  NC_MPI_INFO * data = (NC_MPI_INFO*) (parameters);
+  if (data){
+    MPI_Comm_dup(data->comm, & e->comm);
+    parallel_mode = 1;
+  }else{
+    ERROR("No valid communicator specified");
+  }
+
+  status = esdm_mpi_container_create(e->comm, cpath, cmode & NC_NOCLOBBER ? 0 : 1, &e->c);
+  #else
   status = esdm_container_create(cpath, cmode & NC_NOCLOBBER ? 0 : 1, &e->c);
+  #endif
 
   if (status != ESDM_SUCCESS) {
     return NC_EEXIST;
@@ -299,6 +318,7 @@ static void ncesdm_remove_attr(esdm_container_t *c) {
 int ESDM_open(const char *path, int cmode, int basepe, size_t *chunksizehintp, void *parameters, struct NC_Dispatch *table, NC *ncp) {
   const char *realpath = path;
 
+
   if (strncmp(path, "esdm:", 5) == 0) {
     realpath = &path[5];
   } else if (strncmp(path, "esd:", 4) == 0) {
@@ -326,7 +346,19 @@ int ESDM_open(const char *path, int cmode, int basepe, size_t *chunksizehintp, v
   e->ncid = ncp->ext_ncid;
 
   esdm_status status;
+
+  #ifdef ESDM_PARALLEL
+  NC_MPI_INFO * data = (NC_MPI_INFO*) (parameters);
+  if (data){
+    MPI_Comm_dup(data->comm, & e->comm);
+    parallel_mode = 1;
+  }else{
+    ERROR("No valid communicator specified");
+  }
+  status = esdm_mpi_container_open(e->comm, cpath, 0, &e->c);
+  #else
   status = esdm_container_open(cpath, 0, &e->c);
+  #endif
 
   if (status != ESDM_SUCCESS) {
     return NC_EACCESS;
@@ -511,7 +543,17 @@ int ESDM_close(int ncid, void *b) {
   if (e == NULL) return NC_EBADID;
 
   ret = ncesdm_container_commit(e);
+
+  #ifdef ESDM_PARALLEL
+  if(e->parallel_mode){
+    esdm_mpi_container_close(e->comm, e->c);
+    MPI_Comm_free(e->comm);
+  }else{
+    esdm_container_close(e->c);
+  }
+  #else
   esdm_container_close(e->c);
+  #endif
   // TODO CLOSE the container properly
   free(e);
   return ret;
@@ -2214,10 +2256,12 @@ int NC_ESDM_initialize(void) {
 
   esdm_init();
 
-  status = esdm_mkfs(ESDM_FORMAT_PURGE_RECREATE, ESDM_ACCESSIBILITY_GLOBAL);
-  assert(status == ESDM_SUCCESS);
-  status = esdm_mkfs(ESDM_FORMAT_PURGE_RECREATE, ESDM_ACCESSIBILITY_NODELOCAL);
-  assert(status == ESDM_SUCCESS);
+  if(getenv("NC_ESDM_FORCEESDM_MKFS")){ // sole purpose is testing
+    status = esdm_mkfs(ESDM_FORMAT_PURGE_RECREATE, ESDM_ACCESSIBILITY_GLOBAL);
+    assert(status == ESDM_SUCCESS);
+    status = esdm_mkfs(ESDM_FORMAT_PURGE_RECREATE, ESDM_ACCESSIBILITY_NODELOCAL);
+    assert(status == ESDM_SUCCESS);
+  }
 
   esdm_dispatch_table = &esdm_dispatcher;
   return ret;
