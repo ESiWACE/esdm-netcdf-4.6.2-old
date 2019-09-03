@@ -61,15 +61,8 @@
 
 #define WARN_NOT_SUPPORTED_COMPRESSION                                                                      \
   do {                                                                                                      \
-    printf("[ESDM NC] WARN %s():%d. ESDM does not support compression from NetCDF!\n", __func__, __LINE__); \
+    printf("[ESDM NC] WARN %s():%d. ESDM does not support compression!\n", __func__, __LINE__); \
   } while (0)
-
-typedef enum {
-  ESDM_NC_CLOBBER = 0,   // nc_create
-  ESDM_NC_NOCLOBBER = 4, // nc_create
-  ESDM_NC_NOWRITE = 0,   // nc_open
-  ESDM_NC_WRITE = 1      // nc_open
-} esdm_nc_mode_flags;
 
 typedef struct {
   int *dimidsp;

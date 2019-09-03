@@ -1,0 +1,183 @@
+\chapter{Functionalities}
+
+\tab
+This chapter compares the NetCDF functionalities with the current version of ESDM.
+
+\section{Error Messages}
+
+\tab
+NetCDF has an extense classification for the possible errors that might happen. ESDM does not share this classification and it is something that their developers are not considering to include in the final version. This decision does not affect the performance of ESDM, but it was critical when the NetCDF tests were evaluated. Several wrong conditions are designed by NetCDF tests and ESDM does not produce the expected error. Because of that, the code in the tests that consider invalid parameters as input were removed.
+
+\section{Classic Model/Modes}
+
+\tab
+There are other restrictions. For instance, NetCDF includes tests with the Classic Model, which ESDM does not support and it has no intention of doing it.
+
+There are tests that consider in which mode the file is open. There are two modes associated with accessing a netCDF file: {\bf define mode} and {\bf data mode}. In define mode, dimensions, variables, and new attributes can be created but variable data cannot be read or written. In data mode, data can be read or written and attributes can be changed, but new dimensions, variables, and attributes cannot be created. The current version of ESDM does not have restrictions in the modes. Once the file is open, the user can do any modifications s/he wants.
+
+Tables \ref{tab_modes_create} amd \ref{tab_modes_open} compares the options for creating and opening a file using NetCDF and ESDM.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|m{6cm}|l|}
+\hline
+FLAG & NetCDF Support & ESDM Support \\ \hline \hline
+NC\_CLOBBER & Overwrite existing file &  ESDM\_CLOBBER  (???)     \\ \hline
+NC\_NOCLOBBER & Do not overwrite existing file &  ESDM\_NOCLOBBER  (???)      \\ \hline
+NC\_SHARE & Limit write caching - netcdf classic files only &  NOT SUPPORTED       \\ \hline
+NC\_64BIT\_OFFSET & Create 64-bit offset file &    NOT SUPPORTED     \\ \hline
+NC\_64BIT\_DATA  & Create CDF-5 file (alias NC\_CDF5) &   NOT SUPPORTED      \\ \hline
+NC\_NETCDF4 & Create netCDF-4/HDF5 file &  NOT SUPPORTED       \\ \hline
+NC\_CLASSIC\_MODEL & Enforce netCDF classic mode on netCDF-4/HDF5 files &   NOT SUPPORTED      \\ \hline
+NC\_DISKLESS & Store data in memory &    NOT SUPPORTED     \\ \hline
+NC\_PERSIST & Force the NC\_DISKLESS data from memory to a file &  NOT SUPPORTED       \\ \hline
+\hline
+\end{tabular}
+\caption{\label{tab_modes_create} Modes: creating a file.}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|m{8cm}|l|}
+\hline
+FLAG & NetCDF Support & ESDM Support \\ \hline \hline
+NC\_NOWRITE & Open the dataset with read-only access &  ESDM\_MODE\_FLAG\_READ       \\ \hline
+NC\_WRITE & Open the dataset with read-write access &  ESDM\_MODE\_FLAG\_WRITE       \\ \hline
+NC\_SHARE & Share updates, limit caching &  NOT SUPPORTED       \\ \hline
+NC\_DISKLESS & Store data in memory &    NOT SUPPORTED     \\ \hline
+NC\_PERSIST & Force the NC\_DISKLESS data from memory to a file &  NOT SUPPORTED       \\ \hline
+\hline
+\end{tabular}
+\caption{\label{tab_modes_open} Modes: opening a file.}
+\end{table}
+
+\section{Datatypes}
+
+\tab
+ESDM supports the same basic types that NetCDF. The correspondence between the datatypes are provided in Tables \ref{basic-datatypes-size} and \ref{basic-datatypes-netcdf}.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|l|l|}
+\hline
+NetCDF TYPE & Number & ESDM Type & ESDM Representation \\ \hline \hline
+NC\_BYTE       &  1   & SMD\_DTYPE\_INT8     & int8\_t    \\ \hline
+NC\_UBYTE      &  7   & SMD\_DTYPE\_UINT8    & uint8\_t    \\ \hline
+NC\_CHAR       &  2   & SMD\_DTYPE\_CHAR     & char    \\ \hline
+NC\_SHORT      &  3   & SMD\_DTYPE\_INT16    & int16\_t    \\ \hline
+NC\_USHORT     &  8   & SMD\_DTYPE\_UINT16   & uint16\_t    \\ \hline
+NC\_INT        &  4   & SMD\_DTYPE\_INT32    & int32\_t    \\ \hline
+NC\_LONG       &  4   & SMD\_DTYPE\_INT32    & int32\_t    \\ \hline
+NC\_UINT       &  9   & SMD\_DTYPE\_UINT32   & uint32\_t    \\ \hline
+NC\_INT64      &  10  & SMD\_DTYPE\_INT64    & int64\_t    \\ \hline
+NC\_UINT64     &  5   & SMD\_DTYPE\_UINT64   & uint64\_t    \\ \hline
+NC\_FLOAT      &  11  & SMD\_DTYPE\_FLOAT    & 32 bits    \\ \hline
+NC\_DOUBLE     &  6   & SMD\_DTYPE\_DOUBLE   & 64 bits    \\ \hline
+\hline
+\end{tabular}
+\caption{\label{basic-datatypes-size} Equivalence between ESDM and NetCDF4 datatypes -- Datatypes sorted by size.}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|l|l|}
+\hline
+NetCDF TYPE & Number & ESDM Type & ESDM Representation \\ \hline \hline
+NC\_BYTE       &  1   & SMD\_DTYPE\_INT8     & int8\_t    \\ \hline
+NC\_CHAR       &  2   & SMD\_DTYPE\_CHAR     & char    \\ \hline
+NC\_SHORT      &  3   & SMD\_DTYPE\_INT16    & int16\_t    \\ \hline
+NC\_INT        &  4   & SMD\_DTYPE\_INT32    & int32\_t    \\ \hline
+NC\_LONG       &  4   & SMD\_DTYPE\_INT32    & int32\_t    \\ \hline
+NC\_UINT64     &  5   & SMD\_DTYPE\_UINT64   & uint64\_t    \\ \hline
+NC\_DOUBLE     &  6   & SMD\_DTYPE\_DOUBLE   & 64 bits    \\ \hline
+NC\_UBYTE      &  7   & SMD\_DTYPE\_UINT8    & uint8\_t    \\ \hline
+NC\_USHORT     &  8   & SMD\_DTYPE\_UINT16   & uint16\_t    \\ \hline
+NC\_UINT       &  9   & SMD\_DTYPE\_UINT32   & uint32\_t    \\ \hline
+NC\_INT64      &  10  & SMD\_DTYPE\_INT64    & int64\_t    \\ \hline
+NC\_FLOAT      &  11  & SMD\_DTYPE\_FLOAT    & 32 bits    \\ \hline
+\hline
+\end{tabular}
+\caption{\label{basic-datatypes-netcdf} Equivalence between ESDM and NetCDF4 datatypes -- Datatypes sorted by NETCDF description.}
+\end{table}
+
+The current version of ESDM does not support user-defined datatypes, but the developers intend to support this feature in the final version.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|m{6cm}|l|}
+\hline
+FLAG & NetCDF Support & ESDM Support \\ \hline \hline
+NC Data Type  &  NC Description  & ESDM Data Type  \\ \hline
+NC\_NAT & NAT = Not A Type (c.f. NaN) &    SMD\_TYPE\_AS\_EXPECTED        \\ \hline
+NC\_BYTE & signed 1 byte integer &     SMD\_DTYPE\_INT8        \\ \hline
+NC\_CHAR & ISO/ASCII character &      SMD\_DTYPE\_CHAR       \\ \hline
+NC\_SHORT & signed 2 byte integer &   SMD\_DTYPE\_INT16          \\ \hline
+NC\_INT & signed 4 byte integer &     SMD\_DTYPE\_INT32        \\ \hline
+NC\_LONG & deprecated, but required for backward compatibility &    SMD\_DTYPE\_INT32         \\ \hline
+NC\_FLOAT & single precision floating point number &   SMD\_DTYPE\_FLOAT           \\ \hline
+NC\_DOUBLE & double precision floating point number &   SMD\_DTYPE\_DOUBLE          \\ \hline
+NC\_UBYTE & unsigned 1 byte int &     SMD\_DTYPE\_UINT8        \\ \hline
+NC\_USHORT & unsigned 2-byte int &    SMD\_DTYPE\_UINT16         \\ \hline
+NC\_UINT & unsigned 4-byte int &   SMD\_DTYPE\_UINT32          \\ \hline
+NC\_INT64 & signed 8-byte int &    SMD\_DTYPE\_INT64         \\ \hline
+NC\_UINT64 & unsigned 8-byte int &    SMD\_DTYPE\_UINT64         \\ \hline
+NC\_STRING & string &    SMD\_DTYPE\_STRING         \\ \hline
+NC\_VLEN & used internally for vlen types &      NOT SUPPORTED YET       \\ \hline
+NC\_OPAQUE & used internally for opaque types &     NOT SUPPORTED YET        \\ \hline
+NC\_COMPOUND & used internally for compound types &    NOT SUPPORTED YET         \\ \hline
+NC\_ENUM & used internally for enum types &       NOT SUPPORTED YET      \\ \hline \hline
+\end{tabular}
+\caption{Datatypes Support.}
+\end{table}
+
+\section{Compression}
+
+\tab
+ESDM does not support compression yet. This means that all functions and tests related to chunking, deflate and fletcher will not work when using ESDM. There is a compression library read to be used, but that was not yet integrated in the current version of ESDM. The Scientific Compression Library (SCIL) can be found in the following Git Repository:
+
+\begin{center}
+\url{https://github.com/JulianKunkel/scil/}
+\end{center}
+
+\section{Endianness}
+
+\tab
+ESDM does not support (big/small) endianness.
+
+\section{Groups}
+
+\tab
+In general, ESDM does not support groups from NetCDF. When there is one group without subgroups, ESDM can work properly and assumes the group and the file are the same entity. When there are more than one group or subgroups, ESDM can be called using the following command-line interface:
+
+???
+
+The ability to work with groups is a functionality that ESDM developers intend to have in the final version.
+
+\begin{comment}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+NetCDF ERROR                  &  Description                                                                        & ESDM ERROR \\ \hline\hline
+NC\_EBADDIM                   &  Invalid dimension id or name.                                                      &      \\ \hline
+NC\_EBADNAME                  &  Attribute or variable name contains illegal characters.                            &      \\ \hline
+NC\_EHDFERR                   &  Error at HDF5 layer.                                                               &      \\ \hline
+NC\_EINDEFINE                 &  Operation not allowed in define mode.                                              &      \\ \hline
+NC\_EINVAL                    &  Invalid Argument.                                                                  &      \\ \hline
+NC\_ELATEFILL                 &  Attempt to define fill value when data already exists.                             &      \\ \hline
+NC\_ENOTINDEFINE              &  Operation not allowed in data mode.                                                &      \\ \hline
+NC\_ENOTVAR                   &  Variable not found.                                                                &      \\ \hline
+NC\_EPERM                     &  Write to read only.                                                                &      \\ \hline
+NC\_ERANGE                    &  Math result not representable.                                                     &      \\ \hline
+NC\_FILL\_FLOAT               &  Default fill value.                                                                &      \\ \hline
+NC\_FORMAT\_64BIT\_OFFSET     &  Format specifier for nc\_set\_default\_format() and returned by nc\_inq\_format.   &      \\ \hline
+NC\_FORMAT\_CLASSIC           &  Format specifier for nc\_set\_default\_format() and returned by nc\_inq\_format.   &      \\ \hline
+NC\_FORMAT\_NETCDF4           &  Format specifier for nc\_set\_default\_format() and returned by nc\_inq\_format.   &      \\ \hline
+NC\_FORMAT\_NETCDF4\_CLASSIC  &  Format specifier for nc\_set\_default\_format() and returned by nc\_inq\_format.   &      \\ \hline
+\hline
+\end{tabular}
+\caption{Convertion between ESDM and NetCDF4 Erros.}
+\end{table}
+
+\end{comment}

@@ -1,4 +1,19 @@
-\chapter{Files From Directory {\textit{nc\_test4}}}
+\chapter{Tests From Directory {\textit{nc\_test4}}}
+
+\tab
+This chapter introduces the tests provided by NetCDF in its documentation. For each test, we have four descriptors:
+
+\begin{description}
+
+\item[Description] The short description provided by the original test.
+
+\item[Output] The current output for the test using ESDM.
+
+\item[Comments] What was modified in the original test, if any.
+
+\item[Status] The current status for the test.
+
+\end{description}
 
 \section{Test cdm\_sea\_soundings.c}
 
@@ -134,7 +149,7 @@ an NC\_STRING attribute.
 
 \paragraph{Description:} Test netcdf-4 variables.
 
-\paragraph{Output:} [ESDM NC] WARN ESDM\_def\_var\_deflate():1985. ESDM does not support compression from NetCDF!
+\paragraph{Output:} [ESDM NC] WARN ESDM\_def\_var\_deflate():1985. ESDM does not support compression!
 
 Sorry! Unexpected result, ../../libsrcesdm\_test/tst\_chunks.c, line: 49
 
@@ -282,7 +297,7 @@ Remove lines 1102, 1165-1168. ESDM does not support conversion for variables!
 
 Remove lines 1257-1258. ESDM does not keep the same order for dimids!
 
-Remove lines 1326-1356. Creates a new file name (file\_in) and tries to open it.
+Remove lines 1315-1357. Creates a new file name (file\_in) and tries to open it.
 
 \begin{verbatim}
 strcpy(file_in, "");

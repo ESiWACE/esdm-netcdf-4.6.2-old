@@ -50,6 +50,7 @@ endif
 if USE_ESDM
 LIBSRCESDM_DIR = libsrcesdm
 ESDM_TEST_DIR = libsrcesdm_test
+#ESDM_NC_TEST_DIR = libsrcesdm_test/esdm_nc_test4
 endif
 
 # Build the dap2 client
