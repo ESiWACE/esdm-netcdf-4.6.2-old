@@ -241,7 +241,7 @@ int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_
   NC_MPI_INFO * data = (NC_MPI_INFO*) (parameters);
   if (data){
     MPI_Comm_dup(data->comm, & e->comm);
-    parallel_mode = 1;
+    e->parallel_mode = 1;
   }else{
     ERROR("No valid communicator specified");
   }
@@ -344,7 +344,7 @@ int ESDM_open(const char *path, int cmode, int basepe, size_t *chunksizehintp, v
   NC_MPI_INFO * data = (NC_MPI_INFO*) (parameters);
   if (data){
     MPI_Comm_dup(data->comm, & e->comm);
-    parallel_mode = 1;
+    e->parallel_mode = 1;
   }else{
     ERROR("No valid communicator specified");
   }
@@ -539,8 +539,8 @@ int ESDM_close(int ncid, void *b) {
 
   #ifdef ESDM_PARALLEL
   if(e->parallel_mode){
-    esdm_mpi_container_close(e->comm, e->c);
-    MPI_Comm_free(e->comm);
+    // esdm_mpi_container_close(e->comm, e->c);
+    MPI_Comm_free(&e->comm);
   }else{
     esdm_container_close(e->c);
   }
