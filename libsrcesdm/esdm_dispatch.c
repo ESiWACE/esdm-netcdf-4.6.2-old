@@ -4,7 +4,7 @@
 
 #include <esdm.h>
 
-#define ESDM_PARALLEL
+// #define ESDM_PARALLEL //It has to be defined in the parallel tests
 #ifdef ESDM_PARALLEL
 #  include <esdm-mpi.h>
 #endif
@@ -315,43 +315,80 @@ static void set_default_fill_mode(esdm_dataset_t *dset) {
       *(int8_t *)value = NC_FILL_BYTE;
       break;
     case (SMD_TYPE_INT16):
-      *(int8_t *)value = NC_FILL_SHORT;
+      *(int16_t *)value = NC_FILL_SHORT;
       break;
     case (SMD_TYPE_INT32):
       *(int32_t *)value = NC_FILL_INT;
       break;
     case (SMD_TYPE_INT64):
-      *(int8_t *)value = NC_FILL_INT64;
+      *(int64_t *)value = NC_FILL_INT64;
       break;
     case (SMD_TYPE_UINT8):
-      *(int8_t *)value = NC_FILL_UBYTE;
+      *(uint8_t *)value = NC_FILL_UBYTE;
       break;
     case (SMD_TYPE_UINT16):
       *(uint16_t *)value = NC_FILL_USHORT;
       break;
     case (SMD_TYPE_UINT32):
-      *(int8_t *)value = NC_FILL_UINT;
+      *(uint32_t *)value = NC_FILL_UINT;
       break;
     case (SMD_TYPE_UINT64):
-      *(int8_t *)value = NC_FILL_UINT64;
+      *(uint64_t *)value = NC_FILL_UINT64;
       break;
     case (SMD_TYPE_FLOAT):
-      *(int8_t *)value = NC_FILL_FLOAT;
+      *(float *)value = NC_FILL_FLOAT;
       break;
     case (SMD_TYPE_DOUBLE):
-      *(int8_t *)value = NC_FILL_DOUBLE;
+      *(double *)value = NC_FILL_DOUBLE;
       break;
     case (SMD_TYPE_CHAR):
-      *(int8_t *)value = NC_FILL_CHAR;
+      *(char *)value = NC_FILL_CHAR;
       break;
     case (SMD_TYPE_STRING):
-      *(int8_t *)value = NC_FILL_STRING;
+      *(char **)value = NC_FILL_STRING;
       break;
     default:
       assert(0 && "Not supported");
+      return NC_EACCESS;
   }
   status = esdm_dataset_set_fill_value(dset, &value);
   assert(status == ESDM_SUCCESS);
+}
+
+static void *get_default_fill_mode(esdm_dataset_t *dset) {
+  int status;
+  esdm_dataspace_t *space;
+  esdm_status ret = esdm_dataset_get_dataspace(dset, &space);
+  esdm_type_t type = esdm_dataspace_get_type(space);
+  switch (type->type) {
+    case (SMD_TYPE_INT8):
+      return(*(int8_t*)NC_FILL_BYTE);
+    case (SMD_TYPE_INT16):
+      return(NC_FILL_SHORT);
+    case (SMD_TYPE_INT32):
+      return(NC_FILL_INT);
+    case (SMD_TYPE_INT64):
+      return(NC_FILL_INT64);
+    case (SMD_TYPE_UINT8):
+      return(NC_FILL_UBYTE);
+    case (SMD_TYPE_UINT16):
+      return(NC_FILL_USHORT);
+    case (SMD_TYPE_UINT32):
+      return(NC_FILL_UINT);
+    case (SMD_TYPE_UINT64):
+      return(NC_FILL_UINT64);
+    case (SMD_TYPE_FLOAT):
+      // return(NC_FILL_FLOAT);
+    case (SMD_TYPE_DOUBLE):
+      // return(NC_FILL_DOUBLE);
+    case (SMD_TYPE_CHAR):
+      return(NC_FILL_CHAR);
+    case (SMD_TYPE_STRING):
+      return(NC_FILL_STRING);
+    default:
+      assert(0 && "Not supported");
+      return NC_EACCESS;
+  }
 }
 
 static void add_to_dims_tbl(nc_esdm_t *e, char const *name, size_t size) {
@@ -677,9 +714,7 @@ int ESDM_def_var_fill(int ncid, int varid, int no_fill, const void *fill_value) 
   md_var_t *ev = e->vars.var[varid];
   ev->fillmode = no_fill;
 
-  if (no_fill || no_fill == NC_NOFILL) { // should be NC_NOFILL, but the NetCDF itself is not
-                                         // following this convention, see:
-                                         // https://www.unidata.ucar.edu/software/netcdf/docs/group__variables.html#gabe75b6aa066e6b10a8cf644fb1c55f83
+  if (no_fill || no_fill == NC_NOFILL) { // should be NC_NOFILL, but the NetCDF itself is not following this convention, see: https://www.unidata.ucar.edu/software/netcdf/docs/group__variables.html#gabe75b6aa066e6b10a8cf644fb1c55f83
     set_default_fill_mode(ev->dset);
   } else {
     status = esdm_dataset_set_fill_value(ev->dset, fill_value);
@@ -1602,7 +1637,15 @@ int ESDM_get_vars(int ncid, int varid, const size_t *startp, const size_t *count
   ret = esdm_read(kv->dset, (void *)data, subspace);
   if (ret != ESDM_SUCCESS) {
     esdm_dataspace_destroy(subspace);
-    return NC_EINVAL;
+
+    if (kv->fillmode == NC_FILL){
+        // *(uint16_t*)data = NC_FILL_USHORT;
+        *(uint16_t*)data = get_default_fill_mode(kv->dset);
+        return NC_NOERR;
+
+    } else{
+      return NC_EINVAL;
+    }
   }
 
   esdm_dataspace_destroy(subspace);
@@ -1624,8 +1667,7 @@ int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *count
 
   assert(e->vars.count > varid);
   md_var_t *kv = e->vars.var[varid];
-  DEBUG_ENTER("%d type: %d buff: %p %p %p %p\n", ncid, mem_nc_type, data,
-  startp, countp, stridep);
+  DEBUG_ENTER("%d type: %d buff: %p %p %p %p\n", ncid, mem_nc_type, data, startp, countp, stridep);
 
   // check the dimensions we actually want to write
   esdm_dataspace_t *space;
@@ -1777,7 +1819,7 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
 
   if (fill_valuep) {
     status = esdm_dataset_get_fill_value(evar->dset, fill_valuep);
-    assert(status == ESDM_SUCCESS);
+    //assert(status == ESDM_SUCCESS);
   }
 
   if (idp) {

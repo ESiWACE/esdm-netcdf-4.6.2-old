@@ -42,19 +42,19 @@ int main(int argc, char **argv) {
   if (no_fill) ERR;
 
   /* Turn off fill mode. */
-  // if (nc_def_var_fill(ncid, varid, 1, NULL)) ERR;
-  // if (nc_inq_var_fill(ncid, varid, &no_fill, &fill_value_in)) ERR;
-  // if (!no_fill) ERR;
+  if (nc_def_var_fill(ncid, varid, 1, NULL)) ERR;
+  if (nc_inq_var_fill(ncid, varid, &no_fill, &fill_value_in)) ERR;
+  if (!no_fill) ERR;
 
   /* Try and set a fill value and fill mode off. It will be
        * ignored because fill mode is off. */
-  // if (nc_def_var_fill(ncid, varid, 1, &my_fill_value)) ERR;
+  if (nc_def_var_fill(ncid, varid, 1, &my_fill_value)) ERR;
 
   /* Turn on fill mode. */
-  // if (nc_def_var_fill(ncid, varid, 0, NULL)) ERR;
-  // if (nc_inq_var_fill(ncid, varid, &no_fill, &fill_value_in)) ERR;
-  // if (fill_value_in != NC_FILL_USHORT) ERR;
-  // if (no_fill) ERR;
+  if (nc_def_var_fill(ncid, varid, 0, NULL)) ERR;
+  if (nc_inq_var_fill(ncid, varid, &no_fill, &fill_value_in)) ERR;
+  if (fill_value_in != NC_FILL_USHORT) ERR;
+  if (no_fill) ERR;
 
   /* Write the second of two values. */
   index[0] = 1;
@@ -62,17 +62,17 @@ int main(int argc, char **argv) {
 
   /* Get the first value, and make sure we get the default fill
        * value for USHORT. */
-  // index[0] = 0;
-  // if (nc_get_var1_ushort(ncid, varid, index, &ushort_data_in)) ERR;
-  // if (ushort_data_in != NC_FILL_USHORT) ERR;
+  index[0] = 0;
+  if (nc_get_var1_ushort(ncid, varid, index, &ushort_data_in)) ERR;
+  if (ushort_data_in != NC_FILL_USHORT) ERR;
   if (nc_close(ncid)) ERR;
 
   /* Open the file and check the same stuff. */
   if (nc_open(FILE_NAME, NC_NOWRITE, &ncid)) ERR;
 
   /* Check stuff. */
-  // if (nc_inq_var_fill(ncid, varid, &no_fill, &fill_value_in)) ERR;
-  // if (no_fill) ERR;
+  if (nc_inq_var_fill(ncid, varid, &no_fill, &fill_value_in)) ERR;
+  if (no_fill) ERR;
 
   if (nc_close(ncid)) ERR;
 
