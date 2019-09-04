@@ -6,7 +6,7 @@
 
 #define ESDM_PARALLEL
 #ifdef ESDM_PARALLEL
-#include <esdm-mpi.h>
+#  include <esdm-mpi.h>
 #endif
 
 #include "config.h"
@@ -15,60 +15,60 @@
 
 #define NOT_IMPLEMENTED assert(0 && "NOT IMPLEMENTED");
 
-#define ERROR(...)                                                             \
-  do {                                                                         \
-    printf("[ESDM NC] ERROR %s:%d ", __func__, __LINE__);                      \
-    printf(__VA_ARGS__);                                                       \
-    exit(1);                                                                   \
+#define ERROR(...)                                        \
+  do {                                                    \
+    printf("[ESDM NC] ERROR %s:%d ", __func__, __LINE__); \
+    printf(__VA_ARGS__);                                  \
+    exit(1);                                              \
   } while (0)
 
-#define DEBUG(str)                                                             \
-  do {                                                                         \
-    printf("[ESDM NC] DEBUG %s:%d %s\n", __func__, __LINE__, str);             \
+#define DEBUG(str)                                                 \
+  do {                                                             \
+    printf("[ESDM NC] DEBUG %s:%d %s\n", __func__, __LINE__, str); \
   } while (0)
 
-#define DEBUG_ENTER(...)                                                       \
-  do {                                                                         \
-    printf("[ESDM NC] called %s:%d ", __func__, __LINE__);                     \
-    printf(__VA_ARGS__);                                                       \
+#define DEBUG_ENTER(...)                                   \
+  do {                                                     \
+    printf("[ESDM NC] called %s:%d ", __func__, __LINE__); \
+    printf(__VA_ARGS__);                                   \
   } while (0)
 
-#define WARN(...)                                                              \
-  do {                                                                         \
-    printf("[ESDM NC] WARN %s:%d ", __func__, __LINE__);                       \
-    printf(__VA_ARGS__);                                                       \
+#define WARN(...)                                        \
+  do {                                                   \
+    printf("[ESDM NC] WARN %s:%d ", __func__, __LINE__); \
+    printf(__VA_ARGS__);                                 \
   } while (0)
 
-#define WARN_NOT_IMPLEMENTED                                                   \
-  do {                                                                         \
-    printf("[ESDM NC] WARN %s():%d NOT IMPLEMENTED\n", __func__, __LINE__);    \
+#define WARN_NOT_IMPLEMENTED                                                \
+  do {                                                                      \
+    printf("[ESDM NC] WARN %s():%d NOT IMPLEMENTED\n", __func__, __LINE__); \
   } while (0)
 
-#define WARN_NOT_SUPPORTED                                                     \
-  do {                                                                         \
-    printf(                                                                    \
-        "[ESDM NC] WARN %s():%d. NetCDF Feature not supported with ESDM!\n",   \
-        __func__, __LINE__);                                                   \
+#define WARN_NOT_SUPPORTED                                               \
+  do {                                                                   \
+    printf(                                                              \
+    "[ESDM NC] WARN %s():%d. NetCDF Feature not supported with ESDM!\n", \
+    __func__, __LINE__);                                                 \
   } while (0)
 
-#define WARN_NOT_SUPPORTED_TYPES                                               \
-  do {                                                                         \
-    printf("[ESDM NC] WARN %s():%d. ESDM does not support user-defined "       \
-           "datatypes from NetCDF!\n",                                         \
-           __func__, __LINE__);                                                \
+#define WARN_NOT_SUPPORTED_TYPES                                         \
+  do {                                                                   \
+    printf("[ESDM NC] WARN %s():%d. ESDM does not support user-defined " \
+           "datatypes from NetCDF!\n",                                   \
+    __func__, __LINE__);                                                 \
   } while (0)
 
-#define WARN_NOT_SUPPORTED_GROUPS                                              \
-  do {                                                                         \
-    printf(                                                                    \
-        "[ESDM NC] WARN %s():%d. ESDM does not support groups from NetCDF!\n", \
-        __func__, __LINE__);                                                   \
+#define WARN_NOT_SUPPORTED_GROUPS                                          \
+  do {                                                                     \
+    printf(                                                                \
+    "[ESDM NC] WARN %s():%d. ESDM does not support groups from NetCDF!\n", \
+    __func__, __LINE__);                                                   \
   } while (0)
 
-#define WARN_NOT_SUPPORTED_COMPRESSION                                         \
-  do {                                                                         \
-    printf("[ESDM NC] WARN %s():%d. ESDM does not support compression!\n",     \
-           __func__, __LINE__);                                                \
+#define WARN_NOT_SUPPORTED_COMPRESSION                                     \
+  do {                                                                     \
+    printf("[ESDM NC] WARN %s():%d. ESDM does not support compression!\n", \
+    __func__, __LINE__);                                                   \
   } while (0)
 
 typedef struct {
@@ -108,69 +108,69 @@ typedef struct {
 
 static esdm_type_t type_nc_to_esdm(nc_type type) {
   switch (type) {
-  case (NC_NAT):
-    return SMD_DTYPE_UNKNOWN;
-  case (NC_BYTE):
-    return SMD_DTYPE_INT8;
-  case (NC_CHAR):
-    return SMD_DTYPE_CHAR;
-  case (NC_SHORT):
-    return SMD_DTYPE_INT16;
-  case (NC_INT):
-    return SMD_DTYPE_INT32;
-  case (NC_FLOAT):
-    return SMD_DTYPE_FLOAT;
-  case (NC_DOUBLE):
-    return SMD_DTYPE_DOUBLE;
-  case (NC_UBYTE):
-    return SMD_DTYPE_UINT8;
-  case (NC_USHORT):
-    return SMD_DTYPE_UINT16;
-  case (NC_UINT):
-    return SMD_DTYPE_UINT32;
-  case (NC_INT64):
-    return SMD_DTYPE_INT64;
-  case (NC_UINT64):
-    return SMD_DTYPE_UINT64;
-  case (NC_STRING):
-    return SMD_DTYPE_STRING;
-  default:
-    printf("ESDM does not support compound datatypes from NetCDF: %d\n", type);
-    return NULL;
+    case (NC_NAT):
+      return SMD_DTYPE_UNKNOWN;
+    case (NC_BYTE):
+      return SMD_DTYPE_INT8;
+    case (NC_CHAR):
+      return SMD_DTYPE_CHAR;
+    case (NC_SHORT):
+      return SMD_DTYPE_INT16;
+    case (NC_INT):
+      return SMD_DTYPE_INT32;
+    case (NC_FLOAT):
+      return SMD_DTYPE_FLOAT;
+    case (NC_DOUBLE):
+      return SMD_DTYPE_DOUBLE;
+    case (NC_UBYTE):
+      return SMD_DTYPE_UINT8;
+    case (NC_USHORT):
+      return SMD_DTYPE_UINT16;
+    case (NC_UINT):
+      return SMD_DTYPE_UINT32;
+    case (NC_INT64):
+      return SMD_DTYPE_INT64;
+    case (NC_UINT64):
+      return SMD_DTYPE_UINT64;
+    case (NC_STRING):
+      return SMD_DTYPE_STRING;
+    default:
+      printf("ESDM does not support compound datatypes from NetCDF: %d\n", type);
+      return NULL;
   }
 }
 
 static nc_type type_esdm_to_nc(esdm_type_t type) {
   switch (type->type) {
-  case (SMD_TYPE_UNKNOWN):
-    return NC_NAT;
-  case (SMD_TYPE_INT8):
-    return NC_BYTE;
-  case (SMD_TYPE_CHAR):
-    return NC_CHAR;
-  case (SMD_TYPE_INT16):
-    return NC_SHORT;
-  case (SMD_TYPE_INT32):
-    return NC_INT;
-  case (SMD_TYPE_FLOAT):
-    return NC_FLOAT;
-  case (SMD_TYPE_DOUBLE):
-    return NC_DOUBLE;
-  case (SMD_TYPE_UINT8):
-    return NC_UBYTE;
-  case (SMD_TYPE_UINT16):
-    return NC_USHORT;
-  case (SMD_TYPE_UINT32):
-    return NC_UINT;
-  case (SMD_TYPE_INT64):
-    return NC_INT64;
-  case (SMD_TYPE_UINT64):
-    return NC_UINT64;
-  case (SMD_TYPE_STRING):
-    return NC_STRING;
-  default:
-    printf("Unsupported datatype: %d\n", type->type);
-    return 0;
+    case (SMD_TYPE_UNKNOWN):
+      return NC_NAT;
+    case (SMD_TYPE_INT8):
+      return NC_BYTE;
+    case (SMD_TYPE_CHAR):
+      return NC_CHAR;
+    case (SMD_TYPE_INT16):
+      return NC_SHORT;
+    case (SMD_TYPE_INT32):
+      return NC_INT;
+    case (SMD_TYPE_FLOAT):
+      return NC_FLOAT;
+    case (SMD_TYPE_DOUBLE):
+      return NC_DOUBLE;
+    case (SMD_TYPE_UINT8):
+      return NC_UBYTE;
+    case (SMD_TYPE_UINT16):
+      return NC_USHORT;
+    case (SMD_TYPE_UINT32):
+      return NC_UINT;
+    case (SMD_TYPE_INT64):
+      return NC_INT64;
+    case (SMD_TYPE_UINT64):
+      return NC_UINT64;
+    case (SMD_TYPE_STRING):
+      return NC_STRING;
+    default:
+      printf("Unsupported datatype: %d\n", type->type);
+      return 0;
   }
 }
 
@@ -250,9 +250,7 @@ int64_t esdm_container_dataset_get_actual_size(int ncid, int dimid) {
   }
 }
 
-int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe,
-                size_t *chunksizehintp, void *parameters,
-                struct NC_Dispatch *table, NC *ncp) {
+int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_t *chunksizehintp, void *parameters, struct NC_Dispatch *table, NC *ncp) {
   const char *realpath = path;
 
   if (strncmp(path, "esdm:", 5) == 0) {
@@ -291,7 +289,7 @@ int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe,
   }
 
   status = esdm_mpi_container_create(e->comm, cpath,
-                                     cmode & NC_NOCLOBBER ? 0 : 1, &e->c);
+  cmode & NC_NOCLOBBER ? 0 : 1, &e->c);
 #else
   status = esdm_container_create(cpath, cmode & NC_NOCLOBBER ? 0 : 1, &e->c);
 #endif
@@ -313,44 +311,44 @@ static void set_default_fill_mode(esdm_dataset_t *dset) {
   esdm_type_t type = esdm_dataspace_get_type(space);
   int value[2];
   switch (type->type) {
-  case (SMD_TYPE_INT8):
-    *(int8_t *)value = NC_FILL_BYTE;
-    break;
-  case (SMD_TYPE_INT16):
-    *(int8_t *)value = NC_FILL_SHORT;
-    break;
-  case (SMD_TYPE_INT32):
-    *(int32_t *)value = NC_FILL_INT;
-    break;
-  case (SMD_TYPE_INT64):
-    *(int8_t *)value = NC_FILL_INT64;
-    break;
-  case (SMD_TYPE_UINT8):
-    *(int8_t *)value = NC_FILL_UBYTE;
-    break;
-  case (SMD_TYPE_UINT16):
-    *(uint16_t *)value = NC_FILL_USHORT;
-    break;
-  case (SMD_TYPE_UINT32):
-    *(int8_t *)value = NC_FILL_UINT;
-    break;
-  case (SMD_TYPE_UINT64):
-    *(int8_t *)value = NC_FILL_UINT64;
-    break;
-  case (SMD_TYPE_FLOAT):
-    *(int8_t *)value = NC_FILL_FLOAT;
-    break;
-  case (SMD_TYPE_DOUBLE):
-    *(int8_t *)value = NC_FILL_DOUBLE;
-    break;
-  case (SMD_TYPE_CHAR):
-    *(int8_t *)value = NC_FILL_CHAR;
-    break;
-  case (SMD_TYPE_STRING):
-    *(int8_t *)value = NC_FILL_STRING;
-    break;
-  default:
-    assert(0 && "Not supported");
+    case (SMD_TYPE_INT8):
+      *(int8_t *)value = NC_FILL_BYTE;
+      break;
+    case (SMD_TYPE_INT16):
+      *(int8_t *)value = NC_FILL_SHORT;
+      break;
+    case (SMD_TYPE_INT32):
+      *(int32_t *)value = NC_FILL_INT;
+      break;
+    case (SMD_TYPE_INT64):
+      *(int8_t *)value = NC_FILL_INT64;
+      break;
+    case (SMD_TYPE_UINT8):
+      *(int8_t *)value = NC_FILL_UBYTE;
+      break;
+    case (SMD_TYPE_UINT16):
+      *(uint16_t *)value = NC_FILL_USHORT;
+      break;
+    case (SMD_TYPE_UINT32):
+      *(int8_t *)value = NC_FILL_UINT;
+      break;
+    case (SMD_TYPE_UINT64):
+      *(int8_t *)value = NC_FILL_UINT64;
+      break;
+    case (SMD_TYPE_FLOAT):
+      *(int8_t *)value = NC_FILL_FLOAT;
+      break;
+    case (SMD_TYPE_DOUBLE):
+      *(int8_t *)value = NC_FILL_DOUBLE;
+      break;
+    case (SMD_TYPE_CHAR):
+      *(int8_t *)value = NC_FILL_CHAR;
+      break;
+    case (SMD_TYPE_STRING):
+      *(int8_t *)value = NC_FILL_STRING;
+      break;
+    default:
+      assert(0 && "Not supported");
   }
   status = esdm_dataset_set_fill_value(dset, &value);
   assert(status == ESDM_SUCCESS);
@@ -382,8 +380,7 @@ static void ncesdm_remove_attr(esdm_container_t *c) {
     smd_attr_unlink_pos(attrs, sizes_pos);
 }
 
-int ESDM_open(const char *path, int cmode, int basepe, size_t *chunksizehintp,
-              void *parameters, struct NC_Dispatch *table, NC *ncp) {
+int ESDM_open(const char *path, int cmode, int basepe, size_t *chunksizehintp, void *parameters, struct NC_Dispatch *table, NC *ncp) {
   const char *realpath = path;
 
   if (strncmp(path, "esdm:", 5) == 0) {
@@ -564,8 +561,7 @@ static int ncesdm_container_commit(nc_esdm_t *e) {
   return NC_NOERR;
 }
 
-int ESDM__enddef(int ncid, size_t h_minfree, size_t v_align, size_t v_minfree,
-                 size_t r_align) {
+int ESDM__enddef(int ncid, size_t h_minfree, size_t v_align, size_t v_minfree, size_t r_align) {
   nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
   if (e == NULL)
     return NC_EACCESS;
@@ -668,8 +664,7 @@ int ESDM_set_fill(int ncid, int fillmode, int *old_modep) {
  * @return
  */
 
-int ESDM_def_var_fill(int ncid, int varid, int no_fill,
-                      const void *fill_value) {
+int ESDM_def_var_fill(int ncid, int varid, int no_fill, const void *fill_value) {
   DEBUG_ENTER("%d %d\n", ncid, no_fill);
   esdm_status status;
 
@@ -682,11 +677,9 @@ int ESDM_def_var_fill(int ncid, int varid, int no_fill,
   md_var_t *ev = e->vars.var[varid];
   ev->fillmode = no_fill;
 
-  if (no_fill ||
-      no_fill ==
-          NC_NOFILL) { // should be NC_NOFILL, but the NetCDF itself is not
-                       // following this convention, see:
-                       // https://www.unidata.ucar.edu/software/netcdf/docs/group__variables.html#gabe75b6aa066e6b10a8cf644fb1c55f83
+  if (no_fill || no_fill == NC_NOFILL) { // should be NC_NOFILL, but the NetCDF itself is not
+                                         // following this convention, see:
+                                         // https://www.unidata.ucar.edu/software/netcdf/docs/group__variables.html#gabe75b6aa066e6b10a8cf644fb1c55f83
     set_default_fill_mode(ev->dset);
   } else {
     status = esdm_dataset_set_fill_value(ev->dset, fill_value);
@@ -696,8 +689,7 @@ int ESDM_def_var_fill(int ncid, int varid, int no_fill,
   return NC_NOERR;
 }
 
-int ESDM_var_par_access(int ncid, int varid,
-                        int access) { // for parallel execution
+int ESDM_var_par_access(int ncid, int varid, int access) { // for parallel execution
   DEBUG_ENTER("%d: var:%d access:%d\n", ncid, varid, access);
   WARN_NOT_IMPLEMENTED;
   return NC_NOERR;
@@ -768,8 +760,7 @@ int ESDM_inq_format_extended(int ncid, int *formatp, int *modep) {
  * @return
  */
 
-int ESDM_inq(int ncid, int *ndimsp, int *nvarsp, int *nattsp,
-             int *unlimdimidp) {
+int ESDM_inq(int ncid, int *ndimsp, int *nvarsp, int *nattsp, int *unlimdimidp) {
   DEBUG_ENTER("%d\n", ncid);
 
   esdm_status status;
@@ -1064,8 +1055,7 @@ int ESDM_rename_dim(int ncid, int dimid, const char *name) {
  * @return
  */
 
-int ESDM_inq_att(int ncid, int varid, const char *name, nc_type *datatypep,
-                 size_t *lenp) {
+int ESDM_inq_att(int ncid, int varid, const char *name, nc_type *datatypep, size_t *lenp) {
   DEBUG_ENTER("%d\n", ncid);
 
   esdm_status status;
@@ -1191,8 +1181,7 @@ int ESDM_inq_attname(int ncid, int varid, int attnum, char *name) {
 
 // we may have sealed containers, that won't allow rename
 
-int ESDM_rename_att(int ncid, int varid, const char *name,
-                    const char *newname) {
+int ESDM_rename_att(int ncid, int varid, const char *name, const char *newname) {
   DEBUG_ENTER("%d\n", ncid);
   esdm_status status;
 
@@ -1272,8 +1261,7 @@ int ESDM_del_att(int ncid, int varid, const char *name) {
   return NC_NOERR;
 }
 
-int ESDM_get_att(int ncid, int varid, const char *name, void *value,
-                 nc_type type) {
+int ESDM_get_att(int ncid, int varid, const char *name, void *value, nc_type type) {
   if (name == NULL) {
     return NC_EACCESS;
   }
@@ -1339,8 +1327,7 @@ int ESDM_get_att(int ncid, int varid, const char *name, void *value,
   return NC_EACCESS;
 }
 
-int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype,
-                 size_t len, void const *value, nc_type type) {
+int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype, size_t len, void const *value, nc_type type) {
   DEBUG_ENTER("%d\n", ncid);
 
   esdm_type_t etype;
@@ -1428,8 +1415,7 @@ int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype,
   // return NC_ESTRICTNC3;
 }
 
-int ESDM_def_var(int ncid, const char *name, nc_type xtype, int ndims,
-                 const int *dimidsp, int *varidp) {
+int ESDM_def_var(int ncid, const char *name, nc_type xtype, int ndims, const int *dimidsp, int *varidp) {
   int ret = NC_NOERR;
 
   nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
@@ -1570,9 +1556,7 @@ int ESDM_rename_var(int ncid, int varid, const char *name) {
   return NC_NOERR;
 }
 
-int ESDM_get_vars(int ncid, int varid, const size_t *startp,
-                  const size_t *countp, const ptrdiff_t *stridep,
-                  const void *data, nc_type mem_nc_type) {
+int ESDM_get_vars(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const void *data, nc_type mem_nc_type) {
   int ret_NC = NC_NOERR;
 
   nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
@@ -1582,14 +1566,13 @@ int ESDM_get_vars(int ncid, int varid, const size_t *startp,
   assert(e->vars.count > varid);
   md_var_t *kv = e->vars.var[varid];
   DEBUG_ENTER("%d type: %d buff: %p %p %p %p\n", ncid, mem_nc_type, data,
-              startp, countp, stridep);
+  startp, countp, stridep);
 
   // check the dimensions we actually want to write
   esdm_dataspace_t *space;
   esdm_status ret = esdm_dataset_get_dataspace(kv->dset, &space);
 
-  if (mem_nc_type != type_esdm_to_nc(esdm_dataspace_get_type(space)) &&
-      mem_nc_type != NC_NAT) {
+  if (mem_nc_type != type_esdm_to_nc(esdm_dataspace_get_type(space)) && mem_nc_type != NC_NAT) {
     // NOT SUPPORTED
     return NC_EBADTYPE;
   }
@@ -1627,15 +1610,12 @@ int ESDM_get_vars(int ncid, int varid, const size_t *startp,
   return NC_NOERR;
 }
 
-int ESDM_get_vara(int ncid, int varid, const size_t *startp,
-                  const size_t *countp, void *ip, int memtype) {
+int ESDM_get_vara(int ncid, int varid, const size_t *startp, const size_t *countp, void *ip, int memtype) {
   DEBUG_ENTER("%d\n", ncid);
   return ESDM_get_vars(ncid, varid, startp, countp, NULL, ip, memtype);
 }
 
-int ESDM_put_vars(int ncid, int varid, const size_t *startp,
-                  const size_t *countp, const ptrdiff_t *stridep,
-                  const void *data, nc_type mem_nc_type) {
+int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const void *data, nc_type mem_nc_type) {
   int ret = NC_NOERR;
 
   nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
@@ -1645,7 +1625,7 @@ int ESDM_put_vars(int ncid, int varid, const size_t *startp,
   assert(e->vars.count > varid);
   md_var_t *kv = e->vars.var[varid];
   DEBUG_ENTER("%d type: %d buff: %p %p %p %p\n", ncid, mem_nc_type, data,
-              startp, countp, stridep);
+  startp, countp, stridep);
 
   // check the dimensions we actually want to write
   esdm_dataspace_t *space;
@@ -1701,8 +1681,7 @@ int ESDM_put_vars(int ncid, int varid, const size_t *startp,
  * @return
  */
 
-int ESDM_put_vara(int ncid, int varid, const size_t *startp,
-                  const size_t *countp, const void *op, int memtype) {
+int ESDM_put_vara(int ncid, int varid, const size_t *startp, const size_t *countp, const void *op, int memtype) {
   DEBUG_ENTER("%d\n", ncid);
   return ESDM_put_vars(ncid, varid, startp, countp, NULL, op, memtype);
 }
@@ -1747,12 +1726,7 @@ store filter parameters.
 
 // Not fully implemented and tested yet
 
-int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep,
-                     int *ndimsp, int *dimidsp, int *nattsp, int *shufflep,
-                     int *deflatep, int *deflate_levelp, int *fletcher32p,
-                     int *contiguousp, size_t *chunksizesp, int *no_fill,
-                     void *fill_valuep, int *endiannessp, unsigned int *idp,
-                     size_t *nparamsp, unsigned int *params) {
+int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndimsp, int *dimidsp, int *nattsp, int *shufflep, int *deflatep, int *deflate_levelp, int *fletcher32p, int *contiguousp, size_t *chunksizesp, int *no_fill, void *fill_valuep, int *endiannessp, unsigned int *idp, size_t *nparamsp, unsigned int *params) {
   esdm_status status;
 
   nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
@@ -2117,8 +2091,7 @@ int ESDM_inq_dimids(int ncid, int *ndims, int *dimids, int include_parents) {
 
 // # JK: User-defined datatype to be tested if equal. For later, if at all. SMD.
 
-int ESDM_inq_type_equal(int ncid1, nc_type typeid1, int ncid2, nc_type typeid2,
-                        int *equal) {
+int ESDM_inq_type_equal(int ncid1, nc_type typeid1, int ncid2, nc_type typeid2, int *equal) {
   // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED_TYPES;
   // nc_esdm_t *e1 = ESDM_nc_get_esdm_struct(ncid1);
@@ -2179,8 +2152,7 @@ int ESDM_rename_grp() {
  * @return
  */
 
-int ESDM_inq_user_type(int ncid, nc_type xtype, char *name, size_t *size,
-                       nc_type *base_nc_typep, size_t *nfieldsp, int *classp) {
+int ESDM_inq_user_type(int ncid, nc_type xtype, char *name, size_t *size, nc_type *base_nc_typep, size_t *nfieldsp, int *classp) {
   // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED_TYPES;
   return NC_EACCESS;
@@ -2428,88 +2400,88 @@ int ESDM_get_var_chunk_cache() {
 
 static NC_Dispatch esdm_dispatcher = {NC_FORMATX_ESDM,
 
-                                      ESDM_create,
-                                      ESDM_open,
+ESDM_create,
+ESDM_open,
 
-                                      ESDM_redef,
-                                      ESDM__enddef,
-                                      ESDM_sync,
-                                      ESDM_abort,
-                                      ESDM_close,
-                                      ESDM_set_fill,
-                                      NC_NOTNC3_inq_base_pe,
-                                      NC_NOTNC3_set_base_pe,
-                                      ESDM_inq_format,
-                                      ESDM_inq_format_extended,
+ESDM_redef,
+ESDM__enddef,
+ESDM_sync,
+ESDM_abort,
+ESDM_close,
+ESDM_set_fill,
+NC_NOTNC3_inq_base_pe,
+NC_NOTNC3_set_base_pe,
+ESDM_inq_format,
+ESDM_inq_format_extended,
 
-                                      ESDM_inq,
-                                      ESDM_inq_type,
+ESDM_inq,
+ESDM_inq_type,
 
-                                      ESDM_def_dim,
-                                      ESDM_inq_dimid,
-                                      ESDM_inq_dim,
-                                      ESDM_inq_unlimdim,
-                                      ESDM_rename_dim,
+ESDM_def_dim,
+ESDM_inq_dimid,
+ESDM_inq_dim,
+ESDM_inq_unlimdim,
+ESDM_rename_dim,
 
-                                      ESDM_inq_att,
-                                      ESDM_inq_attid,
-                                      ESDM_inq_attname,
-                                      ESDM_rename_att,
-                                      ESDM_del_att,
-                                      ESDM_get_att,
-                                      ESDM_put_att,
+ESDM_inq_att,
+ESDM_inq_attid,
+ESDM_inq_attname,
+ESDM_rename_att,
+ESDM_del_att,
+ESDM_get_att,
+ESDM_put_att,
 
-                                      ESDM_def_var,
-                                      ESDM_inq_varid,
-                                      ESDM_rename_var,
-                                      ESDM_get_vara,
-                                      ESDM_put_vara,
-                                      ESDM_get_vars,
-                                      ESDM_put_vars,
-                                      NCDEFAULT_get_varm,
-                                      NCDEFAULT_put_varm,
+ESDM_def_var,
+ESDM_inq_varid,
+ESDM_rename_var,
+ESDM_get_vara,
+ESDM_put_vara,
+ESDM_get_vars,
+ESDM_put_vars,
+NCDEFAULT_get_varm,
+NCDEFAULT_put_varm,
 
-                                      ESDM_inq_var_all,
-                                      ESDM_var_par_access,
-                                      ESDM_def_var_fill,
+ESDM_inq_var_all,
+ESDM_var_par_access,
+ESDM_def_var_fill,
 
-                                      ESDM_show_metadata,
-                                      ESDM_inq_unlimdims,
-                                      ESDM_inq_ncid,
-                                      ESDM_inq_grps,
-                                      ESDM_inq_grpname,
-                                      ESDM_inq_grpname_full,
-                                      ESDM_inq_grp_parent,
-                                      ESDM_inq_grp_full_ncid,
-                                      ESDM_inq_varids,
-                                      ESDM_inq_dimids,
-                                      ESDM_inq_typeids,
-                                      ESDM_inq_type_equal,
-                                      ESDM_def_grp,
-                                      ESDM_rename_grp,
-                                      ESDM_inq_user_type,
-                                      ESDM_inq_typeid,
+ESDM_show_metadata,
+ESDM_inq_unlimdims,
+ESDM_inq_ncid,
+ESDM_inq_grps,
+ESDM_inq_grpname,
+ESDM_inq_grpname_full,
+ESDM_inq_grp_parent,
+ESDM_inq_grp_full_ncid,
+ESDM_inq_varids,
+ESDM_inq_dimids,
+ESDM_inq_typeids,
+ESDM_inq_type_equal,
+ESDM_def_grp,
+ESDM_rename_grp,
+ESDM_inq_user_type,
+ESDM_inq_typeid,
 
-                                      ESDM_def_compound,
-                                      ESDM_insert_compound,
-                                      ESDM_insert_array_compound,
-                                      ESDM_inq_compound_field,
-                                      ESDM_inq_compound_fieldindex,
-                                      ESDM_def_vlen,
-                                      ESDM_put_vlen_element,
-                                      ESDM_get_vlen_element,
-                                      ESDM_def_enum,
-                                      ESDM_insert_enum,
-                                      ESDM_inq_enum_member,
-                                      ESDM_inq_enum_ident,
-                                      ESDM_def_opaque,
-                                      ESDM_def_var_deflate,
-                                      ESDM_def_var_fletcher32,
-                                      ESDM_def_var_chunking,
-                                      ESDM_def_var_endian,
-                                      ESDM_def_var_filter,
-                                      ESDM_set_var_chunk_cache,
-                                      ESDM_get_var_chunk_cache};
+ESDM_def_compound,
+ESDM_insert_compound,
+ESDM_insert_array_compound,
+ESDM_inq_compound_field,
+ESDM_inq_compound_fieldindex,
+ESDM_def_vlen,
+ESDM_put_vlen_element,
+ESDM_get_vlen_element,
+ESDM_def_enum,
+ESDM_insert_enum,
+ESDM_inq_enum_member,
+ESDM_inq_enum_ident,
+ESDM_def_opaque,
+ESDM_def_var_deflate,
+ESDM_def_var_fletcher32,
+ESDM_def_var_chunking,
+ESDM_def_var_endian,
+ESDM_def_var_filter,
+ESDM_set_var_chunk_cache,
+ESDM_get_var_chunk_cache};
 
 NC_Dispatch *esdm_dispatch_table = NULL;
 
@@ -2522,8 +2494,7 @@ int NC_ESDM_initialize(void) {
   if (getenv("NC_ESDM_FORCEESDM_MKFS")) { // sole purpose is testing
     status = esdm_mkfs(ESDM_FORMAT_PURGE_RECREATE, ESDM_ACCESSIBILITY_GLOBAL);
     assert(status == ESDM_SUCCESS);
-    status =
-        esdm_mkfs(ESDM_FORMAT_PURGE_RECREATE, ESDM_ACCESSIBILITY_NODELOCAL);
+    status = esdm_mkfs(ESDM_FORMAT_PURGE_RECREATE, ESDM_ACCESSIBILITY_NODELOCAL);
     assert(status == ESDM_SUCCESS);
   }
 
