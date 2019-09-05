@@ -4,7 +4,10 @@
 
 #include <esdm.h>
 
-// #define ESDM_PARALLEL //It has to be defined in the parallel tests
+#ifdef NC_HAS_PARALLEL
+#  define ESDM_PARALLEL
+#endif
+
 #ifdef ESDM_PARALLEL
 #  include <esdm-mpi.h>
 #endif
@@ -140,8 +143,8 @@ static esdm_type_t type_nc_to_esdm(nc_type type) {
   }
 }
 
-static nc_type type_esdm_to_nc(esdm_type_t type) {
-  switch (type->type) {
+static nc_type type_esdm_to_nc(smd_basic_type_t type) {
+  switch (type) {
     case (SMD_TYPE_UNKNOWN):
       return NC_NAT;
     case (SMD_TYPE_INT8):
@@ -169,7 +172,7 @@ static nc_type type_esdm_to_nc(esdm_type_t type) {
     case (SMD_TYPE_STRING):
       return NC_STRING;
     default:
-      printf("Unsupported datatype: %d\n", type->type);
+      printf("Unsupported datatype: %d\n", type);
       return 0;
   }
 }
@@ -287,9 +290,7 @@ int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_
   } else {
     ERROR("No valid communicator specified");
   }
-
-  status = esdm_mpi_container_create(e->comm, cpath,
-  cmode & NC_NOCLOBBER ? 0 : 1, &e->c);
+  status = esdm_mpi_container_create(e->comm, cpath, cmode & NC_NOCLOBBER ? 0 : 1, &e->c);
 #else
   status = esdm_container_create(cpath, cmode & NC_NOCLOBBER ? 0 : 1, &e->c);
 #endif
@@ -305,9 +306,8 @@ int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_
 }
 
 static void set_default_fill_mode(esdm_dataset_t *dset) {
-  int status;
   esdm_dataspace_t *space;
-  esdm_status ret = esdm_dataset_get_dataspace(dset, &space);
+  esdm_status status = esdm_dataset_get_dataspace(dset, &space);
   esdm_type_t type = esdm_dataspace_get_type(space);
   int value[2];
   switch (type->type) {
@@ -355,42 +355,6 @@ static void set_default_fill_mode(esdm_dataset_t *dset) {
   assert(status == ESDM_SUCCESS);
 }
 
-static void *get_default_fill_mode(esdm_dataset_t *dset) {
-  int status;
-  esdm_dataspace_t *space;
-  esdm_status ret = esdm_dataset_get_dataspace(dset, &space);
-  esdm_type_t type = esdm_dataspace_get_type(space);
-  switch (type->type) {
-    case (SMD_TYPE_INT8):
-      return(*(int8_t*)NC_FILL_BYTE);
-    case (SMD_TYPE_INT16):
-      return(NC_FILL_SHORT);
-    case (SMD_TYPE_INT32):
-      return(NC_FILL_INT);
-    case (SMD_TYPE_INT64):
-      return(NC_FILL_INT64);
-    case (SMD_TYPE_UINT8):
-      return(NC_FILL_UBYTE);
-    case (SMD_TYPE_UINT16):
-      return(NC_FILL_USHORT);
-    case (SMD_TYPE_UINT32):
-      return(NC_FILL_UINT);
-    case (SMD_TYPE_UINT64):
-      return(NC_FILL_UINT64);
-    case (SMD_TYPE_FLOAT):
-      // return(NC_FILL_FLOAT);
-    case (SMD_TYPE_DOUBLE):
-      // return(NC_FILL_DOUBLE);
-    case (SMD_TYPE_CHAR):
-      return(NC_FILL_CHAR);
-    case (SMD_TYPE_STRING):
-      return(NC_FILL_STRING);
-    default:
-      assert(0 && "Not supported");
-      return NC_EACCESS;
-  }
-}
-
 static void add_to_dims_tbl(nc_esdm_t *e, char const *name, size_t size) {
   int cur = e->dimt.count;
   e->dimt.count++;
@@ -408,7 +372,7 @@ static void add_to_dims_tbl(nc_esdm_t *e, char const *name, size_t size) {
 
 static void ncesdm_remove_attr(esdm_container_t *c) {
   smd_attr_t *attrs;
-  int ret = esdm_container_get_attributes(c, &attrs);
+  int status = esdm_container_get_attributes(c, &attrs);
   int dims_pos = smd_find_position_by_name(attrs, "_nc_dims");
   if (dims_pos >= 0)
     smd_attr_unlink_pos(attrs, dims_pos);
@@ -578,7 +542,7 @@ int ESDM_redef(int ncid) {
 }
 
 static int ncesdm_container_commit(nc_esdm_t *e) {
-  int ret;
+  esdm_status status;
   // store the dimension table
   int len = e->dimt.count;
   smd_dtype_t *arr_type = smd_type_array(SMD_DTYPE_STRING, len);
@@ -591,8 +555,20 @@ static int ncesdm_container_commit(nc_esdm_t *e) {
   esdm_container_link_attribute(e->c, 1, new);
   // smd_type_unref(arr_type);
 
-  ret = esdm_container_commit(e->c);
-  if (ret != ESDM_SUCCESS) {
+#ifdef ESDM_PARALLEL
+  NC_MPI_INFO *data = (NC_MPI_INFO *)(parameters);
+  if (data) {
+    MPI_Comm_dup(data->comm, &e->comm);
+    e->parallel_mode = 1;
+  } else {
+    ERROR("No valid communicator specified");
+  }
+  status = esdm_status esdm_mpi_container_commit(e->com, e->c);
+#else
+  status = esdm_container_commit(e->c);
+#endif
+
+  if (status != ESDM_SUCCESS) {
     return NC_EBADID;
   }
   return NC_NOERR;
@@ -621,12 +597,11 @@ int ESDM__enddef(int ncid, size_t h_minfree, size_t v_align, size_t v_minfree, s
 
 int ESDM_sync(int ncid) {
   DEBUG_ENTER("%d\n", ncid);
-  int ret;
   nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
   if (e == NULL)
     return NC_EACCESS;
 
-  ret = ncesdm_container_commit(e);
+  int ret = ncesdm_container_commit(e);
   return ret;
 }
 
@@ -645,23 +620,12 @@ int ESDM_abort(int ncid) {
 }
 
 int ESDM_close(int ncid, void *b) {
-  int ret;
   nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
   if (e == NULL)
     return NC_EBADID;
 
-  ret = ncesdm_container_commit(e);
+  int ret = ncesdm_container_commit(e);
 
-#ifdef ESDM_PARALLEL
-  if (e->parallel_mode) {
-    // esdm_mpi_container_close(e->comm, e->c);
-    MPI_Comm_free(&e->comm);
-  } else {
-    esdm_container_close(e->c);
-  }
-#else
-  esdm_container_close(e->c);
-#endif
   // TODO CLOSE the container properly
   free(e);
   return ret;
@@ -714,7 +678,7 @@ int ESDM_def_var_fill(int ncid, int varid, int no_fill, const void *fill_value) 
   md_var_t *ev = e->vars.var[varid];
   ev->fillmode = no_fill;
 
-  if (no_fill || no_fill == NC_NOFILL) { // should be NC_NOFILL, but the NetCDF itself is not following this convention, see: https://www.unidata.ucar.edu/software/netcdf/docs/group__variables.html#gabe75b6aa066e6b10a8cf644fb1c55f83
+  if (no_fill || no_fill == NC_NOFILL || fill_value == NULL) { // should be NC_NOFILL, but the NetCDF itself is not following this convention, see: https://www.unidata.ucar.edu/software/netcdf/docs/group__variables.html#gabe75b6aa066e6b10a8cf644fb1c55f83
     set_default_fill_mode(ev->dset);
   } else {
     status = esdm_dataset_set_fill_value(ev->dset, fill_value);
@@ -1061,11 +1025,6 @@ int ESDM_rename_dim(int ncid, int dimid, const char *name) {
   e->dimt.name[dimid] = strdup(name);
   // d->container->status = ESDM_DATA_DIRTY;
 
-  // must update the existing names inside ALL ESDM datatsets that use this
-  // variable
-  // TODO find out which datatsets use it, then build new name list, then call:
-  // ret = esdm_dataset_name_dims(d, names);
-
   return NC_NOERR;
 }
 
@@ -1102,6 +1061,16 @@ int ESDM_inq_att(int ncid, int varid, const char *name, nc_type *datatypep, size
   if (e == NULL)
     return NC_EBADID;
 
+  if (strcmp(name, "_FillValue") == 0) {
+    if (lenp) {
+      *lenp = 1;
+    }
+    if (datatypep) {
+      // type_esdm_to_nc(a->type->type);
+    }
+    return NC_NOERR;
+  }
+
   smd_attr_t *attr;
   if (varid == NC_GLOBAL) {
     status = esdm_container_get_attributes(e->c, &attr);
@@ -1124,9 +1093,9 @@ int ESDM_inq_att(int ncid, int varid, const char *name, nc_type *datatypep, size
 
   if (datatypep) {
     if (a->type->type == SMD_TYPE_ARRAY)
-      *datatypep = type_esdm_to_nc(a->type->specifier.u.arr.base);
+      *datatypep = type_esdm_to_nc(a->type->specifier.u.arr.base->type);
     else
-      *datatypep = type_esdm_to_nc(a->type);
+      *datatypep = type_esdm_to_nc(a->type->type);
   }
 
   if (lenp) {
@@ -1242,7 +1211,11 @@ int ESDM_rename_att(int ncid, int varid, const char *name, const char *newname) 
   }
 
   int attnum;
-  int ret = ESDM_inq_attid(ncid, varid, name, &attnum);
+  status = ESDM_inq_attid(ncid, varid, name, &attnum);
+  if (status != ESDM_SUCCESS) {
+    return NC_EACCESS;
+  }
+
   free((void *)attr->childs[attnum]->name);
   attr->childs[attnum]->name = strdup(newname);
 
@@ -1317,12 +1290,12 @@ int ESDM_get_att(int ncid, int varid, const char *name, void *value, nc_type typ
       return NC_EBADID;
     }
     md_var_t *ev = e->vars.var[varid];
-    ret = esdm_dataset_get_dataspace(ev->dset, &space);
-    nc_type dset_datatype = type_esdm_to_nc(esdm_dataspace_get_type(space));
+    status = esdm_dataset_get_dataspace(ev->dset, &space);
+    nc_type dset_datatype = type_esdm_to_nc(esdm_dataspace_get_type(space)->type);
     if (dset_datatype != type && type != NC_NAT) {
       return NC_EBADTYPE;
     }
-    esdm_status ret = esdm_dataset_get_fill_value(ev->dset, value);
+    esdm_status status = esdm_dataset_get_fill_value(ev->dset, value);
     if (ret != ESDM_SUCCESS) {
       return NC_EINVAL;
     }
@@ -1377,8 +1350,6 @@ int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype, size_t
     return NC_EACCESS;
   }
 
-  int ret;
-
   nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
   if (e == NULL)
     return NC_EBADID;
@@ -1393,13 +1364,13 @@ int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype, size_t
       return NC_EBADID;
     }
     md_var_t *ev = e->vars.var[varid];
-    ret = esdm_dataset_get_dataspace(ev->dset, &space);
-    nc_type dset_datatype = type_esdm_to_nc(esdm_dataspace_get_type(space));
+    esdm_status status = esdm_dataset_get_dataspace(ev->dset, &space);
+    nc_type dset_datatype = type_esdm_to_nc(esdm_dataspace_get_type(space)->type);
     if (dset_datatype != datatype && datatype != NC_NAT) {
       return NC_EBADTYPE;
     }
-    esdm_status ret = esdm_dataset_set_fill_value(ev->dset, value);
-    if (ret != ESDM_SUCCESS) {
+    status = esdm_dataset_set_fill_value(ev->dset, value);
+    if (status != ESDM_SUCCESS) {
       return NC_EINVAL;
     }
     return NC_NOERR;
@@ -1433,16 +1404,16 @@ int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype, size_t
   esdm_status status;
 
   if (varid == NC_GLOBAL) {
-    ret = esdm_container_link_attribute(e->c, 1, new);
+    status = esdm_container_link_attribute(e->c, 1, new);
   } else {
     if (varid > esdm_container_dataset_count(e->c)) {
       smd_attr_destroy(new);
       return NC_EACCESS;
     }
     md_var_t *ev = e->vars.var[varid];
-    ret = esdm_dataset_link_attribute(ev->dset, 1, new);
+    status = esdm_dataset_link_attribute(ev->dset, 1, new);
   }
-  if (ret != ESDM_SUCCESS) {
+  if (status != ESDM_SUCCESS) {
     smd_attr_destroy(new);
     return NC_EACCESS;
   }
@@ -1483,21 +1454,40 @@ int ESDM_def_var(int ncid, const char *name, nc_type xtype, int ndims, const int
   }
 
   esdm_type_t typ = type_nc_to_esdm(xtype);
-  // if (typ == SMD_DTYPE_UNKNOWN || typ == SMD_DTYPE_STRING) {
-  if (typ == SMD_DTYPE_UNKNOWN) {
+  if (typ == SMD_DTYPE_UNKNOWN || typ == SMD_DTYPE_STRING) {
     return NC_EBADTYPE;
   }
 
   esdm_dataspace_t *dataspace;
-  ret = esdm_dataspace_create(ndims, bounds, typ, &dataspace);
+  esdm_status status = esdm_dataspace_create(ndims, bounds, typ, &dataspace);
+  if (status != ESDM_SUCCESS) {
+    return NC_EACCESS;
+  }
 
   esdm_dataset_t *d;
-  ret = esdm_dataset_create(e->c, name, dataspace, &d);
 
-  if (ret != ESDM_SUCCESS) {
-    return NC_EBADID;
+#ifdef ESDM_PARALLEL
+  NC_MPI_INFO *data = (NC_MPI_INFO *)(parameters);
+  if (data) {
+    MPI_Comm_dup(data->comm, &e->comm);
+    e->parallel_mode = 1;
+  } else {
+    ERROR("No valid communicator specified");
   }
-  ret = esdm_dataset_name_dims(d, names);
+  status = esdm_mpi_dataset_create(e->comm, e->c, name, dataspace, &d);
+#else
+  status = esdm_dataset_create(e->c, name, dataspace, &d);
+#endif
+
+  if (status != ESDM_SUCCESS) {
+    return NC_EACCESS;
+  }
+
+  status = esdm_dataset_name_dims(d, names);
+  if (status != ESDM_SUCCESS) {
+    return NC_EACCESS;
+  }
+
   set_default_fill_mode(d);
 
   evar->dset = d;
@@ -1605,9 +1595,9 @@ int ESDM_get_vars(int ncid, int varid, const size_t *startp, const size_t *count
 
   // check the dimensions we actually want to write
   esdm_dataspace_t *space;
-  esdm_status ret = esdm_dataset_get_dataspace(kv->dset, &space);
+  esdm_status status = esdm_dataset_get_dataspace(kv->dset, &space);
 
-  if (mem_nc_type != type_esdm_to_nc(esdm_dataspace_get_type(space)) && mem_nc_type != NC_NAT) {
+  if (mem_nc_type != type_esdm_to_nc(esdm_dataspace_get_type(space)->type) && mem_nc_type != NC_NAT) {
     // NOT SUPPORTED
     return NC_EBADTYPE;
   }
@@ -1621,8 +1611,8 @@ int ESDM_get_vars(int ncid, int varid, const size_t *startp, const size_t *count
     offset[i] = startp[i];
   }
   esdm_dataspace_t *subspace;
-  ret = esdm_dataspace_subspace(space, ndims, size, offset, &subspace);
-  if (ret != ESDM_SUCCESS) {
+  status = esdm_dataspace_subspace(space, ndims, size, offset, &subspace);
+  if (status != ESDM_SUCCESS) {
     int count = 0;
     for (int i = 0; i < ndims; i++)
       if (size[i] == 0) {
@@ -1634,18 +1624,10 @@ int ESDM_get_vars(int ncid, int varid, const size_t *startp, const size_t *count
       return NC_EACCESS;
     }
   }
-  ret = esdm_read(kv->dset, (void *)data, subspace);
-  if (ret != ESDM_SUCCESS) {
+  status = esdm_read(kv->dset, (void *)data, subspace);
+  if (status != ESDM_SUCCESS) {
     esdm_dataspace_destroy(subspace);
-
-    if (kv->fillmode == NC_FILL){
-        // *(uint16_t*)data = NC_FILL_USHORT;
-        *(uint16_t*)data = get_default_fill_mode(kv->dset);
-        return NC_NOERR;
-
-    } else{
-      return NC_EINVAL;
-    }
+    return NC_EINVAL;
   }
 
   esdm_dataspace_destroy(subspace);
@@ -1659,8 +1641,6 @@ int ESDM_get_vara(int ncid, int varid, const size_t *startp, const size_t *count
 }
 
 int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *countp, const ptrdiff_t *stridep, const void *data, nc_type mem_nc_type) {
-  int ret = NC_NOERR;
-
   nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
   if (e == NULL)
     return NC_EBADID;
@@ -1671,17 +1651,17 @@ int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *count
 
   // check the dimensions we actually want to write
   esdm_dataspace_t *space;
-  ret = esdm_dataset_get_dataspace(kv->dset, &space);
-  nc_type datatype = type_esdm_to_nc(esdm_dataspace_get_type(space));
+  esdm_status status = esdm_dataset_get_dataspace(kv->dset, &space);
+  if (status != ESDM_SUCCESS) {
+    return NC_EACCESS;
+  }
+  nc_type datatype = type_esdm_to_nc(esdm_dataspace_get_type(space)->type);
   if (mem_nc_type != datatype && mem_nc_type != NC_NAT) {
-    // Should we change the type inside the space?!
     return NC_EBADTYPE;
   }
 
   int ndims = esdm_dataspace_get_dims(space);
   int64_t const *spacesize = esdm_dataset_get_actual_size(kv->dset);
-
-  esdm_status status;
 
   int64_t size[ndims];
   int64_t offset[ndims];
@@ -1690,8 +1670,8 @@ int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *count
     offset[i] = startp[i];
   }
   esdm_dataspace_t *subspace;
-  ret = esdm_dataspace_subspace(space, ndims, size, offset, &subspace);
-  if (ret != ESDM_SUCCESS) {
+  status = esdm_dataspace_subspace(space, ndims, size, offset, &subspace);
+  if (status != ESDM_SUCCESS) {
     int count = 0;
     for (int i = 0; i < ndims; i++)
       if (size[i] == 0) {
@@ -1707,8 +1687,8 @@ int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *count
 
   // assert(subspace->size);
 
-  ret = esdm_write(kv->dset, (void *)data, subspace);
-  if (ret != ESDM_SUCCESS) {
+  status = esdm_write(kv->dset, (void *)data, subspace);
+  if (status != ESDM_SUCCESS) {
     esdm_dataspace_destroy(subspace);
     return NC_EINVAL;
   }
@@ -1792,7 +1772,7 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
   }
 
   if (xtypep) {
-    *xtypep = type_esdm_to_nc(esdm_dataspace_get_type(space));
+    *xtypep = type_esdm_to_nc(esdm_dataspace_get_type(space)->type);
   }
 
   if (ndimsp) {
@@ -1885,8 +1865,9 @@ static int ESDM_inq_typeids(int ncid, int *ntypes, int *typeids) {
   DEBUG_ENTER("%d\n", ncid);
 
   nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
-  if (e == NULL)
+  if (e == NULL) {
     return NC_EBADID;
+  }
 
   // Check for types inside the global attributes (e->c->attr)
 
@@ -1896,8 +1877,12 @@ static int ESDM_inq_typeids(int ncid, int *ntypes, int *typeids) {
   // (e->dsets->dset->attr)
 
   if (ntypes) {
+    *ntypes = SMD_TYPE_STRING;
   }
   if (typeids) {
+    for (int i = 0; i < SMD_TYPE_PRIMITIVE_END; i++) {
+      typeids[i] = type_esdm_to_nc(i);
+    }
   }
 
   return NC_NOERR;
@@ -1992,10 +1977,13 @@ int ESDM_inq_ncid() {
  * @return
  */
 
-int ESDM_inq_grps() {
+int ESDM_inq_grps(int ncid, int *numgrps, int *ncids) {
   // DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_SUPPORTED_GROUPS;
-  return NC_EACCESS;
+  if (numgrps) {
+    *numgrps = 0;
+  }
+  //WARN_NOT_SUPPORTED_GROUPS;
+  return NC_NOERR;
 }
 
 /**
@@ -2196,8 +2184,13 @@ int ESDM_rename_grp() {
 
 int ESDM_inq_user_type(int ncid, nc_type xtype, char *name, size_t *size, nc_type *base_nc_typep, size_t *nfieldsp, int *classp) {
   // DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_SUPPORTED_TYPES;
-  return NC_EACCESS;
+  if (name) {
+    *name = 0;
+  }
+  if (size) {
+    *size = 0;
+  }
+  return NC_NOERR;
 }
 
 /**

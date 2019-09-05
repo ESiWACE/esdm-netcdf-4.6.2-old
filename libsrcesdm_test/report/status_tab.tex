@@ -1,4 +1,4 @@
-According to the classification presented in Tables \ref{tab:nc_test4_1}, \ref{tab:nc_test4_2} and \ref{tab:nc_test4_3}, all {\bf Working} tests were used to demonstrate ESDM functionalities. There are now five categories in which each test was classified according to their status:
+According to the classification presented in Tables \ref{tab:nc_test4_1}, \ref{tab:nc_test4_2} and \ref{tab:nc_test4_3}, all 78 {\bf Working} tests were used to demonstrate ESDM functionalities. There are now five categories in which each test was classified according to their status:
 
 \begin{description}
 
@@ -53,7 +53,7 @@ tst\_empty\_vlen\_unlim.c   &           &               &               & $\chec
 tst\_endian\_fill.c     &               &               &               & $\checkmark$  &               \\ \hline
 tst\_enums.c            &               &               &               & $\checkmark$  &               \\ \hline
 tst\_files.c            &               & $\checkmark$  &               &               &               \\ \hline
-tst\_files3.c           &               &               &               &               &  $\checkmark$ \\ \hline
+tst\_files3.c           &               &               &               &               & $\checkmark$  \\ \hline
 tst\_files4.c           &               &               &               & $\checkmark$  &               \\ \hline
 tst\_files5.c           & $\checkmark$  &               &               &               &               \\ \hline
 tst\_files6.c           &               & $\checkmark$  &               &               &               \\ \hline
@@ -64,6 +64,7 @@ tst\_fills2.c           &               &               & $\checkmark$  &       
 tst\_filterparser.c     & $\checkmark$  &               &               &               &               \\ \hline
 tst\_grps.c             &               &               &               & $\checkmark$  &               \\ \hline
 tst\_grps2.c            &               &               &               & $\checkmark$  &               \\ \hline
+Partial Total           &     5         &       17      &       3       &       13      &       5       \\ \hline
 \hline
 \end{tabular}
 \caption{\label{tab:nc_test4_status_1} Status -- Part I}
@@ -94,7 +95,7 @@ tst\_opaques.c          &               &               &               & $\chec
 tst\_parallel.c         &               &               & $\checkmark$  &               &               \\ \hline
 tst\_put\_vars.c        & $\checkmark$  &               &               &               &               \\ \hline
 tst\_rehash.c           & $\checkmark$  &               &               &               &               \\ \hline
-tst\_rename.c           &               &  $\checkmark$ &               &               &               \\ \hline
+tst\_rename.c           &               & $\checkmark$  &               &               &               \\ \hline
 tst\_rename2.c          & $\checkmark$  &               &               &               &               \\ \hline
 tst\_simplerw\_coll\_r.c   &            &               & $\checkmark$  &               &               \\ \hline
 tst\_strings.c          &               &               & $\checkmark$  &               &               \\ \hline
@@ -113,6 +114,20 @@ tst\_vars4.c            &               & $\checkmark$  &               &       
 tst\_vl.c               &               &               &               & $\checkmark$  &               \\ \hline
 t\_type.c               & $\checkmark$  &               &               &               &               \\ \hline
 \hline
+Partial Total           &     11        &       7       &       3       &       13      &       1       \\ \hline
+\end{tabular}
+\caption{\label{tab:nc_test4_status_2} Status -- Part II}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|c|c|c|c|}
+\hline
+Filename                & Success       & Partial       & Inconclusive  & Failure       & Not Tested    \\
+                        &               & Success       &               &               & Yet           \\ \hline \hline
+Partial Total           &     5         &       17      &       3       &       13      &       5       \\ \hline
+Partial Total           &     11        &       7       &       3       &       13      &       1       \\ \hline \hline
+Total                   &     16        &       24      &      6        &       26      &       6       \\ \hline \hline
 \end{tabular}
 \caption{\label{tab:nc_test4_status_2} Status -- Part II}
 \end{table}

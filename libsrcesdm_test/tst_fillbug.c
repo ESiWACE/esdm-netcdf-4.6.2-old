@@ -18,7 +18,9 @@
 #define RANK_P 3
 #define LEN 4
 
-int main() {
+int
+main()
+{
   int ncid, dimids[RANK_P], time_id, p_id;
   int ndims, dimids_in[RANK_P];
 
@@ -69,7 +71,7 @@ int main() {
   /* Read the record of non-existent data. */
   // if (nc_get_vara(ncid, 1, cor, edg, P_data)) ERR;
   // for (i = 0; i < LEN; i++)
-  //    if (P_data[i] != NC_EACCESS) ERR;
+  //    if (P_data[i] != NC_FILL_FLOAT) ERR;
 
   /* That's it! */
   if (nc_close(ncid)) ERR;
@@ -81,7 +83,7 @@ int main() {
   // if (ndims != 3 || dimids_in[0] != 0 || dimids_in[1] != 2 || dimids_in[2] != 1) ERR;
   // if (nc_get_vara(ncid, 1, cor, edg, P_data)) ERR;
   // for (i = 0; i < LEN; i++)
-  //    if (P_data[i] != NC_EACCESS) ERR;
+  //    if (P_data[i] != NC_FILL_FLOAT) ERR;
 
   if (nc_close(ncid)) ERR;
 
