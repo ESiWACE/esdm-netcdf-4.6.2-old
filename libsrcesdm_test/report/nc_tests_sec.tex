@@ -63,7 +63,7 @@ Remove lines 115-118, 148, 231-269, 280-317, 328-335, 341-343, 353-355, 365-367,
 
 \paragraph{Status:} PARTIAL SUCCESS!
 
-\section{Test tst\_atts1.c}
+\section{\color{blue}{FIX ME! {Test tst\_atts1.c}}}
 
 \paragraph{Description:} Test attributes.
 
@@ -103,7 +103,7 @@ of tst\_unicode.c
 
 \paragraph{Status:} PARTIAL SUCCESS!
 
-\section{Test tst\_attsperf.c}
+\section{{\color{blue}{FIX ME! Test tst\_attsperf.c}}}
 
 \paragraph{Description:} Test the netCDF-4 attribute code.
 
@@ -167,7 +167,7 @@ Sorry! Unexpected result, ../../libsrcesdm\_test/tst\_chunks.c, line: 49
 
 \paragraph{Status:} PARTIAL SUCCESS!
 
-\section{Test tst\_chunks3.c}
+\section{{\color{blue}{FIX ME! Test tst\_chunks3.c}}}
 
 \paragraph{Description:} Runs benchmarks on different chunking sizes.
 
@@ -275,7 +275,7 @@ Remove lines 158, 162-167, 173-179. ESDM does not support groups from NetCDF!
 
 \paragraph{Status:} PARTIAL SUCCESS!
 
-\section{Test tst\_create\_files.c}
+\section{{\color{blue}{FIX ME! Test tst\_create\_files.c}}}
 
 \paragraph{Description:} This program creates a test file.
 
@@ -348,7 +348,7 @@ Sorry! Unexpected result, ../../libsrcesdm\_test/tst\_dims3.c, line: 47
 
 \paragraph{Status:} FAILURE!
 
-\section{Test tst\_elatefill.c}
+\section{\color{blue}{FIX ME! {Test tst\_elatefill.c}}}
 
 \paragraph{Description:} Test proper elatefill return when fillvalue is assigned outside of
 the initial define.
@@ -417,7 +417,7 @@ Remove lines 336-337. ESDM does not support compression!
 
 {\color{blue}{Help, Julian!}}
 
-\section{Test tst\_files3.c}
+\section{{\color{blue}{FIX ME! Test tst\_files3.c}}}
 
 \paragraph{Description:} This is a benchmark program which tests file writes with compressed data.
 
@@ -489,23 +489,19 @@ Remove lines 72-74, 84-86. Expected error: NC\_FILL\_FLOAT
 
 \paragraph{Output:} *** Tests successful!
 
-\paragraph{Comments:} Remove lines 71, 82. Whaaaaaat?
+\paragraph{Comments:} Remove lines 24-86. ESDM does not support datatype NC\_STRING!
 
 \paragraph{Status:} PARTIAL SUCCESS!
 
-{\color{blue}{Help, Julian!}}
-
-\section{Test tst\_fills2.c}
+\section{{\color{blue}{FIX ME! Test tst\_fills2.c}}}
 
 \paragraph{Description:} Create a test file with default fill values for variables of each type.
 
-\paragraph{Comments:} Remove lines 60, 70. Whaaaaaat?
+\paragraph{Output:} Sorry! Unexpected result, ../../libsrcesdm\_test/tst\_fills2.c, line: 48
 
-Remove lines 113-135, 140-145, 152-170, 197-217 and more. tst\_bug12
+\paragraph{Comments:} ESDM does not support datatype NC\_STRING!
 
-\paragraph{Status:} INCONCLUSIVE!
-
-{\color{blue}{Help, Julian!}}
+\paragraph{Status:} FAILURE!
 
 \section{Test tst\_filterparser.c}
 
@@ -648,7 +644,7 @@ Sorry! Unexpected result, ../../libsrcesdm\_test/tst\_interops6.c, line: 159
 
 \paragraph{Status:} SUCCESS!
 
-\section{Test tst\_large2.c}
+\section{\color{blue}{FIX ME! {Test tst\_large2.c}}}
 
 \paragraph{Description:} Test large file problems reported by user.
 
@@ -699,7 +695,7 @@ Sorry! Unexpected result, ../../libsrcesdm\_test/tst\_opaques.c, line: 49
 
 \paragraph{Status:} FAILURE!
 
-\section{Test tst\_parallel.c}
+\section{{\color{blue}{FIX ME! Test tst\_parallel.c}}}
 
 \paragraph{Description:} This program tests netcdf-4 parallel I/O.
 
@@ -749,7 +745,7 @@ Sorry! Unexpected result, ../../libsrcesdm\_test/tst\_opaques.c, line: 49
 
 \paragraph{Status:} SUCCESS!
 
-\section{Test tst\_simplerw\_coll\_r.c}
+\section{{\color{blue}{FIX ME! Test tst\_simplerw\_coll\_r.c}}}
 
 \paragraph{Description:} This test is for parallel IO and the collective access of metadata with HDF5.
 
@@ -759,15 +755,15 @@ Sorry! Unexpected result, ../../libsrcesdm\_test/tst\_opaques.c, line: 49
 
 \paragraph{Status:} INCONCLUSIVE!
 
-\section{Test tst\_strings.c}
+\section{{\color{blue}{FIX ME! Test tst\_strings.c}}}
 
 \paragraph{Description:} Test netcdf-4 string types.
 
-\paragraph{Output:} SegFault!
+\paragraph{Output:} Sorry! Unexpected result, ../../libsrcesdm\_test/tst\_strings.c, line: 36
 
-\paragraph{Comments:}
+\paragraph{Comments:} ESDM does not support datatype NC\_STRING!
 
-\paragraph{Status:} INCONCLUSIVE!
+\paragraph{Status:} FAILURE!
 
 {\color{blue}{Help, Julian!}}
 
@@ -775,11 +771,11 @@ Sorry! Unexpected result, ../../libsrcesdm\_test/tst\_opaques.c, line: 49
 
 \paragraph{Description:} Test netcdf-4 string types.
 
-\paragraph{Output:} *** Tests successful!
+\paragraph{Output:} Sorry! Unexpected result, ../../libsrcesdm\_test/tst\_strings2.c, line: 33
 
-\paragraph{Comments:} No comments.
+\paragraph{Comments:} ESDM does not support datatype NC\_STRING!
 
-\paragraph{Status:} SUCCESS!
+\paragraph{Status:} FAILURE!
 
 \section{Test tst\_sync.c}
 

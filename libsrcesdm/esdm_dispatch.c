@@ -1354,27 +1354,27 @@ int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype, size_t
   if (e == NULL)
     return NC_EBADID;
 
-  if (strcmp(name, "_FillValue") == 0) {
-    // special case as NetCDF allows to manipulate a attribute with that name.
-    if (len != 1 || varid == NC_GLOBAL) {
-      return NC_EINVAL;
-    }
-    esdm_dataspace_t *space;
-    if (varid > esdm_container_dataset_count(e->c)) {
-      return NC_EBADID;
-    }
-    md_var_t *ev = e->vars.var[varid];
-    esdm_status status = esdm_dataset_get_dataspace(ev->dset, &space);
-    nc_type dset_datatype = type_esdm_to_nc(esdm_dataspace_get_type(space)->type);
-    if (dset_datatype != datatype && datatype != NC_NAT) {
-      return NC_EBADTYPE;
-    }
-    status = esdm_dataset_set_fill_value(ev->dset, value);
-    if (status != ESDM_SUCCESS) {
-      return NC_EINVAL;
-    }
-    return NC_NOERR;
-  }
+  // if (strcmp(name, "_FillValue") == 0) {
+  //   // special case as NetCDF allows to manipulate a attribute with that name.
+  //   if (len != 1 || varid == NC_GLOBAL) {
+  //     return NC_EINVAL;
+  //   }
+  //   esdm_dataspace_t *space;
+  //   if (varid > esdm_container_dataset_count(e->c)) {
+  //     return NC_EBADID;
+  //   }
+  //   md_var_t *ev = e->vars.var[varid];
+  //   esdm_status status = esdm_dataset_get_dataspace(ev->dset, &space);
+  //   nc_type dset_datatype = type_esdm_to_nc(esdm_dataspace_get_type(space)->type);
+  //   if (dset_datatype != datatype && datatype != NC_NAT) {
+  //     return NC_EBADTYPE;
+  //   }
+  //   status = esdm_dataset_set_fill_value(ev->dset, value);
+  //   if (status != ESDM_SUCCESS) {
+  //     return NC_EINVAL;
+  //   }
+  //   return NC_NOERR;
+  // }
 
   smd_attr_t *new;
   if (len > 1) {
@@ -1383,7 +1383,8 @@ int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype, size_t
     // smd_type_unref(arr_type);
   } else {
     if (datatype == NC_STRING) {
-      new = smd_attr_new(name, etype, *(void **)value, 0);
+      // new = smd_attr_new(name, etype, *(void **)value, 0);
+      return NC_EBADTYPE;
     } else if (etype == SMD_DTYPE_STRING) {
       new = smd_attr_new(name, etype, value, 0);
       if (!new) {
