@@ -1,4 +1,4 @@
-\chapter{Functionalities}
+\chapter{NetCDF and ESDM Functionalities}
 
 \tab
 This chapter compares the NetCDF functionalities with the current version of ESDM.
@@ -6,14 +6,14 @@ This chapter compares the NetCDF functionalities with the current version of ESD
 \section{Error Messages}
 
 \tab
-NetCDF has an extense classification for the possible errors that might happen. ESDM does not share this classification and it is something that their developers are not considering to include in the final version. This decision does not affect the performance of ESDM, but it was critical when the NetCDF tests were evaluated. Several wrong conditions are designed by NetCDF tests and ESDM does not produce the expected error. Because of that, the code in the tests that consider invalid parameters as input were removed.
+NetCDF has an extense classification for the possible errors that might happen. ESDM does not share this classification, and it is something that their developers are not considering to include in the final version. This decision does not affect the performance of ESDM, but it was critical when the NetCDF tests were evaluated. NetCDF tests introduce several wrong conditions, and ESDM does not produce the expected error. Because of that, the code in the tests that consider invalid parameters as input was removed.
 
 \section{Classic Model/Modes}
 
 \tab
-There are other restrictions. For instance, NetCDF includes tests with the Classic Model, which ESDM does not support and it has no intention of doing it.
+There are other restrictions. For instance, NetCDF includes tests with the Classic Model, which ESDM does not support, and it has no intention of doing it.
 
-There are tests that consider in which mode the file is open. There are two modes associated with accessing a netCDF file: {\bf define mode} and {\bf data mode}. In define mode, dimensions, variables, and new attributes can be created but variable data cannot be read or written. In data mode, data can be read or written and attributes can be changed, but new dimensions, variables, and attributes cannot be created. The current version of ESDM does not have restrictions in the modes. Once the file is open, the user can do any modifications s/he wants.
+Some tests consider in which mode the file is open. There are two modes associated with accessing a netCDF file: {\bf define mode} and {\bf data mode}. In define mode, dimensions, variables, and new attributes can be created, but variable data cannot be read or written. In data mode, data can be read or written, and attributes can be changed, but new dimensions, variables, and attributes cannot be created. The current version of ESDM does not have restrictions in the modes. Once the file is open, the user can do any modifications s/he wants.
 
 Tables \ref{tab_modes_create} amd \ref{tab_modes_open} compares the options for creating and opening a file using NetCDF and ESDM.
 
@@ -38,7 +38,7 @@ NC\_PERSIST & Force the NC\_DISKLESS data from memory to a file &  NOT SUPPORTED
 
 \begin{table}[H]
 \centering
-\begin{tabular}{|l|m{8cm}|l|}
+\begin{tabular}{|l|m{6.8cm}|l|}
 \hline
 FLAG & NetCDF Support & ESDM Support \\ \hline \hline
 NC\_NOWRITE & Open the dataset with read-only access &  ESDM\_MODE\_FLAG\_READ       \\ \hline
@@ -100,14 +100,13 @@ NC\_FLOAT      &  11  & SMD\_DTYPE\_FLOAT    & 32 bits    \\ \hline
 \caption{\label{basic-datatypes-netcdf} Equivalence between ESDM and NetCDF4 datatypes -- Datatypes sorted by NETCDF description.}
 \end{table}
 
-The current version of ESDM does not support user-defined datatypes, but the developers intend to support this feature in the final version.
+The current version of ESDM does not support user-defined data types, but the developers intend to support this feature in the final version.
 
 \begin{table}[H]
 \centering
-\begin{tabular}{|l|m{6cm}|l|}
+\begin{tabular}{|l|m{6.4cm}|l|}
 \hline
 FLAG & NetCDF Support & ESDM Support \\ \hline \hline
-NC Data Type  &  NC Description  & ESDM Data Type  \\ \hline
 NC\_NAT & NAT = Not A Type (c.f. NaN) &    SMD\_TYPE\_AS\_EXPECTED        \\ \hline
 NC\_BYTE & signed 1 byte integer &     SMD\_DTYPE\_INT8        \\ \hline
 NC\_CHAR & ISO/ASCII character &      SMD\_DTYPE\_CHAR       \\ \hline
@@ -133,7 +132,7 @@ NC\_ENUM & used internally for enum types &       NOT SUPPORTED YET      \\ \hli
 \section{Compression}
 
 \tab
-ESDM does not support compression yet. This means that all functions and tests related to chunking, deflate and fletcher will not work when using ESDM. There is a compression library read to be used, but that was not yet integrated in the current version of ESDM. The Scientific Compression Library (SCIL) can be found in the following Git Repository:
+ESDM does not support compression yet. Because of that, all functions and tests related to chunking, deflate, and fletcher will not work when using ESDM. There is a compression library read to be used, but that was not yet integrated with the current version of ESDM. The Scientific Compression Library (SCIL) can be found in the following Git Repository:
 
 \begin{center}
 \url{https://github.com/JulianKunkel/scil/}
@@ -142,12 +141,12 @@ ESDM does not support compression yet. This means that all functions and tests r
 \section{Endianness}
 
 \tab
-ESDM does not support native endianness.
+ESDM only supports native endianness.
 
 \section{Groups}
 
 \tab
-In general, ESDM does not support groups from NetCDF. When there is one group without subgroups, ESDM can work properly and assumes the group and the file are the same entity. When there are more than one group or subgroups, ESDM can be called using the following command-line interface:
+In general, ESDM does not support groups from NetCDF. When there is one group without subgroups, ESDM can work adequately and assumes the group and the file are the same entity. When there are more than one group or subgroups, ESDM can be called using the following command-line interface:
 
 ???
 

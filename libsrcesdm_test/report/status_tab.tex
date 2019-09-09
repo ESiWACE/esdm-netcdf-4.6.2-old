@@ -1,21 +1,3 @@
-According to the classification presented in Tables \ref{tab:nc_test4_1}, \ref{tab:nc_test4_2} and \ref{tab:nc_test4_3}, all 78 {\bf Working} tests were used to demonstrate ESDM functionalities. There are now five categories in which each test was classified according to their status:
-
-\begin{description}
-
-\item[Success] It means the original test is successful when using ESDM.
-
-\item[Partial Success] It means the original test is successful when using ESDM, but some parts of the test code had to be removed because ESDM does not support that specific feature.
-
-\item[Inconclusive] It means the original test is not successful when using ESDM and there are features that still need to be implemented or revised to provide the expected result. The missing features should be available in the short term.
-
-\item[Failure] It means the original test is not successful when using ESDM. Some of the missing features should be available in a medium term and others are not expected to work with ESDM at all.
-
-\item[Not Tested Yet] It means the original test was not tested yet. This category usually represents tests that are too long to run, tests that demand a large amount of memory or processing or tests involving features that are to be implemented.
-
-\end{description}
-
-Tables \ref{tab:nc_test4_status_1} and \ref{tab:nc_test4_status_2} summarizes the current status of each test.
-
 \begin{table}[H]
 \centering
 \begin{tabular}{|l|c|c|c|c|c|}
@@ -26,10 +8,10 @@ cdm\_sea\_soundings.c   &               &               &               & $\chec
 h5testszip.c            & $\checkmark$  &               &               &               &               \\ \hline
 test\_szip.c            &               & $\checkmark$  &               &               &               \\ \hline
 tst\_atts.c             &               & $\checkmark$  &               &               &               \\ \hline
-tst\_atts1.c            &               &               & $\checkmark$  &               &               \\ \hline
-tst\_atts2.c            &               & $\checkmark$  &               &               & $\checkmark$  \\ \hline
+tst\_atts1.c            &               & $\checkmark$  &               &               &               \\ \hline
+tst\_atts2.c            &               &               & $\checkmark$  &               &               \\ \hline
 tst\_atts3.c            &               & $\checkmark$  &               &               &               \\ \hline
-tst\_attsperf.c         &               &               &               &               & $\checkmark$  \\ \hline
+tst\_attsperf.c         & $\checkmark$  &               &               &               &               \\ \hline
 tst\_atts\_string\_rewrite.c   & $\checkmark$  &        &               &               &               \\ \hline
 tst\_bug324.c           &               & $\checkmark$  &               &               &               \\ \hline
 tst\_camrun.c           & $\checkmark$  &               &               &               &               \\ \hline
@@ -48,10 +30,22 @@ tst\_create\_files.c    &               &               &               &       
 tst\_dims.c             &               & $\checkmark$  &               &               &               \\ \hline
 tst\_dims2.c            &               & $\checkmark$  &               &               &               \\ \hline
 tst\_dims3.c            &               &               &               & $\checkmark$  &               \\ \hline
-tst\_elatefill.c        &               &               & $\checkmark$  &               &               \\ \hline
+tst\_elatefill.c        &               &               &               & $\checkmark$  &               \\ \hline
 tst\_empty\_vlen\_unlim.c   &           &               &               & $\checkmark$  &               \\ \hline
 tst\_endian\_fill.c     &               &               &               & $\checkmark$  &               \\ \hline
 tst\_enums.c            &               &               &               & $\checkmark$  &               \\ \hline
+Partial Total           &     4         &       12      &       1       &       11      &       2       \\ \hline
+\hline
+\end{tabular}
+\caption{\label{tab:nc_test4_status_1} Status -- Part I}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|c|c|c|c|}
+\hline
+Filename                & Success       & Partial       & Inconclusive  & Failure       & Not Tested    \\
+                        &               & Success       &               &               & Yet           \\ \hline \hline
 tst\_files.c            &               & $\checkmark$  &               &               &               \\ \hline
 tst\_files3.c           &               &               &               &               & $\checkmark$  \\ \hline
 tst\_files4.c           &               &               &               & $\checkmark$  &               \\ \hline
@@ -64,20 +58,6 @@ tst\_fills2.c           &               &               &               & $\chec
 tst\_filterparser.c     & $\checkmark$  &               &               &               &               \\ \hline
 tst\_grps.c             &               &               &               & $\checkmark$  &               \\ \hline
 tst\_grps2.c            &               &               &               & $\checkmark$  &               \\ \hline
-Partial Total           &     5         &       17      &       3       &       13      &       5       \\ \hline
-\hline
-\end{tabular}
-\caption{\label{tab:nc_test4_status_1} Status -- Part I}
-\end{table}
-
-\clearpage
-
-\begin{table}[H]
-\centering
-\begin{tabular}{|l|c|c|c|c|c|}
-\hline
-Filename                & Success       & Partial       & Inconclusive  & Failure       & Not Tested    \\
-                        &               & Success       &               &               & Yet           \\ \hline \hline
 tst\_h5\_endians.c      &               &               &               & $\checkmark$  &               \\ \hline
 tst\_hdf5\_file\_compat.c   &           &               &               & $\checkmark$  &               \\ \hline
 tst\_h\_refs.c          &               &               &               & $\checkmark$  &               \\ \hline
@@ -114,7 +94,7 @@ tst\_vars4.c            &               & $\checkmark$  &               &       
 tst\_vl.c               &               &               &               & $\checkmark$  &               \\ \hline
 t\_type.c               & $\checkmark$  &               &               &               &               \\ \hline
 \hline
-Partial Total           &     11        &       7       &       3       &       13      &       1       \\ \hline
+Partial Total           &     12        &       11      &       2       &       18      &       2       \\ \hline
 \end{tabular}
 \caption{\label{tab:nc_test4_status_2} Status -- Part II}
 \end{table}
@@ -125,9 +105,9 @@ Partial Total           &     11        &       7       &       3       &       
 \hline
 Filename                & Success       & Partial       & Inconclusive  & Failure       & Not Tested    \\
                         &               & Success       &               &               & Yet           \\ \hline \hline
-Partial Total           &     5         &       17      &       3       &       13      &       5       \\ \hline
-Partial Total           &     11        &       7       &       3       &       13      &       1       \\ \hline \hline
-Total                   &     16        &       24      &      6        &       26      &       6       \\ \hline \hline
+Partial Total           &     4         &       12      &       1       &       11      &       2       \\ \hline
+Partial Total           &     12        &       11      &       2       &       18      &       2       \\ \hline \hline
+Total                   &     16        &       23      &       3       &       29      &       4       \\ \hline \hline
 \end{tabular}
-\caption{\label{tab:nc_test4_status_2} Status -- Part II}
+\caption{\label{tab:nc_test4_status_3} Status -- Part II}
 \end{table}

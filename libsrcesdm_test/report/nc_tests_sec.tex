@@ -1,4 +1,4 @@
-\chapter{Tests From Directory {\textit{nc\_test4}}}
+\chapter{Specific Information For The Tests}
 
 \tab
 This chapter introduces the tests provided by NetCDF in its documentation. For each test, we have four descriptors:
@@ -17,8 +17,7 @@ This chapter introduces the tests provided by NetCDF in its documentation. For e
 
 \section{Test cdm\_sea\_soundings.c}
 
-\paragraph{Description:} The cdm tests confirm complience with the Common Data Model. This
-file creates some sample data structures to hold sea soundings.
+\paragraph{Description:} The cdm tests confirm compliance with the Common Data Model. This file creates some sample data structures to hold sea soundings.
 
 \paragraph{Output:} [ESDM NC] WARN ESDM\_def\_vlen():1889. ESDM does not support user-defined datatypes from NetCDF!
 
@@ -41,7 +40,6 @@ Sorry! Unexpected result, ../../libsrcesdm\_test/cdm\_sea\_soundings.c, line: 45
 \section{Test test\_szip.c}
 
 \paragraph{Description:} Example illustrates the use of SZIP compression in netCDF5.
-Taken from HDF5 example.
 
 \paragraph{Output:} *** Tests successful!
 
@@ -81,7 +79,7 @@ Lines 296-616. tst\_bug16.
 
 \paragraph{Status:} PARTIAL SUCCESS!
 
-\section{Test tst\_atts2.c}
+\section{{\color{blue}{FIX ME! Test tst\_atts2.c}}}
 
 \paragraph{Description:} Test copy of attributes.
 
@@ -91,13 +89,13 @@ Lines 296-616. tst\_bug16.
 
 Remove lines 101-105. Testing invalid parameters as input!
 
+It's not working anymore. Problems with strings.
+
 \paragraph{Status:} PARTIAL SUCCESS!
 
 \section{Test tst\_atts3.c}
 
-\paragraph{Description:} This is a very simple example which writes a netCDF file with
-Unicode names encoded with UTF-8. It is the NETCDF3 equivalent
-of tst\_unicode.c
+\paragraph{Description:} This is a very simple example which writes a netCDF file with Unicode names encoded with UTF-8. It is the NETCDF3 equivalent of tst\_unicode.c
 
 \paragraph{Output:} *** Tests successful!
 
@@ -105,7 +103,7 @@ of tst\_unicode.c
 
 \paragraph{Status:} PARTIAL SUCCESS!
 
-\section{FIX ME! Test tst\_attsperf.c}
+\section{Test tst\_attsperf.c}
 
 \paragraph{Description:} Test the netCDF-4 attribute code.
 
@@ -117,9 +115,7 @@ of tst\_unicode.c
 
 \section{Test tst\_atts\_string\_rewrite.c}
 
-\paragraph{Description:} This test was provided by Jeff Whitaker as an example of a bug,
-specifically a segfault when re-writing an NC\_CHAR attribute as
-an NC\_STRING attribute.
+\paragraph{Description:} This test was provided by Jeff Whitaker as an example of a bug, specifically, a segfault when re-writing an NC\_CHAR attribute as an NC\_STRING attribute.
 
 \paragraph{Output:} *** Tests successful!
 
@@ -327,8 +323,7 @@ Sorry! Unexpected result, ../../libsrcesdm\_test/tst\_dims3.c, line: 47
 
 \section{Test tst\_elatefill.c}
 
-\paragraph{Description:} Test proper elatefill return when fillvalue is assigned outside of
-the initial define.
+\paragraph{Description:} Test proper elatefill return when fill value is assigned outside of the initial define.
 
 \paragraph{Output:} line 41 expecting NC\_ELATEFILL but got 0
 
@@ -538,7 +533,7 @@ Sorry! Unexpected result, ../../libsrcesdm\_test/tst\_hdf5\_file\_compat.c, line
 
 \section{Test tst\_h\_refs.c}
 
-\paragraph{Description:} This program tests fixes for reading netCDF-4 files that contain datasets with reference datatypes.  The netCDF-4 library should ignore the datasets and attributes that have reference datatypes and allow the rest of the file to be accessed.
+\paragraph{Description:} This program tests fixes for reading netCDF-4 files that contain datasets with reference data types.  The netCDF-4 library should ignore the datasets and attributes that have reference data types and allow the rest of the file to be accessed.
 
 \paragraph{Output:} [ESDM NC] called ESDM\_open:300 tst\_h\_refs.h5 65536 0 tst\_h\_refs.h5
 
@@ -648,7 +643,7 @@ Sorry! Unexpected result, ../../libsrcesdm\_test/tst\_interops6.c, line: 159
 \paragraph{Status:} PARTIAL SUCCESS!
 \section{Test tst\_mpi\_parallel.c}
 
-\paragraph{Description:} This just excersizes MPI file I/O to make sure everything's working properly. If this does not work, netcdf/HDF5 parallel I/O also won't work.
+\paragraph{Description:} This just exercises MPI file I/O to make sure everything's working properly. If this does not work, netcdf/HDF5 parallel I/O also won't work.
 
 \paragraph{Output:} *** Tests successful!
 
@@ -780,23 +775,23 @@ Sorry! Unexpected result, ../../libsrcesdm\_test/tst\_types.c, line: 106
 
 \begin{verbatim}
 Thread 1 "tst_udf" hit Breakpoint 1, nc_def_user_format (mode_flag=64, dispatch_table=0x555555758020 <tst_dispatcher>, magic_number=0x0) at ../../libdispatch/dfile.c:129
-129	   if (mode_flag != NC_UDF0 && mode_flag != NC_UDF1)
+129       if (mode_flag != NC_UDF0 && mode_flag != NC_UDF1)
 (gdb) s
-131	   if (!dispatch_table)
+131       if (!dispatch_table)
 (gdb) n
-133	   if (magic_number && strlen(magic_number) > NC_MAX_MAGIC_NUMBER_LEN)
+133       if (magic_number && strlen(magic_number) > NC_MAX_MAGIC_NUMBER_LEN)
 (gdb)
-138	   switch(mode_flag) {
+138       switch(mode_flag) {
 (gdb)
-140	      UDF0_dispatch_table = dispatch_table;
+140          UDF0_dispatch_table = dispatch_table;
 (gdb)
-141	      if (magic_number)
+141          if (magic_number)
 (gdb)
-143	      break;
+143          break;
 (gdb)
-151	   return NC_NOERR;
+151       return NC_NOERR;
 (gdb)
-152	}
+152    }
 \end{verbatim}
 
 \paragraph{Status:} FAILURE!

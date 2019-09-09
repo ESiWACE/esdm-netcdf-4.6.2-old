@@ -1,25 +1,8 @@
-\tab
-The directory {\textit{nc\_test4}} has originally 104 tests. The tests were classified according to their output using NetCDF. There are four categories for the tests:
-
-\begin{description}
-
-\item[Not Tested] It means the test was not tested. This category usually represents tests that are too long to run or tests that demand a large amount of memory or processing.
-
-\item[Not Working Build] It means it was not possible to compile the test.
-
-\item[Not Working Run] It means the test compiles, but there is something wrong when the test runs and the expected output is not produced.
-
-\item[Working] It means the test compiles, runs and produces the expected output.
-
-\end{description}
-
-Tables \ref{tab:nc_test4_1}, \ref{tab:nc_test4_2} and \ref{tab:nc_test4_3} presents the classification for the tests.
-
 \begin{table}[H]
 \centering
 \begin{tabular}{|l|c|c|c|c|}
 \hline
-File & Not Tested & Not Working Build & Not Working Run & Working \\ \hline \hline
+File & Not Tested & Not Building & Not Running & Working \\ \hline \hline
 bigmeta.c   & $\checkmark$  &   &   &    \\ \hline
 openbigmeta.c & $\checkmark$   &   &   &    \\ \hline
 bm\_file.c   &  & $\checkmark$  &   &    \\ \hline
@@ -41,6 +24,16 @@ tst\_ar4\_3d.c   &  & $\checkmark$  &   &    \\ \hline
 tst\_ar4\_4d.c   &  & $\checkmark$  &   &    \\ \hline
 tst\_ar4.c   &  & $\checkmark$  &   &    \\ \hline
 tst\_bug324.c   &  &   &   & $\checkmark$    \\ \hline
+\hline
+\end{tabular}
+\caption{\label{tab:nc_test4_1} List of nc\_test4 files -- Part I}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+File & Not Tested & Not Building & Not Running & Working \\ \hline \hline
 tst\_camrun.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_chunks.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_chunks2.c   &  &   &   & $\checkmark$    \\ \hline
@@ -54,16 +47,6 @@ tst\_coords.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_coords2.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_coords3.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_create\_files.c   &  &   &   & $\checkmark$    \\ \hline
-\hline
-\end{tabular}
-\caption{\label{tab:nc_test4_1} List of nc\_test4 files -- Part I}
-\end{table}
-
-\begin{table}[H]
-\centering
-\begin{tabular}{|l|c|c|c|c|}
-\hline
-File & Not Tested & Not Working Build & Not Working Run & Working \\ \hline \hline
 tst\_dims.c   &  &   &  $\checkmark$ &    \\ \hline
 tst\_dims2.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_dims3.c   &  &   &   & $\checkmark$    \\ \hline
@@ -107,7 +90,7 @@ tst\_mem.c   &  &   &   & $\checkmark$    \\ \hline
 \centering
 \begin{tabular}{|l|c|c|c|c|}
 \hline
-File & Not Tested & Not Working Build & Not Working Run & Working \\ \hline \hline
+File & Not Tested & Not Building & Not Running & Working \\ \hline \hline
 tst\_mode.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_mpi\_parallel.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_nc4perf.c   &  &   &  $\checkmark$ &    \\ \hline
