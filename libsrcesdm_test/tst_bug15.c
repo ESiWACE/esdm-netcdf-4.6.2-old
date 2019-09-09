@@ -7,6 +7,14 @@
 #define ATT_INT_NAME "Old_Bailey_Room_Numbers"
 #define ATT_LEN 3
 
+// Expected NC_ERANGE error but does the conversion anyway?
+// (gdb) p uint_in
+// $1 = {0, 128, 1431652752}
+// (gdb) p uint_out
+// $2 = {0, 128, 4294967295}
+// (gdb) p NC_MAX_UINT
+// $3 = 4294967295
+
 int
 main(int argc, char **argv)
 {

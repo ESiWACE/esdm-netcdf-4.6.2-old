@@ -7,6 +7,11 @@
 #define ATT_SHORT_NAME "Ecclesiastical_Court_Appearences"
 #define ATT_LEN 3
 
+// (gdb) p double_in
+// $1 = {0, 4.6355535805467796e-310, 6.9533558074294752e-310}
+// (gdb) p short_out
+// $2 = {-32768, -128, 32767}
+
 int
 main(int argc, char **argv)
 {
