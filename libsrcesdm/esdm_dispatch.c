@@ -688,6 +688,14 @@ int ESDM_def_var_fill(int ncid, int varid, int no_fill, const void *fill_value) 
   return NC_NOERR;
 }
 
+/**
+ * @brief This function will change the parallel access of a variable from independent to collective and vice versa.
+ * @param ncid	NetCDF ID, from a previous call to nc_open() or nc_create().
+ * @param varid	Variable ID
+ * @param par_access	NC_COLLECTIVE or NC_INDEPENDENT.
+ * @return
+ */
+
 int ESDM_var_par_access(int ncid, int varid, int access) { // for parallel execution
   DEBUG_ENTER("%d: var:%d access:%d\n", ncid, varid, access);
   WARN_NOT_IMPLEMENTED;
@@ -1138,8 +1146,8 @@ int ESDM_inq_attid(int ncid, int varid, const char *name, int *attnump) {
 
   for (int i = 0; i < attr->children; i++) {
     if (strcmp(name, attr->childs[i]->name) == 0) {
-      // *attnump = i;
-      *attnump = attr->childs[i]->id;
+      *attnump = i;
+      // *attnump = attr->childs[i]->id;
 
       // The return for attnump is i or attr->childs[i]->id?!
 

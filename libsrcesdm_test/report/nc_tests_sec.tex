@@ -67,7 +67,7 @@ Remove lines 115-118, 148, 231-269, 280-317, 328-335, 341-343, 353-355, 365-367,
 
 \paragraph{Description:} Test attributes.
 
-\paragraph{Output:}
+\paragraph{Output:} *** Tests successful!
 
 \paragraph{Comments:} Remove lines 189-190.
 
@@ -77,7 +77,9 @@ Lines 175-229, 246, 287. Think more. Inserting the numbers in vectors.
 
 Lines 249-251. ESDM deals with strings in a different way.
 
-\paragraph{Status:} INCONCLUSIVE!
+Lines 296-616. tst\_bug16.
+
+\paragraph{Status:} PARTIAL SUCCESS!
 
 \section{Test tst\_atts2.c}
 
@@ -103,7 +105,7 @@ of tst\_unicode.c
 
 \paragraph{Status:} PARTIAL SUCCESS!
 
-\section{{\color{blue}{FIX ME! Test tst\_attsperf.c}}}
+\section{FIX ME! Test tst\_attsperf.c}
 
 \paragraph{Description:} Test the netCDF-4 attribute code.
 
@@ -227,13 +229,11 @@ Sorry! Unexpected result, ../../libsrcesdm\_test/tst\_compounds3.c, line: 77
 
 \paragraph{Description:} Test even more data conversions.
 
-\paragraph{Output:}
+\paragraph{Output:} Sorry! Unexpected result, ../../libsrcesdm\_test/tst\_converts2.c, line: 43
 
 \paragraph{Comments:} ESDM does not support conversion for variables!
 
 \paragraph{Status:} FAILURE!
-
-{\color{blue}{Help, Julian!}}
 
 \section{Test tst\_coords.c}
 
@@ -299,30 +299,7 @@ Remove lines 1257-1258. ESDM does not keep the same order for dimids!
 
 Remove lines 1315-1357. Creates a new file name (file\_in) and tries to open it.
 
-\begin{verbatim}
-strcpy(file_in, "");
-if (getenv("srcdir"))
-{
-   strcat(file_in, getenv("srcdir"));
-   strcat(file_in, "/");
-}
-strcat(file_in, REF_FILE_NAME);
-
-if (nc_open(file_in, NC_NOWRITE, &ncid)) ERR;
-\end{verbatim}
-
-ESDM does not recognize the metadata and cannot open the container.
-
-\begin{verbatim}
-301	  status = esdm_container_open(cpath, 0, &e->c);
-303	  if (status != ESDM_SUCCESS) {
-(gdb) p status
-$1 = ESDM_ERROR
-\end{verbatim}
-
 \paragraph{Status:} PARTIAL SUCCESS!
-
-{\color{blue}{Help, Julian!}}
 
 \section{Test tst\_dims2.c}
 
@@ -348,18 +325,16 @@ Sorry! Unexpected result, ../../libsrcesdm\_test/tst\_dims3.c, line: 47
 
 \paragraph{Status:} FAILURE!
 
-\section{\color{blue}{FIX ME! {Test tst\_elatefill.c}}}
+\section{Test tst\_elatefill.c}
 
 \paragraph{Description:} Test proper elatefill return when fillvalue is assigned outside of
 the initial define.
 
 \paragraph{Output:} line 41 expecting NC\_ELATEFILL but got 0
 
-\paragraph{Comments:} Expected error: NC\_ELATEFILL
+\paragraph{Comments:} {\color{blue}{Help, Julian!}}
 
-define NC\_ELATEFILL     (-122)    Attempt to define fill value when data already exists.
-
-\paragraph{Status:} INCONCLUSIVE!
+\paragraph{Status:} FAILURE!
 
 \section{Test tst\_empty\_vlen\_unlim.c}
 
@@ -405,11 +380,11 @@ Sorry! Unexpected result, ../../libsrcesdm\_test/tst\_enums.c, line: 47
 
 \paragraph{Comments:} Remove line 131. Expected error: NC\_ERANGE
 
-Remove line 150. if (nc\_put\_var\_uchar(ncid, varid, uchar\_out)) ERR;
+Remove line 150. if (nc\_put\_var\_uchar(ncid, varid, uchar\_out)) ERR; Problem with the conversion.
 
 Remove line 189. Expected error: NC\_ENOTINDEFINE
 
-Remove lines 50-52, 251-269, 279, 285, 291, 303, 309, 410-417, 479-481, 517-530, 534. ESDM does not support NetCDF Classic Model!
+Remove lines 50-52, 251-269, 279, 285, 291, 303, 309, 410-417, 479-481, 517-529, 534. ESDM does not support NetCDF Classic Model!
 
 Remove lines 336-337. ESDM does not support compression!
 
@@ -493,7 +468,7 @@ Remove lines 72-74, 84-86. Expected error: NC\_FILL\_FLOAT
 
 \paragraph{Status:} PARTIAL SUCCESS!
 
-\section{{\color{blue}{FIX ME! Test tst\_fills2.c}}}
+\section{Test tst\_fills2.c}
 
 \paragraph{Description:} Create a test file with default fill values for variables of each type.
 
@@ -560,8 +535,6 @@ Sorry! Unexpected result, ../../libsrcesdm\_test/tst\_hdf5\_file\_compat.c, line
 \paragraph{Comments:} ESDM does not support HDF5 format!
 
 \paragraph{Status:} FAILURE!
-
-{\color{blue}{Help, Julian!}}
 
 \section{Test tst\_h\_refs.c}
 
@@ -755,7 +728,7 @@ Sorry! Unexpected result, ../../libsrcesdm\_test/tst\_opaques.c, line: 49
 
 \paragraph{Status:} INCONCLUSIVE!
 
-\section{{\color{blue}{FIX ME! Test tst\_strings.c}}}
+\section{Test tst\_strings.c}
 
 \paragraph{Description:} Test netcdf-4 string types.
 
@@ -764,8 +737,6 @@ Sorry! Unexpected result, ../../libsrcesdm\_test/tst\_opaques.c, line: 49
 \paragraph{Comments:} ESDM does not support datatype NC\_STRING!
 
 \paragraph{Status:} FAILURE!
-
-{\color{blue}{Help, Julian!}}
 
 \section{Test tst\_strings2.c}
 
