@@ -154,6 +154,38 @@ The ability to work with groups is a functionality that ESDM developers intend t
 
 \begin{comment}
 
+About conversion...
+
+Actually that is what happens:
+      if (nc_def_var(ncid, VAR1_NAME, NC_BYTE, 1, dimids, &varid)) ERR;
+      if (nc_enddef(ncid)) ERR;
+      if (nc_put_var_uchar(ncid, varid, uchar_out) != NC_ERANGE) ERR;
+
+I found this in the documentation:
+> BUT netcdf library returns NC_BYTE data as 8-bit signed
+> integers (instead of 8-bit unsigned integers)
+> so that NC_BYTE values go from 0 to 127 and then from -128 to -1
+> instead of going from 0 to 255 as wanted.
+
+That explains it, right?
+https://www.unidata.ucar.edu/software/netcdf/docs_rc/group__variables.html#gac6e82a7c808f1e3c895616415ffa8e5d
+
+The shit function assumes we convert the variable data *on the fly* while writing to the file…
+
+As we are not converting the datatype or anything here, we are not supporting this.
+I reckon, we should check for any function which NC type does not match our expected type, write an error and abort.
+I’m not intending to support this (ever)...
+
+LR. Was this not the point of having the conversion inside smd? At least between the types we support? I also checked something in the documentation and they don’t do it between char and numbers.
+
+The difference is that one is for ATTRIBUTES and one for VARIABLES, SMD is not involved in VARIABLES and hopefully never be as this is a performance problem.
+We *might* be able to do part of this, in case COMPRESSION is turned on, as we then have to do a conversion anyway!
+Document it this way.
+
+\end{comment}
+
+\begin{comment}
+
 \begin{table}[H]
 \centering
 \begin{tabular}{|l|l|l|}
@@ -176,7 +208,7 @@ NC\_FORMAT\_NETCDF4           &  Format specifier for nc\_set\_default\_format()
 NC\_FORMAT\_NETCDF4\_CLASSIC  &  Format specifier for nc\_set\_default\_format() and returned by nc\_inq\_format.   &      \\ \hline
 \hline
 \end{tabular}
-\caption{Convertion between ESDM and NetCDF4 Erros.}
+\caption{Conversion between ESDM and NetCDF4 Erros.}
 \end{table}
 
 \end{comment}

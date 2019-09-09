@@ -31,10 +31,10 @@
   } while (0)
 
 #define DEBUG_ENTER(...)                                   \
-  do {                                                     \
-    printf("[ESDM NC] called %s:%d ", __func__, __LINE__); \
-    printf(__VA_ARGS__);                                   \
-  } while (0)
+  // do {                                                     \
+  //   printf("[ESDM NC] called %s:%d ", __func__, __LINE__); \
+  //   printf(__VA_ARGS__);                                   \
+  // } while (0)
 
 #define WARN(...)                                        \
   do {                                                   \
@@ -511,7 +511,7 @@ int ESDM_open(const char *path, int cmode, int basepe, size_t *chunksizehintp, v
           }
           if (dim_found == -1) {
             dim_found = e->dimt.count;
-            WARN("Adding unused dim: %s %lld", names[i], dim_sizes[i]);
+            // WARN("Adding unused dim: %s %lld", names[i], dim_sizes[i]);
             add_to_dims_tbl(e, names[i], dim_sizes[i]);
           }
         }

@@ -212,7 +212,7 @@ int main(void) {
     printf("*** testing netcdf-4 writes again...\n");
     for (i = 0; i < NUM_TRIES; i++) {
       get_mem_used2(&mem_used);
-      if (dump_file2(data, 1, 0)) ERR_RET;
+      // if (dump_file2(data, 1, 0)) ERR_RET;
       get_mem_used2(&mem_used1);
       if (mem_used1 - mem_used)
         printf("delta %d bytes of memory for try %d\n", mem_used1 - mem_used, i);
