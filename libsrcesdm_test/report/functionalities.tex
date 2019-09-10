@@ -3,19 +3,100 @@
 \tab
 This chapter compares the NetCDF functionalities with the current version of ESDM.
 
-\section{Error Messages}
+\section{Error Handling}
 
 \tab
-NetCDF has an extense classification for the possible errors that might happen. ESDM does not share this classification, and it is something that their developers are not considering to include in the final version. This decision does not affect the performance of ESDM, but it was critical when the NetCDF tests were evaluated. NetCDF tests introduce several wrong conditions, and ESDM does not produce the expected error. Because of that, the code in the tests that consider invalid parameters as input was removed.
 
-\section{Classic Model/Modes}
+\begin{framed}
+Each netCDF function in the C, Fortran 77, and Fortran 90 APIs returns 0 on success, in the tradition of C.
+
+NetCDF Error Handling.
+
+When programming with netCDF in these languages, always check return values of every netCDF API call. The return code can be looked up in netcdf.h (for C programmers) or netcdf.inc (for Fortran programmers), or you can use the strerror function to print out an error message. (See nc\_strerror/NF\_STRERROR/NF90\_STRERROR).
+
+In general, if a function returns an error code, you can assume it didn't do what you hoped it would. The exception is the NC\_ERANGE error, which is returned by any of the reading or writing functions when one or more of the values read or written exceeded the range for the type. (For example if you were to try to read 1000 into an unsigned byte.)
+
+In the case of NC\_ERANGE errors, the netCDF library completes the read/write operation, and then returns the error. The type conversion is handled like a C type conversion, whether or not it is within range. This may yield bad data, but the netCDF library just returns NC\_ERANGE and leaves it up to the user to handle. (For more information about type conversion see Type Conversion).
+
+NetCDF functions return a non-zero status codes on error.
+
+Each netCDF function returns an integer status value. If the returned status value indicates an error, you may handle it in any way desired, from printing an associated error message and exiting to ignoring the error indication and proceeding (not recommended!). For simplicity, the examples in this guide check the error status and call a separate function, handle\_err(), to handle any errors. One possible definition of handle\_err() can be found within the documentation of nc\_strerror().
+
+The nc\_strerror() function is available to convert a returned integer error status into an error message string.
+
+Occasionally, low-level I/O errors may occur in a layer below the netCDF library. For example, if a write operation causes you to exceed disk quotas or to attempt to write to a device that is no longer available, you may get an error from a layer below the netCDF library, but the resulting write error will still be reflected in the returned status value.
+
+\url{https://www.unidata.ucar.edu/software/netcdf/docs/group__error.html#details}
+
+\end{framed}
+
+NetCDF has an extense classification for the possible errors that might happen. ESDM does not share this classification, and it is something that their developers are not considering to include in the final version. This decision does not affect the performance of ESDM, but it was critical when the NetCDF tests were evaluated. NetCDF tests introduce several wrong conditions, and ESDM does not produce the expected error. Because of that, the code in the NetCDF tests that considers invalid parameters as input was removed.
+
+\section{Classic Model}
 
 \tab
-There are other restrictions. For instance, NetCDF includes tests with the Classic Model, which ESDM does not support, and it has no intention of doing it.
+\begin{framed}
 
-Some tests consider in which mode the file is open. There are two modes associated with accessing a netCDF file: {\bf define mode} and {\bf data mode}. In define mode, dimensions, variables, and new attributes can be created, but variable data cannot be read or written. In data mode, data can be read or written, and attributes can be changed, but new dimensions, variables, and attributes cannot be created. The current version of ESDM does not have restrictions in the modes. Once the file is open, the user can do any modifications s/he wants.
+The Classic Model
 
-Tables \ref{tab_modes_create} amd \ref{tab_modes_open} compares the options for creating and opening a file using NetCDF and ESDM.
+The classic netCDF data model consists of variables, dimensions, and attributes. This way of thinking about data was introduced with the very first netCDF release, and is still the core of all netCDF files.
+
+In version 4.0, the netCDF data model has been expanded. See The Enhanced Data Model.
+
+Variables
+N-dimensional arrays of data. Variables in netCDF files can be one of six types (char, byte, short, int, float, double).
+
+Dimensions
+describe the axes of the data arrays. A dimension has a name and a length. An unlimited dimension has a length that can be expanded at any time, as more data are written to it. NetCDF files can contain at most one unlimited dimension.
+
+Attributes
+annotate variables or files with small notes or supplementary metadata. Attributes are always scalar values or 1D arrays, which can be associated with either a variable or the file as a whole. Although there is no enforced limit, the user is expected to keep attributes small.
+
+With netCDF-4, the netCDF data model has been extended, in a backwards compatible way.
+
+The new data model, which is known as the “Common Data Model” is part of an effort here at Unidata to find a common engineering language for the development of scientific data solutions. It contains the variables, dimensions, and attributes of the classic data model, but adds:
+
+groups - A way of hierarchically organizing data, similar to directories in a Unix file system.
+
+user-defined types - The user can now define compound types (like C structures), enumeration types, variable length arrays, and opaque types.
+
+These features may only be used when working with a netCDF-4/HDF5 file. Files created in classic formats cannot support groups or user-defined types.
+
+With netCDF-4/HDF5 files, the user may define groups, which may contain variables, dimensions, and attributes. In this way, a group acts as a container for the classic netCDF dataset. But netCDF-4/HDF5 files can have many groups, organized hierarchically.
+
+Each file begins with at least one group, the root group. The user may then add more groups, receiving a new ncid for each group created.
+
+Since each group functions as a complete netCDF classic dataset, it is possible to have variables with the same name in two or more different groups, within the same netCDF-4/HDF5 data file.
+
+Dimensions have a special scope: they may be seen by all variables in their group, and all descendant groups. This allows the user to define dimensions in a top-level group, and use them in many sub-groups.
+
+Since it may be necessary to write code which works with all types of netCDF data files, we also introduce the ability to create netCDF-4/HDF5 files which follow all the rules of the classic netCDF model. That is, these files are in HDF5, but will not support multiple unlimited dimensions, user-defined types, groups, etc. They act just like a classic netCDF file.
+
+\url{https://www.unidata.ucar.edu/software/netcdf/docs/netcdf_data_model.html}
+
+\end{framed}
+
+NetCDF includes tests with the Classic Model, which ESDM does not support, and it has no intention of doing it.
+
+\section{Modes}
+
+\tab
+\begin{framed}
+Some tests consider in which mode the file is open. There are two modes associated with accessing a NetCDF file:
+
+\begin{description}
+
+\item[Define Mode] In define mode, dimensions, variables, and new attributes can be created, but variable data cannot be read or written.
+
+\item[Data Mode] In data mode, data can be read or written, and attributes can be changed, but new dimensions, variables, and attributes cannot be created.
+
+\end{description}
+
+\url{https://northstar-www.dartmouth.edu/doc/idl/html_6.2/NetCDF_Data_Modes.html}
+
+\end{framed}
+
+The current version of ESDM does not have restrictions in the modes. Once the file is open, the user can do any modifications s/he wants. Tables \ref{tab_modes_create} amd \ref{tab_modes_open} compares the options for creating and opening a file using NetCDF and ESDM.
 
 \begin{table}[H]
 \centering
@@ -51,16 +132,25 @@ NC\_PERSIST & Force the NC\_DISKLESS data from memory to a file &  NOT SUPPORTED
 \caption{\label{tab_modes_open} Modes: opening a file.}
 \end{table}
 
-\section{Datatypes}
+\section{Data Types}
 
 \tab
-ESDM supports the same basic types that NetCDF. The correspondence between the datatypes are provided in Tables \ref{basic-datatypes-size} and \ref{basic-datatypes-netcdf}.
+
+\url{https://www.unidata.ucar.edu/software/netcdf/docs/data_type.html#external_types}
+
+\url{https://www.unidata.ucar.edu/software/netcdf/docs/user_defined_types.html}
+
+\url{https://www.unidata.ucar.edu/software/netcdf/netcdf/netCDF-user-defined-data-types.html}
+
+ESDM supports the same basic types that NetCDF. The correspondence between the data types are provided in Table \ref{basic-datatypes-netcdf}.
+
+\begin{comment}
 
 \begin{table}[H]
 \centering
 \begin{tabular}{|l|c|l|l|}
 \hline
-NetCDF TYPE & Number & ESDM Type & ESDM Representation \\ \hline \hline
+NetCDF TYPE & Number (Value?) & ESDM Type & ESDM Representation \\ \hline \hline
 NC\_BYTE       &  1   & SMD\_DTYPE\_INT8     & int8\_t    \\ \hline
 NC\_UBYTE      &  7   & SMD\_DTYPE\_UINT8    & uint8\_t    \\ \hline
 NC\_CHAR       &  2   & SMD\_DTYPE\_CHAR     & char    \\ \hline
@@ -75,32 +165,36 @@ NC\_FLOAT      &  11  & SMD\_DTYPE\_FLOAT    & 32 bits    \\ \hline
 NC\_DOUBLE     &  6   & SMD\_DTYPE\_DOUBLE   & 64 bits    \\ \hline
 \hline
 \end{tabular}
-\caption{\label{basic-datatypes-size} Equivalence between ESDM and NetCDF4 datatypes -- Datatypes sorted by size.}
+\caption{\label{basic-datatypes-size} Equivalence between ESDM and NetCDF4 data types -- Data types sorted by size.}
 \end{table}
+
+\end{comment}
 
 \begin{table}[H]
 \centering
 \begin{tabular}{|l|c|l|l|}
 \hline
-NetCDF TYPE & Number & ESDM Type & ESDM Representation \\ \hline \hline
-NC\_BYTE       &  1   & SMD\_DTYPE\_INT8     & int8\_t    \\ \hline
-NC\_CHAR       &  2   & SMD\_DTYPE\_CHAR     & char    \\ \hline
-NC\_SHORT      &  3   & SMD\_DTYPE\_INT16    & int16\_t    \\ \hline
-NC\_INT        &  4   & SMD\_DTYPE\_INT32    & int32\_t    \\ \hline
-NC\_LONG       &  4   & SMD\_DTYPE\_INT32    & int32\_t    \\ \hline
-NC\_UINT64     &  5   & SMD\_DTYPE\_UINT64   & uint64\_t    \\ \hline
-NC\_DOUBLE     &  6   & SMD\_DTYPE\_DOUBLE   & 64 bits    \\ \hline
-NC\_UBYTE      &  7   & SMD\_DTYPE\_UINT8    & uint8\_t    \\ \hline
-NC\_USHORT     &  8   & SMD\_DTYPE\_UINT16   & uint16\_t    \\ \hline
-NC\_UINT       &  9   & SMD\_DTYPE\_UINT32   & uint32\_t    \\ \hline
-NC\_INT64      &  10  & SMD\_DTYPE\_INT64    & int64\_t    \\ \hline
-NC\_FLOAT      &  11  & SMD\_DTYPE\_FLOAT    & 32 bits    \\ \hline
+Number & NetCDF TYPE & ESDM Type & ESDM Representation \\ \hline \hline
+1 & NC\_BYTE       & SMD\_DTYPE\_INT8     & int8\_t    \\ \hline
+2 & NC\_CHAR       & SMD\_DTYPE\_CHAR     & char    \\ \hline
+3 & NC\_SHORT      & SMD\_DTYPE\_INT16    & int16\_t    \\ \hline
+4 & NC\_INT        & SMD\_DTYPE\_INT32    & int32\_t    \\ \hline
+4 & NC\_LONG       & SMD\_DTYPE\_INT32    & int32\_t    \\ \hline
+5 & NC\_UINT64     & SMD\_DTYPE\_UINT64   & uint64\_t    \\ \hline
+6 & NC\_DOUBLE     & SMD\_DTYPE\_DOUBLE   & 64 bits    \\ \hline
+7 & NC\_UBYTE      & SMD\_DTYPE\_UINT8    & uint8\_t    \\ \hline
+8 & NC\_USHORT     & SMD\_DTYPE\_UINT16   & uint16\_t    \\ \hline
+9 & NC\_UINT       & SMD\_DTYPE\_UINT32   & uint32\_t    \\ \hline
+10 & NC\_INT64      & SMD\_DTYPE\_INT64    & int64\_t    \\ \hline
+11 & NC\_FLOAT      & SMD\_DTYPE\_FLOAT    & 32 bits    \\ \hline
 \hline
 \end{tabular}
-\caption{\label{basic-datatypes-netcdf} Equivalence between ESDM and NetCDF4 datatypes -- Datatypes sorted by NETCDF description.}
+\caption{\label{basic-datatypes-netcdf} Equivalence between ESDM and NetCDF4 data types.}
 \end{table}
 
-The current version of ESDM does not support user-defined data types, but the developers intend to support this feature in the final version.
+\url{https://www.unidata.ucar.edu/software/netcdf/netcdf/netCDF-external-data-types.html}
+
+The current version of ESDM does not support user-defined data types, but the developers intend to support this feature in the final version. Table \ref{datatypes-netcdf} summarizes the available NetCDF data types and the corresponding support from ESDM.
 
 \begin{table}[H]
 \centering
@@ -126,13 +220,16 @@ NC\_OPAQUE & used internally for opaque types &     NOT SUPPORTED YET        \\ 
 NC\_COMPOUND & used internally for compound types &    NOT SUPPORTED YET         \\ \hline
 NC\_ENUM & used internally for enum types &       NOT SUPPORTED YET      \\ \hline \hline
 \end{tabular}
-\caption{Datatypes Support.}
+\caption{\label{datatypes-netcdf} Data Types Support.}
 \end{table}
 
 \section{Compression}
 
 \tab
-ESDM does not support compression yet. Because of that, all functions and tests related to chunking, deflate, and fletcher will not work when using ESDM. There is a compression library read to be used, but that was not yet integrated with the current version of ESDM. The Scientific Compression Library (SCIL) can be found in the following Git Repository:
+
+\url{https://www.unidata.ucar.edu/blogs/developer/entry/netcdf_compression}
+
+ESDM does not support compression yet. Because of that, all functions and tests related to chunking, deflate, and fletcher will not work when using ESDM. There is a compression library read to be used, but it was not yet integrated with the current version of ESDM. The Scientific Compression Library (SCIL) can be found in the following Git Repository:
 
 \begin{center}
 \url{https://github.com/JulianKunkel/scil/}
@@ -141,16 +238,87 @@ ESDM does not support compression yet. Because of that, all functions and tests 
 \section{Endianness}
 
 \tab
-ESDM only supports native endianness.
+\begin{framed}
+
+The endianness is defined as the order of bytes in multi-byte numbers: numbers encoded in big endian have their most significant bytes written first, whereas numbers encoded in little endian have their least significant bytes first. Little-endian is the native endianness of the IA32 architecture and its derivatives, while big-endian is native to SPARC and PowerPC, among others.
+
+\url{https://www.gnu.org/software/guile/manual/html_node/Bytevector-Endianness.html#FOOT10}
+
+\end{framed}
+
+ESDM only supports native-endianness of the machine it runs on.
 
 \section{Groups}
 
 \tab
-In general, ESDM does not support groups from NetCDF. When there is one group without subgroups, ESDM can work adequately and assumes the group and the file are the same entity. When there are more than one group or subgroups, ESDM can be called using the following command-line interface:
+\begin{framed}
+
+NetCDF-4 files can store attributes, variables, and dimensions in hierarchical groups.
+
+This allows the user to create a structure much like a Unix file system. In netCDF, each group gets an ncid. Opening or creating a file returns the ncid for the root group (which is named /).
+
+Dimensions are scoped such that they are visible to all child groups. For example, you can define a dimension in the root group, and use its dimension id when defining a variable in a sub-group.
+
+Attributes defined as NC\_GLOBAL apply to the group, not the entire file.
+
+The degenerate case, in which only the root group is used, corresponds exactly with the classic data mode, before groups were introduced.
+
+\url{https://www.unidata.ucar.edu/software/netcdf/docs/groups.html}
+
+\end{framed}
+
+In general, ESDM does not support groups from NetCDF. When only the root group is used, ESDM can work adequately and assumes the group and the file are the same entity. When there are more than one group or subgroups, ESDM can be called using the following command-line interface:
 
 ???
 
-The ability to work with groups is a functionality that ESDM developers intend to have in the final version.
+The ability to work with groups is a functionality that ESDM developers intend to have in its final version.
+
+\section{Fill Values}
+
+\tab
+\begin{framed}
+
+Sometimes there are missing values in the data, and some value is needed to represent them.
+
+For example, what value do you put in a sea-surface temperature variable for points over land?
+
+In netCDF, you can create an attribute for the variable (and of the same type as the variable) called \_FillValue that contains a value that you have used for missing data. Applications that read the data file can use this to know how to represent these values.
+
+Using attributes it is possible to capture metadata that would otherwise be separated from the data. Various conventions have been established. By using a set of conventions, a data producer is more likely to produce files that can be easily shared within the research community, and that contain enough details to be useful as a long-term archive. Conventions also make it easier to develop software that interprets information represented in data, because a convention selects one conventional way to represent information when multiple equivalent representations are possible.
+
+\url{https://www.unidata.ucar.edu/software/netcdf/docs/fill_values.html}
+
+\end{framed}
+
+\section{Conversion}
+
+\begin{framed}
+
+Type Conversion
+
+Each netCDF variable has an external type, specified when the variable is first defined. This external type determines whether the data is intended for text or numeric values, and if numeric, the range and precision of numeric values.
+
+If the netCDF external type for a variable is char, only character data representing text strings can be written to or read from the variable. No automatic conversion of text data to a different representation is supported.
+
+If the type is numeric, however, the netCDF library allows you to access the variable data as a different type and provides automatic conversion between the numeric data in memory and the data in the netCDF variable. For example, if you write a program that deals with all numeric data as double-precision floating point values, you can read netCDF data into double-precision arrays without knowing or caring what the external type of the netCDF variables are. On reading netCDF data, integers of various sizes and single-precision floating-point values will all be converted to double-precision, if you use the data access interface for double-precision values. Of course, you can avoid automatic numeric conversion by using the netCDF interface for a value type that corresponds to the external data type of each netCDF variable, where such value types exist.
+
+The automatic numeric conversions performed by netCDF are easy to understand, because they behave just like assignment of data of one type to a variable of a different type. For example, if you read floating-point netCDF data as integers, the result is truncated towards zero, just as it would be if you assigned a floating-point value to an integer variable. Such truncation is an example of the loss of precision that can occur in numeric conversions.
+
+Converting from one numeric type to another may result in an error if the target type is not capable of representing the converted value. For example, an integer may not be able to hold data stored externally as an IEEE floating-point number. When accessing an array of values, a range error is returned if one or more values are out of the range of representable values, but other values are converted properly.
+
+Note that mere loss of precision in type conversion does not result in an error. For example, if you read double precision values into an integer, no error results unless the magnitude of the double precision value exceeds the representable range of integers on your platform. Similarly, if you read a large integer into a float incapable of representing all the bits of the integer in its mantissa, this loss of precision will not result in an error. If you want to avoid such precision loss, check the external types of the variables you access to make sure you use an internal type that has a compatible precision.
+
+Whether a range error occurs in writing a large floating-point value near the boundary of representable values may be depend on the platform. The largest floating-point value you can write to a netCDF float variable is the largest floating-point number representable on your system that is less than 2 to the 128th power. The largest double precision value you can write to a double variable is the largest double-precision number representable on your system that is less than 2 to the 1024th power.
+
+The \_uchar and \_schar functions were introduced in netCDF-3 to eliminate an ambiguity, and support both signed and unsigned byte data. In netCDF-2, whether the external NC\_BYTE type represented signed or unsigned values was left up to the user. In netcdf-3, we treat NC\_BYTE as signed for the purposes of conversion to short, int, long, float, or double. (Of course, no conversion takes place when the internal type is signed char.) In the \_uchar functions, we treat NC\_BYTE as if it were unsigned. Thus, no NC\_ERANGE error can occur converting between NC\_BYTE and unsigned char.
+
+\url{https://www.unidata.ucar.edu/software/netcdf/docs/data_type.html}
+
+\url{https://www.unidata.ucar.edu/software/netcdf/netcdf/Type-Conversion.html}
+
+\end{framed}
+
+\url{https://www.unidata.ucar.edu/software/netcdf/docs/data_type.html}
 
 \begin{comment}
 
@@ -172,7 +340,7 @@ https://www.unidata.ucar.edu/software/netcdf/docs_rc/group__variables.html#gac6e
 
 The shit function assumes we convert the variable data *on the fly* while writing to the file…
 
-As we are not converting the datatype or anything here, we are not supporting this.
+As we are not converting the data type or anything here, we are not supporting this.
 I reckon, we should check for any function which NC type does not match our expected type, write an error and abort.
 I’m not intending to support this (ever)...
 
@@ -208,7 +376,464 @@ NC\_FORMAT\_NETCDF4           &  Format specifier for nc\_set\_default\_format()
 NC\_FORMAT\_NETCDF4\_CLASSIC  &  Format specifier for nc\_set\_default\_format() and returned by nc\_inq\_format.   &      \\ \hline
 \hline
 \end{tabular}
-\caption{Conversion between ESDM and NetCDF4 Erros.}
+\caption{Conversion between ESDM and NetCDF4 Errors.}
 \end{table}
+
+\end{comment}
+
+\section{Python tests}
+
+Path: esiwace/esdm-netcdf/dev/netcdf4-python/test
+
+\subsection{Test tst\_atts.py}
+
+\begin{verbatim}
+======================================================================
+ERROR: runTest (__main__.VariablesTestCase)
+testing attributes
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "netCDF4/_netCDF4.pyx", line 1449, in netCDF4._netCDF4._get_att
+KeyError: 0
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netCDF4/_netCDF4.pyx", line 1454, in netCDF4._netCDF4._get_att
+  File "netCDF4/_netCDF4.pyx", line 5732, in netCDF4._netCDF4._read_compound
+  File "netCDF4/_netCDF4.pyx", line 1892, in netCDF4._netCDF4._ensure_nc_success
+RuntimeError: NetCDF: Not a valid data type or _FillValue type mismatch
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netCDF4/_netCDF4.pyx", line 1459, in netCDF4._netCDF4._get_att
+  File "netCDF4/_netCDF4.pyx", line 6019, in netCDF4._netCDF4._read_enum
+  File "netCDF4/_netCDF4.pyx", line 1892, in netCDF4._netCDF4._ensure_nc_success
+RuntimeError: NetCDF: Not a valid data type or _FillValue type mismatch
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "tst\_atts.py", line 73, in setUp
+    v._FillValue(-999.)
+  File "netCDF4/_netCDF4.pyx", line 4363, in netCDF4._netCDF4.Variable.__getattr__
+  File "netCDF4/_netCDF4.pyx", line 4169, in netCDF4._netCDF4.Variable.getncattr
+  File "netCDF4/_netCDF4.pyx", line 1462, in netCDF4._netCDF4._get_att
+KeyError: "attribute b'_FillValue' has unsupported datatype"
+
+----------------------------------------------------------------------
+\end{verbatim}
+
+\subsection{Test tst\_cdf5.py}
+
+\begin{verbatim}
+Segmentation fault (core dumped)
+\end{verbatim}
+
+\subsection{Test tst\_compound\_alignment.py}
+
+\begin{verbatim}
+[ESDM NC] WARN ESDM_def_compound():2220. ESDM does not support user-defined datatypes from NetCDF!
+\end{verbatim}
+
+\subsection{Test tst\_compoundatt.py}
+
+\begin{verbatim}
+[ESDM NC] WARN ESDM_def_grp():2167. ESDM does not support groups from NetCDF!
+\end{verbatim}
+
+\subsection{Test tst\_compoundvar.py}
+
+\begin{verbatim}
+[ESDM NC] WARN ESDM_def_grp():2167. ESDM does not support groups from NetCDF!
+\end{verbatim}
+
+\subsection{Test tst\_compression.py}
+
+\begin{verbatim}
+Segmentation fault (core dumped)
+\end{verbatim}
+
+\subsection{Test tst\_create\_mem.py}
+
+\begin{verbatim}
+OK
+\end{verbatim}
+
+\subsection{Test tst\_dap.py}
+
+\begin{verbatim}
+======================================================================
+ERROR: runTest (__main__.DapTestCase)
+testing access of data over http using opendap
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_dap.py", line 23, in runTest
+    ncfile = netCDF4.Dataset(URL)
+  File "netCDF4/_netCDF4.pyx", line 2326, in netCDF4._netCDF4.Dataset.__init__
+  File "netCDF4/_netCDF4.pyx", line 1890, in netCDF4._netCDF4._ensure_nc_success
+OSError: [Errno -51] NetCDF: Unknown file format: b'http://remotetest.unidata.ucar.edu/thredds/dodsC/testdods/testData.nc'
+
+----------------------------------------------------------------------
+
+\end{verbatim}
+
+\subsection{Test tst\_dims.py}
+
+\begin{verbatim}
+======================================================================
+ERROR: runTest (__main__.DimensionsTestCase)
+testing dimensions
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_dims.py", line 38, in setUp
+    g.createDimension(LAT_NAME,LAT_LENG)
+  File "netCDF4/_netCDF4.pyx", line 2567, in netCDF4._netCDF4.Dataset.createDimension
+  File "netCDF4/_netCDF4.pyx", line 3373, in netCDF4._netCDF4.Dimension.__init__
+  File "netCDF4/_netCDF4.pyx", line 1892, in netCDF4._netCDF4._ensure_nc_success
+RuntimeError: NetCDF: Not a valid ID
+
+----------------------------------------------------------------------
+
+\end{verbatim}
+
+\subsection{Test tst\_diskless.py}
+
+\begin{verbatim}
+Segmentation fault (core dumped)
+\end{verbatim}
+
+\subsection{Test tst\_endian.py}
+
+\begin{verbatim}
+Segmentation fault (core dumped)
+\end{verbatim}
+
+\subsection{Test tst\_enum.py}
+
+\begin{verbatim}
+[ESDM NC] WARN ESDM_def_enum():2316. ESDM does not support user-defined datatypes from NetCDF!
+\end{verbatim}
+
+\subsection{Test tst\_fancyslicing.py}
+
+\begin{verbatim}
+Segmentation fault (core dumped)
+\end{verbatim}
+
+\subsection{Test tst\_filepath.py}
+
+\begin{verbatim}
+======================================================================
+ERROR: test_filepath (__main__.test_filepath)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst\_filepath.py", line 14, in test_filepath
+    assert self.nc.filepath() == str(self.netcdf_file)
+  File "netCDF4/_netCDF4.pyx", line 2418, in netCDF4._netCDF4.Dataset.filepath
+ValueError:
+filepath method not enabled.  To enable, install Cython, make sure you have
+version 4.1.2 or higher of the netcdf C lib, and rebuild netcdf4-python.
+
+======================================================================
+ERROR: test_filepath_with_non_ascii_characters (__main__.test_filepath)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst\_filepath.py", line 21, in test_filepath_with_non_ascii_characters
+    filepatho = nc.filepath(encoding='cp1252')
+  File "netCDF4/_netCDF4.pyx", line 2418, in netCDF4._netCDF4.Dataset.filepath
+ValueError:
+filepath method not enabled.  To enable, install Cython, make sure you have
+version 4.1.2 or higher of the netcdf C lib, and rebuild netcdf4-python.
+----------------------------------------------------------------------
+
+\end{verbatim}
+
+\subsection{Test tst\_get\_variables\_by\_attributes.py}
+
+\begin{verbatim}
+OK
+\end{verbatim}
+
+\subsection{Test tst\_grps.py}
+
+\begin{verbatim}
+[ESDM NC] WARN ESDM_def_grp():2167. ESDM does not support groups from NetCDF!
+\end{verbatim}
+
+\subsection{Test tst\_grps2.py}
+
+\begin{verbatim}
+[ESDM NC] WARN ESDM_def_grp():2167. ESDM does not support groups from NetCDF!
+\end{verbatim}
+
+\subsection{Test tst\_issue908.py}
+
+\begin{verbatim}
+OK
+\end{verbatim}
+
+\subsection{Test tst\_masked.py}
+
+\begin{verbatim}
+Segmentation fault (core dumped)
+\end{verbatim}
+
+\subsection{Test tst\_masked2.py}
+
+\begin{verbatim}
+Segmentation fault (core dumped)
+\end{verbatim}
+
+\subsection{Test tst\_masked3.py}
+
+\begin{verbatim}
+Segmentation fault (core dumped)
+\end{verbatim}
+
+\subsection{Test tst\_masked4.py}
+
+\begin{verbatim}
+Segmentation fault (core dumped)
+\end{verbatim}
+
+\subsection{Test tst\_masked5.py}
+
+\begin{verbatim}
+======================================================================
+ERROR: test_scaled (__main__.VectorMissingValues)
+Testing auto-conversion of masked arrays
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst\_masked5.py", line 27, in setUp
+    v2 = f.createVariable('v2',str,'x',fill_value=u'<missing>')
+  File "netCDF4/_netCDF4.pyx", line 2773, in netCDF4._netCDF4.Dataset.createVariable
+  File "netCDF4/_netCDF4.pyx", line 3742, in netCDF4._netCDF4.Variable.__init__
+ValueError: Variable length strings are only supported for the NETCDF4 format. For other formats, consider using netCDF4.stringtochar to convert string arrays into character arrays with an additional dimension.
+----------------------------------------------------------------------
+
+\end{verbatim}
+
+\subsection{Test tst\_masked6.py}
+
+\begin{verbatim}
+Segmentation fault (core dumped)
+\end{verbatim}
+
+\subsection{Test tst\_multifile.py}
+
+\begin{verbatim}
+Segmentation fault (core dumped)
+\end{verbatim}
+
+\subsection{Test tst\_multifile2.py}
+
+\begin{verbatim}
+Segmentation fault (core dumped)
+\end{verbatim}
+
+\subsection{Test tst\_netcdftime.py}
+
+\begin{verbatim}
+Segmentation fault (core dumped)
+\end{verbatim}
+
+\subsection{Test tst\_open\_mem.py}
+
+\begin{verbatim}
+======================================================================
+ERROR: test_mem_open (__main__.TestOpenMem)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst\_open_mem.py", line 27, in test_mem_open
+    print(nc.filepath())
+  File "netCDF4/_netCDF4.pyx", line 2418, in netCDF4._netCDF4.Dataset.filepath
+ValueError:
+filepath method not enabled.  To enable, install Cython, make sure you have
+version 4.1.2 or higher of the netcdf C lib, and rebuild netcdf4-python.
+
+----------------------------------------------------------------------
+\end{verbatim}
+
+\subsection{Test tst\_refcount.py}
+
+\begin{verbatim}
+======================================================================
+ERROR: runTest (__main__.RefCountTestCase)
+testing garbage collection (issue 218)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst\_refcount.py", line 16, in tearDown
+    os.remove(self.file)
+FileNotFoundError: [Errno 2] No such file or directory: 'esdm://testfile19663'
+
+----------------------------------------------------------------------
+\end{verbatim}
+
+\subsection{Test tst\_rename.py}
+
+\begin{verbatim}
+======================================================================
+ERROR: runTest (__main__.VariablesTestCase)
+testing renaming of dimensions, variables and attribute deletion
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst\_rename.py", line 35, in setUp
+    g = f.createGroup(GROUP_NAME2)
+  File "netCDF4/_netCDF4.pyx", line 2826, in netCDF4._netCDF4.Dataset.createGroup
+  File "netCDF4/_netCDF4.pyx", line 3266, in netCDF4._netCDF4.Group.__init__
+  File "netCDF4/_netCDF4.pyx", line 1892, in netCDF4._netCDF4._ensure_nc_success
+RuntimeError: NetCDF: Access failure
+
+----------------------------------------------------------------------
+\end{verbatim}
+
+\subsection{Test tst\_scalarvar.py}
+
+\begin{verbatim}
+Segmentation fault (core dumped)
+\end{verbatim}
+
+\subsection{Test tst\_scaled.py}
+
+\begin{verbatim}
+Segmentation fault (core dumped)
+\end{verbatim}
+
+\subsection{Test tst\_shape.py}
+
+\begin{verbatim}
+Segmentation fault (core dumped)
+\end{verbatim}
+
+\subsection{Test tst\_slicing.py}
+
+\begin{verbatim}
+
+\end{verbatim}
+
+\subsection{Test tst\_stringarr.py}
+
+\begin{verbatim}
+Segmentation fault (core dumped)
+\end{verbatim}
+
+\subsection{Test tst\_types.py}
+
+\begin{verbatim}
+Segmentation fault (core dumped)
+\end{verbatim}
+
+\subsection{Test tst\_unicode.py}
+
+\begin{verbatim}
+======================================================================
+ERROR: runTest (__main__.UnicodeTestCase)
+testing unicode
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst\_unicode.py", line 21, in setUp
+    v = f.createVariable(VAR_NAME, np.float, (DIM_NAME,))
+  File "netCDF4/_netCDF4.pyx", line 2773, in netCDF4._netCDF4.Dataset.createVariable
+  File "netCDF4/_netCDF4.pyx", line 3810, in netCDF4._netCDF4.Variable.__init__
+  File "netCDF4/_netCDF4.pyx", line 1892, in netCDF4._netCDF4._ensure_nc_success
+RuntimeError: NetCDF: Access failure
+
+----------------------------------------------------------------------
+\end{verbatim}
+
+\subsection{Test tst\_unicode3.py}
+
+\begin{verbatim}
+======================================================================
+ERROR: runTest (__main__.UnicodeTestCase)
+testing unicode
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst\_unicode3.py", line 21, in setUp
+    v = f.createVariable(VAR_NAME, np.float, (DIM_NAME,))
+  File "netCDF4/_netCDF4.pyx", line 2773, in netCDF4._netCDF4.Dataset.createVariable
+  File "netCDF4/_netCDF4.pyx", line 3810, in netCDF4._netCDF4.Variable.__init__
+  File "netCDF4/_netCDF4.pyx", line 1892, in netCDF4._netCDF4._ensure_nc_success
+RuntimeError: NetCDF: Access failure
+
+----------------------------------------------------------------------
+\end{verbatim}
+
+\subsection{Test tst\_unicodeatt.py}
+
+\begin{verbatim}
+Segmentation fault (core dumped)
+\end{verbatim}
+
+\subsection{Test tst\_unlimdim.py}
+
+\begin{verbatim}
+Segmentation fault (core dumped)
+\end{verbatim}
+
+\subsection{Test tst\_Unsigned.py}
+
+\begin{verbatim}
+OK
+\end{verbatim}
+
+\subsection{Test tst\_utils.py}
+
+\begin{verbatim}
+OK
+\end{verbatim}
+
+\subsection{Test tst\_vars.py}
+
+\begin{verbatim}
+======================================================================
+ERROR: runTest (__main__.VariablesTestCase)
+testing primitive variables
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst\_vars.py", line 37, in setUp
+    g = f.createGroup(GROUP_NAME)
+  File "netCDF4/_netCDF4.pyx", line 2826, in netCDF4._netCDF4.Dataset.createGroup
+  File "netCDF4/_netCDF4.pyx", line 3266, in netCDF4._netCDF4.Group.__init__
+  File "netCDF4/_netCDF4.pyx", line 1892, in netCDF4._netCDF4._ensure_nc_success
+RuntimeError: NetCDF: Access failure
+
+----------------------------------------------------------------------
+\end{verbatim}
+
+\subsection{Test tst\_vlen.py}
+
+\begin{verbatim}
+======================================================================
+ERROR: runTest (__main__.VlenAppendTestCase)
+testing appending to vlen variables (issue #527).
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst\_vlen.py", line 168, in setUp
+    vlen_type = f.createVLType(np.float64, 'vltest')
+  File "netCDF4/_netCDF4.pyx", line 2621, in netCDF4._netCDF4.Dataset.createVLType
+  File "netCDF4/_netCDF4.pyx", line 5835, in netCDF4._netCDF4.VLType.__init__
+  File "netCDF4/_netCDF4.pyx", line 5880, in netCDF4._netCDF4._def_vlen
+  File "netCDF4/_netCDF4.pyx", line 1892, in netCDF4._netCDF4._ensure_nc_success
+RuntimeError: NetCDF: Access failure
+
+----------------------------------------------------------------------
+\end{verbatim}
+
+\begin{comment}
+
+\section{nccopy}
+
+esiwace/esdm-netcdf/build/ncdump/nccopy
+
+nccopy input_file esdm://output_file
+
+\section{netcdf-bench}
+
+esiwace/esdm-netcdf/libsrcesdm_test/netcdf-bench
+
+./prepare.sh
 
 \end{comment}

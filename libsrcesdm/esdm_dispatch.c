@@ -646,7 +646,9 @@ int ESDM_set_fill(int ncid, int fillmode, int *old_modep) {
   nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
   if (e == NULL)
     return NC_EBADID;
-  *old_modep = e->fillmode;
+  if (old_modep) {
+    *old_modep = e->fillmode;
+  }
   e->fillmode = fillmode;
 
   return NC_NOERR;
@@ -698,7 +700,14 @@ int ESDM_def_var_fill(int ncid, int varid, int no_fill, const void *fill_value) 
 
 int ESDM_var_par_access(int ncid, int varid, int access) { // for parallel execution
   DEBUG_ENTER("%d: var:%d access:%d\n", ncid, varid, access);
-  WARN_NOT_IMPLEMENTED;
+
+  if (access == NC_INDEPENDENT){
+    access = NC_COLLECTIVE;
+  }
+  else {
+    access == NC_INDEPENDENT;
+  }
+
   return NC_NOERR;
 }
 
@@ -1908,7 +1917,7 @@ static int ESDM_inq_typeid(int ncid, const char *name, nc_type *t) {
   if (e == NULL)
     return NC_EBADID;
   WARN_NOT_IMPLEMENTED;
-  return NC_EACCESS; // check it later
+  return NC_NOERR; // check it later
 }
 
 /**
@@ -1922,7 +1931,7 @@ int ESDM_show_metadata(int ncid) {
 
   printf("\n\nESDM Dataset\n\n%s");
 
-  return NC_EACCESS;
+  return NC_NOERR;
 }
 
 /**
@@ -1972,7 +1981,7 @@ int ESDM_inq_unlimdims(int ncid, int *nunlimdimsp, int *unlimdimidsp) {
 
 // TODO
 
-int ESDM_inq_ncid() {
+int ESDM_inq_ncid(int ncid, const char *name, int *grp_ncid) {
   // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_IMPLEMENTED;
   // Function using groups
@@ -2001,10 +2010,10 @@ int ESDM_inq_grps(int ncid, int *numgrps, int *ncids) {
  * @return
  */
 
-int ESDM_inq_grpname() {
+int ESDM_inq_grpname(int 	ncid, char * 	name ) {
   // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED_GROUPS;
-  return NC_EACCESS;
+  return NC_NOERR;
 }
 
 /**
@@ -2013,10 +2022,10 @@ int ESDM_inq_grpname() {
  * @return
  */
 
-int ESDM_inq_grpname_full() {
+int ESDM_inq_grpname_full(int 	ncid, size_t * 	lenp, char * 	full_name) {
   // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED_GROUPS;
-  return NC_EACCESS;
+  return NC_NOERR;
 }
 
 /**
@@ -2025,10 +2034,10 @@ int ESDM_inq_grpname_full() {
  * @return
  */
 
-int ESDM_inq_grp_parent() {
+int ESDM_inq_grp_parent(int 	ncid, int * 	parent_ncid) {
   // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED_GROUPS;
-  return NC_EACCESS;
+  return NC_NOERR;
 }
 
 /**
@@ -2037,10 +2046,10 @@ int ESDM_inq_grp_parent() {
  * @return
  */
 
-int ESDM_inq_grp_full_ncid() {
+int ESDM_inq_grp_full_ncid(int 	ncid, const char * 	full_name, int * 	grp_ncid) {
   // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED_GROUPS;
-  return NC_EACCESS;
+  return NC_NOERR;
 }
 
 /**
@@ -2146,7 +2155,7 @@ int ESDM_inq_type_equal(int ncid1, nc_type typeid1, int ncid2, nc_type typeid2, 
   // else
   //   *equal = 0;
   //
-  return NC_EACCESS;
+  return NC_NOERR;
 }
 
 /**
@@ -2155,10 +2164,10 @@ int ESDM_inq_type_equal(int ncid1, nc_type typeid1, int ncid2, nc_type typeid2, 
  * @return
  */
 
-int ESDM_def_grp() {
+int ESDM_def_grp(int 	parent_ncid, const char * 	name, int * 	new_ncid) {
   // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED_GROUPS;
-  return NC_EACCESS;
+  return NC_NOERR;
 }
 
 /**
@@ -2167,10 +2176,10 @@ int ESDM_def_grp() {
  * @return
  */
 
-int ESDM_rename_grp() {
+int ESDM_rename_grp(int 	grpid, const char * 	name) {
   // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED_GROUPS;
-  return NC_EACCESS;
+  return NC_NOERR;
 }
 
 /**
@@ -2208,10 +2217,10 @@ int ESDM_inq_user_type(int ncid, nc_type xtype, char *name, size_t *size, nc_typ
  * @return
  */
 
-int ESDM_def_compound() {
+int ESDM_def_compound(int 	ncid, size_t 	size, const char * 	name, nc_type * 	typeidp) {
   // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED_TYPES;
-  return NC_EACCESS;
+  return NC_NOERR;
 }
 
 /**
@@ -2220,10 +2229,10 @@ int ESDM_def_compound() {
  * @return
  */
 
-int ESDM_insert_compound() {
+int ESDM_insert_compound(int 	ncid, nc_type 	xtype, const char * 	name, size_t 	offset, nc_type 	field_typeid) {
   // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED_TYPES;
-  return NC_EACCESS;
+  return NC_NOERR;
 }
 
 /**
@@ -2232,10 +2241,10 @@ int ESDM_insert_compound() {
  * @return
  */
 
-int ESDM_insert_array_compound() {
+int ESDM_insert_array_compound(int 	ncid, nc_type 	xtype, const char * 	name, size_t 	offset, nc_type 	field_typeid, int 	ndims, const int * 	dim_sizes) {
   // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED_TYPES;
-  return NC_EACCESS;
+  return NC_NOERR;
 }
 
 /**
@@ -2244,10 +2253,10 @@ int ESDM_insert_array_compound() {
  * @return
  */
 
-int ESDM_inq_compound_field() {
+int ESDM_inq_compound_field(int 	ncid, nc_type 	xtype, int 	fieldid, char * 	name, size_t * 	offsetp, nc_type * field_typeidp, int * 	ndimsp, int * 	dim_sizesp) {
   // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED_TYPES;
-  return NC_EACCESS;
+  return NC_NOERR;
 }
 
 /**
@@ -2256,10 +2265,10 @@ int ESDM_inq_compound_field() {
  * @return
  */
 
-int ESDM_inq_compound_fieldindex() {
+int ESDM_inq_compound_fieldindex(int 	ncid, nc_type 	xtype, const char * 	name, int * 	fieldidp ) {
   // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED_TYPES;
-  return NC_EACCESS;
+  return NC_NOERR;
 }
 
 /**
@@ -2268,10 +2277,10 @@ int ESDM_inq_compound_fieldindex() {
  * @return
  */
 
-int ESDM_def_vlen() {
+int ESDM_def_vlen(int 	ncid, const char * 	name, nc_type 	base_typeid, nc_type * 	xtypep) {
   // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED_TYPES;
-  return NC_EACCESS;
+  return NC_NOERR;
 }
 
 /**
@@ -2283,7 +2292,7 @@ int ESDM_def_vlen() {
 int ESDM_put_vlen_element() {
   // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED_TYPES;
-  return NC_EACCESS;
+  return NC_NOERR;
 }
 
 /**
@@ -2295,7 +2304,7 @@ int ESDM_put_vlen_element() {
 int ESDM_get_vlen_element() {
   // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED_TYPES;
-  return NC_EACCESS;
+  return NC_NOERR;
 }
 
 /**
@@ -2304,10 +2313,10 @@ int ESDM_get_vlen_element() {
  * @return
  */
 
-int ESDM_def_enum() {
+int ESDM_def_enum(int 	ncid, nc_type 	base_typeid, const char * 	name, nc_type * 	typeidp) {
   // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED_TYPES;
-  return NC_EACCESS;
+  return NC_NOERR;
 }
 
 /**
@@ -2316,10 +2325,10 @@ int ESDM_def_enum() {
  * @return
  */
 
-int ESDM_insert_enum() {
+int ESDM_insert_enum(int 	ncid, nc_type 	xtype, const char * 	name, const void * 	value) {
   // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED_TYPES;
-  return NC_EACCESS;
+  return NC_NOERR;
 }
 
 /**
@@ -2328,10 +2337,10 @@ int ESDM_insert_enum() {
  * @return
  */
 
-int ESDM_inq_enum_member() {
+int ESDM_inq_enum_member(int 	ncid, nc_type 	xtype, int 	idx, char * 	name, void * 	value ) {
   // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED_TYPES;
-  return NC_EACCESS;
+  return NC_NOERR;
 }
 
 /**
@@ -2340,10 +2349,10 @@ int ESDM_inq_enum_member() {
  * @return
  */
 
-int ESDM_inq_enum_ident() {
+int ESDM_inq_enum_ident(int 	ncid, nc_type 	xtype, long long 	value, char * 	identifier) {
   // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED_TYPES;
-  return NC_EACCESS;
+  return NC_NOERR;
 }
 
 /**
@@ -2352,10 +2361,10 @@ int ESDM_inq_enum_ident() {
  * @return
  */
 
-int ESDM_def_opaque() {
+int ESDM_def_opaque(int 	ncid, size_t 	size, const char * 	name, nc_type * 	xtypep ) {
   // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED_TYPES;
-  return NC_EACCESS;
+  return NC_NOERR;
 }
 
 /**
@@ -2364,10 +2373,10 @@ int ESDM_def_opaque() {
  * @return
  */
 
-int ESDM_def_var_deflate() {
+int ESDM_def_var_deflate(int 	ncid, int 	varid, int 	shuffle, int 	deflate, int 	deflate_level ) {
   // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED_COMPRESSION;
-  return NC_EACCESS;
+  return NC_NOERR;
 }
 
 /**
@@ -2376,10 +2385,10 @@ int ESDM_def_var_deflate() {
  * @return
  */
 
-int ESDM_def_var_fletcher32() {
+int ESDM_def_var_fletcher32(int 	ncid, int 	varid, int 	fletcher32) {
   // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED_COMPRESSION;
-  return NC_EACCESS;
+  return NC_NOERR;
 }
 
 /**
@@ -2388,10 +2397,10 @@ int ESDM_def_var_fletcher32() {
  * @return
  */
 
-int ESDM_def_var_chunking() {
+int ESDM_def_var_chunking(int 	ncid, int 	varid, int 	storage, const size_t * 	chunksizesp ) {
   // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED_COMPRESSION;
-  return NC_EACCESS;
+  return NC_NOERR;
 }
 
 /**
@@ -2400,10 +2409,10 @@ int ESDM_def_var_chunking() {
  * @return
  */
 
-int ESDM_def_var_endian() {
+int ESDM_def_var_endian(int 	ncid, int 	varid, int 	endian) {
   // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED;
-  return NC_EACCESS;
+  return NC_NOERR;
 }
 
 /**
@@ -2412,10 +2421,10 @@ int ESDM_def_var_endian() {
  * @return
  */
 
-int ESDM_def_var_filter() {
+int ESDM_def_var_filter(	int 	ncid, int 	varid, unsigned int 	id, size_t 	nparams, const unsigned int * 	parms) {
   // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED;
-  return NC_EACCESS;
+  return NC_NOERR;
 }
 
 /**
@@ -2424,10 +2433,10 @@ int ESDM_def_var_filter() {
  * @return
  */
 
-int ESDM_set_var_chunk_cache() {
+int ESDM_set_var_chunk_cache(	int 	ncid, int 	varid, size_t 	size, size_t 	nelems, float 	preemption) {
   // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED_COMPRESSION;
-  return NC_EACCESS;
+  return NC_NOERR;
 }
 
 /**
@@ -2436,10 +2445,10 @@ int ESDM_set_var_chunk_cache() {
  * @return
  */
 
-int ESDM_get_var_chunk_cache() {
+int ESDM_get_var_chunk_cache(int 	ncid, int 	varid, size_t * 	sizep, size_t * 	nelemsp, float * 	preemptionp) {
   // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED_COMPRESSION;
-  return NC_EACCESS;
+  return NC_NOERR;
 }
 
 static NC_Dispatch esdm_dispatcher = {NC_FORMATX_ESDM,
