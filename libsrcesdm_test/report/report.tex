@@ -7,6 +7,13 @@ Julian Kunkel
 \and Luciana Pedro
 }
 
+\makeatletter
+\patchcmd{\@verbatim}
+  {\verbatim@font}
+  {\verbatim@font\tiny}
+  {}{}
+\makeatother
+
 \date{\today} % Replace with final date
 
 \usepackage[numbers]{natbib}
