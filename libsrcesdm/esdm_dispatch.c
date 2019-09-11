@@ -1,11 +1,15 @@
 #include <stdlib.h>
-//#include <libgen.h>
 #include <assert.h>
+
+#include <netcdf_meta.h>
 
 #include <esdm.h>
 
 #ifdef NC_HAS_PARALLEL
-#  define ESDM_PARALLEL
+#define ESDM_PARALLEL
+#warning "USING ESDM PARALLEL"
+#else
+#warning "USING ESDM IS NOT PARALLEL"
 #endif
 
 #ifdef ESDM_PARALLEL
@@ -25,16 +29,17 @@
     exit(1);                                              \
   } while (0)
 
-#define DEBUG(str)                                                 \
-  do {                                                             \
-    printf("[ESDM NC] DEBUG %s:%d %s\n", __func__, __LINE__, str); \
-  } while (0)
+#define debug(...) printf(__VA_ARGS__)
 
+#ifdef DEBUG_XXX
 #define DEBUG_ENTER(...)                                   \
    do {                                                     \
      printf("[ESDM NC] called %s:%d ", __func__, __LINE__); \
      printf(__VA_ARGS__);                                   \
    } while (0)
+#else
+  #define DEBUG_ENTER(...)
+#endif
 
 #define WARN(...)                                        \
   do {                                                   \
@@ -118,7 +123,9 @@ typedef struct {
   nc_dim_tbl_t dimt;
   md_vars_t vars;
   int parallel_mode;
+  #ifdef ESDM_PARALLEL
   MPI_Comm comm;
+  #endif
 } nc_esdm_t;
 
 static esdm_type_t type_nc_to_esdm(nc_type type) {
@@ -443,7 +450,11 @@ int ESDM_open(const char *path, int cmode, int basepe, size_t *chunksizehintp, v
   for (int i = 0; i < ndsets; i++) {
     esdm_dataset_t *dset = esdm_container_dataset_from_array(c, i);
 
+    #ifdef ESDM_PARALLEL
+    status = esdm_mpi_dataset_ref(e->comm, dset);
+    #else
     status = esdm_dataset_ref(dset);
+    #endif
     if (status != ESDM_SUCCESS) {
       return NC_EINVAL;
     }
@@ -559,14 +570,7 @@ static int ncesdm_container_commit(nc_esdm_t *e) {
   // smd_type_unref(arr_type);
 
 #ifdef ESDM_PARALLEL
-  NC_MPI_INFO *data = (NC_MPI_INFO *)(parameters);
-  if (data) {
-    MPI_Comm_dup(data->comm, &e->comm);
-    e->parallel_mode = 1;
-  } else {
-    ERROR("No valid communicator specified");
-  }
-  status = esdm_status esdm_mpi_container_commit(e->com, e->c);
+  status = esdm_mpi_container_commit(e->comm, e->c);
 #else
   status = esdm_container_commit(e->c);
 #endif
@@ -629,6 +633,7 @@ int ESDM_close(int ncid, void *b) {
     return NC_EBADID;
 
   int ret = ncesdm_container_commit(e);
+  ret = esdm_container_close(e->c);
 
   // TODO CLOSE the container properly
   free(e);
@@ -1464,13 +1469,6 @@ int ESDM_def_var(int ncid, const char *name, nc_type xtype, int ndims, const int
   esdm_dataset_t *d;
 
 #ifdef ESDM_PARALLEL
-  NC_MPI_INFO *data = (NC_MPI_INFO *)(parameters);
-  if (data) {
-    MPI_Comm_dup(data->comm, &e->comm);
-    e->parallel_mode = 1;
-  } else {
-    ERROR("No valid communicator specified");
-  }
   status = esdm_mpi_dataset_create(e->comm, e->c, name, dataspace, &d);
 #else
   status = esdm_dataset_create(e->c, name, dataspace, &d);
