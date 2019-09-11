@@ -294,10 +294,11 @@ int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_
   if (data) {
     MPI_Comm_dup(data->comm, &e->comm);
     e->parallel_mode = 1;
+    status = esdm_mpi_container_create(e->comm, cpath, cmode & NC_NOCLOBBER ? 0 : 1, &e->c);
   } else {
-    ERROR("No valid communicator specified");
+    e->parallel_mode = 0;
+    status = esdm_container_create(cpath, cmode & NC_NOCLOBBER ? 0 : 1, &e->c);
   }
-  status = esdm_mpi_container_create(e->comm, cpath, cmode & NC_NOCLOBBER ? 0 : 1, &e->c);
 #else
   status = esdm_container_create(cpath, cmode & NC_NOCLOBBER ? 0 : 1, &e->c);
 #endif
@@ -427,10 +428,11 @@ int ESDM_open(const char *path, int cmode, int basepe, size_t *chunksizehintp, v
   if (data) {
     MPI_Comm_dup(data->comm, &e->comm);
     e->parallel_mode = 1;
+    status = esdm_mpi_container_open(e->comm, cpath, 0, &e->c);
   } else {
-    ERROR("No valid communicator specified");
+    e->parallel_mode = 0;
+    status = esdm_container_open(cpath, 0, &e->c);
   }
-  status = esdm_mpi_container_open(e->comm, cpath, 0, &e->c);
 #else
   status = esdm_container_open(cpath, 0, &e->c);
 #endif
@@ -451,7 +453,11 @@ int ESDM_open(const char *path, int cmode, int basepe, size_t *chunksizehintp, v
     esdm_dataset_t *dset = esdm_container_dataset_from_array(c, i);
 
     #ifdef ESDM_PARALLEL
-    status = esdm_mpi_dataset_ref(e->comm, dset);
+    if(e->parallel_mode){
+      status = esdm_mpi_dataset_ref(e->comm, dset);
+    }else{
+      status = esdm_dataset_ref(dset);
+    }
     #else
     status = esdm_dataset_ref(dset);
     #endif
@@ -570,7 +576,11 @@ static int ncesdm_container_commit(nc_esdm_t *e) {
   // smd_type_unref(arr_type);
 
 #ifdef ESDM_PARALLEL
-  status = esdm_mpi_container_commit(e->comm, e->c);
+  if(e->parallel_mode){
+    status = esdm_mpi_container_commit(e->comm, e->c);
+  }else{
+    status = esdm_container_commit(e->c);
+  }
 #else
   status = esdm_container_commit(e->c);
 #endif
@@ -633,6 +643,13 @@ int ESDM_close(int ncid, void *b) {
     return NC_EBADID;
 
   int ret = ncesdm_container_commit(e);
+
+  int ndsets = esdm_container_dataset_count(e->c);
+  // open all ESDM datasets, find the names
+  for (int i = 0; i < ndsets; i++) {
+    esdm_dataset_t *dset = esdm_container_dataset_from_array(e->c, i);
+    esdm_dataset_close(dset);
+  }
   ret = esdm_container_close(e->c);
 
   // TODO CLOSE the container properly
@@ -1469,7 +1486,11 @@ int ESDM_def_var(int ncid, const char *name, nc_type xtype, int ndims, const int
   esdm_dataset_t *d;
 
 #ifdef ESDM_PARALLEL
-  status = esdm_mpi_dataset_create(e->comm, e->c, name, dataspace, &d);
+  if(e->parallel_mode){
+    status = esdm_mpi_dataset_create(e->comm, e->c, name, dataspace, &d);
+  }else{
+    status = esdm_dataset_create(e->c, name, dataspace, &d);
+  }
 #else
   status = esdm_dataset_create(e->c, name, dataspace, &d);
 #endif
