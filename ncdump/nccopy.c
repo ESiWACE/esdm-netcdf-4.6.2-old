@@ -836,7 +836,7 @@ copy_chunking(int igrp, int i_varid, int ogrp, int o_varid, int ndims, int inkin
             int odimid = dimmap_odimid(idimid);
             size_t chunksize;
             size_t dimlen;
-    
+
             /* Get input dimension length */
             NC_CHECK(nc_inq_dimlen(igrp, idimid, &dimlen));
 
@@ -853,7 +853,7 @@ copy_chunking(int igrp, int i_varid, int ogrp, int o_varid, int ndims, int inkin
                 ocontig = 0; /* cannot use contiguous */
                 goto next;
             }
-    
+
             /* Not specified in -c; Apply defaulting rules as defined in nccopy.1 */
 
 	    /* If input is chunked, then use that chunk size */
@@ -1837,6 +1837,9 @@ copy(char* infile, char* outfile)
     if(option_write_diskless)
 	create_mode |= NC_WRITE | NC_DISKLESS; /* NC_WRITE persists diskless file on close */
     switch(outkind) {
+    case NC_FORMATX_ESDM:
+    /* nothing to do */
+    break;
     case NC_FORMAT_CLASSIC:
 	/* nothing to do */
 	break;
