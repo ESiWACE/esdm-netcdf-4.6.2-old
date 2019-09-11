@@ -429,6 +429,10 @@ KeyError: "attribute b'_FillValue' has unsupported datatype"
 
 \begin{verbatim}
 Segmentation fault (core dumped)
+
+0x00007ffff1f2454e in ESDM_inq_att (ncid=65536, varid=0, name=0x7ffff25725c0 "scale_factor",
+    datatypep=0x7fffffffb16c, lenp=0x7fffffffb1e8) at ../../libsrcesdm/esdm_dispatch.c:1112
+1112	    if (a->type->type == SMD_TYPE_ARRAY)
 \end{verbatim}
 
 \section{Test tst\_compound\_alignment.py}
@@ -453,6 +457,10 @@ Segmentation fault (core dumped)
 
 \begin{verbatim}
 Segmentation fault (core dumped)
+
+0x00007ffff1f2454e in ESDM_inq_att (ncid=65536, varid=0, name=0x7ffff25725c0 "scale_factor",
+    datatypep=0x7fffffffb16c, lenp=0x7fffffffb1e8) at ../../libsrcesdm/esdm_dispatch.c:1112
+1112	    if (a->type->type == SMD_TYPE_ARRAY)
 \end{verbatim}
 
 \section{Test tst\_create\_mem.py}
@@ -502,12 +510,20 @@ RuntimeError: NetCDF: Not a valid ID
 
 \begin{verbatim}
 Segmentation fault (core dumped)
+
+0x00007ffff1f2454e in ESDM_inq_att (ncid=131072, varid=0, name=0x7ffff25725f0 "scale_factor",
+    datatypep=0x7fffffffb48c, lenp=0x7fffffffb508) at ../../libsrcesdm/esdm_dispatch.c:1112
+1112	    if (a->type->type == SMD_TYPE_ARRAY)
 \end{verbatim}
 
 \section{Test tst\_endian.py}
 
 \begin{verbatim}
 Segmentation fault (core dumped)
+
+0x00007ffff5af854e in ESDM_inq_att (ncid=65536, varid=0, name=0x7ffff61ee650 "scale_factor",
+    datatypep=0x7fffffffb29c, lenp=0x7fffffffb318) at ../../libsrcesdm/esdm_dispatch.c:1112
+1112	    if (a->type->type == SMD_TYPE_ARRAY)
 \end{verbatim}
 
 \section{Test tst\_enum.py}
@@ -520,6 +536,10 @@ Segmentation fault (core dumped)
 
 \begin{verbatim}
 Segmentation fault (core dumped)
+
+0x00007ffff5b3854e in ESDM_inq_att (ncid=65536, varid=0, name=0x7ffff61efc80 "scale_factor",
+    datatypep=0x7fffffffb48c, lenp=0x7fffffffb508) at ../../libsrcesdm/esdm_dispatch.c:1112
+1112	    if (a->type->type == SMD_TYPE_ARRAY)
 \end{verbatim}
 
 \section{Test tst\_filepath.py}
@@ -578,24 +598,40 @@ OK
 
 \begin{verbatim}
 Segmentation fault (core dumped)
+
+0x00007ffff1f2454e in ESDM_inq_att (ncid=65536, varid=0, name=0x7ffff25735f0 "scale_factor",
+    datatypep=0x7fffffffb48c, lenp=0x7fffffffb508) at ../../libsrcesdm/esdm_dispatch.c:1112
+1112	    if (a->type->type == SMD_TYPE_ARRAY)
 \end{verbatim}
 
 \section{Test tst\_masked2.py}
 
 \begin{verbatim}
 Segmentation fault (core dumped)
+
+0x00007ffff1f2454e in ESDM_inq_att (ncid=65536, varid=0, name=0x7fffe403c0b0 "_Unsigned", datatypep=0x7fffffffb32c,
+    lenp=0x7fffffffb3a8) at ../../libsrcesdm/esdm_dispatch.c:1112
+1112	    if (a->type->type == SMD_TYPE_ARRAY)
 \end{verbatim}
 
 \section{Test tst\_masked3.py}
 
 \begin{verbatim}
 Segmentation fault (core dumped)
+
+0x00007ffff1f2454e in ESDM_inq_att (ncid=131072, varid=0, name=0x7ffff25715f0 "scale_factor",
+    datatypep=0x7fffffffb48c, lenp=0x7fffffffb508) at ../../libsrcesdm/esdm_dispatch.c:1112
+1112	    if (a->type->type == SMD_TYPE_ARRAY)
 \end{verbatim}
 
 \section{Test tst\_masked4.py}
 
 \begin{verbatim}
 Segmentation fault (core dumped)
+
+0x00007ffff1f2454e in ESDM_inq_att (ncid=65536, varid=0, name=0x7ffff25725f0 "scale_factor",
+    datatypep=0x7fffffffb48c, lenp=0x7fffffffb508) at ../../libsrcesdm/esdm_dispatch.c:1112
+1112	    if (a->type->type == SMD_TYPE_ARRAY)
 \end{verbatim}
 
 \section{Test tst\_masked5.py}
@@ -619,24 +655,40 @@ ValueError: Variable length strings are only supported for the NETCDF4 format. F
 
 \begin{verbatim}
 Segmentation fault (core dumped)
+
+0x00007ffff1f2454e in ESDM_inq_att (ncid=131072, varid=0, name=0x7ffff25715f0 "scale_factor",
+    datatypep=0x7fffffffb48c, lenp=0x7fffffffb508) at ../../libsrcesdm/esdm_dispatch.c:1112
+1112	    if (a->type->type == SMD_TYPE_ARRAY)
 \end{verbatim}
 
 \section{Test tst\_multifile.py}
 
 \begin{verbatim}
 Segmentation fault (core dumped)
+
+0x00007ffff5af854e in ESDM_inq_att (ncid=65536, varid=0, name=0x7fffe4056500 "scale_factor",
+    datatypep=0x7fffffffb48c, lenp=0x7fffffffb508) at ../../libsrcesdm/esdm_dispatch.c:1112
+1112	    if (a->type->type == SMD_TYPE_ARRAY)
 \end{verbatim}
 
 \section{Test tst\_multifile2.py}
 
 \begin{verbatim}
 Segmentation fault (core dumped)
+
+0x00007ffff5b3854e in ESDM_inq_att (ncid=65536, varid=0, name=0x7fffe4055620 "scale_factor",
+    datatypep=0x7fffffffb48c, lenp=0x7fffffffb508) at ../../libsrcesdm/esdm_dispatch.c:1112
+1112	    if (a->type->type == SMD_TYPE_ARRAY)
 \end{verbatim}
 
 \section{Test tst\_netcdftime.py}
 
 \begin{verbatim}
 Segmentation fault (core dumped)
+
+0x00007ffff1bf154e in ESDM_inq_att (ncid=65536, varid=0, name=0x7fffee9c61a0 "scale_factor",
+    datatypep=0x7fffffffb48c, lenp=0x7fffffffb508) at ../../libsrcesdm/esdm_dispatch.c:1112
+1112	    if (a->type->type == SMD_TYPE_ARRAY)
 \end{verbatim}
 
 \section{Test tst\_open\_mem.py}
@@ -693,36 +745,56 @@ RuntimeError: NetCDF: Access failure
 
 \begin{verbatim}
 Segmentation fault (core dumped)
+
+0x00007ffff1f2454e in ESDM_inq_att (ncid=65536, varid=0, name=0x7ffff25735c0 "add_offset", datatypep=0x7fffffffb3dc,
+    lenp=0x7fffffffb458) at ../../libsrcesdm/esdm_dispatch.c:1112
+1112	    if (a->type->type == SMD_TYPE_ARRAY)
 \end{verbatim}
 
 \section{Test tst\_scaled.py}
 
 \begin{verbatim}
 Segmentation fault (core dumped)
+
+0x00007ffff1f2454e in ESDM_inq_att (ncid=131072, varid=0, name=0x7ffff25735f0 "scale_factor",
+    datatypep=0x7fffffffb48c, lenp=0x7fffffffb508) at ../../libsrcesdm/esdm_dispatch.c:1112
+1112	    if (a->type->type == SMD_TYPE_ARRAY)
 \end{verbatim}
 
 \section{Test tst\_shape.py}
 
 \begin{verbatim}
 Segmentation fault (core dumped)
+
+0x00007ffff5b3854e in ESDM_inq_att (ncid=65536, varid=0, name=0x7fffe40380b0 "scale_factor",
+    datatypep=0x7fffffffb48c, lenp=0x7fffffffb508) at ../../libsrcesdm/esdm_dispatch.c:1112
+1112	    if (a->type->type == SMD_TYPE_ARRAY)
 \end{verbatim}
 
 \section{Test tst\_slicing.py}
 
 \begin{verbatim}
+Segmentation fault (core dumped)
 
+0x00007ffff5a7854e in ESDM_inq_att (ncid=65536, varid=0, name=0x7ffff61ef650 "scale_factor",
+    datatypep=0x7fffffffb48c, lenp=0x7fffffffb508) at ../../libsrcesdm/esdm_dispatch.c:1112
+1112	    if (a->type->type == SMD_TYPE_ARRAY)
 \end{verbatim}
 
 \section{Test tst\_stringarr.py}
 
 \begin{verbatim}
-Segmentation fault (core dumped)
+OK
 \end{verbatim}
 
 \section{Test tst\_types.py}
 
 \begin{verbatim}
 Segmentation fault (core dumped)
+
+0x00007ffff1f2454e in ESDM_inq_att (ncid=65536, varid=0, name=0x7ffff25715f0 "scale_factor",
+    datatypep=0x7fffffffb48c, lenp=0x7fffffffb508) at ../../libsrcesdm/esdm_dispatch.c:1112
+1112	    if (a->type->type == SMD_TYPE_ARRAY)
 \end{verbatim}
 
 \section{Test tst\_unicode.py}
@@ -765,12 +837,24 @@ RuntimeError: NetCDF: Access failure
 
 \begin{verbatim}
 Segmentation fault (core dumped)
+
+Thread 1 "python3" received signal SIGSEGV, Segmentation fault.
+__strlen_avx2 () at ../sysdeps/x86_64/multiarch/strlen-avx2.S:93
+93	../sysdeps/x86_64/multiarch/strlen-avx2.S: No such file or directory.
+
+---Type <return> to continue, or q <return> to quit---
+#113 0x00000000004b0de0 in main (argc=2, argv=0x7fffffffe018) at ../Programs/python.c:69
+(gdb)
 \end{verbatim}
 
 \section{Test tst\_unlimdim.py}
 
 \begin{verbatim}
 Segmentation fault (core dumped)
+
+0x00007ffff1f2454e in ESDM_inq_att (ncid=65536, varid=0, name=0x7ffff25715f0 "scale_factor",
+    datatypep=0x7fffffffb48c, lenp=0x7fffffffb508) at ../../libsrcesdm/esdm_dispatch.c:1112
+1112	    if (a->type->type == SMD_TYPE_ARRAY)
 \end{verbatim}
 
 \section{Test tst\_Unsigned.py}
