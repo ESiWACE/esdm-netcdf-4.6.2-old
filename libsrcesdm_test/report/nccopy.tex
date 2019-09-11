@@ -1,0 +1,103 @@
+\chapter{nccopy}
+
+esiwace/esdm-netcdf/build/ncdump/nccopy
+
+rm -rf \_metadummy/ \_posix1/
+
+mkfs.esdm -g -l --create
+
+nccopy input\_file esdm://output\_file
+
+\begin{verbatim}
+lucy@lucy:~/esiwace/esdm-netcdf/build/ncdump$ ncdump smallfile.nc
+netcdf smallfile {
+dimensions:
+	lat = 1 ;
+variables:
+	float lat(lat) ;
+	float lon(lat) ;
+	int64 Elevation(lat, lat) ;
+data:
+
+ lat = _ ;
+
+ lon = _ ;
+
+ Elevation =
+  _ ;
+}
+
+ESDM has not been shutdown correctly. Stacktrace:
+3: ncdump(+0x86f9) [0x562111c426f9]
+4: /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xe7) [0x7f046adb9b97]
+5: ncdump(+0x264a) [0x562111c3c64a]
+
+lucy@lucy:~/esiwace/esdm-netcdf/build/ncdump$ .libs/nccopy smallfile.nc esdm://smallfile_out.esdm
+0 = 1
+0 = 1
+0 = 1
+0 = 1
+
+ESDM has not been shutdown correctly. Stacktrace:
+3: .libs/nccopy(+0x8c18) [0x5649b5b55c18]
+4: /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xe7) [0x7f7da6109b97]
+5: .libs/nccopy(+0x29ea) [0x5649b5b4f9ea]
+
+lucy@lucy:~/esiwace/esdm-netcdf/build/ncdump/_metadummy/containers$ more smallfile_out.esdm.md
+{"Variables":{"type":"o","data":null,"childs":{"_nc_dims":{"type":"q1@m","data":["lat"]},"_nc_sizes":{"type":"q1@i","da
+ta":[1]}}},"dsets":[{"name":"lat","id":"eUyIKbbzj9Y0kEpk"},
+{"name":"lon","id":"eUyIKbxOPzPXyKqL"},
+{"name":"Elevation","id":"eUyIKbrJHZSAAnbt"}]}
+
+lucy@lucy:~/esiwace/esdm-netcdf/build/ncdump/_metadummy/containers$ python -m json.tool smallfile_out.esdm.md
+{
+    "Variables": {
+        "childs": {
+            "_nc_dims": {
+                "data": [
+                    "lat"
+                ],
+                "type": "q1@m"
+            },
+            "_nc_sizes": {
+                "data": [
+                    1
+                ],
+                "type": "q1@i"
+            }
+        },
+        "data": null,
+        "type": "o"
+    },
+    "dsets": [
+        {
+            "id": "eUyIKbbzj9Y0kEpk",
+            "name": "lat"
+        },
+        {
+            "id": "eUyIKbxOPzPXyKqL",
+            "name": "lon"
+        },
+        {
+            "id": "eUyIKbrJHZSAAnbt",
+            "name": "Elevation"
+        }
+    ]
+}
+\end{verbatim}
+
+\begin{verbatim}
+lucy@lucy:~/esiwace/esdm-netcdf/build/ncdump$ .libs/nccopy bigfile.nc esdm://bigfile_out.esdm
+
+ESDM has not been shutdown correctly. Stacktrace:
+3: .libs/nccopy(+0x8c18) [0x55a117c9fc18]
+4: /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xe7) [0x7f6f430a4b97]
+5: .libs/nccopy(+0x29ea) [0x55a117c999ea]
+\end{verbatim}
+
+nccopy esdm://input\_file output\_file
+
+\begin{verbatim}
+
+
+\end{verbatim}

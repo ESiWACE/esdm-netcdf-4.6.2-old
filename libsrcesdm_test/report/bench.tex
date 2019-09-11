@@ -1,0 +1,809 @@
+\chapter{netcdf-bench}
+
+Path: esiwace/esdm-netcdf/libsrcesdm\_test/netcdf-bench
+
+\begin{verbatim}
+./prepare.sh
+
+./run-test.sh
+
+ln -s _esdm.conf esdm.conf
+
+mkfs.esdm -g --create
+
+mkfs.esdm -l --create
+\end{verbatim}
+
+\begin{verbatim}
+./benchtool -f=esdm://testfile -F=1
+
+Benchtool (datatype: int)
+DEBUG [0]          main.c:364   dgeom (100:100:100:10)
+DEBUG [0]          main.c:365   bgeom (1:100:100:10)
+DEBUG [0]          main.c:369   (nn 1, ppn 1)
+DEBUG [0]          main.c:370   test filename esdm://testfile
+Data geometry (t:x:y:z x sizeof(type))     100:100:100:10 x 4 bytes
+Block geometry (t:x:y:z x sizeof(type))      1:100:100:10 x 4 bytes
+Datasize                                             40000000 bytes                (40.0 MB)
+Blocksize                                              400000 bytes                (400.0 kB)
+I/O Access                                        independent
+Storage                                            contiguous
+File length                                             fixed
+Fill value                                                yes
+DEBUG [0]     benchmark.c:213   OPEN_BENCHMARK
+0 = 100
+1 = 100
+2 = 100
+3 = 10
+DEBUG [0]     benchmark.c:281   IO_BENCHMARK[0]
+DEBUG [0]     benchmark.c:292   RUN offset 0:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 1:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 2:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 3:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 4:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 5:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 6:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 7:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 8:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 9:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 10:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 11:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 12:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 13:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 14:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 15:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 16:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 17:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 18:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 19:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 20:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 21:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 22:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 23:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 24:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 25:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 26:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 27:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 28:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 29:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 30:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 31:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 32:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 33:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 34:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 35:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 36:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 37:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 38:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 39:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 40:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 41:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 42:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 43:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 44:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 45:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 46:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 47:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 48:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 49:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 50:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 51:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 52:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 53:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 54:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 55:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 56:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 57:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 58:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 59:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 60:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 61:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 62:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 63:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 64:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 65:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 66:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 67:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 68:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 69:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 70:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 71:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 72:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 73:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 74:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 75:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 76:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 77:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 78:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 79:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 80:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 81:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 82:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 83:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 84:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 85:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 86:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 87:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 88:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 89:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 90:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 91:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 92:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 93:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 94:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 95:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 96:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 97:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 98:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 99:0:0:0
+DEBUG [0]     benchmark.c:318   CLOSE_BENCHMARK
+DEBUG [0]        report.c:326   REPORT_START
+
+                                                                               min                  avg                  max
+benchmark:write      Open time                                        0.0018334580         0.0018334580         0.0018334580 secs
+benchmark:write      I/O time                                         0.0652808010         0.0652808010         0.0652808010 secs
+benchmark:write      Close time                                       0.0004117420         0.0004117420         0.0004117420 secs
+benchmark:write      I/O Performance (w/o open/close)               584.3520923750       584.3520923750       584.3520923750 MiB/s
+benchmark:write      I/O Performance                                564.9227274190       564.9227274190       564.9227274190 MiB/s
+DEBUG [0]        report.c:362   REPORT_END
+
+ESDM has not been shutdown correctly. Stacktrace:
+3: /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xee) [0x7f1a4b837b9e]
+4: ./benchtool(_start+0x2a) [0x55b91b68ce6a]
+\end{verbatim}
+
+\begin{verbatim}
+./benchtool -f=esdm://testfile
+
+Benchtool (datatype: int)
+DEBUG [0]          main.c:364   dgeom (100:100:100:10)
+DEBUG [0]          main.c:365   bgeom (1:100:100:10)
+DEBUG [0]          main.c:369   (nn 1, ppn 1)
+DEBUG [0]          main.c:370   test filename esdm://testfile
+Data geometry (t:x:y:z x sizeof(type))     100:100:100:10 x 4 bytes
+Block geometry (t:x:y:z x sizeof(type))      1:100:100:10 x 4 bytes
+Datasize                                             40000000 bytes                (40.0 MB)
+Blocksize                                              400000 bytes                (400.0 kB)
+I/O Access                                        independent
+Storage                                            contiguous
+File length                                             fixed
+File value                                                 no
+DEBUG [0]     benchmark.c:213   OPEN_BENCHMARK
+0 = 100
+1 = 100
+2 = 100
+3 = 10
+DEBUG [0]     benchmark.c:281   IO_BENCHMARK[0]
+DEBUG [0]     benchmark.c:292   RUN offset 0:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 1:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 2:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 3:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 4:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 5:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 6:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 7:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 8:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 9:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 10:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 11:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 12:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 13:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 14:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 15:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 16:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 17:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 18:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 19:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 20:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 21:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 22:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 23:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 24:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 25:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 26:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 27:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 28:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 29:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 30:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 31:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 32:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 33:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 34:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 35:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 36:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 37:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 38:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 39:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 40:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 41:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 42:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 43:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 44:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 45:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 46:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 47:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 48:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 49:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 50:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 51:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 52:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 53:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 54:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 55:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 56:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 57:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 58:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 59:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 60:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 61:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 62:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 63:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 64:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 65:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 66:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 67:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 68:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 69:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 70:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 71:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 72:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 73:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 74:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 75:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 76:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 77:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 78:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 79:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 80:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 81:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 82:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 83:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 84:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 85:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 86:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 87:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 88:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 89:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 90:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 91:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 92:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 93:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 94:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 95:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 96:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 97:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 98:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 99:0:0:0
+DEBUG [0]     benchmark.c:318   CLOSE_BENCHMARK
+DEBUG [0]        report.c:326   REPORT_START
+                                                                               min                  avg                  max
+benchmark:write      Open time                                        0.0017575690         0.0017575690         0.0017575690 secs
+benchmark:write      I/O time                                         0.0612307650         0.0612307650         0.0612307650 secs
+benchmark:write      Close time                                       0.0006145310         0.0006145310         0.0006145310 secs
+benchmark:write      I/O Performance (w/o open/close)               623.0033653140       623.0033653140       623.0033653140 MiB/s
+benchmark:write      I/O Performance                                599.7681496880       599.7681496880       599.7681496880 MiB/s
+DEBUG [0]        report.c:362   REPORT_END
+
+ESDM has not been shutdown correctly. Stacktrace:
+3: /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xee) [0x7f29b95bab9e]
+4: ./benchtool(_start+0x2a) [0x556502704e6a]
+\end{verbatim}
+
+\begin{verbatim}
+./benchtool -f=esdm://longtest -w -r
+
+Benchtool (datatype: int)
+DEBUG [0]          main.c:364   dgeom (100:100:100:10)
+DEBUG [0]          main.c:365   bgeom (1:100:100:10)
+DEBUG [0]          main.c:369   (nn 1, ppn 1)
+DEBUG [0]          main.c:370   test filename esdm://longtest
+Data geometry (t:x:y:z x sizeof(type))     100:100:100:10 x 4 bytes
+Block geometry (t:x:y:z x sizeof(type))      1:100:100:10 x 4 bytes
+Datasize                                             40000000 bytes                (40.0 MB)
+Blocksize                                              400000 bytes                (400.0 kB)
+I/O Access                                        independent
+Storage                                            contiguous
+File length                                             fixed
+File value                                                 no
+DEBUG [0]     benchmark.c:213   OPEN_BENCHMARK
+0 = 100
+1 = 100
+2 = 100
+3 = 10
+DEBUG [0]     benchmark.c:281   IO_BENCHMARK[0]
+DEBUG [0]     benchmark.c:292   RUN offset 0:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 1:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 2:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 3:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 4:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 5:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 6:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 7:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 8:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 9:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 10:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 11:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 12:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 13:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 14:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 15:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 16:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 17:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 18:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 19:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 20:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 21:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 22:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 23:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 24:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 25:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 26:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 27:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 28:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 29:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 30:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 31:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 32:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 33:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 34:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 35:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 36:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 37:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 38:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 39:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 40:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 41:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 42:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 43:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 44:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 45:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 46:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 47:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 48:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 49:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 50:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 51:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 52:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 53:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 54:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 55:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 56:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 57:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 58:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 59:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 60:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 61:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 62:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 63:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 64:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 65:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 66:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 67:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 68:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 69:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 70:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 71:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 72:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 73:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 74:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 75:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 76:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 77:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 78:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 79:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 80:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 81:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 82:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 83:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 84:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 85:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 86:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 87:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 88:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 89:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 90:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 91:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 92:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 93:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 94:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 95:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 96:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 97:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 98:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 99:0:0:0
+DEBUG [0]     benchmark.c:318   CLOSE_BENCHMARK
+DEBUG [0]        report.c:326   REPORT_START
+                                                                               min                  avg                  max
+benchmark:write      Open time                                        0.0021035570         0.0021035570         0.0021035570 secs
+benchmark:write      I/O time                                         0.0550000690         0.0550000690         0.0550000690 secs
+benchmark:write      Close time                                       0.0005124810         0.0005124810         0.0005124810 secs
+benchmark:write      I/O Performance (w/o open/close)               693.5804508943       693.5804508943       693.5804508943 MiB/s
+benchmark:write      I/O Performance                                662.0886873884       662.0886873884       662.0886873884 MiB/s
+DEBUG [0]        report.c:362   REPORT_END
+DEBUG [0]     benchmark.c:213   OPEN_BENCHMARK
+DEBUG [0]     benchmark.c:281   IO_BENCHMARK[0]
+DEBUG [0]     benchmark.c:292   RUN offset 0:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 1:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 2:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 3:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 4:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 5:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 6:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 7:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 8:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 9:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 10:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 11:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 12:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 13:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 14:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 15:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 16:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 17:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 18:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 19:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 20:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 21:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 22:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 23:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 24:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 25:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 26:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 27:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 28:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 29:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 30:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 31:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 32:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 33:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 34:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 35:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 36:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 37:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 38:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 39:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 40:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 41:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 42:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 43:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 44:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 45:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 46:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 47:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 48:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 49:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 50:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 51:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 52:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 53:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 54:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 55:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 56:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 57:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 58:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 59:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 60:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 61:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 62:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 63:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 64:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 65:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 66:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 67:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 68:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 69:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 70:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 71:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 72:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 73:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 74:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 75:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 76:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 77:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 78:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 79:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 80:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 81:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 82:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 83:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 84:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 85:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 86:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 87:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 88:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 89:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 90:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 91:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 92:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 93:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 94:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 95:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 96:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 97:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 98:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 99:0:0:0
+DEBUG [0]     benchmark.c:318   CLOSE_BENCHMARK
+DEBUG [0]        report.c:326   REPORT_START
+                                                                               min                  avg                  max
+benchmark:read       Open time                                        0.0010185700         0.0010185700         0.0010185700 secs
+benchmark:read       I/O time                                         0.0209648240         0.0209648240         0.0209648240 secs
+benchmark:read       Close time                                       0.0003341830         0.0003341830         0.0003341830 secs
+benchmark:read       I/O Performance (w/o open/close)              1819.5703744858      1819.5703744858      1819.5703744858 MiB/s
+benchmark:read       I/O Performance                               1709.2793117792      1709.2793117792      1709.2793117792 MiB/s
+DEBUG [0]        report.c:362   REPORT_END
+
+ESDM has not been shutdown correctly. Stacktrace:
+3: /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xee) [0x7f71e0849b9e]
+4: ./benchtool(_start+0x2a) [0x5611f27a1e6a]
+\end{verbatim}
+
+\begin{verbatim}
+./run-test.sh
+
+#!/bin/bash
+
+./benchtool -f=esdm://longtest -w -r
+
+mpiexec -np 2 ./src/benchtool -f="esdm://test.esdm" -n=1 -p=2
+
+echo "Cleanup"
+rm -rf _metadummy _esdm
+
+echo "[OK]"
+
+Benchtool (datatype: int)
+DEBUG [0]          main.c:364   dgeom (100:100:100:10)
+DEBUG [0]          main.c:365   bgeom (1:100:100:10)
+DEBUG [0]          main.c:369   (nn 1, ppn 1)
+DEBUG [0]          main.c:370   test filename esdm://longtest
+Data geometry (t:x:y:z x sizeof(type))     100:100:100:10 x 4 bytes
+Block geometry (t:x:y:z x sizeof(type))      1:100:100:10 x 4 bytes
+Datasize                                             40000000 bytes                (40.0 MB)
+Blocksize                                              400000 bytes                (400.0 kB)
+I/O Access                                        independent
+Storage                                            contiguous
+File length                                             fixed
+File value                                                 no
+DEBUG [0]     benchmark.c:213   OPEN_BENCHMARK
+0 = 100
+1 = 100
+2 = 100
+3 = 10
+DEBUG [0]     benchmark.c:281   IO_BENCHMARK[0]
+DEBUG [0]     benchmark.c:292   RUN offset 0:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 1:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 2:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 3:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 4:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 5:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 6:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 7:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 8:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 9:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 10:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 11:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 12:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 13:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 14:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 15:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 16:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 17:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 18:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 19:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 20:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 21:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 22:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 23:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 24:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 25:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 26:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 27:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 28:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 29:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 30:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 31:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 32:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 33:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 34:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 35:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 36:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 37:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 38:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 39:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 40:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 41:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 42:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 43:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 44:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 45:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 46:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 47:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 48:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 49:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 50:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 51:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 52:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 53:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 54:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 55:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 56:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 57:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 58:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 59:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 60:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 61:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 62:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 63:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 64:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 65:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 66:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 67:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 68:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 69:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 70:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 71:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 72:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 73:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 74:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 75:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 76:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 77:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 78:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 79:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 80:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 81:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 82:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 83:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 84:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 85:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 86:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 87:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 88:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 89:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 90:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 91:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 92:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 93:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 94:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 95:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 96:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 97:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 98:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 99:0:0:0
+DEBUG [0]     benchmark.c:318   CLOSE_BENCHMARK
+DEBUG [0]        report.c:326   REPORT_START
+                                                                               min                  avg                  max
+benchmark:write      Open time                                        0.0020030390         0.0020030390         0.0020030390 secs
+benchmark:write      I/O time                                         0.0648872400         0.0648872400         0.0648872400 secs
+benchmark:write      Close time                                       0.0003753280         0.0003753280         0.0003753280 secs
+benchmark:write      I/O Performance (w/o open/close)               587.8963669180       587.8963669180       587.8963669180 MiB/s
+benchmark:write      I/O Performance                                567.1096174930       567.1096174930       567.1096174930 MiB/s
+DEBUG [0]        report.c:362   REPORT_END
+DEBUG [0]     benchmark.c:213   OPEN_BENCHMARK
+DEBUG [0]     benchmark.c:281   IO_BENCHMARK[0]
+DEBUG [0]     benchmark.c:292   RUN offset 0:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 1:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 2:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 3:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 4:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 5:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 6:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 7:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 8:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 9:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 10:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 11:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 12:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 13:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 14:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 15:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 16:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 17:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 18:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 19:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 20:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 21:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 22:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 23:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 24:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 25:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 26:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 27:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 28:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 29:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 30:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 31:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 32:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 33:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 34:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 35:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 36:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 37:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 38:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 39:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 40:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 41:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 42:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 43:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 44:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 45:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 46:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 47:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 48:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 49:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 50:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 51:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 52:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 53:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 54:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 55:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 56:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 57:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 58:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 59:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 60:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 61:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 62:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 63:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 64:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 65:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 66:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 67:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 68:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 69:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 70:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 71:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 72:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 73:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 74:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 75:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 76:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 77:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 78:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 79:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 80:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 81:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 82:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 83:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 84:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 85:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 86:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 87:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 88:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 89:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 90:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 91:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 92:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 93:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 94:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 95:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 96:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 97:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 98:0:0:0
+DEBUG [0]     benchmark.c:292   RUN offset 99:0:0:0
+DEBUG [0]     benchmark.c:318   CLOSE_BENCHMARK
+DEBUG [0]        report.c:326   REPORT_START
+                                                                               min                  avg                  max
+benchmark:read       Open time                                        0.0008915110         0.0008915110         0.0008915110 secs
+benchmark:read       I/O time                                         0.0168951110         0.0168951110         0.0168951110 secs
+benchmark:read       Close time                                       0.0004516290         0.0004516290         0.0004516290 secs
+benchmark:read       I/O Performance (w/o open/close)              2257.8704962897      2257.8704962897      2257.8704962897 MiB/s
+benchmark:read       I/O Performance                               2091.5916039082      2091.5916039082      2091.5916039082 MiB/s
+DEBUG [0]        report.c:362   REPORT_END
+
+ESDM has not been shutdown correctly. Stacktrace:
+3: /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xee) [0x7f8f101e3b9e]
+4: ./benchtool(_start+0x2a) [0x56250989ee6a]
+--------------------------------------------------------------------------
+mpiexec was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ./src/benchtool
+Node: lucy
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+2 total processes failed to start
+Cleanup
+[OK]
+\end{verbatim}

@@ -1,0 +1,1068 @@
+\chapter{Python tests}
+
+Path: esiwace/esdm-netcdf/dev/netcdf4-python/test
+
+\section{Test tst\_atts.py}
+
+\begin{verbatim}
+======================================================================
+ERROR: runTest (__main__.VariablesTestCase)
+testing attributes
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_atts.py", line 73, in setUp
+    v._FillValue(-999.)
+TypeError: 'numpy.float64' object is not callable
+
+----------------------------------------------------------------------
+\end{verbatim}
+
+\section{Test tst\_cdf5.py}
+
+\begin{verbatim}
+======================================================================
+ERROR: runTest (__main__.test_cdf5)
+testing NETCDF3_64BIT_DATA format (CDF-5)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_cdf5.py", line 27, in tearDown
+    os.remove(self.netcdf_file)
+FileNotFoundError: [Errno 2] No such file or directory: 'esdm://testfile19663'
+
+----------------------------------------------------------------------
+\end{verbatim}
+
+\section{Test tst\_compound\_alignment.py}
+
+\begin{verbatim}
+[ESDM NC] WARN ESDM_def_compound():2220. ESDM does not support user-defined datatypes from NetCDF!
+
+Thread 1 "python3" received signal SIGSEGV, Segmentation fault.
+0x00007ffff59f3211 in set_default_fill_mode (dset=0xfa5260) at ../../libsrcesdm/esdm_dispatch.c:318
+318	  switch (type->type) {
+\end{verbatim}
+
+\section{Test tst\_compoundatt.py}
+
+\begin{verbatim}
+[ESDM NC] WARN ESDM_def_grp():2167. ESDM does not support groups from NetCDF!
+
+Thread 1 "python3" received signal SIGSEGV, Segmentation fault.
+0x00007ffff4a18211 in set_default_fill_mode (dset=0x1043fd0) at ../../libsrcesdm/esdm_dispatch.c:318
+318	  switch (type->type) {
+\end{verbatim}
+
+\section{Test tst\_compoundvar.py}
+
+\begin{verbatim}
+[ESDM NC] WARN ESDM_def_grp():2167. ESDM does not support groups from NetCDF!
+
+======================================================================
+ERROR: runTest (__main__.VariablesTestCase)
+testing compound variables
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_compoundvar.py", line 60, in setUp
+    g = f.groups[GROUP_NAME]
+KeyError: 'phony_group'
+
+----------------------------------------------------------------------
+\end{verbatim}
+
+\section{Test tst\_compression.py}
+
+\begin{verbatim}
+======================================================================
+ERROR: runTest (__main__.CompressionTestCase)
+testing zlib and shuffle compression filters
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_compression.py", line 48, in setUp
+    write_netcdf(self.files[0],False,None,array)
+  File "tst_compression.py", line 25, in write_netcdf
+    file = Dataset(filename)
+  File "netCDF4/_netCDF4.pyx", line 2326, in netCDF4._netCDF4.Dataset.__init__
+  File "netCDF4/_netCDF4.pyx", line 1890, in netCDF4._netCDF4._ensure_nc_success
+OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
+
+----------------------------------------------------------------------
+\end{verbatim}
+
+\section{Test tst\_create\_mem.py}
+
+\begin{verbatim}
+OK
+\end{verbatim}
+
+\section{Test tst\_dap.py}
+
+\begin{verbatim}
+======================================================================
+ERROR: runTest (__main__.DapTestCase)
+testing access of data over http using opendap
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_dap.py", line 23, in runTest
+    ncfile = netCDF4.Dataset(URL)
+  File "netCDF4/_netCDF4.pyx", line 2326, in netCDF4._netCDF4.Dataset.__init__
+  File "netCDF4/_netCDF4.pyx", line 1890, in netCDF4._netCDF4._ensure_nc_success
+OSError: [Errno -51] NetCDF: Unknown file format: b'http://remotetest.unidata.ucar.edu/thredds/dodsC/testdods/testData.nc'
+
+----------------------------------------------------------------------
+\end{verbatim}
+
+\section{Test tst\_dims.py}
+
+\begin{verbatim}
+======================================================================
+ERROR: runTest (__main__.DimensionsTestCase)
+testing dimensions
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_dims.py", line 38, in setUp
+    g.createDimension(LAT_NAME,LAT_LENG)
+  File "netCDF4/_netCDF4.pyx", line 2567, in netCDF4._netCDF4.Dataset.createDimension
+  File "netCDF4/_netCDF4.pyx", line 3373, in netCDF4._netCDF4.Dimension.__init__
+  File "netCDF4/_netCDF4.pyx", line 1892, in netCDF4._netCDF4._ensure_nc_success
+RuntimeError: NetCDF: Not a valid ID
+
+----------------------------------------------------------------------
+\end{verbatim}
+
+\section{Test tst\_diskless.py}
+
+\begin{verbatim}
+======================================================================
+FAIL: runTest (__main__.DisklessTestCase)
+testing diskless file capability
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_diskless.py", line 71, in runTest
+    assert(os.path.isfile(self.file2)==True)
+AssertionError
+
+----------------------------------------------------------------------
+\end{verbatim}
+
+\section{Test tst\_endian.py}
+
+\begin{verbatim}
+======================================================================
+ERROR: runTest (__main__.EndianTestCase)
+testing endian conversion capability
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_endian.py", line 160, in runTest
+    check_data(self.file, data)
+  File "tst_endian.py", line 54, in check_data
+    f = netCDF4.Dataset(file)
+  File "netCDF4/_netCDF4.pyx", line 2326, in netCDF4._netCDF4.Dataset.__init__
+  File "netCDF4/_netCDF4.pyx", line 1890, in netCDF4._netCDF4._ensure_nc_success
+OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
+
+----------------------------------------------------------------------
+\end{verbatim}
+
+\section{Test tst\_enum.py}
+
+\begin{verbatim}
+[ESDM NC] WARN ESDM_def_enum():2316. ESDM does not support user-defined datatypes from NetCDF!
+
+Thread 1 "python3" received signal SIGSEGV, Segmentation fault.
+0x00007ffff4a18211 in set_default_fill_mode (dset=0x1040a10) at ../../libsrcesdm/esdm_dispatch.c:318
+318	  switch (type->type) {
+\end{verbatim}
+
+\section{Test tst\_fancyslicing.py}
+
+\begin{verbatim}
+======================================================================
+ERROR: test2unlim (__main__.VariablesTestCase)
+Test with a variable that has two unlimited dimensions.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_fancyslicing.py", line 162, in test2unlim
+    f  = Dataset(self.file, 'a')
+  File "netCDF4/_netCDF4.pyx", line 2326, in netCDF4._netCDF4.Dataset.__init__
+  File "netCDF4/_netCDF4.pyx", line 1890, in netCDF4._netCDF4._ensure_nc_success
+OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
+
+======================================================================
+ERROR: test_get (__main__.VariablesTestCase)
+testing 'fancy indexing'
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_fancyslicing.py", line 81, in test_get
+    f  = Dataset(self.file, 'r')
+  File "netCDF4/_netCDF4.pyx", line 2326, in netCDF4._netCDF4.Dataset.__init__
+  File "netCDF4/_netCDF4.pyx", line 1890, in netCDF4._netCDF4._ensure_nc_success
+OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
+
+======================================================================
+ERROR: test_set (__main__.VariablesTestCase)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_fancyslicing.py", line 148, in test_set
+    f  = Dataset(self.file, 'a')
+  File "netCDF4/_netCDF4.pyx", line 2326, in netCDF4._netCDF4.Dataset.__init__
+  File "netCDF4/_netCDF4.pyx", line 1890, in netCDF4._netCDF4._ensure_nc_success
+OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
+
+----------------------------------------------------------------------
+\end{verbatim}
+
+\section{Test tst\_filepath.py}
+
+\begin{verbatim}
+======================================================================
+ERROR: test2unlim (__main__.VariablesTestCase)
+Test with a variable that has two unlimited dimensions.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_fancyslicing.py", line 162, in test2unlim
+    f  = Dataset(self.file, 'a')
+  File "netCDF4/_netCDF4.pyx", line 2326, in netCDF4._netCDF4.Dataset.__init__
+  File "netCDF4/_netCDF4.pyx", line 1890, in netCDF4._netCDF4._ensure_nc_success
+OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
+
+======================================================================
+ERROR: test_get (__main__.VariablesTestCase)
+testing 'fancy indexing'
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_fancyslicing.py", line 81, in test_get
+    f  = Dataset(self.file, 'r')
+  File "netCDF4/_netCDF4.pyx", line 2326, in netCDF4._netCDF4.Dataset.__init__
+  File "netCDF4/_netCDF4.pyx", line 1890, in netCDF4._netCDF4._ensure_nc_success
+OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
+
+======================================================================
+ERROR: test_set (__main__.VariablesTestCase)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_fancyslicing.py", line 148, in test_set
+    f  = Dataset(self.file, 'a')
+  File "netCDF4/_netCDF4.pyx", line 2326, in netCDF4._netCDF4.Dataset.__init__
+  File "netCDF4/_netCDF4.pyx", line 1890, in netCDF4._netCDF4._ensure_nc_success
+OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.030s
+
+FAILED (errors=3)
+
+ESDM has not been shutdown correctly. Stacktrace:
+3: python3() [0x637cb7]
+4: python3() [0x637d80]
+5: python3(PyErr_PrintEx+0x1c) [0x637dac]
+6: python3(PyRun_SimpleFileExFlags+0x1a3) [0x638273]
+7: python3(Py_Main+0x591) [0x638df1]
+8: python3(main+0xe0) [0x4b0de0]
+9: /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xe7) [0x7f20fd165b97]
+10: python3(_start+0x2a) [0x5b1d5a]
+lucy@lucy:~/esiwace/esdm-netcdf/dev/netcdf4-python/test$ python3 tst_filepath.py
+EEtst_filepath.py:29: DeprecationWarning: Please use assertRaisesRegex instead.
+  with self.assertRaisesRegexp(IOError, fname):
+.
+======================================================================
+ERROR: test_filepath (__main__.test_filepath)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_filepath.py", line 14, in test_filepath
+    assert self.nc.filepath() == str(self.netcdf_file)
+  File "netCDF4/_netCDF4.pyx", line 2418, in netCDF4._netCDF4.Dataset.filepath
+ValueError:
+filepath method not enabled.  To enable, install Cython, make sure you have
+version 4.1.2 or higher of the netcdf C lib, and rebuild netcdf4-python.
+
+======================================================================
+ERROR: test_filepath_with_non_ascii_characters (__main__.test_filepath)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_filepath.py", line 21, in test_filepath_with_non_ascii_characters
+    filepatho = nc.filepath(encoding='cp1252')
+  File "netCDF4/_netCDF4.pyx", line 2418, in netCDF4._netCDF4.Dataset.filepath
+ValueError:
+filepath method not enabled.  To enable, install Cython, make sure you have
+version 4.1.2 or higher of the netcdf C lib, and rebuild netcdf4-python.
+
+----------------------------------------------------------------------
+\end{verbatim}
+
+\section{Test tst\_get\_variables\_by\_attributes.py}
+
+\begin{verbatim}
+OK
+\end{verbatim}
+
+\section{Test tst\_grps.py}
+
+\begin{verbatim}
+[ESDM NC] WARN ESDM_def_grp():2167. ESDM does not support groups from NetCDF!
+
+======================================================================
+ERROR: runTest (__main__.GroupsTestCase)
+testing groups
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_grps.py", line 46, in setUp
+    g2 = g1.createGroup(MARGARET)
+  File "netCDF4/_netCDF4.pyx", line 2826, in netCDF4._netCDF4.Dataset.createGroup
+  File "netCDF4/_netCDF4.pyx", line 3266, in netCDF4._netCDF4.Group.__init__
+  File "netCDF4/_netCDF4.pyx", line 1892, in netCDF4._netCDF4._ensure_nc_success
+RuntimeError: NetCDF: Not a valid ID
+
+----------------------------------------------------------------------
+\end{verbatim}
+
+\section{Test tst\_grps2.py}
+
+\begin{verbatim}
+[ESDM NC] WARN ESDM_def_grp():2167. ESDM does not support groups from NetCDF!
+
+======================================================================
+ERROR: runTest (__main__.Groups2TestCase)
+testing implicit group and creation and Dataset.__getitem__
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_grps2.py", line 21, in setUp
+    v = f.createVariable('/grouped/data/v',float,('x',))
+  File "netCDF4/_netCDF4.pyx", line 2771, in netCDF4._netCDF4.Dataset.createVariable
+  File "netCDF4/_netCDF4.pyx", line 2826, in netCDF4._netCDF4.Dataset.createGroup
+  File "netCDF4/_netCDF4.pyx", line 3266, in netCDF4._netCDF4.Group.__init__
+  File "netCDF4/_netCDF4.pyx", line 1892, in netCDF4._netCDF4._ensure_nc_success
+RuntimeError: NetCDF: Not a valid ID
+
+----------------------------------------------------------------------
+\end{verbatim}
+
+\section{Test tst\_issue908.py}
+
+\begin{verbatim}
+OK
+\end{verbatim}
+
+\section{Test tst\_masked.py}
+
+\begin{verbatim}
+======================================================================
+ERROR: runTest (__main__.PrimitiveTypesTestCase)
+testing auto-conversion of masked arrays and packed integers
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_masked.py", line 80, in runTest
+    file = netCDF4.Dataset(self.file)
+  File "netCDF4/_netCDF4.pyx", line 2326, in netCDF4._netCDF4.Dataset.__init__
+  File "netCDF4/_netCDF4.pyx", line 1890, in netCDF4._netCDF4._ensure_nc_success
+OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
+
+----------------------------------------------------------------------
+\end{verbatim}
+
+\section{Test tst\_masked2.py}
+
+\begin{verbatim}
+======================================================================
+ERROR: runTest (__main__.PrimitiveTypesTestCase)
+testing auto-conversion of masked arrays and packed integers
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_masked2.py", line 47, in setUp
+    f = Dataset(FILE_NAME1,'r')
+  File "netCDF4/_netCDF4.pyx", line 2326, in netCDF4._netCDF4.Dataset.__init__
+  File "netCDF4/_netCDF4.pyx", line 1890, in netCDF4._netCDF4._ensure_nc_success
+OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
+
+----------------------------------------------------------------------
+\end{verbatim}
+
+\section{Test tst\_masked3.py}
+
+\begin{verbatim}
+======================================================================
+ERROR: test_unscaled (__main__.SetAutoMaskTrue)
+Testing auto-conversion of masked arrays for set_auto_mask(True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_masked3.py", line 46, in tearDown
+    os.remove(self.testfile)
+FileNotFoundError: [Errno 2] No such file or directory: 'esdm://testfile19663'
+
+----------------------------------------------------------------------
+\end{verbatim}
+
+\section{Test tst\_masked4.py}
+
+\begin{verbatim}
+======================================================================
+ERROR: test_scaled (__main__.SetValidMinMax)
+Testing auto-conversion of masked arrays
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_masked4.py", line 67, in tearDown
+    os.remove(self.testfile)
+FileNotFoundError: [Errno 2] No such file or directory: 'esdm://testfile19663'
+
+----------------------------------------------------------------------
+\end{verbatim}
+
+\section{Test tst\_masked5.py}
+
+\begin{verbatim}
+E
+======================================================================
+ERROR: test_scaled (__main__.VectorMissingValues)
+Testing auto-conversion of masked arrays
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_masked5.py", line 27, in setUp
+    v2 = f.createVariable('v2',str,'x',fill_value=u'<missing>')
+  File "netCDF4/_netCDF4.pyx", line 2773, in netCDF4._netCDF4.Dataset.createVariable
+  File "netCDF4/_netCDF4.pyx", line 3742, in netCDF4._netCDF4.Variable.__init__
+ValueError: Variable length strings are only supported for the NETCDF4 format. For other formats, consider using netCDF4.stringtochar to convert string arrays into character arrays with an additional dimension.
+
+----------------------------------------------------------------------
+\end{verbatim}
+
+\section{Test tst\_masked6.py}
+
+\begin{verbatim}
+======================================================================
+ERROR: runTest (__main__.GlobalSetAlwaysMaskTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_masked6.py", line 96, in setUp
+    grp1.createVariable('var1', 'f8', ())
+  File "netCDF4/_netCDF4.pyx", line 2773, in netCDF4._netCDF4.Dataset.createVariable
+  File "netCDF4/_netCDF4.pyx", line 3810, in netCDF4._netCDF4.Variable.__init__
+  File "netCDF4/_netCDF4.pyx", line 1892, in netCDF4._netCDF4._ensure_nc_success
+RuntimeError: NetCDF: Not a valid ID
+
+======================================================================
+ERROR: test_always_mask (__main__.SetAlwaysMaskTrue)
+Testing auto-conversion of masked arrays with no missing values to regular arrays.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_masked6.py", line 43, in test_always_mask
+    f = Dataset(self.testfile)
+  File "netCDF4/_netCDF4.pyx", line 2326, in netCDF4._netCDF4.Dataset.__init__
+  File "netCDF4/_netCDF4.pyx", line 1890, in netCDF4._netCDF4._ensure_nc_success
+OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
+
+======================================================================
+ERROR: test_always_mask (__main__.SetAlwaysMaskTrue)
+Testing auto-conversion of masked arrays with no missing values to regular arrays.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_masked6.py", line 35, in tearDown
+    os.remove(self.testfile)
+FileNotFoundError: [Errno 2] No such file or directory: 'esdm://testfile19663'
+
+======================================================================
+ERROR: test_always_mask (__main__.SetAlwyasMaskFalse)
+Testing auto-conversion of masked arrays with no missing values to regular arrays.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_masked6.py", line 66, in test_always_mask
+    f = Dataset(self.testfile)
+  File "netCDF4/_netCDF4.pyx", line 2326, in netCDF4._netCDF4.Dataset.__init__
+  File "netCDF4/_netCDF4.pyx", line 1890, in netCDF4._netCDF4._ensure_nc_success
+OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
+
+======================================================================
+ERROR: test_always_mask (__main__.SetAlwyasMaskFalse)
+Testing auto-conversion of masked arrays with no missing values to regular arrays.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_masked6.py", line 35, in tearDown
+    os.remove(self.testfile)
+FileNotFoundError: [Errno 2] No such file or directory: 'esdm://testfile19663'
+
+----------------------------------------------------------------------
+\end{verbatim}
+
+\section{Test tst\_multifile.py}
+
+\begin{verbatim}
+======================================================================
+ERROR: runTest (__main__.NonuniformTimeTestCase)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_multifile.py", line 127, in runTest
+    f = Dataset(file)
+  File "netCDF4/_netCDF4.pyx", line 2326, in netCDF4._netCDF4.Dataset.__init__
+  File "netCDF4/_netCDF4.pyx", line 1890, in netCDF4._netCDF4._ensure_nc_success
+OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
+
+======================================================================
+ERROR: runTest (__main__.NonuniformTimeTestCase)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_multifile.py", line 114, in tearDown
+    os.remove(file)
+FileNotFoundError: [Errno 2] No such file or directory: 'esdm://testfile19663'
+
+======================================================================
+ERROR: runTest (__main__.VariablesTestCase)
+testing multi-file dataset access
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_multifile.py", line 48, in runTest
+    f = MFDataset(self.files,check=True)
+  File "netCDF4/_netCDF4.pyx", line 6225, in netCDF4._netCDF4.MFDataset.__init__
+  File "netCDF4/_netCDF4.pyx", line 2326, in netCDF4._netCDF4.Dataset.__init__
+  File "netCDF4/_netCDF4.pyx", line 1890, in netCDF4._netCDF4._ensure_nc_success
+OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
+
+======================================================================
+ERROR: runTest (__main__.VariablesTestCase)
+testing multi-file dataset access
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_multifile.py", line 44, in tearDown
+    os.remove(file)
+FileNotFoundError: [Errno 2] No such file or directory: 'esdm://testfile19663'
+
+----------------------------------------------------------------------
+\end{verbatim}
+
+\section{Test tst\_multifile2.py}
+
+\begin{verbatim}
+======================================================================
+ERROR: runTest (__main__.NonuniformTimeTestCase)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_multifile2.py", line 112, in runTest
+    f = Dataset(file)
+  File "netCDF4/_netCDF4.pyx", line 2326, in netCDF4._netCDF4.Dataset.__init__
+  File "netCDF4/_netCDF4.pyx", line 1890, in netCDF4._netCDF4._ensure_nc_success
+OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
+
+======================================================================
+ERROR: runTest (__main__.NonuniformTimeTestCase)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_multifile2.py", line 102, in tearDown
+    os.remove(file)
+FileNotFoundError: [Errno 2] No such file or directory: 'esdm://testfile19663'
+
+======================================================================
+ERROR: runTest (__main__.VariablesTestCase)
+testing multi-file dataset access
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_multifile2.py", line 50, in runTest
+    f = MFDataset(self.files,aggdim='x',check=True)
+  File "netCDF4/_netCDF4.pyx", line 6225, in netCDF4._netCDF4.MFDataset.__init__
+  File "netCDF4/_netCDF4.pyx", line 2326, in netCDF4._netCDF4.Dataset.__init__
+  File "netCDF4/_netCDF4.pyx", line 1890, in netCDF4._netCDF4._ensure_nc_success
+OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
+
+======================================================================
+ERROR: runTest (__main__.VariablesTestCase)
+testing multi-file dataset access
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_multifile2.py", line 45, in tearDown
+    os.remove(file)
+FileNotFoundError: [Errno 2] No such file or directory: 'esdm://testfile19663'
+
+----------------------------------------------------------------------
+\end{verbatim}
+
+\section{Test tst\_netcdftime.py}
+
+\begin{verbatim}
+======================================================================
+ERROR: test_issue444 (__main__.TestDate2index)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_netcdftime.py", line 699, in test_issue444
+    f = Dataset(self.file, 'r')
+  File "netCDF4/_netCDF4.pyx", line 2326, in netCDF4._netCDF4.Dataset.__init__
+  File "netCDF4/_netCDF4.pyx", line 1890, in netCDF4._netCDF4._ensure_nc_success
+OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
+
+======================================================================
+ERROR: test_select_nc (__main__.TestDate2index)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_netcdftime.py", line 637, in test_select_nc
+    f = Dataset(self.file, 'r')
+  File "netCDF4/_netCDF4.pyx", line 2326, in netCDF4._netCDF4.Dataset.__init__
+  File "netCDF4/_netCDF4.pyx", line 1890, in netCDF4._netCDF4._ensure_nc_success
+OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
+
+======================================================================
+ERROR: test_singletime (__main__.TestDate2index)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_netcdftime.py", line 584, in test_singletime
+    f = Dataset(self.file)
+  File "netCDF4/_netCDF4.pyx", line 2326, in netCDF4._netCDF4.Dataset.__init__
+  File "netCDF4/_netCDF4.pyx", line 1890, in netCDF4._netCDF4._ensure_nc_success
+OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
+
+----------------------------------------------------------------------
+\end{verbatim}
+
+\section{Test tst\_open\_mem.py}
+
+\begin{verbatim}
+======================================================================
+ERROR: test_mem_open (__main__.TestOpenMem)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_open_mem.py", line 27, in test_mem_open
+    print(nc.filepath())
+  File "netCDF4/_netCDF4.pyx", line 2418, in netCDF4._netCDF4.Dataset.filepath
+ValueError:
+filepath method not enabled.  To enable, install Cython, make sure you have
+version 4.1.2 or higher of the netcdf C lib, and rebuild netcdf4-python.
+
+----------------------------------------------------------------------
+\end{verbatim}
+
+\section{Test tst\_refcount.py}
+
+\begin{verbatim}
+OK
+\end{verbatim}
+
+\section{Test tst\_rename.py}
+
+\begin{verbatim}
+======================================================================
+ERROR: runTest (__main__.VariablesTestCase)
+testing renaming of dimensions, variables and attribute deletion
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_rename.py", line 36, in setUp
+    g.createDimension(LAT_NAME,145)
+  File "netCDF4/_netCDF4.pyx", line 2567, in netCDF4._netCDF4.Dataset.createDimension
+  File "netCDF4/_netCDF4.pyx", line 3373, in netCDF4._netCDF4.Dimension.__init__
+  File "netCDF4/_netCDF4.pyx", line 1892, in netCDF4._netCDF4._ensure_nc_success
+RuntimeError: NetCDF: Not a valid ID
+
+----------------------------------------------------------------------
+\end{verbatim}
+
+\section{Test tst\_scalarvar.py}
+
+\begin{verbatim}
+======================================================================
+ERROR: runTest (__main__.ScalarVariableTestCase)
+testing scalar variables
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_scalarvar.py", line 28, in setUp
+    tempg = subgroup.createVariable(VAR_NAME,VAR_TYPE)
+  File "netCDF4/_netCDF4.pyx", line 2773, in netCDF4._netCDF4.Dataset.createVariable
+  File "netCDF4/_netCDF4.pyx", line 3810, in netCDF4._netCDF4.Variable.__init__
+  File "netCDF4/_netCDF4.pyx", line 1892, in netCDF4._netCDF4._ensure_nc_success
+RuntimeError: NetCDF: Not a valid ID
+
+----------------------------------------------------------------------
+\end{verbatim}
+
+\section{Test tst\_scaled.py}
+
+\begin{verbatim}
+======================================================================
+ERROR: runTest (__main__.GlobalSetAutoScaleTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_scaled.py", line 207, in setUp
+    grp1.createVariable('var1', 'f8', ())
+  File "netCDF4/_netCDF4.pyx", line 2773, in netCDF4._netCDF4.Dataset.createVariable
+  File "netCDF4/_netCDF4.pyx", line 3810, in netCDF4._netCDF4.Variable.__init__
+  File "netCDF4/_netCDF4.pyx", line 1892, in netCDF4._netCDF4._ensure_nc_success
+RuntimeError: NetCDF: Not a valid ID
+
+======================================================================
+ERROR: test_masked (__main__.SetAutoScaleFalse)
+Testing auto-conversion of masked arrays for set_auto_mask(False) with masking
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_scaled.py", line 83, in test_masked
+    f = Dataset(self.testfile, "a")
+  File "netCDF4/_netCDF4.pyx", line 2326, in netCDF4._netCDF4.Dataset.__init__
+  File "netCDF4/_netCDF4.pyx", line 1890, in netCDF4._netCDF4._ensure_nc_success
+OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
+
+======================================================================
+ERROR: test_masked (__main__.SetAutoScaleFalse)
+Testing auto-conversion of masked arrays for set_auto_mask(False) with masking
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_scaled.py", line 54, in tearDown
+    os.remove(self.testfile)
+FileNotFoundError: [Errno 2] No such file or directory: 'esdm://testfile19663'
+
+======================================================================
+ERROR: test_unmasked (__main__.SetAutoScaleFalse)
+Testing (not) auto-scaling of variables for set_auto_scale(False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_scaled.py", line 63, in test_unmasked
+    f = Dataset(self.testfile, "r")
+  File "netCDF4/_netCDF4.pyx", line 2326, in netCDF4._netCDF4.Dataset.__init__
+  File "netCDF4/_netCDF4.pyx", line 1890, in netCDF4._netCDF4._ensure_nc_success
+OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
+
+======================================================================
+ERROR: test_unmasked (__main__.SetAutoScaleFalse)
+Testing (not) auto-scaling of variables for set_auto_scale(False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_scaled.py", line 54, in tearDown
+    os.remove(self.testfile)
+FileNotFoundError: [Errno 2] No such file or directory: 'esdm://testfile19663'
+
+======================================================================
+ERROR: test_masked (__main__.SetAutoScaleTrue)
+Testing auto-scaling of variables for set_auto_scale(True) with masking
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_scaled.py", line 131, in test_masked
+    f = Dataset(self.testfile, "a")
+  File "netCDF4/_netCDF4.pyx", line 2326, in netCDF4._netCDF4.Dataset.__init__
+  File "netCDF4/_netCDF4.pyx", line 1890, in netCDF4._netCDF4._ensure_nc_success
+OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
+
+======================================================================
+ERROR: test_masked (__main__.SetAutoScaleTrue)
+Testing auto-scaling of variables for set_auto_scale(True) with masking
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_scaled.py", line 54, in tearDown
+    os.remove(self.testfile)
+FileNotFoundError: [Errno 2] No such file or directory: 'esdm://testfile19663'
+
+======================================================================
+ERROR: test_unmasked (__main__.SetAutoScaleTrue)
+Testing auto-scaling of variables for set_auto_scale(True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_scaled.py", line 108, in test_unmasked
+    f = Dataset(self.testfile)
+  File "netCDF4/_netCDF4.pyx", line 2326, in netCDF4._netCDF4.Dataset.__init__
+  File "netCDF4/_netCDF4.pyx", line 1890, in netCDF4._netCDF4._ensure_nc_success
+OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
+
+======================================================================
+ERROR: test_unmasked (__main__.SetAutoScaleTrue)
+Testing auto-scaling of variables for set_auto_scale(True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_scaled.py", line 54, in tearDown
+    os.remove(self.testfile)
+FileNotFoundError: [Errno 2] No such file or directory: 'esdm://testfile19663'
+
+======================================================================
+ERROR: test_auto_scale_write (__main__.WriteAutoScaleTest)
+Testing automatic packing to all kinds of integer types
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_scaled.py", line 182, in test_auto_scale_write
+    f = Dataset(self.testfile, 'r')
+  File "netCDF4/_netCDF4.pyx", line 2326, in netCDF4._netCDF4.Dataset.__init__
+  File "netCDF4/_netCDF4.pyx", line 1890, in netCDF4._netCDF4._ensure_nc_success
+OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
+
+======================================================================
+ERROR: test_auto_scale_write (__main__.WriteAutoScaleTest)
+Testing automatic packing to all kinds of integer types
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_scaled.py", line 54, in tearDown
+    os.remove(self.testfile)
+FileNotFoundError: [Errno 2] No such file or directory: 'esdm://testfile19663'
+
+----------------------------------------------------------------------
+\end{verbatim}
+
+\section{Test tst\_shape.py}
+
+\begin{verbatim}
+======================================================================
+ERROR: runTest (__main__.ShapeTestCase)
+test for issue 90 (array shape should not be modified by
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_shape.py", line 28, in runTest
+    f  = Dataset(self.file, 'a')
+  File "netCDF4/_netCDF4.pyx", line 2326, in netCDF4._netCDF4.Dataset.__init__
+  File "netCDF4/_netCDF4.pyx", line 1890, in netCDF4._netCDF4._ensure_nc_success
+OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
+
+----------------------------------------------------------------------
+\end{verbatim}
+
+\section{Test tst\_slicing.py}
+
+\begin{verbatim}
+======================================================================
+ERROR: test_1d (__main__.VariablesTestCase)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_slicing.py", line 76, in test_1d
+    f  = Dataset(self.file, 'r')
+  File "netCDF4/_netCDF4.pyx", line 2326, in netCDF4._netCDF4.Dataset.__init__
+  File "netCDF4/_netCDF4.pyx", line 1890, in netCDF4._netCDF4._ensure_nc_success
+OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
+
+======================================================================
+ERROR: test_3d (__main__.VariablesTestCase)
+testing variable slicing
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_slicing.py", line 44, in test_3d
+    f  = Dataset(self.file, 'r')
+  File "netCDF4/_netCDF4.pyx", line 2326, in netCDF4._netCDF4.Dataset.__init__
+  File "netCDF4/_netCDF4.pyx", line 1890, in netCDF4._netCDF4._ensure_nc_success
+OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
+
+======================================================================
+ERROR: test_issue300 (__main__.VariablesTestCase)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_slicing.py", line 177, in test_issue300
+    f = Dataset(self.file)
+  File "netCDF4/_netCDF4.pyx", line 2326, in netCDF4._netCDF4.Dataset.__init__
+  File "netCDF4/_netCDF4.pyx", line 1890, in netCDF4._netCDF4._ensure_nc_success
+OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
+
+======================================================================
+ERROR: test_issue306 (__main__.VariablesTestCase)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_slicing.py", line 136, in test_issue306
+    f = Dataset(self.file)
+  File "netCDF4/_netCDF4.pyx", line 2326, in netCDF4._netCDF4.Dataset.__init__
+  File "netCDF4/_netCDF4.pyx", line 1890, in netCDF4._netCDF4._ensure_nc_success
+OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
+
+======================================================================
+ERROR: test_issue743 (__main__.VariablesTestCase)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_slicing.py", line 208, in test_issue743
+    nc = Dataset(self.file)
+  File "netCDF4/_netCDF4.pyx", line 2326, in netCDF4._netCDF4.Dataset.__init__
+  File "netCDF4/_netCDF4.pyx", line 1890, in netCDF4._netCDF4._ensure_nc_success
+OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
+
+======================================================================
+ERROR: test_retain_single_dims (__main__.VariablesTestCase)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_slicing.py", line 189, in test_retain_single_dims
+    f = Dataset(self.file, 'r')
+  File "netCDF4/_netCDF4.pyx", line 2326, in netCDF4._netCDF4.Dataset.__init__
+  File "netCDF4/_netCDF4.pyx", line 1890, in netCDF4._netCDF4._ensure_nc_success
+OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
+
+======================================================================
+FAIL: test_issue919 (__main__.VariablesTestCase)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_slicing.py", line 236, in test_issue919
+    assert_array_equal(f['v1'][:],np.broadcast_to(arr,f['v1'].shape))
+  File "/usr/lib/python3/dist-packages/numpy/testing/utils.py", line 854, in assert_array_equal
+    verbose=verbose, header='Arrays are not equal')
+  File "/usr/lib/python3/dist-packages/numpy/testing/utils.py", line 778, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError:
+Arrays are not equal
+
+(mismatch 88.88888888888889%)
+ x: MaskedArray([[[ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9],
+              [10, 11, 12, 13, 14, 15, 16, 17, 18, 19],
+              [20, 21, 22, 23, 24, 25, 26, 27, 28, 29],...
+ y: array([[[0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+        [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+        [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],...
+
+----------------------------------------------------------------------
+\end{verbatim}
+
+\section{Test tst\_stringarr.py}
+
+\begin{verbatim}
+OK
+\end{verbatim}
+
+\section{Test tst\_types.py}
+
+\begin{verbatim}
+======================================================================
+ERROR: runTest (__main__.PrimitiveTypesTestCase)
+testing primitive data type
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_types.py", line 52, in runTest
+    f = netCDF4.Dataset(self.file)
+  File "netCDF4/_netCDF4.pyx", line 2326, in netCDF4._netCDF4.Dataset.__init__
+  File "netCDF4/_netCDF4.pyx", line 1890, in netCDF4._netCDF4._ensure_nc_success
+OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
+
+----------------------------------------------------------------------
+\end{verbatim}
+
+\section{Test tst\_unicode.py}
+
+\begin{verbatim}
+======================================================================
+ERROR: runTest (__main__.UnicodeTestCase)
+testing unicode
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_unicode.py", line 21, in setUp
+    v = f.createVariable(VAR_NAME, np.float, (DIM_NAME,))
+  File "netCDF4/_netCDF4.pyx", line 2773, in netCDF4._netCDF4.Dataset.createVariable
+  File "netCDF4/_netCDF4.pyx", line 3810, in netCDF4._netCDF4.Variable.__init__
+  File "netCDF4/_netCDF4.pyx", line 1892, in netCDF4._netCDF4._ensure_nc_success
+RuntimeError: NetCDF: Access failure
+
+----------------------------------------------------------------------
+\end{verbatim}
+
+\section{Test tst\_unicode3.py}
+
+\begin{verbatim}
+======================================================================
+ERROR: runTest (__main__.UnicodeTestCase)
+testing unicode
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_unicode3.py", line 21, in setUp
+    v = f.createVariable(VAR_NAME, np.float, (DIM_NAME,))
+  File "netCDF4/_netCDF4.pyx", line 2773, in netCDF4._netCDF4.Dataset.createVariable
+  File "netCDF4/_netCDF4.pyx", line 3810, in netCDF4._netCDF4.Variable.__init__
+  File "netCDF4/_netCDF4.pyx", line 1892, in netCDF4._netCDF4._ensure_nc_success
+RuntimeError: NetCDF: Access failure
+
+----------------------------------------------------------------------
+\end{verbatim}
+
+\section{Test tst\_unicodeatt.py}
+
+\begin{verbatim}
+OK
+\end{verbatim}
+
+\section{Test tst\_unlimdim.py}
+
+\begin{verbatim}
+======================================================================
+ERROR: runTest (__main__.UnlimdimTestCase)
+testing unlimited dimensions
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_unlimdim.py", line 52, in runTest
+    f  = netCDF4.Dataset(self.file, 'r')
+  File "netCDF4/_netCDF4.pyx", line 2326, in netCDF4._netCDF4.Dataset.__init__
+  File "netCDF4/_netCDF4.pyx", line 1890, in netCDF4._netCDF4._ensure_nc_success
+OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
+
+----------------------------------------------------------------------
+\end{verbatim}
+
+\section{Test tst\_Unsigned.py}
+
+\begin{verbatim}
+OK
+\end{verbatim}
+
+\section{Test tst\_utils.py}
+
+\begin{verbatim}
+OK
+\end{verbatim}
+
+\section{Test tst\_vars.py}
+
+\begin{verbatim}
+======================================================================
+ERROR: runTest (__main__.VariablesTestCase)
+testing primitive variables
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_vars.py", line 38, in setUp
+    g.createDimension(DIM1_NAME, DIM1_LEN)
+  File "netCDF4/_netCDF4.pyx", line 2567, in netCDF4._netCDF4.Dataset.createDimension
+  File "netCDF4/_netCDF4.pyx", line 3373, in netCDF4._netCDF4.Dimension.__init__
+  File "netCDF4/_netCDF4.pyx", line 1892, in netCDF4._netCDF4._ensure_nc_success
+RuntimeError: NetCDF: Not a valid ID
+
+----------------------------------------------------------------------
+\end{verbatim}
+
+\section{Test tst\_vlen.py}
+
+\begin{verbatim}
+======================================================================
+ERROR: runTest (__main__.TestIntegerIndex)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_vlen.py", line 113, in runTest
+    strtest.createVariable('tenstrings', str, ['tenstrings'])
+  File "netCDF4/_netCDF4.pyx", line 2773, in netCDF4._netCDF4.Dataset.createVariable
+  File "netCDF4/_netCDF4.pyx", line 3742, in netCDF4._netCDF4.Variable.__init__
+ValueError: Variable length strings are only supported for the NETCDF4 format. For other formats, consider using netCDF4.stringtochar to convert string arrays into character arrays with an additional dimension.
+
+======================================================================
+ERROR: runTest (__main__.TestInvalidDataType)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_vlen.py", line 93, in runTest
+    os.remove(FILE_NAME)
+FileNotFoundError: [Errno 2] No such file or directory: 'esdm://testfile19663'
+
+======================================================================
+ERROR: runTest (__main__.TestObjectArrayIndexing)
+testing vlen variables
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_vlen.py", line 132, in setUp
+    (DIM2_NAME, DIM1_NAME))
+  File "netCDF4/_netCDF4.pyx", line 2773, in netCDF4._netCDF4.Dataset.createVariable
+  File "netCDF4/_netCDF4.pyx", line 3742, in netCDF4._netCDF4.Variable.__init__
+ValueError: Variable length strings are only supported for the NETCDF4 format. For other formats, consider using netCDF4.stringtochar to convert string arrays into character arrays with an additional dimension.
+
+======================================================================
+ERROR: runTest (__main__.TestScalarVlenString)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_vlen.py", line 99, in runTest
+    teststring = f.createVariable('teststring', str)
+  File "netCDF4/_netCDF4.pyx", line 2773, in netCDF4._netCDF4.Dataset.createVariable
+  File "netCDF4/_netCDF4.pyx", line 3742, in netCDF4._netCDF4.Variable.__init__
+ValueError: Variable length strings are only supported for the NETCDF4 format. For other formats, consider using netCDF4.stringtochar to convert string arrays into character arrays with an additional dimension.
+
+======================================================================
+ERROR: runTest (__main__.VariablesTestCase)
+testing vlen variables
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_vlen.py", line 42, in setUp
+    (DIM2_NAME,DIM1_NAME))
+  File "netCDF4/_netCDF4.pyx", line 2773, in netCDF4._netCDF4.Dataset.createVariable
+  File "netCDF4/_netCDF4.pyx", line 3742, in netCDF4._netCDF4.Variable.__init__
+ValueError: Variable length strings are only supported for the NETCDF4 format. For other formats, consider using netCDF4.stringtochar to convert string arrays into character arrays with an additional dimension.
+
+======================================================================
+ERROR: runTest (__main__.VlenAppendTestCase)
+testing appending to vlen variables (issue #527).
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tst_vlen.py", line 184, in runTest
+    f = Dataset(self.file, 'a')
+  File "netCDF4/_netCDF4.pyx", line 2326, in netCDF4._netCDF4.Dataset.__init__
+  File "netCDF4/_netCDF4.pyx", line 1890, in netCDF4._netCDF4._ensure_nc_success
+OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
+
+----------------------------------------------------------------------
+\end{verbatim}
