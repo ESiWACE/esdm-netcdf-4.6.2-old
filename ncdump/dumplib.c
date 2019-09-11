@@ -450,6 +450,10 @@ max_typeid(int ncid) {
     case NC_FORMAT_64BIT_DATA:
 	maxatomictypes = (maxtypes = NC_UINT64);
 	break;
+    case NC_FORMATX_ESDM:
+    maxtypes = NC_STRING;
+    maxatomictypes = NC_STRING; /* extra ESDM primitive types */
+    break;
     case NC_FORMAT_NETCDF4:
 #ifdef USE_NETCDF4
 	{

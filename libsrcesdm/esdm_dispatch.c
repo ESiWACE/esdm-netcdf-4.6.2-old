@@ -29,9 +29,7 @@
     exit(1);                                              \
   } while (0)
 
-#define debug(...) printf(__VA_ARGS__)
-
-#ifdef DEBUG_XXX
+#ifndef DEBUG_MORE
 #define DEBUG_ENTER(...)                                   \
    do {                                                     \
      printf("[ESDM NC] called %s:%d ", __func__, __LINE__); \
@@ -247,7 +245,6 @@ static size_t esdm_container_dataset_get_actual_size(nc_esdm_t * e, int dimid) {
     for (int i = 0; i < ndims; i++) {
       if (dimid == ev->dimidsp[i]) {
         size_t cur = sizes[i];
-        printf("got: %zu\n", cur);
         max = max < cur ? cur : max;
       }
     }
@@ -783,6 +780,8 @@ int ESDM_inq_format(int ncid, int *formatp) {
 
 int ESDM_inq_format_extended(int ncid, int *formatp, int *modep) {
   DEBUG_ENTER("%d\n", ncid);
+  *formatp = NC_FORMATX_ESDM;
+  *modep = NC_ESDM;
   return NC_NOERR;
 }
 
@@ -1132,7 +1131,7 @@ int ESDM_inq_att(int ncid, int varid, const char *name, nc_type *datatypep, size
   smd_attr_t *a;
   a = smd_attr_get_child_by_name(attr, name);
   if(!a){
-    return NC_EACCESS;
+    return NC_ENOTATT;
   }
 
   if (datatypep) {
@@ -1354,7 +1353,7 @@ int ESDM_get_att(int ncid, int varid, const char *name, void *value, nc_type typ
     return NC_NOERR;
   }
 
-  return NC_EACCESS;
+  return NC_ENOTATT;
 }
 
 int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype, size_t len, void const *value, nc_type type) {
@@ -1890,10 +1889,8 @@ static int ESDM_inq_typeids(int ncid, int *ntypes, int *typeids) {
   // Check for types of the variables (e->dsets->dset)
 
   // Check for types of the attributes inside the variables
-  // (e->dsets->dset->attr)
-
   if (ntypes) {
-    *ntypes = SMD_TYPE_STRING;
+    *ntypes = 0; //SMD_TYPE_STRING;
   }
   if (typeids) {
     for (int i = 0; i < SMD_TYPE_PRIMITIVE_END; i++) {
@@ -2026,9 +2023,15 @@ int ESDM_inq_grpname(int 	ncid, char * 	name ) {
  * @return
  */
 
-int ESDM_inq_grpname_full(int 	ncid, size_t * 	lenp, char * 	full_name) {
+int ESDM_inq_grpname_full(int	ncid, size_t * lenp, char * full_name) {
   // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED_GROUPS;
+  if(full_name){
+    strcpy(full_name, "");
+  }
+  if(lenp){
+    *lenp = 0;
+  }
   return NC_NOERR;
 }
 
@@ -2038,10 +2041,10 @@ int ESDM_inq_grpname_full(int 	ncid, size_t * 	lenp, char * 	full_name) {
  * @return
  */
 
-int ESDM_inq_grp_parent(int 	ncid, int * 	parent_ncid) {
+int ESDM_inq_grp_parent(int	ncid, int *	parent_ncid) {
   // DEBUG_ENTER("%d\n", ncid);
   WARN_NOT_SUPPORTED_GROUPS;
-  return NC_NOERR;
+  return NC_ENOGRP;
 }
 
 /**
@@ -2110,11 +2113,12 @@ int ESDM_inq_dimids(int ncid, int *ndims, int *dimids, int include_parents) {
   if (e == NULL)
     return NC_EBADID;
 
-  if (ndims)
+  if (ndims){
     *ndims = e->dimt.count;
+  }
 
   if (dimids) {
-    for (int i = 0; i < *ndims; i++) {
+    for (int i = 0; i < e->dimt.count; i++) {
       dimids[i] = i;
     }
   }
