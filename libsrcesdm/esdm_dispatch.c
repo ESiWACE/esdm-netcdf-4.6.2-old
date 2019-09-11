@@ -1142,7 +1142,12 @@ int ESDM_inq_att(int ncid, int varid, const char *name, nc_type *datatypep, size
   }
 
   if (lenp) {
+    //if(a->type->type == SMD_TYPE_STRING){
+    //  char * value = smd_attr_get_value(a);
+    //  *lenp = strlen(value) + 1;
+    //}else{
     *lenp = smd_attr_elems(a);
+    //}
   }
 
   return NC_NOERR;
@@ -1287,6 +1292,7 @@ int ESDM_rename_att(int ncid, int varid, const char *name, const char *newname) 
  */
 
 int ESDM_del_att(int ncid, int varid, const char *name) {
+  DEBUG_ENTER("%d\n", ncid);
   esdm_status status;
 
   nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
@@ -1308,11 +1314,12 @@ int ESDM_del_att(int ncid, int varid, const char *name) {
       return NC_EACCESS;
   }
 
-  DEBUG_ENTER("%d\n", ncid);
   return NC_NOERR;
 }
 
 int ESDM_get_att(int ncid, int varid, const char *name, void *value, nc_type type) {
+  DEBUG_ENTER("%d\n", ncid);
+
   if (name == NULL) {
     return NC_EACCESS;
   }
@@ -1361,12 +1368,7 @@ int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype, size_t
 
   esdm_type_t etype;
 
-  if (type == NC_CHAR && len > 1) {
-    etype = SMD_DTYPE_STRING;
-    len = 1;
-  } else {
-    etype = type_nc_to_esdm(datatype);
-  }
+  etype = type_nc_to_esdm(datatype);
   if (etype == NULL) {
     return NC_EACCESS;
   }
