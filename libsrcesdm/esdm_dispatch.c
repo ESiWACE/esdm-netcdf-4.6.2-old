@@ -820,13 +820,13 @@ int ESDM_inq(int ncid, int *ndimsp, int *nvarsp, int *nattsp, int *unlimdimidp) 
     if (status != ESDM_SUCCESS){
       return NC_EACCESS;
     }
-    int pos = smd_find_position_by_name(attr, "_FillValue");
-    if (pos == -1) {
-      *nattsp = smd_attr_count(attr);
-    }
-    else {
+    // int pos = smd_find_position_by_name(attr, "_FillValue");
+    // if (pos == -1) {
+    //   *nattsp = smd_attr_count(attr);
+    // }
+    // else {
       *nattsp = smd_attr_count(attr) - 1;
-    }
+    // }
   }
 
   if (ndimsp) {
@@ -1816,12 +1816,12 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
     status = esdm_dataset_get_attributes(evar->dset, &attr);
     assert(status == ESDM_SUCCESS);
     int pos = smd_find_position_by_name(attr, "_FillValue");
-    if (pos == -1) {
-      *nattsp = smd_attr_count(attr);
-    }
-    else {
+    // if (pos == -1) {
+    //   *nattsp = smd_attr_count(attr);
+    // }
+    // else {
       *nattsp = smd_attr_count(attr) - 1;
-    }
+    // }
   }
 
   if (no_fill) {
