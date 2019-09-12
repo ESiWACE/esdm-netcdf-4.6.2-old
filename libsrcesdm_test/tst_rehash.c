@@ -8,6 +8,7 @@
    Tests to see if the hashmap is being properly updated.
 
    */
+#include <stdio.h>
 #include <config.h>
 #include <netcdf.h>
 
@@ -43,6 +44,7 @@ int main() {
   nc_def_var(id, "var2", NC_FLOAT, 2, dimids, &v4);
 
   nc_close(id);
-  printf("\nTests successful!\n");
+
+  printf("\n*** Tests successful!\n");
   return 0;
 }

@@ -94,6 +94,7 @@ int main(void) {
 #ifdef USECLOSE
   /* Close and re-open the file */
   if (nc_close(ncid)) ERR;
+  
   if (nc_open("testszip.nc", NC_NETCDF4, &ncid)) ERR;
   if (nc_inq_varid(ncid, "datasetF32", &varid)) ERR;
 #endif

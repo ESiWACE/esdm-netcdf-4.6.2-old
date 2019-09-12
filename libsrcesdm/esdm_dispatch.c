@@ -2,6 +2,7 @@
 #include <assert.h>
 
 #include <netcdf_meta.h>
+#include <mpi.h>
 
 #include <esdm.h>
 
@@ -451,7 +452,7 @@ int ESDM_open(const char *path, int cmode, int basepe, size_t *chunksizehintp, v
 
     #ifdef ESDM_PARALLEL
     if(e->parallel_mode){
-      status = esdm_mpi_dataset_ref(e->comm, dset);
+      // status = esdm_mpi_dataset_ref(e->comm, dset);
     }else{
       status = esdm_dataset_ref(dset);
     }
@@ -816,9 +817,16 @@ int ESDM_inq(int ncid, int *ndimsp, int *nvarsp, int *nattsp, int *unlimdimidp) 
   if (nattsp) {
     smd_attr_t *attr;
     status = esdm_container_get_attributes(e->c, &attr);
-    if (status != ESDM_SUCCESS)
+    if (status != ESDM_SUCCESS){
       return NC_EACCESS;
-    *nattsp = attr->children;
+    }
+    int pos = smd_find_position_by_name(attr, "_FillValue");
+    if (pos == -1) {
+      *nattsp = smd_attr_count(attr);
+    }
+    else {
+      *nattsp = smd_attr_count(attr) - 1;
+    }
   }
 
   if (ndimsp) {
@@ -1807,7 +1815,13 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
     smd_attr_t *attr = NULL;
     status = esdm_dataset_get_attributes(evar->dset, &attr);
     assert(status == ESDM_SUCCESS);
-    *nattsp = smd_attr_count(attr);
+    int pos = smd_find_position_by_name(attr, "_FillValue");
+    if (pos == -1) {
+      *nattsp = smd_attr_count(attr);
+    }
+    else {
+      *nattsp = smd_attr_count(attr) - 1;
+    }
   }
 
   if (no_fill) {
@@ -1886,11 +1900,6 @@ static int ESDM_inq_typeids(int ncid, int *ntypes, int *typeids) {
     return NC_EBADID;
   }
 
-  // Check for types inside the global attributes (e->c->attr)
-
-  // Check for types of the variables (e->dsets->dset)
-
-  // Check for types of the attributes inside the variables
   if (ntypes) {
     *ntypes = 0; //SMD_TYPE_STRING;
   }
