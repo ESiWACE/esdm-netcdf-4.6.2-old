@@ -41,6 +41,4 @@ cd test
 sed -i 's#tempfile.NamedTemporaryFile(.*delete=False).name#"esdm://testfile'$RANDOM'"#'  *.py
 sed -i 's#os.remove(self.file.*#pass#'  *.py
 
-python3 run_all.py
-
 exit 0
