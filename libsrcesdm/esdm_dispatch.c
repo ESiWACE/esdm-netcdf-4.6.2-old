@@ -1143,19 +1143,15 @@ int ESDM_inq_att(int ncid, int varid, const char *name, nc_type *datatypep, size
   }
 
   if (datatypep) {
-    if (a->type->type == SMD_TYPE_ARRAY)
+    if (a->type->type == SMD_TYPE_ARRAY){
       *datatypep = type_esdm_to_nc(a->type->specifier.u.arr.base->type);
-    else
+    }else{
       *datatypep = type_esdm_to_nc(a->type->type);
+    }
   }
 
   if (lenp) {
-    //if(a->type->type == SMD_TYPE_STRING){
-    //  char * value = smd_attr_get_value(a);
-    //  *lenp = strlen(value) + 1;
-    //}else{
     *lenp = smd_attr_elems(a);
-    //}
   }
 
   return NC_NOERR;
@@ -1482,7 +1478,7 @@ int ESDM_def_var(int ncid, const char *name, nc_type xtype, int ndims, const int
   }
 
   esdm_type_t typ = type_nc_to_esdm(xtype);
-  if (typ == SMD_DTYPE_UNKNOWN || typ == SMD_DTYPE_STRING) {
+  if (typ == NULL || typ == SMD_DTYPE_UNKNOWN || typ == SMD_DTYPE_STRING) {
     return NC_EBADTYPE;
   }
 
@@ -1615,12 +1611,13 @@ int ESDM_get_vars(int ncid, int varid, const size_t *startp, const size_t *count
 
   assert(e->vars.count > varid);
   md_var_t *kv = e->vars.var[varid];
-  DEBUG_ENTER("%d type: %d buff: %p %p %p %p\n", ncid, mem_nc_type, data,
+  DEBUG_ENTER("%d %d type: %d buff: %p %p %p %p\n", ncid, varid, mem_nc_type, data,
   startp, countp, stridep);
 
   // check the dimensions we actually want to write
   esdm_dataspace_t *space;
   esdm_status status = esdm_dataset_get_dataspace(kv->dset, &space);
+  // TODO stridep
 
   if (mem_nc_type != type_esdm_to_nc(esdm_dataspace_get_type(space)->type) && mem_nc_type != NC_NAT) {
     // NOT SUPPORTED
@@ -1672,7 +1669,7 @@ int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *count
 
   assert(e->vars.count > varid);
   md_var_t *kv = e->vars.var[varid];
-  DEBUG_ENTER("%d type: %d buff: %p %p %p %p\n", ncid, mem_nc_type, data, startp, countp, stridep);
+  DEBUG_ENTER("%d %d type: %d buff: %p %p %p %p\n", ncid, varid, mem_nc_type, data, startp, countp, stridep);
 
   // check the dimensions we actually want to write
   esdm_dataspace_t *space;
@@ -1680,6 +1677,8 @@ int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *count
   if (status != ESDM_SUCCESS) {
     return NC_EACCESS;
   }
+  // TODO stridep
+
   nc_type datatype = type_esdm_to_nc(esdm_dataspace_get_type(space)->type);
   if (mem_nc_type != datatype && mem_nc_type != NC_NAT) {
     return NC_EBADTYPE;
@@ -1829,7 +1828,7 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
 
   if (endiannessp) {
     *endiannessp = NC_ENDIAN_NATIVE;
-    WARN_NOT_SUPPORTED_ENDIAN;
+    //WARN_NOT_SUPPORTED_ENDIAN;
   }
 
   if (shufflep) {

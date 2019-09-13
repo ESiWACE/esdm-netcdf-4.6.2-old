@@ -39,6 +39,6 @@ ldd build/lib.linux-x86_64-3.6/netCDF4/_netCDF4.cpython-36m-x86_64-linux-gnu.so 
 echo "Setup ESDM as target for tempfiles"
 cd test
 sed -i 's#tempfile.NamedTemporaryFile(.*delete=False).name#"esdm://testfile'$RANDOM'"#'  *.py
-sed -i 's#os.remove(self.file.*#pass#'  *.py
+sed -i 's#os.remove(.*#pass#'  *.py
 
 exit 0
