@@ -6,6 +6,7 @@ for I in $(ls ../../libsrcesdm_test/ | grep "\.c$") ; do
 done
 
 export NC_ESDM_FORCEESDM=1
+export NC_ESDM_FORCEESDM_MKFS=1
 export ESDM_LOGLEVEL_BUFFER=10
 
 for I in $(ls ../../libsrcesdm_test/ | grep "\.c$") ; do
