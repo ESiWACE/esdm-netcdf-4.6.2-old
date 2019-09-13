@@ -2,14 +2,14 @@ diff --git a/include/netCDF4.pxi b/include/netCDF4.pxi
 index 625752a..7bcd019 100644
 --- a/include/netCDF4.pxi
 +++ b/include/netCDF4.pxi
-@@ -53,6 +53,7 @@ cdef extern from "netcdf.h":
+@@ -49,6 +49,7 @@ cdef extern from "netcdf.h":
+         NC_WRITE # read & write
+         # Use these 'mode' flags for nc_create.
+         NC_CLOBBER
++        NC_ESDM # ESDM support for Python
+         NC_NOCLOBBER # Don't destroy existing file on create
          NC_64BIT_OFFSET # Use large (64-bit) file offsets
          NC_64BIT_DATA # Use cdf-5 format
-         NC_NETCDF4 # Use netCDF-4/HDF5 format
-+        NC_ESDM
-         NC_CLASSIC_MODEL # Enforce strict netcdf-3 rules.
-         # Use these 'mode' flags for both nc_create and nc_open.
-         NC_SHARE # Share updates, limit cacheing
 @@ -122,6 +123,7 @@ cdef extern from "netcdf.h":
          NC_FORMAT_NC3
          NC_FORMAT_NC_HDF4
@@ -21,7 +21,7 @@ index 625752a..7bcd019 100644
 @@ -704,7 +706,7 @@ IF HAS_NC_CREATE_MEM:
              int flags
          int nc_close_memio(int ncid, NC_memio* info);
- 
+
 -IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT:
 +IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT or HAS_ESDM_SUPPORT:
      cdef extern from "mpi-compat.h": pass
@@ -84,7 +84,7 @@ index b693354..58d02e8 100644
      """same as `data_model`, retained for backwards compatibility."""
      __pdoc__['Dataset.disk_format']=\
 @@ -2084,7 +2088,7 @@ strings.
- 
+
          **`format`**: underlying file format (one of `'NETCDF4',
          'NETCDF4_CLASSIC', 'NETCDF3_CLASSIC'`, `'NETCDF3_64BIT_OFFSET'` or
 -        `'NETCDF3_64BIT_DATA'`.
@@ -100,7 +100,7 @@ index b693354..58d02e8 100644
 +        IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT or HAS_ESDM_SUPPORT:
              cdef MPI_Comm mpicomm
              cdef MPI_Info mpiinfo
- 
+
 @@ -2183,7 +2187,7 @@ strings.
                  msg='parallel mode requires MPI enabled netcdf-c'
                  raise ValueError(msg)
@@ -155,7 +155,7 @@ index febc020..d7ba091 100644
      has_parallel4_support = False
      has_pnetcdf_support = False
 +    has_esdm_support = False
- 
+
      for d in inc_dirs:
          try:
 @@ -564,6 +565,7 @@ if 'sdist' not in sys.argv[1:] and 'clean' not in sys.argv[1:]:
@@ -163,6 +163,5 @@ index febc020..d7ba091 100644
          sys.stdout.write('netcdf lib does not have pnetcdf parallel functions\n')
          f.write('DEF HAS_PNETCDF_SUPPORT = 0\n')
 +    f.write('DEF HAS_ESDM_SUPPORT = 1\n') # TODO Fixme
- 
+
      f.close()
- 
