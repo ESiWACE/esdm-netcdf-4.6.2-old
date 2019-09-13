@@ -1,8 +1,61 @@
-\chapter{Python tests}
+\chapter{Python Tests}
 
-Path: esiwace/esdm-netcdf/dev/netcdf4-python/test
+\section{Introduction}
 
-\section{Test tst\_atts.py}
+\tab
+NetCDF provides python tests that are available in the directory \textbf{esdm-netcdf/dev}. The procedures to run the tests are following.
+
+Run the build script:
+
+\begin{framed}
+\$ ./build.sh
+\end{framed}
+
+Python tests are created now inside the directory \textbf{dev/netcdf4-python/test}. Go to that directory.
+
+\begin{framed}
+\$ cd netcdf4-python/test
+\end{framed}
+
+Now, copy or link the \textbf{\_esdm.conf} file to this directory. A possible example is:
+
+\begin{framed}
+\$ cp ../../../build/libsrcesdm\_test/\_esdm.conf .
+\end{framed}
+
+All Python tests start with the string \textbf{tst\_}. This string has to change to enable us to run \textbf{pytest}. To do that, one option is install the \textbf{mmv} utility. Note that the tests names need to be changed, but the tests files (\textbf{.nc} files) have to remain unchanged.
+
+\begin{framed}
+\$ sudo apt-get install mmv\\
+\$ mmv tst\*.py test\#1.py
+\end{framed}
+
+Now, run the \textbf{mkfs.esdm} utility with the following parameters.
+
+\begin{framed}
+\$ mkfs.esdm --create --remove --ignore-errors -g -c \_esdm.conf
+\end{framed}
+
+Finally, install and run the \textbf{pytest} utility.
+
+\begin{framed}
+\$ sudo apt-get install python3-pytest \\
+\$ pytest --junitxml results.xml
+\end{framed}
+
+The file \textbf{results.xml} can now be uploaded by Jenkins wchi provides the results in Table tab.
+
+\section{Tests}
+
+\tab
+The next sections introduce the information about each Python test. For them to run with ESDM, two strings were replaced in all tests that contain them. The commands for this substitution can be found in the file \textbf{build.sh}.
+
+\begin{verbatim}
+sed -i 's#tempfile.NamedTemporaryFile(.*delete=False).name#"esdm://testfile'$RANDOM'"#'  *.py
+sed -i 's#os.remove(self.file.*#pass#'  *.py
+\end{verbatim}
+
+\subsection{Test tst\_atts.py}
 
 \begin{verbatim}
 ======================================================================
@@ -17,7 +70,7 @@ TypeError: 'numpy.float64' object is not callable
 ----------------------------------------------------------------------
 \end{verbatim}
 
-\section{Test tst\_cdf5.py}
+\subsection{Test tst\_cdf5.py}
 
 \begin{verbatim}
 ======================================================================
@@ -32,7 +85,7 @@ FileNotFoundError: [Errno 2] No such file or directory: 'esdm://testfile19663'
 ----------------------------------------------------------------------
 \end{verbatim}
 
-\section{Test tst\_compound\_alignment.py}
+\subsection{Test tst\_compound\_alignment.py}
 
 \begin{verbatim}
 [ESDM NC] WARN ESDM_def_compound():2220. ESDM does not support user-defined datatypes from NetCDF!
@@ -42,7 +95,7 @@ Thread 1 "python3" received signal SIGSEGV, Segmentation fault.
 318	  switch (type->type) {
 \end{verbatim}
 
-\section{Test tst\_compoundatt.py}
+\subsection{Test tst\_compoundatt.py}
 
 \begin{verbatim}
 [ESDM NC] WARN ESDM_def_grp():2167. ESDM does not support groups from NetCDF!
@@ -52,7 +105,7 @@ Thread 1 "python3" received signal SIGSEGV, Segmentation fault.
 318	  switch (type->type) {
 \end{verbatim}
 
-\section{Test tst\_compoundvar.py}
+\subsection{Test tst\_compoundvar.py}
 
 \begin{verbatim}
 [ESDM NC] WARN ESDM_def_grp():2167. ESDM does not support groups from NetCDF!
@@ -69,7 +122,7 @@ KeyError: 'phony_group'
 ----------------------------------------------------------------------
 \end{verbatim}
 
-\section{Test tst\_compression.py}
+\subsection{Test tst\_compression.py}
 
 \begin{verbatim}
 ======================================================================
@@ -88,13 +141,13 @@ OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
 ----------------------------------------------------------------------
 \end{verbatim}
 
-\section{Test tst\_create\_mem.py}
+\subsection{Test tst\_create\_mem.py}
 
 \begin{verbatim}
 OK
 \end{verbatim}
 
-\section{Test tst\_dap.py}
+\subsection{Test tst\_dap.py}
 
 \begin{verbatim}
 ======================================================================
@@ -111,7 +164,7 @@ OSError: [Errno -51] NetCDF: Unknown file format: b'http://remotetest.unidata.uc
 ----------------------------------------------------------------------
 \end{verbatim}
 
-\section{Test tst\_dims.py}
+\subsection{Test tst\_dims.py}
 
 \begin{verbatim}
 ======================================================================
@@ -129,7 +182,7 @@ RuntimeError: NetCDF: Not a valid ID
 ----------------------------------------------------------------------
 \end{verbatim}
 
-\section{Test tst\_diskless.py}
+\subsection{Test tst\_diskless.py}
 
 \begin{verbatim}
 ======================================================================
@@ -144,7 +197,7 @@ AssertionError
 ----------------------------------------------------------------------
 \end{verbatim}
 
-\section{Test tst\_endian.py}
+\subsection{Test tst\_endian.py}
 
 \begin{verbatim}
 ======================================================================
@@ -163,7 +216,7 @@ OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
 ----------------------------------------------------------------------
 \end{verbatim}
 
-\section{Test tst\_enum.py}
+\subsection{Test tst\_enum.py}
 
 \begin{verbatim}
 [ESDM NC] WARN ESDM_def_enum():2316. ESDM does not support user-defined datatypes from NetCDF!
@@ -173,7 +226,7 @@ Thread 1 "python3" received signal SIGSEGV, Segmentation fault.
 318	  switch (type->type) {
 \end{verbatim}
 
-\section{Test tst\_fancyslicing.py}
+\subsection{Test tst\_fancyslicing.py}
 
 \begin{verbatim}
 ======================================================================
@@ -211,7 +264,7 @@ OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
 ----------------------------------------------------------------------
 \end{verbatim}
 
-\section{Test tst\_filepath.py}
+\subsection{Test tst\_filepath.py}
 
 \begin{verbatim}
 ======================================================================
@@ -289,13 +342,13 @@ version 4.1.2 or higher of the netcdf C lib, and rebuild netcdf4-python.
 ----------------------------------------------------------------------
 \end{verbatim}
 
-\section{Test tst\_get\_variables\_by\_attributes.py}
+\subsection{Test tst\_get\_variables\_by\_attributes.py}
 
 \begin{verbatim}
 OK
 \end{verbatim}
 
-\section{Test tst\_grps.py}
+\subsection{Test tst\_grps.py}
 
 \begin{verbatim}
 [ESDM NC] WARN ESDM_def_grp():2167. ESDM does not support groups from NetCDF!
@@ -315,7 +368,7 @@ RuntimeError: NetCDF: Not a valid ID
 ----------------------------------------------------------------------
 \end{verbatim}
 
-\section{Test tst\_grps2.py}
+\subsection{Test tst\_grps2.py}
 
 \begin{verbatim}
 [ESDM NC] WARN ESDM_def_grp():2167. ESDM does not support groups from NetCDF!
@@ -336,13 +389,13 @@ RuntimeError: NetCDF: Not a valid ID
 ----------------------------------------------------------------------
 \end{verbatim}
 
-\section{Test tst\_issue908.py}
+\subsection{Test tst\_issue908.py}
 
 \begin{verbatim}
 OK
 \end{verbatim}
 
-\section{Test tst\_masked.py}
+\subsection{Test tst\_masked.py}
 
 \begin{verbatim}
 ======================================================================
@@ -359,7 +412,7 @@ OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
 ----------------------------------------------------------------------
 \end{verbatim}
 
-\section{Test tst\_masked2.py}
+\subsection{Test tst\_masked2.py}
 
 \begin{verbatim}
 ======================================================================
@@ -376,7 +429,7 @@ OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
 ----------------------------------------------------------------------
 \end{verbatim}
 
-\section{Test tst\_masked3.py}
+\subsection{Test tst\_masked3.py}
 
 \begin{verbatim}
 ======================================================================
@@ -391,7 +444,7 @@ FileNotFoundError: [Errno 2] No such file or directory: 'esdm://testfile19663'
 ----------------------------------------------------------------------
 \end{verbatim}
 
-\section{Test tst\_masked4.py}
+\subsection{Test tst\_masked4.py}
 
 \begin{verbatim}
 ======================================================================
@@ -406,7 +459,7 @@ FileNotFoundError: [Errno 2] No such file or directory: 'esdm://testfile19663'
 ----------------------------------------------------------------------
 \end{verbatim}
 
-\section{Test tst\_masked5.py}
+\subsection{Test tst\_masked5.py}
 
 \begin{verbatim}
 E
@@ -424,7 +477,7 @@ ValueError: Variable length strings are only supported for the NETCDF4 format. F
 ----------------------------------------------------------------------
 \end{verbatim}
 
-\section{Test tst\_masked6.py}
+\subsection{Test tst\_masked6.py}
 
 \begin{verbatim}
 ======================================================================
@@ -481,7 +534,7 @@ FileNotFoundError: [Errno 2] No such file or directory: 'esdm://testfile19663'
 ----------------------------------------------------------------------
 \end{verbatim}
 
-\section{Test tst\_multifile.py}
+\subsection{Test tst\_multifile.py}
 
 \begin{verbatim}
 ======================================================================
@@ -526,7 +579,7 @@ FileNotFoundError: [Errno 2] No such file or directory: 'esdm://testfile19663'
 ----------------------------------------------------------------------
 \end{verbatim}
 
-\section{Test tst\_multifile2.py}
+\subsection{Test tst\_multifile2.py}
 
 \begin{verbatim}
 ======================================================================
@@ -571,7 +624,7 @@ FileNotFoundError: [Errno 2] No such file or directory: 'esdm://testfile19663'
 ----------------------------------------------------------------------
 \end{verbatim}
 
-\section{Test tst\_netcdftime.py}
+\subsection{Test tst\_netcdftime.py}
 
 \begin{verbatim}
 ======================================================================
@@ -607,7 +660,7 @@ OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
 ----------------------------------------------------------------------
 \end{verbatim}
 
-\section{Test tst\_open\_mem.py}
+\subsection{Test tst\_open\_mem.py}
 
 \begin{verbatim}
 ======================================================================
@@ -624,13 +677,13 @@ version 4.1.2 or higher of the netcdf C lib, and rebuild netcdf4-python.
 ----------------------------------------------------------------------
 \end{verbatim}
 
-\section{Test tst\_refcount.py}
+\subsection{Test tst\_refcount.py}
 
 \begin{verbatim}
 OK
 \end{verbatim}
 
-\section{Test tst\_rename.py}
+\subsection{Test tst\_rename.py}
 
 \begin{verbatim}
 ======================================================================
@@ -648,7 +701,7 @@ RuntimeError: NetCDF: Not a valid ID
 ----------------------------------------------------------------------
 \end{verbatim}
 
-\section{Test tst\_scalarvar.py}
+\subsection{Test tst\_scalarvar.py}
 
 \begin{verbatim}
 ======================================================================
@@ -666,7 +719,7 @@ RuntimeError: NetCDF: Not a valid ID
 ----------------------------------------------------------------------
 \end{verbatim}
 
-\section{Test tst\_scaled.py}
+\subsection{Test tst\_scaled.py}
 
 \begin{verbatim}
 ======================================================================
@@ -783,7 +836,7 @@ FileNotFoundError: [Errno 2] No such file or directory: 'esdm://testfile19663'
 ----------------------------------------------------------------------
 \end{verbatim}
 
-\section{Test tst\_shape.py}
+\subsection{Test tst\_shape.py}
 
 \begin{verbatim}
 ======================================================================
@@ -800,7 +853,7 @@ OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
 ----------------------------------------------------------------------
 \end{verbatim}
 
-\section{Test tst\_slicing.py}
+\subsection{Test tst\_slicing.py}
 
 \begin{verbatim}
 ======================================================================
@@ -888,13 +941,13 @@ Arrays are not equal
 ----------------------------------------------------------------------
 \end{verbatim}
 
-\section{Test tst\_stringarr.py}
+\subsection{Test tst\_stringarr.py}
 
 \begin{verbatim}
 OK
 \end{verbatim}
 
-\section{Test tst\_types.py}
+\subsection{Test tst\_types.py}
 
 \begin{verbatim}
 ======================================================================
@@ -911,7 +964,7 @@ OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
 ----------------------------------------------------------------------
 \end{verbatim}
 
-\section{Test tst\_unicode.py}
+\subsection{Test tst\_unicode.py}
 
 \begin{verbatim}
 ======================================================================
@@ -929,7 +982,7 @@ RuntimeError: NetCDF: Access failure
 ----------------------------------------------------------------------
 \end{verbatim}
 
-\section{Test tst\_unicode3.py}
+\subsection{Test tst\_unicode3.py}
 
 \begin{verbatim}
 ======================================================================
@@ -947,13 +1000,13 @@ RuntimeError: NetCDF: Access failure
 ----------------------------------------------------------------------
 \end{verbatim}
 
-\section{Test tst\_unicodeatt.py}
+\subsection{Test tst\_unicodeatt.py}
 
 \begin{verbatim}
 OK
 \end{verbatim}
 
-\section{Test tst\_unlimdim.py}
+\subsection{Test tst\_unlimdim.py}
 
 \begin{verbatim}
 ======================================================================
@@ -970,19 +1023,19 @@ OSError: [Errno -36] NetCDF: Invalid argument: b'esdm://testfile19663'
 ----------------------------------------------------------------------
 \end{verbatim}
 
-\section{Test tst\_Unsigned.py}
+\subsection{Test tst\_Unsigned.py}
 
 \begin{verbatim}
 OK
 \end{verbatim}
 
-\section{Test tst\_utils.py}
+\subsection{Test tst\_utils.py}
 
 \begin{verbatim}
 OK
 \end{verbatim}
 
-\section{Test tst\_vars.py}
+\subsection{Test tst\_vars.py}
 
 \begin{verbatim}
 ======================================================================
@@ -1000,7 +1053,7 @@ RuntimeError: NetCDF: Not a valid ID
 ----------------------------------------------------------------------
 \end{verbatim}
 
-\section{Test tst\_vlen.py}
+\subsection{Test tst\_vlen.py}
 
 \begin{verbatim}
 ======================================================================
