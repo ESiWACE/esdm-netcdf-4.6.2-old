@@ -47,7 +47,7 @@ Sorry! Unexpected result, ../../libsrcesdm\_test/cdm\_sea\_soundings.c, line: 45
 
 \paragraph{Status:} PARTIAL SUCCESS!
 
-\section{Test tst\_atts.c}
+\section{\color{blue}{FIX ME! {Test tst\_atts.c}}}
 
 \paragraph{Description:} Test the netCDF-4 attribute code.
 
@@ -67,31 +67,27 @@ Remove lines 115-118, 148, 231-269, 280-317, 328-335, 341-343, 353-355, 365-367,
 
 \paragraph{Output:} *** Tests successful!
 
-\paragraph{Comments:} Remove lines 189-190.
+\paragraph{Comments:} Remove lines 191-209. No error produced. I cannot verify the output. tst\_bug15.
 
-Change lines 191-209. No error produced. I cannot verify the output.
+Remove lines 279-619. tst\_bug16.
 
-Lines 175-229, 246, 287. Think more. Inserting the numbers in vectors.
+Remove lines 702-786. Testing invalid parameters as input!
 
-Lines 249-251. ESDM deals with strings in a different way.
-
-Lines 296-616. tst\_bug16.
+Remove lines 815-823. tst\_bug45.
 
 \paragraph{Status:} PARTIAL SUCCESS!
 
-\section{{\color{blue}{FIX ME! Test tst\_atts2.c}}}
+\section{{\color{blue}{FIX ME! Test tst\_atts2.c!}}}
 
 \paragraph{Description:} Test copy of attributes.
 
 \paragraph{Output:} *** Tests successful!
 
-\paragraph{Comments:} Remove lines 57-78, 157-212, 214-259. ESDM does not support user-defined datatypes from NetCDF!
+\paragraph{Comments:} Remove lines 53-82, 157-259. ESDM does not support user-defined datatypes from NetCDF!
 
 Remove lines 101-105. Testing invalid parameters as input!
 
-Lines 90, 103, 110-114. Problems with strings.
-
-
+Lines 108-119. tst\_bug19
 
 \paragraph{Status:} PARTIAL SUCCESS!
 
@@ -279,11 +275,11 @@ Remove lines 158, 162-167, 173-179. ESDM does not support groups from NetCDF!
 
 \paragraph{Output:} *** Tests successful!
 
-\paragraph{Comments:} Too long to run!
+\paragraph{Comments:} No comments.
 
-\paragraph{Status:} NOT TESTED!
+\paragraph{Status:} SUCCESS!
 
-\section{Test tst\_dims.c}
+\section{\color{blue}{FIX ME! {Test tst\_dims.c}}}
 
 \paragraph{Description:} Test netcdf-4 dimensions.
 
@@ -291,21 +287,27 @@ Remove lines 158, 162-167, 173-179. ESDM does not support groups from NetCDF!
 
 \paragraph{Comments:} Remove lines 104-106, 116, 119-120, 136-138, 141, 150, 164, 217, 226, 261-263, 466. Testing invalid parameters as input!
 
+Remove lines 110, 214. if (nc\_enddef(ncid)) ERR. tst\_bug46
+
 Remove lines 1102, 1165-1168. ESDM does not support conversion for variables!
 
 Remove lines 1257-1258. ESDM does not keep the same order for dimids!
 
 Remove lines 1315-1357. Creates a new file name (file\_in) and tries to open it.
 
+Remove lines 284-295. Problem with rename.
+
 \paragraph{Status:} PARTIAL SUCCESS!
 
-\section{Test tst\_dims2.c}
+\section{\color{blue}{FIX ME! {Test tst\_dims2.c}}}
 
 \paragraph{Description:} Test netcdf-4 dimensions some more.
 
 \paragraph{Output:} *** Tests successful!
 
 \paragraph{Comments:} Remove lines 58-59. ESDM does not keep the same order for dimids!
+
+Remove lines 325-332. Problem with the conversion of vectors! tst\_bug48.c
 
 Remove lines 440-441. Testing invalid parameters as input!
 
@@ -695,7 +697,7 @@ Sorry! Unexpected result, ../../libsrcesdm\_test/tst\_opaques.c, line: 49
 
 \paragraph{Status:} SUCCESS!
 
-\section{Test tst\_rename.c}
+\section{\color{blue}{FIX ME! {Test tst\_rename.c}}}
 
 \paragraph{Description:} Test renames of vars and dims.
 
@@ -705,7 +707,7 @@ Sorry! Unexpected result, ../../libsrcesdm\_test/tst\_opaques.c, line: 49
 
 \paragraph{Status:} PARTIAL SUCCESS!
 
-\section{Test tst\_rename2.c}
+\section{\color{blue}{FIX ME! {Test tst\_rename2.c}}}
 
 \paragraph{Description:} Test more renames of vars and dims.
 
@@ -719,7 +721,9 @@ Sorry! Unexpected result, ../../libsrcesdm\_test/tst\_opaques.c, line: 49
 
 \paragraph{Description:} This test is for parallel IO and the collective access of metadata with HDF5.
 
-\paragraph{Output:} [ESDM NC] WARN ESDM\_var\_par\_access():545 NOT IMPLEMENTED
+\paragraph{Output:} tst\_simplerw\_coll\_r: /home/lucy/esiwace/esdm/src/esdm.c:66: esdm\_dataset\_get\_dataspace: Assertion \'\*out\_dataspace != ((void \*)0)\' failed.
+
+Remove lines 342-345. tst\_bug47
 
 \paragraph{Comments:}
 
@@ -910,7 +914,7 @@ Remove lines 274-276, 286-288. Expected error: NC\_FILL\_FLOAT.
 
 Remove lines 322-363. ESDM does not support groups from NetCDF!
 
-Remove lines 409-558. ESDM does not support szip filter.
+Remove lines 409-558. ESDM does not support filters!
 
 \paragraph{Status:} PARTIAL SUCCESS!
 

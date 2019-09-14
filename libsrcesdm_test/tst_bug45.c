@@ -4,13 +4,16 @@
 #include <signal.h>
 
 #define FILE_NAME "tst_atts1.nc"
+#define FILE_NAME2 "tst_atts_2.nc"
 #define VAR1_NAME "Horace_Rumpole"
-#define VAR2_NAME "Claude_Erskine-Brown"
 #define DIM1_NAME "Old_Bailey_case_number"
 #define DIM1_LEN 10
 #define DIM2_NAME "occupancy_in_chambers"
 #define DIM2_LEN 15
+#define ATT_INT_NAME "Old_Bailey_Room_Numbers"
 #define ATT_TEXT_NAME "Speech_to_Jury"
+#define ATT_TEXT_NAME2 "Speech_to_She_Who_Must_be_Obeyed"
+#define ATT_LEN 3
 
 char speech[] = "Once more unto the breach, dear friends, once more;\n\
 Or close the wall up with our English dead.\n\
@@ -47,34 +50,52 @@ Straining upon the start. The game's afoot:\n\
 Follow your spirit, and upon this charge\n\
 Cry 'God for Harry, England, and Saint George!'";
 
+// Rename stopped working after closing the file
+
 int
 main(int argc, char **argv)
 {
+
       int ncid, varid, dimids[2];
       nc_type att_type;
       size_t att_len;
-      int i, v;
-
       char *speech_in;
+      char name_in[NC_MAX_NAME + 1];
+      int attid_in, natts_in;
+      int int_out[ATT_LEN] = {-100000, 128, 100000};
 
-      /* Create a file with two vars, attaching to each an attribute of
-       * each type. */
+      /* Create a file with a global attribute. */
       if (nc_create(FILE_NAME, NC_NETCDF4, &ncid)) ERR;
-      if (nc_def_dim(ncid, DIM1_NAME, DIM1_LEN, &dimids[0])) ERR;
-      if (nc_def_dim(ncid, DIM2_NAME, DIM2_LEN, &dimids[1])) ERR;
-      if (nc_def_var(ncid, VAR1_NAME, NC_INT, 2, dimids, &varid)) ERR;
-      if (nc_put_att_text(ncid, varid, ATT_TEXT_NAME, strlen(speech)+1, speech)) ERR;
+      if (nc_put_att_text(ncid, NC_GLOBAL, ATT_TEXT_NAME, strlen(speech)+1,
+			  speech)) ERR;
       if (nc_close(ncid)) ERR;
 
-      /* Open the file and check attributes. */
-      if (nc_open(FILE_NAME, 0, &ncid)) ERR;
-    	 if (nc_inq_att(ncid, v, ATT_TEXT_NAME, &att_type, &att_len)) ERR;
-    	 if (att_type != NC_CHAR || att_len != strlen(speech) + 1) ERR;
-    	 if (!(speech_in = malloc(att_len + 1))) ERR;
-    	 if (nc_get_att_text(ncid, 0, ATT_TEXT_NAME, speech_in)) ERR;
-    	 if (strcmp(speech, speech_in)) ERR;
-    	 free(speech_in);
+      /* Rename it. */
+      if (nc_open(FILE_NAME, NC_WRITE, &ncid)) ERR;
+      if (nc_inq_attid(ncid, NC_GLOBAL, ATT_TEXT_NAME, &attid_in)) ERR;
+      if (attid_in != 0) ERR;
+      if (nc_inq_attname(ncid, NC_GLOBAL, attid_in, name_in)) ERR;
+      if (strcmp(name_in, ATT_TEXT_NAME)) ERR;
+      if (nc_rename_att(ncid, NC_GLOBAL, ATT_TEXT_NAME, ATT_TEXT_NAME2)) ERR;
+      if (nc_inq_attname(ncid, NC_GLOBAL, attid_in, name_in)) ERR;
+      if (strcmp(name_in, ATT_TEXT_NAME2)) ERR;
       if (nc_close(ncid)) ERR;
+
+      if (nc_open(FILE_NAME, NC_WRITE, &ncid)) ERR;
+      if (nc_inq_att(ncid, NC_GLOBAL, ATT_TEXT_NAME2, &att_type, &att_len)) ERR;
+      if (att_type != NC_CHAR || att_len != strlen(speech) + 1) ERR;
+      if (!(speech_in = malloc(att_len + 1))) ERR;
+      if (nc_get_att_text(ncid, NC_GLOBAL, ATT_TEXT_NAME2, speech_in)) ERR;
+      if (strcmp(speech, speech_in)) ERR;
+      free(speech_in);
+      if (nc_get_att_text(ncid, NC_GLOBAL, ATT_TEXT_NAME, speech_in) != NC_ENOTATT) ERR;
+      if (nc_close(ncid)) ERR;
+
+      /* Now delete the att. */
+      if (nc_open(FILE_NAME, NC_WRITE, &ncid)) ERR;
+      if (nc_del_att(ncid, NC_GLOBAL, ATT_TEXT_NAME2)) ERR;
+      if (nc_close(ncid)) ERR;
+
    SUMMARIZE_ERR;
    FINAL_RESULTS;
 }

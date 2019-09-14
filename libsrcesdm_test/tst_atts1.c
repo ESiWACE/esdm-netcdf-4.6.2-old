@@ -196,12 +196,12 @@ main(int argc, char **argv)
 			//        ulonglong_out) != NC_ERANGE) ERR;
       // if (nc_put_att_ushort(ncid, NC_GLOBAL, ATT_INT_NAME, NC_INT, ATT_LEN,
 			//     ushort_out)) ERR;
-      // /* restore to intended values for subsequent tests */
-      // if (nc_put_att_int(ncid, NC_GLOBAL, ATT_INT_NAME, NC_INT, ATT_LEN,
-			//     int_out)) ERR;
-      // /* It should also be OK to read classic types converted into
-      //  * supported C types. though the conversion may encounter
-      //  * out-of-range values */
+      /* restore to intended values for subsequent tests */
+      if (nc_put_att_int(ncid, NC_GLOBAL, ATT_INT_NAME, NC_INT, ATT_LEN,
+			    int_out)) ERR;
+      /* It should also be OK to read classic types converted into
+       * supported C types. though the conversion may encounter
+       * out-of-range values */
       // if (nc_get_att_uchar(ncid, NC_GLOBAL, ATT_INT_NAME, uchar_in) != NC_ERANGE) ERR;
       // if (nc_get_att_ushort(ncid, NC_GLOBAL, ATT_INT_NAME, ushort_in) != NC_ERANGE) ERR;
       // if (nc_get_att_uint(ncid, NC_GLOBAL, ATT_INT_NAME, uint_in) != NC_ERANGE) ERR;
@@ -230,11 +230,11 @@ main(int argc, char **argv)
       /* Check text. */
       if (nc_inq_att(ncid, NC_GLOBAL, ATT_TEXT_NAME, &att_type, &att_len))
 	 ERR;
-      // if (att_type != NC_CHAR || att_len != strlen(speech) + 1) ERR;
-      // if (!(speech_in = malloc(att_len + 1))) ERR;
-      // if (nc_get_att_text(ncid, NC_GLOBAL, ATT_TEXT_NAME, speech_in)) ERR;
-      // if (strcmp(speech, speech_in)) ERR;
-      // free(speech_in);
+      if (att_type != NC_CHAR || att_len != strlen(speech) + 1) ERR;
+      if (!(speech_in = malloc(att_len + 1))) ERR;
+      if (nc_get_att_text(ncid, NC_GLOBAL, ATT_TEXT_NAME, speech_in)) ERR;
+      if (strcmp(speech, speech_in)) ERR;
+      free(speech_in);
       /* Check numeric values. */
       if (nc_get_att_schar(ncid, NC_GLOBAL, ATT_SCHAR_NAME, schar_in)) ERR;
       for (i = 0; i < ATT_LEN; i++)
@@ -271,28 +271,28 @@ main(int argc, char **argv)
    SUMMARIZE_ERR;
    printf("*** testing attribute data type conversions...");
 
-   {
-      int ncid;
-      int i;
-
-      /* Reopen the file and try different type conversions. */
-      if (nc_open(FILE_NAME, 0, &ncid)) ERR;
-
-      /* No text conversions are allowed, and people who try them should
-       * be locked up, away from decent folk! */
-      // if (nc_get_att_schar(ncid, NC_GLOBAL, ATT_TEXT_NAME, schar_in) != NC_ECHAR) ERR;
-      // if (nc_get_att_uchar(ncid, NC_GLOBAL, ATT_TEXT_NAME, uchar_in) != NC_ECHAR) ERR;
-      // if (nc_get_att_short(ncid, NC_GLOBAL, ATT_TEXT_NAME, short_in) != NC_ECHAR) ERR;
-      // if (nc_get_att_int(ncid, NC_GLOBAL, ATT_TEXT_NAME, int_in) != NC_ECHAR) ERR;
-      // if (nc_get_att_float(ncid, NC_GLOBAL, ATT_TEXT_NAME, float_in) != NC_ECHAR) ERR;
-      // if (nc_get_att_double(ncid, NC_GLOBAL, ATT_TEXT_NAME, double_in) != NC_ECHAR) ERR;
-      // if (nc_get_att_ushort(ncid, NC_GLOBAL, ATT_TEXT_NAME, ushort_in) != NC_ECHAR) ERR;
-      // if (nc_get_att_uint(ncid, NC_GLOBAL, ATT_TEXT_NAME, uint_in) != NC_ECHAR) ERR;
-      // if (nc_get_att_long(ncid, NC_GLOBAL, ATT_TEXT_NAME, long_in) != NC_ECHAR) ERR;
-      // if (nc_get_att_longlong(ncid, NC_GLOBAL, ATT_TEXT_NAME, longlong_in) != NC_ECHAR) ERR;
-      // if (nc_get_att_ulonglong(ncid, NC_GLOBAL, ATT_TEXT_NAME, ulonglong_in) != NC_ECHAR) ERR;
-
-      /* Read all atts (except text) as double. */
+   // {
+   //    int ncid;
+   //    int i;
+   //
+   //    /* Reopen the file and try different type conversions. */
+//       if (nc_open(FILE_NAME, 0, &ncid)) ERR;
+//
+//       /* No text conversions are allowed, and people who try them should
+//        * be locked up, away from decent folk! */
+//       if (nc_get_att_schar(ncid, NC_GLOBAL, ATT_TEXT_NAME, schar_in) != NC_ECHAR) ERR;
+//       if (nc_get_att_uchar(ncid, NC_GLOBAL, ATT_TEXT_NAME, uchar_in) != NC_ECHAR) ERR;
+//       if (nc_get_att_short(ncid, NC_GLOBAL, ATT_TEXT_NAME, short_in) != NC_ECHAR) ERR;
+//       if (nc_get_att_int(ncid, NC_GLOBAL, ATT_TEXT_NAME, int_in) != NC_ECHAR) ERR;
+//       if (nc_get_att_float(ncid, NC_GLOBAL, ATT_TEXT_NAME, float_in) != NC_ECHAR) ERR;
+//       if (nc_get_att_double(ncid, NC_GLOBAL, ATT_TEXT_NAME, double_in) != NC_ECHAR) ERR;
+//       if (nc_get_att_ushort(ncid, NC_GLOBAL, ATT_TEXT_NAME, ushort_in) != NC_ECHAR) ERR;
+//       if (nc_get_att_uint(ncid, NC_GLOBAL, ATT_TEXT_NAME, uint_in) != NC_ECHAR) ERR;
+//       if (nc_get_att_long(ncid, NC_GLOBAL, ATT_TEXT_NAME, long_in) != NC_ECHAR) ERR;
+//       if (nc_get_att_longlong(ncid, NC_GLOBAL, ATT_TEXT_NAME, longlong_in) != NC_ECHAR) ERR;
+//       if (nc_get_att_ulonglong(ncid, NC_GLOBAL, ATT_TEXT_NAME, ulonglong_in) != NC_ECHAR) ERR;
+//
+//       /* Read all atts (except text) as double. */
 //       if (nc_get_att_double(ncid, NC_GLOBAL, ATT_SCHAR_NAME, double_in)) ERR;
 //       for (i = 0; i < ATT_LEN; i++)
 // 	 if (double_in[i] != schar_out[i]) ERR;
@@ -614,9 +614,9 @@ main(int argc, char **argv)
 //       if (nc_get_att_ulonglong(ncid, NC_GLOBAL, ATT_UINT64_NAME, ulonglong_in)) ERR;
 //       for (i = 0; i < ATT_LEN; i++)
 // 	 if (ulonglong_in[i] != ulonglong_out[i]) ERR;
-
-      if (nc_close(ncid)) ERR;
-   }
+//
+//       if (nc_close(ncid)) ERR;
+//    }
    SUMMARIZE_ERR;
    printf("*** testing simple variable atts...");
    {
@@ -658,12 +658,12 @@ main(int argc, char **argv)
       if (nc_open(FILE_NAME, 0, &ncid)) ERR;
       for (v=0; v<2; v++)
       {
-	 // if (nc_inq_att(ncid, v, ATT_TEXT_NAME, &att_type, &att_len)) ERR;
-	 // if (att_type != NC_CHAR || att_len != strlen(speech) + 1) ERR;
-	 // if (!(speech_in = malloc(att_len + 1))) ERR;
-	 // if (nc_get_att_text(ncid, v, ATT_TEXT_NAME, speech_in)) ERR;
-	 // if (strcmp(speech, speech_in)) ERR;
-	 // free(speech_in);
+	 if (nc_inq_att(ncid, v, ATT_TEXT_NAME, &att_type, &att_len)) ERR;
+	 if (att_type != NC_CHAR || att_len != strlen(speech) + 1) ERR;
+	 if (!(speech_in = malloc(att_len + 1))) ERR;
+	 if (nc_get_att_text(ncid, v, ATT_TEXT_NAME, speech_in)) ERR;
+	 if (strcmp(speech, speech_in)) ERR;
+	 free(speech_in);
 	 if (nc_get_att_schar(ncid, v, ATT_SCHAR_NAME, schar_in)) ERR;
 	 for (i = 0; i < ATT_LEN; i++)
 	    if (schar_in[i] != schar_out[i]) ERR;
@@ -699,7 +699,7 @@ main(int argc, char **argv)
       if (nc_close(ncid)) ERR;
    }
 
-   /* Make sure we can read all these zero-length atts. */
+   // /* Make sure we can read all these zero-length atts. */
    // {
    //    int ncid;
    //    signed char schar_in[ATT_LEN];
@@ -740,7 +740,7 @@ main(int argc, char **argv)
    //    if (nc_get_att_schar(ncid, NC_GLOBAL, ATT_SHORT_NAME, schar_in)) ERR;
    //    if (nc_close(ncid)) ERR;
    // }
-   //
+
    // SUMMARIZE_ERR;
    // printf("*** testing zero-length attributes and redef...");
    // {
@@ -812,24 +812,20 @@ main(int argc, char **argv)
       if (strcmp(name_in, ATT_TEXT_NAME2)) ERR;
       if (nc_close(ncid)) ERR;
 
-      if (nc_open(FILE_NAME, NC_WRITE, &ncid)) ERR;
+      // if (nc_open(FILE_NAME, NC_WRITE, &ncid)) ERR;
       // if (nc_inq_att(ncid, NC_GLOBAL, ATT_TEXT_NAME2, &att_type, &att_len)) ERR;
       // if (att_type != NC_CHAR || att_len != strlen(speech) + 1) ERR;
       // if (!(speech_in = malloc(att_len + 1))) ERR;
       // if (nc_get_att_text(ncid, NC_GLOBAL, ATT_TEXT_NAME2, speech_in)) ERR;
       // if (strcmp(speech, speech_in)) ERR;
       // free(speech_in);
-
-
       // if (nc_get_att_text(ncid, NC_GLOBAL, ATT_TEXT_NAME, speech_in) != NC_ENOTATT) ERR;
-
-
-      if (nc_close(ncid)) ERR;
+      // if (nc_close(ncid)) ERR;
 
       /* Now delete the att. */
-      if (nc_open(FILE_NAME, NC_WRITE, &ncid)) ERR;
-      if (nc_del_att(ncid, NC_GLOBAL, ATT_TEXT_NAME2)) ERR;
-      if (nc_close(ncid)) ERR;
+      // if (nc_open(FILE_NAME, NC_WRITE, &ncid)) ERR;
+      // if (nc_del_att(ncid, NC_GLOBAL, ATT_TEXT_NAME2)) ERR;
+      // if (nc_close(ncid)) ERR;
 
       /* Now create a file with a variable, which has an att. */
       if (nc_create(FILE_NAME, NC_NETCDF4, &ncid)) ERR;
@@ -1008,7 +1004,7 @@ main(int argc, char **argv)
 
       /* Create another file and copy all the attributes. */
       if (nc_create(FILE_NAME2, NC_NETCDF4, &ncid2)) ERR;
-      // if (nc_copy_att(ncid, NC_GLOBAL, ATT_TEXT_NAME, ncid2, NC_GLOBAL)) ERR;
+      if (nc_copy_att(ncid, NC_GLOBAL, ATT_TEXT_NAME, ncid2, NC_GLOBAL)) ERR;
       if (nc_copy_att(ncid, NC_GLOBAL, ATT_SCHAR_NAME, ncid2, NC_GLOBAL)) ERR;
       if (nc_copy_att(ncid, NC_GLOBAL, ATT_UCHAR_NAME, ncid2, NC_GLOBAL)) ERR;
       if (nc_copy_att(ncid, NC_GLOBAL, ATT_SHORT_NAME, ncid2, NC_GLOBAL)) ERR;
@@ -1027,12 +1023,12 @@ main(int argc, char **argv)
       /* Open the file and check attributes. */
       if (nc_open(FILE_NAME2, 0, &ncid)) ERR;
       /* Check text. */
-      // if (nc_inq_att(ncid, NC_GLOBAL, ATT_TEXT_NAME, &att_type, &att_len)) ERR;
-      // if (att_type != NC_CHAR || att_len != strlen(speech) + 1) ERR;
-      // if (!(speech_in = malloc(att_len + 1))) ERR;
-      // if (nc_get_att_text(ncid, NC_GLOBAL, ATT_TEXT_NAME, speech_in)) ERR;
-      // if (strcmp(speech, speech_in)) ERR;
-      // free(speech_in);
+      if (nc_inq_att(ncid, NC_GLOBAL, ATT_TEXT_NAME, &att_type, &att_len)) ERR;
+      if (att_type != NC_CHAR || att_len != strlen(speech) + 1) ERR;
+      if (!(speech_in = malloc(att_len + 1))) ERR;
+      if (nc_get_att_text(ncid, NC_GLOBAL, ATT_TEXT_NAME, speech_in)) ERR;
+      if (strcmp(speech, speech_in)) ERR;
+      free(speech_in);
       /* Check numeric values. */
       if (nc_get_att_schar(ncid, NC_GLOBAL, ATT_SCHAR_NAME, schar_in)) ERR;
       for (i = 0; i < ATT_LEN; i++)
