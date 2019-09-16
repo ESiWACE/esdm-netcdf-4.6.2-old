@@ -96,14 +96,14 @@ function _osht_cleanup {
         echo "Looks like you failed $failed test of $_OSHT_CURRENT_TEST." >&2
         rv=$failed
     fi
-          
+
     exit $rv
 }
 
 trap _osht_cleanup INT TERM EXIT
 
 function _osht_xmlencode {
-    sed -e 's/\&/\&amp;/g' -e 's/\"/\&quot;/g' -e 's/</\&lt;/g' -e 's/>/\&gt;/g' 
+    sed -e 's/\&/\&amp;/g' -e 's/\"/\&quot;/g' -e 's/</\&lt;/g' -e 's/>/\&gt;/g'
 }
 
 function _osht_strip_terminal_escape {
@@ -121,7 +121,8 @@ function _osht_timestamp {
 function _osht_init_junit {
     cat <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites failures="$(_osht_failed)" name="$0" tests="$_OSHT_PLANNED_TESTS" time="$SECONDS" timestamp="$(_osht_timestamp)" >
+<testsuites>
+<testsuite failures="$(_osht_failed)" name="$0" tests="$_OSHT_PLANNED_TESTS" time="$SECONDS" timestamp="$(_osht_timestamp)" >
 EOF
 }
 
@@ -147,7 +148,7 @@ EOF
 
 function _osht_end_junit {
     cat <<EOF
-</testsuites>
+</testsuite></testsuites>
 EOF
 }
 
@@ -288,7 +289,7 @@ function _osht_qq {
     local IFS=" "
     echo -n "${out[*]}"
 }
-        
+
 function _osht_debug {
     if [[ -n $OSHT_VERBOSE ]]; then
         _osht_debugmsg | sed 's/^/# /g'

@@ -47,15 +47,6 @@ Straining upon the start. The game's afoot:\n\
 Follow your spirit, and upon this charge\n\
 Cry 'God for Harry, England, and Saint George!'";
 
-// *** Tests successful!
-// *** stack smashing detected ***: <unknown> terminated
-// Aborted (core dumped)
-
-// A vector of char is transformed in a string by ESDM. Should we keep the information (NC_CHAR, len) for NetCDF?
-
-//     at /home/lucy/esiwace/esdm/src/esdm-datatypes.c:1128
-// 1128	  eassert(dataset->attr != NULL);
-
 int
 main(int argc, char **argv)
 {
@@ -64,8 +55,7 @@ main(int argc, char **argv)
       size_t att_len;
       int i, v;
 
-      // char *speech_in;
-      char speech_in[1000];
+      char *speech_in;
 
       /* Create a file with two vars, attaching to each an attribute of
        * each type. */
@@ -78,12 +68,12 @@ main(int argc, char **argv)
 
       /* Open the file and check attributes. */
       if (nc_open(FILE_NAME, 0, &ncid)) ERR;
-    	 // if (nc_inq_att(ncid, v, ATT_TEXT_NAME, &att_type, &att_len)) ERR;
-    	 // if (att_type != NC_CHAR || att_len != strlen(speech) + 1) ERR;
-    	 // if (!(speech_in = malloc(att_len + 1))) ERR;
+    	 if (nc_inq_att(ncid, v, ATT_TEXT_NAME, &att_type, &att_len)) ERR;
+    	 if (att_type != NC_CHAR || att_len != strlen(speech) + 1) ERR;
+    	 if (!(speech_in = malloc(att_len + 1))) ERR;
     	 if (nc_get_att_text(ncid, 0, ATT_TEXT_NAME, speech_in)) ERR;
     	 if (strcmp(speech, speech_in)) ERR;
-    	 // free(speech_in);
+    	 free(speech_in);
       if (nc_close(ncid)) ERR;
    SUMMARIZE_ERR;
    FINAL_RESULTS;
