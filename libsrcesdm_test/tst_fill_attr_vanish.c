@@ -82,7 +82,7 @@ int main() {
       printf("Fail\n");
       ERR;
     } else {
-      printf("%s\n", attval);
+      printf("%s\n", ATTVAL);
     }
     free(attval);
   }
@@ -105,7 +105,7 @@ int main() {
       printf("Fail\n");
       ERR;
     } else {
-      printf("%s\n", attval);
+      printf("%s\n", ATTVAL);
     }
     free(attval);
   }
@@ -128,7 +128,7 @@ int main() {
       printf("Fail\n");
       ERR;
     } else {
-      printf("%s\n", attval);
+      printf("%s\n", ATTVAL);
     }
     free(attval);
   }
