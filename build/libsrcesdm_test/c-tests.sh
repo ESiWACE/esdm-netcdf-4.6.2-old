@@ -14,7 +14,7 @@ RUNS ./tst_atts1
 RUNS ./tst_atts2
 RUNS ./tst_atts3
 RUNS ./tst_atts
-RUNS ./tst_attsperf
+#RUNS ./tst_attsperf
 RUNS ./tst_atts_string_rewrite
 RUNS ./tst_camrun
 RUNS ./tst_converts
