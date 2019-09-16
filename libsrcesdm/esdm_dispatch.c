@@ -1279,6 +1279,7 @@ int ESDM_rename_att(int ncid, int varid, const char *name, const char *newname) 
     return NC_EBADID;
 
   smd_attr_t *attr;
+  md_var_t *ev;
   if (varid == NC_GLOBAL) {
     status = esdm_container_get_attributes(e->c, &attr);
     if (status != ESDM_SUCCESS)
@@ -1287,7 +1288,7 @@ int ESDM_rename_att(int ncid, int varid, const char *name, const char *newname) 
     if (varid > e->vars.count) {
       return NC_EACCESS;
     }
-    md_var_t *ev = e->vars.var[varid];
+    ev = e->vars.var[varid];
     assert(ev != NULL);
     status = esdm_dataset_get_attributes(ev->dset, &attr);
     if (status != ESDM_SUCCESS) {
@@ -1303,6 +1304,12 @@ int ESDM_rename_att(int ncid, int varid, const char *name, const char *newname) 
 
   free((void *)attr->childs[attnum]->name);
   attr->childs[attnum]->name = strdup(newname);
+
+  if (varid == NC_GLOBAL) {
+    esdm_container_set_status_dirty(e->c);
+  } else {
+    esdm_dataset_set_status_dirty(ev->dset);
+  }
 
   return NC_NOERR;
 }
