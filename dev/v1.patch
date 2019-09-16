@@ -65,6 +65,15 @@ index b693354..58d02e8 100644
          elif formatp == NC_FORMAT_UNDEFINED:
              return 'UNDEFINED'
      ELSE:
+@@ -1578,7 +1582,7 @@ be raised in the next release."""
+                 PyMem_Free(string_ptrs)
+         else:
+             # don't allow string array attributes in NETCDF3 files.
+-            if is_netcdf3 and N > 1:
++            if is_netcdf3 and N > 1 and fmt != 'ESDM':
+                 msg='array string attributes can only be written with NETCDF4'
+                 raise IOError(msg)
+             if not value_arr.shape:
 @@ -1593,7 +1597,7 @@ be raised in the next release."""
      # if array is 64 bit integers or
      # if 64-bit datatype not supported, cast to 32 bit integers.
@@ -128,6 +137,15 @@ index b693354..58d02e8 100644
                      ierr = nc_open_par(path, NC_NOWRITE | NC_MPIIO, \
                             mpicomm, mpiinfo, &grpid)
                  ELSE:
+@@ -2853,7 +2857,7 @@ Use if you need to ensure that a netCDF attribute is created with type
+ `NC_STRING` if the file format is `NETCDF4`."""
+         cdef nc_type xtype
+         xtype=-99
+-        if self.data_model != 'NETCDF4':
++        if self.data_model != 'NETCDF4' and self.data_model != 'ESDM':
+             msg='file format does not support NC_STRING attributes'
+             raise IOError(msg)
+         _set_att(self, NC_GLOBAL, name, value, xtype=xtype, force_ncstring=True)
 @@ -3435,7 +3435,7 @@ return the group that this `netCDF4.Dimension` is a member of."""
  returns `True` if the `netCDF4.Dimension` instance is unlimited, `False` otherwise."""
          cdef int ierr, n, numunlimdims, ndims, nvars, ngatts, xdimid
