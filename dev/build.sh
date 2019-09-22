@@ -1,5 +1,7 @@
 #!/bin/bash
 
+rm -rf netcdf4-python
+
 echo "This script builds the NetCDF4 Python module with support for NetCDF4 ESDM"
 
 echo "Check where nc-config is found: should be ESDM install dir"
@@ -40,5 +42,8 @@ echo "Setup ESDM as target for tempfiles"
 cd test
 sed -i 's#tempfile.NamedTemporaryFile(.*delete=False).name#"esdm://testfile'$RANDOM'"#'  *.py
 sed -i 's#os.remove(.*#pass#'  *.py
+#sed -i 's#os.stat(.*#pass#'  *.py
+
+cp ../../../build/libsrcesdm_test/_esdm.conf .
 
 exit 0
