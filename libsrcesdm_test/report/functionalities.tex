@@ -6,83 +6,50 @@ This chapter compares the NetCDF functionalities with the current version of ESD
 \section{Error Handling}
 
 \tab
+Each netCDF function returns 0 on success. In general, if a function returns an error code, you can assume it did not do what you hoped it would. NetCDF functions return a non-zero status codes on error. When programming with netCDF, the return code of every netCDF API call can be looked up in \texttt{netcdf.h} (for C programmers).
 
-\begin{framed}
-Each netCDF function in the C, Fortran 77, and Fortran 90 APIs returns 0 on success, in the tradition of C.
+Each netCDF function returns an integer status value. If the returned status value indicates an error, you may handle it in any way desired, from printing an associated error message and exiting to ignoring the error indication and proceeding (not recommended!).\footnote{Reference: \url{https://www.unidata.ucar.edu/software/netcdf/docs/group__error.html}}
 
-NetCDF Error Handling.
+\subsection{ESDM}
 
-When programming with netCDF in these languages, always check return values of every netCDF API call. The return code can be looked up in netcdf.h (for C programmers) or netcdf.inc (for Fortran programmers), or you can use the strerror function to print out an error message. (See nc\_strerror/NF\_STRERROR/NF90\_STRERROR).
-
-In general, if a function returns an error code, you can assume it didn't do what you hoped it would. The exception is the NC\_ERANGE error, which is returned by any of the reading or writing functions when one or more of the values read or written exceeded the range for the type. (For example if you were to try to read 1000 into an unsigned byte.)
-
-In the case of NC\_ERANGE errors, the netCDF library completes the read/write operation, and then returns the error. The type conversion is handled like a C type conversion, whether or not it is within range. This may yield bad data, but the netCDF library just returns NC\_ERANGE and leaves it up to the user to handle. (For more information about type conversion see Type Conversion).
-
-NetCDF functions return a non-zero status codes on error.
-
-Each netCDF function returns an integer status value. If the returned status value indicates an error, you may handle it in any way desired, from printing an associated error message and exiting to ignoring the error indication and proceeding (not recommended!). For simplicity, the examples in this guide check the error status and call a separate function, handle\_err(), to handle any errors. One possible definition of handle\_err() can be found within the documentation of nc\_strerror().
-
-The nc\_strerror() function is available to convert a returned integer error status into an error message string.
-
-Occasionally, low-level I/O errors may occur in a layer below the netCDF library. For example, if a write operation causes you to exceed disk quotas or to attempt to write to a device that is no longer available, you may get an error from a layer below the netCDF library, but the resulting write error will still be reflected in the returned status value.
-
-\url{https://www.unidata.ucar.edu/software/netcdf/docs/group__error.html#details}
-
-\end{framed}
-
+\tab
 NetCDF has an extense classification for the possible errors that might happen. ESDM does not share this classification, and it is something that their developers are not considering to include in the final version. This decision does not affect the performance of ESDM, but it was critical when the NetCDF tests were evaluated. NetCDF tests introduce several wrong conditions, and ESDM does not produce the expected error. Because of that, the code in the NetCDF tests that considers invalid parameters as input was removed.
 
 \section{Classic Model}
 
-\tab
-\begin{framed}
-
-The Classic Model
-
 The classic netCDF data model consists of variables, dimensions, and attributes. This way of thinking about data was introduced with the very first netCDF release, and is still the core of all netCDF files.
 
-In version 4.0, the netCDF data model has been expanded. See The Enhanced Data Model.
+\begin{description}
 
-Variables
-N-dimensional arrays of data. Variables in netCDF files can be one of six types (char, byte, short, int, float, double).
+\item[Variables] $N$-dimensional arrays of data. Variables in netCDF files can be one of six types (char, byte, short, int, float, double).
 
-Dimensions
-describe the axes of the data arrays. A dimension has a name and a length. An unlimited dimension has a length that can be expanded at any time, as more data are written to it. NetCDF files can contain at most one unlimited dimension.
+\item[Dimensions] describe the axes of the data arrays. A dimension has a name and a length. An unlimited dimension has a length that can be expanded at any time, as more data are written to it. NetCDF files can contain at most one unlimited dimension.
 
-Attributes
-annotate variables or files with small notes or supplementary metadata. Attributes are always scalar values or 1D arrays, which can be associated with either a variable or the file as a whole. Although there is no enforced limit, the user is expected to keep attributes small.
+\item[Attributes] annotate variables or files with small notes or supplementary metadata. Attributes are always scalar values or 1D arrays, which can be associated with either a variable or the file as a whole. Although there is no enforced limit, the user is expected to keep attributes small.
 
-With netCDF-4, the netCDF data model has been extended, in a backwards compatible way.
+\end{description}
 
-The new data model, which is known as the “Common Data Model” is part of an effort here at Unidata to find a common engineering language for the development of scientific data solutions. It contains the variables, dimensions, and attributes of the classic data model, but adds:
+With netCDF-4, the netCDF data model has been extended, in a backwards compatible way. The new data model, which is known as the \textbf{Common Data Model} is part of an effort here at Unidata to find a common engineering language for the development of scientific data solutions. It contains the variables, dimensions, and attributes of the classic data model, but adds:
 
-groups - A way of hierarchically organizing data, similar to directories in a Unix file system.
+\begin{description}
 
-user-defined types - The user can now define compound types (like C structures), enumeration types, variable length arrays, and opaque types.
+\item[Groups] A way of hierarchically organizing data, similar to directories in a Unix file system.
 
-These features may only be used when working with a netCDF-4/HDF5 file. Files created in classic formats cannot support groups or user-defined types.
+\item[User-defined Types] The user can now define compound types (like C structures), enumeration types, variable length arrays, and opaque types.
 
-With netCDF-4/HDF5 files, the user may define groups, which may contain variables, dimensions, and attributes. In this way, a group acts as a container for the classic netCDF dataset. But netCDF-4/HDF5 files can have many groups, organized hierarchically.
+\end{description}
 
-Each file begins with at least one group, the root group. The user may then add more groups, receiving a new ncid for each group created.
+These features may only be used when working with a netCDF-4/HDF5 file. Files created in classic formats cannot support groups or user-defined types.\footnote{Reference: \url{https://www.unidata.ucar.edu/software/netcdf/docs/netcdf_data_model.html}}
 
-Since each group functions as a complete netCDF classic dataset, it is possible to have variables with the same name in two or more different groups, within the same netCDF-4/HDF5 data file.
+\subsection{ESDM}
 
-Dimensions have a special scope: they may be seen by all variables in their group, and all descendant groups. This allows the user to define dimensions in a top-level group, and use them in many sub-groups.
-
-Since it may be necessary to write code which works with all types of netCDF data files, we also introduce the ability to create netCDF-4/HDF5 files which follow all the rules of the classic netCDF model. That is, these files are in HDF5, but will not support multiple unlimited dimensions, user-defined types, groups, etc. They act just like a classic netCDF file.
-
-\url{https://www.unidata.ucar.edu/software/netcdf/docs/netcdf_data_model.html}
-
-\end{framed}
-
+\tab
 NetCDF includes tests with the Classic Model, which ESDM does not support, and it has no intention of doing it.
 
 \section{Modes}
 
 \tab
-\begin{framed}
-Some tests consider in which mode the file is open. There are two modes associated with accessing a NetCDF file:
+Some tests consider in which mode the file is open. There are two modes associated with accessing a NetCDF file:\footnote{Reference: \url{https://northstar-www.dartmouth.edu/doc/idl/html_6.2/NetCDF_Data_Modes.html}}
 
 \begin{description}
 
@@ -92,11 +59,10 @@ Some tests consider in which mode the file is open. There are two modes associat
 
 \end{description}
 
-\url{https://northstar-www.dartmouth.edu/doc/idl/html_6.2/NetCDF_Data_Modes.html}
+\subsection{ESDM}
 
-\end{framed}
-
-The current version of ESDM does not have restrictions in the modes. Once the file is open, the user can do any modifications s/he wants. Tables \ref{tab_modes_create} amd \ref{tab_modes_open} compares the options for creating and opening a file using NetCDF and ESDM.
+\tab
+The current version of ESDM does not have restrictions regarding the modes. Once the file is open, the user can do any modifications s/he wants. Tables \ref{tab_modes_create} amd \ref{tab_modes_open} compares the options for creating and opening a file using NetCDF and ESDM.
 
 \begin{table}[H]
 \centering
@@ -135,40 +101,63 @@ NC\_PERSIST & Force the NC\_DISKLESS data from memory to a file &  NOT SUPPORTED
 \section{Data Types}
 
 \tab
+Data in a netCDF file may be one of the \textbf{external data types}, or may be a \textbf{user-defined data type}.\footnote{Reference: \url{https://www.unidata.ucar.edu/software/netcdf/docs/data_type.html}}
 
-\url{https://www.unidata.ucar.edu/software/netcdf/docs/data_type.html#external_types}
+\subsection{External Data Types}
 
-\url{https://www.unidata.ucar.edu/software/netcdf/docs/user_defined_types.html}
+\tab
+The atomic external types supported by the netCDF interface are:
 
-\url{https://www.unidata.ucar.edu/software/netcdf/netcdf/netCDF-user-defined-data-types.html}
+\begin{description}
 
+\item[\small NC\_BYTE] 8-bit signed integer
+\\item[\small NC\_UBYTE] 8-bit unsigned integer
+\\item[\small NC\_CHAR] 8-bit character
+\\item[\small NC\_SHORT] 16-bit signed integer
+\\item[\small NC\_USHORT] 16-bit unsigned integer
+\\item[\small NC\_INT (or NC\_LONG)] 32-bit signed integer
+\\item[\small NC\_UINT] 32-bit unsigned integer
+\\item[\small NC\_INT64] 64-bit signed integer
+\\item[\small NC\_UINT64] 64-bit unsigned integer
+\\item[\small NC\_FLOAT] 32-bit floating point
+\\item[\small NC\_DOUBLE] 64-bit floating point
+\\item[\small NC\_STRING] variable length character string
+
+\end{description}
+
+\subsection{User Defined Types}
+
+\tab
+The user can now define compound types (like C structures), enumeration types, variable length arrays, and opaque types\footnote{Reference: \url{https://www.unidata.ucar.edu/software/netcdf/docs/user\_defined\_types.html}}.
+
+\begin{description}
+
+\item[Compound Types]
+
+In netCDF-4 files it is possible to create a data type which corresponds to a C struct. These are known as \textbf{compound} types (following HDF5 nomenclature).
+
+That is, a netCDF compound type is a data structure which contains an arbitrary collection of other data types, including other compound types.
+
+To define a new compound type, use \texttt{nc\_def\_compound()}. Then call \texttt{nc\_insert\_compound()} for each type within the compound type.
+
+Read and write arrays of compound data with the \texttt{nc\_get\_vara()} and \texttt{nc\_put\_vara()} functions. These functions were actually part of the netCDF-2 API, brought out of semi-retirement to handle user-defined types in netCDF-4.
+
+\item[Opaque Types]
+
+Store blobs of bits in opaque types. Create an opaque type with nc\_def\_opaque. Read and write them with \texttt{nc\_get\_vara()}/\texttt{nc\_put\_vara()}.
+
+\item[Variable Length Arrays (VLEN)]
+
+Create a VLEN type to store variable length arrays of a known base type. Use \texttt{nc\_def\_vlen()} to define a VLEN type, read and write them with \texttt{nc\_get\_vara()}/\texttt{nc\_put\_vara()}.
+
+\end{description}
+
+\footnote{Reference: \url{https://www.unidata.ucar.edu/software/netcdf/netcdf/netCDF-user-defined-data-types.html}}
+
+\subsection{ESDM}
+
+\tab
 ESDM supports the same basic types that NetCDF. The correspondence between the data types are provided in Table \ref{basic-datatypes-netcdf}.
-
-\begin{comment}
-
-\begin{table}[H]
-\centering
-\begin{tabular}{|l|c|l|l|}
-\hline
-NetCDF TYPE & Number (Value?) & ESDM Type & ESDM Representation \\ \hline \hline
-NC\_BYTE       &  1   & SMD\_DTYPE\_INT8     & int8\_t    \\ \hline
-NC\_UBYTE      &  7   & SMD\_DTYPE\_UINT8    & uint8\_t    \\ \hline
-NC\_CHAR       &  2   & SMD\_DTYPE\_CHAR     & char    \\ \hline
-NC\_SHORT      &  3   & SMD\_DTYPE\_INT16    & int16\_t    \\ \hline
-NC\_USHORT     &  8   & SMD\_DTYPE\_UINT16   & uint16\_t    \\ \hline
-NC\_INT        &  4   & SMD\_DTYPE\_INT32    & int32\_t    \\ \hline
-NC\_LONG       &  4   & SMD\_DTYPE\_INT32    & int32\_t    \\ \hline
-NC\_UINT       &  9   & SMD\_DTYPE\_UINT32   & uint32\_t    \\ \hline
-NC\_INT64      &  10  & SMD\_DTYPE\_INT64    & int64\_t    \\ \hline
-NC\_UINT64     &  5   & SMD\_DTYPE\_UINT64   & uint64\_t    \\ \hline
-NC\_FLOAT      &  11  & SMD\_DTYPE\_FLOAT    & 32 bits    \\ \hline
-NC\_DOUBLE     &  6   & SMD\_DTYPE\_DOUBLE   & 64 bits    \\ \hline
-\hline
-\end{tabular}
-\caption{\label{basic-datatypes-size} Equivalence between ESDM and NetCDF4 data types -- Data types sorted by size.}
-\end{table}
-
-\end{comment}
 
 \begin{table}[H]
 \centering
@@ -192,7 +181,7 @@ Number & NetCDF TYPE & ESDM Type & ESDM Representation \\ \hline \hline
 \caption{\label{basic-datatypes-netcdf} Equivalence between ESDM and NetCDF4 data types.}
 \end{table}
 
-\url{https://www.unidata.ucar.edu/software/netcdf/netcdf/netCDF-external-data-types.html}
+\footnote{Reference: \url{https://www.unidata.ucar.edu/software/netcdf/netcdf/netCDF-external-data-types.html}}
 
 The current version of ESDM does not support user-defined data types, but the developers intend to support this feature in the final version. Table \ref{datatypes-netcdf} summarizes the available NetCDF data types and the corresponding support from ESDM.
 
@@ -225,10 +214,11 @@ NC\_ENUM & used internally for enum types &       NOT SUPPORTED YET      \\ \hli
 
 \section{Compression}
 
+\footnote{Reference: \url{https://www.unidata.ucar.edu/blogs/developer/entry/netcdf_compression}}
+
+\subsection{ESDM}
+
 \tab
-
-\url{https://www.unidata.ucar.edu/blogs/developer/entry/netcdf_compression}
-
 ESDM does not support compression yet. Because of that, all functions and tests related to chunking, deflate, and fletcher will not work when using ESDM. There is a compression library read to be used, but it was not yet integrated with the current version of ESDM. The Scientific Compression Library (SCIL) can be found in the following Git Repository:
 
 \begin{center}
@@ -242,10 +232,13 @@ ESDM does not support compression yet. Because of that, all functions and tests 
 
 The endianness is defined as the order of bytes in multi-byte numbers: numbers encoded in big endian have their most significant bytes written first, whereas numbers encoded in little endian have their least significant bytes first. Little-endian is the native endianness of the IA32 architecture and its derivatives, while big-endian is native to SPARC and PowerPC, among others.
 
-\url{https://www.gnu.org/software/guile/manual/html_node/Bytevector-Endianness.html#FOOT10}
+\footnote{Reference: \url{https://www.gnu.org/software/guile/manual/html_node/Bytevector-Endianness.html}}
 
 \end{framed}
 
+\subsection{ESDM}
+
+\tab
 ESDM only supports native-endianness of the machine it runs on.
 
 \section{Groups}
@@ -263,10 +256,13 @@ Attributes defined as NC\_GLOBAL apply to the group, not the entire file.
 
 The degenerate case, in which only the root group is used, corresponds exactly with the classic data mode, before groups were introduced.
 
-\url{https://www.unidata.ucar.edu/software/netcdf/docs/groups.html}
+\footnote{Reference: \url{https://www.unidata.ucar.edu/software/netcdf/docs/groups.html}}
 
 \end{framed}
 
+\subsection{ESDM}
+
+\tab
 In general, ESDM does not support groups from NetCDF. When only the root group is used, ESDM can work adequately and assumes the group and the file are the same entity. When there are more than one group or subgroups, ESDM can be called using the following command-line interface:
 
 ???
@@ -286,9 +282,14 @@ In netCDF, you can create an attribute for the variable (and of the same type as
 
 Using attributes it is possible to capture metadata that would otherwise be separated from the data. Various conventions have been established. By using a set of conventions, a data producer is more likely to produce files that can be easily shared within the research community, and that contain enough details to be useful as a long-term archive. Conventions also make it easier to develop software that interprets information represented in data, because a convention selects one conventional way to represent information when multiple equivalent representations are possible.
 
-\url{https://www.unidata.ucar.edu/software/netcdf/docs/fill_values.html}
+\footnote{Reference: \url{https://www.unidata.ucar.edu/software/netcdf/docs/fill_values.html}}
 
 \end{framed}
+
+\subsection{ESDM}
+
+\tab
+ESDM supports fill values.
 
 \section{Conversion}
 
@@ -312,13 +313,198 @@ Whether a range error occurs in writing a large floating-point value near the bo
 
 The \_uchar and \_schar functions were introduced in netCDF-3 to eliminate an ambiguity, and support both signed and unsigned byte data. In netCDF-2, whether the external NC\_BYTE type represented signed or unsigned values was left up to the user. In netcdf-3, we treat NC\_BYTE as signed for the purposes of conversion to short, int, long, float, or double. (Of course, no conversion takes place when the internal type is signed char.) In the \_uchar functions, we treat NC\_BYTE as if it were unsigned. Thus, no NC\_ERANGE error can occur converting between NC\_BYTE and unsigned char.
 
-\url{https://www.unidata.ucar.edu/software/netcdf/docs/data_type.html}
+\footnote{Reference: \url{https://www.unidata.ucar.edu/software/netcdf/docs/data_type.html}}
 
-\url{https://www.unidata.ucar.edu/software/netcdf/netcdf/Type-Conversion.html}
+\footnote{Reference: \url{https://www.unidata.ucar.edu/software/netcdf/netcdf/Type-Conversion.html}}
 
 \end{framed}
 
-\url{https://www.unidata.ucar.edu/software/netcdf/docs/data_type.html}
+\footnote{Reference: \url{https://www.unidata.ucar.edu/software/netcdf/docs/data_type.html}}
+
+\subsection{ESDM}
+
+\tab
+Tests with ESDM conversion:
+
+\begin{verbatim}
+
+Final Results - INT8 to FLOAT
+
+********************************************
+INT8_MAX = 127
+Maximum FLOAT = 126.000000
+Maximum INT8 = 126
+********************************************
+
+********************************************
+INT8_MIN = -128
+Minimum FLOAT = -127.000000
+Minimum INT8 = -127
+********************************************
+
+Final Results - INT16 to FLOAT
+
+********************************************
+INT16_MAX = 32767
+Maximum FLOAT = 32766.000000
+Maximum INT16 = 32766
+********************************************
+
+********************************************
+INT16_MIN = -32768
+Minimum FLOAT = -32767.000000
+Minimum INT16 = -32767
+********************************************
+
+Final Results - INT32 to FLOAT
+
+********************************************
+INT32_MAX = 2147483647
+Maximum FLOAT = 2147483520.000000
+Maximum INT32 = 2147483583
+********************************************
+
+********************************************
+INT32_MIN = -2147483648
+Minimum FLOAT = -2147483520.000000
+Maximum INT32 = -2147483583
+********************************************
+
+Final Results - INT64 to FLOAT
+
+********************************************
+INT64_MAX = 9223372036854775807
+Maximum FLOAT = 9223371487098961920.000000
+Maximum INT64 = 9223371761976865807
+********************************************
+
+********************************************
+INT64_MIN = -9223372036854775808
+Minimum FLOAT = -9223371487098961920.000000
+Minimum INT64 = -9223371761976865808
+********************************************
+
+Final Results - UINT8 to FLOAT
+
+********************************************
+UINT8_MAX = 255
+Maximum FLOAT = 254.000000
+Maximum UINT8 = 254
+********************************************
+
+Final Results - UINT16 to FLOAT
+
+********************************************
+UINT16_MAX = 65535
+Maximum FLOAT = 65534.000000
+Maximum UINT16 = 65534
+********************************************
+
+Final Results - UINT32 to FLOAT
+
+********************************************
+UINT32_MAX = 4294967295
+Maximum FLOAT = 4294967040.000000
+Maximum UINT32 = 4294967167
+********************************************
+
+Final Results - UINT64 to FLOAT
+
+********************************************
+UINT64_MAX = 18446744073709551615
+Maximum FLOAT = 18446742974197923840.000000
+Maximum UINT64 = 18446743523953731615
+********************************************
+
+Final Results - INT8 to DOUBLE
+
+********************************************
+INT8_MAX = 127
+Maximum DOUBLE = 126.000000
+Maximum INT8 = 126
+********************************************
+
+********************************************
+INT8_MIN = -128
+Minimum DOUBLE = -127.000000
+Minimum INT8 = -127
+********************************************
+
+Final Results - INT16 to DOUBLE
+
+********************************************
+INT16_MAX = 32767
+Maximum DOUBLE = 32766.000000
+Maximum INT16 = 32766
+********************************************
+
+********************************************
+INT16_MIN = -32768
+Minimum DOUBLE = -32767.000000
+Minimum INT16 = -32767
+********************************************
+
+Final Results - INT32 to DOUBLE
+
+********************************************
+INT32_MAX = 2147483647
+Maximum DOUBLE = 2147483646.000000
+Maximum INT32 = 2147483646
+********************************************
+
+********************************************
+INT32_MIN = -2147483648
+Minimum DOUBLE = -2147483647.000000
+Minimum INT32 = -2147483647
+********************************************
+
+Final Results - INT64 to DOUBLE
+
+********************************************
+INT64_MAX = 9223372036854775807
+Maximum DOUBLE = 9223372036854774784.000000
+Maximum INT64 = 9223372036854775295
+********************************************
+
+********************************************
+INT64_MIN = -9223372036854775808
+Minimum DOUBLE = -9223372036854774784.000000
+Minimum INT64 = -9223372036854775295
+********************************************
+
+Final Results - UINT8 to DOUBLE
+
+********************************************
+UINT8_MAX = 255
+Maximum DOUBLE = 254.000000
+Maximum UINT8 = 254
+********************************************
+
+Final Results - UINT16 to DOUBLE
+
+********************************************
+UINT16_MAX = 65535
+Maximum DOUBLE = 65534.000000
+Maximum UINT16 = 65534
+********************************************
+
+Final Results - UINT32 to DOUBLE
+
+********************************************
+UINT32_MAX = 4294967295
+Maximum DOUBLE = 4294967294.000000
+Maximum UINT32 = 4294967294
+********************************************
+
+Final Results - UINT64 to DOUBLE
+
+********************************************
+UINT64_MAX = 18446744073709551615
+Maximum DOUBLE = 18446744073709549568.000000
+Maximum UINT64 = 18446744073709550591
+********************************************
+
+\end{verbatim}
 
 \begin{comment}
 
