@@ -1,3 +1,62 @@
 \chapter{Introduction}
+\label{ch:intro}
 
 \tab
+The focus of this report is covering the compatibility between ESDM and NetCDF4.
+
+The Earth System Data Middleware (ESDM) provides a high level of abstraction for earth system applications in the presence of storage heterogeneity. This novel middleware aims to include aspects of workflow management capabilities to enable intelligent storage management that not only optimises data locality and performance but also lifts data management to a new level. The architecture utilises scientific metadata to exploit a centric perspective of the data structure while retaining well-established end-user interfaces. For further information on ESDM, check the Git Repository on \url{https://github.com/ESiWACE/esdm}.
+
+The design goals of the ESDM are:
+
+\begin{itemize}
+
+\item Relaxed access semantics, tailored to scientific data generation
+
+\item Site-specific (optimised) data layout schemes
+
+\item Ease of use and deployment particularly configuration
+
+\item Enable a configurable namespace based on scientific metadata
+
+\end{itemize}
+
+NetCDF (Network Common Data Form) is a set of software libraries and self-describing, machine-independent data formats that support the creation, access, and sharing of array-oriented scientific data. The project homepage is hosted by the Unidata program at the University Corporation for Atmospheric Research (UCAR). The format is an open standard. The project started in 1989 and is still actively supported by UCAR. The original netCDF binary format (released in 1997, now known as ``netCDF classic format'') is still widely used across the world and continues to be fully supported in all netCDF releases. Version 4.0 (released in 2008) allowed the use of the HDF5 data file format. Version 4.1 (2010) added support for C and Fortran client access to specified subsets of remote data via OPeNDAP. Version 4.3.0 (2012) added a CMake build system for Windows builds. Version 4.7.0 (2019) added support for reading Amazon S3 objects. Further releases are planned to improve performance, add features, and fix bugs.
+
+NetCDF (Network Common Data Form) is a set of software libraries and machine-independent data formats that support the creation, access, and sharing of array-oriented scientific data. It is also a community standard for sharing scientific data. The Unidata Program Center supports and maintains netCDF programming interfaces for C, C++, Java, and Fortran. Programming interfaces are also available for Python, IDL, MATLAB, R, Ruby, and Perl. For further information on NetCDF, check \url{https://www.unidata.ucar.edu/software/netcdf/}.
+
+Data in netCDF format is:
+
+\begin{description}
+
+\item[Self-Describing] A netCDF file includes information about the data it contains.
+
+\item[Portable] A netCDF file can be accessed by computers with different ways of storing integers, characters, and floating-point numbers.
+
+\item[Scalable] Small subsets of large datasets in various formats may be accessed efficiently through netCDF interfaces, even from remote servers.
+
+\item[Appendable] Data may be appended to a properly structured netCDF file without copying the dataset or redefining its structure.
+Sharable. One writer and multiple readers may simultaneously access the same netCDF file.
+
+\item[Archivable] Access to all earlier forms of netCDF data will be supported by current and future versions of the software.
+
+\end{description}
+
+This report is organised as follows:
+
+\begin{description}
+
+\item[Chapter \ref{ch:func}] describes the main NetCDF funcionalities and their coverage by ESDM.
+
+\item[Chapter \ref{ch:nctests}] introduces the C tests provided by NetCDF in its documentation and the status when running with ESDM.
+
+\item[Chapter \ref{ch:python}] introduces the Python tests provided by NetCDF in its documentation and the status when running with ESDM.
+
+\item[Chapter \ref{ch:bench}] analyses the NetCDF Performance Benchmark Tool.
+
+\item[Chapter \ref{ch:nccopy}] explores the nccopy utility.
+
+\item[Chapter \ref{ch:conc}] concludes this compatibility report.
+
+\end{description}
+
+% Chapter \ref{ch:func} describes the main NetCDF funcionalities and their coverage by ESDM. Chapter \ref{ch:nctests}] introduces the C tests and Chapter \ref{ch:python} introduces the Python tests provided by NetCDF in its documentation and the status when running with ESDM. Chapter \ref{ch:bench} analyses the NetCDF Performance Benchmark Tool and Chapter \ref{ch:nccopy} explores the nccopy utility.

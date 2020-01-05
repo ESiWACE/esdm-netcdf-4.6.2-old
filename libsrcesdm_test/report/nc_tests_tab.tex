@@ -2,27 +2,31 @@
 \centering
 \begin{tabular}{|l|c|c|c|c|}
 \hline
-File & Not Tested & Not Building & Not Running & Working \\ \hline \hline
+\multicolumn{1}{|c|}{File} & \multicolumn{1}{|c|}{Not Tested} & \multicolumn{1}{|c|}{Not Building} & \multicolumn{1}{|c|}{Not Running} & \multicolumn{1}{|c|}{Working} \\ \hline \hline
 bigmeta.c   & $\checkmark$  &   &   &    \\ \hline
-openbigmeta.c & $\checkmark$   &   &   &    \\ \hline
 bm\_file.c   &  & $\checkmark$  &   &    \\ \hline
 bm\_many\_atts.c   &  & $\checkmark$  &   &    \\ \hline
 bm\_many\_objs.c   &  & $\checkmark$  &   &    \\ \hline
 bm\_netcdf4\_recs.c   &  & $\checkmark$  &   &    \\ \hline
+cdm\_sea\_soundings.c   &  &   &   &    \\ \hline
+h5testszip.c &    &   &   &    \\ \hline
+openbigmeta.c & $\checkmark$   &   &   &    \\ \hline
 ref\_bzip2.c   &  & $\checkmark$  &   &    \\ \hline
 renamegroup.c   &  &   &   & $\checkmark$    \\ \hline
 test\_filter.c   &  & $\checkmark$  &   &    \\ \hline
 test\_filter\_misc.c   &  & $\checkmark$  &   &    \\ \hline
 test\_szip.c   &  &   &   & $\checkmark$    \\ \hline
+tst\_ar4\_3d.c   &  & $\checkmark$  &   &    \\ \hline
+tst\_ar4\_4d.c   &  & $\checkmark$  &   &    \\ \hline
+tst\_ar4.c   &  & $\checkmark$  &   &    \\ \hline
 tst\_atts1.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_atts2.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_atts3.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_atts.c   &  &   &   & $\checkmark$    \\ \hline
+tst\_atts\_mod.c   &  &   &   &     \\ \hline
 tst\_attsperf.c   &  &   &   & $\checkmark$    \\ \hline
+tst\_atts-simple.c   &  &   &   &     \\ \hline
 tst\_atts\_string\_rewrite.c   &  &   &   & $\checkmark$    \\ \hline
-tst\_ar4\_3d.c   &  & $\checkmark$  &   &    \\ \hline
-tst\_ar4\_4d.c   &  & $\checkmark$  &   &    \\ \hline
-tst\_ar4.c   &  & $\checkmark$  &   &    \\ \hline
 tst\_bug324.c   &  &   &   & $\checkmark$    \\ \hline
 \hline
 \end{tabular}
@@ -33,53 +37,53 @@ tst\_bug324.c   &  &   &   & $\checkmark$    \\ \hline
 \centering
 \begin{tabular}{|l|c|c|c|c|}
 \hline
-File & Not Tested & Not Building & Not Running & Working \\ \hline \hline
+\multicolumn{1}{|c|}{File} & \multicolumn{1}{|c|}{Not Tested} & \multicolumn{1}{|c|}{Not Building} & \multicolumn{1}{|c|}{Not Running} & \multicolumn{1}{|c|}{Working} \\ \hline \hline
 tst\_camrun.c   &  &   &   & $\checkmark$    \\ \hline
-tst\_chunks.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_chunks2.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_chunks3.c   &  &   &   & $\checkmark$    \\ \hline
-tst\_compounds.c   &  &   &  $\checkmark$ &    \\ \hline
+tst\_chunks.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_compounds2.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_compounds3.c   &  &   &   & $\checkmark$    \\ \hline
-tst\_converts.c   &  &   &   & $\checkmark$    \\ \hline
+tst\_compounds.c   &  &   &  $\checkmark$ &    \\ \hline
 tst\_converts2.c   &  &   &   & $\checkmark$    \\ \hline
-tst\_coords.c   &  &   &   & $\checkmark$    \\ \hline
+tst\_converts.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_coords2.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_coords3.c   &  &   &   & $\checkmark$    \\ \hline
+tst\_coords.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_create\_files.c   &  &   &   & $\checkmark$    \\ \hline
-tst\_dims.c   &  &   &  $\checkmark$ &    \\ \hline
 tst\_dims2.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_dims3.c   &  &   &   & $\checkmark$    \\ \hline
+tst\_dims.c   &  &   &  $\checkmark$ &    \\ \hline
 tst\_elatefill.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_empty\_vlen\_unlim.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_endian\_fill.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_enums.c   &  &   &   & $\checkmark$    \\ \hline
-tst\_files.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_files2.c   &  & $\checkmark$  &   &    \\ \hline
 tst\_files3.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_files4.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_files5.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_files6.c   &  &   &   & $\checkmark$    \\ \hline
+tst\_files.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_fill\_attr\_vanish.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_fillbug.c   &  &   &   & $\checkmark$    \\ \hline
-tst\_fills.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_fills2.c   &  &   &   & $\checkmark$    \\ \hline
+tst\_fills.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_filterparser.c   &  &   &   & $\checkmark$    \\ \hline
-tst\_grps.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_grps2.c   &  &   &   & $\checkmark$    \\ \hline
+tst\_grps.c   &  &   &   & $\checkmark$    \\ \hline
+tst\_h5\_endians.c   &  &   &   & $\checkmark$    \\ \hline
+tst\_hdf5\_file\_compat.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_h\_many\_atts.c   &  & $\checkmark$  &   &    \\ \hline
 tst\_h\_refs.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_h\_scalar.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_h\_strbug.c   &  &   &   & $\checkmark$    \\ \hline
-tst\_h5\_endians.c   &  &   &   & $\checkmark$    \\ \hline
-tst\_hdf5\_file\_compat.c   &  &   &   & $\checkmark$    \\ \hline
-tst\_interops.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_interops4.c   &  &   &  $\checkmark$ &    \\ \hline
 tst\_interops5.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_interops6.c   &  &   &   & $\checkmark$    \\ \hline
+tst\_interops.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_knmi.c   &  & $\checkmark$  &   &    \\ \hline
-tst\_large.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_large2.c   &  &   &   & $\checkmark$    \\ \hline
+tst\_large.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_mem.c   &  &   &   & $\checkmark$    \\ \hline
 \hline
 \end{tabular}
@@ -90,15 +94,16 @@ tst\_mem.c   &  &   &   & $\checkmark$    \\ \hline
 \centering
 \begin{tabular}{|l|c|c|c|c|}
 \hline
-File & Not Tested & Not Building & Not Running & Working \\ \hline \hline
+\multicolumn{1}{|c|}{File} & \multicolumn{1}{|c|}{Not Tested} & \multicolumn{1}{|c|}{Not Building} & \multicolumn{1}{|c|}{Not Running} & \multicolumn{1}{|c|}{Working} \\ \hline \hline
+tst\_misc.c   &  &   &   &     \\ \hline
 tst\_mode.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_mpi\_parallel.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_nc4perf.c   &  &   &  $\checkmark$ &    \\ \hline
 tst\_opaques.c   &  &   &   & $\checkmark$    \\ \hline
-tst\_parallel.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_parallel3.c   &  &   &  $\checkmark$ &    \\ \hline
 tst\_parallel4.c   &  &   &  $\checkmark$ &    \\ \hline
 tst\_parallel5.c   &  &   &  $\checkmark$ &    \\ \hline
+tst\_parallel.c   &  &   &   & $\checkmark$    \\ \hline
 tst\_put\_vars.c   &  &   &   & $\checkmark$    \\ \hline
 {\footnotesize tst\_put\_vars\_two\_unlim\_dim.c}   &  & $\checkmark$  &   &    \\ \hline
 tst\_rehash.c   &  &   &   & $\checkmark$    \\ \hline
@@ -127,3 +132,77 @@ t\_type.c   &  &   &   & $\checkmark$    \\ \hline
 \end{tabular}
 \caption{\label{tab:nc_test4_3} List of nc\_test4 files -- Part III}
 \end{table}
+
+\begin{comment}
+
+    -rw-r--r-- 1 lucy lucy   3978 Sep  1 21:39 h5testszip.c
+    -rw-r--r-- 1 lucy lucy   2208 Sep 14 20:54 Makefile.am
+    -rw-r--r-- 1 lucy lucy 169874 Jan  5 17:11 Makefile.in
+    drwxr-xr-x 2 lucy lucy   4096 Sep 13 23:32 NC_FAILURE
+    drwxr-xr-x 2 lucy lucy   4096 Sep 22 10:33 netcdf-bench
+    drwxr-xr-x 2 lucy lucy   4096 Dec 31 02:13 report
+    -rw-r--r-- 1 lucy lucy   3858 Sep 13 23:32 test_szip.c
+    -rw-r--r-- 1 lucy lucy  53308 Sep 14 20:11 tst_atts1.c
+    -rw-r--r-- 1 lucy lucy   8719 Sep 14 19:29 tst_atts2.c
+    -rw-r--r-- 1 lucy lucy  80104 Sep  1 21:39 tst_atts3.c
+    -rw-r--r-- 1 lucy lucy  15108 Sep  1 21:39 tst_atts.c
+
+Sorry! Unexpected result, ../../libsrcesdm_test/tst_atts.c, line: 125
+
+    -rw-r--r-- 1 lucy lucy   5463 Sep  1 21:39 tst_attsperf.c
+
+Too long
+
+    -rw-r--r-- 1 lucy lucy   1302 Sep  1 21:39 tst_atts_string_rewrite.c
+    -rw-r--r-- 1 lucy lucy 355523 Sep  1 21:39 tst_camrun.c
+    -rw-r--r-- 1 lucy lucy   6097 Sep  1 21:39 tst_converts.c
+    -rw-r--r-- 1 lucy lucy   7439 Sep  1 21:39 tst_coords2.c
+    -rw-r--r-- 1 lucy lucy  18339 Sep  1 21:39 tst_coords3.c
+    -rw-r--r-- 1 lucy lucy  33426 Sep  1 21:39 tst_coords.c
+    -rw-r--r-- 1 lucy lucy   9193 Sep  1 21:39 tst_create_files.c
+    -rw-r--r-- 1 lucy lucy  16352 Sep 14 21:04 tst_dims2.c
+    -rw-r--r-- 1 lucy lucy  54244 Sep 14 20:44 tst_dims.c
+    -rw-r--r-- 1 lucy lucy   7366 Sep 13 23:32 tst_files3.c
+    -rw-r--r-- 1 lucy lucy   1672 Sep  1 21:39 tst_files5.c
+    -rw-r--r-- 1 lucy lucy   3149 Sep  1 21:39 tst_files6.c
+    -rw-r--r-- 1 lucy lucy  26104 Sep 14 19:42 tst_files.c
+    -rw-r--r-- 1 lucy lucy   4347 Sep 22 10:33 tst_fill_attr_vanish.c
+    -rw-r--r-- 1 lucy lucy   3083 Sep 13 23:32 tst_fillbug.c
+    -rw-r--r-- 1 lucy lucy  11955 Sep 13 23:32 tst_fills.c
+
+tst_fills: /home/lucy/esiwace/esdm/src/esdm-scheduler.c:795: fragmentsCoverSpace: Assertion `fragments' failed.
+
+    -rw-r--r-- 1 lucy lucy   4691 Sep  1 21:39 tst_filterparser.c
+    -rw-r--r-- 1 lucy lucy   1834 Sep  1 21:39 tst_large.c
+    -rw-r--r-- 1 lucy lucy   2160 Sep  1 21:39 tst_mem.c
+    -rw-r--r-- 1 lucy lucy   1130 Sep  1 21:39 tst_mode.c
+    -rw-r--r-- 1 lucy lucy   1754 Sep  1 21:39 tst_mpi_parallel.c
+    -rw-r--r-- 1 lucy lucy   4597 Sep  1 21:39 tst_parallel.c
+
+    ???
+
+    -rw-r--r-- 1 lucy lucy   1923 Sep 13 23:32 tst_put_vars.c
+    -rw-r--r-- 1 lucy lucy   1217 Sep 13 23:32 tst_rehash.c
+    -rw-r--r-- 1 lucy lucy   4116 Sep  1 21:39 tst_rename2.c
+
+Sorry! Unexpected result, ../../libsrcesdm_test/tst_rename2.c, line: 68
+
+    -rw-r--r-- 1 lucy lucy  21221 Sep 13 23:32 tst_rename.c
+    -rw-r--r-- 1 lucy lucy  16185 Sep 13 23:32 tst_simplerw_coll_r.c
+
+tst_simplerw_coll_r: /home/lucy/esiwace/esdm/src/esdm.c:66: esdm_dataset_get_dataspace: Assertion `*out_dataspace != ((void *)0)' failed.
+
+    -rw-r--r-- 1 lucy lucy   5506 Sep  1 21:39 tst_sync.c
+    -rw-r--r-- 1 lucy lucy   5753 Sep  1 21:39 tst_unlim_vars.c
+    -rw-r--r-- 1 lucy lucy   1932 Sep  1 21:39 tst_v2.c
+    -rw-r--r-- 1 lucy lucy   8831 Sep  1 21:39 tst_varms.c
+    -rw-r--r-- 1 lucy lucy  64913 Sep  1 21:39 tst_vars2.c
+    -rw-r--r-- 1 lucy lucy  23404 Sep  1 21:39 tst_vars3.c
+    -rw-r--r-- 1 lucy lucy   5735 Sep  1 21:39 tst_vars4.c
+    -rw-r--r-- 1 lucy lucy  56136 Sep 13 23:32 tst_vars.c
+
+tst_vars: /home/lucy/esiwace/esdm/src/esdm-scheduler.c:795: fragmentsCoverSpace: Assertion `fragments' failed.
+
+    -rw-r--r-- 1 lucy lucy   1519 Sep  1 21:39 t_type.c
+
+\end{comment}

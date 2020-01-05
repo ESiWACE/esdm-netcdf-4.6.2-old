@@ -1,4 +1,5 @@
 \chapter{NetCDF and ESDM Functionalities}
+\label{ch:func}
 
 \tab
 This chapter compares the NetCDF functionalities with the current version of ESDM.
@@ -68,9 +69,9 @@ The current version of ESDM does not have restrictions regarding the modes. Once
 \centering
 \begin{tabular}{|l|m{6cm}|l|}
 \hline
-FLAG & NetCDF Support & ESDM Support \\ \hline \hline
-NC\_CLOBBER & Overwrite existing file &  ESDM\_CLOBBER  (???)     \\ \hline
-NC\_NOCLOBBER & Do not overwrite existing file &  ESDM\_NOCLOBBER  (???)      \\ \hline
+\multicolumn{1}{|c|}{FLAG} & \multicolumn{1}{|c|}{NetCDF Support} & \multicolumn{1}{|c|}{ESDM Support} \\ \hline \hline
+NC\_CLOBBER & Overwrite existing file &  ESDM\_CLOBBER  \tocheck     \\ \hline
+NC\_NOCLOBBER & Do not overwrite existing file &  ESDM\_NOCLOBBER  \tocheck      \\ \hline
 NC\_SHARE & Limit write caching - netcdf classic files only &  NOT SUPPORTED       \\ \hline
 NC\_64BIT\_OFFSET & Create 64-bit offset file &    NOT SUPPORTED     \\ \hline
 NC\_64BIT\_DATA  & Create CDF-5 file (alias NC\_CDF5) &   NOT SUPPORTED      \\ \hline
@@ -80,14 +81,14 @@ NC\_DISKLESS & Store data in memory &    NOT SUPPORTED     \\ \hline
 NC\_PERSIST & Force the NC\_DISKLESS data from memory to a file &  NOT SUPPORTED       \\ \hline
 \hline
 \end{tabular}
-\caption{\label{tab_modes_create} Modes: creating a file.}
+\caption{\label{tab_modes_create} Modes -- Creating a file.}
 \end{table}
 
 \begin{table}[H]
 \centering
 \begin{tabular}{|l|m{6.8cm}|l|}
 \hline
-FLAG & NetCDF Support & ESDM Support \\ \hline \hline
+\multicolumn{1}{|c|}{FLAG} & \multicolumn{1}{|c|}{NetCDF Support} & \multicolumn{1}{|c|}{ESDM Support} \\ \hline \hline
 NC\_NOWRITE & Open the dataset with read-only access &  ESDM\_MODE\_FLAG\_READ       \\ \hline
 NC\_WRITE & Open the dataset with read-write access &  ESDM\_MODE\_FLAG\_WRITE       \\ \hline
 NC\_SHARE & Share updates, limit caching &  NOT SUPPORTED       \\ \hline
@@ -95,40 +96,47 @@ NC\_DISKLESS & Store data in memory &    NOT SUPPORTED     \\ \hline
 NC\_PERSIST & Force the NC\_DISKLESS data from memory to a file &  NOT SUPPORTED       \\ \hline
 \hline
 \end{tabular}
-\caption{\label{tab_modes_open} Modes: opening a file.}
+\caption{\label{tab_modes_open} Modes -- Opening a file.}
 \end{table}
 
 \section{Data Types}
 
 \tab
-Data in a netCDF file may be one of the \textbf{external data types}, or may be a \textbf{user-defined data type}.\footnote{Reference: \url{https://www.unidata.ucar.edu/software/netcdf/docs/data_type.html}}
+Data in a netCDF file may be one of the \textbf{external data types} (Section \ref{ed-type}), or may be a \textbf{user-defined data type} (Section \ref{ud-type}).\footnote{Reference: \url{https://www.unidata.ucar.edu/software/netcdf/docs/data_type.html}}
 
 \subsection{External Data Types}
+\label{ed-type}
 
 \tab
 The atomic external types supported by the netCDF interface are:
 
-\begin{description}
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\multicolumn{1}{|c|}{Type} & \multicolumn{1}{|c|}{Description} \\ \hline \hline
+NC\_BYTE & 8-bit signed integer \\ \hline
+NC\_UBYTE & 8-bit unsigned integer \\ \hline
+NC\_CHAR & 8-bit character \\ \hline
+NC\_SHORT & 16-bit signed integer \\ \hline
+NC\_USHORT & 16-bit unsigned integer \\ \hline
+NC\_INT (or NC\_LONG) & 32-bit signed integer \\ \hline
+NC\_UINT & 32-bit unsigned integer \\ \hline
+NC\_INT64 & 64-bit signed integer \\ \hline
+NC\_UINT64 & 64-bit unsigned integer \\ \hline
+NC\_FLOAT & 32-bit floating-point \\ \hline
+NC\_DOUBLE & 64-bit floating-point \\ \hline
+NC\_STRING & variable length character string \\ \hline
+\hline
+\end{tabular}
+\caption{\label{tab_modes_open} Atomic external types.}
+\end{table}
 
-\item[\small NC\_BYTE] 8-bit signed integer
-\\item[\small NC\_UBYTE] 8-bit unsigned integer
-\\item[\small NC\_CHAR] 8-bit character
-\\item[\small NC\_SHORT] 16-bit signed integer
-\\item[\small NC\_USHORT] 16-bit unsigned integer
-\\item[\small NC\_INT (or NC\_LONG)] 32-bit signed integer
-\\item[\small NC\_UINT] 32-bit unsigned integer
-\\item[\small NC\_INT64] 64-bit signed integer
-\\item[\small NC\_UINT64] 64-bit unsigned integer
-\\item[\small NC\_FLOAT] 32-bit floating point
-\\item[\small NC\_DOUBLE] 64-bit floating point
-\\item[\small NC\_STRING] variable length character string
-
-\end{description}
-
-\subsection{User Defined Types}
+\subsection{User-Defined Types}
+\label{ud-type}
 
 \tab
-The user can now define compound types (like C structures), enumeration types, variable length arrays, and opaque types\footnote{Reference: \url{https://www.unidata.ucar.edu/software/netcdf/docs/user\_defined\_types.html}}.
+The user can now define compound types (like C structures), enumeration types, variable length arrays, and opaque types\footnote{References: \url{https://www.unidata.ucar.edu/software/netcdf/docs/user\_defined\_types.html} and \url{https://www.unidata.ucar.edu/software/netcdf/netcdf/netCDF-user-defined-data-types.html}}.
 
 \begin{description}
 
@@ -152,18 +160,16 @@ Create a VLEN type to store variable length arrays of a known base type. Use \te
 
 \end{description}
 
-\footnote{Reference: \url{https://www.unidata.ucar.edu/software/netcdf/netcdf/netCDF-user-defined-data-types.html}}
-
 \subsection{ESDM}
 
 \tab
-ESDM supports the same basic types that NetCDF. The correspondence between the data types are provided in Table \ref{basic-datatypes-netcdf}.
+ESDM supports the same basic types that NetCDF\footnote{Reference: \url{https://www.unidata.ucar.edu/software/netcdf/netcdf/netCDF-external-data-types.html}}. The correspondence between the data types are provided in Table \ref{basic-datatypes-netcdf}.
 
 \begin{table}[H]
 \centering
-\begin{tabular}{|l|c|l|l|}
+\begin{tabular}{|l|l|l|l|}
 \hline
-Number & NetCDF TYPE & ESDM Type & ESDM Representation \\ \hline \hline
+\multicolumn{1}{|c|}{Number} & \multicolumn{1}{|c|}{NetCDF TYPE} & \multicolumn{1}{|c|}{ESDM Type} & \multicolumn{1}{|c|}{ESDM Representation} \\ \hline \hline
 1 & NC\_BYTE       & SMD\_DTYPE\_INT8     & int8\_t    \\ \hline
 2 & NC\_CHAR       & SMD\_DTYPE\_CHAR     & char    \\ \hline
 3 & NC\_SHORT      & SMD\_DTYPE\_INT16    & int16\_t    \\ \hline
@@ -181,23 +187,21 @@ Number & NetCDF TYPE & ESDM Type & ESDM Representation \\ \hline \hline
 \caption{\label{basic-datatypes-netcdf} Equivalence between ESDM and NetCDF4 data types.}
 \end{table}
 
-\footnote{Reference: \url{https://www.unidata.ucar.edu/software/netcdf/netcdf/netCDF-external-data-types.html}}
-
 The current version of ESDM does not support user-defined data types, but the developers intend to support this feature in the final version. Table \ref{datatypes-netcdf} summarizes the available NetCDF data types and the corresponding support from ESDM.
 
 \begin{table}[H]
 \centering
 \begin{tabular}{|l|m{6.4cm}|l|}
 \hline
-FLAG & NetCDF Support & ESDM Support \\ \hline \hline
+\multicolumn{1}{|c|}{FLAG} & \multicolumn{1}{|c|}{NetCDF Support} & \multicolumn{1}{|c|}{ESDM Support} \\ \hline \hline
 NC\_NAT & NAT = Not A Type (c.f. NaN) &    SMD\_TYPE\_AS\_EXPECTED        \\ \hline
 NC\_BYTE & signed 1 byte integer &     SMD\_DTYPE\_INT8        \\ \hline
 NC\_CHAR & ISO/ASCII character &      SMD\_DTYPE\_CHAR       \\ \hline
 NC\_SHORT & signed 2 byte integer &   SMD\_DTYPE\_INT16          \\ \hline
 NC\_INT & signed 4 byte integer &     SMD\_DTYPE\_INT32        \\ \hline
 NC\_LONG & deprecated, but required for backward compatibility &    SMD\_DTYPE\_INT32         \\ \hline
-NC\_FLOAT & single precision floating point number &   SMD\_DTYPE\_FLOAT           \\ \hline
-NC\_DOUBLE & double precision floating point number &   SMD\_DTYPE\_DOUBLE          \\ \hline
+NC\_FLOAT & single precision floating-point number &   SMD\_DTYPE\_FLOAT           \\ \hline
+NC\_DOUBLE & double precision floating-point number &   SMD\_DTYPE\_DOUBLE          \\ \hline
 NC\_UBYTE & unsigned 1 byte int &     SMD\_DTYPE\_UINT8        \\ \hline
 NC\_USHORT & unsigned 2-byte int &    SMD\_DTYPE\_UINT16         \\ \hline
 NC\_UINT & unsigned 4-byte int &   SMD\_DTYPE\_UINT32          \\ \hline
@@ -214,7 +218,7 @@ NC\_ENUM & used internally for enum types &       NOT SUPPORTED YET      \\ \hli
 
 \section{Compression}
 
-\footnote{Reference: \url{https://www.unidata.ucar.edu/blogs/developer/entry/netcdf_compression}}
+The netCDF-4 libraries inherit the capability for data compression from the HDF5 storage layer underneath the netCDF-4 interface. Linking a program that uses netCDF to a netCDF-4 library allows the program to read compressed data without changing a single line of the program source code. Writing netCDF compressed data only requires a few extra statements. And the nccopy utility program supports converting classic netCDF format data to or from compressed data without any programming\footnote{Reference: \url{https://www.unidata.ucar.edu/blogs/developer/entry/netcdf_compression}}.
 
 \subsection{ESDM}
 
@@ -228,102 +232,71 @@ ESDM does not support compression yet. Because of that, all functions and tests 
 \section{Endianness}
 
 \tab
-\begin{framed}
-
-The endianness is defined as the order of bytes in multi-byte numbers: numbers encoded in big endian have their most significant bytes written first, whereas numbers encoded in little endian have their least significant bytes first. Little-endian is the native endianness of the IA32 architecture and its derivatives, while big-endian is native to SPARC and PowerPC, among others.
-
-\footnote{Reference: \url{https://www.gnu.org/software/guile/manual/html_node/Bytevector-Endianness.html}}
-
-\end{framed}
+The endianness is defined as the order of bytes in multi-byte numbers: numbers encoded in big endian have their most significant bytes written first, whereas numbers encoded in little endian have their least significant bytes first. Little-endian is the native endianness of the IA32 architecture and its derivatives, while big-endian is native to SPARC and PowerPC, among others\footnote{Reference: \url{https://www.gnu.org/software/guile/manual/html_node/Bytevector-Endianness.html}}.
 
 \subsection{ESDM}
 
 \tab
-ESDM only supports native-endianness of the machine it runs on.
+ESDM only supports native-endianness of the machine it runs on. The developers believe that the native-endianness of the machine is enough for demonstrating the benefits of using ESDM to improve efficiency in the system.
 
 \section{Groups}
 
 \tab
-\begin{framed}
-
-NetCDF-4 files can store attributes, variables, and dimensions in hierarchical groups.
-
-This allows the user to create a structure much like a Unix file system. In netCDF, each group gets an ncid. Opening or creating a file returns the ncid for the root group (which is named /).
-
-Dimensions are scoped such that they are visible to all child groups. For example, you can define a dimension in the root group, and use its dimension id when defining a variable in a sub-group.
-
-Attributes defined as NC\_GLOBAL apply to the group, not the entire file.
-
-The degenerate case, in which only the root group is used, corresponds exactly with the classic data mode, before groups were introduced.
-
-\footnote{Reference: \url{https://www.unidata.ucar.edu/software/netcdf/docs/groups.html}}
-
-\end{framed}
+NetCDF-4 files can store attributes, variables, and dimensions in hierarchical groups. This allows the user to create a structure much like a Unix file system. In netCDF, each group gets an ncid. Opening or creating a file returns the ncid for the root group (which is named /). Dimensions are scoped such that they are visible to all child groups. For example, you can define a dimension in the root group, and use its dimension id when defining a variable in a sub-group. Attributes defined as NC\_GLOBAL apply to the group, not the entire file. The degenerate case, in which only the root group is used, corresponds exactly with the classic data mode, before groups were introduced\footnote{Reference: \url{https://www.unidata.ucar.edu/software/netcdf/docs/groups.html}}.
 
 \subsection{ESDM}
 
 \tab
 In general, ESDM does not support groups from NetCDF. When only the root group is used, ESDM can work adequately and assumes the group and the file are the same entity. When there are more than one group or subgroups, ESDM can be called using the following command-line interface:
 
-???
+\tocheck
 
 The ability to work with groups is a functionality that ESDM developers intend to have in its final version.
 
 \section{Fill Values}
 
 \tab
-\begin{framed}
-
-Sometimes there are missing values in the data, and some value is needed to represent them.
-
-For example, what value do you put in a sea-surface temperature variable for points over land?
-
-In netCDF, you can create an attribute for the variable (and of the same type as the variable) called \_FillValue that contains a value that you have used for missing data. Applications that read the data file can use this to know how to represent these values.
-
-Using attributes it is possible to capture metadata that would otherwise be separated from the data. Various conventions have been established. By using a set of conventions, a data producer is more likely to produce files that can be easily shared within the research community, and that contain enough details to be useful as a long-term archive. Conventions also make it easier to develop software that interprets information represented in data, because a convention selects one conventional way to represent information when multiple equivalent representations are possible.
-
-\footnote{Reference: \url{https://www.unidata.ucar.edu/software/netcdf/docs/fill_values.html}}
-
-\end{framed}
+Sometimes there are missing values in the data, and some value is needed to represent them. For example, what value do you put in a sea-surface temperature variable for points over land? In netCDF, you can create an attribute for the variable (and of the same type as the variable) called \_FillValue that contains a value that you have used for missing data. Applications that read the data file can use this to know how to represent these values\footnote{Reference: \url{https://www.unidata.ucar.edu/software/netcdf/docs/fill_values.html}}.
 
 \subsection{ESDM}
 
 \tab
-ESDM supports fill values.
+ESDM supports fill values. There are some speficic details in the implementation of fill values inside ESDM that worth noticing.
 
-\section{Conversion}
+\tocheck
 
-\begin{framed}
+\section{Type Conversion}
 
-Type Conversion
-
+\tab
 Each netCDF variable has an external type, specified when the variable is first defined. This external type determines whether the data is intended for text or numeric values, and if numeric, the range and precision of numeric values.
 
-If the netCDF external type for a variable is char, only character data representing text strings can be written to or read from the variable. No automatic conversion of text data to a different representation is supported.
-
-If the type is numeric, however, the netCDF library allows you to access the variable data as a different type and provides automatic conversion between the numeric data in memory and the data in the netCDF variable. For example, if you write a program that deals with all numeric data as double-precision floating point values, you can read netCDF data into double-precision arrays without knowing or caring what the external type of the netCDF variables are. On reading netCDF data, integers of various sizes and single-precision floating-point values will all be converted to double-precision, if you use the data access interface for double-precision values. Of course, you can avoid automatic numeric conversion by using the netCDF interface for a value type that corresponds to the external data type of each netCDF variable, where such value types exist.
+If the netCDF external type for a variable is char, only character data representing text strings can be written to or read from the variable. No automatic conversion of text data to a different representation is supported. If the type is numeric, however, the netCDF library allows you to access the variable data as a different type and provides automatic conversion between the numeric data in memory and the data in the netCDF variable. For example, if you write a program that deals with all numeric data as double-precision floating-point values, you can read netCDF data into double-precision arrays without knowing or caring what the external type of the netCDF variables are. On reading netCDF data, integers of various sizes and single-precision floating-point values will all be converted to double-precision, if you use the data access interface for double-precision values. Of course, you can avoid automatic numeric conversion by using the netCDF interface for a value type that corresponds to the external data type of each netCDF variable, where such value types exist.
 
 The automatic numeric conversions performed by netCDF are easy to understand, because they behave just like assignment of data of one type to a variable of a different type. For example, if you read floating-point netCDF data as integers, the result is truncated towards zero, just as it would be if you assigned a floating-point value to an integer variable. Such truncation is an example of the loss of precision that can occur in numeric conversions.
 
-Converting from one numeric type to another may result in an error if the target type is not capable of representing the converted value. For example, an integer may not be able to hold data stored externally as an IEEE floating-point number. When accessing an array of values, a range error is returned if one or more values are out of the range of representable values, but other values are converted properly.
-
 Note that mere loss of precision in type conversion does not result in an error. For example, if you read double precision values into an integer, no error results unless the magnitude of the double precision value exceeds the representable range of integers on your platform. Similarly, if you read a large integer into a float incapable of representing all the bits of the integer in its mantissa, this loss of precision will not result in an error. If you want to avoid such precision loss, check the external types of the variables you access to make sure you use an internal type that has a compatible precision.
+
+Converting from one numeric type to another may result in an error if the target type is not capable of representing the converted value. For example, an integer may not be able to hold data stored externally as an IEEE floating-point number. When accessing an array of values, a range error is returned if one or more values are out of the range of representable values, but other values are converted properly\footnote{Reference: \url{https://www.unidata.ucar.edu/software/netcdf/docs/data_type.html\#type_conversion}}.
+
+The NC\_ERANGE error is returned by any of the reading or writing functions when one or more of the values read or written exceeded the range for the type. (For example if you were to try to read 1000 into an unsigned byte.) In the case of NC\_ERANGE errors, the netCDF library completes the read/write operation, and then returns the error. The type conversion is handled like a C type conversion, whether or not it is within range. This may yield bad data, but the netCDF library just returns NC\_ERANGE and leaves it up to the user to handle. (For more information about type conversion see Type Conversion)\footnote{Reference: \url{https://www.unidata.ucar.edu/software/netcdf/docs/group__error.html}}.
+
+\begin{framed}
+
+\tocheck
 
 Whether a range error occurs in writing a large floating-point value near the boundary of representable values may be depend on the platform. The largest floating-point value you can write to a netCDF float variable is the largest floating-point number representable on your system that is less than 2 to the 128th power. The largest double precision value you can write to a double variable is the largest double-precision number representable on your system that is less than 2 to the 1024th power.
 
-The \_uchar and \_schar functions were introduced in netCDF-3 to eliminate an ambiguity, and support both signed and unsigned byte data. In netCDF-2, whether the external NC\_BYTE type represented signed or unsigned values was left up to the user. In netcdf-3, we treat NC\_BYTE as signed for the purposes of conversion to short, int, long, float, or double. (Of course, no conversion takes place when the internal type is signed char.) In the \_uchar functions, we treat NC\_BYTE as if it were unsigned. Thus, no NC\_ERANGE error can occur converting between NC\_BYTE and unsigned char.
-
-\footnote{Reference: \url{https://www.unidata.ucar.edu/software/netcdf/docs/data_type.html}}
-
-\footnote{Reference: \url{https://www.unidata.ucar.edu/software/netcdf/netcdf/Type-Conversion.html}}
-
 \end{framed}
-
-\footnote{Reference: \url{https://www.unidata.ucar.edu/software/netcdf/docs/data_type.html}}
 
 \subsection{ESDM}
 
 \tab
+ESDM deals with type conversion the same way as NetCDF. However, ESDM only accept conversions for attributes, and not for variables. The reason behind this choice is ...
+
+\tocheck
+
+\begin{comment}
+
 Tests with ESDM conversion:
 
 \begin{verbatim}
@@ -506,8 +479,6 @@ Maximum UINT64 = 18446744073709550591
 
 \end{verbatim}
 
-\begin{comment}
-
 About conversion...
 
 Actually that is what happens:
@@ -544,7 +515,7 @@ Document it this way.
 \centering
 \begin{tabular}{|l|l|l|}
 \hline
-NetCDF ERROR                  &  Description                                                                        & ESDM ERROR \\ \hline\hline
+\multicolumn{1}{|c|}{NetCDF ERROR} & \multicolumn{1}{|c|}{Description} & \multicolumn{1}{|c|}{ESDM ERROR} \\ \hline\hline
 NC\_EBADDIM                   &  Invalid dimension id or name.                                                      &      \\ \hline
 NC\_EBADNAME                  &  Attribute or variable name contains illegal characters.                            &      \\ \hline
 NC\_EHDFERR                   &  Error at HDF5 layer.                                                               &      \\ \hline
