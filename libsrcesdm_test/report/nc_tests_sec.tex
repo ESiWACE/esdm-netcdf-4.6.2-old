@@ -458,15 +458,15 @@ Remove lines 72-74, 84-86. Expected error: NC\_FILL\_FLOAT
 
 \paragraph{Status:} PARTIAL SUCCESS!
 
-\section{Test tst\_fills.c}
+\section{\color{blue}{FIX ME! {Test tst\_fills.c}}}
 
 \paragraph{Description:} Create a test file with default fill values for variables of each type.
 
-\paragraph{Output:} *** Tests successful!
+\paragraph{Output:}
 
 \paragraph{Comments:} Remove lines 24-86. ESDM does not support datatype NC\_STRING!
 
-\paragraph{Status:} PARTIAL SUCCESS!
+\paragraph{Status:}
 
 \section{Test tst\_fills2.c}
 
@@ -672,7 +672,7 @@ Sorry! Unexpected result, ../../libsrcesdm\_test/tst\_opaques.c, line: 49
 
 \paragraph{Description:} This program tests netcdf-4 parallel I/O.
 
-\paragraph{Output:} [ESDM NC] WARN ESDM\_var\_par\_access():545 NOT IMPLEMENTED
+\paragraph{Output:} SUCCESS!
 
 \paragraph{Comments:}
 
@@ -698,7 +698,7 @@ Sorry! Unexpected result, ../../libsrcesdm\_test/tst\_opaques.c, line: 49
 
 \paragraph{Status:} SUCCESS!
 
-\section{\color{blue}{FIX ME! {Test tst\_rename.c}}}
+\section{Test tst\_rename.c}
 
 \paragraph{Description:} Test renames of vars and dims.
 
@@ -714,17 +714,24 @@ Sorry! Unexpected result, ../../libsrcesdm\_test/tst\_opaques.c, line: 49
 
 \paragraph{Output:} *** Tests successful!
 
-\paragraph{Comments:} No comments.
+\paragraph{Comments:} Remove lines 52-55. ESDM does not support enddef settings!
 
-\paragraph{Status:} SUCCESS!
+\begin{verbatim}
+// if (enddef_setting) {
+//   if (nc_enddef(ncid)) ERR;
+//   if (nc_redef(ncid)) ERR;
+// }
+\end{verbatim}
+
+\paragraph{Status:} PARTIAL SUCCESS!
 
 \section{{\color{blue}{FIX ME! Test tst\_simplerw\_coll\_r.c}}}
 
 \paragraph{Description:} This test is for parallel IO and the collective access of metadata with HDF5.
 
-\paragraph{Output:} tst\_simplerw\_coll\_r: /home/lucy/esiwace/esdm/src/esdm.c:66: esdm\_dataset\_get\_dataspace: Assertion \'\*out\_dataspace != ((void \*)0)\' failed.
+\paragraph{Output:}
 
-Remove lines 342-345. tst\_bug47
+Remove lines 342-345.
 
 \paragraph{Comments:}
 
