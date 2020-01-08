@@ -5,6 +5,7 @@ rm -rf netcdf4-python
 echo "This script builds the NetCDF4 Python module with support for NetCDF4 ESDM"
 
 echo "Check where nc-config is found: should be ESDM install dir"
+export PATH=/home/kunkel/ur-git/esiwace/ESD-Middleware/install/bin/:$PATH
 which nc-config
 
 echo "Building from scratch"
