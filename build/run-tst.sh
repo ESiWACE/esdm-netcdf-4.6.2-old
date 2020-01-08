@@ -1,7 +1,7 @@
 #!/bin/bash	
 pushd libsrcesdm_test/ || exit 1
 
-rm *
+rm tst*
 for I in $(ls ../../libsrcesdm_test/ | grep "\.c$") ; do	
   make ${I%%.c}	
 done	
