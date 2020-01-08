@@ -49,10 +49,10 @@ int main(int argc, char **argv) {
         if (nc_def_dim(ncid, LON, DIM1_LEN, &dimid[1])) ERR;
         if (nc_def_dim(ncid, LEV, DIM1_LEN, &dimid[2])) ERR;
 
-        // if (enddef_setting) {
-        //   if (nc_enddef(ncid)) ERR;
-        //   if (nc_redef(ncid)) ERR;
-        // }
+        if (enddef_setting) {
+         if (nc_enddef(ncid)) ERR;
+         if (nc_redef(ncid)) ERR;
+        }
 
         /* Rename the dimensions. */
         if (nc_rename_dim(ncid, 0, DIM_X)) ERR;
