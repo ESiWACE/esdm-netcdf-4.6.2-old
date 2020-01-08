@@ -25,7 +25,7 @@ int main(int argc, char **argv) {
     if (nc_put_att_text(ncid, NC_GLOBAL, OLD_NAME_2, 0, NULL)) ERR;
 
     /* End define mode. It redef will be called automatically. */
-    // if (nc_enddef(ncid)) ERR;
+    if (nc_enddef(ncid)) ERR;
 
     /* Delete the attribute. */
     if (nc_del_att(ncid, NC_GLOBAL, OLD_NAME)) ERR;
@@ -34,7 +34,7 @@ int main(int argc, char **argv) {
     /* Reopen the file. */
     if (nc_open(FILE_NAME, 0, &ncid)) ERR;
     if (nc_inq_natts(ncid, &natts)) ERR;
-//    printf("\n\nnatts=%d\n\n", natts);
+    printf("\n\nnatts=%d\n\n", natts);
     if (natts != 1) ERR;
     if (nc_close(ncid)) ERR;
   }

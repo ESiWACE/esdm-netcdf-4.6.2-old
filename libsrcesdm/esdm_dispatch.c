@@ -30,7 +30,7 @@
     exit(1);                                              \
   } while (0)
 
-#ifndef DEBUG_MORE
+#ifdef DEBUG_MORE
 #  define DEBUG_ENTER(...)                                   \
     do {                                                     \
       printf("[ESDM NC] called %s:%d ", __func__, __LINE__); \
@@ -503,7 +503,7 @@ int ESDM_open(const char *path, int cmode, int basepe, size_t *chunksizehintp, v
 
 #ifdef ESDM_PARALLEL
     if (e->parallel_mode) {
-      // status = esdm_mpi_dataset_ref(e->comm, dset);
+      status = esdm_mpi_dataset_ref(e->comm, dset);
     } else {
       status = esdm_dataset_ref(dset);
     }
@@ -2171,19 +2171,19 @@ int ESDM_inq_grps(int ncid, int *numgrps, int *ncids) {
   if (numgrps) {
     *numgrps = 0;
   }
-  WARN_NOT_SUPPORTED_GROUPS;
+  //WARN_NOT_SUPPORTED_GROUPS;
   return NC_NOERR;
 }
 
 int ESDM_inq_grpname(int ncid, char *name) {
   DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_SUPPORTED_GROUPS;
+  //WARN_NOT_SUPPORTED_GROUPS;
   return NC_NOERR;
 }
 
 int ESDM_inq_grpname_full(int ncid, size_t *lenp, char *full_name) {
   DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_SUPPORTED_GROUPS;
+  //WARN_NOT_SUPPORTED_GROUPS;
   if (full_name) {
     strcpy(full_name, "");
   }
@@ -2195,25 +2195,25 @@ int ESDM_inq_grpname_full(int ncid, size_t *lenp, char *full_name) {
 
 int ESDM_inq_grp_parent(int ncid, int *parent_ncid) {
   DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_SUPPORTED_GROUPS;
+  //WARN_NOT_SUPPORTED_GROUPS;
   return NC_ENOGRP;
 }
 
 int ESDM_inq_grp_full_ncid(int ncid, const char *full_name, int *grp_ncid) {
   DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_SUPPORTED_GROUPS;
+  //WARN_NOT_SUPPORTED_GROUPS;
   return NC_NOERR;
 }
 
 int ESDM_def_grp(int parent_ncid, const char *name, int *new_ncid) {
   DEBUG_ENTER("%d\n", parent_ncid);
-  WARN_NOT_SUPPORTED_GROUPS;
+  //WARN_NOT_SUPPORTED_GROUPS;
   return NC_NOERR;
 }
 
 int ESDM_rename_grp(int grpid, const char *name) {
   DEBUG_ENTER("%d\n", grpid);
-  WARN_NOT_SUPPORTED_GROUPS;
+  //WARN_NOT_SUPPORTED_GROUPS;
   return NC_NOERR;
 }
 

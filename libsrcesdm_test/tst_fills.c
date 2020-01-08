@@ -21,69 +21,6 @@ main(int argc, char **argv)
 {			/* create tst_classic_fills.nc */
    printf("\n*** Testing fill values.\n");
    printf("*** testing very simple scalar string var...");
-//    {
-// #define STRING_VAR_NAME "Petition_of_Right"
-// #define NDIMS_STRING 1
-//
-//       int  ncid, varid;
-//       int varid_in;
-//       const char *data_out[NDIMS_STRING] = {
-// 	 "Humbly show unto our Sovereign Lord the King, the Lords "
-// 	 "Spiritual and Temporal, and Commons in Parliament assembles, "
-// 	 "that whereas it is declared and enacted by a statute made in "
-// 	 "the time of the reign of King Edward I, commonly called "
-// 	 "Stratutum de Tellagio non Concedendo, that no tallage or "
-// 	 "aid shall be laid or levied by the king or his heirs in this "
-// 	 "realm, without the good will and assent of the archbishops, "
-// 	 "bishops, earls, barons, knights, burgesses, and other the "
-// 	 "freemen of the commonalty of this realm; and by authority "
-// 	 "of parliament holden in the five-and-twentieth year of the "
-// 	 "reign of King Edward III, it is declared and enacted, that "
-// 	 "from thenceforth no person should be compelled to make any "
-// 	 "loans to the king against his will, because such loans were "
-// 	 "against reason and the franchise of the land; and by other "
-// 	 "laws of this realm it is provided, that none should be charged "
-// 	 "by any charge or imposition called a benevolence, nor by such "
-// 	 "like charge; by which statutes before mentioned, and other the "
-// 	 "good laws and statutes of this realm, your subjects have inherited "
-// 	 "this freedom, that they should not be compelled to contribute "
-// 	 "to any tax, tallage, aid, or other like charge not set by "
-// 	 "common consent, in parliament."
-//       };
-//       char *data_in[NDIMS_STRING];
-//       size_t index1[NDIMS_STRING] = {0};
-//
-//       /* Create file with a 1D string var. Set its fill value to the
-//        * empty string. */
-//       if (nc_create(FILE_NAME, NC_NETCDF4, &ncid)) ERR;
-//       if (nc_def_var(ncid, STRING_VAR_NAME, NC_STRING, 0, NULL, &varid)) ERR;
-//
-//       /* Check it out. */
-//       if (nc_inq_varid(ncid, STRING_VAR_NAME, &varid_in)) ERR;
-//       if (varid_in != varid) ERR;
-//
-//       /* Write string. */
-//       if (nc_put_var1_string(ncid, varid_in, index1, data_out)) ERR;
-//
-//       /* Get the string, check it, and free it. */
-//       if (nc_get_var_string(ncid, varid_in, data_in)) ERR;
-//       if (strcmp(data_in[0], data_out[0])) ERR;
-//       // if (nc_free_string(1, data_in)) ERR;
-//
-//       /* Close the file. */
-//       if (nc_close(ncid)) ERR;
-//
-//       /* Now re-open file, read data, and check values again. */
-//       if (nc_open(FILE_NAME, NC_NOWRITE, &ncid)) ERR;
-//
-//       /* Get the string, check it, and free it. */
-//       if (nc_get_var_string(ncid, varid_in, data_in)) ERR;
-//       if (strcmp(data_in[0], data_out[0])) ERR;
-//       // if (nc_free_string(1, data_in)) ERR;
-//
-//       /* Close the file. */
-//       if (nc_close(ncid)) ERR;
-//    }
    SUMMARIZE_ERR;
    printf("*** testing fill values of one var...");
    {
@@ -110,9 +47,9 @@ main(int argc, char **argv)
       if (nc_put_vara_int(ncid, rec_id, start, count, rec)) ERR;
 
       /* Read the other variable; it must have only fill values. */
-      if (nc_get_vara_text(ncid, 1, start, count, vals)) ERR;
+      if (nc_get_vara_text(ncid, varid, start, count, vals)) ERR;
       for (i = 0; i < MAX_VALS; i++)
-	 if(vals[i] != NC_FILL_CHAR) ERR;
+	       if(vals[i] != NC_FILL_CHAR) ERR;
 
       if (nc_close(ncid)) ERR;
 
@@ -172,8 +109,7 @@ main(int argc, char **argv)
       /* define fixed and record variables of all 6 primitive types */
       fixvar_dims[0] = len_dim;
       for (fixvar = 0; fixvar < NFIXVARS; fixvar++)
-	 if (nc_def_var(ncid, fnames[fixvar], types[fixvar], RANK_FIXVARS,
-			fixvar_dims, &fixvar_ids[fixvar])) ERR;
+	 if (nc_def_var(ncid, fnames[fixvar], types[fixvar], RANK_FIXVARS, fixvar_dims, &fixvar_ids[fixvar])) ERR;
 
       recvar_dims[0] = rec_dim;
       recvar_dims[1] = len_dim;
