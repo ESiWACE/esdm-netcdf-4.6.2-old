@@ -1,7 +1,7 @@
 \chapter{Introduction}
 \label{ch:intro}
 
-\tab
+
 This report is covering the compatibility between ESDM and NetCDF4.
 It is a supplementary document and not a formal deliverable of the ESiWACE project.
 ￼We will update this document over the course of the development.
@@ -22,24 +22,24 @@ The design goals of the ESDM are:
 
 \end{itemize}
 
-NetCDF (Network Common Data Form) is a set of software libraries and self-describing, machine-independent data formats that support the creation, access, and sharing of array-oriented scientific data. The project homepage is hosted by the Unidata program at the University Corporation for Atmospheric Research (UCAR). The format is an open standard. The project started in 1989 and is still actively supported by UCAR. The original netCDF binary format (released in 1997, now known as ``netCDF classic format'') is still widely used across the world and continues to be fully supported in all netCDF releases. Version 4.0 (released in 2008) allowed the use of the HDF5 data file format. Version 4.1 (2010) added support for C and Fortran client access to specified subsets of remote data via OPeNDAP. Version 4.3.0 (2012) added a CMake build system for Windows builds. Version 4.7.0 (2019) added support for reading Amazon S3 objects. Further releases are planned to improve performance, add features, and fix bugs.
+NetCDF (Network Common Data Form) is a set of software libraries and self-describing, machine-independent data formats that support the creation, access, and sharing of array-oriented scientific data. The project homepage is hosted by the Unidata program at the University Corporation for Atmospheric Research (UCAR). The format is an open standard. The project started in 1989 and is still actively supported by UCAR. The original NetCDF binary format (released in 1997, now known as ``NetCDF classic format'') is still widely used across the world and continues to be fully supported in all NetCDF releases. Version 4.0 (released in 2008) allowed the use of the HDF5 data file format. Version 4.1 (2010) added support for C and Fortran client access to specified subsets of remote data via OPeNDAP. Version 4.3.0 (2012) added a CMake build system for Windows builds. Version 4.7.0 (2019) added support for reading Amazon S3 objects. Further releases are planned to improve performance, add features, and fix bugs.
 
-NetCDF (Network Common Data Form) is a set of software libraries and machine-independent data formats that support the creation, access, and sharing of array-oriented scientific data. It is also a community standard for sharing scientific data. The Unidata Program Center supports and maintains netCDF programming interfaces for C, C++, Java, and Fortran. Programming interfaces are also available for Python, IDL, MATLAB, R, Ruby, and Perl. For further information on NetCDF, check \url{https://www.unidata.ucar.edu/software/netcdf/}.
+NetCDF (Network Common Data Form) is a set of software libraries and machine-independent data formats that support the creation, access, and sharing of array-oriented scientific data. It is also a community standard for sharing scientific data. The Unidata Program Center supports and maintains NetCDF programming interfaces for C, C++, Java, and Fortran. Programming interfaces are also available for Python, IDL, MATLAB, R, Ruby, and Perl. For further information on NetCDF, check \url{https://www.unidata.ucar.edu/software/netcdf/}.
 
-Data in netCDF format is:
+Data in NetCDF format is:
 
 \begin{description}
 
-\item[Self-Describing] A netCDF file includes information about the data it contains.
+\item[Self-Describing] A NetCDF file includes information about the data it contains.
 
-\item[Portable] A netCDF file can be accessed by computers with different ways of storing integers, characters, and floating-point numbers.
+\item[Portable] A NetCDF file can be accessed by computers with different ways of storing integers, characters, and floating-point numbers.
 
-\item[Scalable] Small subsets of large datasets in various formats may be accessed efficiently through netCDF interfaces, even from remote servers.
+\item[Scalable] Small subsets of large datasets in various formats may be accessed efficiently through NetCDF interfaces, even from remote servers.
 
-\item[Appendable] Data may be appended to a properly structured netCDF file without copying the dataset or redefining its structure.
-Sharable. One writer and multiple readers may simultaneously access the same netCDF file.
+\item[Appendable] Data may be appended to a properly structured NetCDF file without copying the dataset or redefining its structure.
+Sharable. One writer and multiple readers may simultaneously access the same NetCDF file.
 
-\item[Archivable] Access to all earlier forms of netCDF data will be supported by current and future versions of the software.
+\item[Archivable] Access to all earlier forms of NetCDF data will be supported by current and future versions of the software.
 
 \end{description}
 

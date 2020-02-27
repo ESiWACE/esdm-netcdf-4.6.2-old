@@ -290,7 +290,7 @@
 	%\vspace*{1cm}
 	%\hspace*{-0.6cm}
 	%\begin{minipage}{11cm}
-	%\tableofcontents
+	%leofcontents
 	%\end{minipage}
 
 	\vspace*{1.5cm}
@@ -373,7 +373,7 @@
 
 \usepackage{tabu}
 
-\taburulecolor{EsiOrange}
+urulecolor{EsiOrange}
 
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0.4pt}

@@ -3,7 +3,7 @@
 
 \section{Introduction}
 
-\tab
+
 There is a Python module for accessing NetCDF files.
 We provide a patch to the module to support ESDM.
 The patch and instructions to run the tests are available in the directory \textbf{esdm-netcdf/dev}.
@@ -54,7 +54,7 @@ The file \textbf{results.xml} can now be uploaded by Jenkins wchi provides the r
 
 \section{Tests}
 
-\tab
+
 The next sections introduce the information about each Python test. For them to run with ESDM, two strings were replaced in all tests that contain them. The commands for this substitution can be found in the file \textbf{build.sh}.
 
 \begin{verbatim}
@@ -74,9 +74,9 @@ testing attributes
 Traceback (most recent call last):
   File "tst_atts.py", line 53, in setUp
     f.stringseqatt = STRINGSEQATT
-  File "netCDF4/_netCDF4.pyx", line 2918, in netCDF4._netCDF4.Dataset.__setattr__
-  File "netCDF4/_netCDF4.pyx", line 2848, in netCDF4._netCDF4.Dataset.setncattr
-  File "netCDF4/_netCDF4.pyx", line 1587, in netCDF4._netCDF4._set_att
+  File "NetCDF4/_NetCDF4.pyx", line 2918, in NetCDF4._NetCDF4.Dataset.__setattr__
+  File "NetCDF4/_NetCDF4.pyx", line 2848, in NetCDF4._NetCDF4.Dataset.setncattr
+  File "NetCDF4/_NetCDF4.pyx", line 1587, in NetCDF4._NetCDF4._set_att
 OSError: array string attributes can only be written with NETCDF4
 
 ----------------------------------------------------------------------
@@ -110,9 +110,9 @@ ERROR: runTest (__main__.CompoundAlignTestCase)
 Traceback (most recent call last):
   File "tst_compound_alignment.py", line 90, in setUp
     v_cells = dataset.createVariable("cells",cell_cmp_dtype,"number_cells")
-  File "netCDF4/_netCDF4.pyx", line 2772, in netCDF4._netCDF4.Dataset.createVariable
-  File "netCDF4/_netCDF4.pyx", line 3809, in netCDF4._netCDF4.Variable.__init__
-  File "netCDF4/_netCDF4.pyx", line 1891, in netCDF4._netCDF4._ensure_nc_success
+  File "NetCDF4/_NetCDF4.pyx", line 2772, in NetCDF4._NetCDF4.Dataset.createVariable
+  File "NetCDF4/_NetCDF4.pyx", line 3809, in NetCDF4._NetCDF4.Variable.__init__
+  File "NetCDF4/_NetCDF4.pyx", line 1891, in NetCDF4._NetCDF4._ensure_nc_success
 RuntimeError: NetCDF: Not a valid data type or _FillValue type mismatch
 
 ----------------------------------------------------------------------
@@ -130,9 +130,9 @@ testing compound attributes
 Traceback (most recent call last):
   File "tst_compoundatt.py", line 36, in setUp
     v = f.createVariable(VAR_NAME,wind_vector_type, DIM_NAME)
-  File "netCDF4/_netCDF4.pyx", line 2772, in netCDF4._netCDF4.Dataset.createVariable
-  File "netCDF4/_netCDF4.pyx", line 3809, in netCDF4._netCDF4.Variable.__init__
-  File "netCDF4/_netCDF4.pyx", line 1891, in netCDF4._netCDF4._ensure_nc_success
+  File "NetCDF4/_NetCDF4.pyx", line 2772, in NetCDF4._NetCDF4.Dataset.createVariable
+  File "NetCDF4/_NetCDF4.pyx", line 3809, in NetCDF4._NetCDF4.Variable.__init__
+  File "NetCDF4/_NetCDF4.pyx", line 1891, in NetCDF4._NetCDF4._ensure_nc_success
 RuntimeError: NetCDF: Not a valid data type or _FillValue type mismatch
 
 ----------------------------------------------------------------------
@@ -187,9 +187,9 @@ Traceback (most recent call last):
   File "tst_create_mem.py", line 22, in test_mem_create
     check_inmemory('NETCDF3_CLASSIC')
   File "tst_create_mem.py", line 19, in check_inmemory
-    nc2 = netCDF4.Dataset('test2.nc','r',memory=b)
-  File "netCDF4/_netCDF4.pyx", line 2325, in netCDF4._netCDF4.Dataset.__init__
-  File "netCDF4/_netCDF4.pyx", line 1889, in netCDF4._netCDF4._ensure_nc_success
+    nc2 = NetCDF4.Dataset('test2.nc','r',memory=b)
+  File "NetCDF4/_NetCDF4.pyx", line 2325, in NetCDF4._NetCDF4.Dataset.__init__
+  File "NetCDF4/_NetCDF4.pyx", line 1889, in NetCDF4._NetCDF4._ensure_nc_success
 OSError: [Errno -77] NetCDF: Access failure: b'test2.nc'
 
 ----------------------------------------------------------------------
@@ -206,9 +206,9 @@ testing access of data over http using opendap
 ----------------------------------------------------------------------
 Traceback (most recent call last):
   File "tst_dap.py", line 23, in runTest
-    ncfile = netCDF4.Dataset(URL)
-  File "netCDF4/_netCDF4.pyx", line 2325, in netCDF4._netCDF4.Dataset.__init__
-  File "netCDF4/_netCDF4.pyx", line 1889, in netCDF4._netCDF4._ensure_nc_success
+    ncfile = NetCDF4.Dataset(URL)
+  File "NetCDF4/_NetCDF4.pyx", line 2325, in NetCDF4._NetCDF4.Dataset.__init__
+  File "NetCDF4/_NetCDF4.pyx", line 1889, in NetCDF4._NetCDF4._ensure_nc_success
 OSError: [Errno -77] NetCDF: Access failure: b'http://remotetest.unidata.ucar.edu/thredds/dodsC/testdods/testData.nc'
 
 ----------------------------------------------------------------------
@@ -226,9 +226,9 @@ testing dimensions
 Traceback (most recent call last):
   File "tst_dims.py", line 38, in setUp
     g.createDimension(LAT_NAME,LAT_LENG)
-  File "netCDF4/_netCDF4.pyx", line 2566, in netCDF4._netCDF4.Dataset.createDimension
-  File "netCDF4/_netCDF4.pyx", line 3372, in netCDF4._netCDF4.Dimension.__init__
-  File "netCDF4/_netCDF4.pyx", line 1891, in netCDF4._netCDF4._ensure_nc_success
+  File "NetCDF4/_NetCDF4.pyx", line 2566, in NetCDF4._NetCDF4.Dataset.createDimension
+  File "NetCDF4/_NetCDF4.pyx", line 3372, in NetCDF4._NetCDF4.Dimension.__init__
+  File "NetCDF4/_NetCDF4.pyx", line 1891, in NetCDF4._NetCDF4._ensure_nc_success
 RuntimeError: NetCDF: Not a valid ID
 
 ----------------------------------------------------------------------
@@ -245,9 +245,9 @@ testing diskless file capability
 ----------------------------------------------------------------------
 Traceback (most recent call last):
   File "tst_diskless.py", line 24, in setUp
-    f = netCDF4.Dataset(self.file,'w',diskless=True, persist=False)
-  File "netCDF4/_netCDF4.pyx", line 2325, in netCDF4._netCDF4.Dataset.__init__
-  File "netCDF4/_netCDF4.pyx", line 1889, in netCDF4._netCDF4._ensure_nc_success
+    f = NetCDF4.Dataset(self.file,'w',diskless=True, persist=False)
+  File "NetCDF4/_NetCDF4.pyx", line 2325, in NetCDF4._NetCDF4.Dataset.__init__
+  File "NetCDF4/_NetCDF4.pyx", line 1889, in NetCDF4._NetCDF4._ensure_nc_success
 OSError: [Errno -35] NetCDF: File exists && NC_NOCLOBBER: b'/tmp/tmpuk5aaae_.nc'
 
 ----------------------------------------------------------------------
@@ -270,8 +270,8 @@ Traceback (most recent call last):
     check_byteswap(self.file3, data)
   File "tst_endian.py", line 41, in check_byteswap
     bl = dataset.createVariable('big-little', np.float32, dims, endian='big')
-  File "netCDF4/_netCDF4.pyx", line 2772, in netCDF4._netCDF4.Dataset.createVariable
-  File "netCDF4/_netCDF4.pyx", line 3875, in netCDF4._netCDF4.Variable.__init__
+  File "NetCDF4/_NetCDF4.pyx", line 2772, in NetCDF4._NetCDF4.Dataset.createVariable
+  File "NetCDF4/_NetCDF4.pyx", line 3875, in NetCDF4._NetCDF4.Variable.__init__
 RuntimeError: only endian='native' allowed for NETCDF3 files
 
 ----------------------------------------------------------------------
@@ -289,9 +289,9 @@ testing enum data type
 Traceback (most recent call last):
   File "tst_enum.py", line 35, in setUp
     fill_value=ENUM_DICT['Missing'])
-  File "netCDF4/_netCDF4.pyx", line 2772, in netCDF4._netCDF4.Dataset.createVariable
-  File "netCDF4/_netCDF4.pyx", line 3809, in netCDF4._netCDF4.Variable.__init__
-  File "netCDF4/_netCDF4.pyx", line 1891, in netCDF4._netCDF4._ensure_nc_success
+  File "NetCDF4/_NetCDF4.pyx", line 2772, in NetCDF4._NetCDF4.Dataset.createVariable
+  File "NetCDF4/_NetCDF4.pyx", line 3809, in NetCDF4._NetCDF4.Variable.__init__
+  File "NetCDF4/_NetCDF4.pyx", line 1891, in NetCDF4._NetCDF4._ensure_nc_success
 RuntimeError: NetCDF: Not a valid data type or _FillValue type mismatch
 
 ----------------------------------------------------------------------
@@ -307,8 +307,8 @@ Test with a variable that has two unlimited dimensions.
 Traceback (most recent call last):
   File "tst_fancyslicing.py", line 169, in test2unlim
     v[:] = data
-  File "netCDF4/_netCDF4.pyx", line 4945, in netCDF4._netCDF4.Variable.__setitem__
-  File "netCDF4/_netCDF4.pyx", line 5203, in netCDF4._netCDF4.Variable._put
+  File "NetCDF4/_NetCDF4.pyx", line 4945, in NetCDF4._NetCDF4.Variable.__setitem__
+  File "NetCDF4/_NetCDF4.pyx", line 5203, in NetCDF4._NetCDF4.Variable._put
 IndexError: size of data array does not conform to slice
 
 ======================================================================
@@ -351,9 +351,9 @@ ERROR: test_filepath (__main__.test_filepath)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
   File "tst_filepath.py", line 11, in setUp
-    self.nc = netCDF4.Dataset(self.netcdf_file)
-  File "netCDF4/_netCDF4.pyx", line 2325, in netCDF4._netCDF4.Dataset.__init__
-  File "netCDF4/_netCDF4.pyx", line 1889, in netCDF4._netCDF4._ensure_nc_success
+    self.nc = NetCDF4.Dataset(self.netcdf_file)
+  File "NetCDF4/_NetCDF4.pyx", line 2325, in NetCDF4._NetCDF4.Dataset.__init__
+  File "NetCDF4/_NetCDF4.pyx", line 1889, in NetCDF4._NetCDF4._ensure_nc_success
 OSError: [Errno -77] NetCDF: Access failure: b'/home/lucy/esiwace/esdm-netcdf/dev/netcdf4-python/test/netcdf_dummy_file.nc'
 
 ======================================================================
@@ -361,9 +361,9 @@ ERROR: test_filepath_with_non_ascii_characters (__main__.test_filepath)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
   File "tst_filepath.py", line 11, in setUp
-    self.nc = netCDF4.Dataset(self.netcdf_file)
-  File "netCDF4/_netCDF4.pyx", line 2325, in netCDF4._netCDF4.Dataset.__init__
-  File "netCDF4/_netCDF4.pyx", line 1889, in netCDF4._netCDF4._ensure_nc_success
+    self.nc = NetCDF4.Dataset(self.netcdf_file)
+  File "NetCDF4/_NetCDF4.pyx", line 2325, in NetCDF4._NetCDF4.Dataset.__init__
+  File "NetCDF4/_NetCDF4.pyx", line 1889, in NetCDF4._NetCDF4._ensure_nc_success
 OSError: [Errno -77] NetCDF: Access failure: b'/home/lucy/esiwace/esdm-netcdf/dev/netcdf4-python/test/netcdf_dummy_file.nc'
 
 ======================================================================
@@ -371,9 +371,9 @@ ERROR: test_no_such_file_raises (__main__.test_filepath)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
   File "tst_filepath.py", line 11, in setUp
-    self.nc = netCDF4.Dataset(self.netcdf_file)
-  File "netCDF4/_netCDF4.pyx", line 2325, in netCDF4._netCDF4.Dataset.__init__
-  File "netCDF4/_netCDF4.pyx", line 1889, in netCDF4._netCDF4._ensure_nc_success
+    self.nc = NetCDF4.Dataset(self.netcdf_file)
+  File "NetCDF4/_NetCDF4.pyx", line 2325, in NetCDF4._NetCDF4.Dataset.__init__
+  File "NetCDF4/_NetCDF4.pyx", line 1889, in NetCDF4._NetCDF4._ensure_nc_success
 OSError: [Errno -77] NetCDF: Access failure: b'/home/lucy/esiwace/esdm-netcdf/dev/netcdf4-python/test/netcdf_dummy_file.nc'
 
 ----------------------------------------------------------------------
@@ -393,9 +393,9 @@ ERROR: test_find_variables_by_attribute_and_lambda (__main__.VariablesByAttribut
 ----------------------------------------------------------------------
 Traceback (most recent call last):
   File "tst_get_variables_by_attributes.py", line 10, in setUp
-    self.nc = netCDF4.Dataset(netcdf_file)
-  File "netCDF4/_netCDF4.pyx", line 2325, in netCDF4._netCDF4.Dataset.__init__
-  File "netCDF4/_netCDF4.pyx", line 1889, in netCDF4._netCDF4._ensure_nc_success
+    self.nc = NetCDF4.Dataset(netcdf_file)
+  File "NetCDF4/_NetCDF4.pyx", line 2325, in NetCDF4._NetCDF4.Dataset.__init__
+  File "NetCDF4/_NetCDF4.pyx", line 1889, in NetCDF4._NetCDF4._ensure_nc_success
 OSError: [Errno -77] NetCDF: Access failure: b'netcdf_dummy_file.nc'
 
 ======================================================================
@@ -403,9 +403,9 @@ ERROR: test_find_variables_by_multiple_attribute (__main__.VariablesByAttributes
 ----------------------------------------------------------------------
 Traceback (most recent call last):
   File "tst_get_variables_by_attributes.py", line 10, in setUp
-    self.nc = netCDF4.Dataset(netcdf_file)
-  File "netCDF4/_netCDF4.pyx", line 2325, in netCDF4._netCDF4.Dataset.__init__
-  File "netCDF4/_netCDF4.pyx", line 1889, in netCDF4._netCDF4._ensure_nc_success
+    self.nc = NetCDF4.Dataset(netcdf_file)
+  File "NetCDF4/_NetCDF4.pyx", line 2325, in NetCDF4._NetCDF4.Dataset.__init__
+  File "NetCDF4/_NetCDF4.pyx", line 1889, in NetCDF4._NetCDF4._ensure_nc_success
 OSError: [Errno -77] NetCDF: Access failure: b'netcdf_dummy_file.nc'
 
 ======================================================================
@@ -413,9 +413,9 @@ ERROR: test_find_variables_by_multiple_lambdas (__main__.VariablesByAttributesTe
 ----------------------------------------------------------------------
 Traceback (most recent call last):
   File "tst_get_variables_by_attributes.py", line 10, in setUp
-    self.nc = netCDF4.Dataset(netcdf_file)
-  File "netCDF4/_netCDF4.pyx", line 2325, in netCDF4._netCDF4.Dataset.__init__
-  File "netCDF4/_netCDF4.pyx", line 1889, in netCDF4._netCDF4._ensure_nc_success
+    self.nc = NetCDF4.Dataset(netcdf_file)
+  File "NetCDF4/_NetCDF4.pyx", line 2325, in NetCDF4._NetCDF4.Dataset.__init__
+  File "NetCDF4/_NetCDF4.pyx", line 1889, in NetCDF4._NetCDF4._ensure_nc_success
 OSError: [Errno -77] NetCDF: Access failure: b'netcdf_dummy_file.nc'
 
 ======================================================================
@@ -423,9 +423,9 @@ ERROR: test_find_variables_by_single_attribute (__main__.VariablesByAttributesTe
 ----------------------------------------------------------------------
 Traceback (most recent call last):
   File "tst_get_variables_by_attributes.py", line 10, in setUp
-    self.nc = netCDF4.Dataset(netcdf_file)
-  File "netCDF4/_netCDF4.pyx", line 2325, in netCDF4._netCDF4.Dataset.__init__
-  File "netCDF4/_netCDF4.pyx", line 1889, in netCDF4._netCDF4._ensure_nc_success
+    self.nc = NetCDF4.Dataset(netcdf_file)
+  File "NetCDF4/_NetCDF4.pyx", line 2325, in NetCDF4._NetCDF4.Dataset.__init__
+  File "NetCDF4/_NetCDF4.pyx", line 1889, in NetCDF4._NetCDF4._ensure_nc_success
 OSError: [Errno -77] NetCDF: Access failure: b'netcdf_dummy_file.nc'
 
 ======================================================================
@@ -433,9 +433,9 @@ ERROR: test_find_variables_by_single_lambda (__main__.VariablesByAttributesTests
 ----------------------------------------------------------------------
 Traceback (most recent call last):
   File "tst_get_variables_by_attributes.py", line 10, in setUp
-    self.nc = netCDF4.Dataset(netcdf_file)
-  File "netCDF4/_netCDF4.pyx", line 2325, in netCDF4._netCDF4.Dataset.__init__
-  File "netCDF4/_netCDF4.pyx", line 1889, in netCDF4._netCDF4._ensure_nc_success
+    self.nc = NetCDF4.Dataset(netcdf_file)
+  File "NetCDF4/_NetCDF4.pyx", line 2325, in NetCDF4._NetCDF4.Dataset.__init__
+  File "NetCDF4/_NetCDF4.pyx", line 1889, in NetCDF4._NetCDF4._ensure_nc_success
 OSError: [Errno -77] NetCDF: Access failure: b'netcdf_dummy_file.nc'
 
 ----------------------------------------------------------------------
@@ -456,9 +456,9 @@ testing groups
 Traceback (most recent call last):
   File "tst_grps.py", line 46, in setUp
     g2 = g1.createGroup(MARGARET)
-  File "netCDF4/_netCDF4.pyx", line 2825, in netCDF4._netCDF4.Dataset.createGroup
-  File "netCDF4/_netCDF4.pyx", line 3265, in netCDF4._netCDF4.Group.__init__
-  File "netCDF4/_netCDF4.pyx", line 1891, in netCDF4._netCDF4._ensure_nc_success
+  File "NetCDF4/_NetCDF4.pyx", line 2825, in NetCDF4._NetCDF4.Dataset.createGroup
+  File "NetCDF4/_NetCDF4.pyx", line 3265, in NetCDF4._NetCDF4.Group.__init__
+  File "NetCDF4/_NetCDF4.pyx", line 1891, in NetCDF4._NetCDF4._ensure_nc_success
 RuntimeError: NetCDF: Not a valid ID
 
 ----------------------------------------------------------------------
@@ -476,10 +476,10 @@ testing implicit group and creation and Dataset.__getitem__
 Traceback (most recent call last):
   File "tst_grps2.py", line 21, in setUp
     v = f.createVariable('/grouped/data/v',float,('x',))
-  File "netCDF4/_netCDF4.pyx", line 2770, in netCDF4._netCDF4.Dataset.createVariable
-  File "netCDF4/_netCDF4.pyx", line 2825, in netCDF4._netCDF4.Dataset.createGroup
-  File "netCDF4/_netCDF4.pyx", line 3265, in netCDF4._netCDF4.Group.__init__
-  File "netCDF4/_netCDF4.pyx", line 1891, in netCDF4._netCDF4._ensure_nc_success
+  File "NetCDF4/_NetCDF4.pyx", line 2770, in NetCDF4._NetCDF4.Dataset.createVariable
+  File "NetCDF4/_NetCDF4.pyx", line 2825, in NetCDF4._NetCDF4.Dataset.createGroup
+  File "NetCDF4/_NetCDF4.pyx", line 3265, in NetCDF4._NetCDF4.Group.__init__
+  File "NetCDF4/_NetCDF4.pyx", line 1891, in NetCDF4._NetCDF4._ensure_nc_success
 RuntimeError: NetCDF: Not a valid ID
 
 ----------------------------------------------------------------------
@@ -497,9 +497,9 @@ ERROR: runTest (__main__.Issue908TestCase)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
   File "tst_issue908.py", line 7, in setUp
-    nc = netCDF4.Dataset('CRM032_test1.nc')
-  File "netCDF4/_netCDF4.pyx", line 2325, in netCDF4._netCDF4.Dataset.__init__
-  File "netCDF4/_netCDF4.pyx", line 1889, in netCDF4._netCDF4._ensure_nc_success
+    nc = NetCDF4.Dataset('CRM032_test1.nc')
+  File "NetCDF4/_NetCDF4.pyx", line 2325, in NetCDF4._NetCDF4.Dataset.__init__
+  File "NetCDF4/_NetCDF4.pyx", line 1889, in NetCDF4._NetCDF4._ensure_nc_success
 OSError: [Errno -77] NetCDF: Access failure: b'CRM032_test1.nc'
 
 ----------------------------------------------------------------------
@@ -550,9 +550,9 @@ ERROR: runTest (__main__.GlobalSetAutoMaskTest)
 Traceback (most recent call last):
   File "tst_masked3.py", line 149, in setUp
     grp1.createVariable('var1', 'f8', ())
-  File "netCDF4/_netCDF4.pyx", line 2772, in netCDF4._netCDF4.Dataset.createVariable
-  File "netCDF4/_netCDF4.pyx", line 3809, in netCDF4._netCDF4.Variable.__init__
-  File "netCDF4/_netCDF4.pyx", line 1891, in netCDF4._netCDF4._ensure_nc_success
+  File "NetCDF4/_NetCDF4.pyx", line 2772, in NetCDF4._NetCDF4.Dataset.createVariable
+  File "NetCDF4/_NetCDF4.pyx", line 3809, in NetCDF4._NetCDF4.Variable.__init__
+  File "NetCDF4/_NetCDF4.pyx", line 1891, in NetCDF4._NetCDF4._ensure_nc_success
 RuntimeError: NetCDF: Not a valid ID
 
 ======================================================================
@@ -606,9 +606,9 @@ Testing auto-conversion of masked arrays
 Traceback (most recent call last):
   File "tst_masked5.py", line 27, in setUp
     v2 = f.createVariable('v2',str,'x',fill_value=u'<missing>')
-  File "netCDF4/_netCDF4.pyx", line 2772, in netCDF4._netCDF4.Dataset.createVariable
-  File "netCDF4/_netCDF4.pyx", line 3741, in netCDF4._netCDF4.Variable.__init__
-ValueError: Variable length strings are only supported for the NETCDF4 format. For other formats, consider using netCDF4.stringtochar to convert string arrays into character arrays with an additional dimension.
+  File "NetCDF4/_NetCDF4.pyx", line 2772, in NetCDF4._NetCDF4.Dataset.createVariable
+  File "NetCDF4/_NetCDF4.pyx", line 3741, in NetCDF4._NetCDF4.Variable.__init__
+ValueError: Variable length strings are only supported for the NETCDF4 format. For other formats, consider using NetCDF4.stringtochar to convert string arrays into character arrays with an additional dimension.
 
 ----------------------------------------------------------------------
 \end{verbatim}
@@ -624,9 +624,9 @@ ERROR: runTest (__main__.GlobalSetAlwaysMaskTest)
 Traceback (most recent call last):
   File "tst_masked6.py", line 96, in setUp
     grp1.createVariable('var1', 'f8', ())
-  File "netCDF4/_netCDF4.pyx", line 2772, in netCDF4._netCDF4.Dataset.createVariable
-  File "netCDF4/_netCDF4.pyx", line 3809, in netCDF4._netCDF4.Variable.__init__
-  File "netCDF4/_netCDF4.pyx", line 1891, in netCDF4._netCDF4._ensure_nc_success
+  File "NetCDF4/_NetCDF4.pyx", line 2772, in NetCDF4._NetCDF4.Dataset.createVariable
+  File "NetCDF4/_NetCDF4.pyx", line 3809, in NetCDF4._NetCDF4.Variable.__init__
+  File "NetCDF4/_NetCDF4.pyx", line 1891, in NetCDF4._NetCDF4._ensure_nc_success
 RuntimeError: NetCDF: Not a valid ID
 
 ----------------------------------------------------------------------
@@ -750,9 +750,9 @@ testing renaming of dimensions, variables and attribute deletion
 Traceback (most recent call last):
   File "tst_rename.py", line 36, in setUp
     g.createDimension(LAT_NAME,145)
-  File "netCDF4/_netCDF4.pyx", line 2566, in netCDF4._netCDF4.Dataset.createDimension
-  File "netCDF4/_netCDF4.pyx", line 3372, in netCDF4._netCDF4.Dimension.__init__
-  File "netCDF4/_netCDF4.pyx", line 1891, in netCDF4._netCDF4._ensure_nc_success
+  File "NetCDF4/_NetCDF4.pyx", line 2566, in NetCDF4._NetCDF4.Dataset.createDimension
+  File "NetCDF4/_NetCDF4.pyx", line 3372, in NetCDF4._NetCDF4.Dimension.__init__
+  File "NetCDF4/_NetCDF4.pyx", line 1891, in NetCDF4._NetCDF4._ensure_nc_success
 RuntimeError: NetCDF: Not a valid ID
 
 ----------------------------------------------------------------------
@@ -770,9 +770,9 @@ testing scalar variables
 Traceback (most recent call last):
   File "tst_scalarvar.py", line 28, in setUp
     tempg = subgroup.createVariable(VAR_NAME,VAR_TYPE)
-  File "netCDF4/_netCDF4.pyx", line 2772, in netCDF4._netCDF4.Dataset.createVariable
-  File "netCDF4/_netCDF4.pyx", line 3809, in netCDF4._netCDF4.Variable.__init__
-  File "netCDF4/_netCDF4.pyx", line 1891, in netCDF4._netCDF4._ensure_nc_success
+  File "NetCDF4/_NetCDF4.pyx", line 2772, in NetCDF4._NetCDF4.Dataset.createVariable
+  File "NetCDF4/_NetCDF4.pyx", line 3809, in NetCDF4._NetCDF4.Variable.__init__
+  File "NetCDF4/_NetCDF4.pyx", line 1891, in NetCDF4._NetCDF4._ensure_nc_success
 RuntimeError: NetCDF: Not a valid ID
 
 ----------------------------------------------------------------------
@@ -789,9 +789,9 @@ ERROR: runTest (__main__.GlobalSetAutoScaleTest)
 Traceback (most recent call last):
   File "tst_scaled.py", line 207, in setUp
     grp1.createVariable('var1', 'f8', ())
-  File "netCDF4/_netCDF4.pyx", line 2772, in netCDF4._netCDF4.Dataset.createVariable
-  File "netCDF4/_netCDF4.pyx", line 3809, in netCDF4._netCDF4.Variable.__init__
-  File "netCDF4/_netCDF4.pyx", line 1891, in netCDF4._netCDF4._ensure_nc_success
+  File "NetCDF4/_NetCDF4.pyx", line 2772, in NetCDF4._NetCDF4.Dataset.createVariable
+  File "NetCDF4/_NetCDF4.pyx", line 3809, in NetCDF4._NetCDF4.Variable.__init__
+  File "NetCDF4/_NetCDF4.pyx", line 1891, in NetCDF4._NetCDF4._ensure_nc_success
 RuntimeError: NetCDF: Not a valid ID
 
 ======================================================================
@@ -853,8 +853,8 @@ ERROR: test_0d (__main__.VariablesTestCase)
 Traceback (most recent call last):
   File "tst_slicing.py", line 33, in setUp
     vu[:,::-1,:] = data
-  File "netCDF4/_netCDF4.pyx", line 4945, in netCDF4._netCDF4.Variable.__setitem__
-  File "netCDF4/_netCDF4.pyx", line 5203, in netCDF4._netCDF4.Variable._put
+  File "NetCDF4/_NetCDF4.pyx", line 4945, in NetCDF4._NetCDF4.Variable.__setitem__
+  File "NetCDF4/_NetCDF4.pyx", line 5203, in NetCDF4._NetCDF4.Variable._put
 IndexError: size of data array does not conform to slice
 
 ======================================================================
@@ -863,8 +863,8 @@ ERROR: test_1d (__main__.VariablesTestCase)
 Traceback (most recent call last):
   File "tst_slicing.py", line 33, in setUp
     vu[:,::-1,:] = data
-  File "netCDF4/_netCDF4.pyx", line 4945, in netCDF4._netCDF4.Variable.__setitem__
-  File "netCDF4/_netCDF4.pyx", line 5203, in netCDF4._netCDF4.Variable._put
+  File "NetCDF4/_NetCDF4.pyx", line 4945, in NetCDF4._NetCDF4.Variable.__setitem__
+  File "NetCDF4/_NetCDF4.pyx", line 5203, in NetCDF4._NetCDF4.Variable._put
 IndexError: size of data array does not conform to slice
 
 ======================================================================
@@ -874,8 +874,8 @@ testing variable slicing
 Traceback (most recent call last):
   File "tst_slicing.py", line 33, in setUp
     vu[:,::-1,:] = data
-  File "netCDF4/_netCDF4.pyx", line 4945, in netCDF4._netCDF4.Variable.__setitem__
-  File "netCDF4/_netCDF4.pyx", line 5203, in netCDF4._netCDF4.Variable._put
+  File "NetCDF4/_NetCDF4.pyx", line 4945, in NetCDF4._NetCDF4.Variable.__setitem__
+  File "NetCDF4/_NetCDF4.pyx", line 5203, in NetCDF4._NetCDF4.Variable._put
 IndexError: size of data array does not conform to slice
 
 ======================================================================
@@ -884,8 +884,8 @@ ERROR: test_issue259 (__main__.VariablesTestCase)
 Traceback (most recent call last):
   File "tst_slicing.py", line 33, in setUp
     vu[:,::-1,:] = data
-  File "netCDF4/_netCDF4.pyx", line 4945, in netCDF4._netCDF4.Variable.__setitem__
-  File "netCDF4/_netCDF4.pyx", line 5203, in netCDF4._netCDF4.Variable._put
+  File "NetCDF4/_NetCDF4.pyx", line 4945, in NetCDF4._NetCDF4.Variable.__setitem__
+  File "NetCDF4/_NetCDF4.pyx", line 5203, in NetCDF4._NetCDF4.Variable._put
 IndexError: size of data array does not conform to slice
 
 ======================================================================
@@ -894,8 +894,8 @@ ERROR: test_issue300 (__main__.VariablesTestCase)
 Traceback (most recent call last):
   File "tst_slicing.py", line 33, in setUp
     vu[:,::-1,:] = data
-  File "netCDF4/_netCDF4.pyx", line 4945, in netCDF4._netCDF4.Variable.__setitem__
-  File "netCDF4/_netCDF4.pyx", line 5203, in netCDF4._netCDF4.Variable._put
+  File "NetCDF4/_NetCDF4.pyx", line 4945, in NetCDF4._NetCDF4.Variable.__setitem__
+  File "NetCDF4/_NetCDF4.pyx", line 5203, in NetCDF4._NetCDF4.Variable._put
 IndexError: size of data array does not conform to slice
 
 ======================================================================
@@ -904,8 +904,8 @@ ERROR: test_issue306 (__main__.VariablesTestCase)
 Traceback (most recent call last):
   File "tst_slicing.py", line 33, in setUp
     vu[:,::-1,:] = data
-  File "netCDF4/_netCDF4.pyx", line 4945, in netCDF4._netCDF4.Variable.__setitem__
-  File "netCDF4/_netCDF4.pyx", line 5203, in netCDF4._netCDF4.Variable._put
+  File "NetCDF4/_NetCDF4.pyx", line 4945, in NetCDF4._NetCDF4.Variable.__setitem__
+  File "NetCDF4/_NetCDF4.pyx", line 5203, in NetCDF4._NetCDF4.Variable._put
 IndexError: size of data array does not conform to slice
 
 ======================================================================
@@ -914,8 +914,8 @@ ERROR: test_issue371 (__main__.VariablesTestCase)
 Traceback (most recent call last):
   File "tst_slicing.py", line 33, in setUp
     vu[:,::-1,:] = data
-  File "netCDF4/_netCDF4.pyx", line 4945, in netCDF4._netCDF4.Variable.__setitem__
-  File "netCDF4/_netCDF4.pyx", line 5203, in netCDF4._netCDF4.Variable._put
+  File "NetCDF4/_NetCDF4.pyx", line 4945, in NetCDF4._NetCDF4.Variable.__setitem__
+  File "NetCDF4/_NetCDF4.pyx", line 5203, in NetCDF4._NetCDF4.Variable._put
 IndexError: size of data array does not conform to slice
 
 ======================================================================
@@ -924,8 +924,8 @@ ERROR: test_issue743 (__main__.VariablesTestCase)
 Traceback (most recent call last):
   File "tst_slicing.py", line 33, in setUp
     vu[:,::-1,:] = data
-  File "netCDF4/_netCDF4.pyx", line 4945, in netCDF4._netCDF4.Variable.__setitem__
-  File "netCDF4/_netCDF4.pyx", line 5203, in netCDF4._netCDF4.Variable._put
+  File "NetCDF4/_NetCDF4.pyx", line 4945, in NetCDF4._NetCDF4.Variable.__setitem__
+  File "NetCDF4/_NetCDF4.pyx", line 5203, in NetCDF4._NetCDF4.Variable._put
 IndexError: size of data array does not conform to slice
 
 ======================================================================
@@ -934,8 +934,8 @@ ERROR: test_issue906 (__main__.VariablesTestCase)
 Traceback (most recent call last):
   File "tst_slicing.py", line 33, in setUp
     vu[:,::-1,:] = data
-  File "netCDF4/_netCDF4.pyx", line 4945, in netCDF4._netCDF4.Variable.__setitem__
-  File "netCDF4/_netCDF4.pyx", line 5203, in netCDF4._netCDF4.Variable._put
+  File "NetCDF4/_NetCDF4.pyx", line 4945, in NetCDF4._NetCDF4.Variable.__setitem__
+  File "NetCDF4/_NetCDF4.pyx", line 5203, in NetCDF4._NetCDF4.Variable._put
 IndexError: size of data array does not conform to slice
 
 ======================================================================
@@ -944,8 +944,8 @@ ERROR: test_issue919 (__main__.VariablesTestCase)
 Traceback (most recent call last):
   File "tst_slicing.py", line 33, in setUp
     vu[:,::-1,:] = data
-  File "netCDF4/_netCDF4.pyx", line 4945, in netCDF4._netCDF4.Variable.__setitem__
-  File "netCDF4/_netCDF4.pyx", line 5203, in netCDF4._netCDF4.Variable._put
+  File "NetCDF4/_NetCDF4.pyx", line 4945, in NetCDF4._NetCDF4.Variable.__setitem__
+  File "NetCDF4/_NetCDF4.pyx", line 5203, in NetCDF4._NetCDF4.Variable._put
 IndexError: size of data array does not conform to slice
 
 ======================================================================
@@ -954,8 +954,8 @@ ERROR: test_issue922 (__main__.VariablesTestCase)
 Traceback (most recent call last):
   File "tst_slicing.py", line 33, in setUp
     vu[:,::-1,:] = data
-  File "netCDF4/_netCDF4.pyx", line 4945, in netCDF4._netCDF4.Variable.__setitem__
-  File "netCDF4/_netCDF4.pyx", line 5203, in netCDF4._netCDF4.Variable._put
+  File "NetCDF4/_NetCDF4.pyx", line 4945, in NetCDF4._NetCDF4.Variable.__setitem__
+  File "NetCDF4/_NetCDF4.pyx", line 5203, in NetCDF4._NetCDF4.Variable._put
 IndexError: size of data array does not conform to slice
 
 ======================================================================
@@ -964,8 +964,8 @@ ERROR: test_retain_single_dims (__main__.VariablesTestCase)
 Traceback (most recent call last):
   File "tst_slicing.py", line 33, in setUp
     vu[:,::-1,:] = data
-  File "netCDF4/_netCDF4.pyx", line 4945, in netCDF4._netCDF4.Variable.__setitem__
-  File "netCDF4/_netCDF4.pyx", line 5203, in netCDF4._netCDF4.Variable._put
+  File "NetCDF4/_NetCDF4.pyx", line 4945, in NetCDF4._NetCDF4.Variable.__setitem__
+  File "NetCDF4/_NetCDF4.pyx", line 5203, in NetCDF4._NetCDF4.Variable._put
 IndexError: size of data array does not conform to slice
 
 ----------------------------------------------------------------------
@@ -996,9 +996,9 @@ testing unicode
 Traceback (most recent call last):
   File "tst_unicode.py", line 19, in setUp
     f.attribute3 = ATT3
-  File "netCDF4/_netCDF4.pyx", line 2918, in netCDF4._netCDF4.Dataset.__setattr__
-  File "netCDF4/_netCDF4.pyx", line 2848, in netCDF4._netCDF4.Dataset.setncattr
-  File "netCDF4/_netCDF4.pyx", line 1587, in netCDF4._netCDF4._set_att
+  File "NetCDF4/_NetCDF4.pyx", line 2918, in NetCDF4._NetCDF4.Dataset.__setattr__
+  File "NetCDF4/_NetCDF4.pyx", line 2848, in NetCDF4._NetCDF4.Dataset.setncattr
+  File "NetCDF4/_NetCDF4.pyx", line 1587, in NetCDF4._NetCDF4._set_att
 OSError: array string attributes can only be written with NETCDF4
 
 ----------------------------------------------------------------------
@@ -1016,9 +1016,9 @@ testing unicode
 Traceback (most recent call last):
   File "tst_unicode3.py", line 19, in setUp
     f.attribute3 = ATT3
-  File "netCDF4/_netCDF4.pyx", line 2918, in netCDF4._netCDF4.Dataset.__setattr__
-  File "netCDF4/_netCDF4.pyx", line 2848, in netCDF4._netCDF4.Dataset.setncattr
-  File "netCDF4/_netCDF4.pyx", line 1587, in netCDF4._netCDF4._set_att
+  File "NetCDF4/_NetCDF4.pyx", line 2918, in NetCDF4._NetCDF4.Dataset.__setattr__
+  File "NetCDF4/_NetCDF4.pyx", line 2848, in NetCDF4._NetCDF4.Dataset.setncattr
+  File "NetCDF4/_NetCDF4.pyx", line 1587, in NetCDF4._NetCDF4._set_att
 OSError: array string attributes can only be written with NETCDF4
 
 ----------------------------------------------------------------------
@@ -1036,7 +1036,7 @@ testing unicode attributes
 Traceback (most recent call last):
   File "tst_unicodeatt.py", line 16, in setUp
     nc.setncattr_string('stratt3',b'\xb2`\xa4J Python')
-  File "netCDF4/_netCDF4.pyx", line 2862, in netCDF4._netCDF4.Dataset.setncattr_string
+  File "NetCDF4/_NetCDF4.pyx", line 2862, in NetCDF4._NetCDF4.Dataset.setncattr_string
 OSError: file format does not support NC_STRING attributes
 
 ----------------------------------------------------------------------
@@ -1071,9 +1071,9 @@ ERROR: test_unsigned (__main__.Test_Unsigned)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
   File "tst_Unsigned.py", line 16, in test_unsigned
-    f = netCDF4.Dataset("ubyte.nc")
-  File "netCDF4/_netCDF4.pyx", line 2325, in netCDF4._netCDF4.Dataset.__init__
-  File "netCDF4/_netCDF4.pyx", line 1889, in netCDF4._netCDF4._ensure_nc_success
+    f = NetCDF4.Dataset("ubyte.nc")
+  File "NetCDF4/_NetCDF4.pyx", line 2325, in NetCDF4._NetCDF4.Dataset.__init__
+  File "NetCDF4/_NetCDF4.pyx", line 1889, in NetCDF4._NetCDF4._ensure_nc_success
 OSError: [Errno -77] NetCDF: Access failure: b'ubyte.nc'
 
 ----------------------------------------------------------------------
@@ -1098,9 +1098,9 @@ testing primitive variables
 Traceback (most recent call last):
   File "tst_vars.py", line 38, in setUp
     g.createDimension(DIM1_NAME, DIM1_LEN)
-  File "netCDF4/_netCDF4.pyx", line 2566, in netCDF4._netCDF4.Dataset.createDimension
-  File "netCDF4/_netCDF4.pyx", line 3372, in netCDF4._netCDF4.Dimension.__init__
-  File "netCDF4/_netCDF4.pyx", line 1891, in netCDF4._netCDF4._ensure_nc_success
+  File "NetCDF4/_NetCDF4.pyx", line 2566, in NetCDF4._NetCDF4.Dataset.createDimension
+  File "NetCDF4/_NetCDF4.pyx", line 3372, in NetCDF4._NetCDF4.Dimension.__init__
+  File "NetCDF4/_NetCDF4.pyx", line 1891, in NetCDF4._NetCDF4._ensure_nc_success
 RuntimeError: NetCDF: Not a valid ID
 
 ----------------------------------------------------------------------
@@ -1117,9 +1117,9 @@ ERROR: runTest (__main__.TestIntegerIndex)
 Traceback (most recent call last):
   File "tst_vlen.py", line 113, in runTest
     strtest.createVariable('tenstrings', str, ['tenstrings'])
-  File "netCDF4/_netCDF4.pyx", line 2772, in netCDF4._netCDF4.Dataset.createVariable
-  File "netCDF4/_netCDF4.pyx", line 3741, in netCDF4._netCDF4.Variable.__init__
-ValueError: Variable length strings are only supported for the NETCDF4 format. For other formats, consider using netCDF4.stringtochar to convert string arrays into character arrays with an additional dimension.
+  File "NetCDF4/_NetCDF4.pyx", line 2772, in NetCDF4._NetCDF4.Dataset.createVariable
+  File "NetCDF4/_NetCDF4.pyx", line 3741, in NetCDF4._NetCDF4.Variable.__init__
+ValueError: Variable length strings are only supported for the NETCDF4 format. For other formats, consider using NetCDF4.stringtochar to convert string arrays into character arrays with an additional dimension.
 
 ======================================================================
 ERROR: runTest (__main__.TestObjectArrayIndexing)
@@ -1128,9 +1128,9 @@ testing vlen variables
 Traceback (most recent call last):
   File "tst_vlen.py", line 132, in setUp
     (DIM2_NAME, DIM1_NAME))
-  File "netCDF4/_netCDF4.pyx", line 2772, in netCDF4._netCDF4.Dataset.createVariable
-  File "netCDF4/_netCDF4.pyx", line 3741, in netCDF4._netCDF4.Variable.__init__
-ValueError: Variable length strings are only supported for the NETCDF4 format. For other formats, consider using netCDF4.stringtochar to convert string arrays into character arrays with an additional dimension.
+  File "NetCDF4/_NetCDF4.pyx", line 2772, in NetCDF4._NetCDF4.Dataset.createVariable
+  File "NetCDF4/_NetCDF4.pyx", line 3741, in NetCDF4._NetCDF4.Variable.__init__
+ValueError: Variable length strings are only supported for the NETCDF4 format. For other formats, consider using NetCDF4.stringtochar to convert string arrays into character arrays with an additional dimension.
 
 ======================================================================
 ERROR: runTest (__main__.TestScalarVlenString)
@@ -1138,9 +1138,9 @@ ERROR: runTest (__main__.TestScalarVlenString)
 Traceback (most recent call last):
   File "tst_vlen.py", line 99, in runTest
     teststring = f.createVariable('teststring', str)
-  File "netCDF4/_netCDF4.pyx", line 2772, in netCDF4._netCDF4.Dataset.createVariable
-  File "netCDF4/_netCDF4.pyx", line 3741, in netCDF4._netCDF4.Variable.__init__
-ValueError: Variable length strings are only supported for the NETCDF4 format. For other formats, consider using netCDF4.stringtochar to convert string arrays into character arrays with an additional dimension.
+  File "NetCDF4/_NetCDF4.pyx", line 2772, in NetCDF4._NetCDF4.Dataset.createVariable
+  File "NetCDF4/_NetCDF4.pyx", line 3741, in NetCDF4._NetCDF4.Variable.__init__
+ValueError: Variable length strings are only supported for the NETCDF4 format. For other formats, consider using NetCDF4.stringtochar to convert string arrays into character arrays with an additional dimension.
 
 ======================================================================
 ERROR: runTest (__main__.VariablesTestCase)
@@ -1149,9 +1149,9 @@ testing vlen variables
 Traceback (most recent call last):
   File "tst_vlen.py", line 42, in setUp
     (DIM2_NAME,DIM1_NAME))
-  File "netCDF4/_netCDF4.pyx", line 2772, in netCDF4._netCDF4.Dataset.createVariable
-  File "netCDF4/_netCDF4.pyx", line 3741, in netCDF4._netCDF4.Variable.__init__
-ValueError: Variable length strings are only supported for the NETCDF4 format. For other formats, consider using netCDF4.stringtochar to convert string arrays into character arrays with an additional dimension.
+  File "NetCDF4/_NetCDF4.pyx", line 2772, in NetCDF4._NetCDF4.Dataset.createVariable
+  File "NetCDF4/_NetCDF4.pyx", line 3741, in NetCDF4._NetCDF4.Variable.__init__
+ValueError: Variable length strings are only supported for the NETCDF4 format. For other formats, consider using NetCDF4.stringtochar to convert string arrays into character arrays with an additional dimension.
 
 ----------------------------------------------------------------------
 Ran 6 tests in 0.008s
