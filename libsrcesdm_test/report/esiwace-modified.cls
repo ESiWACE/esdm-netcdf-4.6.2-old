@@ -280,9 +280,9 @@
 		\begin{tabular}[t]{ll}%
 			%\hline
 			Work Package: & Work Package 4 Exploitability \\ & \\
-			                             Date: & \thedate \\
-￼      History & October 2019, Version 0.9.\\
-￼              & January 2020, Integrated behavior of the current EDSM development\\
+      Date:   & \thedate \\
+      History & October 2019, Version 0.9.\\
+              & January 2020, Integrated behavior of the current EDSM development\\
 			%\hline
 		\end{tabular}
 	\end{minipage}
@@ -290,7 +290,7 @@
 	%\vspace*{1cm}
 	%\hspace*{-0.6cm}
 	%\begin{minipage}{11cm}
-	%leofcontents
+	%\tableofcontents
 	%\end{minipage}
 
 	\vspace*{1.5cm}
@@ -373,7 +373,7 @@
 
 \usepackage{tabu}
 
-urulecolor{EsiOrange}
+\taburulecolor{EsiOrange}
 
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0.4pt}
