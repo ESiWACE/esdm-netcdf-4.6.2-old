@@ -4,7 +4,10 @@
 \section{Introduction}
 
 \tab
-NetCDF provides python tests that are available in the directory \textbf{esdm-netcdf/dev}. The procedures to run the tests are following.
+There is a Python module for accessing NetCDF files.
+We provide a patch to the module to support ESDM.
+The patch and instructions to run the tests are available in the directory \textbf{esdm-netcdf/dev}.
+The procedures to run the tests are following.
 
 Run the build script:
 
@@ -24,7 +27,10 @@ Now, copy or link the \textbf{\_esdm.conf} file to this directory. A possible ex
 \$ cp ../../../build/libsrcesdm\_test/\_esdm.conf .
 \end{framed}
 
-All Python tests start with the string \textbf{tst\_}. This string has to change to enable us to run \textbf{pytest}. To do that, one option is install the \textbf{mmv} utility. Note that the tests names need to be changed, but the tests files (\textbf{.nc} files) have to remain unchanged.
+All Python tests start with the prefix \textbf{tst\_}.
+This string has to change to enable us to run \textbf{pytest}. To do that, one option is use the the \textbf{mmv} utility. Note that the tests names need to be changed, but the tests files (\textbf{.nc} files) have to remain unchanged.
+
+The tool can be installed and used in Debian-based distributions as follows:
 
 \begin{framed}
 \$ sudo apt-get install mmv\\

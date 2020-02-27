@@ -3,10 +3,11 @@
 
 \section{Introduction}
 
-\tab
-\textit{NetCDF Performance Benchmark Tool (NetCDF-Bench) was developed to measure NetCDF performance on devices ranging from notebooks to large HPC systems. It mimics the typical I/O behavior of scientific climate applications and captures the performance on each node/process. In the end, it aggregates the data to human readable summary}\footnote{\url{https://github.com/joobog/netcdf-bench}}.
+So far, we tested individual features of ESDM, as part of this section we discuss the usage of a benchmark application that uses NetCDF similarly to a real application.
 
-The NetCDF Benchmark can be found in the directory
+The NetCDF Performance Benchmark Tool (NetCDF-Bench) was developed to measure NetCDF performance on devices ranging from notebooks to large HPC systems. It mimics the typical I/O behavior of scientific climate applications and captures the performance on each node/process. In the end, it aggregates the data to human readable summary\footnote{\url{https://github.com/joobog/netcdf-bench}}.
+
+Scripts to setup the NetCDF Benchmark with ESDM can be found in the directory
 
 \begin{framed}
 esiwace/esdm-netcdf/libsrcesdm\_test/netcdf-bench
@@ -15,10 +16,6 @@ esiwace/esdm-netcdf/libsrcesdm\_test/netcdf-bench
 The procedures to run the tests are following.
 
 Run the prepare script:
-
-\begin{framed}
-./prepare.sh
-\end{framed}
 
 \begin{framed}
 ./prepare.sh
@@ -49,6 +46,8 @@ The benchmark file is called \textbf{benchtool} and it can be run with several p
 \end{framed}
 
 \section{Tests}
+
+The benchmark can run with various levels of parallelism, domain decomposition and access patterns.
 
 \subsection{Test 1}
 

@@ -3,13 +3,14 @@
 
 \tab
 This chapter compares the NetCDF functionalities with the current version of ESDM.
+% This chapter describes the main NetCDF functionalities and their coverage by the current version of ESDM.
 
 \section{Error Handling}
 
 \tab
 Each netCDF function returns 0 on success. In general, if a function returns an error code, you can assume it did not do what you hoped it would. NetCDF functions return a non-zero status codes on error. When programming with netCDF, the return code of every netCDF API call can be looked up in \texttt{netcdf.h} (for C programmers).
 
-Each netCDF function returns an integer status value. If the returned status value indicates an error, you may handle it in any way desired, from printing an associated error message and exiting to ignoring the error indication and proceeding (not recommended!).\footnote{Reference: \url{https://www.unidata.ucar.edu/software/netcdf/docs/group__error.html}}
+Each netCDF function returns an integer status value. If the returned status value indicates an error, you may handle it in any way desired, from printing an associated error message and exiting to ignoring the error indication and proceeding (this is not recommended!).\footnote{Reference: \url{https://www.unidata.ucar.edu/software/netcdf/docs/group__error.html}}
 
 \subsection{ESDM}
 
@@ -45,7 +46,7 @@ These features may only be used when working with a netCDF-4/HDF5 file. Files cr
 \subsection{ESDM}
 
 \tab
-NetCDF includes tests with the Classic Model, which ESDM does not support, and it has no intention of doing it.
+NetCDF includes tests with the Classic Model; while the ESDM data model basically supports all features of the Classic Model, it does not support the setting of the mode.
 
 \section{Modes}
 
@@ -70,8 +71,9 @@ The current version of ESDM does not have restrictions regarding the modes. Once
 \begin{tabular}{|l|m{6cm}|l|}
 \hline
 \multicolumn{1}{|c|}{FLAG} & \multicolumn{1}{|c|}{NetCDF Support} & \multicolumn{1}{|c|}{ESDM Support} \\ \hline \hline
-NC\_CLOBBER & Overwrite existing file &  ESDM\_CLOBBER  \tocheck     \\ \hline
-NC\_NOCLOBBER & Do not overwrite existing file &  ESDM\_NOCLOBBER  \tocheck      \\ \hline
+FLAG & NetCDF Support & ESDM Support\footnote{ESDM maps the NetCDF flag into an internal flag, if it is supported.} \\ \hline \hline
+NC\_CLOBBER & Overwrite existing file &  ESDM\_CLOBBER    \\ \hline
+NC\_NOCLOBBER & Do not overwrite existing file &  ESDM\_NOCLOBBER      \\ \hline
 NC\_SHARE & Limit write caching - netcdf classic files only &  NOT SUPPORTED       \\ \hline
 NC\_64BIT\_OFFSET & Create 64-bit offset file &    NOT SUPPORTED     \\ \hline
 NC\_64BIT\_DATA  & Create CDF-5 file (alias NC\_CDF5) &   NOT SUPPORTED      \\ \hline
@@ -162,9 +164,6 @@ Create a VLEN type to store variable length arrays of a known base type. Use \te
 
 \subsection{ESDM}
 
-\tab
-ESDM supports the same basic types that NetCDF\footnote{Reference: \url{https://www.unidata.ucar.edu/software/netcdf/netcdf/netCDF-external-data-types.html}}. The correspondence between the data types are provided in Table \ref{basic-datatypes-netcdf}.
-
 \begin{table}[H]
 \centering
 \begin{tabular}{|l|l|l|l|}
@@ -223,7 +222,9 @@ The netCDF-4 libraries inherit the capability for data compression from the HDF5
 \subsection{ESDM}
 
 \tab
-ESDM does not support compression yet. Because of that, all functions and tests related to chunking, deflate, and fletcher will not work when using ESDM. There is a compression library read to be used, but it was not yet integrated with the current version of ESDM. The Scientific Compression Library (SCIL) can be found in the following Git Repository:
+ESDM does not support compression yet.
+Because of that, all functions and tests related to chunking, deflate, and fletcher will not work when using ESDM.
+We will integrate a compression library in the future and support quantification of error tolerance levels for different variables, but it was not yet integrated with the current version of ESDM. The Scientific Compression Library (SCIL) can be found in the following Git Repository:
 
 \begin{center}
 \url{https://github.com/JulianKunkel/scil/}
@@ -233,6 +234,10 @@ ESDM does not support compression yet. Because of that, all functions and tests 
 
 \tab
 The endianness is defined as the order of bytes in multi-byte numbers: numbers encoded in big endian have their most significant bytes written first, whereas numbers encoded in little endian have their least significant bytes first. Little-endian is the native endianness of the IA32 architecture and its derivatives, while big-endian is native to SPARC and PowerPC, among others\footnote{Reference: \url{https://www.gnu.org/software/guile/manual/html_node/Bytevector-Endianness.html}}.
+
+ESDM only supports native-endianness of the machine it runs on.
+The rationale behind this design choice is that ESDM will be deployed in data centers and will be used to store data optimally in the data center partitioned across available storage solutions.
+It is not intended to be stored in a portable fashion, therefore, data can be imported/exported between, e.g., a NetCDF format and ESDM native format.
 
 \subsection{ESDM}
 
@@ -247,11 +252,9 @@ NetCDF-4 files can store attributes, variables, and dimensions in hierarchical g
 \subsection{ESDM}
 
 \tab
-In general, ESDM does not support groups from NetCDF. When only the root group is used, ESDM can work adequately and assumes the group and the file are the same entity. When there are more than one group or subgroups, ESDM can be called using the following command-line interface:
+In general, ESDM does not support groups from NetCDF. When only the root group is used, ESDM can work adequately and assumes the group and the file are the same entity.
 
-\tocheck
-
-The ability to work with groups is a functionality that ESDM developers intend to have in its final version.
+The ability to work with groups is a functionality that ESDM developers may implement depending on future requirements.
 
 \section{Fill Values}
 
@@ -291,6 +294,8 @@ Whether a range error occurs in writing a large floating-point value near the bo
 \subsection{ESDM}
 
 \tab
+ESDM supports most of the data conversions but may return a slightly different error.
+
 ESDM deals with type conversion the same way as NetCDF. However, ESDM only accept conversions for attributes, and not for variables. The reason behind this choice is ...
 
 \tocheck

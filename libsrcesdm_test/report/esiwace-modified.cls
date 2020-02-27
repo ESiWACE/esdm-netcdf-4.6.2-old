@@ -207,7 +207,6 @@
 %      \vspace{1cm}
 %      ESIWACE\\
 %      \vspace{1cm}
-%      \LARGE{Release \myversion\\}
 %      \LARGE{\@date}\\
 %      \LARGE{Approved: \approvaldate\\}
 %      \vspace{1cm}
@@ -281,12 +280,9 @@
 		\begin{tabular}[t]{ll}%
 			%\hline
 			Work Package: & Work Package 4 Exploitability \\ & \\
-			Responsible Institution: & University of Reading \\ & \\
-			Contributing Institutions: & \parbox{9cm}{Deutsches Klimarechenzentrum GmbH (DKRZ),
-                                   Science and Technology Facilities Council (STFC),
-                                   Centro Euro-Mediterranean sui Cambiamenti Climatici (CMCC),
-                                   Seagate Systems UK Limited (SEAGATE)} \\ & \\
-                                   Date of Submission: & 30 June 2019 \\
+			                             Date: & \thedate \\
+￼      History & October 2019, Version 0.9.\\
+￼              & January 2020, Integrated behavior of the current EDSM development\\
 			%\hline
 		\end{tabular}
 	\end{minipage}
