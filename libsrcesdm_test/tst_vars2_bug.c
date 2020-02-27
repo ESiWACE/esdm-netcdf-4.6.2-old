@@ -92,7 +92,7 @@ int main(int argc, char **argv) {
       if (strcmp(speech_in[i], speech[i])) ERR;
     if (nc_get_att_uint(ncid, NC_GLOBAL, serious_name[1], &nlines_in)) ERR;
     if (nlines_in != NLINES) ERR;
-    if (nc_free_string(NLINES, (char **)speech_in)) ERR;
+    // if (nc_free_string(NLINES, (char **)speech_in)) ERR;
     if (nc_inq_varname(ncid, 0, name_in)) ERR;
     if (strcmp(name_in, serious_name[3])) ERR;
     if (nc_close(ncid)) ERR;
