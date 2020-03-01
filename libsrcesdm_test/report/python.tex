@@ -3,7 +3,6 @@
 
 \section{Introduction}
 
-
 There is a Python module for accessing NetCDF files.
 We provide a patch to the module to support ESDM.
 The patch and instructions to run the tests are available in the directory \textbf{esdm-netcdf/dev}.
@@ -33,27 +32,295 @@ This string has to change to enable us to run \textbf{pytest}. To do that, one o
 The tool can be installed and used in Debian-based distributions as follows:
 
 \begin{framed}
-\$ sudo apt-get install mmv\\
+\$ sudo apt-get install mmv
+\end{framed}
+
+Now, run the \textbf{mmv} in the tests.
+
+\begin{framed}
 \$ mmv tst\*.py test\#1.py
 \end{framed}
 
-Now, run the \textbf{mkfs.esdm} utility with the following parameters.
+and run the \textbf{mkfs.esdm} utility with the following parameters.
 
 \begin{framed}
 \$ mkfs.esdm --create --remove --ignore-errors -g -c \_esdm.conf
 \end{framed}
 
-Finally, install and run the \textbf{pytest} utility.
+Finally, install the \textbf{pytest} utility
 
 \begin{framed}
-\$ sudo apt-get install python3-pytest \\
+\$ sudo apt-get install python3-pytest
+\end{framed}
+
+and run it
+
+\begin{framed}
 \$ pytest --junitxml results.xml
 \end{framed}
 
 The file \textbf{results.xml} can now be uploaded by Jenkins wchi provides the results in Table tab.
 
-\section{Tests}
+\section{Patch}
 
+\begin{lstlisting}[language=python,upquote=true]
+diff --git a/include/netCDF4.pxi b/include/netCDF4.pxi
+index 625752a..7bcd019 100644
+--- a/include/netCDF4.pxi
++++ b/include/netCDF4.pxi
+@@ -49,6 +49,7 @@ cdef extern from "netcdf.h":
+         NC_WRITE # read & write
+         # Use these 'mode' flags for nc_create.
+         NC_CLOBBER
++        NC_ESDM # ESDM support for Python
+         NC_NOCLOBBER # Don't destroy existing file on create
+         NC_64BIT_OFFSET # Use large (64-bit) file offsets
+         NC_64BIT_DATA # Use cdf-5 format
+@@ -122,6 +123,7 @@ cdef extern from "netcdf.h":
+         NC_FORMAT_NC3
+         NC_FORMAT_NC_HDF4
+         NC_FORMAT_NC_HDF5
++        NC_FORMATX_ESDM
+         NC_FORMAT_DAP2
+         NC_FORMAT_DAP4
+         NC_FORMAT_PNETCDF
+@@ -704,7 +706,7 @@ IF HAS_NC_CREATE_MEM:
+             int flags
+         int nc_close_memio(int ncid, NC_memio* info);
+
+-IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT:
++IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT or HAS_ESDM_SUPPORT:
+     cdef extern from "mpi-compat.h": pass
+     cdef extern from "netcdf_par.h":
+         ctypedef int MPI_Comm
+diff --git a/netCDF4/_netCDF4.pyx b/netCDF4/_netCDF4.pyx
+index b693354..58d02e8 100644
+--- a/netCDF4/_netCDF4.pyx
++++ b/netCDF4/_netCDF4.pyx
+@@ -1264,7 +1264,7 @@ import_array()
+ include "constants.pyx"
+ include "membuf.pyx"
+ include "netCDF4.pxi"
+-IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT:
++IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT or HAS_ESDM_SUPPORT:
+     cimport mpi4py.MPI as MPI
+     from mpi4py.libmpi cimport MPI_Comm, MPI_Info, MPI_Comm_dup, MPI_Info_dup, \
+                                MPI_Comm_free, MPI_Info_free, MPI_INFO_NULL,\
+@@ -1344,11 +1344,13 @@ _intnptonctype  = {'i1' : NC_BYTE,
+ # create dictionary mapping string identifiers to netcdf format codes
+ _format_dict  = {'NETCDF3_CLASSIC' : NC_FORMAT_CLASSIC,
+                  'NETCDF4_CLASSIC' : NC_FORMAT_NETCDF4_CLASSIC,
+-                 'NETCDF4'         : NC_FORMAT_NETCDF4}
++                 'NETCDF4'         : NC_FORMAT_NETCDF4,
++                 'ESDM'            : NC_FORMATX_ESDM}
+ # create dictionary mapping string identifiers to netcdf create format codes
+ _cmode_dict  = {'NETCDF3_CLASSIC' : NC_CLASSIC_MODEL,
+                 'NETCDF4_CLASSIC' : NC_CLASSIC_MODEL | NC_NETCDF4,
+-                'NETCDF4'         : NC_NETCDF4}
++                'NETCDF4'         : NC_NETCDF4,
++                'ESDM'            : NC_ESDM}
+ IF HAS_CDF5_FORMAT:
+     # NETCDF3_64BIT deprecated, saved for compatibility.
+     # use NETCDF3_64BIT_OFFSET instead.
+@@ -1547,6 +1549,8 @@ cdef _get_full_format(int grpid):
+             return 'DAP2'
+         elif formatp == NC_FORMAT_DAP4:
+             return 'DAP4'
++        elif formatp == NC_FORMATX_ESDM:
++            return 'ESDM'
+         elif formatp == NC_FORMAT_UNDEFINED:
+             return 'UNDEFINED'
+     ELSE:
+@@ -1578,7 +1582,7 @@ be raised in the next release."""
+                 PyMem_Free(string_ptrs)
+         else:
+             # don't allow string array attributes in NETCDF3 files.
+-            if is_netcdf3 and N > 1:
++            if is_netcdf3 and N > 1 and fmt != 'ESDM':
+                 msg='array string attributes can only be written with NETCDF4'
+                 raise IOError(msg)
+             if not value_arr.shape:
+@@ -1593,7 +1597,7 @@ be raised in the next release."""
+     # if array is 64 bit integers or
+     # if 64-bit datatype not supported, cast to 32 bit integers.
+     fmt = _get_format(grp._grpid)
+-    is_netcdf3 = fmt.startswith('NETCDF3') or fmt == 'NETCDF4_CLASSIC'
++    is_netcdf3 = fmt.startswith('NETCDF3') or fmt == 'NETCDF4_CLASSIC' or fmt == 'ESDM'
+     if value_arr.dtype.str[1:] == 'i8' and ('i8' not in _supportedtypes or\
+        (is_netcdf3 and fmt != 'NETCDF3_64BIT_DATA')):
+         value_arr = value_arr.astype('i4')
+@@ -2030,7 +2034,7 @@ strings.
+     __pdoc__['Dataset.data_model']=\
+     """`data_model` describes the netCDF
+     data model version, one of `NETCDF3_CLASSIC`, `NETCDF4`,
+-    `NETCDF4_CLASSIC`, `NETCDF3_64BIT_OFFSET` or `NETCDF3_64BIT_DATA`."""
++    `NETCDF4_CLASSIC`, `NETCDF3_64BIT_OFFSET` or `NETCDF3_64BIT_DATA` or ESDM."""
+     __pdoc__['Dataset.file_format']=\
+     """same as `data_model`, retained for backwards compatibility."""
+     __pdoc__['Dataset.disk_format']=\
+@@ -2084,7 +2088,7 @@ strings.
+
+         **`format`**: underlying file format (one of `'NETCDF4',
+         'NETCDF4_CLASSIC', 'NETCDF3_CLASSIC'`, `'NETCDF3_64BIT_OFFSET'` or
+-        `'NETCDF3_64BIT_DATA'`.
++        `'NETCDF3_64BIT_DATA'` or ESDM.
+         Only relevant if `mode = 'w'` (if `mode = 'r','a'` or `'r+'` the file format
+         is automatically detected). Default `'NETCDF4'`, which means the data is
+         stored in an HDF5 file, using netCDF 4 API features.  Setting
+@@ -2156,7 +2160,7 @@ strings.
+         cdef char *path
+         cdef char namstring[NC_MAX_NAME+1]
+         cdef int cmode
+-        IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT:
++        IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT or HAS_ESDM_SUPPORT:
+             cdef MPI_Comm mpicomm
+             cdef MPI_Info mpiinfo
+
+@@ -2183,7 +2187,7 @@ strings.
+                 msg='parallel mode requires MPI enabled netcdf-c'
+                 raise ValueError(msg)
+             ELSE:
+-                parallel_formats = []
++                parallel_formats = ['ESDM']
+                 IF HAS_PARALLEL4_SUPPORT:
+                     parallel_formats += ['NETCDF4','NETCDF4_CLASSIC']
+                 IF HAS_PNETCDF_SUPPORT:
+@@ -2222,7 +2226,7 @@ strings.
+             else:
+                 if clobber:
+                     if parallel:
+-                        IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT:
++                        IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT or HAS_ESDM_SUPPORT:
+                             ierr = nc_create_par(path, NC_CLOBBER | cmode, \
+                                    mpicomm, mpiinfo, &grpid)
+                         ELSE:
+@@ -2272,7 +2276,7 @@ strings.
+         version 4.4.1 or higher of the netcdf C lib, and rebuild netcdf4-python."""
+                     raise ValueError(msg)
+             elif parallel:
+-                IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT:
++                IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT or HAS_ESDM_SUPPORT:
+                     ierr = nc_open_par(path, NC_NOWRITE | NC_MPIIO, \
+                            mpicomm, mpiinfo, &grpid)
+                 ELSE:
+@@ -2853,7 +2857,7 @@ Use if you need to ensure that a netCDF attribute is created with type
+ `NC_STRING` if the file format is `NETCDF4`."""
+         cdef nc_type xtype
+         xtype=-99
+-        if self.data_model != 'NETCDF4':
++        if self.data_model != 'NETCDF4' and self.data_model != 'ESDM':
+             msg='file format does not support NC_STRING attributes'
+             raise IOError(msg)
+         _set_att(self, NC_GLOBAL, name, value, xtype=xtype, force_ncstring=True)
+@@ -3435,7 +3435,7 @@ return the group that this `netCDF4.Dimension` is a member of."""
+ returns `True` if the `netCDF4.Dimension` instance is unlimited, `False` otherwise."""
+         cdef int ierr, n, numunlimdims, ndims, nvars, ngatts, xdimid
+         cdef int *unlimdimids
+-        if self._data_model == 'NETCDF4':
++        if self._data_model == 'NETCDF4' or self._data_model == "ESDM":
+             ierr = nc_inq_unlimdims(self._grpid, &numunlimdims, NULL)
+             _ensure_nc_success(ierr)
+             if numunlimdims == 0:
+@@ -4138,7 +4138,7 @@ Use if you need to ensure that a netCDF attribute is created with type
+ Use if you need to set an attribute to an array of variable-length strings."""
+         cdef nc_type xtype
+         xtype=-99
+-        if self._grp.data_model != 'NETCDF4':
++        if self._grp.data_model != 'NETCDF4' and self._grp.data_model != 'ESDM':
+             msg='file format does not support NC_STRING attributes'
+             raise IOError(msg)
+         _set_att(self._grp, self._varid, name, value, xtype=xtype, force_ncstring=True)
+diff --git a/setup.py b/setup.py
+index febc020..d7ba091 100644
+--- a/setup.py
++++ b/setup.py
+@@ -58,6 +58,7 @@ def check_api(inc_dirs):
+     has_nc_create_mem = False
+     has_parallel4_support = False
+     has_pnetcdf_support = False
++    has_esdm_support = False
+
+     for d in inc_dirs:
+         try:
+@@ -564,6 +565,7 @@ if 'sdist' not in sys.argv[1:] and 'clean' not in sys.argv[1:]:
+     else:
+         sys.stdout.write('netcdf lib does not have pnetcdf parallel functions\n')
+         f.write('DEF HAS_PNETCDF_SUPPORT = 0\n')
++    f.write('DEF HAS_ESDM_SUPPORT = 1\n') # TODO Fixme
+
+     f.close()
+\end{lstlisting}
+
+\begin{lstlisting}[language=python,upquote=true]
++        NC_ESDM # ESDM support for Python
++        NC_FORMATX_ESDM
+-IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT:
++IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT or HAS_ESDM_SUPPORT:
+-IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT:
++IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT or HAS_ESDM_SUPPORT:
+-                 'NETCDF4'         : NC_FORMAT_NETCDF4}
++                 'NETCDF4'         : NC_FORMAT_NETCDF4,
++                 'ESDM'            : NC_FORMATX_ESDM}
+-                'NETCDF4'         : NC_NETCDF4}
++                'NETCDF4'         : NC_NETCDF4,
++                'ESDM'            : NC_ESDM}
++        elif formatp == NC_FORMATX_ESDM:
++            return 'ESDM'
+-            if is_netcdf3 and N > 1:
++            if is_netcdf3 and N > 1 and fmt != 'ESDM':
+-    is_netcdf3 = fmt.startswith('NETCDF3') or fmt == 'NETCDF4_CLASSIC'
++    is_netcdf3 = fmt.startswith('NETCDF3') or fmt == 'NETCDF4_CLASSIC' or fmt == 'ESDM'
+-    `NETCDF4_CLASSIC`, `NETCDF3_64BIT_OFFSET` or `NETCDF3_64BIT_DATA`."""
++    `NETCDF4_CLASSIC`, `NETCDF3_64BIT_OFFSET` or `NETCDF3_64BIT_DATA` or ESDM."""
+-        `'NETCDF3_64BIT_DATA'`.
++        `'NETCDF3_64BIT_DATA'` or ESDM.
+-        IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT:
++        IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT or HAS_ESDM_SUPPORT:
+-                parallel_formats = []
++                parallel_formats = ['ESDM']
+-                        IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT:
++                        IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT or HAS_ESDM_SUPPORT:
+-                IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT:
++                IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT or HAS_ESDM_SUPPORT:
+-        if self.data_model != 'NETCDF4':
++        if self.data_model != 'NETCDF4' and self.data_model != 'ESDM':
+-        if self._data_model == 'NETCDF4':
++        if self._data_model == 'NETCDF4' or self._data_model == "ESDM":
+-        if self._grp.data_model != 'NETCDF4':
++        if self._grp.data_model != 'NETCDF4' and self._grp.data_model != 'ESDM':
++    has_esdm_support = False
++    f.write('DEF HAS_ESDM_SUPPORT = 1\n') # TODO Fixme
+\end{lstlisting}
+
+\begin{lstlisting}[language=python,upquote=true]
++        NC_ESDM # ESDM support for Python
++        NC_FORMATX_ESDM
++IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT or HAS_ESDM_SUPPORT:
++IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT or HAS_ESDM_SUPPORT:
++                 'NETCDF4'         : NC_FORMAT_NETCDF4,
++                 'ESDM'            : NC_FORMATX_ESDM}
++                'NETCDF4'         : NC_NETCDF4,
++                'ESDM'            : NC_ESDM}
++        elif formatp == NC_FORMATX_ESDM:
++            return 'ESDM'
++            if is_netcdf3 and N > 1 and fmt != 'ESDM':
++    is_netcdf3 = fmt.startswith('NETCDF3') or fmt == 'NETCDF4_CLASSIC' or fmt == 'ESDM'
++    `NETCDF4_CLASSIC`, `NETCDF3_64BIT_OFFSET` or `NETCDF3_64BIT_DATA` or ESDM."""
++        `'NETCDF3_64BIT_DATA'` or ESDM.
++        IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT or HAS_ESDM_SUPPORT:
++                parallel_formats = ['ESDM']
++                        IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT or HAS_ESDM_SUPPORT:
++                IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT or HAS_ESDM_SUPPORT:
++        if self.data_model != 'NETCDF4' and self.data_model != 'ESDM':
++        if self._data_model == 'NETCDF4' or self._data_model == "ESDM":
++        if self._grp.data_model != 'NETCDF4' and self._grp.data_model != 'ESDM':
++    has_esdm_support = False
++    f.write('DEF HAS_ESDM_SUPPORT = 1\n')
+\end{lstlisting}
+
+\begin{comment}
+
+\section{Tests}
 
 The next sections introduce the information about each Python test. For them to run with ESDM, two strings were replaced in all tests that contain them. The commands for this substitution can be found in the file \textbf{build.sh}.
 
@@ -1159,3 +1426,5 @@ Ran 6 tests in 0.008s
 FAILED (errors=4)
 ----------------------------------------------------------------------
 \end{verbatim}
+
+\end{comment}
