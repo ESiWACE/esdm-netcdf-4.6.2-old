@@ -168,7 +168,7 @@ diff --git a/setup.py b/setup.py
 index febc020..d7ba091 100644
 --- a/setup.py
 +++ b/setup.py
-@@ -58,6 +58,7 @@ def check_api(inc_dirs):
+@@ -59,6 +59,7 @@ def check_api(inc_dirs):
      has_nc_create_mem = False
      has_parallel4_support = False
      has_pnetcdf_support = False
@@ -176,7 +176,25 @@ index febc020..d7ba091 100644
 
      for d in inc_dirs:
          try:
-@@ -564,6 +565,7 @@ if 'sdist' not in sys.argv[1:] and 'clean' not in sys.argv[1:]:
+@@ -69,13 +70,13 @@ def check_api(inc_dirs,netcdf_lib_version):
+         has_nc_open_mem = os.path.exists(os.path.join(d, 'netcdf_mem.h'))
+
+         for line in f:
+-            if line.startswith('nc_rename_grp'):
++            if line.find('nc_rename_grp') != -1:
+                 has_rename_grp = True
+-            if line.startswith('nc_inq_path'):
++            if line.find('nc_inq_path') != -1:
+                 has_nc_inq_path = True
+-            if line.startswith('nc_inq_format_extended'):
++            if line.find('nc_inq_format_extended') != -1:
+                 has_nc_inq_format_extended = True
+-            if line.startswith('#define NC_FORMAT_64BIT_DATA'):
++            if line.find('#define NC_FORMAT_64BIT_DATA') != -1:
+                 has_cdf5_format = True
+
+         if has_nc_open_mem:
+@@ -576,6 +577,7 @@ if 'sdist' not in sys.argv[1:] and 'clean' not in sys.argv[1:]:
      else:
          sys.stdout.write('netcdf lib does not have pnetcdf parallel functions\n')
          f.write('DEF HAS_PNETCDF_SUPPORT = 0\n')
