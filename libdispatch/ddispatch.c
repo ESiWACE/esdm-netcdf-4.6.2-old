@@ -38,7 +38,7 @@ static struct NCPROTOCOLLIST {
     {"http",NULL,0},
     {"https",NULL,0},
     {"file",NULL,0},
-    {"esdm","esd", NC_FORMATX_ESDM},
+    {"esdm",NULL, NC_FORMATX_ESDM},
     {"dods","http",NC_FORMATX_DAP2},
     {"dodss","https",NC_FORMATX_DAP2},
     {"dap4","http",NC_FORMATX_DAP4},
@@ -163,7 +163,7 @@ NC_testurl(const char* path)
     for(p=(char*)path;*p;p++) {if(*p != ' ') break;}
 
     /* Do some initial checking to see if this looks like a file path */
-    if(*p == '/') return 0; /* probably an absolute file path */
+    //if(*p == '/') return 0; /* probably an absolute file path */
 
     /* Ok, try to parse as a url */
     if(ncuriparse(path,&tmpurl)==NCU_OK) {
@@ -201,7 +201,7 @@ NC_urlmodel(const char* path, int mode, char** newurl)
     for(p=(char*)path;*p;p++) {if(*p != ' ') break;}
 
     /* Do some initial checking to see if this looks like a file path */
-    if(*p == '/') return 0; /* probably an absolute file path */
+    //if(*p == '/') return 0; /* probably an absolute file path */
 
     /* Parse the url */
     if(ncuriparse(path,&url) != NCU_OK)

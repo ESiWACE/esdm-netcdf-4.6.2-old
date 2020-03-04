@@ -384,8 +384,6 @@ int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_
 
   if (strncmp(path, "esdm:", 5) == 0) {
     realpath = &path[5];
-  } else if (strncmp(path, "esd:", 4) == 0) {
-    realpath = &path[4];
   }
   // const char * base = basename(realpath);
   // remove leading slashes

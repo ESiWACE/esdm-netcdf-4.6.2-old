@@ -8,6 +8,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <assert.h>
+#include <unistd.h>
 
 #include "ncuri.h"
 #include "ncbytes.h"
@@ -150,6 +151,19 @@ ncuriparse(const char* uri0, NCURI** durip)
     uri = (char*)malloc(len0+1+1); /* +2 for nul term and for host section terminator */
     if(uri == NULL)
 	{THROW(NCU_ENOMEM);}
+  /* remove the CWD, if it matches */
+    {
+      char cwd[1024];
+      if (getcwd(cwd, sizeof(cwd)) != NULL) {
+        int cwdlen = strlen(cwd);
+        if(cwdlen < len0 && strncmp(cwd, uri0, cwdlen) == 0){
+          // stripping cwd.
+          uri0 += cwdlen;
+          while(*uri0 == '/') uri0++;
+          len0 = strlen(uri0);
+        }
+      }
+    }
     strncpy(uri,uri0,len0+1);
 
     /* Walk the uri and do the following:
@@ -255,6 +269,20 @@ ncuriparse(const char* uri0, NCURI** durip)
        4. file:///X, where X does not start with a slash: treat /X as the path.
        All other cases are disallowed: specifically including file://X.
     */
+    if (strcmp(tmp.protocol,"esdm")==0){
+      if(durip){
+        duri = (NCURI*)calloc(1,sizeof(NCURI));
+        if(duri == NULL)
+          {THROW(NCU_ENOMEM);}
+        /* save original uri */
+        duri->uri = strdup(uri0);
+        duri->protocol = nulldup(tmp.protocol);
+        duri->path = nulldup(uri0 + strlen(tmp.protocol) + 1);
+        *durip = duri;
+      }
+      free(uri);
+      return NCU_OK;
+    }
 
     isfile = (strcmp(tmp.protocol,"file")==0);
     if(isfile) {
