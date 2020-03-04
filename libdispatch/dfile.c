@@ -2024,7 +2024,7 @@ int NC_create(const char *path0, int cmode, size_t initialsz, int basepe, size_t
 
     /* Check default format (not formatx) */
     if (!fIsSet(cmode, NC_64BIT_OFFSET)  && !fIsSet(cmode, NC_64BIT_DATA) &&
-        !fIsSet(cmode, NC_CLASSIC_MODEL) && !fIsSet(cmode, NC_NETCDF4)) {
+        !fIsSet(cmode, NC_CLASSIC_MODEL) && !fIsSet(cmode, NC_NETCDF4) && !fIsSet(cmode, NC_ESDM)) {
         /* if no file format flag is set in cmode, use default */
         int format = nc_get_default_format();
         switch (format) {
