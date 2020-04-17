@@ -878,7 +878,7 @@ int ESDM_inq(int ncid, int *ndimsp, int *nvarsp, int *nattsp, int *unlimdimidp) 
 int ESDM_inq_type(int ncid, nc_type xtype, char *name, size_t *size) {
   DEBUG_ENTER("%d\n", ncid);
 
-  // I'm not sure I can do it.
+  // TODO
 
   return NC_NOERR;
 }
@@ -1959,7 +1959,7 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
  * group in question.
  */
 
-// TODO
+// TO VERIFY
 
 int ESDM_inq_typeids(int ncid, int *ntypes, int *typeids) {
   DEBUG_ENTER("%d\n", ncid);
@@ -1972,6 +1972,7 @@ int ESDM_inq_typeids(int ncid, int *ntypes, int *typeids) {
   if (ntypes) {
     *ntypes = 0; //SMD_TYPE_STRING;
   }
+
   if (typeids) {
     for (int i = 0; i < SMD_TYPE_PRIMITIVE_END; i++) {
       typeids[i] = type_esdm_to_nc(i);
@@ -2041,13 +2042,21 @@ int ESDM_inq_unlimdims(int ncid, int *nunlimdimsp, int *unlimdimidsp) {
  * @param typeidp	Typeid of named type will be copied here, if it is found.
  */
 
-int ESDM_inq_typeid(int ncid, const char *name, nc_type *t) {
+ // TO FIX
+
+int ESDM_inq_typeid(int ncid, const char *name, nc_type *typeidp) {
   DEBUG_ENTER("%d\n", ncid);
-  WARN_NOT_IMPLEMENTED;
+
   nc_esdm_t *e = ESDM_nc_get_esdm_struct(ncid);
   if (e == NULL)
     return NC_EBADID;
-  return NC_NOERR; // check it later
+
+  if (typeidp) {
+    *typeidp = type_esdm_to_nc(name);
+  }
+
+  return NC_NOERR;
+
 }
 
 /**
