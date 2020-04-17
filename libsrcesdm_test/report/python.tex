@@ -13,18 +13,21 @@ Run the build script:
 \$ ./build.sh
 \end{framed}
 
-Python tests are created now inside the directory \texttt{dev/netcdf4-python/test}. Go to that directory.
+Python tests are created now inside the directory \texttt{dev/netcdf4-python/test}.
+Go to that directory.
 
 \begin{framed}
 \$ cd netcdf4-python/test
 \end{framed}
 
-Now, copy or link the \texttt{\_esdm.conf} file to this directory. This can be done using a copy from the directory \texttt{esdm-netcdf/dev}.
+Now, copy or link the \texttt{\_esdm.conf} file to this directory.
+This can be done using a copy from the directory \texttt{esdm-netcdf/dev}.
 
 \section{Patch}
 \label{sec:patch}
 
-The changings in the original patch to include ESDM can be seen next. Basically, we add the flags HAS\_ESDM\_SUPPORT, NC\_FORMATX\_ESDM, NC\_ESDM and fmt == `ESDM' (ESDM format).\\
+The changings in the original patch to include ESDM can be seen next.
+Basically, we add the flags HAS\_ESDM\_SUPPORT, NC\_FORMATX\_ESDM, NC\_ESDM and fmt == `ESDM' (ESDM format).\\
 
 \begin{lstlisting}[language=python,upquote=true]
 diff --git a/include/netCDF4.pxi b/include/netCDF4.pxi
@@ -216,7 +219,9 @@ index febc020..d7ba091 100644
 
 \section{Tests}
 
-Similarly to what happened with the tests in C, the tests in Python mix functionalities that are not yet available in ESDM. In this case, we opt to just present the results using the original NetCDF tests without any modification. As expected, not many tests are sucessful using ESDM directly, for the reasons mentioned in Chapter \ref{ch:nctests}.
+Similarly to what happened with the tests in C, the tests in Python mix functionalities that are not yet available in ESDM.
+In this case, we opt to just present the results using the original NetCDF tests without any modification.
+As expected, not many tests are sucessful using ESDM directly, for the reasons mentioned in Chapter \ref{ch:nctests}.
 
 Hopefully, the positive results are enough to prove the compatibility between the current version of ESDM and NetCDF Python.
 

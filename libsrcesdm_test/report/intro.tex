@@ -1,9 +1,14 @@
 \chapter{Introduction}
 \label{ch:intro}
 
-This report is covering the compatibility between ESDM and NetCDF4. It is a supplementary document and not a formal deliverable of the ESiWACE project. We will update this document over the course of the development.
+This report is covering the compatibility between ESDM and NetCDF4.
+It is a supplementary document and not a formal deliverable of the ESiWACE project.
+We will update this document over the course of the development.
 
-The Earth System Data Middleware (ESDM) provides a high level of abstraction for earth system applications in the presence of storage heterogeneity. This novel middleware aims to include aspects of workflow management capabilities to enable intelligent storage management that not only optimises data locality and performance but also lifts data management to a new level. The architecture utilises scientific metadata to exploit a centric perspective of the data structure while retaining well-established end-user interfaces. For further information on ESDM, check the Git Repository on \url{https://github.com/ESiWACE/esdm}.
+The Earth System Data Middleware (ESDM) provides a high level of abstraction for earth system applications in the presence of storage heterogeneity.
+This novel middleware aims to include aspects of workflow management capabilities to enable intelligent storage management that not only optimises data locality and performance but also lifts data management to a new level.
+The architecture utilises scientific metadata to exploit a centric perspective of the data structure while retaining well-established end-user interfaces.
+For further information on ESDM, check the Git Repository on \url{https://github.com/ESiWACE/esdm}.
 
 The design goals of the ESDM are:
 
@@ -38,7 +43,7 @@ Version 4.1 (2010) added support for C and Fortran client access to specified su
 Version 4.3.0 (2012) added a CMake build system for Windows builds.
 Version 4.7.0 (2019) added support for reading Amazon S3 objects. Further releases are planned to improve performance, add features, and fix bugs.
 For further information on NetCDF, check \url{https://www.unidata.ucar.edu/software/netcdf/}.
-}\footnote{\url{https://en.wikipedia.org/wiki/NetCDF}}
+}\footnote{Reference: \url{https://en.wikipedia.org/wiki/NetCDF}}
 
 {\itshape
 
@@ -85,5 +90,3 @@ This report is organised as follows:
 \item[Chapter \ref{ch:conc}] concludes this compatibility report.
 
 \end{description}
-
-% Chapter \ref{ch:func} describes the main NetCDF funcionalities and their coverage by ESDM. Chapter \ref{ch:nctests}] introduces the C tests and Chapter \ref{ch:python} introduces the Python tests provided by NetCDF in its documentation and the status when running with ESDM. Chapter \ref{ch:bench} analyses the NetCDF Performance Benchmark Tool and Chapter \ref{ch:nccopy} explores the nccopy utility.

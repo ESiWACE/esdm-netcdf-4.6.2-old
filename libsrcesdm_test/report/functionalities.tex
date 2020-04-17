@@ -8,25 +8,33 @@ This chapter compares the NetCDF functionalities with the current version of ESD
 {\itshape
 
 Each netCDF function in the C, Fortran 77, and Fortran 90 APIs returns 0 on success, in the tradition of C.
-When programming with netCDF in these languages, always check return values of every netCDF API call. The return code can be looked up in netcdf.h (for C programmers) or netcdf.inc (for Fortran programmers), or you can use the strerror function to print out an error message.
+When programming with netCDF in these languages, always check return values of every netCDF API call.
+The return code can be looked up in netcdf.h (for C programmers) or netcdf.inc (for Fortran programmers), or you can use the strerror function to print out an error message.
 
 In general, if a function returns an error code, you can assume it did not do what you hoped it would.
-NetCDF functions return a non-zero status codes on error. If the returned status value indicates an error, you may handle it in any way desired, from printing an associated error message and exiting to ignoring the error indication and proceeding (not recommended!).
+NetCDF functions return a non-zero status codes on error.
+If the returned status value indicates an error, you may handle it in any way desired, from printing an associated error message and exiting to ignoring the error indication and proceeding (not recommended!).
 
-Occasionally, low-level I/O errors may occur in a layer below the netCDF library. For example, if a write operation causes you to exceed disk quotas or to attempt to write to a device that is no longer available, you may get an error from a layer below the netCDF library, but the resulting write error will still be reflected in the returned status value.
+Occasionally, low-level I/O errors may occur in a layer below the netCDF library.
+For example, if a write operation causes you to exceed disk quotas or to attempt to write to a device that is no longer available, you may get an error from a layer below the netCDF library, but the resulting write error will still be reflected in the returned status value.
 }\footnote{Adapted from \url{https://www.unidata.ucar.edu/software/netcdf/docs/group__error.html}}
 
 \subsection{ESDM}
 
-NetCDF has an extensive classification for the possible errors that might happen. ESDM does not share this classification, and it is something that their developers are not considering to include in the final version.
+NetCDF has an extensive classification for the possible errors that might happen.
+ESDM does not share this classification, and it is something that their developers are not considering to include in the final version.
 
-This decision does not affect the performance of ESDM, but it is critical when NetCDF tests are evaluated. NetCDF tests introduce invalid conditions and, because ESDM does not produce the expected error, the test fails. To provide a fair comparison with ESDM, the code in the NetCDF tests that considers invalid parameters as input was removed.
+This decision does not affect the performance of ESDM, but it is critical when NetCDF tests are evaluated.
+NetCDF tests introduce invalid conditions and, because ESDM does not produce the expected error, the test fails.
+To provide a fair comparison with ESDM, the code in the NetCDF tests that considers invalid parameters as input was removed.
 
 \section{NetCDF Data Models}
 
 {\itshape
 
-There are two netCDF data models, the \textbf{Classic Model} (Section \ref{sec:classic}) and the \textbf{Common Data Model} (Section \ref{sec:common}) (also called the netCDF-4 data model or enhanced model). The Classic Model is the simpler of the two, and is used for all data stored in classic CDF-1 format, 64-bit offset CDF-2 format, 64-bit data CDF-5 format, or netCDF-4 classic model format. The Common Data Model (sometimes also referred to as the netCDF-4 data model) is an extension of the Classic Model that adds more powerful forms of data representation and data types at the expense of some additional complexity.
+There are two netCDF data models, the \textbf{Classic Model} (Section \ref{sec:classic}) and the \textbf{Common Data Model} (Section \ref{sec:common}) (also called the netCDF-4 data model or enhanced model).
+The Classic Model is the simpler of the two, and is used for all data stored in classic CDF-1 format, 64-bit offset CDF-2 format, 64-bit data CDF-5 format, or netCDF-4 classic model format.
+The Common Data Model (sometimes also referred to as the netCDF-4 data model) is an extension of the Classic Model that adds more powerful forms of data representation and data types at the expense of some additional complexity.
 
 Although data represented with the Classic Model can also be represented using the Common Data Model, datasets that use Common Data Model features, such as user-defined data types, cannot be represented with the Classic Model. Use of the Common Data Model requires storage in the netCDF-4 format.
 }\footnote{Adapted from \url{https://www.unidata.ucar.edu/software/netcdf/docs/faq.html}}
@@ -61,12 +69,14 @@ With NetCDF-4, the NetCDF data model has been extended, in a backwards-compatibl
 
 \end{description}
 
-These features may only be used when working with a NetCDF-4/HDF5 file. Files created in classic formats cannot support groups or user-defined types.
+These features may only be used when working with a NetCDF-4/HDF5 file.
+Files created in classic formats cannot support groups or user-defined types.
 }\footnote{Adapted from \url{https://www.unidata.ucar.edu/software/netcdf/docs/netcdf_data_model.html}}
 
 \subsection{ESDM}
 
-NetCDF includes tests with both Classic and Common Data Models. While the ESDM data model basically supports all features of the Classic Model, it does not support the setting of the mode.
+NetCDF includes tests with both Classic and Common Data Models.
+While the ESDM data model basically supports all features of the Classic Model, it does not support the setting of the mode.
 
 For the Common Data Model, ESDM does not support groups and user-defined types.
 
@@ -90,7 +100,10 @@ There are two modes associated with accessing a NetCDF file \footnote{Adapted fr
 
 \subsection{ESDM}
 
-The current version of ESDM does not have restrictions regarding the modes. Once the file is open, the user can do any modifications s/he wants. Tables \ref{tab_modes_create} and \ref{tab_modes_open} compare the options for creating and opening a file using NetCDF and ESDM. ESDM maps the NetCDF flag into an internal flag, if the mode is supported.
+The current version of ESDM does not have restrictions regarding the modes.
+Once the file is open, the user can do any modifications s/he wants.
+Tables \ref{tab_modes_create} and \ref{tab_modes_open} compare the options for creating and opening a file using NetCDF and ESDM.
+ESDM maps the NetCDF flag into an internal flag, if the mode is supported.
 
 \begin{table}[H]
 \centering
@@ -137,7 +150,8 @@ Data in a NetCDF file may be one of the \textbf{atomic types} (Section \ref{ed-t
 Atomic types are those which can not be further subdivided.
 All six classic model types (BYTE, CHAR, SHORT, INT, FLOAT, DOUBLE) are atomic, and fully supported in netCDF-4.
 
-The following new atomic types have been added in netCDF-4: UBYTE, USHORT, UINT, INT64, UINT64, STRING. The string type will efficiently store arrays of variable length strings.
+The following new atomic types have been added in netCDF-4: UBYTE, USHORT, UINT, INT64, UINT64, STRING.
+The string type will efficiently store arrays of variable length strings.
 }\footnote{Adapted from \url{https://www.unidata.ucar.edu/software/netcdf/workshops/2007/nc4features/AtomicTypes.html}}
 
 Table \ref{tab_modes_open} shows the definition for the atomic types supported by the NetCDF interface.
@@ -167,7 +181,8 @@ NC\_STRING & variable length character string \\ \hline
 
 \subsection{ESDM}
 
-ESDM supports all NetCDF4 atomic types but NC\_STRING. It is worth mentioning that, althought ESDM has a type SMD\_DTYPE\_STRING, this type does not work as the NC\_STRING type.
+ESDM supports all NetCDF4 atomic types but NC\_STRING.
+It is worth mentioning that, althought ESDM has a type SMD\_DTYPE\_STRING, this type does not work as the NC\_STRING type.
 
 Table \ref{datatypes-netcdf} summarizes the available NetCDF data types and the corresponding support from ESDM.
 
@@ -222,7 +237,8 @@ Like an enumeration in C, this type lets you assign text values to integer value
 
 \end{description}
 
-Users may construct user defined type with the various \texttt{nc\_def\_*} functions described in this section. They may learn about user defined types by using the \texttt{nc\_inq\_} functions defined in this section.
+Users may construct user defined type with the various \texttt{nc\_def\_*} functions described in this section.
+They may learn about user defined types by using the \texttt{nc\_inq\_} functions defined in this section.
 \footnote{Adapted from \url{https://www.unidata.ucar.edu/software/netcdf/docs/group__user__types.html}}
 
 }
@@ -248,7 +264,10 @@ The current version of ESDM does not support user-defined data types, but the de
 
 {\itshape
 
-The NetCDF-4 libraries inherit the capability for data compression from the HDF5 storage layer underneath the NetCDF-4 interface. Linking a program that uses NetCDF to a NetCDF-4 library allows the program to read compressed data without changing a single line of the program source code. Writing NetCDF compressed data only requires a few extra statements. And the nccopy utility program supports converting classic NetCDF format data to or from compressed data without any programming.
+The NetCDF-4 libraries inherit the capability for data compression from the HDF5 storage layer underneath the NetCDF-4 interface.
+Linking a program that uses NetCDF to a NetCDF-4 library allows the program to read compressed data without changing a single line of the program source code.
+Writing NetCDF compressed data only requires a few extra statements.
+And the nccopy utility program supports converting classic NetCDF format data to or from compressed data without any programming.
 }\footnote{Adapted from \url{https://www.unidata.ucar.edu/blogs/developer/entry/netcdf_compression}}
 
 \subsection{ESDM}
@@ -267,7 +286,9 @@ The Scientific Compression Library (SCIL) it not yet integrated with the current
 
 {\itshape
 
-The endianness is defined as the order of bytes in multi-byte numbers: numbers encoded in big-endian have their most significant bytes written first, whereas numbers encoded in little-endian have their least significant bytes first. Little-endian is the native endianness of the IA32 architecture and its derivatives, while big-endian is native to SPARC and PowerPC, among others. The native-endianness procedure returns the native endianness of the machine it runs on.
+The endianness is defined as the order of bytes in multi-byte numbers: numbers encoded in big-endian have their most significant bytes written first, whereas numbers encoded in little-endian have their least significant bytes first.
+Little-endian is the native endianness of the IA32 architecture and its derivatives, while big-endian is native to SPARC and PowerPC, among others.
+The native-endianness procedure returns the native endianness of the machine it runs on.
 }\footnote{Adapted from \url{https://www.gnu.org/software/guile/manual/html_node/Bytevector-Endianness.html}}
 
 {\itshape
@@ -292,14 +313,17 @@ ESDM only supports native-endianness of the machine it runs on.
 The developers believe that the native-endianness of the machine is enough for demonstrating the benefits of using ESDM to improve efficiency in the system.
 
 The rationale behind this design choice is that ESDM will be deployed in data centres and will be used to store data optimally in the data centre partitioned across available storage solutions.
-It is not intended to be stored in a portable fashion. Therefore, data can be imported/exported between, e.g., a NetCDF format and the ESDM native format.
+It is not intended to be stored in a portable fashion.
+Therefore, data can be imported/exported between, e.g., a NetCDF format and the ESDM native format.
 
 \section{Groups}
 
 {\itshape
-NetCDF-4 files can store attributes, variables, and dimensions in hierarchical groups. This allows the user to create a structure much like a Unix file system.
+NetCDF-4 files can store attributes, variables, and dimensions in hierarchical groups.
+This allows the user to create a structure much like a Unix file system.
 
-In NetCDF, each group gets an ncid. Opening or creating a file returns the ncid for the root group (which is named ``/'').
+In NetCDF, each group gets an ncid.
+Opening or creating a file returns the ncid for the root group (which is named ``/'').
 
 Dimensions are scoped such that they are visible to all child groups. For example, you can define a dimension in the root group, and use its dimension id when defining a variable in a sub-group.
 
@@ -310,7 +334,8 @@ The degenerate case, in which only the root group is used, corresponds exactly w
 
 \subsection{ESDM}
 
-In general, ESDM does not support groups from NetCDF. When only the root group is used, ESDM can work adequately and assumes the group and the file are the same entity.
+In general, ESDM does not support groups from NetCDF.
+When only the root group is used, ESDM can work adequately and assumes the group and the file are the same entity.
 
 The ability to work with groups is a functionality that ESDM developers may implement depending on future requirements.
 
@@ -319,14 +344,17 @@ The ability to work with groups is a functionality that ESDM developers may impl
 \section{Fill Values}
 
 {\itshape
-Sometimes there are missing values in the data, and some value is needed to represent them. For example, what value do you put in a sea-surface temperature variable for points overland?
+Sometimes there are missing values in the data, and some value is needed to represent them.
+For example, what value do you put in a sea-surface temperature variable for points overland?
 
-In NetCDF, you can create an attribute for the variable (and of the same type as the variable) called \_FillValue that contains a value that you have used for missing data. Applications that read the data file can use this to know how to represent these values.
+In NetCDF, you can create an attribute for the variable (and of the same type as the variable) called \_FillValue that contains a value that you have used for missing data.
+Applications that read the data file can use this to know how to represent these values.
 }\footnote{Adapted from \url{https://www.unidata.ucar.edu/software/netcdf/docs/fill_values.html}}
 
 \subsection{ESDM}
 
-ESDM supports fill values. There are some specific details in the implementation of fill values inside ESDM that is worth noticing.
+ESDM supports fill values.
+There are some specific details in the implementation of fill values inside ESDM that is worth noticing.
 
 % Talk about the differences between the approach. If I'm not mistaken, the fill value is the real value in NetCDF and in ESDM is just something like a flag indicating the position has a fill value.
 
@@ -334,22 +362,33 @@ ESDM supports fill values. There are some specific details in the implementation
 
 {\itshape
 
-With the new interface, users need not be aware of the external type of numeric variables, since automatic conversion to or from any desired numeric type is now available. You can use this feature to simplify code, by making it independent of external types. The elimination of void* pointers provides detection of type errors at compile time that could not be detected with the previous interface. Programs may be made more robust with the new interface, because they need not be changed to accommodate a change to the external type of a variable.
+With the new interface, users need not be aware of the external type of numeric variables, since automatic conversion to or from any desired numeric type is now available.
+You can use this feature to simplify code, by making it independent of external types.
+The elimination of void* pointers provides detection of type errors at compile time that could not be detected with the previous interface.
+Programs may be made more robust with the new interface, because they need not be changed to accommodate a change to the external type of a variable.
 
-If conversion to or from an external numeric type is necessary, it is handled by the library. This automatic conversion and separation of external data representation from internal data types will become even more important in netCDF version 4, when new external types will be added for packed data for which there is no natural corresponding internal type (for example, arrays of 11-bit values).
+If conversion to or from an external numeric type is necessary, it is handled by the library.
+This automatic conversion and separation of external data representation from internal data types will become even more important in netCDF version 4, when new external types will be added for packed data for which there is no natural corresponding internal type (for example, arrays of 11-bit values).
 
-Converting from one numeric type to another may result in an error if the target type is not capable of representing the converted value. For example, a short may not be able to hold data stored externally as an NC\_FLOAT (an IEEE floating-point number). When accessing an array of values, an NC\_ERANGE error is returned if one or more values are out of the range of representable values, but other values are converted properly.
+Converting from one numeric type to another may result in an error if the target type is not capable of representing the converted value.
+For example, a short may not be able to hold data stored externally as an NC\_FLOAT (an IEEE floating-point number).
+When accessing an array of values, an NC\_ERANGE error is returned if one or more values are out of the range of representable values, but other values are converted properly.
 
-Note that mere loss of precision in type conversion does not return an error. Thus, if you read double precision values into a long, for example, no error results unless the magnitude of the double precision value exceeds the representable range of longs on your platform. Similarly, if you read a large integer into a float incapable of representing all the bits of the integer in its mantissa, this loss of precision will not result in an error. If you want to avoid such precision loss, check the external types of the variables you access to make sure you use an internal type that has a compatible precision.
+Note that mere loss of precision in type conversion does not return an error.
+Thus, if you read double precision values into a long, for example, no error results unless the magnitude of the double precision value exceeds the representable range of longs on your platform.
+Similarly, if you read a large integer into a float incapable of representing all the bits of the integer in its mantissa, this loss of precision will not result in an error.
+If you want to avoid such precision loss, check the external types of the variables you access to make sure you use an internal type that has a compatible precision.
 
-The new interface distinguishes arrays of characters intended to represent text strings from arrays of 8-bit bytes intended to represent small integers. The interface supports the internal types text, uchar, and schar, intended for text strings, unsigned byte values, and signed byte values.
+The new interface distinguishes arrays of characters intended to represent text strings from arrays of 8-bit bytes intended to represent small integers.
+The interface supports the internal types text, uchar, and schar, intended for text strings, unsigned byte values, and signed byte values.
 }\footnote{Adapted from \url{https://www.unidata.ucar.edu/software/netcdf/release-notes-3.3.html}}
 
 \subsection{ESDM}
 
 ESDM supports most of the data conversions but may return a slightly different error.
 
-ESDM deals with type conversion the same way as NetCDF. However, ESDM only accepts conversions for attributes, and not for variables.
+ESDM deals with type conversion the same way as NetCDF.
+However, ESDM only accepts conversions for attributes, and not for variables.
 
 % The reason behind this choice is ...
 
@@ -361,16 +400,26 @@ ESDM deals with type conversion the same way as NetCDF. However, ESDM only accep
 
 {\itshape
 
-NetCDF-4 allows some interoperability with HDF5. The HDF5 files produced by netCDF-4 are perfectly respectable HDF5 files, and can be read by any HDF5 application.
+NetCDF-4 allows some interoperability with HDF5.
+The HDF5 files produced by netCDF-4 are perfectly respectable HDF5 files, and can be read by any HDF5 application.
 
-NetCDF-4 relies on several new features of HDF5, including dimension scales. The HDF5 dimension scales feature adds a bunch of attributes to the HDF5 file to keep track of the dimension information.
-It is not just wrong, but wrong-headed, to modify these attributes except with the HDF5 dimension scale API. If you do so, then you will deserve what you get, which will be a mess.
+NetCDF-4 relies on several new features of HDF5, including dimension scales.
+The HDF5 dimension scales feature adds a bunch of attributes to the HDF5 file to keep track of the dimension information.
+It is not just wrong, but wrong-headed, to modify these attributes except with the HDF5 dimension scale API.
+If you do so, then you will deserve what you get, which will be a mess.
 
-Additionally, netCDF stores some extra information for dimensions without dimension scale information. (That is, a dimension without an associated coordinate variable). So HDF5 users should not write data to a netCDF-4 file which extends any unlimited dimension, or change any of the extra attributes used by netCDF to track dimension information.
+Additionally, netCDF stores some extra information for dimensions without dimension scale information.
+(That is, a dimension without an associated coordinate variable).
+So HDF5 users should not write data to a netCDF-4 file which extends any unlimited dimension, or change any of the extra attributes used by netCDF to track dimension information.
 
-Also there are some types allowed in HDF5, but not allowed in netCDF-4 (for example the time type). Using any such type in a netCDF-4 file will cause the file to become unreadable to netCDF-4. So do not do it.
+Also there are some types allowed in HDF5, but not allowed in netCDF-4 (for example the time type).
+Using any such type in a netCDF-4 file will cause the file to become unreadable to netCDF-4.
+So do not do it.
 
-NetCDF-4 ignores all HDF5 references. Can not make head nor tail of them. Also netCDF-4 assumes a strictly hierarchical group structure. No looping, you weirdo!
+NetCDF-4 ignores all HDF5 references.
+Can not make head nor tail of them.
+Also netCDF-4 assumes a strictly hierarchical group structure.
+No looping, you weirdo!
 
 Attributes can be added (they must be one of the netCDF-4 types), modified, or even deleted, in HDF5.
 }\footnote{Adapted from \url{https://www.unidata.ucar.edu/software/netcdf/docs/interoperability_hdf5.html}}

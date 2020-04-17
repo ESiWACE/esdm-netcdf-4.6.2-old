@@ -1,6 +1,7 @@
 \section{Current Status}
 
-According to the classification presented in Tables \ref{tab:nc_test4_1}, \ref{tab:nc_test4_2} and \ref{tab:nc_test4_3}, the 91 {\bf Working} tests were used to demonstrate ESDM functionalities. There are now three categories in which each test was classified according to their status:
+According to the classification presented in Tables \ref{tab:nc_test4_1}, \ref{tab:nc_test4_2} and \ref{tab:nc_test4_3}, the 91 {\bf Working} tests were used to demonstrate ESDM functionalities.
+There are now three categories in which each test was classified according to their status:
 
 \begin{description}
 
@@ -8,11 +9,8 @@ According to the classification presented in Tables \ref{tab:nc_test4_1}, \ref{t
 
 \item[Partial Success] It means the original test is successful when using ESDM, but some parts of the code of the test had to be commented out because ESDM does not support that specific feature.
 
-%\item[Inconclusive] It means the original test is not successful when using ESDM, and some features still need to be implemented or revised to provide the expected result. The missing features should be available in the short term.
-
-\item[Failure] It means the original test is not successful when using ESDM. Some of the missing features should be available in a medium-term and others are not expected to work with ESDM at all.
-
-%\item[Not Tested Yet] It means the original test was not tested yet. This category usually represents tests that are too long to run, tests that demand a large amount of memory or processing or tests involving features that are to be implemented.
+\item[Failure] It means the original test is not successful when using ESDM.
+Some of the missing features should be available in a medium-term and others are not expected to work with ESDM at all.
 
 \end{description}
 
@@ -47,7 +45,6 @@ Tables \ref{tab:nc_test4_status_1} and \ref{tab:nc_test4_status_2} presents the 
 \hline
 \multicolumn{1}{|c|}{\parbox{8cm}{\centering Filename}} & \multicolumn{1}{c|}{Success} & \multicolumn{1}{c|}{Partial} & \multicolumn{1}{c|}{Failure} \\
                         &               & Success       &               \\ \hline \hline
-% File                  & Success       & Part Success  & Failure
 cdm\_sea\_soundings.c   &               &               & $\checkmark$  \\ \hline
 h5testszip.c            & $\checkmark$  &               &               \\ \hline
 ref\_bzip2.c            & $\checkmark$  &               &               \\ \hline
@@ -104,7 +101,6 @@ tst\_fills2.c           &               &               & $\checkmark$  \\ \hlin
 \hline
 \multicolumn{1}{|c|}{\parbox{8cm}{\centering Filename}} & \multicolumn{1}{c|}{Success} & \multicolumn{1}{c|}{Partial} & \multicolumn{1}{c|}{Failure} \\
                         &               & Success       &               \\ \hline \hline
-% File                  & Success       & Part Success  & Failure       & Not Tested Yet
 tst\_filterparser.c     & $\checkmark$  &               &               \\ \hline
 tst\_grps.c             &               &               & $\checkmark$  \\ \hline
 tst\_grps2.c            &               &               & $\checkmark$  \\ \hline

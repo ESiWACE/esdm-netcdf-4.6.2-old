@@ -1,7 +1,8 @@
 \section{Specific Information For The Tests}
 \label{sec:nctests}
 
-This section describes the current behaviour of the tests provided by NetCDF in its documentation. For each test, we have four descriptors:
+This section describes the current behaviour of the tests provided by NetCDF in its documentation.
+For each test, we have four descriptors:
 
 \paragraph{Description:} The short description provided by the original test.
 
@@ -13,7 +14,8 @@ This section describes the current behaviour of the tests provided by NetCDF in 
 
 \subsection{Test cdm\_sea\_soundings.c}
 
-\paragraph{Description:} The cdm tests confirm compliance with the Common Data Model. This file creates some sample data structures to hold sea soundings.
+\paragraph{Description:} The cdm tests confirm compliance with the Common Data Model.
+This file creates some sample data structures to hold sea soundings.
 
 \paragraph{Output:} Sorry! Unexpected result, ../../libsrcesdm\_test/cdm\_sea\_soundings.c, line: 60
 
@@ -139,7 +141,8 @@ Lines 108, 115-119. Not clear what is the problem. It should be working.
 
 \subsection{Test tst\_atts3.c}
 
-\paragraph{Description:} This is a very simple example which writes a NetCDF file with Unicode names encoded with UTF-8. It is the NETCDF3 equivalent of tst\_unicode.c.
+\paragraph{Description:} This is a very simple example which writes a NetCDF file with Unicode names encoded with UTF-8.
+It is the NETCDF3 equivalent of tst\_unicode.c.
 
 \paragraph{Output:} *** Tests successful!
 
@@ -649,7 +652,8 @@ Sorry! Unexpected result, ../../libsrcesdm\_test/tst\_grps2.c, line: 57
 
 \subsection{Test tst\_h\_refs.c}
 
-\paragraph{Description:} This program tests fixes for reading NetCDF-4 files that contain datasets with reference data types.  The NetCDF-4 library should ignore the datasets and attributes that have reference data types and allow the rest of the file to be accessed.
+\paragraph{Description:} This program tests fixes for reading NetCDF-4 files that contain datasets with reference data types.
+The NetCDF-4 library should ignore the datasets and attributes that have reference data types and allow the rest of the file to be accessed.
 
 \paragraph{Output:} Sorry! Unexpected result, ../../libsrcesdm\_test/tst\_h\_refs.c, line: 85
 
@@ -659,7 +663,8 @@ Sorry! Unexpected result, ../../libsrcesdm\_test/tst\_grps2.c, line: 57
 
 \subsection{Test tst\_h\_scalar.c}
 
-\paragraph{Description:} This program tests reading HDF5 files that contain scalar attributes and variables, of both string and numeric datatypes. The NetCDF-4 library should allow access to all of these.
+\paragraph{Description:} This program tests reading HDF5 files that contain scalar attributes and variables, of both string and numeric datatypes.
+The NetCDF-4 library should allow access to all of these.
 
 \paragraph{Output:} Sorry! Unexpected result, ../../libsrcesdm\_test/tst\_h\_scalar.c, line: 272
 
@@ -761,7 +766,8 @@ Sorry! Unexpected result, ../../libsrcesdm\_test/tst\_interops4.c, line: 154
 
 \subsection{Test tst\_mpi\_parallel.c}
 
-\paragraph{Description:} This just exercises MPI file I/O to make sure everything's working properly. If this does not work, netcdf/HDF5 parallel I/O also won't work.
+\paragraph{Description:} This just exercises MPI file I/O to make sure everything's working properly.
+If this does not work, netcdf/HDF5 parallel I/O also won't work.
 
 \paragraph{Output:} *** Tests successful!
 
@@ -771,7 +777,8 @@ Sorry! Unexpected result, ../../libsrcesdm\_test/tst\_interops4.c, line: 154
 
 \subsection{Test tst\_nc4perf.c}
 
-\paragraph{Description:} This program tests netcdf-4 parallel I/O. These tests are based on the needs of the NASA GMAO model, and are based on some test code from Dennis Nadeau.
+\paragraph{Description:} This program tests netcdf-4 parallel I/O.
+These tests are based on the needs of the NASA GMAO model, and are based on some test code from Dennis Nadeau.
 
 \paragraph{Output:} Sorry! Unexpected result, ../../libsrcesdm\_test/tst\_nc4perf.c, line: 97
 
@@ -825,7 +832,8 @@ Remove line 274: Expected error code: NC\_ECANTEXTEND.
 
 \subsection{Test tst\_parallel5.c}
 
-\paragraph{Description:} This program tests netcdf-4 parallel I/O. In this test I write data on one task, while writing 0 items on others.
+\paragraph{Description:} This program tests netcdf-4 parallel I/O.
+In this test I write data on one task, while writing 0 items on others.
 
 \paragraph{Output:} Sorry! Unexpected result, ../../libsrcesdm\_test/tst\_parallel5.c, line: 121
 
@@ -897,7 +905,8 @@ Remove line 274: Expected error code: NC\_ECANTEXTEND.
 
 \paragraph{Output:} Segmentation fault (core dumped)
 
-\paragraph{Comments:} ESDM does not support datatype NC\_STRING. It is important to have a flag in ESDM code saying it does not support NC\_STRING and stopping the program before reaching segmentation fault.
+\paragraph{Comments:} ESDM does not support datatype NC\_STRING.
+It is important to have a flag in ESDM code saying it does not support NC\_STRING and stopping the program before reaching segmentation fault.
 
 \paragraph{Status:} FAILURE.
 
@@ -953,7 +962,8 @@ Remove line 274: Expected error code: NC\_ECANTEXTEND.
 
 \subsection{Test tst\_utf8.c}
 
-\paragraph{Description:} This is a very simple example which writes a NetCDF file with Unicode names encoded with UTF-8. It is the NETCDF3 equivalent of tst\_unicode.c.
+\paragraph{Description:} This is a very simple example which writes a NetCDF file with Unicode names encoded with UTF-8.
+It is the NETCDF3 equivalent of tst\_unicode.c.
 
 \paragraph{Output:} Sorry! Unexpected result, ../../libsrcesdm\_test/tst\_utf8.c, line: 189
 

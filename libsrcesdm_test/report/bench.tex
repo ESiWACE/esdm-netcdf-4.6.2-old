@@ -3,15 +3,22 @@
 
 \section{Introduction}
 
-So far, we tested individual features of ESDM. As part of this section, we discuss the usage of a benchmark application that uses NetCDF (and hence, ESDM) similarly to a real application.
+So far, we tested individual features of ESDM.
+As part of this section, we discuss the usage of a benchmark application that uses NetCDF (and hence, ESDM) similarly to a real application.
 
 {\itshape
 
-NetCDF Performance Benchmark Tool (NetCDF-Bench) was developed to measure NetCDF performance on devices ranging from notebooks to large HPC systems. It mimics the typical I/O behaviour of scientific climate applications and captures the performance on each node/process. In the end, it aggregates the data to human-readable summary.
+NetCDF Performance Benchmark Tool (NetCDF-Bench) was developed to measure NetCDF performance on devices ranging from notebooks to large HPC systems.
+It mimics the typical I/O behaviour of scientific climate applications and captures the performance on each node/process.
+In the end, it aggregates the data to human-readable summary.
 
-The data layout is inspired by simulation where a 3D object changes its shape over time. Therefore, it creates a 3-dimensional space and several time steps. Furthermore, we assume that a scientific application is executed on several processes on multiple nodes, and processes the time steps in sequential order.
+The data layout is inspired by simulation where a 3D object changes its shape over time.
+Therefore, it creates a 3-dimensional space and several time steps.
+Furthermore, we assume that a scientific application is executed on several processes on multiple nodes, and processes the time steps in sequential order.
 
-NetCDF-Bench is parallel bechmark. It supports independent I/O, collective I/O and chunked I/O modes. If necessary, it can pre-fill the variables with some value.
+NetCDF-Bench is parallel bechmark.
+It supports independent I/O, collective I/O and chunked I/O modes.
+If necessary, it can pre-fill the variables with some value.
 }\footnote{\url{https://github.com/joobog/netcdf-bench}}
 
 Scripts to set up the NetCDF Benchmark with ESDM can be found in the directory
@@ -36,7 +43,8 @@ Run the \texttt{mkfs.esdm} utility with the following parameters.
 \$ mkfs.esdm {-}{-}create {-}{-}remove {-}{-}ignore-errors -g -c \_esdm.conf
 \end{framed}
 
-The benchmark file is called \texttt{benchtool} and it can be run with several parameters. For more information about this benchmark, run the command
+The benchmark file is called \texttt{benchtool} and it can be run with several parameters.
+For more information about this benchmark, run the command
 
 \begin{framed}
 ./benchtool --help
@@ -44,7 +52,8 @@ The benchmark file is called \texttt{benchtool} and it can be run with several p
 
 \begin{comment}
 
-From here, nothing else works anymore. All the benchmarks receive:
+From here, nothing else works anymore.
+All the benchmarks receive:
 
 [lucy-GS70-2PC-Stealth:04433] *** Process received signal ***
 [lucy-GS70-2PC-Stealth:04433] Signal: Segmentation fault (11)

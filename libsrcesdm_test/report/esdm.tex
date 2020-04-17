@@ -163,7 +163,8 @@ For each dimension, read its size.
 
 \item[add\_to\_dims\_tbl]
 
-For each dataset and each dimension, insert the dimension into the dimension table, if not already there. The dimension table is constructed in memory to allocate the number of dimensions, sizes, and names.
+For each dataset and each dimension, insert the dimension into the dimension table, if not already there.
+The dimension table is constructed in memory to allocate the number of dimensions, sizes, and names.
 
 \item[insert\_md]
 
@@ -182,7 +183,7 @@ If there exists a dimension that was not previously used in any dataset, insert 
 \subsection{ESDM Close}
 
 When \texttt{nc\_close} is called, the respective function \texttt{ESDM\_close} is triggerred to close the NetCDF file.
-T following functions are called to close the NetCDF file according to the ESDM entities.
+The following functions are called to close the NetCDF file according to the ESDM entities.
 
 \begin{description}
 
@@ -216,7 +217,8 @@ Remove the container from storage.
 
 PLEASE, CHECK
 
-I think it would be nice to insert here the codes for ESDM\_open and ESDM\_close. However, tcbcode is not spliting the code, so I just removed after expending some minutes on Google trying to fix it.
+I think it would be nice to insert here the codes for ESDM\_open and ESDM\_close.
+However, tcbcode is not spliting the code, so I just removed after expending some minutes on Google trying to fix it.
 
 \begin{tcbcode}[label=esdm-open]{Function ESDM\_open}
 \begin{lstlisting}[upquote=true]
