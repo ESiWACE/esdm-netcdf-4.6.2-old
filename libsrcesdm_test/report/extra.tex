@@ -1,0 +1,244 @@
+Whether a range error occurs in writing a large floating-point value near the boundary of representable values may depend on the platform. The largest floating-point value you can write to a NetCDF float variable is the largest floating-point number representable on your system that is less than 2 to the 128th power. The largest double-precision value you can write to a double variable is the largest double-precision number representable on your system that is less than 2 to the 1024th power.
+
+\begin{comment}
+
+Tests with ESDM conversion:
+
+\begin{verbatim}
+
+Final Results - INT8 to FLOAT
+
+********************************************
+INT8_MAX = 127
+Maximum FLOAT = 126.000000
+Maximum INT8 = 126
+********************************************
+
+********************************************
+INT8_MIN = -128
+Minimum FLOAT = -127.000000
+Minimum INT8 = -127
+********************************************
+
+Final Results - INT16 to FLOAT
+
+********************************************
+INT16_MAX = 32767
+Maximum FLOAT = 32766.000000
+Maximum INT16 = 32766
+********************************************
+
+********************************************
+INT16_MIN = -32768
+Minimum FLOAT = -32767.000000
+Minimum INT16 = -32767
+********************************************
+
+Final Results - INT32 to FLOAT
+
+********************************************
+INT32_MAX = 2147483647
+Maximum FLOAT = 2147483520.000000
+Maximum INT32 = 2147483583
+********************************************
+
+********************************************
+INT32_MIN = -2147483648
+Minimum FLOAT = -2147483520.000000
+Maximum INT32 = -2147483583
+********************************************
+
+Final Results - INT64 to FLOAT
+
+********************************************
+INT64_MAX = 9223372036854775807
+Maximum FLOAT = 9223371487098961920.000000
+Maximum INT64 = 9223371761976865807
+********************************************
+
+********************************************
+INT64_MIN = -9223372036854775808
+Minimum FLOAT = -9223371487098961920.000000
+Minimum INT64 = -9223371761976865808
+********************************************
+
+Final Results - UINT8 to FLOAT
+
+********************************************
+UINT8_MAX = 255
+Maximum FLOAT = 254.000000
+Maximum UINT8 = 254
+********************************************
+
+Final Results - UINT16 to FLOAT
+
+********************************************
+UINT16_MAX = 65535
+Maximum FLOAT = 65534.000000
+Maximum UINT16 = 65534
+********************************************
+
+Final Results - UINT32 to FLOAT
+
+********************************************
+UINT32_MAX = 4294967295
+Maximum FLOAT = 4294967040.000000
+Maximum UINT32 = 4294967167
+********************************************
+
+Final Results - UINT64 to FLOAT
+
+********************************************
+UINT64_MAX = 18446744073709551615
+Maximum FLOAT = 18446742974197923840.000000
+Maximum UINT64 = 18446743523953731615
+********************************************
+
+Final Results - INT8 to DOUBLE
+
+********************************************
+INT8_MAX = 127
+Maximum DOUBLE = 126.000000
+Maximum INT8 = 126
+********************************************
+
+********************************************
+INT8_MIN = -128
+Minimum DOUBLE = -127.000000
+Minimum INT8 = -127
+********************************************
+
+Final Results - INT16 to DOUBLE
+
+********************************************
+INT16_MAX = 32767
+Maximum DOUBLE = 32766.000000
+Maximum INT16 = 32766
+********************************************
+
+********************************************
+INT16_MIN = -32768
+Minimum DOUBLE = -32767.000000
+Minimum INT16 = -32767
+********************************************
+
+Final Results - INT32 to DOUBLE
+
+********************************************
+INT32_MAX = 2147483647
+Maximum DOUBLE = 2147483646.000000
+Maximum INT32 = 2147483646
+********************************************
+
+********************************************
+INT32_MIN = -2147483648
+Minimum DOUBLE = -2147483647.000000
+Minimum INT32 = -2147483647
+********************************************
+
+Final Results - INT64 to DOUBLE
+
+********************************************
+INT64_MAX = 9223372036854775807
+Maximum DOUBLE = 9223372036854774784.000000
+Maximum INT64 = 9223372036854775295
+********************************************
+
+********************************************
+INT64_MIN = -9223372036854775808
+Minimum DOUBLE = -9223372036854774784.000000
+Minimum INT64 = -9223372036854775295
+********************************************
+
+Final Results - UINT8 to DOUBLE
+
+********************************************
+UINT8_MAX = 255
+Maximum DOUBLE = 254.000000
+Maximum UINT8 = 254
+********************************************
+
+Final Results - UINT16 to DOUBLE
+
+********************************************
+UINT16_MAX = 65535
+Maximum DOUBLE = 65534.000000
+Maximum UINT16 = 65534
+********************************************
+
+Final Results - UINT32 to DOUBLE
+
+********************************************
+UINT32_MAX = 4294967295
+Maximum DOUBLE = 4294967294.000000
+Maximum UINT32 = 4294967294
+********************************************
+
+Final Results - UINT64 to DOUBLE
+
+********************************************
+UINT64_MAX = 18446744073709551615
+Maximum DOUBLE = 18446744073709549568.000000
+Maximum UINT64 = 18446744073709550591
+********************************************
+
+\end{verbatim}
+
+About conversion...
+
+Actually that is what happens:
+      if (nc_def_var(ncid, VAR1_NAME, NC_BYTE, 1, dimids, &varid)) ERR;
+      if (nc_enddef(ncid)) ERR;
+      if (nc_put_var_uchar(ncid, varid, uchar_out) != NC_ERANGE) ERR;
+
+I found this in the documentation:
+> BUT netcdf library returns NC_BYTE data as 8-bit signed
+> integers (instead of 8-bit unsigned integers)
+> so that NC_BYTE values go from 0 to 127 and then from -128 to -1
+> instead of going from 0 to 255 as wanted.
+
+That explains it, right?
+https://www.unidata.ucar.edu/software/netcdf/docs_rc/group__variables.html#gac6e82a7c808f1e3c895616415ffa8e5d
+
+The shit function assumes we convert the variable data *on the fly* while writing to the file…
+
+As we are not converting the data type or anything here, we are not supporting this.
+I reckon, we should check for any function which NC type does not match our expected type, write an error and abort.
+I’m not intending to support this (ever)...
+
+LR. Was this not the point of having the conversion inside smd? At least between the types we support? I also checked something in the documentation and they don’t do it between char and numbers.
+
+The difference is that one is for ATTRIBUTES and one for VARIABLES, SMD is not involved in VARIABLES and hopefully never be as this is a performance problem.
+We *might* be able to do part of this, in case COMPRESSION is turned on, as we then have to do a conversion anyway!
+Document it this way.
+
+\end{comment}
+
+\begin{comment}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\multicolumn{1}{|c|}{NetCDF ERROR} & \multicolumn{1}{|c|}{Description} & \multicolumn{1}{|c|}{ESDM ERROR} \\ \hline\hline
+NC\_EBADDIM                   &  Invalid dimension id or name.                                                      &      \\ \hline
+NC\_EBADNAME                  &  Attribute or variable name contains illegal characters.                            &      \\ \hline
+NC\_EHDFERR                   &  Error at HDF5 layer.                                                               &      \\ \hline
+NC\_EINDEFINE                 &  Operation not allowed in define mode.                                              &      \\ \hline
+NC\_EINVAL                    &  Invalid Argument.                                                                  &      \\ \hline
+NC\_ELATEFILL                 &  Attempt to define fill value when data already exists.                             &      \\ \hline
+NC\_ENOTINDEFINE              &  Operation not allowed in data mode.                                                &      \\ \hline
+NC\_ENOTVAR                   &  Variable not found.                                                                &      \\ \hline
+NC\_EPERM                     &  Write to read only.                                                                &      \\ \hline
+NC\_ERANGE                    &  Math result not representable.                                                     &      \\ \hline
+NC\_FILL\_FLOAT               &  Default fill value.                                                                &      \\ \hline
+NC\_FORMAT\_64BIT\_OFFSET     &  Format specifier for nc\_set\_default\_format() and returned by nc\_inq\_format.   &      \\ \hline
+NC\_FORMAT\_CLASSIC           &  Format specifier for nc\_set\_default\_format() and returned by nc\_inq\_format.   &      \\ \hline
+NC\_FORMAT\_NETCDF4           &  Format specifier for nc\_set\_default\_format() and returned by nc\_inq\_format.   &      \\ \hline
+NC\_FORMAT\_NETCDF4\_CLASSIC  &  Format specifier for nc\_set\_default\_format() and returned by nc\_inq\_format.   &      \\ \hline
+\hline
+\end{tabular}
+\caption{Conversion between ESDM and NetCDF4 Errors.}
+\end{table}
+
+\end{comment}

@@ -23,9 +23,15 @@
 
 #define NOT_IMPLEMENTED assert(0 && "NOT IMPLEMENTED");
 
+#define DEBUG(...)                                        \
+  do {                                                    \
+    printf("[ESDM NC] %s(Line:%d) ", __func__, __LINE__); \
+    printf(__VA_ARGS__);                                  \
+  } while (0)
+
 #define ERROR(...)                                        \
   do {                                                    \
-    printf("[ESDM NC] ERROR %s:%d ", __func__, __LINE__); \
+    printf("[ESDM NC] ERROR %s(Line:%d) ", __func__, __LINE__); \
     printf(__VA_ARGS__);                                  \
     exit(1);                                              \
   } while (0)
@@ -33,7 +39,7 @@
 #ifdef DEBUG_MORE
 #  define DEBUG_ENTER(...)                                   \
     do {                                                     \
-      printf("[ESDM NC] called %s:%d ", __func__, __LINE__); \
+      printf("[ESDM NC] called %s(Line:%d) ", __func__, __LINE__); \
       printf(__VA_ARGS__);                                   \
     } while (0)
 #else
@@ -42,7 +48,7 @@
 
 #define WARN(...)                                        \
   do {                                                   \
-    printf("[ESDM NC] WARN %s:%d ", __func__, __LINE__); \
+    printf("[ESDM NC] WARN %s(Line:%d) ", __func__, __LINE__); \
     printf(__VA_ARGS__);                                 \
   } while (0)
 
@@ -1672,11 +1678,11 @@ int ESDM_get_vars(int ncid, int varid, const size_t *startp, const size_t *count
   // check the dimensions we actually want to write
   esdm_dataspace_t *space;
   esdm_status status = esdm_dataset_get_dataspace(kv->dset, &space);
-  // TODO stridep
 
+  esdm_dataspace_t *memspace = NULL;
   if (mem_nc_type != type_esdm_to_nc(esdm_dataspace_get_type(space)->type) && mem_nc_type != NC_NAT) {
-    // NOT SUPPORTED
-    return NC_EBADTYPE;
+    // TODO stridep
+
   }
   int ndims = esdm_dataspace_get_dims(space);
   int64_t const *spacesize = esdm_dataset_get_actual_size(kv->dset);
@@ -1701,13 +1707,12 @@ int ESDM_get_vars(int ncid, int varid, const size_t *startp, const size_t *count
       return NC_EACCESS;
     }
   }
-  status = esdm_read(kv->dset, (void *)data, subspace);
+  status = esdm_read(kv->dset, (void *)data, subspace, memspace);
+  if(memspace) esdm_dataspace_destroy(memspace);
+  esdm_dataspace_destroy(subspace);
   if (status != ESDM_SUCCESS) {
-    esdm_dataspace_destroy(subspace);
     return NC_EINVAL;
   }
-
-  esdm_dataspace_destroy(subspace);
 
   return NC_NOERR;
 }
@@ -1752,11 +1757,13 @@ int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *count
   if (status != ESDM_SUCCESS) {
     return NC_EACCESS;
   }
-  // TODO stridep
 
   nc_type datatype = type_esdm_to_nc(esdm_dataspace_get_type(space)->type);
+  esdm_dataspace_t *memspace = NULL;
   if (mem_nc_type != datatype && mem_nc_type != NC_NAT) {
-    return NC_EBADTYPE;
+    DEBUG("memory data type differs from file datatatype");
+    DEBUG("Mem: %d Data: %d\n", mem_nc_type, datatype);
+    // TODO stridep
   }
 
   int ndims = esdm_dataspace_get_dims(space);
@@ -1784,14 +1791,13 @@ int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *count
     }
   }
 
-  // assert(subspace->size);
+  status = esdm_write(kv->dset, (void *)data, subspace, memspace);
 
-  status = esdm_write(kv->dset, (void *)data, subspace);
+  if(memspace) esdm_dataspace_destroy(memspace);
+  esdm_dataspace_destroy(subspace);
   if (status != ESDM_SUCCESS) {
-    esdm_dataspace_destroy(subspace);
     return NC_EINVAL;
   }
-  esdm_dataspace_destroy(subspace);
 
   return NC_NOERR;
 }
@@ -1856,10 +1862,19 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
   if (e == NULL)
     return NC_EBADID;
 
-  DEBUG_ENTER("%d %d\n", ncid, varid);
-
-  if (varid >= e->vars.count)
-    return NC_EINVAL;
+  if (varid == NC_GLOBAL) {
+    if (nattsp) { // the number of attributes
+      smd_attr_t *attr = NULL;
+      status = esdm_container_get_attributes(e->c, &attr);
+      assert(status == ESDM_SUCCESS);
+      *nattsp = smd_attr_count(attr);
+    }
+    return NC_NOERR;
+  }else{
+    if (varid >= e->vars.count){
+      return NC_EINVAL;
+    }
+  }
 
   md_var_t *evar = e->vars.var[varid];
   assert(evar != NULL);
@@ -1869,7 +1884,7 @@ int ESDM_inq_var_all(int ncid, int varid, char *name, nc_type *xtypep, int *ndim
   assert(status == ESDM_SUCCESS);
 
   if (name) {
-    name = strcpy(name, esdm_dataset_name(evar->dset));
+    strcpy(name, esdm_dataset_name(evar->dset));
   }
 
   if (xtypep) {

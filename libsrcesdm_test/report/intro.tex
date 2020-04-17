@@ -19,10 +19,16 @@ The design goals of the ESDM are:
 
 \end{itemize}
 
+ESDM breaks with the concepts of portability, archivability, and shareability (to some extent) as the aim is to provide a site-specific optimal mapping.
+
+\section{NetCDF}
+
+{\itshape
+
 NetCDF (Network Common Data Form) is a set of software libraries and self-describing, machine-independent data formats that support the creation, access, and sharing of array-oriented scientific data.
-The project homepage is hosted by the Unidata program at the University Corporation for Atmospheric Research (UCAR). The format is an open standard.
+The project homepage is hosted by the Unidata Program at the University Corporation for Atmospheric Research (UCAR). The format is an open standard.
 The project started in 1989 and is still actively supported by UCAR.
-The original NetCDF binary format (released in 1997, now known as \textbf{NetCDF classic format}) is still widely used across the world and continues to be fully supported in all NetCDF releases.
+The original NetCDF binary format (released in 1997, now known as \textbf{NetCDF Classic Format}) is still widely used across the world and continues to be fully supported in all NetCDF releases.
 
 NetCDF is also a community standard for sharing scientific data.
 The Unidata Program Center supports and maintains NetCDF programming interfaces for C, C++, Java, and Fortran.
@@ -32,8 +38,11 @@ Version 4.1 (2010) added support for C and Fortran client access to specified su
 Version 4.3.0 (2012) added a CMake build system for Windows builds.
 Version 4.7.0 (2019) added support for reading Amazon S3 objects. Further releases are planned to improve performance, add features, and fix bugs.
 For further information on NetCDF, check \url{https://www.unidata.ucar.edu/software/netcdf/}.
+}\footnote{\url{https://en.wikipedia.org/wiki/NetCDF}}
 
-Data in NetCDF format is:
+{\itshape
+
+Data in NetCDF format is: \footnote{\url{https://www.unidata.ucar.edu/software/netcdf/}}
 
 \begin{description}
 
@@ -51,21 +60,27 @@ Data in NetCDF format is:
 
 \end{description}
 
+}
+
 \section{Outline}
 
 This report is organised as follows:
 
 \begin{description}
 
+\item[Chapter \ref{ch:imp}] presents how ESDM and NetCDF objects are related.
+
 \item[Chapter \ref{ch:func}] describes the main NetCDF funcionalities and their coverage by ESDM.
 
-\item[Chapter \ref{ch:nctests}] introduces the C tests provided by NetCDF in its documentation and the status when running with ESDM.
+\item[Chapter \ref{ch:nctests}] introduces the C tests provided by NetCDF and their status when running with ESDM.
 
-\item[Chapter \ref{ch:python}] introduces the Python tests provided by NetCDF in its documentation and the status when running with ESDM.
+\item[Chapter \ref{ch:python}] demonstrates the compatibility between the current version of ESDM and NetCDF Python.
 
 \item[Chapter \ref{ch:bench}] analyses the NetCDF Performance Benchmark Tool.
 
 \item[Chapter \ref{ch:nccopy}] explores the nccopy utility.
+
+\item[Chapter \ref{ch:jenkins}] shows how the automate of parts of software development is available using Jenkins.
 
 \item[Chapter \ref{ch:conc}] concludes this compatibility report.
 

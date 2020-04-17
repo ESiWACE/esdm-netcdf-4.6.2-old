@@ -37,12 +37,16 @@ Luciana Pedro
 \usepackage{tabularx}
 \usepackage{tikz}
 \usepackage{appendix}
+\usepackage{tocloft} % cftsetindents
+\usepackage{indentfirst} % ident first paragraph
 
 \newcommand{\tocheck}{{\LARGE \color{green}{TO CHECK}}}
 
 \makeatletter
 \global\let\tikz@ensure@dollar@catcode=\relax
 \makeatother
+
+\cftsetindents{subsection}{3em}{3.5em} % Space between subsection numbers and titles
 
 \begin{document}
 \title{Compatibility Between ESDM and NetCDF4}
@@ -52,19 +56,17 @@ Luciana Pedro
 
 \tableofcontents
 
-\parskip 12pt
+\parskip 9pt
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newpage
 
-\input{python.tex}
+\input{intro.tex}
+
+\clearpage
 
 \input{esdm.tex}
-
-% \begin{comment}
-
-\input{intro.tex}
 
 \clearpage
 
@@ -72,15 +74,11 @@ Luciana Pedro
 
 \clearpage
 
-\input{nc_tests.tex}
+\input{nc-tests-intro.tex}
 
-\input{nc_tests_tab.tex}
+\input{nc-status.tex}
 
-\input{status.tex}
-
-\input{status_tab.tex}
-
-\input{nc_tests_sec.tex}
+\input{nc-tests.tex}
 
 \clearpage
 
@@ -105,11 +103,9 @@ Luciana Pedro
 % \chapter{Others}
 % \input{hdf5-netcdf-esdm-tab.tex}
 
-\begin{appendices}
-\input{conversion.tex}
-\end{appendices}
-
-% \end{comment}
+% \begin{appendices}
+% \input{conversion.tex}
+% \end{appendices}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

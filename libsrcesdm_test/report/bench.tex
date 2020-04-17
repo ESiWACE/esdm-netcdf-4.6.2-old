@@ -3,11 +3,18 @@
 
 \section{Introduction}
 
-So far, we tested individual features of ESDM, as part of this section we discuss the usage of a benchmark application that uses NetCDF similarly to a real application.
+So far, we tested individual features of ESDM. As part of this section, we discuss the usage of a benchmark application that uses NetCDF (and hence, ESDM) similarly to a real application.
 
-The NetCDF Performance Benchmark Tool (NetCDF-Bench) was developed to measure NetCDF performance on devices ranging from notebooks to large HPC systems. It mimics the typical I/O behavior of scientific climate applications and captures the performance on each node/process. In the end, it aggregates the data to human readable summary\footnote{\url{https://github.com/joobog/netcdf-bench}}.
+{\itshape
 
-Scripts to setup the NetCDF Benchmark with ESDM can be found in the directory
+NetCDF Performance Benchmark Tool (NetCDF-Bench) was developed to measure NetCDF performance on devices ranging from notebooks to large HPC systems. It mimics the typical I/O behaviour of scientific climate applications and captures the performance on each node/process. In the end, it aggregates the data to human-readable summary.
+
+The data layout is inspired by simulation where a 3D object changes its shape over time. Therefore, it creates a 3-dimensional space and several time steps. Furthermore, we assume that a scientific application is executed on several processes on multiple nodes, and processes the time steps in sequential order.
+
+NetCDF-Bench is parallel bechmark. It supports independent I/O, collective I/O and chunked I/O modes. If necessary, it can pre-fill the variables with some value.
+}\footnote{\url{https://github.com/joobog/netcdf-bench}}
+
+Scripts to set up the NetCDF Benchmark with ESDM can be found in the directory
 
 \begin{framed}
 esiwace/esdm-netcdf/libsrcesdm\_test/netcdf-bench
@@ -21,29 +28,38 @@ Run the prepare script:
 ./prepare.sh
 \end{framed}
 
-Copy or link the \textbf{\_esdm.conf} file to this directory. A possible example is:
+Before starting the tests, we need to copy or link the file \texttt{\_esdm.conf} to the directory \texttt{esdm-netcdf/libsrcesdm\_test/netcdf-bench}. This can be done using a copy from the directory \texttt{esdm-netcdf/dev}.
+
+Run the \texttt{mkfs.esdm} utility with the following parameters.
 
 \begin{framed}
-\$ cp ../../../build/libsrcesdm\_test/\_esdm.conf .
+\$ mkfs.esdm {-}{-}create {-}{-}remove {-}{-}ignore-errors -g -c \_esdm.conf
 \end{framed}
 
-Now, link the \textbf{\_esdm.conf} file to the \textbf{esdm.conf} file.
-
-\begin{framed}
-ln -s \_esdm.conf esdm.conf
-\end{framed}
-
-Run the \textbf{mkfs.esdm} utility with the following parameters.
-
-\begin{framed}
-\$ mkfs.esdm --create --remove --ignore-errors -g -c \_esdm.conf
-\end{framed}
-
-The benchmark file is called \textbf{benchtool} and it can be run with several parameters. For more information about this benckmark, run the command
+The benchmark file is called \texttt{benchtool} and it can be run with several parameters. For more information about this benchmark, run the command
 
 \begin{framed}
 ./benchtool --help
 \end{framed}
+
+\begin{comment}
+
+From here, nothing else works anymore. All the benchmarks receive:
+
+[lucy-GS70-2PC-Stealth:04433] *** Process received signal ***
+[lucy-GS70-2PC-Stealth:04433] Signal: Segmentation fault (11)
+
+and the parallel process have the error:
+
+mpiexec was unable to launch the specified application as it could not access
+or execute an executable:
+
+- - -
+
+Executable: ./src/benchtool
+Node: lucy-GS70-2PC-Stealth
+
+while attempting to start process rank 0.
 
 \section{Tests}
 
@@ -230,3 +246,5 @@ while attempting to start process rank 0.
 Cleanup
 [OK]
 \end{verbatim}
+
+\end{comment}
