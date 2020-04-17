@@ -16,7 +16,7 @@ According to the classification presented in Tables \ref{tab:nc_test4_1}, \ref{t
 
 \end{description}
 
-Table \ref{tab:nc_test4_status_3} summarises the results and Tables \ref{tab:nc_test4_status_1} and \ref{tab:nc_test4_status_2} presents the current status of each test.
+Table \ref{tab:nc_test4_status_3} summarises the results obtained when using ESDM and changing the NetCDF tests accordingly.
 
 \begin{table}[H]
 \centering
@@ -28,6 +28,18 @@ Table \ref{tab:nc_test4_status_3} summarises the results and Tables \ref{tab:nc_
 \end{tabular}
 \caption{\label{tab:nc_test4_status_3} Current status of all tests}
 \end{table}
+
+For running the tests with ESDM, the following environment variables have to be set:
+
+\begin{framed}
+\hspace{2cm} export NC\_ESDM\_FORCEESDM = 1
+
+\hspace{2cm} export NC\_ESDM\_FORCEESDM\_MKFS = 1
+
+\hspace{2cm} export ESDM\_LOGLEVEL\_BUFFER = 10
+\end{framed}
+
+Tables \ref{tab:nc_test4_status_1} and \ref{tab:nc_test4_status_2} presents the current status of each test.
 
 \begin{table}[H]
 \centering
