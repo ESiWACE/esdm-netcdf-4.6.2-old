@@ -1,2 +1,60 @@
 \chapter{Jenkins}
 \label{ch:jenkins}
+
+\section{Introduction}
+
+{\itshape
+
+Jenkins is a free and open source automation server. It helps automate the parts of software development related to building, testing, and deploying, facilitating continuous integration and continuous delivery. It is a server-based system that runs in servlet containers such as Apache Tomcat. It supports version control tools, including AccuRev, CVS, Subversion, Git, Mercurial, Perforce, ClearCase and RTC, and can execute Apache Ant, Apache Maven and sbt based projects as well as arbitrary shell scripts and Windows batch commands. The creator of Jenkins is Kohsuke Kawaguchi.[4] Released under the MIT License, Jenkins is free software.[5]
+}\footnote{\url{https://en.wikipedia.org/wiki/Jenkins_(software)}}
+
+\section{Tests in Python}
+
+The tests in Python are inside the directory \texttt{dev/netcdf4-python/test}. Go to that directory.
+
+All Python tests start with the prefix \texttt{tst\_}. This string has to change to enable us to run \texttt{pytest}. One option to do that is using the \texttt{mmv} utility. Note that the names of the tests need to be changed, but the tests files (\texttt{.nc} files) have to remain unchanged.
+
+The tool can be installed and used in Debian-based distributions as follows:
+
+\begin{framed}
+\$ sudo apt-get install mmv
+\end{framed}
+
+Now, run the \texttt{mmv} in the tests.
+
+\begin{framed}
+\$ mmv tst\*.py test\#1.py
+\end{framed}
+
+and run the \texttt{mkfs.esdm} utility with the following parameters.
+
+\begin{framed}
+\$ mkfs.esdm {-}{-}create {-}{-}remove {-}{-}ignore-errors -g -c \_esdm.conf
+\end{framed}
+
+Finally, install the \texttt{pytest} utility
+
+\begin{framed}
+\$ sudo apt-get install python3-pytest
+\end{framed}
+
+and run it
+
+\begin{framed}
+\$ pytest {-}{-}junitxml results.xml
+\end{framed}
+
+The file \texttt{results.xml} can now be uploaded by Jenkins which provides the results in the website.
+% Table \textbf{to-be-defined}.
+
+\begin{comment}
+
+PLEASE, CHECK
+
+\section{Tests in C}
+
+I have nothing else to report here. I don't have access from home.
+
+I created a directory libsrcesdm\_test/Jenkins with the C files and a README with information about the scripts. However, without the output, is pointless.
+
+\end{comment}

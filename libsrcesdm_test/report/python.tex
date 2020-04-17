@@ -1,11 +1,10 @@
-\chapter{Python Tests}
+\chapter{Tests in Python}
 \label{ch:python}
 
 \section{Introduction}
 
-There is a Python module for accessing NetCDF files.
-We provide a patch to the module to support ESDM.
-The patch and instructions to run the tests are available in the directory \textbf{esdm-netcdf/dev}.
+There is a Python module for accessing NetCDF files. We provide a patch (Section \ref{sec:patch}) to this module to support ESDM.
+The patch and instructions to run the tests are available in the directory \texttt{esdm-netcdf/dev}.
 The procedures to run the tests are following.
 
 Run the build script:
@@ -14,54 +13,18 @@ Run the build script:
 \$ ./build.sh
 \end{framed}
 
-Python tests are created now inside the directory \textbf{dev/netcdf4-python/test}. Go to that directory.
+Python tests are created now inside the directory \texttt{dev/netcdf4-python/test}. Go to that directory.
 
 \begin{framed}
 \$ cd netcdf4-python/test
 \end{framed}
 
-Now, copy or link the \textbf{\_esdm.conf} file to this directory. A possible example is:
-
-\begin{framed}
-\$ cp ../../../build/libsrcesdm\_test/\_esdm.conf .
-\end{framed}
-
-All Python tests start with the prefix \textbf{tst\_}.
-This string has to change to enable us to run \textbf{pytest}. To do that, one option is use the the \textbf{mmv} utility. Note that the tests names need to be changed, but the tests files (\textbf{.nc} files) have to remain unchanged.
-
-The tool can be installed and used in Debian-based distributions as follows:
-
-\begin{framed}
-\$ sudo apt-get install mmv
-\end{framed}
-
-Now, run the \textbf{mmv} in the tests.
-
-\begin{framed}
-\$ mmv tst\*.py test\#1.py
-\end{framed}
-
-and run the \textbf{mkfs.esdm} utility with the following parameters.
-
-\begin{framed}
-\$ mkfs.esdm --create --remove --ignore-errors -g -c \_esdm.conf
-\end{framed}
-
-Finally, install the \textbf{pytest} utility
-
-\begin{framed}
-\$ sudo apt-get install python3-pytest
-\end{framed}
-
-and run it
-
-\begin{framed}
-\$ pytest --junitxml results.xml
-\end{framed}
-
-The file \textbf{results.xml} can now be uploaded by Jenkins wchi provides the results in Table tab.
+Now, copy or link the \texttt{\_esdm.conf} file to this directory. This can be done using a copy from the directory \texttt{esdm-netcdf/dev}.
 
 \section{Patch}
+\label{sec:patch}
+
+The changings in the original patch to include ESDM can be seen next. Basically, we add the flags HAS\_ESDM\_SUPPORT, NC\_FORMATX\_ESDM, NC\_ESDM and fmt == `ESDM' (ESDM format).\\
 
 \begin{lstlisting}[language=python,upquote=true]
 diff --git a/include/netCDF4.pxi b/include/netCDF4.pxi
@@ -251,78 +214,108 @@ index febc020..d7ba091 100644
      f.close()
 \end{lstlisting}
 
-\begin{lstlisting}[language=python,upquote=true]
-+        NC_ESDM # ESDM support for Python
-+        NC_FORMATX_ESDM
--IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT:
-+IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT or HAS_ESDM_SUPPORT:
--IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT:
-+IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT or HAS_ESDM_SUPPORT:
--                 'NETCDF4'         : NC_FORMAT_NETCDF4}
-+                 'NETCDF4'         : NC_FORMAT_NETCDF4,
-+                 'ESDM'            : NC_FORMATX_ESDM}
--                'NETCDF4'         : NC_NETCDF4}
-+                'NETCDF4'         : NC_NETCDF4,
-+                'ESDM'            : NC_ESDM}
-+        elif formatp == NC_FORMATX_ESDM:
-+            return 'ESDM'
--            if is_netcdf3 and N > 1:
-+            if is_netcdf3 and N > 1 and fmt != 'ESDM':
--    is_netcdf3 = fmt.startswith('NETCDF3') or fmt == 'NETCDF4_CLASSIC'
-+    is_netcdf3 = fmt.startswith('NETCDF3') or fmt == 'NETCDF4_CLASSIC' or fmt == 'ESDM'
--    `NETCDF4_CLASSIC`, `NETCDF3_64BIT_OFFSET` or `NETCDF3_64BIT_DATA`."""
-+    `NETCDF4_CLASSIC`, `NETCDF3_64BIT_OFFSET` or `NETCDF3_64BIT_DATA` or ESDM."""
--        `'NETCDF3_64BIT_DATA'`.
-+        `'NETCDF3_64BIT_DATA'` or ESDM.
--        IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT:
-+        IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT or HAS_ESDM_SUPPORT:
--                parallel_formats = []
-+                parallel_formats = ['ESDM']
--                        IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT:
-+                        IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT or HAS_ESDM_SUPPORT:
--                IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT:
-+                IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT or HAS_ESDM_SUPPORT:
--        if self.data_model != 'NETCDF4':
-+        if self.data_model != 'NETCDF4' and self.data_model != 'ESDM':
--        if self._data_model == 'NETCDF4':
-+        if self._data_model == 'NETCDF4' or self._data_model == "ESDM":
--        if self._grp.data_model != 'NETCDF4':
-+        if self._grp.data_model != 'NETCDF4' and self._grp.data_model != 'ESDM':
-+    has_esdm_support = False
-+    f.write('DEF HAS_ESDM_SUPPORT = 1\n') # TODO Fixme
-\end{lstlisting}
+\section{Tests}
 
-\begin{lstlisting}[language=python,upquote=true]
-+        NC_ESDM # ESDM support for Python
-+        NC_FORMATX_ESDM
-+IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT or HAS_ESDM_SUPPORT:
-+IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT or HAS_ESDM_SUPPORT:
-+                 'NETCDF4'         : NC_FORMAT_NETCDF4,
-+                 'ESDM'            : NC_FORMATX_ESDM}
-+                'NETCDF4'         : NC_NETCDF4,
-+                'ESDM'            : NC_ESDM}
-+        elif formatp == NC_FORMATX_ESDM:
-+            return 'ESDM'
-+            if is_netcdf3 and N > 1 and fmt != 'ESDM':
-+    is_netcdf3 = fmt.startswith('NETCDF3') or fmt == 'NETCDF4_CLASSIC' or fmt == 'ESDM'
-+    `NETCDF4_CLASSIC`, `NETCDF3_64BIT_OFFSET` or `NETCDF3_64BIT_DATA` or ESDM."""
-+        `'NETCDF3_64BIT_DATA'` or ESDM.
-+        IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT or HAS_ESDM_SUPPORT:
-+                parallel_formats = ['ESDM']
-+                        IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT or HAS_ESDM_SUPPORT:
-+                IF HAS_PARALLEL4_SUPPORT or HAS_PNETCDF_SUPPORT or HAS_ESDM_SUPPORT:
-+        if self.data_model != 'NETCDF4' and self.data_model != 'ESDM':
-+        if self._data_model == 'NETCDF4' or self._data_model == "ESDM":
-+        if self._grp.data_model != 'NETCDF4' and self._grp.data_model != 'ESDM':
-+    has_esdm_support = False
-+    f.write('DEF HAS_ESDM_SUPPORT = 1\n')
-\end{lstlisting}
+Similarly to what happened with the tests in C, the tests in Python mix functionalities that are not yet available in ESDM. In this case, we opt to just present the results using the original NetCDF tests without any modification. As expected, not many tests are sucessful using ESDM directly, for the reasons mentioned in Chapter \ref{ch:nctests}.
+
+Hopefully, the positive results are enough to prove the compatibility between the current version of ESDM and NetCDF Python.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|c|}
+\hline
+\multicolumn{1}{|c|}{Filename}          & \multicolumn{1}{c|}{Success} & \multicolumn{1}{c|}{Failure} \\ \hline \hline
+tst\_atts.py                            &                              &      $\checkmark$         \\ \hline
+tst\_cdf5.py                            &                              &      $\checkmark$         \\ \hline
+tst\_compound\_alignment.py             &                              &      $\checkmark$         \\ \hline
+tst\_compoundatt.py                     &                              &      $\checkmark$         \\ \hline
+tst\_compoundvar.py                     &                              &      $\checkmark$         \\ \hline
+tst\_compression.py                     &                              &      $\checkmark$         \\ \hline
+tst\_create\_mem.py                     &          $\checkmark$        &                           \\ \hline
+tst\_dap.py                             &                              &      $\checkmark$         \\ \hline
+tst\_dims.py                            &                              &      $\checkmark$         \\ \hline
+tst\_diskless.py                        &                              &      $\checkmark$         \\ \hline
+tst\_endian.py                          &                              &      $\checkmark$         \\ \hline
+tst\_enum.py                            &                              &      $\checkmark$         \\ \hline
+tst\_fancyslicing.py                    &                              &      $\checkmark$         \\ \hline
+tst\_filepath.py                        &                              &      $\checkmark$         \\ \hline
+tst\_get\_variables\_by\_attributes.py  &          $\checkmark$        &                           \\ \hline
+tst\_grps2.py                           &                              &      $\checkmark$         \\ \hline
+tst\_grps.py                            &                              &      $\checkmark$         \\ \hline
+tst\_issue908.py                        &          $\checkmark$        &                           \\ \hline
+tst\_masked2.py                         &                              &      $\checkmark$         \\ \hline
+tst\_masked3.py                         &                              &      $\checkmark$         \\ \hline
+tst\_masked4.py                         &                              &      $\checkmark$         \\ \hline
+tst\_masked5.py                         &                              &      $\checkmark$         \\ \hline
+tst\_masked6.py                         &                              &      $\checkmark$         \\ \hline
+tst\_masked.py                          &                              &      $\checkmark$         \\ \hline
+tst\_multifile2.py                      &                              &      $\checkmark$         \\ \hline
+tst\_multifile.py                       &                              &      $\checkmark$         \\ \hline
+tst\_open\_mem.py                       &                              &      $\checkmark$         \\ \hline
+tst\_refcount.py                        &                              &      $\checkmark$         \\ \hline
+tst\_rename.py                          &                              &      $\checkmark$         \\ \hline
+tst\_scalarvar.py                       &                              &      $\checkmark$         \\ \hline
+tst\_scaled.py                          &                              &      $\checkmark$         \\ \hline
+tst\_shape.py                           &                              &      $\checkmark$         \\ \hline
+tst\_slicing.py                         &                              &      $\checkmark$         \\ \hline
+tst\_stringarr.py                       &          $\checkmark$        &                           \\ \hline
+tst\_types.py                           &                              &      $\checkmark$         \\ \hline
+tst\_unicode3.py                        &                              &      $\checkmark$         \\ \hline
+tst\_unicodeatt.py                      &                              &      $\checkmark$         \\ \hline
+tst\_unicode.py                         &                              &      $\checkmark$         \\ \hline
+tst\_unlimdim.py                        &                              &      $\checkmark$         \\ \hline
+tst\_Unsigned.py                        &          $\checkmark$        &                           \\ \hline
+tst\_utils.py                           &          $\checkmark$        &                           \\ \hline
+tst\_vars.py                            &                              &      $\checkmark$         \\ \hline
+tst\_vlen.py                            &                              &      $\checkmark$         \\ \hline
+\multicolumn{1}{|c|}{Total Files: 43}   & \multicolumn{1}{c|}{6}       & \multicolumn{1}{c|}{37}   \\ \hline
+\hline
+\end{tabular}
+\caption{\label{tab:python} Current status of all tests}
+\end{table}
 
 \begin{comment}
 
+PLEASE, CHECK
+
+In installing the tests, I got this message. However, is does not look it change anything for the tests themselves.
+
+Error compiling Cython file:
+------------------------------------------------------------
+...
+                 'ESDM'            : NC_FORMATX_ESDM}
+# create dictionary mapping string identifiers to netcdf create format codes
+_cmode_dict  = {'NETCDF3_CLASSIC' : NC_CLASSIC_MODEL,
+                'NETCDF4_CLASSIC' : NC_CLASSIC_MODEL | NC_NETCDF4,
+                'NETCDF4'         : NC_NETCDF4,
+                'ESDM'            : NC_ESDM}
+                                          ^
+------------------------------------------------------------
+
+netCDF4/_netCDF4.pyx:1310:43: undeclared name not builtin: NC_ESDM
+building 'netCDF4._netCDF4' extension
+creating build/temp.linux-x86_64-3.6
+creating build/temp.linux-x86_64-3.6/netCDF4
+x86_64-linux-gnu-gcc -pthread -DNDEBUG -g -fwrapv -O2 -Wall -g -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -fPIC -I/home/lucy/esiwace/esdm/install/include -I/usr/include/openmpi -I/usr/include/hdf5/openmpi -I/usr/include/openmpi -I/usr/include/hdf5/openmpi -I/usr/lib/python3/dist-packages/numpy/core/include -I/usr/lib/python3/dist-packages/mpi4py/include -Iinclude -I/usr/include/python3.6m -c netCDF4/_netCDF4.c -o build/temp.linux-x86_64-3.6/netCDF4/_netCDF4.o
+netCDF4/_netCDF4.c:1:2: error: #error Do not use this file, it is the result of a failed Cython compilation.
+ #error Do not use this file, it is the result of a failed Cython compilation.
+  ^~~~~
+error: command 'x86_64-linux-gnu-gcc' failed with exit status 1
+Check that the right NetCDF library is used
+ldd: build/lib.linux-x86_64-3.6/netCDF4/_netCDF4.cpython-36m-x86_64-linux-gnu.so: No such file or directory
+Setup ESDM as target for tempfiles
+
+\end{comment}
+
+\begin{comment}
+
+CHECK PLEASE
+
+This is the old section for the tests. At this moment, I don't think it has to be updated.
+
 \section{Tests}
 
-The next sections introduce the information about each Python test. For them to run with ESDM, two strings were replaced in all tests that contain them. The commands for this substitution can be found in the file \textbf{build.sh}.
+The next sections introduce information about each Python test. For them to run with ESDM, two strings were replaced in all tests that contain them. The commands for this substitution can be found in the file \texttt{build.sh}.
 
 \begin{verbatim}
 sed -i 's#tempfile.NamedTemporaryFile(.*delete=False).name#"esdm://testfile'$RANDOM'"#'  *.py
@@ -339,7 +332,7 @@ ERROR: runTest (__main__.VariablesTestCase)
 testing attributes
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_atts.py", line 53, in setUp
+  File "tst\_atts.py", line 53, in setUp
     f.stringseqatt = STRINGSEQATT
   File "NetCDF4/_NetCDF4.pyx", line 2918, in NetCDF4._NetCDF4.Dataset.__setattr__
   File "NetCDF4/_NetCDF4.pyx", line 2848, in NetCDF4._NetCDF4.Dataset.setncattr
@@ -359,7 +352,7 @@ FAIL: runTest (__main__.test_cdf5)
 testing NETCDF3_64BIT_DATA format (CDF-5)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_cdf5.py", line 34, in runTest
+  File "tst\_cdf5.py", line 34, in runTest
     assert (type(f.int64_attr) == np.int64)
 AssertionError
 
@@ -375,7 +368,7 @@ E
 ERROR: runTest (__main__.CompoundAlignTestCase)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_compound_alignment.py", line 90, in setUp
+  File "tst\_compound_alignment.py", line 90, in setUp
     v_cells = dataset.createVariable("cells",cell_cmp_dtype,"number_cells")
   File "NetCDF4/_NetCDF4.pyx", line 2772, in NetCDF4._NetCDF4.Dataset.createVariable
   File "NetCDF4/_NetCDF4.pyx", line 3809, in NetCDF4._NetCDF4.Variable.__init__
@@ -395,7 +388,7 @@ ERROR: runTest (__main__.VariablesTestCase)
 testing compound attributes
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_compoundatt.py", line 36, in setUp
+  File "tst\_compoundatt.py", line 36, in setUp
     v = f.createVariable(VAR_NAME,wind_vector_type, DIM_NAME)
   File "NetCDF4/_NetCDF4.pyx", line 2772, in NetCDF4._NetCDF4.Dataset.createVariable
   File "NetCDF4/_NetCDF4.pyx", line 3809, in NetCDF4._NetCDF4.Variable.__init__
@@ -416,7 +409,7 @@ ERROR: runTest (__main__.VariablesTestCase)
 testing compound variables
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_compoundvar.py", line 60, in setUp
+  File "tst\_compoundvar.py", line 60, in setUp
     g = f.groups[GROUP_NAME]
 KeyError: 'phony_group'
 
@@ -433,7 +426,7 @@ ERROR: runTest (__main__.CompressionTestCase)
 testing zlib and shuffle compression filters
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_compression.py", line 70, in runTest
+  File "tst\_compression.py", line 70, in runTest
     uncompressed_size = os.stat(self.files[0]).st_size
 FileNotFoundError: [Errno 2] No such file or directory: 'esdm://testfile12246'
 
@@ -451,9 +444,9 @@ E
 ERROR: test_mem_create (__main__.TestCreateMem)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_create_mem.py", line 22, in test_mem_create
+  File "tst\_create_mem.py", line 22, in test_mem_create
     check_inmemory('NETCDF3_CLASSIC')
-  File "tst_create_mem.py", line 19, in check_inmemory
+  File "tst\_create_mem.py", line 19, in check_inmemory
     nc2 = NetCDF4.Dataset('test2.nc','r',memory=b)
   File "NetCDF4/_NetCDF4.pyx", line 2325, in NetCDF4._NetCDF4.Dataset.__init__
   File "NetCDF4/_NetCDF4.pyx", line 1889, in NetCDF4._NetCDF4._ensure_nc_success
@@ -472,7 +465,7 @@ ERROR: runTest (__main__.DapTestCase)
 testing access of data over http using opendap
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_dap.py", line 23, in runTest
+  File "tst\_dap.py", line 23, in runTest
     ncfile = NetCDF4.Dataset(URL)
   File "NetCDF4/_NetCDF4.pyx", line 2325, in NetCDF4._NetCDF4.Dataset.__init__
   File "NetCDF4/_NetCDF4.pyx", line 1889, in NetCDF4._NetCDF4._ensure_nc_success
@@ -491,7 +484,7 @@ ERROR: runTest (__main__.DimensionsTestCase)
 testing dimensions
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_dims.py", line 38, in setUp
+  File "tst\_dims.py", line 38, in setUp
     g.createDimension(LAT_NAME,LAT_LENG)
   File "NetCDF4/_NetCDF4.pyx", line 2566, in NetCDF4._NetCDF4.Dataset.createDimension
   File "NetCDF4/_NetCDF4.pyx", line 3372, in NetCDF4._NetCDF4.Dimension.__init__
@@ -511,7 +504,7 @@ ERROR: runTest (__main__.DisklessTestCase)
 testing diskless file capability
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_diskless.py", line 24, in setUp
+  File "tst\_diskless.py", line 24, in setUp
     f = NetCDF4.Dataset(self.file,'w',diskless=True, persist=False)
   File "NetCDF4/_NetCDF4.pyx", line 2325, in NetCDF4._NetCDF4.Dataset.__init__
   File "NetCDF4/_NetCDF4.pyx", line 1889, in NetCDF4._NetCDF4._ensure_nc_success
@@ -533,9 +526,9 @@ ERROR: runTest (__main__.EndianTestCase)
 testing endian conversion capability
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_endian.py", line 162, in runTest
+  File "tst\_endian.py", line 162, in runTest
     check_byteswap(self.file3, data)
-  File "tst_endian.py", line 41, in check_byteswap
+  File "tst\_endian.py", line 41, in check_byteswap
     bl = dataset.createVariable('big-little', np.float32, dims, endian='big')
   File "NetCDF4/_NetCDF4.pyx", line 2772, in NetCDF4._NetCDF4.Dataset.createVariable
   File "NetCDF4/_NetCDF4.pyx", line 3875, in NetCDF4._NetCDF4.Variable.__init__
@@ -554,7 +547,7 @@ ERROR: runTest (__main__.EnumTestCase)
 testing enum data type
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_enum.py", line 35, in setUp
+  File "tst\_enum.py", line 35, in setUp
     fill_value=ENUM_DICT['Missing'])
   File "NetCDF4/_NetCDF4.pyx", line 2772, in NetCDF4._NetCDF4.Dataset.createVariable
   File "NetCDF4/_NetCDF4.pyx", line 3809, in NetCDF4._NetCDF4.Variable.__init__
@@ -572,7 +565,7 @@ ERROR: test2unlim (__main__.VariablesTestCase)
 Test with a variable that has two unlimited dimensions.
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_fancyslicing.py", line 169, in test2unlim
+  File "tst\_fancyslicing.py", line 169, in test2unlim
     v[:] = data
   File "NetCDF4/_NetCDF4.pyx", line 4945, in NetCDF4._NetCDF4.Variable.__setitem__
   File "NetCDF4/_NetCDF4.pyx", line 5203, in NetCDF4._NetCDF4.Variable._put
@@ -583,7 +576,7 @@ FAIL: test_get (__main__.VariablesTestCase)
 testing 'fancy indexing'
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_fancyslicing.py", line 84, in test_get
+  File "tst\_fancyslicing.py", line 84, in test_get
     assert_array_equal(v[0:-1:2,i,:],self.data[0:-1:2,i,:])
   File "/usr/lib/python3/dist-packages/numpy/testing/utils.py", line 854, in assert_array_equal
     verbose=verbose, header='Arrays are not equal')
@@ -617,7 +610,7 @@ E
 ERROR: test_filepath (__main__.test_filepath)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_filepath.py", line 11, in setUp
+  File "tst\_filepath.py", line 11, in setUp
     self.nc = NetCDF4.Dataset(self.netcdf_file)
   File "NetCDF4/_NetCDF4.pyx", line 2325, in NetCDF4._NetCDF4.Dataset.__init__
   File "NetCDF4/_NetCDF4.pyx", line 1889, in NetCDF4._NetCDF4._ensure_nc_success
@@ -627,7 +620,7 @@ OSError: [Errno -77] NetCDF: Access failure: b'/home/lucy/esiwace/esdm-netcdf/de
 ERROR: test_filepath_with_non_ascii_characters (__main__.test_filepath)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_filepath.py", line 11, in setUp
+  File "tst\_filepath.py", line 11, in setUp
     self.nc = NetCDF4.Dataset(self.netcdf_file)
   File "NetCDF4/_NetCDF4.pyx", line 2325, in NetCDF4._NetCDF4.Dataset.__init__
   File "NetCDF4/_NetCDF4.pyx", line 1889, in NetCDF4._NetCDF4._ensure_nc_success
@@ -637,7 +630,7 @@ OSError: [Errno -77] NetCDF: Access failure: b'/home/lucy/esiwace/esdm-netcdf/de
 ERROR: test_no_such_file_raises (__main__.test_filepath)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_filepath.py", line 11, in setUp
+  File "tst\_filepath.py", line 11, in setUp
     self.nc = NetCDF4.Dataset(self.netcdf_file)
   File "NetCDF4/_NetCDF4.pyx", line 2325, in NetCDF4._NetCDF4.Dataset.__init__
   File "NetCDF4/_NetCDF4.pyx", line 1889, in NetCDF4._NetCDF4._ensure_nc_success
@@ -659,7 +652,7 @@ E
 ERROR: test_find_variables_by_attribute_and_lambda (__main__.VariablesByAttributesTests)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_get_variables_by_attributes.py", line 10, in setUp
+  File "tst\_get_variables_by_attributes.py", line 10, in setUp
     self.nc = NetCDF4.Dataset(netcdf_file)
   File "NetCDF4/_NetCDF4.pyx", line 2325, in NetCDF4._NetCDF4.Dataset.__init__
   File "NetCDF4/_NetCDF4.pyx", line 1889, in NetCDF4._NetCDF4._ensure_nc_success
@@ -669,7 +662,7 @@ OSError: [Errno -77] NetCDF: Access failure: b'netcdf_dummy_file.nc'
 ERROR: test_find_variables_by_multiple_attribute (__main__.VariablesByAttributesTests)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_get_variables_by_attributes.py", line 10, in setUp
+  File "tst\_get_variables_by_attributes.py", line 10, in setUp
     self.nc = NetCDF4.Dataset(netcdf_file)
   File "NetCDF4/_NetCDF4.pyx", line 2325, in NetCDF4._NetCDF4.Dataset.__init__
   File "NetCDF4/_NetCDF4.pyx", line 1889, in NetCDF4._NetCDF4._ensure_nc_success
@@ -679,7 +672,7 @@ OSError: [Errno -77] NetCDF: Access failure: b'netcdf_dummy_file.nc'
 ERROR: test_find_variables_by_multiple_lambdas (__main__.VariablesByAttributesTests)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_get_variables_by_attributes.py", line 10, in setUp
+  File "tst\_get_variables_by_attributes.py", line 10, in setUp
     self.nc = NetCDF4.Dataset(netcdf_file)
   File "NetCDF4/_NetCDF4.pyx", line 2325, in NetCDF4._NetCDF4.Dataset.__init__
   File "NetCDF4/_NetCDF4.pyx", line 1889, in NetCDF4._NetCDF4._ensure_nc_success
@@ -689,7 +682,7 @@ OSError: [Errno -77] NetCDF: Access failure: b'netcdf_dummy_file.nc'
 ERROR: test_find_variables_by_single_attribute (__main__.VariablesByAttributesTests)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_get_variables_by_attributes.py", line 10, in setUp
+  File "tst\_get_variables_by_attributes.py", line 10, in setUp
     self.nc = NetCDF4.Dataset(netcdf_file)
   File "NetCDF4/_NetCDF4.pyx", line 2325, in NetCDF4._NetCDF4.Dataset.__init__
   File "NetCDF4/_NetCDF4.pyx", line 1889, in NetCDF4._NetCDF4._ensure_nc_success
@@ -699,7 +692,7 @@ OSError: [Errno -77] NetCDF: Access failure: b'netcdf_dummy_file.nc'
 ERROR: test_find_variables_by_single_lambda (__main__.VariablesByAttributesTests)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_get_variables_by_attributes.py", line 10, in setUp
+  File "tst\_get_variables_by_attributes.py", line 10, in setUp
     self.nc = NetCDF4.Dataset(netcdf_file)
   File "NetCDF4/_NetCDF4.pyx", line 2325, in NetCDF4._NetCDF4.Dataset.__init__
   File "NetCDF4/_NetCDF4.pyx", line 1889, in NetCDF4._NetCDF4._ensure_nc_success
@@ -721,7 +714,7 @@ ERROR: runTest (__main__.GroupsTestCase)
 testing groups
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_grps.py", line 46, in setUp
+  File "tst\_grps.py", line 46, in setUp
     g2 = g1.createGroup(MARGARET)
   File "NetCDF4/_NetCDF4.pyx", line 2825, in NetCDF4._NetCDF4.Dataset.createGroup
   File "NetCDF4/_NetCDF4.pyx", line 3265, in NetCDF4._NetCDF4.Group.__init__
@@ -741,7 +734,7 @@ ERROR: runTest (__main__.Groups2TestCase)
 testing implicit group and creation and Dataset.__getitem__
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_grps2.py", line 21, in setUp
+  File "tst\_grps2.py", line 21, in setUp
     v = f.createVariable('/grouped/data/v',float,('x',))
   File "NetCDF4/_NetCDF4.pyx", line 2770, in NetCDF4._NetCDF4.Dataset.createVariable
   File "NetCDF4/_NetCDF4.pyx", line 2825, in NetCDF4._NetCDF4.Dataset.createGroup
@@ -763,7 +756,7 @@ E
 ERROR: runTest (__main__.Issue908TestCase)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_issue908.py", line 7, in setUp
+  File "tst\_issue908.py", line 7, in setUp
     nc = NetCDF4.Dataset('CRM032_test1.nc')
   File "NetCDF4/_NetCDF4.pyx", line 2325, in NetCDF4._NetCDF4.Dataset.__init__
   File "NetCDF4/_NetCDF4.pyx", line 1889, in NetCDF4._NetCDF4._ensure_nc_success
@@ -790,7 +783,7 @@ FAIL: runTest (__main__.PrimitiveTypesTestCase)
 testing auto-conversion of masked arrays and packed integers
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_masked2.py", line 82, in runTest
+  File "tst\_masked2.py", line 82, in runTest
     assert_array_almost_equal(data,datacheck1)
   File "/usr/lib/python3/dist-packages/numpy/testing/utils.py", line 962, in assert_array_almost_equal
     precision=decimal)
@@ -815,7 +808,7 @@ Arrays are not almost equal to 6 decimals
 ERROR: runTest (__main__.GlobalSetAutoMaskTest)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_masked3.py", line 149, in setUp
+  File "tst\_masked3.py", line 149, in setUp
     grp1.createVariable('var1', 'f8', ())
   File "NetCDF4/_NetCDF4.pyx", line 2772, in NetCDF4._NetCDF4.Dataset.createVariable
   File "NetCDF4/_NetCDF4.pyx", line 3809, in NetCDF4._NetCDF4.Variable.__init__
@@ -827,7 +820,7 @@ FAIL: test_scaled (__main__.SetAutoMaskFalse)
 Testing auto-conversion of masked arrays for set_auto_mask(False) with scaling
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_masked3.py", line 86, in test_scaled
+  File "tst\_masked3.py", line 86, in test_scaled
     self.assertEqual(v.dtype, "f8")
 AssertionError: dtype('int16') != 'f8'
 
@@ -836,7 +829,7 @@ FAIL: test_scaled (__main__.SetAutoMaskTrue)
 Testing auto-conversion of masked arrays for set_auto_mask(True)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_masked3.py", line 129, in test_scaled
+  File "tst\_masked3.py", line 129, in test_scaled
     self.assertEqual(v_ma.dtype, "f8")
 AssertionError: dtype('int16') != 'f8'
 
@@ -854,7 +847,7 @@ FAIL: test_scaled (__main__.SetValidMinMax)
 Testing auto-conversion of masked arrays
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_masked4.py", line 87, in test_scaled
+  File "tst\_masked4.py", line 87, in test_scaled
     self.assertEqual(v.dtype, "f8")
 AssertionError: dtype('int16') != 'f8'
 
@@ -871,7 +864,7 @@ ERROR: test_scaled (__main__.VectorMissingValues)
 Testing auto-conversion of masked arrays
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_masked5.py", line 27, in setUp
+  File "tst\_masked5.py", line 27, in setUp
     v2 = f.createVariable('v2',str,'x',fill_value=u'<missing>')
   File "NetCDF4/_NetCDF4.pyx", line 2772, in NetCDF4._NetCDF4.Dataset.createVariable
   File "NetCDF4/_NetCDF4.pyx", line 3741, in NetCDF4._NetCDF4.Variable.__init__
@@ -889,7 +882,7 @@ ValueError: Variable length strings are only supported for the NETCDF4 format. F
 ERROR: runTest (__main__.GlobalSetAlwaysMaskTest)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_masked6.py", line 96, in setUp
+  File "tst\_masked6.py", line 96, in setUp
     grp1.createVariable('var1', 'f8', ())
   File "NetCDF4/_NetCDF4.pyx", line 2772, in NetCDF4._NetCDF4.Dataset.createVariable
   File "NetCDF4/_NetCDF4.pyx", line 3809, in NetCDF4._NetCDF4.Variable.__init__
@@ -908,7 +901,7 @@ F
 FAIL: runTest (__main__.NonuniformTimeTestCase)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_multifile.py", line 146, in runTest
+  File "tst\_multifile.py", line 146, in runTest
     assert_equal(date2index(datetime.datetime(1980, 1, 2), T), 366)
   File "/usr/lib/python3/dist-packages/numpy/testing/utils.py", line 416, in assert_equal
     raise AssertionError(msg)
@@ -922,7 +915,7 @@ FAIL: runTest (__main__.VariablesTestCase)
 testing multi-file dataset access
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_multifile.py", line 52, in runTest
+  File "tst\_multifile.py", line 52, in runTest
     assert_array_equal(np.arange(0,nx),f.variables['x'][:])
   File "/usr/lib/python3/dist-packages/numpy/testing/utils.py", line 854, in assert_array_equal
     verbose=verbose, header='Arrays are not equal')
@@ -952,7 +945,7 @@ F
 FAIL: runTest (__main__.NonuniformTimeTestCase)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_multifile2.py", line 131, in runTest
+  File "tst\_multifile2.py", line 131, in runTest
     assert_equal(date2index(datetime.datetime(1980, 1, 2), T), 366)
   File "/usr/lib/python3/dist-packages/numpy/testing/utils.py", line 416, in assert_equal
     raise AssertionError(msg)
@@ -966,7 +959,7 @@ FAIL: runTest (__main__.VariablesTestCase)
 testing multi-file dataset access
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_multifile2.py", line 52, in runTest
+  File "tst\_multifile2.py", line 52, in runTest
     assert_array_equal(np.arange(0,nx),f.variables['x'][:])
   File "/usr/lib/python3/dist-packages/numpy/testing/utils.py", line 854, in assert_array_equal
     verbose=verbose, header='Arrays are not equal')
@@ -1015,7 +1008,7 @@ ERROR: runTest (__main__.VariablesTestCase)
 testing renaming of dimensions, variables and attribute deletion
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_rename.py", line 36, in setUp
+  File "tst\_rename.py", line 36, in setUp
     g.createDimension(LAT_NAME,145)
   File "NetCDF4/_NetCDF4.pyx", line 2566, in NetCDF4._NetCDF4.Dataset.createDimension
   File "NetCDF4/_NetCDF4.pyx", line 3372, in NetCDF4._NetCDF4.Dimension.__init__
@@ -1035,7 +1028,7 @@ ERROR: runTest (__main__.ScalarVariableTestCase)
 testing scalar variables
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_scalarvar.py", line 28, in setUp
+  File "tst\_scalarvar.py", line 28, in setUp
     tempg = subgroup.createVariable(VAR_NAME,VAR_TYPE)
   File "NetCDF4/_NetCDF4.pyx", line 2772, in NetCDF4._NetCDF4.Dataset.createVariable
   File "NetCDF4/_NetCDF4.pyx", line 3809, in NetCDF4._NetCDF4.Variable.__init__
@@ -1054,7 +1047,7 @@ RuntimeError: NetCDF: Not a valid ID
 ERROR: runTest (__main__.GlobalSetAutoScaleTest)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_scaled.py", line 207, in setUp
+  File "tst\_scaled.py", line 207, in setUp
     grp1.createVariable('var1', 'f8', ())
   File "NetCDF4/_NetCDF4.pyx", line 2772, in NetCDF4._NetCDF4.Dataset.createVariable
   File "NetCDF4/_NetCDF4.pyx", line 3809, in NetCDF4._NetCDF4.Variable.__init__
@@ -1066,7 +1059,7 @@ FAIL: test_masked (__main__.SetAutoScaleTrue)
 Testing auto-scaling of variables for set_auto_scale(True) with masking
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_scaled.py", line 145, in test_masked
+  File "tst\_scaled.py", line 145, in test_masked
     assert_array_almost_equal(v_ma_scaled, self.v_ma_scaled)
   File "/usr/lib/python3/dist-packages/numpy/testing/utils.py", line 962, in assert_array_almost_equal
     precision=decimal)
@@ -1084,7 +1077,7 @@ FAIL: test_unmasked (__main__.SetAutoScaleTrue)
 Testing auto-scaling of variables for set_auto_scale(True)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_scaled.py", line 122, in test_unmasked
+  File "tst\_scaled.py", line 122, in test_unmasked
     assert_array_almost_equal(v_scaled, self.v_scaled)
   File "/usr/lib/python3/dist-packages/numpy/testing/utils.py", line 962, in assert_array_almost_equal
     precision=decimal)
@@ -1118,7 +1111,7 @@ E
 ERROR: test_0d (__main__.VariablesTestCase)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_slicing.py", line 33, in setUp
+  File "tst\_slicing.py", line 33, in setUp
     vu[:,::-1,:] = data
   File "NetCDF4/_NetCDF4.pyx", line 4945, in NetCDF4._NetCDF4.Variable.__setitem__
   File "NetCDF4/_NetCDF4.pyx", line 5203, in NetCDF4._NetCDF4.Variable._put
@@ -1128,7 +1121,7 @@ IndexError: size of data array does not conform to slice
 ERROR: test_1d (__main__.VariablesTestCase)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_slicing.py", line 33, in setUp
+  File "tst\_slicing.py", line 33, in setUp
     vu[:,::-1,:] = data
   File "NetCDF4/_NetCDF4.pyx", line 4945, in NetCDF4._NetCDF4.Variable.__setitem__
   File "NetCDF4/_NetCDF4.pyx", line 5203, in NetCDF4._NetCDF4.Variable._put
@@ -1139,7 +1132,7 @@ ERROR: test_3d (__main__.VariablesTestCase)
 testing variable slicing
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_slicing.py", line 33, in setUp
+  File "tst\_slicing.py", line 33, in setUp
     vu[:,::-1,:] = data
   File "NetCDF4/_NetCDF4.pyx", line 4945, in NetCDF4._NetCDF4.Variable.__setitem__
   File "NetCDF4/_NetCDF4.pyx", line 5203, in NetCDF4._NetCDF4.Variable._put
@@ -1149,7 +1142,7 @@ IndexError: size of data array does not conform to slice
 ERROR: test_issue259 (__main__.VariablesTestCase)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_slicing.py", line 33, in setUp
+  File "tst\_slicing.py", line 33, in setUp
     vu[:,::-1,:] = data
   File "NetCDF4/_NetCDF4.pyx", line 4945, in NetCDF4._NetCDF4.Variable.__setitem__
   File "NetCDF4/_NetCDF4.pyx", line 5203, in NetCDF4._NetCDF4.Variable._put
@@ -1159,7 +1152,7 @@ IndexError: size of data array does not conform to slice
 ERROR: test_issue300 (__main__.VariablesTestCase)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_slicing.py", line 33, in setUp
+  File "tst\_slicing.py", line 33, in setUp
     vu[:,::-1,:] = data
   File "NetCDF4/_NetCDF4.pyx", line 4945, in NetCDF4._NetCDF4.Variable.__setitem__
   File "NetCDF4/_NetCDF4.pyx", line 5203, in NetCDF4._NetCDF4.Variable._put
@@ -1169,7 +1162,7 @@ IndexError: size of data array does not conform to slice
 ERROR: test_issue306 (__main__.VariablesTestCase)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_slicing.py", line 33, in setUp
+  File "tst\_slicing.py", line 33, in setUp
     vu[:,::-1,:] = data
   File "NetCDF4/_NetCDF4.pyx", line 4945, in NetCDF4._NetCDF4.Variable.__setitem__
   File "NetCDF4/_NetCDF4.pyx", line 5203, in NetCDF4._NetCDF4.Variable._put
@@ -1179,7 +1172,7 @@ IndexError: size of data array does not conform to slice
 ERROR: test_issue371 (__main__.VariablesTestCase)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_slicing.py", line 33, in setUp
+  File "tst\_slicing.py", line 33, in setUp
     vu[:,::-1,:] = data
   File "NetCDF4/_NetCDF4.pyx", line 4945, in NetCDF4._NetCDF4.Variable.__setitem__
   File "NetCDF4/_NetCDF4.pyx", line 5203, in NetCDF4._NetCDF4.Variable._put
@@ -1189,7 +1182,7 @@ IndexError: size of data array does not conform to slice
 ERROR: test_issue743 (__main__.VariablesTestCase)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_slicing.py", line 33, in setUp
+  File "tst\_slicing.py", line 33, in setUp
     vu[:,::-1,:] = data
   File "NetCDF4/_NetCDF4.pyx", line 4945, in NetCDF4._NetCDF4.Variable.__setitem__
   File "NetCDF4/_NetCDF4.pyx", line 5203, in NetCDF4._NetCDF4.Variable._put
@@ -1199,7 +1192,7 @@ IndexError: size of data array does not conform to slice
 ERROR: test_issue906 (__main__.VariablesTestCase)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_slicing.py", line 33, in setUp
+  File "tst\_slicing.py", line 33, in setUp
     vu[:,::-1,:] = data
   File "NetCDF4/_NetCDF4.pyx", line 4945, in NetCDF4._NetCDF4.Variable.__setitem__
   File "NetCDF4/_NetCDF4.pyx", line 5203, in NetCDF4._NetCDF4.Variable._put
@@ -1209,7 +1202,7 @@ IndexError: size of data array does not conform to slice
 ERROR: test_issue919 (__main__.VariablesTestCase)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_slicing.py", line 33, in setUp
+  File "tst\_slicing.py", line 33, in setUp
     vu[:,::-1,:] = data
   File "NetCDF4/_NetCDF4.pyx", line 4945, in NetCDF4._NetCDF4.Variable.__setitem__
   File "NetCDF4/_NetCDF4.pyx", line 5203, in NetCDF4._NetCDF4.Variable._put
@@ -1219,7 +1212,7 @@ IndexError: size of data array does not conform to slice
 ERROR: test_issue922 (__main__.VariablesTestCase)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_slicing.py", line 33, in setUp
+  File "tst\_slicing.py", line 33, in setUp
     vu[:,::-1,:] = data
   File "NetCDF4/_NetCDF4.pyx", line 4945, in NetCDF4._NetCDF4.Variable.__setitem__
   File "NetCDF4/_NetCDF4.pyx", line 5203, in NetCDF4._NetCDF4.Variable._put
@@ -1229,7 +1222,7 @@ IndexError: size of data array does not conform to slice
 ERROR: test_retain_single_dims (__main__.VariablesTestCase)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_slicing.py", line 33, in setUp
+  File "tst\_slicing.py", line 33, in setUp
     vu[:,::-1,:] = data
   File "NetCDF4/_NetCDF4.pyx", line 4945, in NetCDF4._NetCDF4.Variable.__setitem__
   File "NetCDF4/_NetCDF4.pyx", line 5203, in NetCDF4._NetCDF4.Variable._put
@@ -1261,7 +1254,7 @@ ERROR: runTest (__main__.UnicodeTestCase)
 testing unicode
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_unicode.py", line 19, in setUp
+  File "tst\_unicode.py", line 19, in setUp
     f.attribute3 = ATT3
   File "NetCDF4/_NetCDF4.pyx", line 2918, in NetCDF4._NetCDF4.Dataset.__setattr__
   File "NetCDF4/_NetCDF4.pyx", line 2848, in NetCDF4._NetCDF4.Dataset.setncattr
@@ -1281,7 +1274,7 @@ ERROR: runTest (__main__.UnicodeTestCase)
 testing unicode
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_unicode3.py", line 19, in setUp
+  File "tst\_unicode3.py", line 19, in setUp
     f.attribute3 = ATT3
   File "NetCDF4/_NetCDF4.pyx", line 2918, in NetCDF4._NetCDF4.Dataset.__setattr__
   File "NetCDF4/_NetCDF4.pyx", line 2848, in NetCDF4._NetCDF4.Dataset.setncattr
@@ -1301,7 +1294,7 @@ ERROR: runTest (__main__.UnicodeAttTestCase)
 testing unicode attributes
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_unicodeatt.py", line 16, in setUp
+  File "tst\_unicodeatt.py", line 16, in setUp
     nc.setncattr_string('stratt3',b'\xb2`\xa4J Python')
   File "NetCDF4/_NetCDF4.pyx", line 2862, in NetCDF4._NetCDF4.Dataset.setncattr_string
 OSError: file format does not support NC_STRING attributes
@@ -1319,7 +1312,7 @@ FAIL: runTest (__main__.UnlimdimTestCase)
 testing unlimited dimensions
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_unlimdim.py", line 59, in runTest
+  File "tst\_unlimdim.py", line 59, in runTest
     self.assertTrue(bar.shape == (n1dim,n2dim,n3dim))
 AssertionError: False is not true
 
@@ -1337,7 +1330,7 @@ E
 ERROR: test_unsigned (__main__.Test_Unsigned)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_Unsigned.py", line 16, in test_unsigned
+  File "tst\_Unsigned.py", line 16, in test_unsigned
     f = NetCDF4.Dataset("ubyte.nc")
   File "NetCDF4/_NetCDF4.pyx", line 2325, in NetCDF4._NetCDF4.Dataset.__init__
   File "NetCDF4/_NetCDF4.pyx", line 1889, in NetCDF4._NetCDF4._ensure_nc_success
@@ -1363,7 +1356,7 @@ ERROR: runTest (__main__.VariablesTestCase)
 testing primitive variables
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_vars.py", line 38, in setUp
+  File "tst\_vars.py", line 38, in setUp
     g.createDimension(DIM1_NAME, DIM1_LEN)
   File "NetCDF4/_NetCDF4.pyx", line 2566, in NetCDF4._NetCDF4.Dataset.createDimension
   File "NetCDF4/_NetCDF4.pyx", line 3372, in NetCDF4._NetCDF4.Dimension.__init__
@@ -1382,7 +1375,7 @@ RuntimeError: NetCDF: Not a valid ID
 ERROR: runTest (__main__.TestIntegerIndex)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_vlen.py", line 113, in runTest
+  File "tst\_vlen.py", line 113, in runTest
     strtest.createVariable('tenstrings', str, ['tenstrings'])
   File "NetCDF4/_NetCDF4.pyx", line 2772, in NetCDF4._NetCDF4.Dataset.createVariable
   File "NetCDF4/_NetCDF4.pyx", line 3741, in NetCDF4._NetCDF4.Variable.__init__
@@ -1393,7 +1386,7 @@ ERROR: runTest (__main__.TestObjectArrayIndexing)
 testing vlen variables
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_vlen.py", line 132, in setUp
+  File "tst\_vlen.py", line 132, in setUp
     (DIM2_NAME, DIM1_NAME))
   File "NetCDF4/_NetCDF4.pyx", line 2772, in NetCDF4._NetCDF4.Dataset.createVariable
   File "NetCDF4/_NetCDF4.pyx", line 3741, in NetCDF4._NetCDF4.Variable.__init__
@@ -1403,7 +1396,7 @@ ValueError: Variable length strings are only supported for the NETCDF4 format. F
 ERROR: runTest (__main__.TestScalarVlenString)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_vlen.py", line 99, in runTest
+  File "tst\_vlen.py", line 99, in runTest
     teststring = f.createVariable('teststring', str)
   File "NetCDF4/_NetCDF4.pyx", line 2772, in NetCDF4._NetCDF4.Dataset.createVariable
   File "NetCDF4/_NetCDF4.pyx", line 3741, in NetCDF4._NetCDF4.Variable.__init__
@@ -1414,7 +1407,7 @@ ERROR: runTest (__main__.VariablesTestCase)
 testing vlen variables
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "tst_vlen.py", line 42, in setUp
+  File "tst\_vlen.py", line 42, in setUp
     (DIM2_NAME,DIM1_NAME))
   File "NetCDF4/_NetCDF4.pyx", line 2772, in NetCDF4._NetCDF4.Dataset.createVariable
   File "NetCDF4/_NetCDF4.pyx", line 3741, in NetCDF4._NetCDF4.Variable.__init__

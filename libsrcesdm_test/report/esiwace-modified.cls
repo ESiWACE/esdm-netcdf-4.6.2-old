@@ -282,7 +282,7 @@
 			Work Package: & Work Package 4 Exploitability \\ & \\
       Date:   & \thedate \\
       History & October 2019, Version 0.9.\\
-              & January 2020, Integrated behavior of the current EDSM development\\
+              & April 2020, Integrated behaviour of the current EDSM development\\
 			%\hline
 		\end{tabular}
 	\end{minipage}
