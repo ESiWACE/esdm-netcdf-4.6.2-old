@@ -1,0 +1,7 @@
+Files to be used to run in Jenkins.
+
+Files c-tests.sh and osht.sh (build/libsrcesdm_test) are also necessary. File c-tests.sh has the list of the files in this directory.
+
+I'm not sure when/where the C files are being compiled. File make-tst.sh (build) does this job.
+
+The files were adapted according the report for NetCDF and ESDM compatibility.

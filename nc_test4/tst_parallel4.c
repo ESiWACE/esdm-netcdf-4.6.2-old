@@ -228,5 +228,8 @@ main(int argc, char **argv)
 /*        SUMMARIZE_ERR; */
 /*        FINAL_RESULTS; */
 /*     } */
+
+printf("finallllll");
+
     return total_err;
 }

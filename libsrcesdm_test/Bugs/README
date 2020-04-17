@@ -1,0 +1,3 @@
+Tests generated using the NetCDF tests and isolating specific characteristics to be fixed in ESDM.
+
+Not all the tests are expected to work.
