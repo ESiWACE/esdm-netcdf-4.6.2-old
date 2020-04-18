@@ -255,7 +255,7 @@ static void set_default_fill_mode(esdm_dataset_t *dset) {
       break;
     default:
       assert(0 && "Not supported");
-      return NC_EACCESS;
+      return;
   }
   status = esdm_dataset_set_fill_value(dset, &value);
   assert(status == ESDM_SUCCESS);
@@ -526,6 +526,10 @@ int ESDM_open(const char *path, int cmode, int basepe, size_t *chunksizehintp, v
     char const *const *names = NULL;
     status = esdm_dataset_get_name_dims(dset, &names);
     if (status != ESDM_SUCCESS) {
+      return NC_EINVAL;
+    }
+    if(names == NULL){
+      WARN("the container doesn't include named dimensions!");
       return NC_EINVAL;
     }
 
@@ -1066,8 +1070,7 @@ int ESDM_rename_dim(int ncid, int dimid, const char *name) {
     esdm_dataset_t *dset = esdm_container_dataset_from_array(c, i);
     if (dset == NULL)
       return NC_EACCESS;
-
-    char const *const **names;
+    char const *const *names;
     status = esdm_dataset_get_name_dims(dset, &names);
     if (status != ESDM_SUCCESS)
       return NC_EACCESS;
@@ -1084,8 +1087,6 @@ int ESDM_rename_dim(int ncid, int dimid, const char *name) {
     int64_t ndims = esdm_dataspace_get_dims(space);
     for (int j = 0; j < ndims; j++) {
       if (strcmp(names[j], e->dimt.name[dimid]) == 0) {
-        // free(names[j]);
-        // names[j] = strdup(name);
         status = esdm_dataset_rename_dim(dset, name, j);
         if (status != ESDM_SUCCESS)
           return NC_EACCESS;
@@ -2004,7 +2005,7 @@ int ESDM_inq_typeids(int ncid, int *ntypes, int *typeids) {
 
 int ESDM_show_metadata(int ncid) {
   DEBUG_ENTER("%d\n", ncid);
-  printf("\n\nESDM Dataset\n\n%s");
+  printf("\nESDM Dataset\n");
   return NC_NOERR;
 }
 
@@ -2067,7 +2068,8 @@ int ESDM_inq_typeid(int ncid, const char *name, nc_type *typeidp) {
     return NC_EBADID;
 
   if (typeidp) {
-    *typeidp = type_esdm_to_nc(name);
+    //*typeidp = type_esdm_to_nc(name);
+    // TODO
   }
 
   return NC_NOERR;
