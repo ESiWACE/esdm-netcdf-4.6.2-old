@@ -266,7 +266,7 @@ static void set_default_fill_mode(esdm_dataset_t *dset) {
   if (dims_pos >= 0) {
     smd_attr_unlink_pos(attrs, dims_pos);
   }
-  //smd_attr_t * attr = smd_attr_new("_FillValue", type, & value, 0);
+  //smd_attr_t * attr = smd_attr_new("_FillValue", type, & value);
   //status = esdm_dataset_link_attribute(dset, 1, attr);
 }
 
@@ -334,12 +334,12 @@ static int ncesdm_container_commit(nc_esdm_t *e) {
   // store the dimension table
   int len = e->dimt.count;
   smd_dtype_t *arr_type = smd_type_array(SMD_DTYPE_STRING, len);
-  smd_attr_t *new = smd_attr_new("_nc_dims", arr_type, e->dimt.name, 0);
+  smd_attr_t *new = smd_attr_new("_nc_dims", arr_type, e->dimt.name);
   esdm_container_link_attribute(e->c, 1, new);
   // smd_type_unref(arr_type);
 
   arr_type = smd_type_array(SMD_DTYPE_UINT64, len);
-  new = smd_attr_new("_nc_sizes", arr_type, e->dimt.size, 0);
+  new = smd_attr_new("_nc_sizes", arr_type, e->dimt.size);
   esdm_container_link_attribute(e->c, 1, new);
   // smd_type_unref(arr_type);
 
@@ -745,7 +745,7 @@ int ESDM_def_var_fill(int ncid, int varid, int no_fill, const void *fill_value) 
     esdm_dataspace_t *space;
     status = esdm_dataset_get_dataspace(ev->dset, &space);
     esdm_type_t type = esdm_dataspace_get_type(space);
-    smd_attr_t *attr = smd_attr_new("_FillValue", type, fill_value, 0);
+    smd_attr_t *attr = smd_attr_new("_FillValue", type, fill_value);
     status = esdm_dataset_link_attribute(ev->dset, 1, attr);
   }
 
@@ -1457,15 +1457,15 @@ int ESDM_put_att(int ncid, int varid, const char *name, nc_type datatype, size_t
   smd_attr_t *new;
   if (len > 1) {
     smd_dtype_t *arr_type = smd_type_array(etype, len);
-    new = smd_attr_new(name, arr_type, value, 0);
+    new = smd_attr_new(name, arr_type, value);
     // smd_type_unref(arr_type);
   } else {
     if (datatype == NC_STRING) {
-      new = smd_attr_new(name, etype, *(void **)value, 0);
+      new = smd_attr_new(name, etype, *(void **)value);
     } else if (etype == SMD_DTYPE_STRING) {
-      new = smd_attr_new(name, etype, value, 0);
+      new = smd_attr_new(name, etype, value);
     } else {
-      new = smd_attr_new_usertype(name, type_nc_to_esdm(type), etype, value, 0);
+      new = smd_attr_new_usertype(name, type_nc_to_esdm(type), etype, value);
     }
     if (!new) {
       return NC_EACCESS;
