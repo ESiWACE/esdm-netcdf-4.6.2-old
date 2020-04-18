@@ -121,6 +121,7 @@ typedef struct {
                 // on, actually, ESDM with NetCDF always has a fill mode, uses
                 // the defaults from NetCDF
   esdm_container_t *c;
+  int original_nc;
   // Some attributes provide information about the dataset as a whole and are
   // called global attributes. These are identified by the attribute name
   // together with a blank variable name (in CDL) or a special null "global
@@ -331,17 +332,19 @@ static size_t esdm_container_dataset_get_actual_size(nc_esdm_t *e, int dimid) {
 
 static int ncesdm_container_commit(nc_esdm_t *e) {
   esdm_status status;
-  // store the dimension table
-  int len = e->dimt.count;
-  smd_dtype_t *arr_type = smd_type_array(SMD_DTYPE_STRING, len);
-  smd_attr_t *new = smd_attr_new("_nc_dims", arr_type, e->dimt.name);
-  esdm_container_link_attribute(e->c, 1, new);
-  // smd_type_unref(arr_type);
+  if(e->original_nc){
+    // store the dimension table
+    int len = e->dimt.count;
+    smd_dtype_t *arr_type = smd_type_array(SMD_DTYPE_STRING, len);
+    smd_attr_t *new = smd_attr_new("_nc_dims", arr_type, e->dimt.name);
+    esdm_container_link_attribute(e->c, 1, new);
+    // smd_type_unref(arr_type);
 
-  arr_type = smd_type_array(SMD_DTYPE_UINT64, len);
-  new = smd_attr_new("_nc_sizes", arr_type, e->dimt.size);
-  esdm_container_link_attribute(e->c, 1, new);
-  // smd_type_unref(arr_type);
+    arr_type = smd_type_array(SMD_DTYPE_UINT64, len);
+    new = smd_attr_new("_nc_sizes", arr_type, e->dimt.size);
+    esdm_container_link_attribute(e->c, 1, new);
+    // smd_type_unref(arr_type);
+  }
 
 #ifdef ESDM_PARALLEL
   if (e->parallel_mode) {
@@ -410,6 +413,8 @@ int ESDM_create(const char *path, int cmode, size_t initialsz, int basepe, size_
   nc_esdm_t *e = malloc(sizeof(nc_esdm_t));
   memset(e, 0, sizeof(nc_esdm_t));
   e->ncid = ncp->ext_ncid;
+  e->original_nc = 1; // this will be an originally created netcdf file
+
   esdm_status status;
 
 #ifdef ESDM_PARALLEL
@@ -520,15 +525,13 @@ int ESDM_open(const char *path, int cmode, int basepe, size_t *chunksizehintp, v
 
     esdm_dataspace_t *dspace;
     status = esdm_dataset_get_dataspace(dset, &dspace);
-    if (status != ESDM_SUCCESS)
+    if (status != ESDM_SUCCESS){
       return NC_EACCESS;
+    }
     int ndims = esdm_dataspace_get_dims(dspace);
     char const *const *names = NULL;
     status = esdm_dataset_get_name_dims(dset, &names);
-    if (status != ESDM_SUCCESS) {
-      return NC_EINVAL;
-    }
-    if(names == NULL){
+    if (status != ESDM_SUCCESS || names == NULL) {
       WARN("the container doesn't include named dimensions!");
       return NC_EINVAL;
     }
@@ -569,6 +572,7 @@ int ESDM_open(const char *path, int cmode, int basepe, size_t *chunksizehintp, v
   int sizes_pos = smd_find_position_by_name(attrs, "_nc_sizes");
   if (dims_pos >= 0 || sizes_pos >= 0) {
     if (dims_pos >= 0 && sizes_pos >= 0) {
+      e->original_nc = 1;
       smd_attr_t *dims = smd_attr_get_child(attrs, dims_pos);
       smd_attr_t *sizes = smd_attr_get_child(attrs, sizes_pos);
 
@@ -1161,11 +1165,20 @@ int ESDM_inq_att(int ncid, int varid, const char *name, nc_type *datatypep, size
       *datatypep = type_esdm_to_nc(a->type->specifier.u.arr.base->type);
     } else {
       *datatypep = type_esdm_to_nc(a->type->type);
+      if(*datatypep == NC_STRING){
+        // workaround, allows to store strings with ESDM and read them back as NetCDF files
+        *datatypep = NC_CHAR;
+      }
     }
   }
 
   if (lenp) {
-    *lenp = smd_attr_elems(a);
+    if(a->type->type == SMD_TYPE_STRING){
+      // workaround, allows to store strings with ESDM and read them back as NetCDF files
+      *lenp = strlen((char*) a->value);
+    }else{
+      *lenp = smd_attr_elems(a);
+    }
   }
 
   return NC_NOERR;
@@ -1531,7 +1544,6 @@ int ESDM_def_var(int ncid, const char *name, nc_type xtype, int ndims, const int
       names[i] = e->dimt.name[dimid];
       bounds[i] = val;
       evar->dimidsp[i] = dimid;
-      printf("%d = %ld\n", dimidsp[i], val);
     }
   }
 
