@@ -1692,7 +1692,6 @@ int ESDM_get_vars(int ncid, int varid, const size_t *startp, const size_t *count
   esdm_dataspace_t *space;
   esdm_status status = esdm_dataset_get_dataspace(kv->dset, &space);
 
-  esdm_dataspace_t *memspace = NULL;
   if (mem_nc_type != type_esdm_to_nc(esdm_dataspace_get_type(space)->type) && mem_nc_type != NC_NAT) {
     // TODO stridep
 
@@ -1720,8 +1719,7 @@ int ESDM_get_vars(int ncid, int varid, const size_t *startp, const size_t *count
       return NC_EACCESS;
     }
   }
-  status = esdm_read(kv->dset, (void *)data, subspace, memspace);
-  if(memspace) esdm_dataspace_destroy(memspace);
+  status = esdm_read(kv->dset, (void *)data, subspace);
   esdm_dataspace_destroy(subspace);
   if (status != ESDM_SUCCESS) {
     return NC_EINVAL;
@@ -1772,7 +1770,6 @@ int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *count
   }
 
   nc_type datatype = type_esdm_to_nc(esdm_dataspace_get_type(space)->type);
-  esdm_dataspace_t *memspace = NULL;
   if (mem_nc_type != datatype && mem_nc_type != NC_NAT) {
     DEBUG("memory data type differs from file datatatype");
     DEBUG("Mem: %d Data: %d\n", mem_nc_type, datatype);
@@ -1804,9 +1801,8 @@ int ESDM_put_vars(int ncid, int varid, const size_t *startp, const size_t *count
     }
   }
 
-  status = esdm_write(kv->dset, (void *)data, subspace, memspace);
+  status = esdm_write(kv->dset, (void *)data, subspace);
 
-  if(memspace) esdm_dataspace_destroy(memspace);
   esdm_dataspace_destroy(subspace);
   if (status != ESDM_SUCCESS) {
     return NC_EINVAL;
