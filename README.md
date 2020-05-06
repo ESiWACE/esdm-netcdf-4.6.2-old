@@ -55,20 +55,36 @@ software for various languages:
 Copyright and licensing information can be found [here](http://www.unidata.ucar.edu/software/netcdf/copyright.html), as well as in the COPYRIGHT file accompanying the software
 
 ### Installation
+
+#### netCDF-C
+
 To install the netCDF-C software, please see the file INSTALL in the
 netCDF-C distribution, or the (usually more up-to-date) document:
 
-* [Building NetCDF](http://www.unidata.ucar.edu/software/netcdf/docs/getting_and_building_netcdf.html)
+* [Building NetCDF](https://www.unidata.ucar.edu/software/netcdf/workshops/most-recent/building/Getting%20and%20Building%20netCDF-C.pdf)
+
+#### ESDM-netCDF
+
+An example installation of ESDM-netCDF for Ubuntu 18.04 is shown in build/build.sh. Note that it might be necessary to edit the file build.sh to assure the path for ESDM directory is correct.
+
+#### On esdm-netcdf/ directory, update the generated configuration files:
+
+autoreconf --force
+
+#### Build the project
+
+cd build/
+./build.sh
 
 ### Documentation
 A language-independent User's Guide for netCDF, and some other
 language-specific user-level documents are available from:
 
-* [Language-independent User's Guide](http://www.unidata.ucar.edu/software/netcdf/docs/user_guide.html)
+* [Language-independent User's Guide](https://www.unidata.ucar.edu/software/netcdf/guide_toc.html)
 * [NetCDF-C Tutorial](http://www.unidata.ucar.edu/software/netcdf/docs/tutorial_8dox.html)
 * [Fortran-90 User's Guide](http://www.unidata.ucar.edu/software/netcdf/documentation/historic/netcdf-f90/index.html#Top)
 * [Fortran-77 User's Guide](http://www.unidata.ucar.edu/software/netcdf/documentation/historic/netcdf-f77/index.html#Top)
-* [netCDF-Java/Common Data Model library](http://www.unidata.ucar.edu/software/thredds/current/netcdf-java/)
+* [netCDF-Java/Common Data Model library](https://www.unidata.ucar.edu/software/netcdf-java/)
 * [netCDF4-python](http://unidata.github.io/netcdf4-python/)
 
 A mailing list, netcdfgroup@unidata.ucar.edu, exists for discussion of
