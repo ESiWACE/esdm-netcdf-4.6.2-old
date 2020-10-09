@@ -63,13 +63,74 @@ netCDF-C distribution, or the (usually more up-to-date) document:
 
 * [Building NetCDF](https://www.unidata.ucar.edu/software/netcdf/workshops/most-recent/building/Getting%20and%20Building%20netCDF-C.pdf)
 
-#### ESDM-netCDF
+#### ESDM-NetCDF
 
-An example installation of ESDM-netCDF for Ubuntu 18.04 is shown in build/build.sh. Note that it might be necessary to edit the file build.sh to assure the path for ESDM directory is correct.
+##### Compiling
 
-#### On esdm-netcdf/ directory, update the generated configuration files:
+To compile and install ESDM-NetCDF, first install a working build system:
 
-autoreconf --force
+    $ autoreconf --install --force
+
+After this, the project can be configured with these options:
+
+    $ ./configure --prefix=<esdm-netcdf-path> --with-esdm=<esdm-path> --with-hdf5=<hdf5-path> LDFLAGS=-L<hdf5-path>/lib CFLAGS=-I<hdf5-path>/include CC=mpicc --enable-parallel-tests --disable-dap
+
+<esdm-netcdf-path> is an installation location of your choice,
+<esdm-path> is the installation location of a previously built ESDM version, and
+<hdf5_path> is the installation location of an HDF5 version.
+Building, testing, and installing is then done with the usual
+
+    $ make -j8
+    $ make check
+    $ make install
+
+Currently, not all tests run successfully.
+
+##### Using ESDM-NetCDF
+
+The steps above install a NetCDF library at <esdm-netcdf-path>/lib/libnetcdf.so.
+As such, any program that was linked against NetCDF can be executed with ESDM-NetCDF.
+There are two main ways to do this:
+
+ 1. Use an environment where <esdm-netcdf-path>/lib/libnetcdf.so is the only NetCDF library available.
+
+ 2. Override the environment's NetCDF library with
+
+        $ LD_PRELOAD=<esdm-netcdf-path>/lib/libnetcdf.so <command>
+
+As a quick test, `nccopy <somefile>.nc <copy>.nc` can be used as <command>.
+This should result in the following output by default:
+
+    $ nccopy <somefile>.nc <copy>.nc
+    [ESDM] [POSIX] /mnt/lustre01/pf/k/k203053/private/repositories/esiwace/esdm/src/utils/auxiliary.c:148 ea_read_file(): WARN cannot open esdm.conf No such file or directory
+
+    ESDM has not been shutdown correctly. Stacktrace:
+    3: /lib64/libc.so.6(__libc_start_main+0x100) [0x7f30f72d9d20]
+    4: nccopy() [0x402a29]
+
+The error message about shutdown can safely be ignored for now (this should be fixed in a future version of ESDM/ESDM-NetCDF).
+The other message means that no ESDM configuration could be loaded, and as such, that the ESDM features are not usable.
+
+To actually use ESDM, an esdm.conf file needs to be provided and a file system needs to be created.
+ESDM comes with a few sample esdm.conf file which can be used to create an ESDM file system for first tests:
+
+    $ cp <esdm-source-path>/src/test/esdm-posix.conf esdm.conf
+    $ <esdm-path>/bin/mkfs.esdm -g -v --create --config=esdm.conf
+    [mkfs] Creating ./_metadummy
+    [mkfs] Creating ./_posix1
+    [mkfs] OK
+
+After this, the warning should go away, and it should be possbile to perform a copy into ESDM:
+
+    $ nccopy <somefile>.nc esdm://test
+    
+    ESDM has not been shutdown correctly. Stacktrace:
+    3: /lib64/libc.so.6(__libc_start_main+0x100) [0x7f3aefb35d20]
+    4: nccopy() [0x402a29]
+
+The error can still be safely ignored.
+This creates a container named "test" and copies all NetCDF variables into corresponding ESDM datasets within this container.
+
 
 #### Build the project
 
