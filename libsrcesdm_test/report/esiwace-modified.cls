@@ -43,6 +43,13 @@
 \definecolor{EsiGreen}{HTML}{9ac013}
 \definecolor{EsiGreen2}{HTML}{007000}
 
+\hypersetup{
+    colorlinks,
+    linkcolor=EsiBlue,
+    citecolor=EsiOrange,
+    urlcolor=EsiGreen
+}
+
 \usepackage{listings}
 \lstset{postbreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\color{blue}\hookrightarrow\space}},
 %\lstdefinestyle{sig}{ %
@@ -207,6 +214,7 @@
 %      \vspace{1cm}
 %      ESIWACE\\
 %      \vspace{1cm}
+%      \LARGE{Release \myversion\\}
 %      \LARGE{\@date}\\
 %      \LARGE{Approved: \approvaldate\\}
 %      \vspace{1cm}
@@ -277,12 +285,22 @@
 	\hspace*{-0.9cm}
 	\begin{minipage}{\textwidth}
 		\large
-		\begin{tabular}[t]{ll}%
+		\begin{tabular}[t]{lm{9cm}}%
 			%\hline
 			Work Package: & Work Package 4 Exploitability \\ & \\
-      Date:   & \thedate \\
-      History & October 2019, Version 0.9.\\
-              & April 2020, Integrated behaviour of the current EDSM development\\
+			Responsible Institution: & University of Reading (UREAD) \\ & \\
+			Contributing Institutions:  & $\cdot$ Barcelona Supercomputing Center (BSC) \\
+                                  & $\cdot$ Centre Européen de Recherche et de Formation Avancée en Calcul Scientifique (Cerfacs) \\
+                                  & $\cdot$ Centro Euro-Mediterranean sui Cambiamenti Climatici (CMCC)\\
+                                  & $\cdot$ Federal Office of Meteorology and Climatology (MeteoSwiss)\\
+                                  & $\cdot$ DataDirect Networks (DDN)\\
+                                  & $\cdot$ Deutsches Klimarechenzentrum GmbH (DKRZ)\\
+                                  & $\cdot$ European Centre for Medium-Range Weather Forecasts (ECMWF)\\
+                                  & $\cdot$ National Centre for Atmospheric Science (NCAS)\\
+                                  & $\cdot$ Science and Technology Facilities Council (STFC)\\
+                                  & $\cdot$ Seagate Systems UK Limited\\
+                                      \\ & \\
+                                   Date of Submission: & \today \\
 			%\hline
 		\end{tabular}
 	\end{minipage}

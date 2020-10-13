@@ -1,0 +1,134 @@
+\section{Current Status -- 13/10/2020}
+
+Tables \ref{tab:nc_test4_status_11}, \ref{tab:nc_test4_status_21}, and \ref{tab:nc_test4_status_31} presents the current status of each test. \textbf{Highlighted text shows the tests that have different behaviour.}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\multicolumn{1}{|c|}{\parbox{4cm}{\centering Filename}} & \multicolumn{1}{c|}{Status} \\ \hline \hline
+cdm\_sea\_soundings.c   &   No change in the status            \\ \hline
+h5testszip.c            &   No change in the status            \\ \hline
+ref\_bzip2.c            &   \textbf{ESDM does not support compression!} \\
+                        &   \textbf{ESDM does not support filters!}  \\ \hline
+renamegroup.c           &   No change in the status            \\ \hline
+test\_filter.c          &   No change in the status            \\ \hline
+test\_filter\_misc.c    &   No change in the status            \\ \hline
+test\_szip.c            &   No change in the status            \\ \hline
+tst\_atts-simple.c      &   No change in the status            \\ \hline
+tst\_atts.c             &   \textbf{Segmentation fault}            \\ \hline
+tst\_atts1.c            &   \textbf{Segmentation fault}            \\ \hline
+tst\_atts2.c            &   \textbf{Segmentation fault}            \\ \hline
+tst\_atts3.c            &   No change in the status            \\ \hline
+tst\_attsperf.c         &   Still running...            \\ \hline
+tst\_atts\_mod.c        &   \textbf{Testing attribute renaming for read-only file...Sorry!}            \\ \hline
+tst\_atts\_string\_rewrite.c &  No change in the status          \\ \hline
+tst\_bug324.c           &  No change in the status             \\ \hline
+tst\_camrun.c           &  No change in the status             \\ \hline
+tst\_chunks.c           &  \textbf{Tests successful}             \\ \hline
+tst\_chunks2.c          &  No change in the status             \\ \hline
+tst\_chunks3.c          &  \textbf{Results with worst numbers}             \\ \hline
+tst\_compounds.c        &  No change in the status             \\ \hline
+tst\_compounds2.c       &  No change in the status             \\ \hline
+tst\_compounds3.c       &  No change in the status             \\ \hline
+tst\_converts.c         &  \textbf{2 failures 7 errors detected! Sorry!}            \\ \hline
+tst\_converts2.c        &  \textbf{hypercube.c:228: esdmI\_hypercube\_size:} \\
+& \textbf{Assertion `cube$->$dims $>$ 0' failed. }            \\ \hline
+tst\_coords.c           &  No change in the status             \\ \hline
+tst\_coords2.c          &  No change in the status             \\ \hline
+tst\_coords3.c          &  No change in the status             \\ \hline
+tst\_create\_files.c    &  No change in the status             \\ \hline
+tst\_dims.c             &  No change in the status             \\ \hline
+tst\_dims2.c            &  No change in the status             \\ \hline
+tst\_dims3.c            &  No change in the status             \\ \hline
+tst\_elatefill.c        &  No change in the status             \\ \hline
+tst\_empty\_vlen\_unlim.c   &  No change in the status         \\ \hline
+tst\_endian\_fill.c     &   \textbf{hypercube.c:228: esdmI\_hypercube\_size:} \\
+& \textbf{Assertion `cube$->$dims $>$ 0' failed.}            \\ \hline
+tst\_enums.c            &  No change in the status             \\ \hline
+\hline
+\end{tabular}
+\caption{\label{tab:nc_test4_status_11} Current status of each individual test -- Table I}
+\end{table}
+
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\multicolumn{1}{|c|}{\parbox{4cm}{\centering Filename}} & \multicolumn{1}{c|}{Status} \\ \hline \hline
+tst\_files.c            &  No change in the status             \\ \hline
+tst\_files3.c           &  No change in the status             \\ \hline
+tst\_files4.c           &  No change in the status             \\ \hline
+tst\_files5.c           &  No change in the status             \\ \hline
+tst\_files6.c           &  No change in the status             \\ \hline
+tst\_fill\_attr\_vanish.c   &  \textbf{The test file was changed.}         \\ \hline
+tst\_fillbug.c          &  No change in the status             \\ \hline
+tst\_fills.c            &  \textbf{Sorry! Unexpected result}            \\ \hline
+tst\_fills2.c           &  No change in the status             \\ \hline
+tst\_filterparser.c     &   No change in the status            \\ \hline
+tst\_grps.c             &   No change in the status            \\ \hline
+tst\_grps2.c            &   No change in the status            \\ \hline
+tst\_h5\_endians.c      &   No change in the status            \\ \hline
+tst\_hdf5\_file\_compat.c   &   No change in the status        \\ \hline
+tst\_h\_refs.c          &   No change in the status            \\ \hline
+tst\_h\_scalar.c        &   No change in the status            \\ \hline
+tst\_h\_strbug.c        &   No change in the status            \\ \hline
+tst\_interops.c         &   No change in the status            \\ \hline
+tst\_interops4.c        &   No change in the status            \\ \hline
+tst\_interops5.c        &   No change in the status            \\ \hline
+tst\_interops6.c        &   No change in the status            \\ \hline
+tst\_large.c            &   No change in the status            \\ \hline
+tst\_large2.c           &   \textbf{ERROR write No space left on device}            \\ \hline
+tst\_mem.c              &   No change in the status            \\ \hline
+tst\_mode.c             &   No change in the status            \\ \hline
+tst\_mpi\_parallel.c    &   No change in the status            \\ \hline
+tst\_nc4perf.c          &   \textbf{memory data type differs from file datatatype}            \\
+          &  \textbf{Tests successful}             \\ \hline
+tst\_opaques.c          &   No change in the status             \\ \hline
+tst\_parallel.c         &   \textbf{NC\_ESDM\_initialize:} \\
+& \textbf{Assertion `status == ESDM\_SUCCESS' failed.}             \\ \hline
+tst\_parallel3.c        &   \textbf{NC\_ESDM\_initialize:} \\
+& \textbf{Assertion `status == ESDM\_SUCCESS' failed.}             \\ \hline
+tst\_parallel4.c        &   \textbf{free(): double free detected in tcache 2}             \\ \hline
+tst\_parallel5.c        &   \textbf{Sorry! Unexpected result}             \\ \hline
+tst\_put\_vars.c        &   No change in the status             \\ \hline
+tst\_tst\_put\_vars\_two\_unlim\_dim.c &  No change in the status  \\ \hline
+tst\_rehash.c           &   No change in the status             \\ \hline
+tst\_rename.c           &   No change in the status             \\ \hline
+tst\_rename2.c          &   No change in the status             \\ \hline
+\hline
+\end{tabular}
+\caption{\label{tab:nc_test4_status_21} Current status of each individual test -- Table I}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\multicolumn{1}{|c|}{\parbox{4cm}{\centering Filename}} & \multicolumn{1}{c|}{Status} \\ \hline \hline
+tst\_simplerw\_coll\_r.c &  No change in the status              \\ \hline
+tst\_strings.c          &   \textbf{Sorry! Unexpected result}            \\ \hline
+tst\_strings2.c         &   \textbf{Sorry! Unexpected result}            \\ \hline
+tst\_sync.c             &   No change in the status            \\ \hline
+tst\_types.c            &   \textbf{Sorry! Unexpected result}            \\ \hline
+tst\_udf.c              &   No change in the status            \\ \hline
+tst\_unlim\_vars.c      &   No change in the status            \\ \hline
+tst\_utf8.c             &   No change in the status            \\ \hline
+tst\_v2.c               &   No change in the status            \\ \hline
+tst\_varms.c            &   No change in the status            \\ \hline
+tst\_vars.c             &   No change in the status            \\ \hline
+tst\_vars2.c            &   \textbf{hypercube.c:228: esdmI\_hypercube\_size:} \\
+& \textbf{Assertion `cube$->$dims $>$ 0' failed.}            \\ \hline
+tst\_vars3.c            &   No change in the status            \\ \hline
+tst\_vars4.c            &   No change in the status            \\ \hline
+tst\_vl.c               &   No change in the status            \\ \hline
+tst\_xplatform.c        &   No change in the status            \\ \hline
+tst\_xplatform2.c       &   \textbf{It does not compile anymore.}       \\ \hline
+t\_type.c               &   No change in the status            \\ \hline
+\hline
+\end{tabular}
+\caption{\label{tab:nc_test4_status_31} Current status of each individual test -- Table II}
+\end{table}
+
+\clearpage

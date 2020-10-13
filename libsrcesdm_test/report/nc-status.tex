@@ -1,4 +1,4 @@
-\section{Current Status}
+\section{Current Status -- 09/03/2020}
 
 According to the classification presented in Tables \ref{tab:nc_test4_1}, \ref{tab:nc_test4_2} and \ref{tab:nc_test4_3}, the 91 {\bf Working} tests were used to demonstrate ESDM functionalities.
 There are now three categories in which each test was classified according to their status:
@@ -29,13 +29,16 @@ Table \ref{tab:nc_test4_status_3} summarises the results obtained when using ESD
 
 For running the tests with ESDM, the following environment variables have to be set:
 
-\begin{framed}
-\hspace{2cm} export NC\_ESDM\_FORCEESDM = 1
-
-\hspace{2cm} export NC\_ESDM\_FORCEESDM\_MKFS = 1
-
-\hspace{2cm} export ESDM\_LOGLEVEL\_BUFFER = 10
-\end{framed}
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|}
+\hline \\
+export NC\_ESDM\_FORCEESDM = 1\\ \\
+export NC\_ESDM\_FORCEESDM\_MKFS = 1\\ \\
+export ESDM\_LOGLEVEL\_BUFFER = 10\\ \\ \hline
+\end{tabular}
+\caption{\label{tab:nc_test4_status_1} Environment variables}
+\end{table}
 
 Tables \ref{tab:nc_test4_status_1} and \ref{tab:nc_test4_status_2} presents the current status of each test.
 
@@ -44,11 +47,11 @@ Tables \ref{tab:nc_test4_status_1} and \ref{tab:nc_test4_status_2} presents the 
 \begin{tabular}{|l|c|c|c|}
 \hline
 \multicolumn{1}{|c|}{\parbox{8cm}{\centering Filename}} & \multicolumn{1}{c|}{Success} & \multicolumn{1}{c|}{Partial} & \multicolumn{1}{c|}{Failure} \\
-                        &               & Success       &               \\ \hline \hline
+& &                 Success  &                              \\ \hline \hline
 cdm\_sea\_soundings.c   &               &               & $\checkmark$  \\ \hline
 h5testszip.c            & $\checkmark$  &               &               \\ \hline
 ref\_bzip2.c            & $\checkmark$  &               &               \\ \hline
-renamegroup             &               &               & $\checkmark$  \\ \hline
+renamegroup.c           &               &               & $\checkmark$  \\ \hline
 test\_filter.c          &               &               & $\checkmark$  \\ \hline
 test\_filter\_misc.c    &               &               & $\checkmark$  \\ \hline
 test\_szip.c            & $\checkmark$  &               &               \\ \hline
@@ -100,7 +103,7 @@ tst\_fills2.c           &               &               & $\checkmark$  \\ \hlin
 \begin{tabular}{|l|c|c|c|}
 \hline
 \multicolumn{1}{|c|}{\parbox{8cm}{\centering Filename}} & \multicolumn{1}{c|}{Success} & \multicolumn{1}{c|}{Partial} & \multicolumn{1}{c|}{Failure} \\
-                        &               & Success       &               \\ \hline \hline
+& &                 Success  &                              \\ \hline \hline
 tst\_filterparser.c     & $\checkmark$  &               &               \\ \hline
 tst\_grps.c             &               &               & $\checkmark$  \\ \hline
 tst\_grps2.c            &               &               & $\checkmark$  \\ \hline
@@ -151,3 +154,5 @@ t\_type.c               & $\checkmark$  &               &               \\ \hlin
 \end{tabular}
 \caption{\label{tab:nc_test4_status_2} Current status of each individual test -- Table II}
 \end{table}
+
+\clearpage
