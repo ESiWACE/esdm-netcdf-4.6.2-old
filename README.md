@@ -114,16 +114,20 @@ The other message means that no ESDM configuration could be loaded, and as such,
 To actually use ESDM, an esdm.conf file needs to be provided and a file system needs to be created.
 ESDM comes with a few sample esdm.conf file which can be used to create an ESDM file system for first tests:
 
-    $ cp <esdm-source-path>/src/test/esdm-posix.conf esdm.conf
-    $ <esdm-path>/bin/mkfs.esdm -g -v --create --config=esdm.conf
+#    $ cp <esdm-source-path>/src/test/esdm-posix.conf esdm.conf
+# The file esdm.conf is already linked to esdm-posix.conf in the directory
+    $ cp <esdm-source-path>/src/test/esdm.conf <esdm-path>/install/bin/
+#    $ <esdm-path>/bin/mkfs.esdm -g -v --create --config=esdm.conf
+    $ <esdm-path>/install/bin/mkfs.esdm -g -v --create --config=esdm.conf
     [mkfs] Creating ./_metadummy
     [mkfs] Creating ./_posix1
     [mkfs] OK
 
+
 After this, the warning should go away, and it should be possbile to perform a copy into ESDM:
 
     $ nccopy <somefile>.nc esdm://test
-    
+
     ESDM has not been shutdown correctly. Stacktrace:
     3: /lib64/libc.so.6(__libc_start_main+0x100) [0x7f3aefb35d20]
     4: nccopy() [0x402a29]
@@ -131,11 +135,6 @@ After this, the warning should go away, and it should be possbile to perform a c
 The error can still be safely ignored.
 This creates a container named "test" and copies all NetCDF variables into corresponding ESDM datasets within this container.
 
-
-#### Build the project
-
-cd build/
-./build.sh
 
 ### Documentation
 A language-independent User's Guide for netCDF, and some other
