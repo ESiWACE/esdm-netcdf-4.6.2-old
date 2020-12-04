@@ -686,10 +686,10 @@ int ESDM_close(int ncid, void *b) {
 
   int ndsets = esdm_container_dataset_count(e->c);
   // open all ESDM datasets, find the names
-  for (int i = 0; i < ndsets; i++) {
-    esdm_dataset_t *dset = esdm_container_dataset_from_array(e->c, i);
-    esdm_dataset_close(dset);
-  }
+  //for (int i = 0; i < ndsets; i++) {
+  //  esdm_dataset_t *dset = esdm_container_dataset_from_array(e->c, i);
+  //  esdm_dataset_close(dset);
+  //}
   ret = esdm_container_close(e->c);
 
   // TODO CLOSE the container properly
