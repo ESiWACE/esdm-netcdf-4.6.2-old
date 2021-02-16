@@ -954,10 +954,11 @@ int ESDM_inq_dimid(int ncid, const char *name, int *idp) {
   for (int i = 0; i < e->dimt.count; i++) {
     if (strcmp(e->dimt.name[i], name) == 0) {
       *idp = i;
+      return NC_NOERR;
     }
   }
 
-  return NC_NOERR;
+  return NC_EBADID;
 }
 
 /**
