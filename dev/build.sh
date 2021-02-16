@@ -14,9 +14,10 @@ git clone https://github.com/Unidata/netcdf4-python.git
 
 cd netcdf4-python
 
-patch -p1 --dry-run < ../v1.patch
+# Must ignore whitespace issues in patch
+patch -p1 -l --dry-run < ../v2.patch
 
-patch -p1 < ../v1.patch
+patch -p1 -l < ../v2.patch
 
 
 # prerequisites to build netcdf4-python:

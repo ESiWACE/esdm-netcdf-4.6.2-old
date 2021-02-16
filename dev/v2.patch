@@ -3,13 +3,13 @@ index 6912ab53..98dda69b 100644
 --- a/include/netCDF4.pxi
 +++ b/include/netCDF4.pxi
 @@ -47,6 +47,7 @@ cdef extern from "netcdf.h":
-         # Use these 'mode' flags for nc_open.
-         NC_NOWRITE # default is read only
-         NC_WRITE # read & write
+         # Use these 'mode' flags for nc_open. 
+         NC_NOWRITE # default is read only 
+         NC_WRITE # read & write 
 +        NC_ESDM # ESDM support for Python
-         # Use these 'mode' flags for nc_create.
-         NC_CLOBBER
-         NC_NOCLOBBER # Don't destroy existing file on create
+         # Use these 'mode' flags for nc_create. 
+         NC_CLOBBER 
+         NC_NOCLOBBER # Don't destroy existing file on create 
 @@ -122,6 +123,7 @@ cdef extern from "netcdf.h":
          NC_FORMAT_NC3
          NC_FORMAT_NC_HDF4
@@ -66,7 +66,7 @@ index 99df3ede..25159311 100644
      f.close()
  
 diff --git a/src/netCDF4/_netCDF4.pyx b/src/netCDF4/_netCDF4.pyx
-index 66b7d819..0987c1b6 100644
+index 66b7d819..1106f830 100644
 --- a/src/netCDF4/_netCDF4.pyx
 +++ b/src/netCDF4/_netCDF4.pyx
 @@ -1245,7 +1245,7 @@ import_array()
