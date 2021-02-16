@@ -29,8 +29,8 @@ index 625752a..7bcd019 100644
          ctypedef int MPI_Comm
 diff --git a/netCDF4/_netCDF4.pyx b/netCDF4/_netCDF4.pyx
 index b693354..58d02e8 100644
---- a/netCDF4/_netCDF4.pyx
-+++ b/netCDF4/_netCDF4.pyx
+--- a/src/netCDF4/_netCDF4.pyx
++++ b/src/netCDF4/_netCDF4.pyx
 @@ -1264,7 +1264,7 @@ import_array()
  include "constants.pyx"
  include "membuf.pyx"

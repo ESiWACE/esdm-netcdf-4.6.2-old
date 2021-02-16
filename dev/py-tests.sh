@@ -10,8 +10,8 @@ export ESDM_LOGLEVEL_BUFFER=10
 #export NC_ESDM_FORCEESDM_MKFS=1
 export PATH=/var/lib/jenkins/workspace/esdm/install/bin:$PATH
 
-function mkfs{
-  mkfs.esdm --create --remove --ignore-errors -g -c _esdm.conf
+function mkfs(){
+  mkfs.esdm --create --remove --ignore-errors -g
 }
 
 # Run all manual python tests
