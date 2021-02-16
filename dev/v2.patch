@@ -1,5 +1,5 @@
 diff --git a/include/netCDF4.pxi b/include/netCDF4.pxi
-index 6912ab53..720c5fc1 100644
+index 6912ab53..98dda69b 100644
 --- a/include/netCDF4.pxi
 +++ b/include/netCDF4.pxi
 @@ -47,6 +47,7 @@ cdef extern from "netcdf.h":
@@ -10,11 +10,7 @@ index 6912ab53..720c5fc1 100644
          # Use these 'mode' flags for nc_create.
          NC_CLOBBER
          NC_NOCLOBBER # Don't destroy existing file on create
-@@ -119,9 +120,11 @@ cdef extern from "netcdf.h":
-         NC_FORMAT_64BIT_DATA
-         NC_FORMAT_NETCDF4
-         NC_FORMAT_NETCDF4_CLASSIC
-+        NC_FORMATX_ESDM
+@@ -122,6 +123,7 @@ cdef extern from "netcdf.h":
          NC_FORMAT_NC3
          NC_FORMAT_NC_HDF4
          NC_FORMAT_NC_HDF5
@@ -22,7 +18,7 @@ index 6912ab53..720c5fc1 100644
          NC_FORMAT_DAP2
          NC_FORMAT_DAP4
          NC_FORMAT_PNETCDF
-@@ -704,7 +707,7 @@ IF HAS_NC_CREATE_MEM:
+@@ -704,7 +706,7 @@ IF HAS_NC_CREATE_MEM:
              int flags
          int nc_close_memio(int ncid, NC_memio* info);
  
